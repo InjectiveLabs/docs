@@ -32,7 +32,7 @@ $$
 
 At genesis, $$\delta$$ will be set at 40% and subject to change by governance.
 
-## 3. Exchange Fee Value Accurual
+## 3. Exchange Fee Value Accrual
 
 After the relayer reward distribution, the rest of the exchange fee will undergo an on-chain buy-back-and-burn event to accrue value for INJ. Since it's not necessary for users to utilize INJ for the exchange fee, exchange fees collected from all trading pairs are aggregated over a set period of time and sold in batch to market makers who bid with INJ tokens. To achieve this, we utilize a blind auction mechanism that repeats every $N$ month equivalent of blocks. A smart contract will continuously aggregate all exchange fees collected during the $$N$$-month period into a pool and then conduct a week-long blind auction at the end of the period. During the auction, the exchange fee pool will freeze, and new incoming exchange fees will be temporarily stored in a separate pool until the auction period ends. Everyone can submit a bid commitment $H\(bid\)$ to the smart contract to exchange their INJ for the batch of tokens. After the bidding period concludes, users can reveal their commitment by submitting the full $bid$ information. The smart contract will simply verify and select the highest bid to conduct the exchange. All proceeds from the auction will be burnt.
 

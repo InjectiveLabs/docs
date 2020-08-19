@@ -11,7 +11,7 @@ Injective Protocol is comprised of four principal components:
 
 ## Injective Chain
 
-The Injective Chain is an fully-decentralized sidechain relayer network which serves as a layer-2 derivatives platform, trade execution coordinator \(TEC\), and decentralized orderbook. The core consensus is Tendermint-based.
+The Injective Chain is a fully-decentralized sidechain relayer network which serves as a layer-2 derivatives platform, trade execution coordinator \(TEC\), and decentralized orderbook. The core consensus is Tendermint-based.
 
 ### Layer-2 Derivatives Platform
 
@@ -70,11 +70,11 @@ The Injective Token Contract is an ERC-20 contract for the INJ token.
 
 ## Frontend Interface
 
-Injective Protocol is a fully decentralized protocol which allows for individuals to access the protocol in a permisssionless manner. Injective provides an open-source sample frontend interface which individuals or companies can run locally or host on a web-server to interface with the protocol. This interface is also deployed on IPFS.
+Injective Protocol is a fully decentralized protocol which allows for individuals to access the protocol in a permissionless manner. Injective provides an open-source sample frontend interface which individuals or companies can run locally or host on a web-server to interface with the protocol. This interface is also deployed on IPFS.
 
 # Injective Chain
 
-The Injective Chain is an fully-decentralized sidechain relayer network which serves as a layer-2 derivatives platform, trade execution coordinator \(TEC\), and decentralized orderbook. The consensus is Tendermint-based and the core protocol logic is implemented through Cosmos-SDK modules.
+The Injective Chain is a fully decentralized sidechain relayer network which serves as a layer-2 derivatives platform, trade execution coordinator \(TEC\), and decentralized orderbook. The consensus is Tendermint-based and the core protocol logic is implemented through Cosmos-SDK modules.
 
 ## Layer-2 Scalability
 
@@ -97,7 +97,7 @@ On a high level, the transfer flow is as follows:
 1. User sends ETH/ERC-20 to the Injective Bridge Contract, emitting a LogLock event. 
 2. An Injective relayer listening to the event creates and signs a Tendermint transaction encoding this information which is then broadcasted to the Injective Chain. 
 3. The nodes of the Injective Chain verify the validity of the transaction. 
-4. New tokens representing the ETH/ERC-20 are minted in the [`bank`](https://docs.cosmos.network/master/modules/bank/) module. 
+4. New tokens representing the ETH/ERC-20 are minted in the [bank](https://docs.cosmos.network/master/modules/bank/) module. 
 
 Thereafter, the ETH/ERC-20 can be used on Injective Chain's EVM as well as in the Cosmos-SDK based application logic of the Injective Chain. In the future, the Injective chain will support cross-chain trades using Cosmos IBC.
 
@@ -154,7 +154,7 @@ The Injective Token Contract is an ERC-20 contract for the INJ token.
 
 # Interface
 
-Injective provides a powerful, full-fledged decentralized exchange open-source front-end implemention allowing anyone to run an exchange. The Injective Client is a comprehensive yet friendly graphical user interface catered towards the general public as well as more advanced users:
+Injective provides a powerful, full-fledged decentralized exchange open-source front-end implementation allowing anyone to run an exchange. The Injective Client is a comprehensive yet friendly graphical user interface catered towards the general public as well as more advanced users:
 
 * [**Injective client implementation**](https://github.com/InjectiveLabs/injective-client)
 
@@ -176,7 +176,7 @@ Once the trades are approved, the coordinator contract can submit the trades to 
 
 ### Voting mechanism
 
-Injective's native token holder can participate in governing the coordinator contract on Ethereum. They have the power to vote on key decisions such as protocol upgrade, listing, fee schedule, and modifying other key variables inThe protocol's [native token](governance.md#token-economics) will be used to maintain proof-of-stake security on the sidechain, reward order discovery and origination for nodes, and allow token holders to capture value on the success of the protocol via a token burn or distribution mechanism. The exchange protocol does not collect fees in native token by default but rather implements a negative spread model like most of the traditional centralized exchanges. The fees collected will undergo a periodic auction enforced on a smart contract to buy back the native token. the exchange. Our protocol allows token holders to create proposals that can be voted on by the community with their tokens.
+Injective's native token holder can participate in governing the coordinator contract on Ethereum. They have the power to vote on key decisions such as protocol upgrade, listing, fee schedule, and modifying other key variables in the exchange. The protocol's [native token](governance.md#token-economics) will be used to maintain proof-of-stake security on the sidechain, reward order discovery and origination for nodes, and allow token holders to capture value on the success of the protocol via a token burn or distribution mechanism. The exchange protocol does not collect fees in native token by default but rather implements a negative spread model like most of the traditional centralized exchanges. The fees collected will undergo a periodic auction enforced on a smart contract to buy back the native token. Our protocol allows token holders to create proposals that can be voted on by the community with their tokens.
 
 ### Creating a Proposal
 
