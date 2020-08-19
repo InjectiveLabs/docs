@@ -199,7 +199,7 @@ In the derivatives space, margin refers to the amount needed to enter into a lev
 
 The Injective Perpetuals Protocol currently only supports cross-margining for positions in the same market by position netting. 
 
-To specify a cross-margined order, the order maker should specify the account he desires to use for cross-margining with the **account nonce** in the `makerFeeAssetData` parameter which uniquely determines his `accountID`. 
+To specify a cross-margined order, the order maker should specify the account he desires to use for cross-margining with the **account nonce** in the `takerFee` parameter which uniquely determines his `accountID`. 
 
 ## Stop Limit Order
 
