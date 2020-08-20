@@ -1,10 +1,10 @@
-
----
-description: >-
-  This section is for advanced developers who are willing to integrate with our protocol directly.
 ---
 
 # Testnet
+
+<aside class="notice">
+    This section is for advanced developers who are willing to integrate with our protocol directly.
+</aside>
 
 Our testnet is a Tendermint based sidechain but abstracts away the necessity for users to send Tendermint style transactions. To perform actions on our sidechain \(e.g. creating orders, placing trades, canceling orders, etc.\) users can simply send HTTP requests to any relayer which runs our `relayer-api` REST server which is compliant with the [0x v3 Standard Relayer API specification](https://github.com/0xProject/standard-relayer-api/blob/master/http/v3.md).
 
@@ -34,15 +34,14 @@ It is very easy for anyone to join the testnet and run own `relayerd` node in re
 
 Further instructions for setting up a testnet sentry node are [here](#joining-the-testnet).
 
-
-
----
-description: >-
-  This page provides small examples to test your API integration. The full
-  reference is available on https://api.injective.dev only.
 ---
 
 # Relayer API Examples
+
+<aside class="notice">
+    This page provides small examples to test your API integration. The full
+      reference is available on <a href="https://api.injective.dev">https://api.injective.dev</a> only.
+</aside>
 
 ## Public Testnet Endpoints
 
@@ -389,13 +388,12 @@ Dexterm is our barebones trading terminal for CLI \(Command Line Interface\). It
 
 
 
----
-description: >-
-  A guide on how to self-host an API server that exposes your relayerd sentry
-  node for clients.
----
 
 # Hosting Relayer API
+
+<aside class="notice">
+    A guide on how to self-host an API server that exposes your relayerd sentry node for clients.
+</aside>
 
 ## 1. Get docker image
 
