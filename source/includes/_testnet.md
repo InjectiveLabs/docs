@@ -18,7 +18,7 @@ The endpoints served by a Relayer API server are divided into the following subr
 
 The full API specification can be found [here](https://api.injective.dev). OpenAPI YAML spec is located [here](https://api.injective.dev/openapi.yaml).
 
-See [some examples](relayer-api-examples.md) on how to interact with the API endpoints.
+See [some examples](#relayer-api-examples) on how to interact with the API endpoints.
 
 ## Testnet Sidechain Deployment
 
@@ -32,7 +32,7 @@ A few sentry or read-only nodes are replicating the state of the sidechain to di
 
 It is very easy for anyone to join the testnet and run own `relayerd` node in read-only mode. While it won't participate in consensus as a validator, it will be a full-node receiving all updates and keeping the state history. Such self-hosted node should be trusted 100% and you may run own `relayer-api` instance for your frontend of choice.
 
-Further instructions for setting up a testnet sentry node are [here](testnet-join.md).
+Further instructions for setting up a testnet sentry node are [here](#joining-the-testnet).
 
 
 

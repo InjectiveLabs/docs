@@ -278,7 +278,7 @@ Calling `getOrderRelevantState` will perform the following steps:
    1. If the order has been cancelled, the `orderStatus` will be `CANCELLED`.
    2. If the order has been fully filled \(i.e. `orderInfo.orderTakerAssetFilledAmount` equals `order.takerAssetAmount`, the `orderStatus` will be `FULLY_FILLED`.
    3. If the order has expired, the `orderStatus` will be `EXPIRED`.
-   4. If the order's margin \(`order.makerFee`\) does not satisfy the [initial margin requirement](keyterms.md#initial-margin-requirement), the `orderStatus` will be `INVALID_MAKER_ASSET_AMOUNT`. Note: the index price used in this calculation is the inputted `indexPrice`.
+   4. If the order's margin \(`order.makerFee`\) does not satisfy the [initial margin requirement](#initial-margin-requirement), the `orderStatus` will be `INVALID_MAKER_ASSET_AMOUNT`. Note: the index price used in this calculation is the inputted `indexPrice`.
    5. Otherwise if the order is fillable, the `orderStatus` will be `FILLABLE` and the `fillableTakerAssetAmount` to equal the quantity of contracts that remain fillable \(i.e. `order.takerAssetAmount - orderInfo.orderTakerAssetFilledAmount`\).
 4. Check whether or not the signature is valid and set `isValidSignature` to true if valid. Otherwise, set to false and set the `orderStatus` to `INVALID`.
 5. If the `orderStatus` from the previous steps is `FILLABLE`, check that the order maker has sufficient balance of baseCurrency in his freeDeposits \(his `availableMargin`\) to fill `fillableTakerAssetAmount` contracts of the order.
@@ -392,7 +392,7 @@ function fillOrder(
 Calling `fillOrder` will perform the following steps:
 
 1. Query the oracle to obtain the most recent price and funding fee.
-2. Query the state and status of the order with [`getOrderRelevantState`](keyterms.md#getorderrelevantstate).
+2. Query the state and status of the order with [`getOrderRelevantState`](#getorderrelevantstate).
 3. Revert if the orderStatus is not `FILLABLE`. 
 4. Create the Maker's Position.
    1. If the order has been used previously, execute funding payments on the existing position and then update the existing position state. Otherwise, create a new account with a corresponding new position for the maker and log a `FuturesPosition` event.
@@ -723,7 +723,7 @@ Calling `liquidatePositionWithOrders` will perform the following steps:
 
 1. Query the oracle to obtain the most recent price and funding fee.
 2. Execute funding payments on the existing position and then update the existing position state.
-3. Check that the existing `position` (referenced by `positionID`) is valid and can be liquidated (i.e. that the [maintenance margin requirement](keyterms.md#maintenance-margin-requirement) is breached. 
+3. Check that the existing `position` (referenced by `positionID`) is valid and can be liquidated (i.e. that the [maintenance margin requirement](#maintenance-margin-requirement) is breached. 
 4. Create the Makers' Positions. 
 	1. For each order `i`:
 		1. If the order has been used previously, execute funding payments on the existing position and then update the existing position state. Otherwise, create a new account with a corresponding new position with the `pResults[i].quantity` contracts for the maker and log a `FuturesPosition` event.`
