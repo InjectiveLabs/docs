@@ -42,12 +42,10 @@ Although users can directly interact with the Injective Chain by broadcasting a 
 
 The Injective API supports the Injective Futures API, the 0x Standard Relayer API version 3 \(SRAv3\), and the 0x Standard Coordinator API.
 
-It also provides abstractions for protocol actions including staking, voting and governance. The full specification for these actions can be found [here](#architecture).
+It also provides abstractions for protocol actions including staking, voting and governance. The specification for this API can be found at [api.injective.dev](https://api.injective.dev).
 
 **Data Layer**   
 Injective API nodes also serve as a data layer for external clients. Injective provides a data and analytics API which is out-of-the-box compatible with Injective's sample frontend interface. Although Injective provides the API server as an in-process service based off BadgerDB communicating over gRPC with the Injective Chain node, developers can provide their own implementions for their custom needs \(e.g. using a relational database for indexed queries\).
-
-The specification for this API can be found [here](#architecture).
 
 ## Injective Contracts
 
@@ -167,7 +165,7 @@ Governance occurs on two separate portions of our protocol: the sidechain applic
 
 ## Sidechain Governance
 
-The sidechain governance is built on top of the core Tendermint consensus. Validators for the Tendermint consensus process are incentivized by block reward and punished by slashing if a malicious behaviors were detected. This process is elaborated in [Validator Requirements](#validator-requirements).
+The sidechain governance is built on top of the core Tendermint consensus. Validators for the Tendermint consensus process are incentivized by block reward and punished by slashing if a malicious behaviors were detected. 
 
 ## Coordinator Contract Governance
 
