@@ -42,12 +42,12 @@ Although users can directly interact with the Injective Chain by broadcasting a 
 
 The Injective API supports the Injective Futures API, the 0x Standard Relayer API version 3 \(SRAv3\), and the 0x Standard Coordinator API.
 
-It also provides abstractions for protocol actions including staking, voting and governance. The full specification for these actions can be found [here](architecture.md).
+It also provides abstractions for protocol actions including staking, voting and governance. The full specification for these actions can be found [here](#architecture).
 
 **Data Layer**   
 Injective API nodes also serve as a data layer for external clients. Injective provides a data and analytics API which is out-of-the-box compatible with Injective's sample frontend interface. Although Injective provides the API server as an in-process service based off BadgerDB communicating over gRPC with the Injective Chain node, developers can provide their own implementions for their custom needs \(e.g. using a relational database for indexed queries\).
 
-The specification for this API can be found [here](architecture.md).
+The specification for this API can be found [here](#architecture).
 
 ## Injective Contracts
 
@@ -84,13 +84,13 @@ The Injective Chain provides a two-way Ethereum peg-zone for Ether and ERC-20 to
 
 Both ETH and ERC-20 tokens can be transferred to and from Ethereum to the Injective Chain through the Injective Peg Zone. The process to do so follows the standard flow as defined by Peggy.
 
-#### Ethereum → Injective Chain
+**Ethereum → Injective Chain**
 
 The following is the underlying process involved in transferring ETH/ERC-20 tokens from Ethereum to the Injective Chain. Validators witness the locking of Ethereum/ERC20 assets and sign a data package containing information about the lock, which is then relayed to the Injective chain and witnessed by the EthBridge module. Once a quorum of validators have confirmed that the transaction's information is valid, the funds are released by the Oracle module and transferred to the intended recipient's address. In this way, Ethereum assets can be transferred to Cosmos-SDK based blockchains.
 
 This process is abstracted away from the end user, who simply needs to transfer their ETH/ERC-20 to the Injective Peg Zone contract.
 
-![](./images/inj-peg.png)
+![./images/inj-peg.png](./images/inj-peg.png)
 
 On a high level, the transfer flow is as follows:
 
@@ -101,7 +101,7 @@ On a high level, the transfer flow is as follows:
 
 Thereafter, the ETH/ERC-20 can be used on Injective Chain's EVM as well as in the Cosmos-SDK based application logic of the Injective Chain. In the future, the Injective chain will support cross-chain trades using Cosmos IBC.
 
-#### Injective Chain → Ethereum
+**Injective Chain → Ethereum**
 
 The following is the underlying process involved in transferring ETH/ERC-20 tokens from the Injective Chain to Ethereum.
 
@@ -139,6 +139,7 @@ Current deployments of the Injective Coordinator Contract can be found here:
 | Network | Contract Address                             |
 | :------ | :------------------------------------------- |
 | Injective Chain   | `TODO` |
+&nbsp;
 
 **Staking Contract**  
 The Injective Staking Contract manages the core functions for stakers in Injective Protocol including slashing, rewards, delegation and governance.
@@ -166,7 +167,7 @@ Governance occurs on two separate portions of our protocol: the sidechain applic
 
 ## Sidechain Governance
 
-The sidechain governance is built on top of the core Tendermint consensus. Validators for the Tendermint consensus process are incentivized by block reward and punished by slashing if a malicious behaviors were detected. This process is elaborated in [Validator Requirements](governance.md#validator-requirements).
+The sidechain governance is built on top of the core Tendermint consensus. Validators for the Tendermint consensus process are incentivized by block reward and punished by slashing if a malicious behaviors were detected. This process is elaborated in [Validator Requirements](#validator-requirements).
 
 ## Coordinator Contract Governance
 
@@ -176,7 +177,7 @@ Once the trades are approved, the coordinator contract can submit the trades to 
 
 ### Voting mechanism
 
-Injective's native token holder can participate in governing the coordinator contract on Ethereum. They have the power to vote on key decisions such as protocol upgrade, listing, fee schedule, and modifying other key variables in the exchange. The protocol's [native token](governance.md#token-economics) will be used to maintain proof-of-stake security on the sidechain, reward order discovery and origination for nodes, and allow token holders to capture value on the success of the protocol via a token burn or distribution mechanism. The exchange protocol does not collect fees in native token by default but rather implements a negative spread model like most of the traditional centralized exchanges. The fees collected will undergo a periodic auction enforced on a smart contract to buy back the native token. Our protocol allows token holders to create proposals that can be voted on by the community with their tokens.
+Injective's native token holder can participate in governing the coordinator contract on Ethereum. They have the power to vote on key decisions such as protocol upgrade, listing, fee schedule, and modifying other key variables in the exchange. The protocol's [native token](#token-economics) will be used to maintain proof-of-stake security on the sidechain, reward order discovery and origination for nodes, and allow token holders to capture value on the success of the protocol via a token burn or distribution mechanism. The exchange protocol does not collect fees in native token by default but rather implements a negative spread model like most of the traditional centralized exchanges. The fees collected will undergo a periodic auction enforced on a smart contract to buy back the native token. Our protocol allows token holders to create proposals that can be voted on by the community with their tokens.
 
 ### Creating a Proposal
 

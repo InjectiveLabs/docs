@@ -74,8 +74,9 @@ html, body {
   // This is the logo at the top of the ToC
   .logo {
     display: block;
-    max-width: 100%;
+    max-width: 85%;
     margin-bottom: $logo-margin;
+    padding: 15px;
   }
 
   &>.search {
@@ -447,6 +448,14 @@ html, body {
 
   img {
     max-width: 100%;
+    transition: -webkit-transform 0.25s ease;
+    background-color: white;
+    cursor: zoom-in;
+    z-index: 1000 !important;
+  }
+
+  img:active {
+    -webkit-transform: scale(2) translateX(130px);
   }
 
   code {
@@ -503,6 +512,10 @@ html, body {
     border-radius: 4px;
     border: 1px solid #F7E633;
     background: linear-gradient(to top left, #F7E633 0%, #F1D32F 100%);
+  }
+
+  .MJXc-display {
+    display: inline !important;
   }
 }
 

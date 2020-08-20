@@ -10,9 +10,9 @@ Our decentralized exchange will initially implement a global minimum exchange fe
 
 As one mechanism of bootstrapping liquidity in the two-sided market of our decentralized exchange, we incentivize market makers to provide liquidity through exchange fee rebates in our INJ token. Traders who place make orders that are filled are proportionally rewarded \(by $$\alpha_{filled}$$\) with a filled make order rebate reward equal to:
 
-$$
-\textbf{Filled Make Order Rebate} = \alpha_{filled} (\delta \cdot r_m)
-$$
+<p align="center">
+$$\textbf{Filled Make Order Rebate} = \alpha_{filled} (\delta \cdot r_m)$$
+</p>
 
 Where $$\delta$$ is the ratio between the market value of the reward and the exchange fee. The distribution of the INJ token will be done off-chain and a minimum threshold of the aggregate make order notional value for each address will be in place to qualify for the market maker incentive. At genesis, $$\delta$$ will be greater than 1 and slowly decrease to 0.5 in linear time over 4 years.
 
@@ -20,21 +20,21 @@ Where $$\delta$$ is the ratio between the market value of the reward and the exc
 
 Nodes and validators of the Injective sidechain also have the capability to act as relayers who can cater to traders in their desired ways \(e.g. a relayer can provide an improved interface/API catering to a specialized group of traders\). As an incentive mechanism for relayers to provide the best experience for traders, we reward relayers who originate orders into the shared orderbook. The node that first discovers a make order \(by relaying to the shared orderbook\) will receive a ratio of the exchange fee of each make order discovered by them equal to the following:
 
-$$
-\textbf{Make Order Relayer Reward} =  \beta_{make} (\delta \cdot r_m)
-$$
+<p align="center">
+$$\textbf{Make Order Relayer Reward} =  \beta_{make} (\delta \cdot r_m)$$
+</p>
 
 Similarly, the node that first relays a take order will receive a ratio of the exchange fee of each make order discovered by them equal to the following:
 
-$$
-\textbf{Take Order Relayer Reward} =  \beta_{take} (\delta \cdot r_t)
-$$
+<p align="center">
+$$\textbf{Take Order Relayer Reward} =  \beta_{take} (\delta \cdot r_t)$$
+</p>
 
 At genesis, $$\delta$$ will be set at 40% and subject to change by governance.
 
 ## 3. Exchange Fee Value Accrual
 
-After the relayer reward distribution, the rest of the exchange fee will undergo an on-chain buy-back-and-burn event to accrue value for INJ. Since it's not necessary for users to utilize INJ for the exchange fee, exchange fees collected from all trading pairs are aggregated over a set period of time and sold in batch to market makers who bid with INJ tokens. To achieve this, we utilize a blind auction mechanism that repeats every $N$ month equivalent of blocks. A smart contract will continuously aggregate all exchange fees collected during the $$N$$-month period into a pool and then conduct a week-long blind auction at the end of the period. During the auction, the exchange fee pool will freeze, and new incoming exchange fees will be temporarily stored in a separate pool until the auction period ends. Everyone can submit a bid commitment $H\(bid\)$ to the smart contract to exchange their INJ for the batch of tokens. After the bidding period concludes, users can reveal their commitment by submitting the full $bid$ information. The smart contract will simply verify and select the highest bid to conduct the exchange. All proceeds from the auction will be burnt.
+After the relayer reward distribution, the rest of the exchange fee will undergo an on-chain buy-back-and-burn event to accrue value for INJ. Since it's not necessary for users to utilize INJ for the exchange fee, exchange fees collected from all trading pairs are aggregated over a set period of time and sold in batch to market makers who bid with INJ tokens. To achieve this, we utilize a blind auction mechanism that repeats every $$N$$ month equivalent of blocks. A smart contract will continuously aggregate all exchange fees collected during the $$N$$-month period into a pool and then conduct a week-long blind auction at the end of the period. During the auction, the exchange fee pool will freeze, and new incoming exchange fees will be temporarily stored in a separate pool until the auction period ends. Everyone can submit a bid commitment $$H\(bid\)$$ to the smart contract to exchange their INJ for the batch of tokens. After the bidding period concludes, users can reveal their commitment by submitting the full $$bid$$ information. The smart contract will simply verify and select the highest bid to conduct the exchange. All proceeds from the auction will be burnt.
 
 ## 4. Sidechain Governance
 
