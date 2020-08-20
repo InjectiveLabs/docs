@@ -842,3 +842,126 @@ For the testnet we are setting up a centralized oracle service. In later version
 The oracle service updates the ticker prices every 5 minutes. If any asynchronous requests fail, we deploy an [exponential backoff](https://cloud.google.com/iot/docs/how-tos/exponential-backoff) strategy. Prices are taken from [https://metals-api.com/](https://metals-api.com/).
 
 Three times per day the funding rate is calculated according to the formula from above.
+
+## Events
+
+### InjectiveFutures Contract Events
+
+**FuturesPosition**
+
+```solidity
+event FuturesPosition(
+  address indexed makerAddress, // Address that created the order.
+  bytes32 indexed orderHash, // EIP712 hash of order (see LibOrder.getTypedDataHash).
+  bytes32 indexed marketID, // Market ID
+  uint256 contractPrice, // Price of the contract
+  uint256 quantityFilled, // quantity of contracts filled
+  uint256 positionID, // positionID
+  bool isLong // true if long, false if short
+);
+```
+
+**FuturesCancel**
+
+```solidity
+event FuturesCancel(
+  address indexed makerAddress, // Address that created the order.
+  bytes32 indexed orderHash, // EIP712 hash of order (see LibOrder.getTypedDataHash).
+  bytes32 indexed marketID, // Market ID
+  uint256 contractPrice, // Price of the contract
+  uint256 quantityFilled // quantity of contracts filled
+);
+```
+
+**FuturesMatch**
+
+```solidity
+event FuturesMatch(
+  bytes32 indexed leftOrderHash, // ID of the position
+  bytes32 indexed rightOrderHash, // ID of the position
+  bytes32 indexed marketID, //  Market ID
+  uint256 quantity // quantity of contracts being matched.
+);
+```
+
+**FuturesLiquidation**
+
+```solidity
+event FuturesLiquidation(
+  uint256 indexed positionID, // ID of the position
+  bytes32 indexed marketID, //  Market ID
+  bytes32 indexed accountID, // account ID
+  uint256 quantity, // quantity of contracts being closed.
+  int256 contractPNL // PNL for one contract
+);
+```
+
+**FuturesClose**
+
+```solidity
+event FuturesClose(
+  uint256 indexed positionID, // ID of the position
+  bytes32 indexed marketID, //  Market ID
+  bytes32 indexed accountID, // account ID
+  uint256 quantity, // quantity of contracts being closed.
+  int256 contractPNL // PNL for one contract
+);
+```
+
+**RegisterMarket**
+
+```solidity
+event RegisterMarket(
+  bytes32 indexed marketID, // Market ID
+  uint256 fundingInterval, // Funding interval
+  uint256 initialPrice, // Initial price of the market
+  uint256 timestamp // When the market was registered
+);
+```
+
+**MarketCreation**
+
+```solidity
+event MarketCreation(
+  bytes32 indexed marketID, // the unique identifier of market created
+  string indexed ticker,   // the human-readable ticker for the market
+  address indexed oracle   // the oracle address for the market
+);
+```
+
+**AccountCreation**
+```solidity
+event AccountCreation(
+  address indexed creator, // account creator
+  bytes32 accountID, // account ID
+  uint256 accountNonce // account nonce
+);
+```
+
+### Oracle Contract Events
+**SetFunding**
+
+```solidity
+event SetFunding(
+  bytes32 indexed marketID, // Market ID
+  int256 fundingRate, // funding rate
+  int256 fundingFee, // funding fee
+  uint256 epoch // current epoch
+);
+```
+
+**SetPrice**
+
+```solidity
+event SetPrice(
+  bytes32 indexed marketID, // Market ID
+  uint256 price, // price
+  uint256 timestamp, // current timestamp
+  uint256 epoch // current epoch
+);
+```
+
+
+
+
+
