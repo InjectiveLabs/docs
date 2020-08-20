@@ -161,7 +161,9 @@ For new positions, the funding fee component of the NPV formula can removed sinc
 
 # Make Orders
 
-In the Injective Perpetuals Protocol, there are two main types of orders: maker orders and taker orders. **Make orders** are stored on Injective's decentralized orderbook on the Injective Chain while **Take orders** are immediately executed against make orders on the Injective Perpetuals Contract.
+In the Injective Perpetuals Protocol, there are two main types of orders: maker orders and taker orders. **Maker orders** are stored on Injective's decentralized orderbook on the Injective Chain while **Take orders** are immediately executed against make orders on the Injective Perpetuals Contract. 
+
+Once a maker order is executed to create a position, the maker can also create **stop loss** and **take profit** orders. 
 
 ## **Order Message Format**
 
@@ -178,15 +180,68 @@ A make order message consists of the following parameters:
 | makerAssetAmount      | uint256 | The contract price \(`contractPrice`\), i.e. the price of 1 contract denominated in base currency. |
 | takerAssetAmount      | uint256 | The `quantity` of contracts the maker seeks to obtain.       |
 | makerFee              | uint256 | The amount of `margin` denoted in base currency the maker would like to post/risk for the order. |
-| takerFee              | uint256 | Empty.                                                       |
+| takerFee              | uint256 | (Optional) The desired account nonce to use for cross-margining. Empty for isolated margin make orders. |
 | expirationTimeSeconds | uint256 | Timestamp in seconds at which order expires.                 |
 | salt                  | uint256 | Arbitrary number to facilitate uniqueness of the order's hash. |
 | makerAssetData        | bytes   | The first 32 bytes contain the `marketID` of the market for the position if the order is LONG, empty otherwise.  Right padded with 0's to be 36 bytes |
 | takerAssetData        | bytes   | The first 32 bytes contain the `marketID` of the market for the position if the order is LONG, empty otherwise.  Right padded with 0's to be 36 bytes |
-| makerFeeAssetData     | bytes   | Empty.                                                       |
-| takerFeeAssetData     | bytes   | Empty.                                                       |
+| makerFeeAssetData     | bytes   | (Optional) The bytes-encoded positionID of the position to use for stop loss and take profit orders. Empty for vanilla make orders. |
+| takerFeeAssetData     | bytes   | (Optional) The bytes-encoded trigger price for stop limit orders. Empty for vanilla make orders. |
 
 In a given perpetual market specified by `marketID`, an order encodes the willingness to purchase `quantity` contracts in a given direction \(long or short\) at a specified contract price `contractPrice`  using a specified amount of `margin` of base currency as collateral.
+
+## Isolated and Cross Margin
+
+In the derivatives space, margin refers to the amount needed to enter into a leveraged position. Initial and Maintenance Margin refer to the minimum initial amount needed to enter a position and the minimum amount needed to keep that position from getting liquidated. As various users have varying trading strategies, Injecive has employed two different methods of margining:
+
+- **Cross Margin**: Margin is shared between open positions in the same market. 
+- **Isolated Margin**: Margin assigned to a position is restricted to a certain amount. If the margin falls below the Maintenance Margin level, the position is liquidated. However, you can add and remove margin at will under this method.
+
+The Injective Perpetuals Protocol currently only supports cross-margining for positions in the same market by position netting. 
+
+To specify a cross-margined order, the order maker should specify the account he desires to use for cross-margining with the **account nonce** in the `takerFee` parameter which uniquely determines his `accountID`. 
+
+## Stop Limit Order
+
+A Stop Limit Order is an order that cannot be executed until the market's index price reaches a certain Trigger Price as specified by the `takerFeeAssetData`. 
+
+Traders use this type of order for two main strategies:
+
+1. As a risk-management tool to limit losses on existing positions (a Stop Loss Limit Order), and 
+2. As an automatic tool to enter the market at a desired entry point without manually waiting for the market to place the order.
+
+For a **long stop limit order**, the order will only be able to be filled if the index price is greater than or equal to the trigger price. 
+
+For a **short stop limit order**, the order will only be able to be filled if the index price is less than or equal to the trigger price. 
+
+**Stop Limit Order Example**
+
+```
+Quantity = 50 contracts
+Contract Price = 9
+Trigger Price = 10
+Direction = Long
+```
+
+In this example, the trader has selected a Stop Limit Long Order with a contract price of 9 and a trigger price of 10. This order will only be fillable when the index price exceeds 10. If the trader wants to increase the chances of his order being executed, he should set the his contract price higher (e.g. to 10.5).
+
+## Stop Loss Limit Order
+
+To use stop loss limit orders to cap losses on an existing position, traders must specify the `positionID` of the position in the `makerFeeAssetData` parameter as well as the associated account nonce of the account owning the position in the `takerFee`  parameter. 
+
+To be a valid stop loss limit order, the position referenced by `positionID` must be owned by the maker, have the same `marketID`, and have the opposite direction as the position. If the quantity of the stop loss order is greater than the quantity of contracts in the position (e.g. after partial position closure), the maximum fillable quantity of the stop loss limit order will be the total number of contracts of the position. 
+
+Note: Traders must have an active position to create a **stop loss limit order**. However, an active position is not needed for a pure **stop limit order**. 
+
+## Take Profit Limit Order
+
+A Take Profit Limit Order is somewhat similar to a Stop Loss  Limit Order, however instead of executing when the price moves against the position, the order executes when the price moves in a favorable direction. 
+
+To use take profit limit orders to realize profits on an existing position, traders must specify the `positionID` of the position in the `makerFeeAssetData` parameter as well as the associated account nonce of the account owning the position in the `takerFee`  parameter. 
+
+To be a valid take profit order, the position referenced by `positionID` must be owned by the maker, have the same `marketID`, and have the opposite direction as the position. 
+
+Note: the `takerFeeAssetData` must be empty. 
 
 # Transaction Fees
 
