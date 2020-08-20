@@ -179,7 +179,7 @@ A make order message consists of the following parameters:
 | senderAddress         | address | Empty.                                                       |
 | makerAssetAmount      | uint256 | The contract price \(`contractPrice`\), i.e. the price of 1 contract denominated in base currency. |
 | takerAssetAmount      | uint256 | The `quantity` of contracts the maker seeks to obtain.       |
-| makerFee              | uint256 | The amount of `margin` denoted in base currency the maker would like to post/risk for the order. |
+| makerFee              | uint256 | The amount of `margin` denoted in base currency the maker would like to post/risk for the order. 0 for Stop Loss and Take Profit orders. |
 | takerFee              | uint256 | (Optional) The desired account nonce to use for cross-margining. Empty for isolated margin make orders. |
 | expirationTimeSeconds | uint256 | Timestamp in seconds at which order expires.                 |
 | salt                  | uint256 | Arbitrary number to facilitate uniqueness of the order's hash. |
@@ -235,7 +235,7 @@ Note: Traders must have an active position to create a **stop loss limit order**
 
 ## Take Profit Limit Order
 
-A Take Profit Limit Order is somewhat similar to a Stop Loss  Limit Order, however instead of executing when the price moves against the position, the order executes when the price moves in a favorable direction. 
+A Take Profit Limit Order is somewhat similar to a Stop Loss Limit Order, however instead of executing when the price moves against the position, the order executes when the price moves in a favorable direction. 
 
 To use take profit limit orders to realize profits on an existing position, traders must specify the `positionID` of the position in the `makerFeeAssetData` parameter as well as the associated account nonce of the account owning the position in the `takerFee`  parameter. 
 
