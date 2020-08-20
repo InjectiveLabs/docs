@@ -175,18 +175,18 @@ A make order message consists of the following parameters:
 | :-------------------- | :------ | :----------------------------------------------------------- |
 | makerAddress          | address | Address that created the order.                              |
 | takerAddress          | address | Empty.                                                       |
-| feeRecipientAddress   | address | Address of the recipient of the order transaction fee.       |
+| feeRecipientAddress   | address | Address that will receive fees when order is filled.       |
 | senderAddress         | address | Empty.                                                       |
 | makerAssetAmount      | uint256 | The contract price \(`contractPrice`\), i.e. the price of 1 contract denominated in base currency. |
 | takerAssetAmount      | uint256 | The `quantity` of contracts the maker seeks to obtain.       |
-| makerFee              | uint256 | The amount of `margin` denoted in base currency the maker would like to post/risk for the order. 0 for Stop Loss and Take Profit orders. |
-| takerFee              | uint256 | (Optional) The desired account nonce to use for cross-margining. Empty for isolated margin make orders. |
+| makerFee              | uint256 | The amount of `margin` denoted in base currency the maker would like to post/risk for the order. If set to 0, the order is a Stop Loss of Take Profit order. |
+| takerFee              | uint256 | The desired account nonce to use for cross-margining. If set the 0, the order is an isolated margin order. |
 | expirationTimeSeconds | uint256 | Timestamp in seconds at which order expires.                 |
 | salt                  | uint256 | Arbitrary number to facilitate uniqueness of the order's hash. |
 | makerAssetData        | bytes   | The first 32 bytes contain the `marketID` of the market for the position if the order is LONG, empty otherwise.  Right padded with 0's to be 36 bytes |
-| takerAssetData        | bytes   | The first 32 bytes contain the `marketID` of the market for the position if the order is LONG, empty otherwise.  Right padded with 0's to be 36 bytes |
-| makerFeeAssetData     | bytes   | (Optional) The bytes-encoded positionID of the position to use for stop loss and take profit orders. Empty for vanilla make orders. |
-| takerFeeAssetData     | bytes   | (Optional) The bytes-encoded trigger price for stop limit orders. Empty for vanilla make orders. |
+| takerAssetData        | bytes   | The first 32 bytes contain the `marketID` of the market for the position if the order is SHORT, empty otherwise.  Right padded with 0's to be 36 bytes |
+| makerFeeAssetData     | bytes   | The bytes-encoded positionID of the position to use for stop loss and take profit orders. Empty for vanilla make orders. |
+| takerFeeAssetData     | bytes   | The bytes-encoded trigger price for stop limit orders. Empty for vanilla make orders. |
 
 In a given perpetual market specified by `marketID`, an order encodes the willingness to purchase `quantity` contracts in a given direction \(long or short\) at a specified contract price `contractPrice`  using a specified amount of `margin` of base currency as collateral.
 
@@ -843,11 +843,11 @@ The oracle service updates the ticker prices every 5 minutes. If any asynchronou
 
 Three times per day the funding rate is calculated according to the formula from above.
 
-## Events
+# Events
 
-### InjectiveFutures Contract Events
+## InjectiveFutures Contract Events
 
-**FuturesPosition**
+### **FuturesPosition**
 
 ```solidity
 event FuturesPosition(
@@ -861,7 +861,7 @@ event FuturesPosition(
 );
 ```
 
-**FuturesCancel**
+### **FuturesCancel**
 
 ```solidity
 event FuturesCancel(
@@ -873,7 +873,7 @@ event FuturesCancel(
 );
 ```
 
-**FuturesMatch**
+### **FuturesMatch**
 
 ```solidity
 event FuturesMatch(
@@ -884,7 +884,7 @@ event FuturesMatch(
 );
 ```
 
-**FuturesLiquidation**
+### **FuturesLiquidation**
 
 ```solidity
 event FuturesLiquidation(
@@ -896,7 +896,7 @@ event FuturesLiquidation(
 );
 ```
 
-**FuturesClose**
+### **FuturesClose**
 
 ```solidity
 event FuturesClose(
@@ -908,7 +908,7 @@ event FuturesClose(
 );
 ```
 
-**RegisterMarket**
+### **RegisterMarket**
 
 ```solidity
 event RegisterMarket(
@@ -919,7 +919,7 @@ event RegisterMarket(
 );
 ```
 
-**MarketCreation**
+### **MarketCreation**
 
 ```solidity
 event MarketCreation(
@@ -929,7 +929,7 @@ event MarketCreation(
 );
 ```
 
-**AccountCreation**
+### **AccountCreation**
 ```solidity
 event AccountCreation(
   address indexed creator, // account creator
@@ -938,8 +938,8 @@ event AccountCreation(
 );
 ```
 
-### Oracle Contract Events
-**SetFunding**
+## Oracle Contract Events
+### **SetFunding**
 
 ```solidity
 event SetFunding(
@@ -950,7 +950,7 @@ event SetFunding(
 );
 ```
 
-**SetPrice**
+### **SetPrice**
 
 ```solidity
 event SetPrice(
@@ -961,7 +961,113 @@ event SetPrice(
 );
 ```
 
+# Types
+### Order
+```solidity
+struct Order {
+  address makerAddress; // Address that created the order.
+  address takerAddress; // Empty.
+  address feeRecipientAddress; // Address that will receive fees when order is filled.
+  address senderAddress; // Empty. 
+  uint256 makerAssetAmount; // The contract price i.e. the price of 1 contract denominated in base currency.
+  uint256 takerAssetAmount; // The quantity of contracts the maker seeks to obtain.
+  uint256 makerFee; // The amount of margin denoted in base currency the maker would like to post/risk for the order. If set to 0, the order is a Stop Loss of Take Profit order.
+  uint256 takerFee; // The desired account nonce to use for cross-margining. If set the 0, the order is an isolated margin order.
+  uint256 expirationTimeSeconds; // Timestamp in seconds at which order expires.
+  uint256 salt; // Arbitrary number to facilitate uniqueness of the order's hash.
+  bytes makerAssetData; // The first 32 bytes contain the marketID of the market for the position if the order is LONG, empty otherwise. Right padded with 0's to be 36 bytes.
+  bytes takerAssetData; // The first 32 bytes contain the marketID of the market for the position if the order is SHORT, empty otherwise. Right padded with 0's to be 36 bytes.
+  bytes makerFeeAssetData; // The bytes-encoded positionID of the position to use for stop loss and take profit orders. Empty for vanilla make orders.
+  bytes takerFeeAssetData; // The bytes-encoded trigger price for stop limit orders. Empty for vanilla make orders.
+    }
+```
 
+### OrderInfo
+```solidity
+struct OrderInfo {
+  OrderStatus orderStatus; // Status that describes order's validity and fillability.
+  bytes32 orderHash; // EIP712 typed data hash of the order (see LibOrder.getTypedDataHash).
+  uint256 orderTakerAssetFilledAmount; // Amount of order that has already been filled.
+    }
+```
 
+### Account
+```solidity
+ struct Account {
+ 	bytes32 accountID;
+ 	uint256 accountNonce;
+ }
+```
+
+### Market
+```solidity
+struct Market {
+  bytes32 marketID;
+  string ticker;
+  address oracle;
+  PermyriadMath.Permyriad initialMarginRatioFactor;
+  PermyriadMath.Permyriad maintenanceMarginRatio;
+  uint256 indexPrice;
+  uint256 nextFundingTimestamp; // the current funding timestamp
+  uint256 fundingInterval; // defines the interval in seconds by which the nextFundingTimestamp increments
+  int256 cumulativeFunding; //Stored based on one contract. /10^6
+  PermyriadMath.Permyriad makerTxFee; // transaction maker fee
+  PermyriadMath.Permyriad takerTxFee; // transaction taker fee
+  PermyriadMath.Permyriad relayerFeePercentage; // transaction relayer fee percentage
+  }
+```
+### Position
+```
+struct Position {
+  // owner of the position
+  bytes32 accountID;
+  // marketID of the position
+  bytes32 marketID;
+  // direction of the position
+  Direction direction;
+  // quantity of the position
+  uint256 quantity;
+  // contractPrice of the position
+  uint256 contractPrice;
+  // the margin the trader has posted for the position
+  uint256 margin;
+  // The cumulative funding value. Just for perpetuals.
+  int256 cumulativeFundingEntry;
+  // order hash used to establish the position, if any (existence implies position was created by a make order maker)
+  bytes32 orderHash;
+}
+```
+
+### CloseResults
+```solidity
+struct CloseResults {
+  // Payout to the owner resulting from closing. Negative if vaporized.
+  int256 payout;
+  // quantity of contracts closed
+  uint256 quantityClosed;
+}
+```
+
+### FillResults
+```solidity
+struct FillResults {
+  uint256 makerPositionID; // maker positionID
+  uint256 takerPositionID; // taker positionID
+  uint256 makerMarginUsed; // Total amount of margin used to create the position for the maker.
+  uint256 takerMarginUsed; // Total amount of margin used to create the position for the taker.
+  uint256 quantityFilled; // Total quantity of contracts filled.
+  uint256 makerFeePaid; // Total amount of fee paid by maker.
+  uint256 takerFeePaid; // Total amount of fee paid by taker.
+}
+```
+### PositionResults
+```solidity
+struct PositionResults {
+  uint256 positionID; 
+  uint256 marginUsed;
+  uint256 quantity;
+  uint256 fee;
+}
+```
 
 
