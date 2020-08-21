@@ -517,6 +517,47 @@ html, body {
   .MJXc-display {
     display: inline !important;
   }
+
+  .api-method-get,
+  .api-method-post {
+    background-color: rgb(38, 203, 124);
+    border-radius: 9999px;
+    text-transform: uppercase;
+    font-style: normal !important;
+    color: white;
+    padding: 5px 10px;
+    margin-right: 5px;
+    font-size: 12px !important;
+  }
+
+  .api-method-get {
+    background-color: rgb(56, 132, 255) !important;
+  }
+
+  .required {
+    display: block;
+    font-style: normal !important;
+    text-transform: uppercase;
+    color: #FF4642;
+    font-size: 10px;
+  }
+
+  .dot-success, .dot-fail {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    font-size: 16px;
+    font-family: Content-font, Roboto, sans-serif;
+    font-weight: 400;
+    line-height: 1.625;
+    margin-right: 6px;
+    border-radius: 50%;
+    background-color: #26CB7C;
+  }
+
+  .dot-fail {
+    background-color: #FF4642 !important;
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

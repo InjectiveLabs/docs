@@ -394,7 +394,7 @@ function getMakerOrderRelevantStates(
     )
 ```
 
-### OrderInfo
+> OrderInfo
 
 ```solidity
 struct OrderInfo {
@@ -404,7 +404,7 @@ struct OrderInfo {
 }
 ```
 
-### Order Status
+> Order Status
 
 ```solidity
 enum OrderStatus {
@@ -847,7 +847,7 @@ Three times per day the funding rate is calculated according to the formula from
 
 ## InjectiveFutures Contract Events
 
-### **FuturesPosition**
+> FuturesPosition
 
 ```solidity
 event FuturesPosition(
@@ -861,7 +861,7 @@ event FuturesPosition(
 );
 ```
 
-### **FuturesCancel**
+> FuturesCancel
 
 ```solidity
 event FuturesCancel(
@@ -873,7 +873,7 @@ event FuturesCancel(
 );
 ```
 
-### **FuturesMatch**
+> FuturesMatch
 
 ```solidity
 event FuturesMatch(
@@ -884,7 +884,7 @@ event FuturesMatch(
 );
 ```
 
-### **FuturesLiquidation**
+> FuturesLiquidation
 
 ```solidity
 event FuturesLiquidation(
@@ -896,7 +896,7 @@ event FuturesLiquidation(
 );
 ```
 
-### **FuturesClose**
+> FuturesClose
 
 ```solidity
 event FuturesClose(
@@ -908,7 +908,7 @@ event FuturesClose(
 );
 ```
 
-### **RegisterMarket**
+> RegisterMarket
 
 ```solidity
 event RegisterMarket(
@@ -919,7 +919,7 @@ event RegisterMarket(
 );
 ```
 
-### **MarketCreation**
+> MarketCreation
 
 ```solidity
 event MarketCreation(
@@ -929,7 +929,7 @@ event MarketCreation(
 );
 ```
 
-### **AccountCreation**
+> AccountCreation
 ```solidity
 event AccountCreation(
   address indexed creator, // account creator
@@ -939,7 +939,8 @@ event AccountCreation(
 ```
 
 ## Oracle Contract Events
-### **SetFunding**
+
+> SetFunding
 
 ```solidity
 event SetFunding(
@@ -950,7 +951,7 @@ event SetFunding(
 );
 ```
 
-### **SetPrice**
+> SetPrice
 
 ```solidity
 event SetPrice(
@@ -962,7 +963,9 @@ event SetPrice(
 ```
 
 # Types
-### Order
+
+> Order
+
 ```solidity
 struct Order {
   address makerAddress; // Address that created the order.
@@ -982,7 +985,8 @@ struct Order {
     }
 ```
 
-### OrderInfo
+> OrderInfo
+
 ```solidity
 struct OrderInfo {
   OrderStatus orderStatus; // Status that describes order's validity and fillability.
@@ -991,7 +995,8 @@ struct OrderInfo {
     }
 ```
 
-### Account
+> Account
+
 ```solidity
  struct Account {
  	bytes32 accountID;
@@ -999,7 +1004,8 @@ struct OrderInfo {
  }
 ```
 
-### Market
+> Market
+
 ```solidity
 struct Market {
   bytes32 marketID;
@@ -1016,7 +1022,9 @@ struct Market {
   PermyriadMath.Permyriad relayerFeePercentage; // transaction relayer fee percentage
   }
 ```
-### Position
+
+> Position
+
 ```
 struct Position {
   // owner of the position
@@ -1038,7 +1046,8 @@ struct Position {
 }
 ```
 
-### CloseResults
+> CloseResults
+
 ```solidity
 struct CloseResults {
   // Payout to the owner resulting from closing. Negative if vaporized.
@@ -1048,7 +1057,8 @@ struct CloseResults {
 }
 ```
 
-### FillResults
+> FillResults
+
 ```solidity
 struct FillResults {
   uint256 makerPositionID; // maker positionID
@@ -1060,7 +1070,9 @@ struct FillResults {
   uint256 takerFeePaid; // Total amount of fee paid by taker.
 }
 ```
-### PositionResults
+
+> PositionResults
+
 ```solidity
 struct PositionResults {
   uint256 positionID; 
