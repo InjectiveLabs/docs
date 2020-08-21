@@ -323,7 +323,7 @@ function getOrderRelevantState(
 {
 ```
 
-Logic:
+**Logic**
 
 Calling `getOrderRelevantState` will perform the following steps:
 
