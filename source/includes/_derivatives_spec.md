@@ -418,6 +418,14 @@ enum OrderStatus {
 }
 ```
 
+## cancelOrder
+
+```
+/// @dev Cancels the input order
+/// @param order the order to cancel
+function cancelOrder(LibOrder.Order calldata order) external;
+```
+
 
 # Take Orders
 
@@ -432,12 +440,14 @@ This is the most basic way to fill an order. All of the other methods call `fill
 /// @param order The make order to be executed.
 /// @param quantity Desired quantity of contracts to execute.
 /// @param margin Desired amount of margin (denoted in baseCurrency) to use to fill the order.
+/// @param accountID The accountID of the account for the taker to cross-margin with, if any.
 /// @param signature The signature of the order signed by maker.
 /// @return fillResults
 function fillOrder(
     LibOrder.Order memory order,
     uint256 quantity,
     uint256 margin,
+    bytes32 accountID,
     bytes memory signature
 ) external returns (FillResults memory);
 ```
@@ -467,6 +477,7 @@ Calling `fillOrder` will perform the following steps:
 /// @param order The make order to be executed.
 /// @param quantity Desired quantity of contracts to execute.
 /// @param margin Desired amount of margin (denoted in baseCurrency) to use to fill the order.
+/// @param accountID The accountID of the account for the taker to cross-margin with, if any.
 /// @param signature The signature of the order signed by maker.
 /// return results The fillResults
 function fillOrKillOrder(
@@ -481,7 +492,7 @@ function fillOrKillOrder(
 
 Calling `fillOrKillOrder` will perform the following steps:
 
-1. Call `fillOrder` with the passed in inputs
+1. Call `_fillOrder` with the passed in inputs
 2. Revert if `fillResults.quantityFilled` does not equal the passed in `quantity`
 
 ## batchFillOrders
@@ -493,12 +504,14 @@ Calling `fillOrKillOrder` will perform the following steps:
 /// @param orders The make order to be executed.
 /// @param quantities Desired quantity of contracts to execute.
 /// @param margins Desired amount of margin (denoted in baseCurrency) to use to fill the order.
+/// @param accountIDs The accountIDs of the accounts for the taker to cross-margin with, if any.
 /// @param signatures The signature of the order signed by maker.
 /// return results The fillResults
 function batchFillOrders(
   LibOrder.Order[] memory orders,
   uint256[] memory quantities,
   uint256[] memory margins,
+  bytes32[] memory accountIDs,
   bytes[] memory signatures
 ) external returns (FillResults[] memory results); 
 ```
@@ -518,12 +531,14 @@ Calling `batchFillOrders` will perform the following steps:
 /// @param orders The make order to be executed.
 /// @param quantities Desired quantity of contracts to execute.
 /// @param margins Desired amount of margin (denoted in baseCurrency) to use to fill the order.
+/// @param accountIDs The accountIDs of the accounts for the taker to cross-margin with, if any.
 /// @param signatures The signature of the order signed by maker.
 /// return results The fillResults
 function batchFillOrKillOrders(
   LibOrder.Order[] memory orders,
   uint256[] memory quantities,
   uint256[] memory margins,
+  bytes32[] memory accountIDs,
   bytes[] memory signatures
 ) external returns (FillResults[] memory results)
 ```
@@ -544,12 +559,14 @@ Calling `batchFillOrKillOrders` will perform the following steps:
 /// @param orders The make order to be executed.
 /// @param quantities Desired quantity of contracts to execute.
 /// @param margins Desired amount of margin (denoted in baseCurrency) to use to fill the order.
+/// @param accountID The accountID of the account for the taker to cross-margin with, if any.
 /// @param signatures The signature of the order signed by maker.
 /// return results The fillResults
 function batchFillOrdersSinglePosition(
   LibOrder.Order[] memory orders,
   uint256[] memory quantities,
   uint256[] memory margins,
+  bytes32 accountID,
   bytes[] memory signatures
 ) external returns (FillResults[] memory results)
 ```
@@ -567,12 +584,14 @@ Calling `batchFillOrdersSinglePosition` will perform the same steps as `batchFil
 /// @param orders The make order to be executed.
 /// @param quantities Desired quantity of contracts to execute.
 /// @param margins Desired amount of margin (denoted in baseCurrency) to use to fill the order.
+/// @param accountID The accountID of the account for the taker to cross-margin with, if any.
 /// @param signatures The signature of the order signed by maker.
 /// return results The fillResults
 function batchFillOrKillOrdersSinglePosition(
   LibOrder.Order[] memory orders,
   uint256[] memory quantities,
   uint256[] memory margins,
+  bytes32 accountID,
   bytes[] memory signatures
 ) external returns (FillResults[] memory results)
 ```
@@ -590,11 +609,13 @@ Calling `batchFillOrKillOrdersSinglePosition` will perform the same steps as `ba
 /// @param orders Array of order specifications.
 /// @param quantity Desired quantity of contracts to execute.
 /// @param margin Desired amount of margin (denoted in baseCurrency) to use to fill the orders.
+/// @param accountID The accountID of the account for the taker to cross-margin with, if any.
 /// @param signatures Proofs that orders have been signed by makers.
 function marketOrders(
 	LibOrder.Order[] memory orders,
 	uint256 quantity,
 	uint256 margin,
+	bytes32 accountID,
 	bytes[] memory signatures
 ) public returns (FillResults[] memory results)
 ```
@@ -614,11 +635,13 @@ Calling `marketOrders` will perform the following steps:
 /// @param orders Array of order specifications.
 /// @param quantity Desired quantity of contracts to execute.
 /// @param margin Desired amount of margin (denoted in baseCurrency) to use to fill the orders.
+/// @param accountID The accountID of the account for the taker to cross-margin with, if any.
 /// @param signatures Proofs that orders have been signed by makers.
 function marketOrdersOrKill(
   LibOrder.Order[] memory orders,
   uint256 quantity,
   uint256 margin,
+  bytes32 accountID,
   bytes[] memory signatures
 ) public returns (FillResults[] memory results);
 ```
@@ -759,7 +782,7 @@ Calling `closePositionOrKill` will perform the same steps as `closePosition` but
 ## liquidatePositionWithOrders 
 
 ```jsx
-/// @dev Closes the input position.
+/// @dev Liquidates the input position.
 /// @param positionID The ID of the position to liquidate.
 /// @param quantity The quantity of contracts of the position to liquidate.
 /// @param orders The orders to use to liquidate the position.
@@ -796,6 +819,23 @@ Calling `liquidatePositionWithOrders` will perform the following steps:
 		1. Allocate half of the payout to the liquidator and half to the insurance fund
 	4. Decrement the position's remaining margin by `position.margin / position.quantity * (position.quantity - quantity)`
 	5. Emit a `FuturesLiquidation` event. 
+
+## Vaporization
+## vaporizePosition
+```javascript
+/// @dev Vaporizes the position.
+/// @param positionID The ID of the position to vaporize.
+/// @param quantity The quantity of contracts of the position to vaporize.
+/// @param orders The orders to use to vaporize the position.
+/// @param signatures The signatures of the orders signed by makers.
+function vaporizePosition(
+  uint256 positionID,
+  LibOrder.Order[] memory orders,
+  uint256 quantity,
+  bytes[] memory signatures
+) external returns (PositionResults[] memory pResults, CloseResults memory cResults)
+```
+
 
 
 # Oracle
