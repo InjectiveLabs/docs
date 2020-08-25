@@ -161,7 +161,9 @@ For new positions, the funding fee component of the NPV formula can removed sinc
 
 # Make Orders
 
-In the Injective Perpetuals Protocol, there are two main types of orders: maker orders and taker orders. **Make orders** are stored on Injective's decentralized orderbook on the Injective Chain while **Take orders** are immediately executed against make orders on the Injective Perpetuals Contract.
+In the Injective Perpetuals Protocol, there are two main types of orders: maker orders and taker orders. **Maker orders** are stored on Injective's decentralized orderbook on the Injective Chain while **Take orders** are immediately executed against make orders on the Injective Perpetuals Contract. 
+
+Once a maker order is executed to create a position, the maker can also create **stop loss** and **take profit** orders. 
 
 ## **Order Message Format**
 
@@ -173,20 +175,73 @@ A make order message consists of the following parameters:
 | :-------------------- | :------ | :----------------------------------------------------------- |
 | makerAddress          | address | Address that created the order.                              |
 | takerAddress          | address | Empty.                                                       |
-| feeRecipientAddress   | address | Address of the recipient of the order transaction fee.       |
+| feeRecipientAddress   | address | Address that will receive fees when order is filled.       |
 | senderAddress         | address | Empty.                                                       |
 | makerAssetAmount      | uint256 | The contract price \(`contractPrice`\), i.e. the price of 1 contract denominated in base currency. |
 | takerAssetAmount      | uint256 | The `quantity` of contracts the maker seeks to obtain.       |
-| makerFee              | uint256 | The amount of `margin` denoted in base currency the maker would like to post/risk for the order. |
-| takerFee              | uint256 | Empty.                                                       |
+| makerFee              | uint256 | The amount of `margin` denoted in base currency the maker would like to post/risk for the order. If set to 0, the order is a Stop Loss of Take Profit order. |
+| takerFee              | uint256 | The desired account nonce to use for cross-margining. If set the 0, the order is an isolated margin order. |
 | expirationTimeSeconds | uint256 | Timestamp in seconds at which order expires.                 |
 | salt                  | uint256 | Arbitrary number to facilitate uniqueness of the order's hash. |
 | makerAssetData        | bytes   | The first 32 bytes contain the `marketID` of the market for the position if the order is LONG, empty otherwise.  Right padded with 0's to be 36 bytes |
-| takerAssetData        | bytes   | The first 32 bytes contain the `marketID` of the market for the position if the order is LONG, empty otherwise.  Right padded with 0's to be 36 bytes |
-| makerFeeAssetData     | bytes   | Empty.                                                       |
-| takerFeeAssetData     | bytes   | Empty.                                                       |
+| takerAssetData        | bytes   | The first 32 bytes contain the `marketID` of the market for the position if the order is SHORT, empty otherwise.  Right padded with 0's to be 36 bytes |
+| makerFeeAssetData     | bytes   | The bytes-encoded positionID of the position to use for stop loss and take profit orders. Empty for vanilla make orders. |
+| takerFeeAssetData     | bytes   | The bytes-encoded trigger price for stop limit orders. Empty for vanilla make orders. |
 
 In a given perpetual market specified by `marketID`, an order encodes the willingness to purchase `quantity` contracts in a given direction \(long or short\) at a specified contract price `contractPrice`  using a specified amount of `margin` of base currency as collateral.
+
+## Isolated and Cross Margin
+
+In the derivatives space, margin refers to the amount needed to enter into a leveraged position. Initial and Maintenance Margin refer to the minimum initial amount needed to enter a position and the minimum amount needed to keep that position from getting liquidated. As various users have varying trading strategies, Injecive has employed two different methods of margining:
+
+- **Cross Margin**: Margin is shared between open positions in the same market. 
+- **Isolated Margin**: Margin assigned to a position is restricted to a certain amount. If the margin falls below the Maintenance Margin level, the position is liquidated. However, you can add and remove margin at will under this method.
+
+The Injective Perpetuals Protocol currently only supports cross-margining for positions in the same market by position netting. 
+
+To specify a cross-margined order, the order maker should specify the account he desires to use for cross-margining with the **account nonce** in the `takerFee` parameter which uniquely determines his `accountID`. 
+
+## Stop Limit Order
+
+A Stop Limit Order is an order that cannot be executed until the market's index price reaches a certain Trigger Price as specified by the `takerFeeAssetData`. 
+
+Traders use this type of order for two main strategies:
+
+1. As a risk-management tool to limit losses on existing positions (a Stop Loss Limit Order), and 
+2. As an automatic tool to enter the market at a desired entry point without manually waiting for the market to place the order.
+
+For a **long stop limit order**, the order will only be able to be filled if the index price is greater than or equal to the trigger price. 
+
+For a **short stop limit order**, the order will only be able to be filled if the index price is less than or equal to the trigger price. 
+
+**Stop Limit Order Example**
+
+```
+Quantity = 50 contracts
+Contract Price = 9
+Trigger Price = 10
+Direction = Long
+```
+
+In this example, the trader has selected a Stop Limit Long Order with a contract price of 9 and a trigger price of 10. This order will only be fillable when the index price exceeds 10. If the trader wants to increase the chances of his order being executed, he should set the his contract price higher (e.g. to 10.5).
+
+## Stop Loss Limit Order
+
+To use stop loss limit orders to cap losses on an existing position, traders must specify the `positionID` of the position in the `makerFeeAssetData` parameter as well as the associated account nonce of the account owning the position in the `takerFee`  parameter. 
+
+To be a valid stop loss limit order, the position referenced by `positionID` must be owned by the maker, have the same `marketID`, and have the opposite direction as the position. If the quantity of the stop loss order is greater than the quantity of contracts in the position (e.g. after partial position closure), the maximum fillable quantity of the stop loss limit order will be the total number of contracts of the position. 
+
+Note: Traders must have an active position to create a **stop loss limit order**. However, an active position is not needed for a pure **stop limit order**. 
+
+## Take Profit Limit Order
+
+A Take Profit Limit Order is somewhat similar to a Stop Loss Limit Order, however instead of executing when the price moves against the position, the order executes when the price moves in a favorable direction. 
+
+To use take profit limit orders to realize profits on an existing position, traders must specify the `positionID` of the position in the `makerFeeAssetData` parameter as well as the associated account nonce of the account owning the position in the `takerFee`  parameter. 
+
+To be a valid take profit order, the position referenced by `positionID` must be owned by the maker, have the same `marketID`, and have the opposite direction as the position. 
+
+Note: the `takerFeeAssetData` must be empty. 
 
 # Transaction Fees
 
@@ -268,7 +323,7 @@ function getOrderRelevantState(
 {
 ```
 
-Logic:
+**Logic**
 
 Calling `getOrderRelevantState` will perform the following steps:
 
@@ -278,7 +333,7 @@ Calling `getOrderRelevantState` will perform the following steps:
    1. If the order has been cancelled, the `orderStatus` will be `CANCELLED`.
    2. If the order has been fully filled \(i.e. `orderInfo.orderTakerAssetFilledAmount` equals `order.takerAssetAmount`, the `orderStatus` will be `FULLY_FILLED`.
    3. If the order has expired, the `orderStatus` will be `EXPIRED`.
-   4. If the order's margin \(`order.makerFee`\) does not satisfy the [initial margin requirement](keyterms.md#initial-margin-requirement), the `orderStatus` will be `INVALID_MAKER_ASSET_AMOUNT`. Note: the index price used in this calculation is the inputted `indexPrice`.
+   4. If the order's margin \(`order.makerFee`\) does not satisfy the [initial margin requirement](#initial-margin-requirement), the `orderStatus` will be `INVALID_MAKER_ASSET_AMOUNT`. Note: the index price used in this calculation is the inputted `indexPrice`.
    5. Otherwise if the order is fillable, the `orderStatus` will be `FILLABLE` and the `fillableTakerAssetAmount` to equal the quantity of contracts that remain fillable \(i.e. `order.takerAssetAmount - orderInfo.orderTakerAssetFilledAmount`\).
 4. Check whether or not the signature is valid and set `isValidSignature` to true if valid. Otherwise, set to false and set the `orderStatus` to `INVALID`.
 5. If the `orderStatus` from the previous steps is `FILLABLE`, check that the order maker has sufficient balance of baseCurrency in his freeDeposits \(his `availableMargin`\) to fill `fillableTakerAssetAmount` contracts of the order.
@@ -339,7 +394,7 @@ function getMakerOrderRelevantStates(
     )
 ```
 
-### OrderInfo
+> OrderInfo
 
 ```solidity
 struct OrderInfo {
@@ -349,7 +404,7 @@ struct OrderInfo {
 }
 ```
 
-### Order Status
+> Order Status
 
 ```solidity
 enum OrderStatus {
@@ -361,6 +416,14 @@ enum OrderStatus {
     FULLY_FILLED,
     CANCELLED
 }
+```
+
+## cancelOrder
+
+```
+/// @dev Cancels the input order
+/// @param order the order to cancel
+function cancelOrder(LibOrder.Order calldata order) external;
 ```
 
 
@@ -377,12 +440,14 @@ This is the most basic way to fill an order. All of the other methods call `fill
 /// @param order The make order to be executed.
 /// @param quantity Desired quantity of contracts to execute.
 /// @param margin Desired amount of margin (denoted in baseCurrency) to use to fill the order.
+/// @param accountID The accountID of the account for the taker to cross-margin with, if any.
 /// @param signature The signature of the order signed by maker.
 /// @return fillResults
 function fillOrder(
     LibOrder.Order memory order,
     uint256 quantity,
     uint256 margin,
+    bytes32 accountID,
     bytes memory signature
 ) external returns (FillResults memory);
 ```
@@ -392,7 +457,7 @@ function fillOrder(
 Calling `fillOrder` will perform the following steps:
 
 1. Query the oracle to obtain the most recent price and funding fee.
-2. Query the state and status of the order with [`getOrderRelevantState`](keyterms.md#getorderrelevantstate).
+2. Query the state and status of the order with [`getOrderRelevantState`](#getorderrelevantstate).
 3. Revert if the orderStatus is not `FILLABLE`. 
 4. Create the Maker's Position.
    1. If the order has been used previously, execute funding payments on the existing position and then update the existing position state. Otherwise, create a new account with a corresponding new position for the maker and log a `FuturesPosition` event.
@@ -412,6 +477,7 @@ Calling `fillOrder` will perform the following steps:
 /// @param order The make order to be executed.
 /// @param quantity Desired quantity of contracts to execute.
 /// @param margin Desired amount of margin (denoted in baseCurrency) to use to fill the order.
+/// @param accountID The accountID of the account for the taker to cross-margin with, if any.
 /// @param signature The signature of the order signed by maker.
 /// return results The fillResults
 function fillOrKillOrder(
@@ -426,7 +492,7 @@ function fillOrKillOrder(
 
 Calling `fillOrKillOrder` will perform the following steps:
 
-1. Call `fillOrder` with the passed in inputs
+1. Call `_fillOrder` with the passed in inputs
 2. Revert if `fillResults.quantityFilled` does not equal the passed in `quantity`
 
 ## batchFillOrders
@@ -438,12 +504,14 @@ Calling `fillOrKillOrder` will perform the following steps:
 /// @param orders The make order to be executed.
 /// @param quantities Desired quantity of contracts to execute.
 /// @param margins Desired amount of margin (denoted in baseCurrency) to use to fill the order.
+/// @param accountIDs The accountIDs of the accounts for the taker to cross-margin with, if any.
 /// @param signatures The signature of the order signed by maker.
 /// return results The fillResults
 function batchFillOrders(
   LibOrder.Order[] memory orders,
   uint256[] memory quantities,
   uint256[] memory margins,
+  bytes32[] memory accountIDs,
   bytes[] memory signatures
 ) external returns (FillResults[] memory results); 
 ```
@@ -463,12 +531,14 @@ Calling `batchFillOrders` will perform the following steps:
 /// @param orders The make order to be executed.
 /// @param quantities Desired quantity of contracts to execute.
 /// @param margins Desired amount of margin (denoted in baseCurrency) to use to fill the order.
+/// @param accountIDs The accountIDs of the accounts for the taker to cross-margin with, if any.
 /// @param signatures The signature of the order signed by maker.
 /// return results The fillResults
 function batchFillOrKillOrders(
   LibOrder.Order[] memory orders,
   uint256[] memory quantities,
   uint256[] memory margins,
+  bytes32[] memory accountIDs,
   bytes[] memory signatures
 ) external returns (FillResults[] memory results)
 ```
@@ -489,12 +559,14 @@ Calling `batchFillOrKillOrders` will perform the following steps:
 /// @param orders The make order to be executed.
 /// @param quantities Desired quantity of contracts to execute.
 /// @param margins Desired amount of margin (denoted in baseCurrency) to use to fill the order.
+/// @param accountID The accountID of the account for the taker to cross-margin with, if any.
 /// @param signatures The signature of the order signed by maker.
 /// return results The fillResults
 function batchFillOrdersSinglePosition(
   LibOrder.Order[] memory orders,
   uint256[] memory quantities,
   uint256[] memory margins,
+  bytes32 accountID,
   bytes[] memory signatures
 ) external returns (FillResults[] memory results)
 ```
@@ -512,12 +584,14 @@ Calling `batchFillOrdersSinglePosition` will perform the same steps as `batchFil
 /// @param orders The make order to be executed.
 /// @param quantities Desired quantity of contracts to execute.
 /// @param margins Desired amount of margin (denoted in baseCurrency) to use to fill the order.
+/// @param accountID The accountID of the account for the taker to cross-margin with, if any.
 /// @param signatures The signature of the order signed by maker.
 /// return results The fillResults
 function batchFillOrKillOrdersSinglePosition(
   LibOrder.Order[] memory orders,
   uint256[] memory quantities,
   uint256[] memory margins,
+  bytes32 accountID,
   bytes[] memory signatures
 ) external returns (FillResults[] memory results)
 ```
@@ -535,11 +609,13 @@ Calling `batchFillOrKillOrdersSinglePosition` will perform the same steps as `ba
 /// @param orders Array of order specifications.
 /// @param quantity Desired quantity of contracts to execute.
 /// @param margin Desired amount of margin (denoted in baseCurrency) to use to fill the orders.
+/// @param accountID The accountID of the account for the taker to cross-margin with, if any.
 /// @param signatures Proofs that orders have been signed by makers.
 function marketOrders(
 	LibOrder.Order[] memory orders,
 	uint256 quantity,
 	uint256 margin,
+	bytes32 accountID,
 	bytes[] memory signatures
 ) public returns (FillResults[] memory results)
 ```
@@ -559,11 +635,13 @@ Calling `marketOrders` will perform the following steps:
 /// @param orders Array of order specifications.
 /// @param quantity Desired quantity of contracts to execute.
 /// @param margin Desired amount of margin (denoted in baseCurrency) to use to fill the orders.
+/// @param accountID The accountID of the account for the taker to cross-margin with, if any.
 /// @param signatures Proofs that orders have been signed by makers.
 function marketOrdersOrKill(
   LibOrder.Order[] memory orders,
   uint256 quantity,
   uint256 margin,
+  bytes32 accountID,
   bytes[] memory signatures
 ) public returns (FillResults[] memory results);
 ```
@@ -642,58 +720,6 @@ function batchMatchOrders(
 
 Calling `batchMatchOrders` will sequentially call `matchOrders`. 
 
-# Transaction Fees
-
-The business model for traditional derivatives exchanges \(e.g. BitMEX, Binance, FTX, etc.\) is to take a transaction fee from the each trade. However, because Injective Protocol is designed as a fully decentralized network, we do not follow this approach.
-
-Instead, transaction fees paid in Injective Protocol are used for two purposes.
-
-1. As compensation for relayers for driving liquidity to the protocol
-2. As auction collateral for a "buyback and burn" process. In this token economic model, transaction fees collected over a fixed period of time \(e.g. 2 weeks\) are aggregated and then auctioned off to the public for the INJ token. The INJ received from this auction is then permanently burned. 
-
-There are two types of transaction fees that should be introduced: **maker fees** \(for limit or "maker" orders\) and **taker fees** \(for market or "taker" orders\). For both maker and taker fees, transaction fees are to be extracted from the **notional value** of the trade.
-
-## Maker Fees
-
-Maker fees are fees that makers of limit orders pay. These are the fees paid by the order makers \(found in the `makerAddress` parameter of each order\). Limit orders \(i.e. the orders from which maker fees apply\) are `leftOrders` and `rightOrder` in the `multiMatchOrders` function, `orders` in the `marketOrders` function, `order` in the `fillOrder` function, `order` in the `closePosition` function, and `orders` in the `closePositionWithOrders` function.
-
-**Notional Value of Maker Orders**
-
-Recall that within a given perpetual market, an order encodes the willingness to purchase up to `quantity` contracts in a given direction \(long or short\) at a specified `contractPrice` using a specified amount of `margin` of base currency as collateral.
-
-The notional value of a single contract is simply the `contractPrice` \(or $P\_{contract}$\). Hence, the notional value of $n$ contracts is simply `n * contractPrice`. Note that orders can be partially filled so `n` must be less than or equal to `quantity`.
-
-This the calculation for notional value that you will need to use for`leftOrders` and `rightOrder`\* in `multiMatchOrders`, `orders` in the `marketOrders` function, `order` in the `fillOrder` function, `order` in the `closePosition` function, and `orders` in the `closePositionWithOrders` function.
-
-* Note: the `contractPrice` for the `rightOrder` should be the weighted average `contractPrice` of the `leftOrders`. 
-
-## Taker Fees
-
-Taker fees are the fees paid by the `msg.sender` \(the taker\) in the `fillOrder` and `marketOrders` calls.
-
-**Notional Value for Taker Orders**
-
-The notional value calculation in `fillOrder` for the taker is simply `notional = quantity * contractPrice`.
-
-The notional value calculation in `marketOrders` is the sum of the notional values for the quantity of contracts taken in each of the individual orders i.e. `notional = quantity_1 * contractPrice_1 + quantity_2 * contractPrice_2 + ... + quantity_n * contractPrice_n`. Note that $\sum \limits\_{i=1}^{n} quantity\_i$ must equal `quantity`.
-
-The notional value calculation in `closePosition` and `closePositionWithOrders` for the taker \(i.e. the closer/msg.sender\) is `notional = quantity * avgContractPrice` \(`avgContractPrice` is already defined in the contract\).
-
-**Maker Orders Transaction Fees**
-
-Currently, whenever `n` contracts of a maker `order` are executed, the proportional amount of `margin` \(where `margin = order.makerFee * n / order.takerAssetAmount`\) is transferred from the user's base currency ERC-20 balance to the perpetuals contract.
-
-With the introduction of the maker order fee, executing `n` contracts of the `order` should result in the trader to post `margin + txFee` where `txFee = notional * MAKER_FEE_PERCENT / 10000` where `notional = n * order.makerAssetAmount`and where `MAKER_FEE_PERCENT` refers to the digits of the maker fee percentage scaled by 10000 \(i.e a 0.15% maker fee would be 15\).
-
-**Taker Orders Transaction Fees**
-
-Similarly, with the introduction of the taker order fee, executing `n` contracts of the `order` should result in the trader posting `margin + txFee` where `txFee = notional * TAKER_FEE_PERCENT / 10000` where `TAKER_FEE_PERCENT` refers to the digits of the taker fee percentage scaled by 10000 \(i.e a 0.25% taker fee would be 25\) and where notional is described in the **Notional Value for Taker Orders** section.
-
-**Transaction Fee Distribution**
-
-For a given `order` with a transaction fee of `txFee`, if the `feeRecipientAddress` is defined, `txFee * RELAYER_FEE_PROPORTION / 100` should be distributed to the `feeRecipientAddress`'s balance. and the remainder should be distributed to the auction contract's balance. Note: "distributed to balance" in this case does not mean an ERC-20 transfer but rather incrementing the recipient's internal balance in the perpetuals contract from which the recipient can withdraw from in the future \(this withdrawal functionality already exists\).
-
-
 # Positions
 
 ## closePosition
@@ -756,7 +782,7 @@ Calling `closePositionOrKill` will perform the same steps as `closePosition` but
 ## liquidatePositionWithOrders 
 
 ```jsx
-/// @dev Closes the input position.
+/// @dev Liquidates the input position.
 /// @param positionID The ID of the position to liquidate.
 /// @param quantity The quantity of contracts of the position to liquidate.
 /// @param orders The orders to use to liquidate the position.
@@ -775,7 +801,7 @@ Calling `liquidatePositionWithOrders` will perform the following steps:
 
 1. Query the oracle to obtain the most recent price and funding fee.
 2. Execute funding payments on the existing position and then update the existing position state.
-3. Check that the existing `position` (referenced by `positionID`) is valid and can be liquidated (i.e. that the [maintenance margin requirement](keyterms.md#maintenance-margin-requirement) is breached. 
+3. Check that the existing `position` (referenced by `positionID`) is valid and can be liquidated (i.e. that the [maintenance margin requirement](#maintenance-margin-requirement) is breached. 
 4. Create the Makers' Positions. 
 	1. For each order `i`:
 		1. If the order has been used previously, execute funding payments on the existing position and then update the existing position state. Otherwise, create a new account with a corresponding new position with the `pResults[i].quantity` contracts for the maker and log a `FuturesPosition` event.`
@@ -793,6 +819,23 @@ Calling `liquidatePositionWithOrders` will perform the following steps:
 		1. Allocate half of the payout to the liquidator and half to the insurance fund
 	4. Decrement the position's remaining margin by `position.margin / position.quantity * (position.quantity - quantity)`
 	5. Emit a `FuturesLiquidation` event. 
+
+## Vaporization
+## vaporizePosition
+```javascript
+/// @dev Vaporizes the position.
+/// @param positionID The ID of the position to vaporize.
+/// @param quantity The quantity of contracts of the position to vaporize.
+/// @param orders The orders to use to vaporize the position.
+/// @param signatures The signatures of the orders signed by makers.
+function vaporizePosition(
+  uint256 positionID,
+  LibOrder.Order[] memory orders,
+  uint256 quantity,
+  bytes[] memory signatures
+) external returns (PositionResults[] memory pResults, CloseResults memory cResults)
+```
+
 
 
 # Oracle
@@ -839,3 +882,244 @@ For the testnet we are setting up a centralized oracle service. In later version
 The oracle service updates the ticker prices every 5 minutes. If any asynchronous requests fail, we deploy an [exponential backoff](https://cloud.google.com/iot/docs/how-tos/exponential-backoff) strategy. Prices are taken from [https://metals-api.com/](https://metals-api.com/).
 
 Three times per day the funding rate is calculated according to the formula from above.
+
+# Events
+
+## InjectiveFutures Contract Events
+
+> FuturesPosition
+
+```solidity
+event FuturesPosition(
+  address indexed makerAddress, // Address that created the order.
+  bytes32 indexed orderHash, // EIP712 hash of order (see LibOrder.getTypedDataHash).
+  bytes32 indexed marketID, // Market ID
+  uint256 contractPrice, // Price of the contract
+  uint256 quantityFilled, // quantity of contracts filled
+  uint256 positionID, // positionID
+  bool isLong // true if long, false if short
+);
+```
+
+> FuturesCancel
+
+```solidity
+event FuturesCancel(
+  address indexed makerAddress, // Address that created the order.
+  bytes32 indexed orderHash, // EIP712 hash of order (see LibOrder.getTypedDataHash).
+  bytes32 indexed marketID, // Market ID
+  uint256 contractPrice, // Price of the contract
+  uint256 quantityFilled // quantity of contracts filled
+);
+```
+
+> FuturesMatch
+
+```solidity
+event FuturesMatch(
+  bytes32 indexed leftOrderHash, // ID of the position
+  bytes32 indexed rightOrderHash, // ID of the position
+  bytes32 indexed marketID, //  Market ID
+  uint256 quantity // quantity of contracts being matched.
+);
+```
+
+> FuturesLiquidation
+
+```solidity
+event FuturesLiquidation(
+  uint256 indexed positionID, // ID of the position
+  bytes32 indexed marketID, //  Market ID
+  bytes32 indexed accountID, // account ID
+  uint256 quantity, // quantity of contracts being closed.
+  int256 contractPNL // PNL for one contract
+);
+```
+
+> FuturesClose
+
+```solidity
+event FuturesClose(
+  uint256 indexed positionID, // ID of the position
+  bytes32 indexed marketID, //  Market ID
+  bytes32 indexed accountID, // account ID
+  uint256 quantity, // quantity of contracts being closed.
+  int256 contractPNL // PNL for one contract
+);
+```
+
+> RegisterMarket
+
+```solidity
+event RegisterMarket(
+  bytes32 indexed marketID, // Market ID
+  uint256 fundingInterval, // Funding interval
+  uint256 initialPrice, // Initial price of the market
+  uint256 timestamp // When the market was registered
+);
+```
+
+> MarketCreation
+
+```solidity
+event MarketCreation(
+  bytes32 indexed marketID, // the unique identifier of market created
+  string indexed ticker,   // the human-readable ticker for the market
+  address indexed oracle   // the oracle address for the market
+);
+```
+
+> AccountCreation
+```solidity
+event AccountCreation(
+  address indexed creator, // account creator
+  bytes32 accountID, // account ID
+  uint256 accountNonce // account nonce
+);
+```
+
+## Oracle Contract Events
+
+> SetFunding
+
+```solidity
+event SetFunding(
+  bytes32 indexed marketID, // Market ID
+  int256 fundingRate, // funding rate
+  int256 fundingFee, // funding fee
+  uint256 epoch // current epoch
+);
+```
+
+> SetPrice
+
+```solidity
+event SetPrice(
+  bytes32 indexed marketID, // Market ID
+  uint256 price, // price
+  uint256 timestamp, // current timestamp
+  uint256 epoch // current epoch
+);
+```
+
+# Types
+
+> Order
+
+```solidity
+struct Order {
+  address makerAddress; // Address that created the order.
+  address takerAddress; // Empty.
+  address feeRecipientAddress; // Address that will receive fees when order is filled.
+  address senderAddress; // Empty. 
+  uint256 makerAssetAmount; // The contract price i.e. the price of 1 contract denominated in base currency.
+  uint256 takerAssetAmount; // The quantity of contracts the maker seeks to obtain.
+  uint256 makerFee; // The amount of margin denoted in base currency the maker would like to post/risk for the order. If set to 0, the order is a Stop Loss of Take Profit order.
+  uint256 takerFee; // The desired account nonce to use for cross-margining. If set the 0, the order is an isolated margin order.
+  uint256 expirationTimeSeconds; // Timestamp in seconds at which order expires.
+  uint256 salt; // Arbitrary number to facilitate uniqueness of the order's hash.
+  bytes makerAssetData; // The first 32 bytes contain the marketID of the market for the position if the order is LONG, empty otherwise. Right padded with 0's to be 36 bytes.
+  bytes takerAssetData; // The first 32 bytes contain the marketID of the market for the position if the order is SHORT, empty otherwise. Right padded with 0's to be 36 bytes.
+  bytes makerFeeAssetData; // The bytes-encoded positionID of the position to use for stop loss and take profit orders. Empty for vanilla make orders.
+  bytes takerFeeAssetData; // The bytes-encoded trigger price for stop limit orders. Empty for vanilla make orders.
+    }
+```
+
+> OrderInfo
+
+```solidity
+struct OrderInfo {
+  OrderStatus orderStatus; // Status that describes order's validity and fillability.
+  bytes32 orderHash; // EIP712 typed data hash of the order (see LibOrder.getTypedDataHash).
+  uint256 orderTakerAssetFilledAmount; // Amount of order that has already been filled.
+    }
+```
+
+> Account
+
+```solidity
+ struct Account {
+ 	bytes32 accountID;
+ 	uint256 accountNonce;
+ }
+```
+
+> Market
+
+```solidity
+struct Market {
+  bytes32 marketID;
+  string ticker;
+  address oracle;
+  PermyriadMath.Permyriad initialMarginRatioFactor;
+  PermyriadMath.Permyriad maintenanceMarginRatio;
+  uint256 indexPrice;
+  uint256 nextFundingTimestamp; // the current funding timestamp
+  uint256 fundingInterval; // defines the interval in seconds by which the nextFundingTimestamp increments
+  int256 cumulativeFunding; //Stored based on one contract. /10^6
+  PermyriadMath.Permyriad makerTxFee; // transaction maker fee
+  PermyriadMath.Permyriad takerTxFee; // transaction taker fee
+  PermyriadMath.Permyriad relayerFeePercentage; // transaction relayer fee percentage
+  }
+```
+
+> Position
+
+```
+struct Position {
+  // owner of the position
+  bytes32 accountID;
+  // marketID of the position
+  bytes32 marketID;
+  // direction of the position
+  Direction direction;
+  // quantity of the position
+  uint256 quantity;
+  // contractPrice of the position
+  uint256 contractPrice;
+  // the margin the trader has posted for the position
+  uint256 margin;
+  // The cumulative funding value. Just for perpetuals.
+  int256 cumulativeFundingEntry;
+  // order hash used to establish the position, if any (existence implies position was created by a make order maker)
+  bytes32 orderHash;
+}
+```
+
+> CloseResults
+
+```solidity
+struct CloseResults {
+  // Payout to the owner resulting from closing. Negative if vaporized.
+  int256 payout;
+  // quantity of contracts closed
+  uint256 quantityClosed;
+}
+```
+
+> FillResults
+
+```solidity
+struct FillResults {
+  uint256 makerPositionID; // maker positionID
+  uint256 takerPositionID; // taker positionID
+  uint256 makerMarginUsed; // Total amount of margin used to create the position for the maker.
+  uint256 takerMarginUsed; // Total amount of margin used to create the position for the taker.
+  uint256 quantityFilled; // Total quantity of contracts filled.
+  uint256 makerFeePaid; // Total amount of fee paid by maker.
+  uint256 takerFeePaid; // Total amount of fee paid by taker.
+}
+```
+
+> PositionResults
+
+```solidity
+struct PositionResults {
+  uint256 positionID; 
+  uint256 marginUsed;
+  uint256 quantity;
+  uint256 fee;
+}
+```
+
+
