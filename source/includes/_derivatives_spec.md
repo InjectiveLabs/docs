@@ -895,7 +895,10 @@ event FuturesPosition(
   bytes32 indexed orderHash, // EIP712 hash of order (see LibOrder.getTypedDataHash).
   bytes32 indexed marketID, // Market ID
   uint256 contractPrice, // Price of the contract
-  uint256 quantityFilled, // quantity of contracts filled
+  uint256 quantityFilled, // quantity of contracts added
+  uint256 totalQuantity, // total quantity of contracts in position
+  uint256 initialMargin, // initial margin
+  int256 cumulativeFundingEntry, // cum. funding at position start
   uint256 positionID, // positionID
   bool isLong // true if long, false if short
 );
@@ -965,7 +968,8 @@ event RegisterMarket(
 event MarketCreation(
   bytes32 indexed marketID, // the unique identifier of market created
   string indexed ticker,   // the human-readable ticker for the market
-  address indexed oracle   // the oracle address for the market
+  address indexed oracle,   // the oracle address for the market
+  PermyriadMath.Permyriad maintenanceMarginRatio // the maintenance margin ratio for the market
 );
 ```
 
