@@ -892,6 +892,7 @@ Three times per day the funding rate is calculated according to the formula from
 ```solidity
 event FuturesPosition(
   address indexed makerAddress, // Address that created the order.
+  bytes32 accountId, // Account id that created the order.
   bytes32 indexed orderHash, // EIP712 hash of order (see LibOrder.getTypedDataHash).
   bytes32 indexed marketID, // Market ID
   uint256 contractPrice, // Price of the contract
