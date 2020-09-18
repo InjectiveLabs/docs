@@ -975,14 +975,17 @@ event MarketCreation(
 ```
 
 > AccountCreation
+
 ```solidity
 event AccountCreation(
   address indexed creator, // account creator
   bytes32 accountID, // account ID
   uint256 accountNonce // account nonce
 );
+```
 
 > FreeDepositsAddition
+
 ```solidity
 event FreeDepositsAddition(
   address indexed trader, // trader to add free deposits
@@ -991,6 +994,7 @@ event FreeDepositsAddition(
 ```
 
 > FreeDepositsSubtraction
+
 ```solidity
 event FreeDepositsSubtraction(
   address indexed trader, // trader to remove free deposits
