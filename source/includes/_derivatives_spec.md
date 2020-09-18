@@ -981,6 +981,21 @@ event AccountCreation(
   bytes32 accountID, // account ID
   uint256 accountNonce // account nonce
 );
+
+> FreeDepositsAddition
+```solidity
+event FreeDepositsAddition(
+  address indexed trader, // trader to add free deposits
+  uint256 amount // amount to add
+);
+```
+
+> FreeDepositsSubtraction
+```solidity
+event FreeDepositsSubtraction(
+  address indexed trader, // trader to remove free deposits
+  uint256 amount // amount to remove
+);
 ```
 
 ## Oracle Contract Events
