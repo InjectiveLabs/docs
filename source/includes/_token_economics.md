@@ -46,7 +46,7 @@ For any governance decision, INJ holders can initiate a referendum by submitting
 
 To ensure the security of our sidechain, we inflate the supply of our token to incentivize nodes to stake INJ and participate in our network. Our sidechain consensus protocol updates the validator list every 15 ETH blocks \(1 epoch round\), which occurs approximately every 225 sidechain blocks. At the end of each epoch round, the validators are re-selected based on a randomness beacon using ETH blocks. We are currently targeting a sidechain block time of 1 second, which corresponds to having approximately 15 sidechain blocks per ETH block \(as the block time for Ethereum is around 15 seconds\).
 
-The tentative initial supply of INJ will be set to 1,000,000,000 tokens and shall increase for a finite amount of time through block rewards. The target INJ inflation will tentatively be 7% at genesis and decrease over time to 2%. Over time, the total supply of INJ may be lower than the initial supply due to our deflationary mechanism detailed in the Exchange Fee Value Accrual section above.
+The tentative initial supply of INJ will be set to 100,000,000 tokens and shall increase for a finite amount of time through block rewards. The target INJ inflation will tentatively be 7% at genesis and decrease over time to 2%. Over time, the total supply of INJ may be lower than the initial supply due to our deflationary mechanism detailed in the Exchange Fee Value Accrual section above.
 
 ## 6. Collateral Backing for Derivatives
 
