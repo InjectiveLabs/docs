@@ -45,9 +45,9 @@ Further instructions for setting up a testnet sentry node are [here](#joining-th
 
 ## Public Testnet Endpoints
 
-* Europe `https://testnet-api.injective.dev`
-* US `https://testnet-api-us.injective.dev`
-* Asia \(Hong Kong\) `https://testnet-api-ap.injective.dev`
+- Europe `https://testnet-api.injective.dev`
+- US `https://testnet-api-us.injective.dev`
+- Asia \(Hong Kong\) `https://testnet-api-ap.injective.dev`
 
 > Example Request
 
@@ -116,29 +116,30 @@ curl -X POST "https://testnet-api.injective.dev/api/sra/v3/order" \
 ```
 
 ### <i class="api-method-post">POST</i> Post Order (Spot Markets)
+
 `https://testnet-api.injective.dev`**/api/sra/v3/order**
 
-This is a SRA v3 compatible endpoint from 0x spec. Allows user to submit a signed make order to the relayer to be added into spot market's orderbook.  
+This is a SRA v3 compatible endpoint from 0x spec. Allows user to submit a signed make order to the relayer to be added into spot market's orderbook.
 
-Body Parameters | &nbsp; | &nbsp;
--------------- | -------------- | --------------
-chainId<i class="required">Required</i> | `integer` | Specify Chain ID of the transaction.
-exchangeAddress<i class="required">Required</i> | `string` | Exchange v3 contract address.
-expirationTimeSeconds<i class="required">Required</i> | `string` | Timestamp in seconds at which order expires.
-feeRecipientAddress<i class="required">Required</i> | `string` | Address that will receive fees when order is filled.
-makerAddress<i class="required">Required</i> | `string` | Address that created the order.
-makerAssetAmount<i class="required">Required</i> | `string` | Amount of makerAsset being offered by maker. Must be greater than 0.
-makerAssetData<i class="required">Required</i> | `string` | ABIv2 encoded data that can be decoded by a specified proxy contract when transferring makerAsset.
-makerFee<i class="required">Required</i> | `string` | Amount of FeeAsset paid to feeRecipient by maker when order is filled. If set to 0, no transfer of FeeAsset from maker to feeRecipient will be attempted.
-makerFeeAssetData<i class="required">Required</i> | `string` | ABIv2 encoded data that can be decoded by a specified proxy contract when transferring makerFee.
-salt<i class="required">Required</i> | `string` | Arbitrary number to facilitate uniqueness of the order's hash.
-senderAddress<i class="required">Required</i> | `string` | Address that is allowed to call Exchange contract methods that affect this order. If set to 0, any address is allowed to call these methods.
-signature<i class="required">Required</i> | `string` | Order EIP712 signature.
-takerAddress<i class="required">Required</i> | `string` | Address that is allowed to fill the order. If set to 0, any address is allowed to fill the order.
-takerAssetAmount<i class="required">Required</i> | `string` | Amount of takerAsset being bid on by maker. Must be greater than 0.
-takerAssetData<i class="required">Required</i> | `string` | ABIv2 encoded data that can be decoded by a specified proxy contract when transferring takerAsset.
-takerFee<i class="required">Required</i> | `string` | Amount of FeeAsset paid to feeRecipient by taker when order is filled. If set to 0, no transfer of FeeAsset from taker to feeRecipient will be attempted.
-takerFeeAssetData<i class="required">Required</i> | `string` | ABIv2 encoded data that can be decoded by a specified proxy contract when transferring takerFee.
+| Body Parameters                                       | &nbsp;    | &nbsp;                                                                                                                                                    |
+| ----------------------------------------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| chainId<i class="required">Required</i>               | `integer` | Specify Chain ID of the transaction.                                                                                                                      |
+| exchangeAddress<i class="required">Required</i>       | `string`  | Exchange v3 contract address.                                                                                                                             |
+| expirationTimeSeconds<i class="required">Required</i> | `string`  | Timestamp in seconds at which order expires.                                                                                                              |
+| feeRecipientAddress<i class="required">Required</i>   | `string`  | Address that will receive fees when order is filled.                                                                                                      |
+| makerAddress<i class="required">Required</i>          | `string`  | Address that created the order.                                                                                                                           |
+| makerAssetAmount<i class="required">Required</i>      | `string`  | Amount of makerAsset being offered by maker. Must be greater than 0.                                                                                      |
+| makerAssetData<i class="required">Required</i>        | `string`  | ABIv2 encoded data that can be decoded by a specified proxy contract when transferring makerAsset.                                                        |
+| makerFee<i class="required">Required</i>              | `string`  | Amount of FeeAsset paid to feeRecipient by maker when order is filled. If set to 0, no transfer of FeeAsset from maker to feeRecipient will be attempted. |
+| makerFeeAssetData<i class="required">Required</i>     | `string`  | ABIv2 encoded data that can be decoded by a specified proxy contract when transferring makerFee.                                                          |
+| salt<i class="required">Required</i>                  | `string`  | Arbitrary number to facilitate uniqueness of the order's hash.                                                                                            |
+| senderAddress<i class="required">Required</i>         | `string`  | Address that is allowed to call Exchange contract methods that affect this order. If set to 0, any address is allowed to call these methods.              |
+| signature<i class="required">Required</i>             | `string`  | Order EIP712 signature.                                                                                                                                   |
+| takerAddress<i class="required">Required</i>          | `string`  | Address that is allowed to fill the order. If set to 0, any address is allowed to fill the order.                                                         |
+| takerAssetAmount<i class="required">Required</i>      | `string`  | Amount of takerAsset being bid on by maker. Must be greater than 0.                                                                                       |
+| takerAssetData<i class="required">Required</i>        | `string`  | ABIv2 encoded data that can be decoded by a specified proxy contract when transferring takerAsset.                                                        |
+| takerFee<i class="required">Required</i>              | `string`  | Amount of FeeAsset paid to feeRecipient by taker when order is filled. If set to 0, no transfer of FeeAsset from taker to feeRecipient will be attempted. |
+| takerFeeAssetData<i class="required">Required</i>     | `string`  | ABIv2 encoded data that can be decoded by a specified proxy contract when transferring takerFee.                                                          |
 
 > Example Request
 
@@ -185,17 +186,18 @@ curl -X GET "https://testnet-api.injective.dev/api/chronos/v1/history?symbol=INJ
 ```
 
 ### <i class="api-method-get">GET</i> History (for TradingView)
+
 `https://testnet-api.injective.dev`**/api/chronos/v1/history**
 
 Request for history bars for TradingView. Corresponds to UDF methods from this TradingView spec - https://www.tradingview.com/rest-api-spec/\#operation/getHistory.
 
-Body Parameters | &nbsp; | &nbsp;
--------------- | -------------- | --------------
-symbol<i class="required">Required</i> | `string` | Symbol name or ticker.
-resolution<i class="required">Required</i> | `string` | Symbol resolution. Possible resolutions are daily (D or 1D, 2D ... ), weekly (1W, 2W ...), monthly (1M, 2M...) and an intra-day resolution – minutes(1, 2 ...).
-from | `integer` | Unix timestamp \(UTC\) of the leftmost required bar, including from.
-to<i class="required">Required</i> | `integer` | Unix timestamp (UTC) of the rightmost required bar, including to. It can be in the future. In this case, the rightmost required bar is the latest available bar.
-countback | `integer` | Number of bars (higher priority than from) starting with to. If countback is set, from should be ignored.
+| Body Parameters                            | &nbsp;    | &nbsp;                                                                                                                                                           |
+| ------------------------------------------ | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| symbol<i class="required">Required</i>     | `string`  | Symbol name or ticker.                                                                                                                                           |
+| resolution<i class="required">Required</i> | `string`  | Symbol resolution. Possible resolutions are daily (D or 1D, 2D ... ), weekly (1W, 2W ...), monthly (1M, 2M...) and an intra-day resolution – minutes(1, 2 ...).  |
+| from                                       | `integer` | Unix timestamp \(UTC\) of the leftmost required bar, including from.                                                                                             |
+| to<i class="required">Required</i>         | `integer` | Unix timestamp (UTC) of the rightmost required bar, including to. It can be in the future. In this case, the rightmost required bar is the latest available bar. |
+| countback                                  | `integer` | Number of bars (higher priority than from) starting with to. If countback is set, from should be ignored.                                                        |
 
 > Example Message
 
@@ -246,16 +248,17 @@ countback | `integer` | Number of bars (higher priority than from) starting with
 ```
 
 ### <i class="api-method-post">POST</i> 0x SRAv3 WebSocket Subscription
+
 `https://testnet-api.injective.dev`**/api/sra/v3/ws**
 
 Implements a WebSocket endpoint conforming the 0x WebSocket API Specification v3. https://github.com/0xProject/standard-relayer-api/blob/master/ws/v3.md  
 Clients must subscribe by sending a message of the following contents, the socket will send the updates for existing orders, so the orderbook can be updated accordingly.
 
-Body Parameters | &nbsp; | &nbsp;
--------------- | -------------- | --------------
-type<i class="required">Required</i> | `string` | Type of request, e.g. \`subscribe\`.
-channel<i class="required">Required</i> | `string` | Should be \`orders\`.
-requestId<i class="required">Required</i> | `string` | A string UUID that will be sent back by the server in response messages so the client can appropriately respond when multiple subscriptions are made.
+| Body Parameters                           | &nbsp;   | &nbsp;                                                                                                                                                |
+| ----------------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type<i class="required">Required</i>      | `string` | Type of request, e.g. \`subscribe\`.                                                                                                                  |
+| channel<i class="required">Required</i>   | `string` | Should be \`orders\`.                                                                                                                                 |
+| requestId<i class="required">Required</i> | `string` | A string UUID that will be sent back by the server in response messages so the client can appropriately respond when multiple subscriptions are made. |
 
 ## Learn from Dexterm
 
@@ -436,9 +439,9 @@ docker run -it --rm \
 
 ### EVM Endpoints available
 
-* Europe `https://evm-eu.injective.dev` and `wss://evm-eu.injective.dev/ws`
-* US `https://evm-us.injective.dev` and `wss://evm-us.injective.dev/ws`
-* Asia \(Hong Kong\) `https://evm-ap.injective.dev` and `wss://evm-ap.injective.dev/ws`
+- Europe `https://evm-eu.injective.dev` and `wss://evm-eu.injective.dev/ws`
+- US `https://evm-us.injective.dev` and `wss://evm-us.injective.dev/ws`
+- Asia \(Hong Kong\) `https://evm-ap.injective.dev` and `wss://evm-ap.injective.dev/ws`
 
 Just pick one that is closer geographically to your sentry node and fill into the script template.
 
@@ -587,7 +590,7 @@ docker stack deploy --resolve-image=always -c docker-compose.yml relayer
 docker stack ls
 ```
 
-> update.sh 
+> update.sh
 
 ```bash
 #!/bin/sh
@@ -599,9 +602,9 @@ docker service ls
 
 ### EVM Endpoints available
 
-* Europe `https://evm-eu.injective.dev` and `wss://evm-eu.injective.dev/ws`
-* US `https://evm-us.injective.dev` and `wss://evm-us.injective.dev/ws`
-* Asia \(Hong Kong\) `https://evm-ap.injective.dev` and `wss://evm-ap.injective.dev/ws`
+- Europe `https://evm-eu.injective.dev` and `wss://evm-eu.injective.dev/ws`
+- US `https://evm-us.injective.dev` and `wss://evm-us.injective.dev/ws`
+- Asia \(Hong Kong\) `https://evm-ap.injective.dev` and `wss://evm-ap.injective.dev/ws`
 
 Just pick one that is closer geographically to your sentry node and fill into the YAML template.
 
@@ -687,5 +690,3 @@ https://testnet-api.injective.dev {
 ```
 
 The IP `172.17.0.1` in stack config corresponds to `docker0` allowing to access host ports from within a containter running in stack. And IP `172.18.0.1` there corresponds to `docker_gwbridge` allowing to access service ports from the host machine. Your environment and OS configuration might vary, so adjust accordingly.
-
-

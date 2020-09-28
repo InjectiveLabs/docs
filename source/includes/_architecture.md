@@ -17,10 +17,10 @@ The Injective Chain is a fully-decentralized sidechain relayer network which ser
 
 The Injective Chain supports building generalized derivatives/DeFi applications through two avenues: the Injective Futures Protocol and general smart contracts.
 
-**Injective Futures Protocol**   
+**Injective Futures Protocol**  
 The Injective Futures Protocol is deployed on the Injective Chain as a Cosmos-SDK based application. This protocol enables traders to create, enter into, and execute decentralized perpetual swap contracts and CFDs on any arbitrary market.
 
-**Smart Contracts**   
+**Smart Contracts**  
 The Injective Chain provides a two-way Ethereum peg-zone for Ether and ERC-20 tokens to be transferred to the Injective Chain as well as an EVM-compatible execution environment for DeFi applications. The peg-zone is based off [Peggy](https://github.com/cosmos/peggy) and the EVM execution is based off [Ethermint](https://github.com/chainsafe/ethermint).
 
 ### Trade Execution Coordinator
@@ -37,31 +37,31 @@ Nodes of the Injective Chain host a decentralized, censorship-resistant orderboo
 
 Injective API nodes have two purposes: 1\) providing transaction relay services and 2\) serving as a data layer for the protocol.
 
-**Transaction Relay Service**   
+**Transaction Relay Service**  
 Although users can directly interact with the Injective Chain by broadcasting a compatible Tendermint transaction encoding a compatible message type, doing so would be cumbersome for most users. To this end, API nodes provide users a simple HTTP and Websocket API to interact with the protocol. The API nodes then formulate the appropriate transactions and relay them to the Injective Chain.
 
 The Injective API supports the Injective Futures API, the 0x Standard Relayer API version 3 \(SRAv3\), and the 0x Standard Coordinator API.
 
 It also provides abstractions for protocol actions including staking, voting and governance. The specification for this API can be found at [api.injective.dev](https://api.injective.dev).
 
-**Data Layer**   
+**Data Layer**  
 Injective API nodes also serve as a data layer for external clients. Injective provides a data and analytics API which is out-of-the-box compatible with Injective's sample frontend interface. Although Injective provides the API server as an in-process service based off BadgerDB communicating over gRPC with the Injective Chain node, developers can provide their own implementions for their custom needs \(e.g. using a relational database for indexed queries\).
 
 ## Injective Contracts
 
-Injective Protocol is token-based protocol which is inextricably tied to the INJ token \(an ERC-20 token\). As such, key components of protocol interactions and token economics are implemented through the following smart contracts: 
+Injective Protocol is token-based protocol which is inextricably tied to the INJ token \(an ERC-20 token\). As such, key components of protocol interactions and token economics are implemented through the following smart contracts:
 
-**Injective Coordinator Contract**   
-The Injective's Coordinator Contract services both 0x-based orders as well as Injective's derivative transactions on Ethereum as well as on the Injective Chain. 
+**Injective Coordinator Contract**  
+The Injective's Coordinator Contract services both 0x-based orders as well as Injective's derivative transactions on Ethereum as well as on the Injective Chain.
 
 **Staking Contract**  
-The Injective Staking Contract manages the core functions for stakers in Injective Protocol including slashing, rewards, delegation and governance. 
+The Injective Staking Contract manages the core functions for stakers in Injective Protocol including slashing, rewards, delegation and governance.
 
 **Injective Futures Contracts**  
-The Injective Futures Protocol encompasses a suite of smart contracts. Comprehensive details can be found [here](https://github.com/InjectiveLabs/injective-futures). 
+The Injective Futures Protocol encompasses a suite of smart contracts. Comprehensive details can be found [here](https://github.com/InjectiveLabs/injective-futures).
 
 **Injective Bridge Contracts**  
-The Injective Bridge Contracts encompass a suite of smart contracts managing the two-way peg between Ethereum and the Injective Chain. More details can be found [here](https://github.com/InjectiveLabs/injective-core). 
+The Injective Bridge Contracts encompass a suite of smart contracts managing the two-way peg between Ethereum and the Injective Chain. More details can be found [here](https://github.com/InjectiveLabs/injective-core).
 
 **Injective Token Contract**  
 The Injective Token Contract is an ERC-20 contract for the INJ token.
@@ -92,10 +92,10 @@ This process is abstracted away from the end user, who simply needs to transfer 
 
 On a high level, the transfer flow is as follows:
 
-1. User sends ETH/ERC-20 to the Injective Bridge Contract, emitting a LogLock event. 
-2. An Injective relayer listening to the event creates and signs a Tendermint transaction encoding this information which is then broadcasted to the Injective Chain. 
-3. The nodes of the Injective Chain verify the validity of the transaction. 
-4. New tokens representing the ETH/ERC-20 are minted in the [bank](https://docs.cosmos.network/master/modules/bank/) module. 
+1. User sends ETH/ERC-20 to the Injective Bridge Contract, emitting a LogLock event.
+2. An Injective relayer listening to the event creates and signs a Tendermint transaction encoding this information which is then broadcasted to the Injective Chain.
+3. The nodes of the Injective Chain verify the validity of the transaction.
+4. New tokens representing the ETH/ERC-20 are minted in the [bank](https://docs.cosmos.network/master/modules/bank/) module.
 
 Thereafter, the ETH/ERC-20 can be used on Injective Chain's EVM as well as in the Cosmos-SDK based application logic of the Injective Chain. In the future, the Injective chain will support cross-chain trades using Cosmos IBC.
 
@@ -134,9 +134,10 @@ The Injective Coordinator Contract follows the [0x v2 Coordinator](https://githu
 
 Current deployments of the Injective Coordinator Contract can be found here:
 
-| Network | Contract Address                             |
-| :------ | :------------------------------------------- |
-| Injective Chain   | `TODO` |
+| Network         | Contract Address |
+| :-------------- | :--------------- |
+| Injective Chain | `TODO`           |
+
 &nbsp;
 
 **Staking Contract**  
@@ -155,7 +156,7 @@ The Injective Token Contract is an ERC-20 contract for the INJ token.
 
 Injective provides a powerful, full-fledged decentralized exchange open-source front-end implementation allowing anyone to run an exchange. The Injective Client is a comprehensive yet friendly graphical user interface catered towards the general public as well as more advanced users:
 
-* [**Injective client implementation**](https://github.com/InjectiveLabs/injective-client)
+- [**Injective client implementation**](https://github.com/InjectiveLabs/injective-client)
 
 Injective’s model instead rewards relayers in the Injective network for sourcing liquidity. By doing so, exchange providers are incentivized to better serve users, competing amongst each other to provide better user experience, thus broadening access to DeFi for users all around the world.
 
@@ -165,7 +166,7 @@ Governance occurs on two separate portions of our protocol: the sidechain applic
 
 ## Sidechain Governance
 
-The sidechain governance is built on top of the core Tendermint consensus. Validators for the Tendermint consensus process are incentivized by block reward and punished by slashing if a malicious behaviors were detected. 
+The sidechain governance is built on top of the core Tendermint consensus. Validators for the Tendermint consensus process are incentivized by block reward and punished by slashing if a malicious behaviors were detected.
 
 ## Coordinator Contract Governance
 

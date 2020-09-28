@@ -1,6 +1,6 @@
 # Token Economics
 
-Injective Protocol's native token \($INJ\) is used for the following purposes:
+Injective Protocol's native token \(\$INJ\) is used for the following purposes:
 
 ## 1. Market Maker Incentives
 
