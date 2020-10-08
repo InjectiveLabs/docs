@@ -163,28 +163,102 @@ Once a maker order is executed to create a position, the maker can also create *
 
 ## **Order Message Format**
 
+```
+Examples of different orders
+```
+
+```
+Limit Order Long
+- makerAssetAmount (contractPrice): 1.7
+- takerAssetAmount (quantity): 10
+- makerFee (margin): 50
+- takerFee (subaccount nonce): 0
+- makerAssetData : 0xasd12f... (market id)
+- takerAssetData: 0x00000...
+- makerFeeAssetData (orderType): 0
+- takerFeeAssetData (triggerPrice): 0
+```
+
+```
+Stop Limit Order Long Profit Direction
+- makerAssetAmount (contractPrice): 1.9
+- takerAssetAmount (quantity): 10
+- makerFee (margin): 50
+- takerFee (subaccount nonce): 0
+- makerAssetData : 0xasd12f... (market id)
+- takerAssetData: 0x00000...
+- makerFeeAssetData (orderType): 1
+- takerFeeAssetData (triggerPrice): 1.8
+```
+
+```
+Stop Limit Order Long Loss Direction
+- makerAssetAmount (contractPrice): 1.5
+- takerAssetAmount (quantity): 10
+- makerFee (margin): 50
+- takerFee (subaccount nonce): 0
+- makerAssetData : 0xasd12f... (market id)
+- takerAssetData: 0x00000...
+- makerFeeAssetData (orderType): 2
+- takerFeeAssetData (triggerPrice): 1.6
+```
+
+```
+Stop Loss Order Long
+- makerAssetAmount (contractPrice): 0
+- takerAssetAmount (quantity): 10
+- makerFee (margin): 0
+- takerFee (subaccount nonce): 0
+- makerAssetData : 0xasd12f... (market id)
+- takerAssetData: 0x00000...
+- makerFeeAssetData (orderType): 3
+- takerFeeAssetData (triggerPrice): 1.4
+```
+
+```
+Take Profit Order Long
+- makerAssetAmount (contractPrice): 0
+- takerAssetAmount (quantity): 10
+- makerFee (margin): 0
+- takerFee (subaccount nonce): 0
+- makerAssetData : 0xasd12f... (market id)
+- takerAssetData: 0x00000...
+- makerFeeAssetData (orderType): 4
+- takerFeeAssetData (triggerPrice): 2.1
+```
+
 The Injective Perpetuals Protocol leverages the [0x Order Message format](https://github.com/0xProject/0x-protocol-specification/blob/master/v3/v3-specification.md#order-message-format) for the external interface to represent a make order for a derivative position, i.e. a cryptographically signed message expressing an agreement to enter into a derivative position under specified parameters.
 
 A make order message consists of the following parameters:
 
-| Parameter             | Type    | Description                                                                                                                                                  |
-| :-------------------- | :------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| makerAddress          | address | Address that created the order.                                                                                                                              |
-| takerAddress          | address | Empty.                                                                                                                                                       |
-| feeRecipientAddress   | address | Address that will receive fees when order is filled.                                                                                                         |
-| senderAddress         | address | Empty.                                                                                                                                                       |
-| makerAssetAmount      | uint256 | The contract price \(`contractPrice`\), i.e. the price of 1 contract denominated in base currency.                                                           |
-| takerAssetAmount      | uint256 | The `quantity` of contracts the maker seeks to obtain.                                                                                                       |
-| makerFee              | uint256 | The amount of `margin` denoted in base currency the maker would like to post/risk for the order. If set to 0, the order is a Stop Loss of Take Profit order. |
-| takerFee              | uint256 | The desired account nonce to use for cross-margining. If set to 0, the default subaccount is used.                                                           |
-| expirationTimeSeconds | uint256 | Timestamp in seconds at which order expires.                                                                                                                 |
-| salt                  | uint256 | Arbitrary number to facilitate uniqueness of the order's hash.                                                                                               |
-| makerAssetData        | bytes   | The first 32 bytes contain the `marketID` of the market for the position if the order is LONG, empty otherwise. Right padded with 0's to be 36 bytes         |
-| takerAssetData        | bytes   | The first 32 bytes contain the `marketID` of the market for the position if the order is SHORT, empty otherwise. Right padded with 0's to be 36 bytes        |
-| makerFeeAssetData     | bytes   | The bytes-encoded positionID of the position to use for stop loss and take profit orders. Empty for vanilla make orders.                                     |
-| takerFeeAssetData     | bytes   | The bytes-encoded trigger price for stop limit orders. Empty for vanilla make orders.                                                                        |
+| 0x Parameter          | Name                    | Type    | Description                                                                                                                                           |
+| :-------------------- | :---------------------- | :------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| makerAddress          | `makerAddress`          | address | Address that created the order.                                                                                                                       |
+| takerAddress          | `-`                     | address | Empty.                                                                                                                                                |
+| feeRecipientAddress   | `feeRecipientAddress`   | address | Address that will receive fees when order is filled.                                                                                                  |
+| senderAddress         | `-`                     | address | Empty.                                                                                                                                                |
+| makerAssetAmount      | `contractPrice`         | uint256 | The contract price, i.e. the price of one contract denominated in base currency.                                                                      |
+| takerAssetAmount      | `quantity`              | uint256 | The `quantity` of contracts the maker seeks to obtain.                                                                                                |
+| makerFee              | `margin`                | uint256 | The amount of margin denoted in base currency the maker would like to post/risk for the order. Set to 0 for Stop Loss and Take Profit orders.         |
+| takerFee              | `subaccountNonce`       | uint256 | The desired account nonce to use for cross-margining. If set to 0, the default subaccount is used.                                                    |
+| expirationTimeSeconds | `expirationTimeSeconds` | uint256 | Timestamp in seconds at which order expires.                                                                                                          |
+| salt                  | `salt`                  | uint256 | Arbitrary number to facilitate uniqueness of the order's hash.                                                                                        |
+| makerAssetData        | `marketIdLong`          | bytes   | The first 32 bytes contain the `marketID` of the market for the position if the order is LONG, empty otherwise. Right padded with 0's to be 36 bytes  |
+| takerAssetData        | `marketIdShort`         | bytes   | The first 32 bytes contain the `marketID` of the market for the position if the order is SHORT, empty otherwise. Right padded with 0's to be 36 bytes |
+| makerFeeAssetData     | `orderType`             | bytes   | The bytes-encoded order type, see [below](/#order-types) for available order types.                                                                   |
+| takerFeeAssetData     | `triggerPrice`          | bytes   | The bytes-encoded trigger price for stop limit orders, stop loss orders and take profit orders. Empty for regular limit orders.                       |
 
 In a given perpetual market specified by `marketID`, an order encodes the willingness to purchase `quantity` contracts in a given direction \(long or short\) at a specified contract price `contractPrice` using a specified amount of `margin` of base currency as collateral.
+
+### Order Types
+
+There are 5 different types of orders noted in the `makerFeeAssetData` field.
+
+1. **Limit Order**: Regular Order to create a position with given quantity and contractPrice. (`makerFeeAssetData = 0`)
+2. **Stop Limit Order Profit Direction**: Limit order with given quantity and contractPrice that becomes only valid after the indexPrice has moved towards profit and is now at least the trigger price, i.e., for a Long indexPrice ≥ triggerPrice and for a Short indexPrice ≤ triggerPrice. (`makerFeeAssetData = 1`)
+3. **Stop Limit Order Loss Direction**: Limit order with given quantity and contractPrice that becomes only valid after the indexPrice has moved towards loss and is now at least the trigger price, i.e., for a Long indexPrice ≤ triggerPrice and for a Short indexPrice ≥ triggerPrice. (`makerFeeAssetData = 2`)
+4. **Stop Loss Order**: Order to close an existing position once the trigger price is reached towards the loss direction. (`makerFeeAssetData = 3`)
+5. **Take Profit Order**: Order to close an existing position once the trigger price is reached towards the profit direction. (`makerFeeAssetData = 4`)
 
 ## Isolated and Cross Margin
 
