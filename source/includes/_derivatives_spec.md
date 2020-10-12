@@ -150,7 +150,7 @@ Although leverage is not explicitly defined in our protocol, the amount of margi
 
 `margin = quantity * max(contractPrice / leverage, indexPrice / leverage - NPV)`
 
-For new positions, the funding fee component of the NPV formula can removed since the position has not been created yet, resulting in the following NPV calculations:
+For new positions, the funding fee component of the NPV formula can be removed since the position has not been created yet, resulting in the following NPV calculations:
 
 - `NPV_long = indexPrice - contractPrice`
 - `NPV_short = contractPrice - indexPrice`
@@ -324,9 +324,9 @@ Traders use this type of order for two main strategies:
 1. As a risk-management tool to limit losses on existing positions (a Stop Loss Limit Order), and
 2. As an automatic tool to enter the market at a desired entry point without manually waiting for the market to place the order.
 
-For a **long stop limit order**, the order will only be able to be filled if the index price is greater than or equal to the trigger price.
+For a **long stop limit profit direction order**, the order will only be able to be filled if the index price is greater than or equal to the trigger price.
 
-For a **short stop limit order**, the order will only be able to be filled if the index price is less than or equal to the trigger price.
+For a **short stop limit profit direction order**, the order will only be able to be filled if the index price is less than or equal to the trigger price.
 
 **Stop Limit Order Example**
 
@@ -335,23 +335,18 @@ Quantity = 50 contracts
 Contract Price = 9
 Trigger Price = 10
 Direction = Long
+IsProfitDirection = True
 ```
 
 In this example, the trader has selected a Stop Limit Long Order with a contract price of 9 and a trigger price of 10. This order will only be fillable when the index price exceeds 10. If the trader wants to increase the chances of his order being executed, he should set the his contract price higher (e.g. to 10.5).
 
 ## Stop Loss Limit Order
 
-To use stop loss limit orders to cap losses on an existing position, traders must specify the `positionID` of the position in the `makerFeeAssetData` parameter as well as the associated account nonce of the account owning the position in the `takerFee` parameter.
-
-To be a valid stop loss limit order, the position referenced by `positionID` must be owned by the maker, have the same `marketID`, and have the opposite direction as the position. If the quantity of the stop loss order is greater than the quantity of contracts in the position (e.g. after partial position closure), the maximum fillable quantity of the stop loss limit order will be the total number of contracts of the position.
+If the quantity of the stop loss order is greater than the quantity of contracts in the position (e.g. after partial position closure), the maximum fillable quantity of the stop loss limit order will be the total number of contracts of the position.
 
 Note: Traders must have an active position to create a **stop loss limit order**. However, an active position is not needed for a pure **stop limit order**.
 
 ## Take Profit Limit Order
-
-A Take Profit Limit Order is somewhat similar to a Stop Loss Limit Order, however instead of executing when the price moves against the position, the order executes when the price moves in a favorable direction.
-
-To use take profit limit orders to realize profits on an existing position, traders must specify the `positionID` of the position in the `makerFeeAssetData` parameter as well as the associated account nonce of the account owning the position in the `takerFee` parameter.
 
 To be a valid take profit order, the position referenced by `positionID` must be owned by the maker, have the same `marketID`, and have the opposite direction as the position.
 
