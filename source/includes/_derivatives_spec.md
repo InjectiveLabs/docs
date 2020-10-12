@@ -163,11 +163,63 @@ Once a maker order is executed to create a position, the maker can also create *
 
 ## **Order Message Format**
 
-```
-Examples of different orders
+```typescript
+How to create order within SDK
+
+const limitOrder = await sdkClient.futures.buildLimitOrder({
+  orderType: DerivativeOrderType.Long,
+  marketId: market.id,
+  makerAddress: fromAddress,
+  contractPrice: new BigNumber(fromWei("1.7")),
+  leverage: 20,
+  quantity: 10,
+  // subaccountNonce: 0 (0 = default)
+});
+
+const stopLimitProfitDirectionOrder = await sdkClient.futures.buildStopLimitOrder({
+  orderType: DerivativeOrderType.Long,
+  isProfitDirection: true,
+  marketId: market.id,
+  makerAddress: fromAddress,
+  contractPrice: new BigNumber(fromWei("1.9")),
+  leverage: 20,
+  quantity: 10,
+  triggerPrice: 1.8,
+});
+
+const stopLimitLossDirectionOrder = await sdkClient.futures.buildStopLimitOrder({
+  orderType: DerivativeOrderType.Long,
+  isProfitDirection: false,
+  marketId: market.id,
+  makerAddress: fromAddress,
+  contractPrice: new BigNumber(fromWei("1.5")),
+  leverage: 20,
+  quantity: 10,
+  triggerPrice: 1.6,
+});
+
+const stopLossOrder = await sdkClient.futures.buildStopLossOrder({
+  orderType: DerivativeOrderType.Long,
+  marketId: market.id,
+  makerAddress: fromAddress,
+  leverage: 20,
+  quantity: 10,
+  triggerPrice: 1.4,
+});
+
+const takeProfitOrder = await sdkClient.futures.buildStopLossOrder({
+  orderType: DerivativeOrderType.Long,
+  marketId: market.id,
+  makerAddress: fromAddress,
+  leverage: 20,
+  quantity: 10,
+  triggerPrice: 2.1,
+});
 ```
 
-```
+```shell
+Examples of different orders
+
 Limit Order Long
 - makerAssetAmount (contractPrice): 1.7
 - takerAssetAmount (quantity): 10
@@ -177,9 +229,7 @@ Limit Order Long
 - takerAssetData: 0x00000...
 - makerFeeAssetData (orderType): 0
 - takerFeeAssetData (triggerPrice): 0
-```
 
-```
 Stop Limit Order Long Profit Direction
 - makerAssetAmount (contractPrice): 1.9
 - takerAssetAmount (quantity): 10
@@ -189,9 +239,7 @@ Stop Limit Order Long Profit Direction
 - takerAssetData: 0x00000...
 - makerFeeAssetData (orderType): 1
 - takerFeeAssetData (triggerPrice): 1.8
-```
 
-```
 Stop Limit Order Long Loss Direction
 - makerAssetAmount (contractPrice): 1.5
 - takerAssetAmount (quantity): 10
@@ -201,9 +249,7 @@ Stop Limit Order Long Loss Direction
 - takerAssetData: 0x00000...
 - makerFeeAssetData (orderType): 2
 - takerFeeAssetData (triggerPrice): 1.6
-```
 
-```
 Stop Loss Order Long
 - makerAssetAmount (contractPrice): 0
 - takerAssetAmount (quantity): 10
@@ -213,9 +259,7 @@ Stop Loss Order Long
 - takerAssetData: 0x00000...
 - makerFeeAssetData (orderType): 3
 - takerFeeAssetData (triggerPrice): 1.4
-```
 
-```
 Take Profit Order Long
 - makerAssetAmount (contractPrice): 0
 - takerAssetAmount (quantity): 10
@@ -237,7 +281,7 @@ A make order message consists of the following parameters:
 | takerAddress          | `-`                     | address | Empty.                                                                                                                                                |
 | feeRecipientAddress   | `feeRecipientAddress`   | address | Address that will receive fees when order is filled.                                                                                                  |
 | senderAddress         | `-`                     | address | Empty.                                                                                                                                                |
-| makerAssetAmount      | `contractPrice`         | uint256 | The contract price, i.e. the price of one contract denominated in base currency.                                                                      |
+| makerAssetAmount      | `contractPrice`         | uint256 | The contract price, i.e. the price of one contract denominated in base currency. Set to 0 for Stop Loss and Take Profit orders.                       |
 | takerAssetAmount      | `quantity`              | uint256 | The `quantity` of contracts the maker seeks to obtain.                                                                                                |
 | makerFee              | `margin`                | uint256 | The amount of margin denoted in base currency the maker would like to post/risk for the order. Set to 0 for Stop Loss and Take Profit orders.         |
 | takerFee              | `subaccountNonce`       | uint256 | The desired account nonce to use for cross-margining. If set to 0, the default subaccount is used.                                                    |
