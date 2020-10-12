@@ -2,8 +2,8 @@
 title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - Shell
-  - TypeScript
+  - shell: Shell
+  - typescript: TypeScript
 
 includes:
   - architecture
