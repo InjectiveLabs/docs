@@ -1199,7 +1199,7 @@ struct Market {
 
 > Position
 
-```
+```solidity
 struct Position {
   // owner of the position
   bytes32 subAccountID;
