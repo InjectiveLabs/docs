@@ -952,46 +952,95 @@ function vaporizePosition(
 
 ## General concept
 
-The oracle serves two functions:
+The oracle serves one function:
 
 1. Update the index price of an asset
-2. Set the new funding rate
 
 ### 1. Update the index price
 
 The index price is used to calculate the NPV of positions. It will be periodically updated by the oracle.
 
-### 2. Set the new funding rate
+## Funding Fee
 
-The funding rate is a critical piece to ensure convergence of market prices to the real underlying asset price. It consists of two components:
+The funding fee is a critical piece to ensure convergence of market prices to the real underlying asset price. It consists of two components:
 
-1. Premium Index: The premium index measures the difference between the perpetual swap’s price and the underlying asset it’s tracking.
-2. Interest Rate: The interest rate is a function of interest rates between base and quote currency where each currency has its own defined rate.
+1. Index Price: The price provided by the oracle.
+2. Futures VWAP: The VWAP (Volume Weighted Average Price), which emerges from the trades in injective futures.
 
-The exact formula are:
+### VWAP
 
-`Premium = (max(0, Impact Bid Price — Index Price) — max(0, Index Price — Impact Ask Price)) / Index Price`
+The VWAP consists of two components:
 
-`Funding Rate = Premium + clamp(Interest Rate — Premium, 0.05%, -0.05%)`
+1. Price: The contract price of the trade.
+2. Quantity: The quantity of contracts that got settled in the trade.
 
-The impact prices are weighted averages over the first 3000 long or respective short orders.
+The VWAP calculation formula is the following:
+
+`VWAP = ∑(price * quantity) / ∑quantity`
+
+In this formula, we can set `∑(price * quantity)` as `volume` and `∑quantity` as `totalQuantity`, so we have:
+
+`VWAP = volume / totalQuantity`
+
+### Futures VWAP
+
+To calculate futures VWAP, there are three cases, where `volume` and `totalQuantity` should be updated:
+
+1. On order filling.
+2. On order matching.
+3. On position closing.
+
+In those 3 cases, `_addValuesForVWAP` function is called.
+
+```javascript
+function _addValuesForVWAP(
+    bytes32 marketID,
+    uint256 quantity,
+    uint256 contractPrice
+) internal {
+    mostRecentEpochVolume[marketID] = mostRecentEpochVolume[marketID].add(quantity.mul(contractPrice));
+    mostRecentEpochQuantity[marketID] = mostRecentEpochQuantity[marketID].add(quantity);
+}
+```
+
+### Calculation
+
+The funding fee formula is the following:
+
+`fundingFee = (futuresVWAP - indexPrice) / (24 / fundingInterval)`
+
+, where `fundingInterval` may differ between markets and it represents how often the funding fee is applied.
 
 ## Testnet setup
 
 For the testnet we are setting up a centralized oracle service. In later versions this will be replaced by a decentralized mechanism.
 
-### Testnet config
+### Testnet pairs
 
-- Pair = XAU/USDT
-- Gold Interest Rate = 0.03%
-- USD Interest Rate = 0.06%
-- Funding Interval = 8 hours
+-XAU/USDT
+-ETH/USDT
+-UNI/USDT
+-YFI/USDT
+-DOT/USDT
+-BTC/USDT
+-EGLD/USDT
+-LINK/USDT
+-BNB/USDT
 
-### Oracle service
+For all market pairs the `fundingInterval` is 1 hour.
 
-The oracle service updates the ticker prices every 5 minutes. If any asynchronous requests fail, we deploy an [exponential backoff](https://cloud.google.com/iot/docs/how-tos/exponential-backoff) strategy. Prices are taken from [https://metals-api.com/](https://metals-api.com/).
+That means that funding fees are applied every hour between all positions of a market.
 
-Three times per day the funding rate is calculated according to the formula from above.
+### Oracle services
+
+Prices in all markets are updated by oracle service every 10 seconds, except `XAU/USDT` pair where the price is updated every 5 minutes.
+
+If any asynchronous requests fail, we deploy an [exponential backoff](https://cloud.google.com/iot/docs/how-tos/exponential-backoff) strategy.
+
+For `XAU/USDT` price is taken from [https://metals-api.com/](https://metals-api.com/).
+
+For all other pairs prices are taken from binance API.
+Example for `ETH/USDT` pair: [https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT].
 
 # Events
 
