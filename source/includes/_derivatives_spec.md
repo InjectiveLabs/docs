@@ -425,7 +425,7 @@ function getOrderRelevantState(
     public
     view
     returns (
-        LibOrder.OrderInfo memory orderInfo,
+        LibOrder.DerivativeOrderInfo memory orderInfo,
         uint256 fillableTakerAssetAmount,
         bool isValidSignature
     )
@@ -464,7 +464,7 @@ function getOrderRelevantStates(LibOrder.Order[] memory orders, bytes[] memory s
   public
   view
   returns (
-    LibOrder.OrderInfo[] memory ordersInfo,
+    LibOrder.DerivativeOrderInfo[] memory ordersInfo,
     uint256[] memory fillableTakerAssetAmounts,
     bool[] memory isValidSignature
     );
@@ -472,44 +472,18 @@ function getOrderRelevantStates(LibOrder.Order[] memory orders, bytes[] memory s
 
 **Logic**
 
-Calling `getOrderRelevantStates` will result in sequentially calling `getOrderRelevantState` with the current index price obtained from the oracle.
-
-### getMakerOrderRelevantStates
-
-`getMakerOrderRelevantStates` can be used to validate multiple orders from a single maker before use.
+> DerivativeOrderInfo
 
 ```solidity
-/// @dev Fetches all order-relevant information needed to validate if the supplied orders are fillable.
-/// @param orders Array of order structures
-/// @param signatures Array of signatures provided by makers that prove the authenticity of the orders.
-/// @param makerAddress Address of maker to check.
-/// @return The ordersInfo (array of the hash, status, and `takerAssetAmount` already filled for each order),
-/// fillableTakerAssetAmounts (array of amounts for each order's `takerAssetAmount` that is fillable given all on-chain state),
-/// isValidSignature (array containing the validity of each provided signature), and availableMargin (amount of available
-/// base currency usable as margin after margin needs of the `orders` are satisfied).
-/// NOTE: Expects each of the orders to be of the same marketID, otherwise may potentially return relevant states for orders of differing marketID's using a stale price
-function getMakerOrderRelevantStates(
-    LibOrder.Order[] memory orders,
-    bytes[] memory signatures,
-    address makerAddress
-)
-    public
-    view
-    returns (
-        LibOrder.OrderInfo[] memory ordersInfo,
-        uint256[] memory fillableTakerAssetAmounts,
-        bool[] memory isValidSignature,
-        uint256 availableMargin
-    )
-```
-
-> OrderInfo
-
-```solidity
-struct OrderInfo {
-    uint8 orderStatus;                    // Status that describes order's validity and fillability.
-    bytes32 orderHash;                    // EIP712 hash of the order (see LibOrder.getOrderHash).
-    uint256 orderTakerAssetFilledAmount;  // Amount of order that has already been filled.
+struct DerivativeOrderInfo {
+    OrderType orderType; // The order type
+    OrderStatus orderStatus; // Status that describes order's validity and fillability.
+    bytes32 orderHash; // EIP712 typed data hash of the order (see LibOrder.getTypedDataHash).
+    uint256 orderTakerAssetFilledAmount; // Amount of order that has already been filled.
+    bytes32 subAccountID; // The subaccountID associated with the order.
+    Types.Direction direction; // The direction of the order
+    bytes32 marketID; // The market ID of the order
+    uint256 contractPrice; // The contract price of the order
 }
 ```
 
@@ -1208,14 +1182,19 @@ struct Order {
     }
 ```
 
-> OrderInfo
+> DerivativeOrderInfo
 
 ```solidity
-struct OrderInfo {
-  OrderStatus orderStatus; // Status that describes order's validity and fillability.
-  bytes32 orderHash; // EIP712 typed data hash of the order (see LibOrder.getTypedDataHash).
-  uint256 orderTakerAssetFilledAmount; // Amount of order that has already been filled.
-    }
+struct DerivativeOrderInfo {
+    OrderType orderType; // The order type
+    OrderStatus orderStatus; // Status that describes order's validity and fillability.
+    bytes32 orderHash; // EIP712 typed data hash of the order (see LibOrder.getTypedDataHash).
+    uint256 orderTakerAssetFilledAmount; // Amount of order that has already been filled.
+    bytes32 subAccountID; // The subaccountID associated with the order.
+    Types.Direction direction; // The direction of the order
+    bytes32 marketID; // The market ID of the order
+    uint256 contractPrice; // The contract price of the order
+}
 ```
 
 > Account
