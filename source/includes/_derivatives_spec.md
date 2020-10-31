@@ -491,13 +491,16 @@ struct DerivativeOrderInfo {
 
 ```solidity
 enum OrderStatus {
-    INVALID,
-    INVALID_MAKER_ASSET_AMOUNT,
-    INVALID_TAKER_ASSET_AMOUNT,
-    FILLABLE,
-    EXPIRED,
-    FULLY_FILLED,
-    CANCELLED
+    INVALID, // Default value
+    INSUFFICIENT_MARGIN_FOR_CONTRACT_PRICE, // Order does not have enough margin for contract price
+    INSUFFICIENT_MARGIN_FOR_INDEX_PRICE, // Order does not have enough margin for index price
+    FILLABLE, // Order is fillable
+    EXPIRED, // Order has already expired
+    FULLY_FILLED, // Order is fully filled
+    CANCELLED, // Order has been cancelled
+    UNFUNDED, // Maker of the order does not have sufficient funds deposited to be filled.
+    UNTRIGGERED, // Index Price has not been triggered
+    INVALID_TRIGGER_PRICE // TakeProfit trigger price is lower than contract price or StopLoss trigger price is higher than contract price
 }
 ```
 
