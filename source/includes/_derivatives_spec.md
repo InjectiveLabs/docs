@@ -95,7 +95,7 @@ Net Present Value of a single contract. For long and short perpetual contracts, 
 
 The Net Asset Value for an account. Equals the sum of the net position value over all of the account's positions.
 
-`NAV = sum(quantity * NPV + margin - indexPrice * maintenanceMarginRatio)`
+`NAV = sum(quantity * NPV + margin - quantity * indexPrice * maintenanceMarginRatio)`
 
 ## **Liquidation**
 
