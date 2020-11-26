@@ -942,24 +942,24 @@ The index price is used to calculate the NPV of positions. It will be periodical
 The funding fee is a critical piece to ensure convergence of market prices to the real underlying asset price. It consists of two components:
 
 1. Index Price: The price provided by the oracle.
-2. Futures VWAP: The VWAP (Volume Weighted Average Price), which emerges from the trades in injective futures.
+2. Futures VWAP: The VWAP (Volume Weighted Average Price), which emerges from the trades in injective futures and the indexPrice. It is same with VWAP if the price is changed                    to `(futuresPrice - indexPrice) / indexPrice`.
 
 ### VWAP
 
-The VWAP consists of two components:
+The VWAP calculation consists of two components:
 
-1. Price: The contract price of the trade.
+1. Price: The price of the trade.
 2. Quantity: The quantity of contracts that got settled in the trade.
 
 The VWAP calculation formula is the following:
 
 `VWAP = ∑(price * quantity) / ∑quantity`
 
-In this formula, we can set `∑(price * quantity)` as `volume` and `∑quantity` as `totalQuantity`, so we have:
+If price is changed with the one mentioned above:
 
-`VWAP = volume / totalQuantity`
+`FuturesVWAP = ∑[(futuresPrice - indexPrice) / indexPrice) * quantity] / ∑quantity`
 
-### Futures VWAP
+### Futures VWAP update
 
 To calculate futures VWAP, there are three cases, where `volume` and `totalQuantity` should be updated:
 
@@ -967,7 +967,7 @@ To calculate futures VWAP, there are three cases, where `volume` and `totalQuant
 2. On order matching.
 3. On position closing.
 
-In those 3 cases, `_addValuesForVWAP` function is called.
+In those 3 cases, `_updateValuesForVWAP` function is called.
 
 ```solidity
 function _updateValuesForVWAP(
@@ -981,7 +981,7 @@ function _updateValuesForVWAP(
 
 The funding fee formula is the following:
 
-`fundingFee = (futuresVWAP - indexPrice) / (24 / fundingInterval)`
+`FundingFee = FuturesVWAP / (24 / fundingInterval)`
 
 , where `fundingInterval` may differ between markets and it represents how often the funding fee is applied.
 
