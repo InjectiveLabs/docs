@@ -690,19 +690,19 @@ Calling `batchFillOrKillOrdersSinglePosition` will perform the same steps as `ba
 `marketOrders` can be used to can be used to purchase a specified quantity of contracts of a derivative by filling multiple orders while guaranteeing that no individual fill throws an error. Note that this function does not enforce that the entire quantity is filled. The input orders should be sorted from best to worst price.
 
 ```solidity
-/// @dev marketOrders executes the orders sequentially using `fillOrder` until the desired `quantity` is reached or until all of the margin provided is used.
+/// @dev marketOrders executes the orders until the desired `quantity` is reached
 /// @param orders Array of order specifications.
 /// @param quantity Desired quantity of contracts to execute.
 /// @param margin Desired amount of margin (denoted in baseCurrency) to use to fill the orders.
 /// @param subAccountID The subAccountID of the account for the taker to cross-margin with.
 /// @param signatures Proofs that orders have been signed by makers.
 function marketOrders(
-	LibOrder.Order[] memory orders,
-	uint256 quantity,
-	uint256 margin,
-	bytes32 subAccountID,
-	bytes[] memory signatures
-) public returns (FillResults[] memory results)
+    LibOrder.Order[] memory orders,
+    uint256 quantity,
+    uint256 margin,
+    bytes32 subAccountID,
+    bytes[] memory signatures
+) external nonReentrant whenNotPaused returns (FillResults[] memory results)
 ```
 
 **Logic**
@@ -867,23 +867,23 @@ Calling `closePositionOrKill` will perform the same steps as `closePosition` but
 
 ## liquidatePositionWithOrders
 
-```jsx
-/// @dev Liquidates the input position.
+```solidity
+/// @dev Liquidates the position.
 /// @param positionID The ID of the position to liquidate.
 /// @param quantity The quantity of contracts of the position to liquidate.
 /// @param orders The orders to use to liquidate the position.
 /// @param signatures The signatures of the orders signed by makers.
-function liquidatePositionWithOrders(
-  uint256 positionID,
-  uint256 quantity,
-  LibOrder.Order[] memory orders,
-  bytes[] memory signatures
-) external returns (PositionResults[] memory pResults, LiquidateResults memory lResults){
+function liquidatePosition(
+    uint256 positionID,
+    LibOrder.Order[] memory orders,
+    uint256 quantity,
+    bytes[] memory signatures
+) external nonReentrant whenNotPaused returns (PositionResults memory results)
 ```
 
 **Logic**
 
-Calling `liquidatePositionWithOrders` will perform the following steps:
+Calling `liquidatePosition` will perform the following steps:
 
 1. Query the oracle to obtain the most recent price and funding fee.
 2. Execute funding payments on the existing position and then update the existing position state.
@@ -911,18 +911,18 @@ Calling `liquidatePositionWithOrders` will perform the following steps:
 
 ## vaporizePosition
 
-```javascript
+```solidity
 /// @dev Vaporizes the position.
 /// @param positionID The ID of the position to vaporize.
 /// @param quantity The quantity of contracts of the position to vaporize.
 /// @param orders The orders to use to vaporize the position.
 /// @param signatures The signatures of the orders signed by makers.
 function vaporizePosition(
-  uint256 positionID,
-  LibOrder.Order[] memory orders,
-  uint256 quantity,
-  bytes[] memory signatures
-) external returns (PositionResults[] memory pResults, CloseResults memory cResults)
+    uint256 positionID,
+    LibOrder.Order[] memory orders,
+    uint256 quantity,
+    bytes[] memory signatures
+) external nonReentrant whenNotPaused returns (PositionResults memory results)
 ```
 
 # Oracle
@@ -969,15 +969,12 @@ To calculate futures VWAP, there are three cases, where `volume` and `totalQuant
 
 In those 3 cases, `_addValuesForVWAP` function is called.
 
-```javascript
-function _addValuesForVWAP(
+```solidity
+function _updateValuesForVWAP(
     bytes32 marketID,
     uint256 quantity,
     uint256 contractPrice
-) internal {
-    mostRecentEpochVolume[marketID] = mostRecentEpochVolume[marketID].add(quantity.mul(contractPrice));
-    mostRecentEpochQuantity[marketID] = mostRecentEpochQuantity[marketID].add(quantity);
-}
+) internal
 ```
 
 ### Calculation
@@ -1027,17 +1024,44 @@ Example for `ETH/USDT` pair: [https://api.binance.com/api/v3/ticker/price?symbol
 
 ```solidity
 event FuturesPosition(
-  address indexed makerAddress, // Address that created the order.
-  bytes32 subAccountID, // subaccount id that created the order.
-  bytes32 indexed orderHash, // EIP712 hash of order (see LibOrder.getTypedDataHash).
-  bytes32 indexed marketID, // Market ID
-  uint256 contractPrice, // Price of the contract
-  uint256 quantityFilled, // quantity of contracts added
-  uint256 totalQuantity, // total quantity of contracts in position
-  uint256 initialMargin, // initial margin
-  int256 cumulativeFundingEntry, // cum. funding at position start
-  uint256 positionID, // positionID
-  bool isLong // true if long, false if short
+    address indexed makerAddress, // Address that created the order.
+    bytes32 accountId, // subaccount id that created the order.
+    bytes32 indexed orderHash, // EIP712 hash of order (see LibOrder.getTypedDataHash).
+    bytes32 indexed marketID, // Market ID
+    uint256 contractPrice, // Price of the contract
+    uint256 quantityFilled, // quantity of contracts added
+    uint256 totalQuantity, // total quantity of contracts in position
+    int256 cumulativeFundingEntry, // cum. funding at position start
+    uint256 positionID, // positionID
+    bool isLong // true if long, false if short
+);
+```
+
+> FuturesNettedPosition
+
+```solidity
+event FuturesNettedPosition(
+    uint256 positionID, // positionID
+    bytes32 subAccountId, // subaccount id that created the order.
+    address indexed makerAddress, // Address that created the order.
+    bytes32 indexed marketID, // Market ID
+    uint256 margin, // new margin of netted position
+    uint256 contractPrice, // new contract price of netted position
+    uint256 quantity, // new quantity of of netted position
+    int256 cumulativeFundingEntry, // new cumululative funding
+    bool isLong // new direction of netted position
+);
+```
+
+> FuturesOrderFill
+
+```solidity
+event FuturesOrderFill(
+    bytes32 indexed orderHash, // EIP712 hash of order (see LibOrder.getTypedDataHash).
+    bytes32 indexed marketID, // total quantity of contracts filled from this order
+    bytes32 indexed subaccountID, // subaccount id that created the order
+    uint256 totalFilled, // total quantity of contracts filled from this order,
+    bool isLong // true if long, false if short
 );
 ```
 
@@ -1045,11 +1069,12 @@ event FuturesPosition(
 
 ```solidity
 event FuturesCancel(
-  address indexed makerAddress, // Address that created the order.
-  bytes32 indexed orderHash, // EIP712 hash of order (see LibOrder.getTypedDataHash).
-  bytes32 indexed marketID, // Market ID
-  uint256 contractPrice, // Price of the contract
-  uint256 quantityFilled // quantity of contracts filled
+    bytes32 indexed subaccountID, // Address that created the order.
+    bytes32 indexed orderHash, // EIP712 hash of order (see LibOrder.getTypedDataHash).
+    bytes32 indexed marketID, // Market ID
+    uint256 contractPrice, // Price of the contract
+    uint256 quantityFilled, // quantity of contracts filled
+    bool isLong // true if long, false if short
 );
 ```
 
@@ -1057,10 +1082,10 @@ event FuturesCancel(
 
 ```solidity
 event FuturesMatch(
-  bytes32 indexed leftOrderHash, // ID of the position
-  bytes32 indexed rightOrderHash, // ID of the position
-  bytes32 indexed marketID, //  Market ID
-  uint256 quantity // quantity of contracts being matched.
+    bytes32 indexed leftOrderHash, // Order hash of the left order
+    bytes32 indexed rightOrderHash, // Order hash of the right order
+    bytes32 indexed marketID, //  Market ID
+    uint256 quantity // quantity of contracts being matched.
 );
 ```
 
@@ -1068,34 +1093,22 @@ event FuturesMatch(
 
 ```solidity
 event FuturesLiquidation(
-  uint256 indexed positionID, // ID of the position
-  bytes32 indexed marketID, //  Market ID
-  bytes32 indexed subAccountID, // subaccount id
-  uint256 quantity, // quantity of contracts being closed.
-  int256 contractPNL // PNL for one contract
+    uint256 indexed positionID, // ID of the position
+    bytes32 indexed marketID, //  Market ID
+    bytes32 indexed subAccountID, // subaccount id
+    uint256 quantity, // quantity of contracts being closed.
+    int256 contractPNL // PNL for one contract
 );
 ```
 
-> FuturesClose
+> UpdateValuesForVWAP
 
 ```solidity
-event FuturesClose(
-  uint256 indexed positionID, // ID of the position
-  bytes32 indexed marketID, //  Market ID
-  bytes32 indexed subAccountID, // subaccount id
-  uint256 quantity, // quantity of contracts being closed.
-  int256 contractPNL // PNL for one contract
-);
-```
-
-> RegisterMarket
-
-```solidity
-event RegisterMarket(
-  bytes32 indexed marketID, // Market ID
-  uint256 fundingInterval, // Funding interval
-  uint256 initialPrice, // Initial price of the market
-  uint256 timestamp // When the market was registered
+event UpdateValuesForVWAP(
+    bytes32 indexed marketID,
+    uint256 mostRecentEpochVolume,
+    uint256 mostRecentEpochQuantity,
+    int256 mostRecentEpochScaledContractIndexDiff
 );
 ```
 
@@ -1103,10 +1116,15 @@ event RegisterMarket(
 
 ```solidity
 event MarketCreation(
-  bytes32 indexed marketID, // the unique identifier of market created
-  string indexed ticker,   // the human-readable ticker for the market
-  address indexed oracle,   // the oracle address for the market
-  PermyriadMath.Permyriad maintenanceMarginRatio // the maintenance margin ratio for the market
+    bytes32 indexed marketID, // the unique identifier of market created
+    string indexed ticker, // the human-readable ticker for the market
+    address indexed oracle, // the oracle address for the market
+    address baseCurrency, // the base currency address for the market
+    uint256 maintenanceMarginRatio, // the maintenance margin ratio for the market
+    uint256 initialMarginRatioFactor, // The minimum margin that can be used on this market's contracts purchase.
+    uint256 makerTxFee, // The maker transaction fee percentage.
+    uint256 takerTxFee, // The taker transaction fee percentage.
+    uint256 relayerFeePercentage // The relayer transaction fee percentage.
 );
 ```
 
@@ -1114,9 +1132,9 @@ event MarketCreation(
 
 ```solidity
 event AccountCreation(
-  address indexed creator, // account creator
-  bytes32 subAccountID, // subaccount id
-  uint256 accountNonce // account nonce
+    address indexed creator, // account creator
+    bytes32 subAccountID, // subaccount id
+    uint256 subAccountNonce // subaccount nonce
 );
 ```
 
@@ -1124,8 +1142,8 @@ event AccountCreation(
 
 ```solidity
 event IncrementSubaccountDeposits(
-  bytes32 indexed subsubAccountID, // subsubAccountID to add deposits
-  uint256 amount // amount to add
+    bytes32 indexed subAccountID, // subAccountID to add deposits
+    uint256 amount // amount to add
 );
 ```
 
@@ -1133,21 +1151,21 @@ event IncrementSubaccountDeposits(
 
 ```solidity
 event DecrementSubaccountDeposits(
-  bytes32 indexed subsubAccountID, // subsubAccountID to remove deposits
-  uint256 amount // amount to remove
+    bytes32 indexed subAccountID, // subAccountID to remove deposits
+    uint256 amount // amount to remove
 );
 ```
 
 ## Oracle Contract Events
 
-> SetFunding
+> RegisterMarket
 
 ```solidity
-event SetFunding(
-  bytes32 indexed marketID, // Market ID
-  int256 fundingRate, // funding rate
-  int256 fundingFee, // funding fee
-  uint256 epoch // current epoch
+event RegisterMarket(
+    bytes32 indexed marketID, // Market ID
+    uint256 fundingInterval, // Funding interval
+    uint256 initialPrice, // Initial price of the market
+    uint256 timestamp // When the market was registered
 );
 ```
 
@@ -1155,10 +1173,9 @@ event SetFunding(
 
 ```solidity
 event SetPrice(
-  bytes32 indexed marketID, // Market ID
-  uint256 price, // price
-  uint256 timestamp, // current timestamp
-  uint256 epoch // current epoch
+    bytes32 indexed marketID, // Market ID
+    uint256 price, // price
+    uint256 timestamp // current timestamp
 );
 ```
 
@@ -1168,21 +1185,21 @@ event SetPrice(
 
 ```solidity
 struct Order {
-  address makerAddress; // Address that created the order.
-  address takerAddress; // Empty.
-  address feeRecipientAddress; // Address that will receive fees when order is filled.
-  address senderAddress; // Empty.
-  uint256 makerAssetAmount; // The contract price i.e. the price of 1 contract denominated in base currency.
-  uint256 takerAssetAmount; // The quantity of contracts the maker seeks to obtain.
-  uint256 makerFee; // The amount of margin denoted in base currency the maker would like to post/risk for the order. If set to 0, the order is a Stop Loss of Take Profit order.
-  uint256 takerFee; // The desired account nonce to use for cross-margining. If set the 0, the order is an isolated margin order.
-  uint256 expirationTimeSeconds; // Timestamp in seconds at which order expires.
-  uint256 salt; // Arbitrary number to facilitate uniqueness of the order's hash.
-  bytes makerAssetData; // The first 32 bytes contain the marketID of the market for the position if the order is LONG, empty otherwise. Right padded with 0's to be 36 bytes.
-  bytes takerAssetData; // The first 32 bytes contain the marketID of the market for the position if the order is SHORT, empty otherwise. Right padded with 0's to be 36 bytes.
-  bytes makerFeeAssetData; // The bytes-encoded positionID of the position to use for stop loss and take profit orders. Empty for vanilla make orders.
-  bytes takerFeeAssetData; // The bytes-encoded trigger price for stop limit orders. Empty for vanilla make orders.
-    }
+    address makerAddress; // Address that created the order.
+    address takerAddress; // Empty.
+    address feeRecipientAddress; // Address that will receive fees when order is filled.
+    address senderAddress; // Empty.
+    uint256 makerAssetAmount; // The contract price i.e. the price of 1 contract denominated in base currency.
+    uint256 takerAssetAmount; // The quantity of contracts the maker seeks to obtain.
+    uint256 makerFee; // The amount of margin denoted in base currency the maker would like to post/risk for the order. If set to 0, the order is a Stop Loss of Take Profit order.
+    uint256 takerFee; // The desired account nonce to use for cross-margining. If set the 0, the order is an isolated margin order.
+    uint256 expirationTimeSeconds; // Timestamp in seconds at which order expires.
+    uint256 salt; // Arbitrary number to facilitate uniqueness of the order's hash.
+    bytes makerAssetData; // The first 32 bytes contain the marketID of the market for the position if the order is LONG, empty otherwise. Right padded with 0's to be 36 bytes.
+    bytes takerAssetData; // The first 32 bytes contain the marketID of the market for the position if the order is SHORT, empty otherwise. Right padded with 0's to be 36 bytes.
+    bytes makerFeeAssetData; // The bytes-encoded positionID of the position to use for stop loss and take profit orders. Empty for vanilla make orders.
+    bytes takerFeeAssetData; // The bytes-encoded trigger price for stop limit orders. Empty for vanilla make orders.
+}
 ```
 
 > DerivativeOrderInfo
@@ -1203,10 +1220,10 @@ struct DerivativeOrderInfo {
 > Account
 
 ```solidity
- struct Account {
- 	bytes32 subAccountID;
- 	uint256 accountNonce;
- }
+struct Account {
+    bytes32 subAccountID;
+    uint256 subAccountNonce;
+}
 ```
 
 > Market
@@ -1232,33 +1249,46 @@ struct Market {
 
 ```solidity
 struct Position {
-  // owner of the position
-  bytes32 subAccountID;
-  // marketID of the position
-  bytes32 marketID;
-  // direction of the position
-  Direction direction;
-  // quantity of the position
-  uint256 quantity;
-  // contractPrice of the position
-  uint256 contractPrice;
-  // the margin the trader has posted for the position
-  uint256 margin;
-  // The cumulative funding value. Just for perpetuals.
-  int256 cumulativeFundingEntry;
-  // order hash used to establish the position, if any (existence implies position was created by a make order maker)
-  bytes32 orderHash;
+    // subaccount owner of the position
+    bytes32 subAccountID;
+    // marketID of the position
+    bytes32 marketID;
+    // direction of the position
+    Direction direction;
+    // quantity of the position
+    uint256 quantity;
+    // contractPrice of the position
+    uint256 contractPrice;
+    // the margin the trader has posted for the position
+    uint256 margin;
+    // The cumulative funding value. Just for perpetuals.
+    int256 cumulativeFundingEntry;
 }
 ```
 
-> CloseResults
+> TransactionFees
 
 ```solidity
-struct CloseResults {
-  // Payout to the owner resulting from closing. Negative if vaporized.
-  int256 payout;
-  // quantity of contracts closed
-  uint256 quantityClosed;
+struct TransactionFees {
+    PermyriadMath.Permyriad maker; // transaction maker fee
+    PermyriadMath.Permyriad taker; // transaction taker fee
+    PermyriadMath.Permyriad relayer; // transaction relayer fee percentage
+}
+```
+
+> TradeData
+
+```solidity
+struct TradeData {
+    bytes32 subAccountID;
+    bytes32 marketID;
+    Direction direction;
+    uint256 quantity;
+    uint256 contractPrice;
+    uint256 margin;
+    PermyriadMath.Permyriad transactionFee;
+    address feeRecipientAddress;
+    bytes32 orderHash;
 }
 ```
 
@@ -1266,13 +1296,13 @@ struct CloseResults {
 
 ```solidity
 struct FillResults {
-  uint256 makerPositionID; // maker positionID
-  uint256 takerPositionID; // taker positionID
-  uint256 makerMarginUsed; // Total amount of margin used to create the position for the maker.
-  uint256 takerMarginUsed; // Total amount of margin used to create the position for the taker.
-  uint256 quantityFilled; // Total quantity of contracts filled.
-  uint256 makerFeePaid; // Total amount of fee paid by maker.
-  uint256 takerFeePaid; // Total amount of fee paid by taker.
+    uint256 makerPositionID; // maker positionID
+    uint256 takerPositionID; // taker positionID
+    uint256 makerMarginUsed; // Total amount of margin used to create the position for the maker.
+    uint256 takerMarginUsed; // Total amount of margin used to create the position for the taker.
+    uint256 quantityFilled; // Total quantity of contracts filled.
+    uint256 makerFeePaid; // Total amount of fee paid by maker.
+    uint256 takerFeePaid; // Total amount of fee paid by taker.
 }
 ```
 
@@ -1280,9 +1310,23 @@ struct FillResults {
 
 ```solidity
 struct PositionResults {
-  uint256 positionID;
-  uint256 marginUsed;
-  uint256 quantity;
-  uint256 fee;
+    uint256 positionID; // positionID of the position that was created or modified
+    uint256 marginUsed; //
+    uint256 quantity; // the quantity of contracts
+    uint256 fee; // the transaction fee paid
+}
+```
+
+> MatchResults
+
+```solidity
+struct MatchResults {
+    uint256 leftPositionID; // left order maker positionID
+    uint256 rightPositionID; // left order maker positionID
+    uint256 leftMarginUsed; // Total amount of margin used to create the position for the left order maker.
+    uint256 rightMarginUsed; // Total amount of margin used to create the position for the right order maker.
+    uint256 quantityFilled; // Total quantity of contracts filled.
+    uint256 leftFeePaid; // Total amount of fee paid by left order maker.
+    uint256 rightFeePaid; // Total amount of fee paid by left order maker.
 }
 ```
