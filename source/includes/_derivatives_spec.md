@@ -1213,7 +1213,7 @@ struct DerivativeOrderInfo {
     bytes32 subAccountID; // The subaccountID associated with the order.
     Types.Direction direction; // The direction of the order
     bytes32 marketID; // The market ID of the order
-    uint256 contractPrice; // The contract price of the order
+    uint256 entryPrice; // The contract price of the order
 }
 ```
 
