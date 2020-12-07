@@ -362,19 +362,19 @@ In this example, the trader has selected a Stop Limit Long Order with a contract
 
 ## Stop Loss Limit Order
 
-If the quantity of the stop loss order is greater than the quantity of contracts in the position (e.g. after partial position closure), the maximum fillable quantity of the stop loss limit order will be the total number of contracts of the position.
+To be a valid stop loss order, the position, which can be obtained for the given `subaccount nonce` and `marketID` must be owned by the maker, have the same `marketID`, have the opposite direction as the position and contractPrice used for order must not result in liquidating the existing position.
 
 Note: Traders must have an active position to create a **stop loss limit order**. However, an active position is not needed for a pure **stop limit order**.
 
 ## Take Profit Limit Order
 
-To be a valid take profit order, the position referenced by `positionID` must be owned by the maker, have the same `marketID`, and have the opposite direction as the position.
-
-Note: the `takerFeeAssetData` must be empty.
+To be a valid take profit order, the position, which can be obtained for the given `subaccount nonce` and `marketID` must be owned by the maker and have the same `marketID`, have the opposite direction as the position.
 
 ## Close Limit Order
 
-To be a valid close order, the position, which can be obtained for the given `subAccountID` and `marketID` must be owned by the maker, have the same `marketID`, have the opposite direction as the position and contractPrice used for order must not result in liquidating the existing position.
+To be a valid close order, the position, which can be obtained for the given `subaccount nonce` and `marketID` must be owned by the maker, have the same `marketID`, have the opposite direction as the position and contractPrice used for order must not result in liquidating the existing position.
+
+*Note: If the quantity of the **stop loss**, **take profit** or **close** order is greater than the quantity of contracts in the position (e.g. after partial position closure), the maximum fillable quantity of the those limit order will be the total number of contracts of the position.*
 
 # Transaction Fees
 
