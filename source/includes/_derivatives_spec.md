@@ -215,6 +215,15 @@ const takeProfitOrder = await sdkClient.futures.buildStopLossOrder({
   quantity: 10,
   triggerPrice: 2.1,
 });
+
+const closeOrder = await sdkClient.futures.buildCloseOrder({
+  orderType: DerivativeOrderType.Long,
+  marketId: market.id,
+  makerAddress: fromAddress,
+  leverage: 20,
+  quantity: 10,
+  entryPrice: 2.1,
+});
 ```
 
 ```shell
@@ -254,7 +263,7 @@ Stop Loss Order Long
 - makerAssetAmount (contractPrice): 0
 - takerAssetAmount (quantity): 10
 - makerFee (margin): 0
-- takerFee (subaccount nonce): 0
+- takerFee (subaccount nonce): 5
 - makerAssetData : 0xasd12f... (market id)
 - takerAssetData: 0x00000...
 - makerFeeAssetData (orderType): 3
@@ -264,11 +273,21 @@ Take Profit Order Long
 - makerAssetAmount (contractPrice): 0
 - takerAssetAmount (quantity): 10
 - makerFee (margin): 0
-- takerFee (subaccount nonce): 0
+- takerFee (subaccount nonce): 5
 - makerAssetData : 0xasd12f... (market id)
 - takerAssetData: 0x00000...
 - makerFeeAssetData (orderType): 4
 - takerFeeAssetData (triggerPrice): 2.1
+
+Close Order Long
+- makerAssetAmount (contractPrice): 1.4
+- takerAssetAmount (quantity): 10
+- makerFee (margin): 0
+- takerFee (subaccount nonce): 5
+- makerAssetData : 0xasd12f... (market id)
+- takerAssetData: 0x00000...
+- makerFeeAssetData (orderType): 5
+- takerFeeAssetData (triggerPrice): 0
 ```
 
 The Injective Perpetuals Protocol leverages the [0x Order Message format](https://github.com/0xProject/0x-protocol-specification/blob/master/v3/v3-specification.md#order-message-format) for the external interface to represent a make order for a derivative position, i.e. a cryptographically signed message expressing an agreement to enter into a derivative position under specified parameters.
@@ -303,6 +322,7 @@ There are 5 different types of orders noted in the `makerFeeAssetData` field.
 3. **Stop Limit Order Loss Direction**: Limit order with given quantity and contractPrice that becomes only valid after the indexPrice has moved towards loss and is now at least the trigger price, i.e., for a Long indexPrice ≤ triggerPrice and for a Short indexPrice ≥ triggerPrice. (`makerFeeAssetData = 2`)
 4. **Stop Loss Order**: Order to close an existing position once the trigger price is reached towards the loss direction. (`makerFeeAssetData = 3`)
 5. **Take Profit Order**: Order to close an existing position once the trigger price is reached towards the profit direction. (`makerFeeAssetData = 4`)
+6. **Close Order**: Order to close an existing position with given entryPrice (which is closePrice actually). (`makerFeeAssetData = 5`)
 
 ## Isolated and Cross Margin
 
@@ -342,15 +362,19 @@ In this example, the trader has selected a Stop Limit Long Order with a contract
 
 ## Stop Loss Limit Order
 
-If the quantity of the stop loss order is greater than the quantity of contracts in the position (e.g. after partial position closure), the maximum fillable quantity of the stop loss limit order will be the total number of contracts of the position.
+To be a valid stop loss order, the position, which can be obtained for the given `subaccount nonce` and `marketID` must be owned by the maker, have the same `marketID`, have the opposite direction as the position and contractPrice used for order must not result in liquidating the existing position.
 
 Note: Traders must have an active position to create a **stop loss limit order**. However, an active position is not needed for a pure **stop limit order**.
 
 ## Take Profit Limit Order
 
-To be a valid take profit order, the position referenced by `positionID` must be owned by the maker, have the same `marketID`, and have the opposite direction as the position.
+To be a valid take profit order, the position, which can be obtained for the given `subaccount nonce` and `marketID` must be owned by the maker and have the same `marketID`, have the opposite direction as the position.
 
-Note: the `takerFeeAssetData` must be empty.
+## Close Limit Order
+
+To be a valid close order, the position, which can be obtained for the given `subaccount nonce` and `marketID` must be owned by the maker, have the same `marketID`, have the opposite direction as the position and contractPrice used for order must not result in liquidating the existing position.
+
+*Note: If the quantity of the **stop loss**, **take profit** or **close** order is greater than the quantity of contracts in the position (e.g. after partial position closure), the maximum fillable quantity of the those limit order will be the total number of contracts of the position.*
 
 # Transaction Fees
 
@@ -500,7 +524,8 @@ enum OrderStatus {
     CANCELLED, // Order has been cancelled
     UNFUNDED, // Maker of the order does not have sufficient funds deposited to be filled.
     UNTRIGGERED, // Index Price has not been triggered
-    INVALID_TRIGGER_PRICE // TakeProfit trigger price is lower than contract price or StopLoss trigger price is higher than contract price
+    INVALID_TRIGGER_PRICE, // TakeProfit trigger price is lower than contract price or StopLoss trigger price is higher than contract price
+    LIQUIDATED // Close price is causing liquidation for CLOSE or STOP_LOSS
 }
 ```
 
