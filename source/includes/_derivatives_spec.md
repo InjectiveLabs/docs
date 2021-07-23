@@ -46,7 +46,11 @@ The reference spot index price \(`indexPrice`\) of the underlying asset that the
 
 ## **Contract Price**
 
-The value of the futures contract the position entered/created \(`contractPrice`\). This is purely market driven and is set by individuals, independent of the oracle price.
+The value of the futures contract the position entered/created \(`contractPrice`\) or \(`entryPrice`\). This is purely market driven and is set by individuals, independent of the oracle price.
+
+## **Execution Price**
+
+The execution price is the price of an executed trade. If the trader has no prior position, then `entryPrice` equals the `executionPrice`. Be aware that sometimes an `executionPrice` defined inside the order can differ slightly from the actual execution price when matching orders.
 
 ## **Quantity**
 
@@ -222,7 +226,7 @@ const closeOrder = await sdkClient.futures.buildCloseOrder({
   makerAddress: fromAddress,
   leverage: 20,
   quantity: 10,
-  entryPrice: 2.1,
+  closePrice: 2.1,
 });
 ```
 
@@ -230,7 +234,7 @@ const closeOrder = await sdkClient.futures.buildCloseOrder({
 Examples of different orders
 
 Limit Order Long
-- makerAssetAmount (contractPrice): 1.7
+- makerAssetAmount (executionPrice): 1.7
 - takerAssetAmount (quantity): 10
 - makerFee (margin): 50
 - takerFee (subaccount nonce): 0
@@ -240,7 +244,7 @@ Limit Order Long
 - takerFeeAssetData (triggerPrice): 0
 
 Stop Limit Order Long Profit Direction
-- makerAssetAmount (contractPrice): 1.9
+- makerAssetAmount (executionPrice): 1.9
 - takerAssetAmount (quantity): 10
 - makerFee (margin): 50
 - takerFee (subaccount nonce): 0
@@ -250,7 +254,7 @@ Stop Limit Order Long Profit Direction
 - takerFeeAssetData (triggerPrice): 1.8
 
 Stop Limit Order Long Loss Direction
-- makerAssetAmount (contractPrice): 1.5
+- makerAssetAmount (executionPrice): 1.5
 - takerAssetAmount (quantity): 10
 - makerFee (margin): 50
 - takerFee (subaccount nonce): 0
@@ -260,7 +264,7 @@ Stop Limit Order Long Loss Direction
 - takerFeeAssetData (triggerPrice): 1.6
 
 Stop Loss Order Long
-- makerAssetAmount (contractPrice): 0
+- makerAssetAmount (executionPrice): 0
 - takerAssetAmount (quantity): 10
 - makerFee (margin): 0
 - takerFee (subaccount nonce): 5
@@ -270,7 +274,7 @@ Stop Loss Order Long
 - takerFeeAssetData (triggerPrice): 1.4
 
 Take Profit Order Long
-- makerAssetAmount (contractPrice): 0
+- makerAssetAmount (executionPrice): 0
 - takerAssetAmount (quantity): 10
 - makerFee (margin): 0
 - takerFee (subaccount nonce): 5
@@ -280,7 +284,7 @@ Take Profit Order Long
 - takerFeeAssetData (triggerPrice): 2.1
 
 Close Order Long
-- makerAssetAmount (contractPrice): 1.4
+- makerAssetAmount (executionPrice): 1.4
 - takerAssetAmount (quantity): 10
 - makerFee (margin): 0
 - takerFee (subaccount nonce): 5
@@ -300,7 +304,7 @@ A make order message consists of the following parameters:
 | takerAddress          | `-`                     | address | Empty.                                                                                                                                                |
 | feeRecipientAddress   | `feeRecipientAddress`   | address | Address that will receive fees when order is filled.                                                                                                  |
 | senderAddress         | `-`                     | address | Empty.                                                                                                                                                |
-| makerAssetAmount      | `contractPrice`         | uint256 | The contract price, i.e. the price of one contract denominated in base currency. Set to 0 for Stop Loss and Take Profit orders.                       |
+| makerAssetAmount      | `executionPrice`         | uint256 | The execution price, i.e. the price of one contract denominated in base currency for this order. Set to 0 for Stop Loss and Take Profit orders.                       |
 | takerAssetAmount      | `quantity`              | uint256 | The `quantity` of contracts the maker seeks to obtain.                                                                                                |
 | makerFee              | `margin`                | uint256 | The amount of margin denoted in base currency the maker would like to post/risk for the order. Set to 0 for Stop Loss and Take Profit orders.         |
 | takerFee              | `subaccountNonce`       | uint256 | The desired account nonce to use for cross-margining. If set to 0, the default subaccount is used.                                                    |
@@ -311,18 +315,18 @@ A make order message consists of the following parameters:
 | makerFeeAssetData     | `orderType`             | bytes   | The bytes-encoded order type, see [below](/#order-types) for available order types.                                                                   |
 | takerFeeAssetData     | `triggerPrice`          | bytes   | The bytes-encoded trigger price for stop limit orders, stop loss orders and take profit orders. Empty for regular limit orders.                       |
 
-In a given perpetual market specified by `marketID`, an order encodes the willingness to purchase `quantity` contracts in a given direction \(long or short\) at a specified contract price `contractPrice` using a specified amount of `margin` of base currency as collateral.
+In a given perpetual market specified by `marketID`, an order encodes the willingness to purchase `quantity` contracts in a given direction \(long or short\) at a specified executed price `executionPrice` using a specified amount of `margin` of base currency as collateral.
 
 ### Order Types
 
-There are 5 different types of orders noted in the `makerFeeAssetData` field.
+There are 6 different types of orders noted in the `makerFeeAssetData` field.
 
 1. **Limit Order**: Regular Order to create a position with given quantity and contractPrice. (`makerFeeAssetData = 0`)
 2. **Stop Limit Order Profit Direction**: Limit order with given quantity and contractPrice that becomes only valid after the indexPrice has moved towards profit and is now at least the trigger price, i.e., for a Long indexPrice ≥ triggerPrice and for a Short indexPrice ≤ triggerPrice. (`makerFeeAssetData = 1`)
 3. **Stop Limit Order Loss Direction**: Limit order with given quantity and contractPrice that becomes only valid after the indexPrice has moved towards loss and is now at least the trigger price, i.e., for a Long indexPrice ≤ triggerPrice and for a Short indexPrice ≥ triggerPrice. (`makerFeeAssetData = 2`)
 4. **Stop Loss Order**: Order to close an existing position once the trigger price is reached towards the loss direction. (`makerFeeAssetData = 3`)
 5. **Take Profit Order**: Order to close an existing position once the trigger price is reached towards the profit direction. (`makerFeeAssetData = 4`)
-6. **Close Order**: Order to close an existing position with given entryPrice (which is closePrice actually). (`makerFeeAssetData = 5`)
+6. **Close Order**: Order to close an existing position with the given executionPrice, i.e., the closePrice. (`makerFeeAssetData = 5`)
 
 ## Isolated and Cross Margin
 
