@@ -9,6 +9,17 @@ language_tabs: # must be one of https://git.io/vQNgJ
 
 includes:
   - architecture
+  - spot_exchange_market
+  - spot_exchange_markets
+  - spot_exchange_stream_markets
+  - spot_exchange_order_book
+  - spot_exchange_stream_order_book
+  - spot_exchange_orders
+  - spot_exchange_stream_orders
+  - spot_exchange_trades
+  - spot_exchange_stream_trades
+  - spot_exchange_subaccount_orders_list
+  - spot_exchange_subaccount_trades_list
 search: true
 
 code_clipboard: true
