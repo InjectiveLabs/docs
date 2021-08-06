@@ -1,92 +1,122 @@
-## Spot Exchange - Markets
+## markets
 
 Get a list of Spot Markets
 
-`POST /injective_spot_exchange_rpc.InjectiveSpotExchangeRPC/Markets`
-
-> Request: 
-
-```json
-{
-	"marketStatus": "fake_status",
-	"baseDenom": "123.4",
-	"quoteDenom": "1234.5"
-}
-```
-
-> Response:
-
-```json
-{
-	"markets": [{
-		"marketId": "marketId",
-		"marketStatus": "marketStatus",
-		"ticker": "ticker",
-		"baseDenom": "123.4",
-		"baseTokenMeta": {
-			"name": "name",
-			"address": "address",
-			"symbol": "symbol",
-			"logo": "logo",
-			"decimals": 123,
-			"updatedAt": "12345678"
-		},
-		"quoteDenom": "123.4",
-		"quoteTokenMeta": {
-			"name": "name",
-			"address": "address",
-			"symbol": "symbol",
-			"logo": "logo",
-			"decimals": 123,
-			"updatedAt": "123"
-		},
-		"makerFeeRate": "0.00001",
-		"takerFeeRate": "0.00002",
-		"serviceProviderFee": "0.00003",
-		"minPriceTickSize": "123",
-		"minQuantityTickSize": "123123"
-	}]
-}
-```
+`POST /InjectiveSpotExchangeRPC/markets`
 
 ### Request Parameters
+> Request Example:
 
-Parameter | Type  | Description
---------- | -------  | -----------
-market_status | string | Filter by market status
-base_denom | string | Filter by the Coin denomination of the base currency
-quote_denom | string | Filter by the Coin denomination of the quote currency
+``` json
+{
+  "baseDenom": "base_demon_example",
+  "marketStatus": "active",
+  "quoteDenom": "quote_demon_example"
+}
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|baseDenom|string|Filter by the Coin denomination of the base currency|
+|marketStatus|string|Filter by market status|
+|quoteDenom|string|Filter by the Coin denomination of the quote currency|
+
+
 
 ### Response Parameters
+> Response Example:
 
-Parameter | Type  | Description
---------- | -------  | -----------
-markets | array of SpotMarketInfo  | Spot Markets list
+``` json
+{
+  "markets": [
+    {
+      "baseDenom": "inj",
+      "baseTokenMeta": {
+        "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+        "decimals": 18,
+        "logo": "https://static.alchemyapi.io/images/assets/825.png",
+        "name": "Tether",
+        "symbol": "USDT",
+        "updatedAt": 1544614248000
+      },
+      "makerFeeRate": "0.001",
+      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
+      "marketStatus": "active",
+      "minPriceTickSize": "0.001",
+      "minQuantityTickSize": "0.001",
+      "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "quoteTokenMeta": {
+        "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+        "decimals": 18,
+        "logo": "https://static.alchemyapi.io/images/assets/825.png",
+        "name": "Tether",
+        "symbol": "USDT",
+        "updatedAt": 1544614248000
+      },
+      "serviceProviderFee": "0.4",
+      "takerFeeRate": "0.002",
+      "ticker": "INJ/USDC"
+    },
+    {
+      "baseDenom": "inj",
+      "baseTokenMeta": {
+        "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+        "decimals": 18,
+        "logo": "https://static.alchemyapi.io/images/assets/825.png",
+        "name": "Tether",
+        "symbol": "USDT",
+        "updatedAt": 1544614248000
+      },
+      "makerFeeRate": "0.001",
+      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
+      "marketStatus": "active",
+      "minPriceTickSize": "0.001",
+      "minQuantityTickSize": "0.001",
+      "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "quoteTokenMeta": {
+        "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+        "decimals": 18,
+        "logo": "https://static.alchemyapi.io/images/assets/825.png",
+        "name": "Tether",
+        "symbol": "USDT",
+        "updatedAt": 1544614248000
+      },
+      "serviceProviderFee": "0.4",
+      "takerFeeRate": "0.002",
+      "ticker": "INJ/USDC"
+    }
+  ]
+}
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|markets|array of SpotMarketInfo|Spot Markets list|
 
 SpotMarketInfo:
 
-Parameter | Type  | Description
---------- | -------  | -----------
-market_id | string  | SpotMarket ID is keccak265(baseDenom || quoteDenom)
-market_status | string | The status of the market
-ticker | string | A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset.
-base_denom | string | Coin denom used for the base asset
-base_token_meta | TokenMeta | Token metadata for base asset, only for Ethereum-based assets 
-quote_denom | string | Coin denom used for the quote asset. 
-quote_token_meta | TokenMeta | Token metadata for quote asset, only for Ethereum-based assets 
-maker_fee_rate | string | Defines the fee percentage makers pay when trading (in quote asset) 
-taker_fee_rate | string | Defines the fee percentage takers pay when trading (in quote asset) 
-service_provider_fee | string | Percentage of the transaction fee shared with the service provider 
-min_price_tick_size | string | Defines the minimum required tick size for the order's price 
-min_quantity_tick_size | string | Defines the minimum required tick size for the order's quantity 
+|Parameter|Type|Description|
+|----|----|----|
+|baseDenom|string|Coin denom used for the base asset.|
+|makerFeeRate|string|Defines the fee percentage makers pay when trading (in quote asset)|
+|minQuantityTickSize|string|Defines the minimum required tick size for the order's quantity|
+|serviceProviderFee|string|Percentage of the transaction fee shared with the service provider|
+|baseTokenMeta|TokenMeta||
+|marketId|string|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
+|marketStatus|string|The status of the market|
+|minPriceTickSize|string|Defines the minimum required tick size for the order's price|
+|quoteDenom|string|Coin denom used for the quote asset.|
+|quoteTokenMeta|TokenMeta||
+|takerFeeRate|string|Defines the fee percentage takers pay when trading (in quote asset)|
+|ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset.|
 
 TokenMeta:
 
-Parameter | Type  | Description
---------- | -------  | -----------
-name | string | Token full name
-address | string | Token Ethereum contract address 
-symbol | string | Token symbol short name 
-logo | string | URL to the logo image 
-decimals | sint32 | Token decimals 
-updated_at | sint64 | Token metadata fetched timestamp in UNIX millis. 
+|Parameter|Type|Description|
+|----|----|----|
+|address|string|Token Ethereum contract address|
+|decimals|integer|Token decimals|
+|logo|string|URL to the logo image|
+|name|string|Token full name|
+|symbol|string|Token symbol short name|
+|updatedAt|integer|Token metadata fetched timestamp in UNIX millis.|
