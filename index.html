@@ -279,7 +279,7 @@
   color: #859900;
 }
     </style>
-    <link href="stylesheets/screen-920d2558.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-4b5eaeed.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-953e3353.css" rel="stylesheet" media="print" />
       <script src="javascripts/all-e9bde216.js"></script>
 
@@ -330,6 +330,44 @@
           <li>
             <a href="#architecture" class="toc-h1 toc-link" data-title="Architecture">Architecture</a>
           </li>
+          <li>
+            <a href="#api" class="toc-h1 toc-link" data-title="API">API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#spot-exchange-market" class="toc-h2 toc-link" data-title="Spot Exchange - Market">Spot Exchange - Market</a>
+                  </li>
+                  <li>
+                    <a href="#markets" class="toc-h2 toc-link" data-title="markets">markets</a>
+                  </li>
+                  <li>
+                    <a href="#spot-exchange-stream-markets" class="toc-h2 toc-link" data-title="Spot Exchange - Stream Markets">Spot Exchange - Stream Markets</a>
+                  </li>
+                  <li>
+                    <a href="#spot-exchange-order-book" class="toc-h2 toc-link" data-title="Spot Exchange - Order Book">Spot Exchange - Order Book</a>
+                  </li>
+                  <li>
+                    <a href="#spot-exchange-stream-orderbook" class="toc-h2 toc-link" data-title="Spot Exchange - Stream Orderbook">Spot Exchange - Stream Orderbook</a>
+                  </li>
+                  <li>
+                    <a href="#spot-exchange-orders" class="toc-h2 toc-link" data-title="Spot Exchange - Orders">Spot Exchange - Orders</a>
+                  </li>
+                  <li>
+                    <a href="#spot-exchange-steam-orders" class="toc-h2 toc-link" data-title="Spot Exchange - Steam Orders">Spot Exchange - Steam Orders</a>
+                  </li>
+                  <li>
+                    <a href="#spot-exchange-trades" class="toc-h2 toc-link" data-title="Spot Exchange - Trades">Spot Exchange - Trades</a>
+                  </li>
+                  <li>
+                    <a href="#spot-exchange-stream-trades" class="toc-h2 toc-link" data-title="Spot Exchange - Stream Trades">Spot Exchange - Stream Trades</a>
+                  </li>
+                  <li>
+                    <a href="#spot-exchange-subaccount-order-list" class="toc-h2 toc-link" data-title="Spot Exchange - Subaccount Order List">Spot Exchange - Subaccount Order List</a>
+                  </li>
+                  <li>
+                    <a href="#spot-exchange-subaccount-trade-list" class="toc-h2 toc-link" data-title="Spot Exchange - Subaccount Trade List">Spot Exchange - Subaccount Trade List</a>
+                  </li>
+              </ul>
+          </li>
       </ul>
     </div>
     <div class="page-wrapper">
@@ -373,7 +411,1742 @@ See the examples folder for simple Golang examples.</p>
 <p><strong>Usage</strong></p>
 
 <p>See <a href="https://github.com/InjectiveLabs/injective-ts/tree/master/packages/exchange-consumer">InjectiveLabs/injective-ts</a>.</p>
-<h1 id='architecture'>Architecture</h1>
+<h1 id='architecture'>Architecture</h1><h1 id='api'>API</h1><h2 id='spot-exchange-market'>Spot Exchange - Market</h2>
+<p>Get details of a single spot market</p>
+
+<p><code>POST /injective_spot_exchange_rpc.InjectiveSpotExchangeRPC/Market</code></p>
+
+<blockquote>
+<p>Request: </p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"market"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"marketId"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"marketStatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"marketStatus"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"ticker"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ticker"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"baseDenom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123.4"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"baseTokenMeta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"address"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"symbol"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"logo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"logo"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"quoteDenom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123.4"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quoteTokenMeta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"address"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"symbol"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"logo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"logo"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"makerFeeRate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00001"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"takerFeeRate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00002"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"serviceProviderFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00003"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"minPriceTickSize"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"minQuantityTickSize"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123123"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='request-parameters'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>MarketId of the market we want to fetch</td>
+</tr>
+</tbody></table>
+<h3 id='response-parameters'>Response Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market</td>
+<td>SpotMarketInfo</td>
+<td>Info about particular spot market</td>
+</tr>
+</tbody></table>
+
+<p>SpotMarketInfo:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>SpotMarket ID is keccak265(baseDenom</td>
+</tr>
+<tr>
+<td>market_status</td>
+<td>string</td>
+<td>The status of the market</td>
+</tr>
+<tr>
+<td>ticker</td>
+<td>string</td>
+<td>A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset.</td>
+</tr>
+<tr>
+<td>base_denom</td>
+<td>string</td>
+<td>Coin denom used for the base asset</td>
+</tr>
+<tr>
+<td>base_token_meta</td>
+<td>TokenMeta</td>
+<td>Token metadata for base asset, only for Ethereum-based assets</td>
+</tr>
+<tr>
+<td>quote_denom</td>
+<td>string</td>
+<td>Coin denom used for the quote asset.</td>
+</tr>
+<tr>
+<td>quote_token_meta</td>
+<td>TokenMeta</td>
+<td>Token metadata for quote asset, only for Ethereum-based assets</td>
+</tr>
+<tr>
+<td>maker_fee_rate</td>
+<td>string</td>
+<td>Defines the fee percentage makers pay when trading (in quote asset)</td>
+</tr>
+<tr>
+<td>taker_fee_rate</td>
+<td>string</td>
+<td>Defines the fee percentage takers pay when trading (in quote asset)</td>
+</tr>
+<tr>
+<td>service_provider_fee</td>
+<td>string</td>
+<td>Percentage of the transaction fee shared with the service provider</td>
+</tr>
+<tr>
+<td>min_price_tick_size</td>
+<td>string</td>
+<td>Defines the minimum required tick size for the order&#39;s price</td>
+</tr>
+<tr>
+<td>min_quantity_tick_size</td>
+<td>string</td>
+<td>Defines the minimum required tick size for the order&#39;s quantity</td>
+</tr>
+</tbody></table>
+
+<p>TokenMeta:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>Token full name</td>
+</tr>
+<tr>
+<td>address</td>
+<td>string</td>
+<td>Token Ethereum contract address</td>
+</tr>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>Token symbol short name</td>
+</tr>
+<tr>
+<td>logo</td>
+<td>string</td>
+<td>URL to the logo image</td>
+</tr>
+<tr>
+<td>decimals</td>
+<td>sint32</td>
+<td>Token decimals</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>sint64</td>
+<td>Token metadata fetched timestamp in UNIX millis.</td>
+</tr>
+</tbody></table>
+<h2 id='markets'>markets</h2>
+<p>Get a list of Spot Markets</p>
+
+<p><code>POST /InjectiveSpotExchangeRPC/markets</code></p>
+<h3 id='request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"baseDenom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"base_demon_example"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"marketStatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"quoteDenom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"quote_demon_example"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>baseDenom</td>
+<td>string</td>
+<td>Filter by the Coin denomination of the base currency</td>
+</tr>
+<tr>
+<td>marketStatus</td>
+<td>string</td>
+<td>Filter by market status</td>
+</tr>
+<tr>
+<td>quoteDenom</td>
+<td>string</td>
+<td>Filter by the Coin denomination of the quote currency</td>
+</tr>
+</tbody></table>
+<h3 id='response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"markets"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"baseDenom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"inj"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"baseTokenMeta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xdAC17F958D2ee523a2206206994597C13D831ec7"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"logo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://static.alchemyapi.io/images/assets/825.png"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tether"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USDT"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"makerFeeRate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"marketStatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"minPriceTickSize"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"minQuantityTickSize"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"quoteDenom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"quoteTokenMeta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xdAC17F958D2ee523a2206206994597C13D831ec7"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"logo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://static.alchemyapi.io/images/assets/825.png"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tether"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USDT"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"serviceProviderFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.4"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"takerFeeRate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.002"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ticker"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INJ/USDC"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"baseDenom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"inj"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"baseTokenMeta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xdAC17F958D2ee523a2206206994597C13D831ec7"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"logo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://static.alchemyapi.io/images/assets/825.png"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tether"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USDT"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"makerFeeRate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"marketStatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"minPriceTickSize"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"minQuantityTickSize"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"quoteDenom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"quoteTokenMeta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xdAC17F958D2ee523a2206206994597C13D831ec7"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"logo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://static.alchemyapi.io/images/assets/825.png"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tether"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USDT"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"serviceProviderFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.4"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"takerFeeRate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.002"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ticker"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INJ/USDC"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>markets</td>
+<td>array of SpotMarketInfo</td>
+<td>Spot Markets list</td>
+</tr>
+</tbody></table>
+
+<p>SpotMarketInfo:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>baseDenom</td>
+<td>string</td>
+<td>Coin denom used for the base asset.</td>
+</tr>
+<tr>
+<td>makerFeeRate</td>
+<td>string</td>
+<td>Defines the fee percentage makers pay when trading (in quote asset)</td>
+</tr>
+<tr>
+<td>minQuantityTickSize</td>
+<td>string</td>
+<td>Defines the minimum required tick size for the order&#39;s quantity</td>
+</tr>
+<tr>
+<td>serviceProviderFee</td>
+<td>string</td>
+<td>Percentage of the transaction fee shared with the service provider</td>
+</tr>
+<tr>
+<td>baseTokenMeta</td>
+<td>TokenMeta</td>
+<td></td>
+</tr>
+<tr>
+<td>marketId</td>
+<td>string</td>
+<td>SpotMarket ID is keccak265(baseDenom</td>
+</tr>
+<tr>
+<td>marketStatus</td>
+<td>string</td>
+<td>The status of the market</td>
+</tr>
+<tr>
+<td>minPriceTickSize</td>
+<td>string</td>
+<td>Defines the minimum required tick size for the order&#39;s price</td>
+</tr>
+<tr>
+<td>quoteDenom</td>
+<td>string</td>
+<td>Coin denom used for the quote asset.</td>
+</tr>
+<tr>
+<td>quoteTokenMeta</td>
+<td>TokenMeta</td>
+<td></td>
+</tr>
+<tr>
+<td>takerFeeRate</td>
+<td>string</td>
+<td>Defines the fee percentage takers pay when trading (in quote asset)</td>
+</tr>
+<tr>
+<td>ticker</td>
+<td>string</td>
+<td>A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset.</td>
+</tr>
+</tbody></table>
+
+<p>TokenMeta:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address</td>
+<td>string</td>
+<td>Token Ethereum contract address</td>
+</tr>
+<tr>
+<td>decimals</td>
+<td>integer</td>
+<td>Token decimals</td>
+</tr>
+<tr>
+<td>logo</td>
+<td>string</td>
+<td>URL to the logo image</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>Token full name</td>
+</tr>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>Token symbol short name</td>
+</tr>
+<tr>
+<td>updatedAt</td>
+<td>integer</td>
+<td>Token metadata fetched timestamp in UNIX millis.</td>
+</tr>
+</tbody></table>
+<h2 id='spot-exchange-stream-markets'>Spot Exchange - Stream Markets</h2>
+<p>Stream live updates of selected spot markets</p>
+
+<p><code>POST /injective_spot_exchange_rpc.InjectiveSpotExchangeRPC/StreamMarkets</code></p>
+
+<blockquote>
+<p>Request: </p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"marketIds"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"123"</span><span class="p">,</span><span class="w"> </span><span class="s2">"234"</span><span class="p">,</span><span class="w"> </span><span class="s2">"345"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"market"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"marketId"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"marketStatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"marketStatus"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"ticker"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ticker"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"baseDenom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123.4"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"baseTokenMeta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"address"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"symbol"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"logo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"logo"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"quoteDenom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123.4"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quoteTokenMeta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"address"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"symbol"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"logo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"logo"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"makerFeeRate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00001"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"takerFeeRate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00002"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"serviceProviderFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00003"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"minPriceTickSize"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"minQuantityTickSize"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123123"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"operationType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"operation_type"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456789"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='request-parameters'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_ids</td>
+<td>array of string</td>
+<td>List of market IDs for updates streaming, empty means &#39;ALL&#39; spot markets</td>
+</tr>
+</tbody></table>
+<h3 id='response-parameters'>Response Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market</td>
+<td>SpotMarketInfo</td>
+<td>Info about particular spot market</td>
+</tr>
+<tr>
+<td>operation_type</td>
+<td>string</td>
+<td>Update type</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>int64</td>
+<td>Operation timestamp in UNIX millis.</td>
+</tr>
+</tbody></table>
+
+<p>SpotMarketInfo:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>SpotMarket ID is keccak265(baseDenom</td>
+</tr>
+<tr>
+<td>market_status</td>
+<td>string</td>
+<td>The status of the market</td>
+</tr>
+<tr>
+<td>ticker</td>
+<td>string</td>
+<td>A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset.</td>
+</tr>
+<tr>
+<td>base_denom</td>
+<td>string</td>
+<td>Coin denom used for the base asset</td>
+</tr>
+<tr>
+<td>base_token_meta</td>
+<td>TokenMeta</td>
+<td>Token metadata for base asset, only for Ethereum-based assets</td>
+</tr>
+<tr>
+<td>quote_denom</td>
+<td>string</td>
+<td>Coin denom used for the quote asset.</td>
+</tr>
+<tr>
+<td>quote_token_meta</td>
+<td>TokenMeta</td>
+<td>Token metadata for quote asset, only for Ethereum-based assets</td>
+</tr>
+<tr>
+<td>maker_fee_rate</td>
+<td>string</td>
+<td>Defines the fee percentage makers pay when trading (in quote asset)</td>
+</tr>
+<tr>
+<td>taker_fee_rate</td>
+<td>string</td>
+<td>Defines the fee percentage takers pay when trading (in quote asset)</td>
+</tr>
+<tr>
+<td>service_provider_fee</td>
+<td>string</td>
+<td>Percentage of the transaction fee shared with the service provider</td>
+</tr>
+<tr>
+<td>min_price_tick_size</td>
+<td>string</td>
+<td>Defines the minimum required tick size for the order&#39;s price</td>
+</tr>
+<tr>
+<td>min_quantity_tick_size</td>
+<td>string</td>
+<td>Defines the minimum required tick size for the order&#39;s quantity</td>
+</tr>
+</tbody></table>
+
+<p>TokenMeta:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>Token full name</td>
+</tr>
+<tr>
+<td>address</td>
+<td>string</td>
+<td>Token Ethereum contract address</td>
+</tr>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>Token symbol short name</td>
+</tr>
+<tr>
+<td>logo</td>
+<td>string</td>
+<td>URL to the logo image</td>
+</tr>
+<tr>
+<td>decimals</td>
+<td>sint32</td>
+<td>Token decimals</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>sint64</td>
+<td>Token metadata fetched timestamp in UNIX millis.</td>
+</tr>
+</tbody></table>
+<h2 id='spot-exchange-order-book'>Spot Exchange - Order Book</h2>
+<p>Orderbook of a Spot Market</p>
+
+<p><code>POST /injective_spot_exchange_rpc.InjectiveSpotExchangeRPC/Orderbook</code></p>
+
+<blockquote>
+<p>Request: </p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"orderbook"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123.4"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="nl">"sells"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123.4"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678"</span><span class="w">
+        </span><span class="p">}]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='request-parameters'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>MarketId of the market&#39;s orderbook we want to fetch</td>
+</tr>
+</tbody></table>
+<h3 id='response-parameters'>Response Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>orderbook</td>
+<td>SpotLimitOrderbook</td>
+<td>Orderbook of a particular spot market</td>
+</tr>
+</tbody></table>
+
+<p>SpotLimitOrderbook:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>buys</td>
+<td>array of PriceLevel</td>
+<td>Array of price levels for buys</td>
+</tr>
+<tr>
+<td>sells</td>
+<td>array of PriceLevel</td>
+<td>Array of price levels for sells</td>
+</tr>
+</tbody></table>
+
+<p>PriceLevel:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>price</td>
+<td>string</td>
+<td>Price number of the price level.</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>string</td>
+<td>Quantity of the price level.</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>sint64</td>
+<td>Price level last updated timestamp in UNIX millis.</td>
+</tr>
+</tbody></table>
+<h2 id='spot-exchange-stream-orderbook'>Spot Exchange - Stream Orderbook</h2>
+<p>Stream live updates of selected spot market orderbook</p>
+
+<p><code>POST /injective_spot_exchange_rpc.InjectiveSpotExchangeRPC/StreamOrderbook</code></p>
+
+<blockquote>
+<p>Request: </p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"orderbook"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123.4"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="nl">"sells"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123.4"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678"</span><span class="w">
+        </span><span class="p">}]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"operationType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"operation_type"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456789"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='request-parameters'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>Market ID for orderbook updates streaming</td>
+</tr>
+</tbody></table>
+<h3 id='response-parameters'>Response Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>orderbook</td>
+<td>SpotLimitOrderbook</td>
+<td>Orderbook of a particular spot market</td>
+</tr>
+<tr>
+<td>operation_type</td>
+<td>string</td>
+<td>Order update type</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>string</td>
+<td>Operation timestamp in UNIX millis.</td>
+</tr>
+</tbody></table>
+
+<p>SpotLimitOrderbook:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>buys</td>
+<td>array of PriceLevel</td>
+<td>Array of price levels for buys</td>
+</tr>
+<tr>
+<td>sells</td>
+<td>array of PriceLevel</td>
+<td>Array of price levels for sells</td>
+</tr>
+</tbody></table>
+
+<p>SpotLimitOrderbook:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>price</td>
+<td>string</td>
+<td>Price number of the price level.</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>string</td>
+<td>Quantity of the price level.</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>sint64</td>
+<td>Price level last updated timestamp in UNIX millis.</td>
+</tr>
+</tbody></table>
+<h2 id='spot-exchange-orders'>Spot Exchange - Orders</h2>
+<p>Orders of a Spot Market</p>
+
+<p><code>POST /injective_spot_exchange_rpc.InjectiveSpotExchangeRPC/Orders</code></p>
+
+<blockquote>
+<p>Request: </p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"orderSide"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"subaccountId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"orders"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="nl">"orderHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abcd_efgh_ijkl_mnop"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"orderSide"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"subaccountId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123.4"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"unfilledQuantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"triggerPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123.4"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"feeRecipient"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.1"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456789"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456789"</span><span class="w">
+  </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='request-parameters'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>MarketId of the market&#39;s orderbook we want to fetch</td>
+</tr>
+<tr>
+<td>order_side</td>
+<td>string</td>
+<td>Look for specific order side</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>string</td>
+<td>Look for specific subaccountId of an order</td>
+</tr>
+</tbody></table>
+<h3 id='response-parameters'>Response Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>orders</td>
+<td>list of SpotLimitOrder</td>
+<td>List of spot market orders</td>
+</tr>
+</tbody></table>
+
+<p>SpotLimitOrder:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>order_hash</td>
+<td>string</td>
+<td>Hash of the order</td>
+</tr>
+<tr>
+<td>order_side</td>
+<td>string</td>
+<td>The type of the order</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>SpotMarket ID is keccak265(baseDenom</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>string</td>
+<td>The subaccountId that this order belongs to</td>
+</tr>
+<tr>
+<td>price</td>
+<td>string</td>
+<td>Price of the order</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>string</td>
+<td>Quantity of the order</td>
+</tr>
+<tr>
+<td>unfilled_quantity</td>
+<td>string</td>
+<td>The amount of the quantity remaining unfilled</td>
+</tr>
+<tr>
+<td>trigger_price</td>
+<td>string</td>
+<td>Trigger price is the trigger price used by stop/take orders</td>
+</tr>
+<tr>
+<td>fee_recipient</td>
+<td>string</td>
+<td>Fee recipient address</td>
+</tr>
+<tr>
+<td>state</td>
+<td>string</td>
+<td>Order state</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>sint64</td>
+<td>Order committed timestamp in UNIX millis.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>sint64</td>
+<td>Order updated timestamp in UNIX millis.</td>
+</tr>
+</tbody></table>
+<h2 id='spot-exchange-steam-orders'>Spot Exchange - Steam Orders</h2>
+<p>Stream updates to individual orders of a Spot Market</p>
+
+<p><code>POST /injective_spot_exchange_rpc.InjectiveSpotExchangeRPC/StreamOrders</code></p>
+
+<blockquote>
+<p>Request: </p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"orderSide"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"subaccountId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"order"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"orderHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abcd_efgh_ijkl_mnop"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"orderSide"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"subaccountId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123.4"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"unfilledQuantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"triggerPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123.4"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"feeRecipient"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.1"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456789"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456789"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"operationType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"operation_type"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456789"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='request-parameters'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>MarketId of the market&#39;s orderbook we want to fetch</td>
+</tr>
+<tr>
+<td>order_side</td>
+<td>string</td>
+<td>Look for specific order side</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>string</td>
+<td>Look for specific subaccountId of an order</td>
+</tr>
+</tbody></table>
+<h3 id='response-parameters'>Response Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>orders</td>
+<td>SpotLimitOrder</td>
+<td>List of spot market orders</td>
+</tr>
+<tr>
+<td>operation_type</td>
+<td>string</td>
+<td>Order update type</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>string</td>
+<td>Operation timestamp in UNIX millis.</td>
+</tr>
+</tbody></table>
+
+<p>SpotLimitOrder:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>order_hash</td>
+<td>string</td>
+<td>Hash of the order</td>
+</tr>
+<tr>
+<td>order_side</td>
+<td>string</td>
+<td>The type of the order</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>SpotMarket ID is keccak265(baseDenom</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>string</td>
+<td>The subaccountId that this order belongs to</td>
+</tr>
+<tr>
+<td>price</td>
+<td>string</td>
+<td>Price of the order</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>string</td>
+<td>Quantity of the order</td>
+</tr>
+<tr>
+<td>unfilled_quantity</td>
+<td>string</td>
+<td>The amount of the quantity remaining unfilled</td>
+</tr>
+<tr>
+<td>trigger_price</td>
+<td>string</td>
+<td>Trigger price is the trigger price used by stop/take orders</td>
+</tr>
+<tr>
+<td>fee_recipient</td>
+<td>string</td>
+<td>Fee recipient address</td>
+</tr>
+<tr>
+<td>state</td>
+<td>string</td>
+<td>Order state</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>sint64</td>
+<td>Order committed timestamp in UNIX millis.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>sint64</td>
+<td>Order updated timestamp in UNIX millis.</td>
+</tr>
+</tbody></table>
+<h2 id='spot-exchange-trades'>Spot Exchange - Trades</h2>
+<p>Trades of a Spot Market</p>
+
+<p><code>POST /injective_spot_exchange_rpc.InjectiveSpotExchangeRPC/Trades</code></p>
+
+<blockquote>
+<p>Request: </p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"executionSide"</span><span class="p">:</span><span class="w"> </span><span class="s2">"execution_side"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"subaccountId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"trades"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="nl">"orderHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abcd-efgh-ijkl-mnop"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"subaccountId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"tradeExecutionType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"type"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"tradeDirection"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456789"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"fee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"executedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456789"</span><span class="w">
+  </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='request-parameters'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>MarketId of the market&#39;s orderbook we want to fetch</td>
+</tr>
+<tr>
+<td>execution_side</td>
+<td>string</td>
+<td>Filter by execution side of the trade</td>
+</tr>
+<tr>
+<td>direction</td>
+<td>string</td>
+<td>Filter by direction the trade</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>string</td>
+<td>SubaccountId of the trader we want to get the trades from</td>
+</tr>
+</tbody></table>
+<h3 id='response-parameters'>Response Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>trades</td>
+<td>list of SpotTrade</td>
+<td>Trades of a Spot Market</td>
+</tr>
+</tbody></table>
+
+<p>SpotMarketInfo:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>order_hash</td>
+<td>string</td>
+<td>Maker order hash.</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>string</td>
+<td>The subaccountId that executed the trade</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>The ID of the market that this trade is in</td>
+</tr>
+<tr>
+<td>trade_execution_type</td>
+<td>string</td>
+<td>The execution type of the trade</td>
+</tr>
+<tr>
+<td>trade_direction</td>
+<td>string</td>
+<td>The direction the trade</td>
+</tr>
+<tr>
+<td>price</td>
+<td>PriceLevel</td>
+<td>Price level at which trade has been executed</td>
+</tr>
+<tr>
+<td>fee</td>
+<td>string</td>
+<td>The fee associated with the trade (base asset denom)</td>
+</tr>
+<tr>
+<td>executed_at</td>
+<td>string</td>
+<td>Timestamp of trade execution in UNIX millis</td>
+</tr>
+</tbody></table>
+
+<p>PriceLevel:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>price</td>
+<td>string</td>
+<td>Price number of the price level.</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>string</td>
+<td>Quantity of the price level.</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>sint64</td>
+<td>Price level last updated timestamp in UNIX millis.</td>
+</tr>
+</tbody></table>
+<h2 id='spot-exchange-stream-trades'>Spot Exchange - Stream Trades</h2>
+<p>Stream newly executed trades from Spot Market</p>
+
+<p><code>POST /injective_spot_exchange_rpc.InjectiveSpotExchangeRPC/StreamTrades</code></p>
+
+<blockquote>
+<p>Request: </p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"executionSide"</span><span class="p">:</span><span class="w"> </span><span class="s2">"execution_side"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"subaccountId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"trade"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"orderHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abcd-efgh-ijkl-mnop"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"subaccountId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"tradeExecutionType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"type"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"tradeDirection"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456789"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"fee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"executedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456789"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"operationType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"operation_type"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123123123"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='request-parameters'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>MarketId of the market&#39;s orderbook we want to fetch</td>
+</tr>
+<tr>
+<td>execution_side</td>
+<td>string</td>
+<td>Filter by execution side of the trade</td>
+</tr>
+<tr>
+<td>direction</td>
+<td>string</td>
+<td>Filter by direction the trade</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>string</td>
+<td>SubaccountId of the trader we want to get the trades from</td>
+</tr>
+</tbody></table>
+<h3 id='response-parameters'>Response Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>trades</td>
+<td>SpotTrade</td>
+<td>Trades of a Spot Market</td>
+</tr>
+<tr>
+<td>operation_type</td>
+<td>string</td>
+<td>Executed trades update type</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>string</td>
+<td>Operation timestamp in UNIX millis.</td>
+</tr>
+</tbody></table>
+
+<p>SpotMarketInfo:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>order_hash</td>
+<td>string</td>
+<td>Maker order hash.</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>string</td>
+<td>The subaccountId that executed the trade</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>The ID of the market that this trade is in</td>
+</tr>
+<tr>
+<td>trade_execution_type</td>
+<td>string</td>
+<td>The execution type of the trade</td>
+</tr>
+<tr>
+<td>trade_direction</td>
+<td>string</td>
+<td>The direction the trade</td>
+</tr>
+<tr>
+<td>price</td>
+<td>PriceLevel</td>
+<td>Price level at which trade has been executed</td>
+</tr>
+<tr>
+<td>fee</td>
+<td>string</td>
+<td>The fee associated with the trade (base asset denom)</td>
+</tr>
+<tr>
+<td>executed_at</td>
+<td>string</td>
+<td>Timestamp of trade execution in UNIX millis</td>
+</tr>
+</tbody></table>
+
+<p>PriceLevel:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>price</td>
+<td>string</td>
+<td>Price number of the price level.</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>string</td>
+<td>Quantity of the price level.</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>sint64</td>
+<td>Price level last updated timestamp in UNIX millis.</td>
+</tr>
+</tbody></table>
+<h2 id='spot-exchange-subaccount-order-list'>Spot Exchange - Subaccount Order List</h2>
+<p>List orders posted from this subaccount</p>
+
+<p><code>POST /injective_spot_exchange_rpc.InjectiveSpotExchangeRPC/SubaccountOrderList</code></p>
+
+<blockquote>
+<p>Request: </p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"subaccountId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"orders"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="nl">"orderHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abcd_efgh_ijkl_mnop"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"orderSide"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"subaccountId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123.4"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"unfilledQuantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"triggerPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123.4"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"feeRecipient"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.1"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456789"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456789"</span><span class="w">
+  </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='request-parameters'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>subaccount_id</td>
+<td>string</td>
+<td>subaccount ID to filter orders for specific subaccount</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>Market ID to filter orders for specific market</td>
+</tr>
+</tbody></table>
+<h3 id='response-parameters'>Response Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>orders</td>
+<td>list of SpotLimitOrder</td>
+<td>List of spot orders</td>
+</tr>
+</tbody></table>
+
+<p>SpotLimitOrder:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>order_hash</td>
+<td>string</td>
+<td>Hash of the order</td>
+</tr>
+<tr>
+<td>order_side</td>
+<td>string</td>
+<td>The type of the order</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>SpotMarket ID is keccak265(baseDenom</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>string</td>
+<td>The subaccountId that this order belongs to</td>
+</tr>
+<tr>
+<td>price</td>
+<td>string</td>
+<td>Price of the order</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>string</td>
+<td>Quantity of the order</td>
+</tr>
+<tr>
+<td>unfilled_quantity</td>
+<td>string</td>
+<td>The amount of the quantity remaining unfilled</td>
+</tr>
+<tr>
+<td>trigger_price</td>
+<td>string</td>
+<td>Trigger price is the trigger price used by stop/take orders</td>
+</tr>
+<tr>
+<td>fee_recipient</td>
+<td>string</td>
+<td>Fee recipient address</td>
+</tr>
+<tr>
+<td>state</td>
+<td>string</td>
+<td>Order state</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>sint64</td>
+<td>Order committed timestamp in UNIX millis.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>sint64</td>
+<td>Order updated timestamp in UNIX millis.</td>
+</tr>
+</tbody></table>
+<h2 id='spot-exchange-subaccount-trade-list'>Spot Exchange - Subaccount Trade List</h2>
+<p>List trades executed by this subaccount</p>
+
+<p><code>POST /injective_spot_exchange_rpc.InjectiveSpotExchangeRPC/SubaccountTradeList</code></p>
+
+<blockquote>
+<p>Request: </p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"subaccountId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"executionType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"execution_type"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123123"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"trades"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="nl">"orderHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abcd-efgh-ijkl-mnop"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"subaccountId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"tradeExecutionType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"type"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"tradeDirection"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456789"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"fee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"executedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456789"</span><span class="w">
+  </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='request-parameters'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>subaccount_id</td>
+<td>string</td>
+<td>SubaccountId of the trader we want to get the trades from</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>Filter trades by market ID</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>string</td>
+<td>Filter by execution type of trades</td>
+</tr>
+<tr>
+<td>direction</td>
+<td>string</td>
+<td>Filter by direction trades</td>
+</tr>
+</tbody></table>
+<h3 id='response-parameters'>Response Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>trades</td>
+<td>list of SpotTrade</td>
+<td>List of spot market trades</td>
+</tr>
+</tbody></table>
+
+<p>SpotMarketInfo:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>order_hash</td>
+<td>string</td>
+<td>Maker order hash.</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>string</td>
+<td>The subaccountId that executed the trade</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>The ID of the market that this trade is in</td>
+</tr>
+<tr>
+<td>trade_execution_type</td>
+<td>string</td>
+<td>The execution type of the trade</td>
+</tr>
+<tr>
+<td>trade_direction</td>
+<td>string</td>
+<td>The direction the trade</td>
+</tr>
+<tr>
+<td>price</td>
+<td>PriceLevel</td>
+<td>Price level at which trade has been executed</td>
+</tr>
+<tr>
+<td>fee</td>
+<td>string</td>
+<td>The fee associated with the trade (base asset denom)</td>
+</tr>
+<tr>
+<td>executed_at</td>
+<td>string</td>
+<td>Timestamp of trade execution in UNIX millis</td>
+</tr>
+</tbody></table>
+
+<p>PriceLevel:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>price</td>
+<td>string</td>
+<td>Price number of the price level.</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>string</td>
+<td>Quantity of the price level.</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>sint64</td>
+<td>Price level last updated timestamp in UNIX millis.</td>
+</tr>
+</tbody></table>
+
       </div>
       <div class="dark-box">
           <div class="lang-selector">
