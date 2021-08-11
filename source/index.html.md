@@ -9,7 +9,13 @@ language_tabs: # must be one of https://git.io/vQNgJ
 
 includes:
   - architecture
-  - api
+  - exchangerpc
+  - accountsrpc
+  - spotrpc
+  - derivativesrpc
+  - oraclerpc
+  - insurancerpc
+  - chronosrpc
 search: true
 
 code_clipboard: true
