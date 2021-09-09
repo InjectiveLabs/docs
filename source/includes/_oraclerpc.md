@@ -11,37 +11,38 @@ StreamPrices streams new price changes for a specified oracle. If no oracles are
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "baseSymbol": "INJ",
-  "oracleType": "band",
-  "quoteSymbol": "USDT"
-}
+``` python
+import injective.exchange_api.injective_oracle_rpc_pb2 as oracle_rpc_pb
+import injective.exchange_api.injective_oracle_rpc_pb2_grpc as oracle_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        oracle_exchange_rpc = oracle_rpc_grpc.InjectiveOracleRPCStub(channel)
+        stream_req = oracle_rpc_pb.StreamPricesRequest(base_symbol = "BTC", quote_symbol = "USD", oracle_type = "coinbase")
+        stream_resp = oracle_exchange_rpc.StreamPrices(stream_req)
+        async for oracle in stream_resp:
+            print("\n-- Oracle Prices Update:\n", oracle)
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
 |baseSymbol|string|Oracle base currency|
-|oracleType|string|Oracle Type|
 |quoteSymbol|string|Oracle quote currency|
-
+|oracleType|string|Oracle Type|
 
 
 ### Response Parameters
 > Streaming Response Example:
 
-``` json
-{
-  "price": "14.01",
-  "timestamp": 1544614248000
-}
+``` python
+price: "46645.119999"
+timestamp: 1631217138000
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
 |price|string|The price of the oracle asset|
 |timestamp|integer|Operation timestamp in UNIX millis.|
-
 
 
 
@@ -52,35 +53,39 @@ List all oracles
 `POST /InjectiveOracleRPC/oracleList`
 
 ### Request Parameters
+> Request Example:
+
+``` python
+import injective.exchange_api.injective_oracle_rpc_pb2 as oracle_rpc_pb
+import injective.exchange_api.injective_oracle_rpc_pb2_grpc as oracle_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        oracle_exchange_rpc = oracle_rpc_grpc.InjectiveOracleRPCStub(channel)
+        oracle_list = await oracle_exchange_rpc.OracleList(oracle_rpc_pb.OracleListRequest())
+        print("\n-- Oracle List Update:\n", oracle_list)
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|baseSymbol|string|Oracle base currency|
+|oracleType|string|Oracle Type|
+|quoteSymbol|string|Oracle quote currency|
+
 
 ### Response Parameters
 > Response Example:
 
-``` json
-{
-  "oracles": [
-    {
-      "baseSymbol": "INJ",
-      "oracleType": "band",
-      "price": "14.01",
-      "quoteSymbol": "USDT",
-      "symbol": "INJ/USDT"
-    },
-    {
-      "baseSymbol": "INJ",
-      "oracleType": "band",
-      "price": "14.01",
-      "quoteSymbol": "USDT",
-      "symbol": "INJ/USDT"
-    },
-    {
-      "baseSymbol": "INJ",
-      "oracleType": "band",
-      "price": "14.01",
-      "quoteSymbol": "USDT",
-      "symbol": "INJ/USDT"
-    }
-  ]
+``` python
+oracles {
+  symbol: "ADA"
+  oracle_type: "band"
+  price: "2.797398"
+}
+oracles {
+  symbol: "AKRO"
+  oracle_type: "band"
+  price: "0.0333066"
 }
 ```
 
@@ -93,13 +98,8 @@ Oracle:
 |Parameter|Type|Description|
 |----|----|----|
 |symbol|string|The symbol of the oracle asset.|
-|baseSymbol|string|Oracle base currency|
 |oracleType|string|Oracle Type|
 |price|string|The price of the oracle asset|
-|quoteSymbol|string|Oracle quote currency|
-
-
-
 
 
 ## InjectiveOracleRPC.Price
@@ -111,31 +111,30 @@ Gets the price of the oracle
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "baseSymbol": "INJ",
-  "oracleScaleFactor": 6,
-  "oracleType": "band",
-  "quoteSymbol": "USDT"
-}
+``` python
+import injective.exchange_api.injective_oracle_rpc_pb2 as oracle_rpc_pb
+import injective.exchange_api.injective_oracle_rpc_pb2_grpc as oracle_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        oracle_exchange_rpc = oracle_rpc_grpc.InjectiveOracleRPCStub(channel)
+        oracle_price = await oracle_exchange_rpc.Price(oracle_rpc_pb.PriceRequest(base_symbol = "BTC", quote_symbol = "USD", oracle_type = "coinbase", oracle_scale_factor = 6))
+        print("\n-- Oracle Price Update:\n", oracle_price)
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
 |baseSymbol|string|Oracle base currency|
-|oracleScaleFactor|integer|OracleScaleFactor|
-|oracleType|string|Oracle Type|
 |quoteSymbol|string|Oracle quote currency|
-
+|oracleType|string|Oracle Type|
+|oracleScaleFactor|integer|OracleScaleFactor|
 
 
 ### Response Parameters
 > Response Example:
 
-``` json
-{
-  "price": "14.01"
-}
+``` python
+ price: "46611055000"
 ```
 
 |Parameter|Type|Description|
