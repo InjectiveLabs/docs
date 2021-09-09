@@ -82,28 +82,10 @@ async def main() -> None:
 {
   "oracles": [
     {
-      "baseSymbol": "INJ",
       "oracleType": "band",
       "price": "14.01",
-      "quoteSymbol": "USDT",
-      "symbol": "INJ/USDT"
-    },
-    {
-      "baseSymbol": "INJ",
-      "oracleType": "band",
-      "price": "14.01",
-      "quoteSymbol": "USDT",
-      "symbol": "INJ/USDT"
-    },
-    {
-      "baseSymbol": "INJ",
-      "oracleType": "band",
-      "price": "14.01",
-      "quoteSymbol": "USDT",
-      "symbol": "INJ/USDT"
+      "symbol": "INJ"
     }
-  ]
-}
 ```
 
 |Parameter|Type|Description|
@@ -114,9 +96,9 @@ Oracle:
 
 |Parameter|Type|Description|
 |----|----|----|
-|symbol|string|The symbol of the oracle asset.|
 |oracleType|string|Oracle Type|
 |price|string|The price of the oracle asset|
+|symbol|string|The symbol of the oracle asset.|
 
 
 ## InjectiveOracleRPC.Price
