@@ -34,9 +34,11 @@ async def main() -> None:
 ### Response Parameters
 > Streaming Response Example:
 
-``` python
-price: "46645.119999"
-timestamp: 1631217138000
+``` json
+{
+  "price": "14.01",
+  "timestamp": 1544614248000
+}
 ```
 
 |Parameter|Type|Description|
@@ -76,16 +78,31 @@ async def main() -> None:
 ### Response Parameters
 > Response Example:
 
-``` python
-oracles {
-  symbol: "ADA"
-  oracle_type: "band"
-  price: "2.797398"
-}
-oracles {
-  symbol: "AKRO"
-  oracle_type: "band"
-  price: "0.0333066"
+``` json
+{
+  "oracles": [
+    {
+      "baseSymbol": "INJ",
+      "oracleType": "band",
+      "price": "14.01",
+      "quoteSymbol": "USDT",
+      "symbol": "INJ/USDT"
+    },
+    {
+      "baseSymbol": "INJ",
+      "oracleType": "band",
+      "price": "14.01",
+      "quoteSymbol": "USDT",
+      "symbol": "INJ/USDT"
+    },
+    {
+      "baseSymbol": "INJ",
+      "oracleType": "band",
+      "price": "14.01",
+      "quoteSymbol": "USDT",
+      "symbol": "INJ/USDT"
+    }
+  ]
 }
 ```
 
@@ -133,8 +150,10 @@ async def main() -> None:
 ### Response Parameters
 > Response Example:
 
-``` python
- price: "46611055000"
+``` json
+{
+  "price": "46361990000"
+}
 ```
 
 |Parameter|Type|Description|
