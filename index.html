@@ -6524,12 +6524,17 @@ See the examples folder for simple Golang examples.</p>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"baseSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INJ"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"oracleType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"band"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"quoteSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USDT"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">injective.exchange_api.injective_oracle_rpc_pb2</span> <span class="k">as</span> <span class="n">oracle_rpc_pb</span>
+<span class="kn">import</span> <span class="nn">injective.exchange_api.injective_oracle_rpc_pb2_grpc</span> <span class="k">as</span> <span class="n">oracle_rpc_grpc</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">grpc</span><span class="p">.</span><span class="n">aio</span><span class="p">.</span><span class="n">insecure_channel</span><span class="p">(</span><span class="s">'testnet-sentry0.injective.network:9910'</span><span class="p">)</span> <span class="k">as</span> <span class="n">channel</span><span class="p">:</span>
+        <span class="n">oracle_exchange_rpc</span> <span class="o">=</span> <span class="n">oracle_rpc_grpc</span><span class="p">.</span><span class="n">InjectiveOracleRPCStub</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
+        <span class="n">stream_req</span> <span class="o">=</span> <span class="n">oracle_rpc_pb</span><span class="p">.</span><span class="n">StreamPricesRequest</span><span class="p">(</span><span class="n">base_symbol</span> <span class="o">=</span> <span class="s">"BTC"</span><span class="p">,</span> <span class="n">quote_symbol</span> <span class="o">=</span> <span class="s">"USD"</span><span class="p">,</span> <span class="n">oracle_type</span> <span class="o">=</span> <span class="s">"coinbase"</span><span class="p">)</span>
+        <span class="n">stream_resp</span> <span class="o">=</span> <span class="n">oracle_exchange_rpc</span><span class="p">.</span><span class="n">StreamPrices</span><span class="p">(</span><span class="n">stream_req</span><span class="p">)</span>
+        <span class="k">async</span> <span class="k">for</span> <span class="n">oracle</span> <span class="ow">in</span> <span class="n">stream_resp</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">-- Oracle Prices Update:</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">oracle</span><span class="p">)</span>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -6543,14 +6548,14 @@ See the examples folder for simple Golang examples.</p>
 <td>Oracle base currency</td>
 </tr>
 <tr>
-<td>oracleType</td>
-<td>string</td>
-<td>Oracle Type</td>
-</tr>
-<tr>
 <td>quoteSymbol</td>
 <td>string</td>
 <td>Oracle quote currency</td>
+</tr>
+<tr>
+<td>oracleType</td>
+<td>string</td>
+<td>Oracle Type</td>
 </tr>
 </tbody></table>
 <h3 id='response-parameters'>Response Parameters</h3>
@@ -6584,35 +6589,53 @@ See the examples folder for simple Golang examples.</p>
 <p>List all oracles</p>
 
 <p><code>POST /InjectiveOracleRPC/oracleList</code></p>
-<h3 id='request-parameters-2'>Request Parameters</h3><h3 id='response-parameters-2'>Response Parameters</h3>
+<h3 id='request-parameters-2'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">injective.exchange_api.injective_oracle_rpc_pb2</span> <span class="k">as</span> <span class="n">oracle_rpc_pb</span>
+<span class="kn">import</span> <span class="nn">injective.exchange_api.injective_oracle_rpc_pb2_grpc</span> <span class="k">as</span> <span class="n">oracle_rpc_grpc</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">grpc</span><span class="p">.</span><span class="n">aio</span><span class="p">.</span><span class="n">insecure_channel</span><span class="p">(</span><span class="s">'testnet-sentry0.injective.network:9910'</span><span class="p">)</span> <span class="k">as</span> <span class="n">channel</span><span class="p">:</span>
+        <span class="n">oracle_exchange_rpc</span> <span class="o">=</span> <span class="n">oracle_rpc_grpc</span><span class="p">.</span><span class="n">InjectiveOracleRPCStub</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
+        <span class="n">oracle_list</span> <span class="o">=</span> <span class="k">await</span> <span class="n">oracle_exchange_rpc</span><span class="p">.</span><span class="n">OracleList</span><span class="p">(</span><span class="n">oracle_rpc_pb</span><span class="p">.</span><span class="n">OracleListRequest</span><span class="p">())</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">-- Oracle List Update:</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">oracle_list</span><span class="p">)</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>baseSymbol</td>
+<td>string</td>
+<td>Oracle base currency</td>
+</tr>
+<tr>
+<td>oracleType</td>
+<td>string</td>
+<td>Oracle Type</td>
+</tr>
+<tr>
+<td>quoteSymbol</td>
+<td>string</td>
+<td>Oracle quote currency</td>
+</tr>
+</tbody></table>
+<h3 id='response-parameters-2'>Response Parameters</h3>
 <blockquote>
 <p>Response Example:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"oracles"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"baseSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INJ"</span><span class="p">,</span><span class="w">
       </span><span class="nl">"oracleType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"band"</span><span class="p">,</span><span class="w">
       </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"14.01"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"quoteSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USDT"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INJ/USDT"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"baseSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INJ"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"oracleType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"band"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"14.01"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"quoteSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USDT"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INJ/USDT"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"baseSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INJ"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"oracleType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"band"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"14.01"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"quoteSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USDT"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INJ/USDT"</span><span class="w">
+      </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INJ"</span><span class="w">
     </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <table><thead>
 <tr>
@@ -6638,16 +6661,6 @@ See the examples folder for simple Golang examples.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td>symbol</td>
-<td>string</td>
-<td>The symbol of the oracle asset.</td>
-</tr>
-<tr>
-<td>baseSymbol</td>
-<td>string</td>
-<td>Oracle base currency</td>
-</tr>
-<tr>
 <td>oracleType</td>
 <td>string</td>
 <td>Oracle Type</td>
@@ -6658,9 +6671,9 @@ See the examples folder for simple Golang examples.</p>
 <td>The price of the oracle asset</td>
 </tr>
 <tr>
-<td>quoteSymbol</td>
+<td>symbol</td>
 <td>string</td>
-<td>Oracle quote currency</td>
+<td>The symbol of the oracle asset.</td>
 </tr>
 </tbody></table>
 <h2 id='injectiveoraclerpc-price'>InjectiveOracleRPC.Price</h2>
@@ -6671,13 +6684,15 @@ See the examples folder for simple Golang examples.</p>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"baseSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INJ"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"oracleScaleFactor"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"oracleType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"band"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"quoteSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USDT"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">injective.exchange_api.injective_oracle_rpc_pb2</span> <span class="k">as</span> <span class="n">oracle_rpc_pb</span>
+<span class="kn">import</span> <span class="nn">injective.exchange_api.injective_oracle_rpc_pb2_grpc</span> <span class="k">as</span> <span class="n">oracle_rpc_grpc</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">grpc</span><span class="p">.</span><span class="n">aio</span><span class="p">.</span><span class="n">insecure_channel</span><span class="p">(</span><span class="s">'testnet-sentry0.injective.network:9910'</span><span class="p">)</span> <span class="k">as</span> <span class="n">channel</span><span class="p">:</span>
+        <span class="n">oracle_exchange_rpc</span> <span class="o">=</span> <span class="n">oracle_rpc_grpc</span><span class="p">.</span><span class="n">InjectiveOracleRPCStub</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
+        <span class="n">oracle_price</span> <span class="o">=</span> <span class="k">await</span> <span class="n">oracle_exchange_rpc</span><span class="p">.</span><span class="n">Price</span><span class="p">(</span><span class="n">oracle_rpc_pb</span><span class="p">.</span><span class="n">PriceRequest</span><span class="p">(</span><span class="n">base_symbol</span> <span class="o">=</span> <span class="s">"BTC"</span><span class="p">,</span> <span class="n">quote_symbol</span> <span class="o">=</span> <span class="s">"USD"</span><span class="p">,</span> <span class="n">oracle_type</span> <span class="o">=</span> <span class="s">"coinbase"</span><span class="p">,</span> <span class="n">oracle_scale_factor</span> <span class="o">=</span> <span class="mi">6</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">-- Oracle Price Update:</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">oracle_price</span><span class="p">)</span>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -6691,9 +6706,9 @@ See the examples folder for simple Golang examples.</p>
 <td>Oracle base currency</td>
 </tr>
 <tr>
-<td>oracleScaleFactor</td>
-<td>integer</td>
-<td>OracleScaleFactor</td>
+<td>quoteSymbol</td>
+<td>string</td>
+<td>Oracle quote currency</td>
 </tr>
 <tr>
 <td>oracleType</td>
@@ -6701,9 +6716,9 @@ See the examples folder for simple Golang examples.</p>
 <td>Oracle Type</td>
 </tr>
 <tr>
-<td>quoteSymbol</td>
-<td>string</td>
-<td>Oracle quote currency</td>
+<td>oracleScaleFactor</td>
+<td>integer</td>
+<td>OracleScaleFactor</td>
 </tr>
 </tbody></table>
 <h3 id='response-parameters-3'>Response Parameters</h3>
@@ -6711,7 +6726,7 @@ See the examples folder for simple Golang examples.</p>
 <p>Response Example:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"14.01"</span><span class="w">
+  </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"46361990000"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <table><thead>
