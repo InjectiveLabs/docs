@@ -12,15 +12,15 @@ Get subaccount's deposits and withdrawals history
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-  "transferTypes": [
-    "deposit",
-    "withdraw"
-  ]
-}
+``` python
+import injective.exchange_api.injective_accounts_rpc_pb2 as accounts_rpc_pb
+import injective.exchange_api.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        accounts_exchange_rpc = accounts_rpc_grpc.InjectiveAccountsRPCStub(channel)
+        subacc_history = await accounts_exchange_rpc.SubaccountHistory(accounts_rpc_pb.SubaccountHistoryRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000", denom = "peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08"))
+        print("\n-- Subaccount History Update:\n", subacc_history)
 ```
 
 |Parameter|Type|Description|
@@ -37,30 +37,6 @@ Get subaccount's deposits and withdrawals history
 ``` json
 {
   "transfers": [
-    {
-      "amount": {
-        "amount": "10000000000000000000",
-        "denom": "inj"
-      },
-      "dstAccountAddress": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-      "dstSubaccountID": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "executedAt": 1544614248000,
-      "srcAccountAddress": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-      "srcSubaccountID": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "transferType": "deposit"
-    },
-    {
-      "amount": {
-        "amount": "10000000000000000000",
-        "denom": "inj"
-      },
-      "dstAccountAddress": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-      "dstSubaccountID": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "executedAt": 1544614248000,
-      "srcAccountAddress": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-      "srcSubaccountID": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "transferType": "deposit"
-    },
     {
       "amount": {
         "amount": "10000000000000000000",
@@ -114,9 +90,6 @@ CosmosCoin:
 
 
 
-
-
-
 ## InjectiveAccountsRPC.SubaccountOrderSummary
 
 Get subaccount's orders summary
@@ -126,12 +99,15 @@ Get subaccount's orders summary
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-  "orderDirection": "buy",
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+import injective.exchange_api.injective_accounts_rpc_pb2 as accounts_rpc_pb
+import injective.exchange_api.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        accounts_exchange_rpc = accounts_rpc_grpc.InjectiveAccountsRPCStub(channel)
+        subacc_orders = await accounts_exchange_rpc.SubaccountOrderSummary(accounts_rpc_pb.SubaccountOrderSummaryRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000", order_direction = "buy"))
+        print("\n-- Subaccount Total Orders Update:\n", subacc_orders)
 ```
 
 |Parameter|Type|Description|
@@ -169,10 +145,15 @@ List all subaccounts IDs of an account address
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "accountAddress": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
-}
+``` python
+import injective.exchange_api.injective_accounts_rpc_pb2 as accounts_rpc_pb
+import injective.exchange_api.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        accounts_exchange_rpc = accounts_rpc_grpc.InjectiveAccountsRPCStub(channel)
+        subacc_list = await accounts_exchange_rpc.SubaccountsList(accounts_rpc_pb.SubaccountsListRequest(account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"))
+        print("\n-- Subaccount List Update:\n", subacc_list)
 ```
 
 |Parameter|Type|Description|
@@ -210,14 +191,17 @@ StreamSubaccountBalance streams new balance changes for a specified subaccount a
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "denoms": [
-    "peggy0xdac17f958d2ee523a2206206994597c13d831ec7",
-    "peggy0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
-  ],
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+import injective.exchange_api.injective_accounts_rpc_pb2 as accounts_rpc_pb
+import injective.exchange_api.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        accounts_exchange_rpc = accounts_rpc_grpc.InjectiveAccountsRPCStub(channel)
+        stream_req = accounts_rpc_pb.StreamSubaccountBalanceRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000")
+        stream_resp = accounts_exchange_rpc.StreamSubaccountBalance(stream_req)
+        async for subacc in stream_resp:
+            print("\n-- Subaccount Balance Update:\n", subacc)
 ```
 
 |Parameter|Type|Description|
@@ -268,9 +252,6 @@ SubaccountDeposit:
 
 
 
-
-
-
 ## InjectiveAccountsRPC.SubaccountBalance
 
 Gets a balance for specific coin denom
@@ -280,11 +261,15 @@ Gets a balance for specific coin denom
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "denom": "inj",
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+import injective.exchange_api.injective_accounts_rpc_pb2 as accounts_rpc_pb
+import injective.exchange_api.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        accounts_exchange_rpc = accounts_rpc_grpc.InjectiveAccountsRPCStub(channel)        
+        subacc_balance = await accounts_exchange_rpc.SubaccountBalanceEndpoint(accounts_rpc_pb.SubaccountBalanceRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000", denom = "inj"))
+        print("\n-- Subaccount Balance Update:\n", subacc_balance)
 ```
 
 |Parameter|Type|Description|
@@ -345,14 +330,15 @@ List subaccount balances for the provided denoms.
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "denoms": [
-    "peggy0xdac17f958d2ee523a2206206994597c13d831ec7",
-    "peggy0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
-  ],
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+import injective.exchange_api.injective_accounts_rpc_pb2 as accounts_rpc_pb
+import injective.exchange_api.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        accounts_exchange_rpc = accounts_rpc_grpc.InjectiveAccountsRPCStub(channel)
+        subacc_list = await accounts_exchange_rpc.SubaccountBalancesList(accounts_rpc_pb.SubaccountBalancesListRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000")
+        print("\n-- Subaccount Balances List Update:\n", subacc_list)
 ```
 
 |Parameter|Type|Description|
