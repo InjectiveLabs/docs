@@ -11,13 +11,14 @@ Stream newly executed trades from Spot Market
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "direction": "buy",
-  "executionSide": "maker",
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
+        stream_req = spot_exchange_rpc_pb.StreamTradesRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0")
+        stream_resp = spot_exchange_rpc.StreamTrades(stream_req)
+        async for trade in stream_resp:
+            print("\n-- Trades Update:\n", trade)
 ```
 
 |Parameter|Type|Description|
@@ -32,7 +33,7 @@ Stream newly executed trades from Spot Market
 ### Response Parameters
 > Streaming Response Example:
 
-``` json
+``` python
 {
   "operationType": "insert",
   "timestamp": 1544614248000,
@@ -81,10 +82,6 @@ PriceLevel:
 |timestamp|integer|Price level last updated timestamp in UNIX millis.|
 
 
-
-
-
-
 ## InjectiveSpotExchangeRPC.SubaccountOrdersList
 
 List orders posted from this subaccount
@@ -94,11 +91,15 @@ List orders posted from this subaccount
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
+        ordresp = await spot_exchange_rpc.SubaccountOrdersList(spot_exchange_rpc_pb.SubaccountOrdersListRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000", market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"))
+        print("\n-- Subaccount Orders Update:\n", ordresp)
 ```
 
 |Parameter|Type|Description|
@@ -142,34 +143,6 @@ List orders posted from this subaccount
       "unfilledQuantity": "28000000000000000.00000000000000000",
       "updatedAt": 1544614248000
     },
-    {
-      "createdAt": 1544614248000,
-      "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-      "marketId": "0x01e920e081b6f3b2e5183399d5b6733bb6f80319e6be3805b95cb7236910ff0e",
-      "orderHash": "0x4f4391f8ee11f656d0a9396370c6991f59c4bb491214e8b6ab2011a1bcf1c44e",
-      "orderSide": "buy",
-      "price": "0.000000003156",
-      "quantity": "28000000000000000.00000000000000000",
-      "state": "partial_filled",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "triggerPrice": "0",
-      "unfilledQuantity": "28000000000000000.00000000000000000",
-      "updatedAt": 1544614248000
-    },
-    {
-      "createdAt": 1544614248000,
-      "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-      "marketId": "0x01e920e081b6f3b2e5183399d5b6733bb6f80319e6be3805b95cb7236910ff0e",
-      "orderHash": "0x4f4391f8ee11f656d0a9396370c6991f59c4bb491214e8b6ab2011a1bcf1c44e",
-      "orderSide": "buy",
-      "price": "0.000000003156",
-      "quantity": "28000000000000000.00000000000000000",
-      "state": "partial_filled",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "triggerPrice": "0",
-      "unfilledQuantity": "28000000000000000.00000000000000000",
-      "updatedAt": 1544614248000
-    }
   ]
 }
 ```
@@ -208,13 +181,15 @@ List trades executed by this subaccount
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "direction": "buy",
-  "executionType": "market",
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
+        traderesp = await spot_exchange_rpc.SubaccountTradesList(spot_exchange_rpc_pb.SubaccountTradesListRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000", market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"))
+        print("\n-- Subaccount Trades Update:\n", traderesp)
 ```
 
 |Parameter|Type|Description|
@@ -292,8 +267,6 @@ PriceLevel:
 
 
 
-
-
 ## InjectiveSpotExchangeRPC.Trades
 
 Trades of a Spot Market
@@ -303,13 +276,15 @@ Trades of a Spot Market
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "direction": "buy",
-  "executionSide": "maker",
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
+        traderesp = await spot_exchange_rpc.Trades(spot_exchange_rpc_pb.TradesRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0", execution_side = "maker"))
+        print("\n-- Trades Update:\n", traderesp)
 ```
 
 |Parameter|Type|Description|
@@ -341,34 +316,6 @@ Trades of a Spot Market
       "tradeDirection": "buy",
       "tradeExecutionType": "market"
     },
-    {
-      "executedAt": 1544614248000,
-      "fee": "1960000000000000",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "orderHash": "0x482ce078117d4835fe005b643056d2d3f439e3010db40f68449d9e5b77e911bc",
-      "price": {
-        "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
-      },
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "tradeDirection": "buy",
-      "tradeExecutionType": "market"
-    },
-    {
-      "executedAt": 1544614248000,
-      "fee": "1960000000000000",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "orderHash": "0x482ce078117d4835fe005b643056d2d3f439e3010db40f68449d9e5b77e911bc",
-      "price": {
-        "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
-      },
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "tradeDirection": "buy",
-      "tradeExecutionType": "market"
-    }
   ]
 }
 ```
@@ -412,12 +359,15 @@ Get a list of Spot Markets
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "baseDenom": "peggy0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-  "marketStatus": "active",
-  "quoteDenom": "peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
-}
+``` python
+import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)    
+        mresp = await spot_exchange_rpc.Markets(spot_exchange_rpc_pb.MarketsRequest(market_status = "active"))
+        print("\n-- Markets Update:\n", mresp)
 ```
 
 |Parameter|Type|Description|
@@ -425,7 +375,6 @@ Get a list of Spot Markets
 |baseDenom|string|Filter by the Coin denomination of the base currency|
 |marketStatus|string|Filter by market status (Should be one of: [active paused suspended demolished expired]) |
 |quoteDenom|string|Filter by the Coin denomination of the quote currency|
-
 
 
 ### Response Parameters
@@ -462,62 +411,6 @@ Get a list of Spot Markets
       "takerFeeRate": "0.002",
       "ticker": "INJ/USDC"
     },
-    {
-      "baseDenom": "inj",
-      "baseTokenMeta": {
-        "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        "decimals": 18,
-        "logo": "https://static.alchemyapi.io/images/assets/825.png",
-        "name": "Tether",
-        "symbol": "USDT",
-        "updatedAt": 1544614248000
-      },
-      "makerFeeRate": "0.001",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "marketStatus": "active",
-      "minPriceTickSize": "0.001",
-      "minQuantityTickSize": "0.001",
-      "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "quoteTokenMeta": {
-        "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        "decimals": 18,
-        "logo": "https://static.alchemyapi.io/images/assets/825.png",
-        "name": "Tether",
-        "symbol": "USDT",
-        "updatedAt": 1544614248000
-      },
-      "serviceProviderFee": "0.4",
-      "takerFeeRate": "0.002",
-      "ticker": "INJ/USDC"
-    },
-    {
-      "baseDenom": "inj",
-      "baseTokenMeta": {
-        "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        "decimals": 18,
-        "logo": "https://static.alchemyapi.io/images/assets/825.png",
-        "name": "Tether",
-        "symbol": "USDT",
-        "updatedAt": 1544614248000
-      },
-      "makerFeeRate": "0.001",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "marketStatus": "active",
-      "minPriceTickSize": "0.001",
-      "minQuantityTickSize": "0.001",
-      "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "quoteTokenMeta": {
-        "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        "decimals": 18,
-        "logo": "https://static.alchemyapi.io/images/assets/825.png",
-        "name": "Tether",
-        "symbol": "USDT",
-        "updatedAt": 1544614248000
-      },
-      "serviceProviderFee": "0.4",
-      "takerFeeRate": "0.002",
-      "ticker": "INJ/USDC"
-    }
   ]
 }
 ```
@@ -568,12 +461,15 @@ Orders of a Spot Market
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-  "orderSide": "buy",
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
+        ordresp = await spot_exchange_rpc.Orders(spot_exchange_rpc_pb.OrdersRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0")
+        print("\n-- Orders Update:\n", ordresp)
 ```
 
 |Parameter|Type|Description|
@@ -618,20 +514,6 @@ Orders of a Spot Market
       "unfilledQuantity": "28000000000000000.00000000000000000",
       "updatedAt": 1544614248000
     },
-    {
-      "createdAt": 1544614248000,
-      "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-      "marketId": "0x01e920e081b6f3b2e5183399d5b6733bb6f80319e6be3805b95cb7236910ff0e",
-      "orderHash": "0x4f4391f8ee11f656d0a9396370c6991f59c4bb491214e8b6ab2011a1bcf1c44e",
-      "orderSide": "buy",
-      "price": "0.000000003156",
-      "quantity": "28000000000000000.00000000000000000",
-      "state": "partial_filled",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "triggerPrice": "0",
-      "unfilledQuantity": "28000000000000000.00000000000000000",
-      "updatedAt": 1544614248000
-    }
   ]
 }
 ```
@@ -670,10 +552,17 @@ Stream live updates of selected spot market orderbook
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb"
-}
+``` python
+import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
+        stream_req = spot_exchange_rpc_pb.StreamOrderbookRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0")
+        stream_resp = spot_exchange_rpc.StreamOrderbook(stream_req)
+        async for orderbook in stream_resp:
+            print("\n-- Orderbook Update:\n", orderbook)
 ```
 
 |Parameter|Type|Description|
@@ -705,23 +594,6 @@ Stream live updates of selected spot market orderbook
         "quantity": "40",
         "timestamp": 1544614248000
       },
-      {
-        "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
-      }
-    ],
-    "sells": [
-      {
-        "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
-      },
-      {
-        "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
-      }
     ]
   },
   "timestamp": 1544614248000
@@ -751,9 +623,6 @@ PriceLevel:
 
 
 
-
-
-
 ## InjectiveSpotExchangeRPC.StreamOrders
 
 Stream updates to individual orders of a Spot Market
@@ -763,12 +632,17 @@ Stream updates to individual orders of a Spot Market
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-  "orderSide": "buy",
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
+        stream_req = spot_exchange_rpc_pb.StreamOrdersRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0")
+        stream_resp = spot_exchange_rpc.StreamOrders(stream_req)
+        async for order in stream_resp:
+            print("\n-- Orders Update:\n", order)
 ```
 
 |Parameter|Type|Description|
@@ -776,7 +650,6 @@ Stream updates to individual orders of a Spot Market
 |marketId|string|MarketId of the market's orderbook we want to fetch|
 |orderSide|string|Look for specific order side (Should be one of: [buy sell]) |
 |subaccountId|string|Look for specific subaccountId of an order|
-
 
 
 ### Response Parameters
@@ -839,10 +712,15 @@ Get details of a single spot market
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb"
-}
+``` python
+import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
+        mresp = await spot_exchange_rpc.Market(spot_exchange_rpc_pb.MarketRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"))
+        print("\n-- Market Update:\n", mresp)
 ```
 
 |Parameter|Type|Description|
@@ -933,16 +811,20 @@ Orderbook of a Spot Market
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb"
-}
+``` python
+import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
+        orderbookresp = await spot_exchange_rpc.Orderbook(spot_exchange_rpc_pb.OrderbookRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"))
+        print("\n-- Orderbook Update:\n", orderbookresp)
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
 |marketId|string|MarketId of the market's orderbook we want to fetch|
-
 
 
 ### Response Parameters
@@ -1022,13 +904,18 @@ Stream live updates of selected spot markets
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketIds": [
-    "0x01e920e081b6f3b2e5183399d5b6733bb6f80319e6be3805b95cb7236910ff0e",
-    "0xe0dc13205fb8b23111d8555a6402681965223135d368eeeb964681f9ff12eb2a"
-  ]
-}
+``` python
+import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
+        stream_req = spot_exchange_rpc_pb.StreamMarketsRequest()
+        stream_resp = spot_exchange_rpc.StreamMarkets(stream_req)
+        async for market in stream_resp:
+            print("\n-- Market Update:\n", market)
+
 ```
 
 |Parameter|Type|Description|
@@ -1108,7 +995,3 @@ TokenMeta:
 |symbol|string|Token symbol short name|
 |updatedAt|integer|Token metadata fetched timestamp in UNIX millis.|
 |address|string|Token Ethereum contract address|
-
-
-
-
