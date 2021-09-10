@@ -10,6 +10,18 @@ Funds lists all insurance funds.
 `POST /InjectiveInsuranceRPC/funds`
 
 ### Request Parameters
+> Request Example:
+
+``` python
+import injective.exchange_api.injective_insurance_rpc_pb2_grpc as insurance_rpc_grpc
+import injective.exchange_api.injective_insurance_rpc_pb2 as insurance_rpc_pb
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        insurance_exchange_rpc = insurance_rpc_grpc.InjectiveInsuranceRPCStub(channel)
+        insurance_fund = await insurance_exchange_rpc.Funds(insurance_rpc_pb.FundsRequest())
+        print("\n-- Insurance Fund Update:\n", insurance_fund)
+```
 
 ### Response Parameters
 > Response Example:
@@ -117,10 +129,6 @@ TokenMeta:
 |symbol|string|Token symbol short name|
 
 
-
-
-
-
 ## InjectiveInsuranceRPC.Redemptions
 
 PendingRedemptions lists all pending redemptions according to a filter
@@ -130,12 +138,15 @@ PendingRedemptions lists all pending redemptions according to a filter
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "redeemer": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-  "redemptionDenom": "share1",
-  "status": "pending"
-}
+``` python
+import injective.exchange_api.injective_insurance_rpc_pb2 as insurance_rpc_pb
+import injective.exchange_api.injective_insurance_rpc_pb2_grpc as insurance_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        insurance_exchange_rpc = insurance_rpc_grpc.InjectiveInsuranceRPCStub(channel)
+        redemptions = await insurance_exchange_rpc.Redemptions(insurance_rpc_pb.RedemptionsRequest())
+        print("\n-- Redemptions Update:\n", redemptions)
 ```
 
 |Parameter|Type|Description|
@@ -143,7 +154,6 @@ PendingRedemptions lists all pending redemptions according to a filter
 |redeemer|string|Account address of the redemption owner|
 |redemptionDenom|string|Denom of the insurance pool token. |
 |status|string|Status of the redemption. Either pending or disbursed.|
-
 
 
 ### Response Parameters
