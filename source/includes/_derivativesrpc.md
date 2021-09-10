@@ -12,13 +12,15 @@ SubaccountTradesList gets a list of derivatives trades executed by this subaccou
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "direction": "buy",
-  "executionType": "market",
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
+        subacc_trades = await derivative_exchange_rpc.SubaccountTradesList(derivative_exchange_rpc_pb.SubaccountTradesListRequest(subaccount_id = subacc_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000", market_id = mkt_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30")
+        print("\n-- Subaccount Trades List Update:\n", subacc_trades)
 ```
 
 |Parameter|Type|Description|
@@ -68,22 +70,6 @@ SubaccountTradesList gets a list of derivatives trades executed by this subaccou
       "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
       "tradeExecutionType": "market"
     },
-    {
-      "executedAt": 1544614248000,
-      "fee": "150428.571428571428571429",
-      "isLiquidation": false,
-      "marketId": "0xb6fa659501d170f3bfbbc16f9e3e46e8435d3b13cb2ceeed5945ddd16df435ef",
-      "orderHash": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "payout": "0",
-      "positionDelta": {
-        "executionMargin": "50000000",
-        "executionPrice": "12535714.285714285714285714",
-        "executionQuantity": "6",
-        "tradeDirection": "buy"
-      },
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "tradeExecutionType": "market"
-    }
   ]
 }
 ```
@@ -118,8 +104,6 @@ PositionDelta:
 
 
 
-
-
 ## InjectiveDerivativeExchangeRPC.Orders
 
 DerivativeLimitOrders gets the limit orders of a Derivative Market.
@@ -129,12 +113,15 @@ DerivativeLimitOrders gets the limit orders of a Derivative Market.
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-  "orderSide": "buy",
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
+        ordresp = await derivative_exchange_rpc.Orders(derivative_exchange_rpc_pb.OrdersRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30", subaccount_id = "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000")
+        print("\n-- Orders Update:\n", ordresp)
 ```
 
 |Parameter|Type|Description|
@@ -223,11 +210,15 @@ Positions gets the positions for a trader.
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
+        presp = await derivative_exchange_rpc.Positions(derivative_exchange_rpc_pb.PositionsRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"))
+        print("\n-- Positions Update:\n", presp)
 ```
 
 |Parameter|Type|Description|
@@ -267,30 +258,6 @@ Positions gets the positions for a trader.
       "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
       "ticker": "INJ/USDT-PERP"
     },
-    {
-      "aggregateReduceOnlyQuantity": "0",
-      "direction": "long",
-      "entryPrice": "15333333.333333333333333333",
-      "liquidationPrice": "23420479",
-      "margin": "77000000",
-      "markPrice": "14000000",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "quantity": "9",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "ticker": "INJ/USDT-PERP"
-    },
-    {
-      "aggregateReduceOnlyQuantity": "0",
-      "direction": "long",
-      "entryPrice": "15333333.333333333333333333",
-      "liquidationPrice": "23420479",
-      "margin": "77000000",
-      "markPrice": "14000000",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "quantity": "9",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "ticker": "INJ/USDT-PERP"
-    }
   ]
 }
 ```
@@ -327,13 +294,17 @@ StreamMarket streams live updates of selected derivative markets
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketIds": [
-    "0x01e920e081b6f3b2e5183399d5b6733bb6f80319e6be3805b95cb7236910ff0e",
-    "0xe0dc13205fb8b23111d8555a6402681965223135d368eeeb964681f9ff12eb2a"
-  ]
-}
+``` python
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
+        stream_req = derivative_exchange_rpc_pb.StreamMarketRequest()
+        stream_resp = derivative_exchange_rpc.StreamMarket(stream_req)
+        async for market in stream_resp:
+            print("\n-- Order Update:\n", market)
 ```
 
 |Parameter|Type|Description|
@@ -463,10 +434,6 @@ PerpetualMarketInfo:
 |nextFundingTimestamp|integer|Defines the next funding timestamp in seconds of a perpetual market in UNIX seconds.|
 
 
-
-
-
-
 ## InjectiveDerivativeExchangeRPC.StreamOrders
 
 StreamOrders streams updates to individual orders of a Derivative Market.
@@ -476,12 +443,17 @@ StreamOrders streams updates to individual orders of a Derivative Market.
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-  "orderSide": "buy",
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
+        stream_req = derivative_exchange_rpc_pb.StreamOrdersRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30")
+        stream_resp = derivative_exchange_rpc.StreamOrders(stream_req)
+        async for order in stream_resp:
+            print("\n-- Orders Update:\n", order)
 ```
 
 |Parameter|Type|Description|
@@ -556,18 +528,23 @@ StreamPositions streams derivatives position updates.
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
+        stream_req = derivative_exchange_rpc_pb.StreamPositionsRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30", subaccount_id = "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000")
+        stream_resp = derivative_exchange_rpc.StreamPositions(stream_req)
+        async for position in stream_resp:
+            print("\n-- Positions Update:\n", position)
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
 |marketId|string|MarketId of the position we want to fetch|
 |subaccountId|string|SubaccountId of the trader we want to get the trades from|
-
 
 
 ### Response Parameters
@@ -614,7 +591,6 @@ DerivativePosition:
 
 
 
-
 ## InjectiveDerivativeExchangeRPC.Markets
 
 Markets gets a list of Derivative Markets
@@ -624,11 +600,15 @@ Markets gets a list of Derivative Markets
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketStatus": "active",
-  "quoteDenom": "Quia officiis et eligendi."
-}
+``` python
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)     
+        mresp = await derivative_exchange_rpc.Markets(derivative_exchange_rpc_pb.MarketsRequest(market_status = status = "active"))
+        print("\n-- Markets Update:\n", mresp)
 ```
 
 |Parameter|Type|Description|
@@ -644,129 +624,6 @@ Markets gets a list of Derivative Markets
 ``` json
 {
   "markets": [
-    {
-      "expiryFuturesMarketInfo": {
-        "expirationTimestamp": 1544614248,
-        "settlementPrice": "0.05"
-      },
-      "initialMarginRatio": "0.05",
-      "isPerpetual": false,
-      "maintenanceMarginRatio": "0.025",
-      "makerFeeRate": "0.001",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "marketStatus": "active",
-      "minPriceTickSize": "0.001",
-      "minQuantityTickSize": "0.001",
-      "oracleBase": "inj-band",
-      "oracleQuote": "usdt-band",
-      "oracleScaleFactor": 6,
-      "oracleType": "band",
-      "perpetualMarketFunding": {
-        "cumulativeFunding": "0.05",
-        "cumulativePrice": "-22.93180251",
-        "lastTimestamp": 1622930400
-      },
-      "perpetualMarketInfo": {
-        "fundingInterval": 3600,
-        "hourlyFundingRateCap": "0.000625",
-        "hourlyInterestRate": "0.00000416666",
-        "nextFundingTimestamp": 1622930400
-      },
-      "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "quoteTokenMeta": {
-        "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        "decimals": 18,
-        "logo": "https://static.alchemyapi.io/images/assets/825.png",
-        "name": "Tether",
-        "symbol": "USDT",
-        "updatedAt": 1544614248000
-      },
-      "serviceProviderFee": "0.4",
-      "takerFeeRate": "0.002",
-      "ticker": "INJ/USDC"
-    },
-    {
-      "expiryFuturesMarketInfo": {
-        "expirationTimestamp": 1544614248,
-        "settlementPrice": "0.05"
-      },
-      "initialMarginRatio": "0.05",
-      "isPerpetual": false,
-      "maintenanceMarginRatio": "0.025",
-      "makerFeeRate": "0.001",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "marketStatus": "active",
-      "minPriceTickSize": "0.001",
-      "minQuantityTickSize": "0.001",
-      "oracleBase": "inj-band",
-      "oracleQuote": "usdt-band",
-      "oracleScaleFactor": 6,
-      "oracleType": "band",
-      "perpetualMarketFunding": {
-        "cumulativeFunding": "0.05",
-        "cumulativePrice": "-22.93180251",
-        "lastTimestamp": 1622930400
-      },
-      "perpetualMarketInfo": {
-        "fundingInterval": 3600,
-        "hourlyFundingRateCap": "0.000625",
-        "hourlyInterestRate": "0.00000416666",
-        "nextFundingTimestamp": 1622930400
-      },
-      "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "quoteTokenMeta": {
-        "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        "decimals": 18,
-        "logo": "https://static.alchemyapi.io/images/assets/825.png",
-        "name": "Tether",
-        "symbol": "USDT",
-        "updatedAt": 1544614248000
-      },
-      "serviceProviderFee": "0.4",
-      "takerFeeRate": "0.002",
-      "ticker": "INJ/USDC"
-    },
-    {
-      "expiryFuturesMarketInfo": {
-        "expirationTimestamp": 1544614248,
-        "settlementPrice": "0.05"
-      },
-      "initialMarginRatio": "0.05",
-      "isPerpetual": false,
-      "maintenanceMarginRatio": "0.025",
-      "makerFeeRate": "0.001",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "marketStatus": "active",
-      "minPriceTickSize": "0.001",
-      "minQuantityTickSize": "0.001",
-      "oracleBase": "inj-band",
-      "oracleQuote": "usdt-band",
-      "oracleScaleFactor": 6,
-      "oracleType": "band",
-      "perpetualMarketFunding": {
-        "cumulativeFunding": "0.05",
-        "cumulativePrice": "-22.93180251",
-        "lastTimestamp": 1622930400
-      },
-      "perpetualMarketInfo": {
-        "fundingInterval": 3600,
-        "hourlyFundingRateCap": "0.000625",
-        "hourlyInterestRate": "0.00000416666",
-        "nextFundingTimestamp": 1622930400
-      },
-      "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "quoteTokenMeta": {
-        "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        "decimals": 18,
-        "logo": "https://static.alchemyapi.io/images/assets/825.png",
-        "name": "Tether",
-        "symbol": "USDT",
-        "updatedAt": 1544614248000
-      },
-      "serviceProviderFee": "0.4",
-      "takerFeeRate": "0.002",
-      "ticker": "INJ/USDC"
-    },
     {
       "expiryFuturesMarketInfo": {
         "expirationTimestamp": 1544614248,
@@ -881,9 +738,6 @@ ExpiryFuturesMarketInfo:
 
 
 
-
-
-
 ## InjectiveDerivativeExchangeRPC.StreamOrderbook
 
 StreamOrderbook streams live updates of selected derivative market orderbook.
@@ -893,10 +747,17 @@ StreamOrderbook streams live updates of selected derivative market orderbook.
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb"
-}
+``` python
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
+        stream_req = derivative_exchange_rpc_pb.StreamOrderbookRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30")
+        stream_resp = derivative_exchange_rpc.StreamOrderbook(stream_req)
+        async for orderbook in stream_resp:
+            print("\n-- Orderbook Update:", orderbook)
 ```
 
 |Parameter|Type|Description|
@@ -965,8 +826,6 @@ PriceLevel:
 
 
 
-
-
 ## InjectiveDerivativeExchangeRPC.StreamTrades
 
 StreamTrades streams newly executed trades from Derivative Market.
@@ -976,13 +835,17 @@ StreamTrades streams newly executed trades from Derivative Market.
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "direction": "buy",
-  "executionSide": "maker",
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
+        stream_req = derivative_exchange_rpc_pb.StreamMarketRequest()
+        stream_resp = derivative_exchange_rpc.StreamMarket(stream_req)
+        async for market in stream_resp:
+            print("\n-- Order Update:\n", market)
 ```
 
 |Parameter|Type|Description|
@@ -1051,9 +914,6 @@ PositionDelta:
 
 
 
-
-
-
 ## InjectiveDerivativeExchangeRPC.LiquidablePositions
 
 LiquidablePositions gets all the liquidable positions.
@@ -1063,10 +923,15 @@ LiquidablePositions gets all the liquidable positions.
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb"
-}
+``` python
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
+        lresp = await derivative_exchange_rpc.LiquidablePositions(derivative_exchange_rpc_pb.LiquidablePositionsRequest())
+        print("\n-- Liquidable Positions Update:\n", lresp)
 ```
 
 |Parameter|Type|Description|
@@ -1141,10 +1006,15 @@ Market gets details of a single derivative market
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb"
-}
+``` python
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
+        mresp = await derivative_exchange_rpc.Market(derivative_exchange_rpc_pb.MarketRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"))
+        print("\n-- Market Update:\n", mresp)
 ```
 
 |Parameter|Type|Description|
@@ -1283,10 +1153,15 @@ Orderbook gets the Orderbook of a Derivative Market
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb"
-}
+``` python
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
+        orderbookresp = await derivative_exchange_rpc.Orderbook(derivative_exchange_rpc_pb.OrderbookRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"))
+        print("\n-- Orderbook Update:\n", orderbookresp)
 ```
 
 |Parameter|Type|Description|
@@ -1349,10 +1224,6 @@ PriceLevel:
 |price|string|Price number of the price level.|
 
 
-
-
-
-
 ## InjectiveDerivativeExchangeRPC.Trades
 
 Trades gets the trades of a Derivative Market.
@@ -1362,13 +1233,15 @@ Trades gets the trades of a Derivative Market.
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "direction": "buy",
-  "executionSide": "maker",
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
+        tresp = await derivative_exchange_rpc.Trades(derivative_exchange_rpc_pb.TradesRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30")
+        print("\n-- Trades Update:\n", tresp)
 ```
 
 |Parameter|Type|Description|
@@ -1386,38 +1259,6 @@ Trades gets the trades of a Derivative Market.
 ``` json
 {
   "trades": [
-    {
-      "executedAt": 1544614248000,
-      "fee": "150428.571428571428571429",
-      "isLiquidation": false,
-      "marketId": "0xb6fa659501d170f3bfbbc16f9e3e46e8435d3b13cb2ceeed5945ddd16df435ef",
-      "orderHash": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "payout": "0",
-      "positionDelta": {
-        "executionMargin": "50000000",
-        "executionPrice": "12535714.285714285714285714",
-        "executionQuantity": "6",
-        "tradeDirection": "buy"
-      },
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "tradeExecutionType": "market"
-    },
-    {
-      "executedAt": 1544614248000,
-      "fee": "150428.571428571428571429",
-      "isLiquidation": false,
-      "marketId": "0xb6fa659501d170f3bfbbc16f9e3e46e8435d3b13cb2ceeed5945ddd16df435ef",
-      "orderHash": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "payout": "0",
-      "positionDelta": {
-        "executionMargin": "50000000",
-        "executionPrice": "12535714.285714285714285714",
-        "executionQuantity": "6",
-        "tradeDirection": "buy"
-      },
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "tradeExecutionType": "market"
-    },
     {
       "executedAt": 1544614248000,
       "fee": "150428.571428571428571429",
@@ -1483,9 +1324,6 @@ PositionDelta:
 
 
 
-
-
-
 ## InjectiveDerivativeExchangeRPC.SubaccountOrdersList
 
 SubaccountOrdersList lists orders posted from this subaccount.
@@ -1495,11 +1333,15 @@ SubaccountOrdersList lists orders posted from this subaccount.
 ### Request Parameters
 > Request Example:
 
-``` json
-{
-  "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-  "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-}
+``` python
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+        derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
+        subacc_ord = await derivative_exchange_rpc.SubaccountOrdersList(derivative_exchange_rpc_pb.SubaccountOrdersListRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"))
+        print("\n-- Subaccount Orders List Update:\n", subacc_ord)
 ```
 
 |Parameter|Type|Description|
@@ -1515,22 +1357,6 @@ SubaccountOrdersList lists orders posted from this subaccount.
 ``` json
 {
   "orders": [
-    {
-      "createdAt": 1544614248000,
-      "feeRecipient": "inj15gnk95hvqrsr343ecqjuv7yf2af9rkdqeax52d",
-      "isReduceOnly": false,
-      "margin": "20000000000.000000000000000000",
-      "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-      "orderHash": "0x92da72606d9d26bbc5a8a5578373c6bbe11e39d0944788b5cd142a14d01f9d36",
-      "orderSide": "buy",
-      "price": "50900000000.000000000000000000",
-      "quantity": "0.200000000000000000",
-      "state": "partial_filled",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "triggerPrice": "0",
-      "unfilledQuantity": "0.200000000000000000",
-      "updatedAt": 1544614248000
-    },
     {
       "createdAt": 1544614248000,
       "feeRecipient": "inj15gnk95hvqrsr343ecqjuv7yf2af9rkdqeax52d",
@@ -1589,4 +1415,3 @@ DerivativeLimitOrder:
 |quantity|string|Quantity of the order|
 |state|string|Order state (Should be one of: [booked partial_filled filled canceled]) |
 |triggerPrice|string|Trigger price is the trigger price used by stop/take orders|
-
