@@ -17,6 +17,7 @@ import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as 
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:
@@ -121,6 +122,7 @@ import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as 
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:
@@ -221,6 +223,7 @@ import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as 
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:
@@ -308,6 +311,7 @@ import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as 
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:
@@ -460,6 +464,7 @@ import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as 
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:
@@ -548,6 +553,7 @@ import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as 
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:
@@ -623,6 +629,7 @@ import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as 
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:
@@ -773,6 +780,7 @@ import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as 
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:
@@ -864,6 +872,7 @@ import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as 
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:
@@ -955,6 +964,7 @@ import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as 
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:
@@ -1041,6 +1051,7 @@ import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as 
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:
@@ -1190,6 +1201,7 @@ import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as 
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:
@@ -1272,6 +1284,7 @@ import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as 
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:
@@ -1375,6 +1388,7 @@ import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as 
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:

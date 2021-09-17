@@ -16,6 +16,7 @@ import pyinjective.proto.exchange.injective_insurance_rpc_pb2 as insurance_rpc_p
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:
@@ -144,6 +145,7 @@ import pyinjective.proto.exchange.injective_insurance_rpc_pb2_grpc as insurance_
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:

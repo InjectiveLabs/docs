@@ -15,6 +15,7 @@ import pyinjective.proto.exchange.injective_oracle_rpc_pb2_grpc as oracle_rpc_gr
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:
@@ -63,6 +64,7 @@ import pyinjective.proto.exchange.injective_oracle_rpc_pb2_grpc as oracle_rpc_gr
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:
@@ -118,6 +120,7 @@ import pyinjective.proto.exchange.injective_oracle_rpc_pb2_grpc as oracle_rpc_gr
 
 from pyinjective.constant import Network
 
+# select network: local, testnet, mainnet
 network = Network.testnet()
 
 async def main() -> None:
