@@ -7,7 +7,6 @@ InjectiveDerivativeExchangeRPC defines gRPC API of Derivative Markets provider.
 
 SubaccountTradesList gets a list of derivatives trades executed by this subaccount.
 
-`POST /InjectiveDerivativeExchangeRPC/subaccountTradesList`
 
 ### Request Parameters
 > Request Example:
@@ -108,7 +107,6 @@ PositionDelta:
 
 DerivativeLimitOrders gets the limit orders of a Derivative Market.
 
-`POST /InjectiveDerivativeExchangeRPC/orders`
 
 ### Request Parameters
 > Request Example:
@@ -205,7 +203,6 @@ DerivativeLimitOrder:
 
 Positions gets the positions for a trader.
 
-`POST /InjectiveDerivativeExchangeRPC/positions`
 
 ### Request Parameters
 > Request Example:
@@ -289,7 +286,6 @@ DerivativePosition:
 
 StreamMarket streams live updates of selected derivative markets
 
-`POST /InjectiveDerivativeExchangeRPC/streamMarket`
 
 ### Request Parameters
 > Request Example:
@@ -438,8 +434,6 @@ PerpetualMarketInfo:
 
 StreamOrders streams updates to individual orders of a Derivative Market.
 
-`POST /InjectiveDerivativeExchangeRPC/streamOrders`
-
 ### Request Parameters
 > Request Example:
 
@@ -523,7 +517,6 @@ DerivativeLimitOrder:
 
 StreamPositions streams derivatives position updates.
 
-`POST /InjectiveDerivativeExchangeRPC/streamPositions`
 
 ### Request Parameters
 > Request Example:
@@ -595,7 +588,6 @@ DerivativePosition:
 
 Markets gets a list of Derivative Markets
 
-`POST /InjectiveDerivativeExchangeRPC/markets`
 
 ### Request Parameters
 > Request Example:
@@ -742,7 +734,6 @@ ExpiryFuturesMarketInfo:
 
 StreamOrderbook streams live updates of selected derivative market orderbook.
 
-`POST /InjectiveDerivativeExchangeRPC/streamOrderbook`
 
 ### Request Parameters
 > Request Example:
@@ -830,7 +821,6 @@ PriceLevel:
 
 StreamTrades streams newly executed trades from Derivative Market.
 
-`POST /InjectiveDerivativeExchangeRPC/streamTrades`
 
 ### Request Parameters
 > Request Example:
@@ -918,7 +908,6 @@ PositionDelta:
 
 LiquidablePositions gets all the liquidable positions.
 
-`POST /InjectiveDerivativeExchangeRPC/liquidablePositions`
 
 ### Request Parameters
 > Request Example:
@@ -1001,7 +990,6 @@ DerivativePosition:
 
 Market gets details of a single derivative market
 
-`POST /InjectiveDerivativeExchangeRPC/market`
 
 ### Request Parameters
 > Request Example:
@@ -1148,8 +1136,6 @@ TokenMeta:
 
 Orderbook gets the Orderbook of a Derivative Market
 
-`POST /InjectiveDerivativeExchangeRPC/orderbook`
-
 ### Request Parameters
 > Request Example:
 
@@ -1227,8 +1213,6 @@ PriceLevel:
 ## InjectiveDerivativeExchangeRPC.Trades
 
 Trades gets the trades of a Derivative Market.
-
-`POST /InjectiveDerivativeExchangeRPC/trades`
 
 ### Request Parameters
 > Request Example:
@@ -1328,7 +1312,6 @@ PositionDelta:
 
 SubaccountOrdersList lists orders posted from this subaccount.
 
-`POST /InjectiveDerivativeExchangeRPC/subaccountOrdersList`
 
 ### Request Parameters
 > Request Example:

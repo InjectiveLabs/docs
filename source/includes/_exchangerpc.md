@@ -6,8 +6,6 @@ InjectiveExchangeRPC defines gRPC API of an Injective Exchange service.
 
 BroadcastTx broadcasts a signed Web3 transaction
 
-`POST /InjectiveExchangeRPC/broadcastTx`
-
 ### Request Parameters
 > Request Example:
 
@@ -84,7 +82,6 @@ CosmosPubKey:
 
 GetTx gets transaction details by hash.
 
-`POST /InjectiveExchangeRPC/getTx`
 
 ### Request Parameters
 > Request Example:
@@ -135,7 +132,6 @@ GetTx gets transaction details by hash.
 
 Endpoint for checking server health.
 
-`POST /InjectiveExchangeRPC/ping`
 
 ### Request Parameters
 
@@ -146,7 +142,6 @@ Endpoint for checking server health.
 
 PrepareTx generates a Web3-signable body for a Cosmos transaction
 
-`POST /InjectiveExchangeRPC/prepareTx`
 
 ### Request Parameters
 > Request Example:
@@ -244,8 +239,6 @@ CosmosCoin:
 ## InjectiveExchangeRPC.Version
 
 Returns injective-exchange version.
-
-`POST /InjectiveExchangeRPC/version`
 
 ### Request Parameters
 

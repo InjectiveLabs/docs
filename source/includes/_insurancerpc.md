@@ -7,8 +7,6 @@ InjectiveInsuranceRPC defines gRPC API of Insurance provider.
 
 Funds lists all insurance funds.
 
-`POST /InjectiveInsuranceRPC/funds`
-
 ### Request Parameters
 > Request Example:
 
@@ -132,8 +130,6 @@ TokenMeta:
 ## InjectiveInsuranceRPC.Redemptions
 
 PendingRedemptions lists all pending redemptions according to a filter
-
-`POST /InjectiveInsuranceRPC/redemptions`
 
 ### Request Parameters
 > Request Example:

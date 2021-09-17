@@ -6,8 +6,6 @@ InjectiveSpotExchangeRPC defines gRPC API of Spot Exchange provider.
 
 Stream newly executed trades from Spot Market
 
-`POST /InjectiveSpotExchangeRPC/streamTrades`
-
 ### Request Parameters
 > Request Example:
 
@@ -85,8 +83,6 @@ PriceLevel:
 ## InjectiveSpotExchangeRPC.SubaccountOrdersList
 
 List orders posted from this subaccount
-
-`POST /InjectiveSpotExchangeRPC/subaccountOrdersList`
 
 ### Request Parameters
 > Request Example:
@@ -176,7 +172,6 @@ SpotLimitOrder:
 
 List trades executed by this subaccount
 
-`POST /InjectiveSpotExchangeRPC/subaccountTradesList`
 
 ### Request Parameters
 > Request Example:
@@ -271,7 +266,6 @@ PriceLevel:
 
 Trades of a Spot Market
 
-`POST /InjectiveSpotExchangeRPC/trades`
 
 ### Request Parameters
 > Request Example:
@@ -354,7 +348,6 @@ PriceLevel:
 
 Get a list of Spot Markets
 
-`POST /InjectiveSpotExchangeRPC/markets`
 
 ### Request Parameters
 > Request Example:
@@ -456,7 +449,6 @@ TokenMeta:
 
 Orders of a Spot Market
 
-`POST /InjectiveSpotExchangeRPC/orders`
 
 ### Request Parameters
 > Request Example:
@@ -547,7 +539,6 @@ SpotLimitOrder:
 
 Stream live updates of selected spot market orderbook
 
-`POST /InjectiveSpotExchangeRPC/streamOrderbook`
 
 ### Request Parameters
 > Request Example:
@@ -627,8 +618,6 @@ PriceLevel:
 
 Stream updates to individual orders of a Spot Market
 
-`POST /InjectiveSpotExchangeRPC/streamOrders`
-
 ### Request Parameters
 > Request Example:
 
@@ -701,13 +690,10 @@ SpotLimitOrder:
 
 
 
-
-
 ## InjectiveSpotExchangeRPC.Market
 
 Get details of a single spot market
 
-`POST /InjectiveSpotExchangeRPC/market`
 
 ### Request Parameters
 > Request Example:
@@ -800,13 +786,10 @@ TokenMeta:
 
 
 
-
-
 ## InjectiveSpotExchangeRPC.Orderbook
 
 Orderbook of a Spot Market
 
-`POST /InjectiveSpotExchangeRPC/orderbook`
 
 ### Request Parameters
 > Request Example:
@@ -894,12 +877,10 @@ PriceLevel:
 
 
 
-
 ## InjectiveSpotExchangeRPC.StreamMarkets
 
 Stream live updates of selected spot markets
 
-`POST /InjectiveSpotExchangeRPC/streamMarkets`
 
 ### Request Parameters
 > Request Example:

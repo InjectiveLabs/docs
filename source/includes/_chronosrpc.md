@@ -6,8 +6,6 @@ ChronosAPI implements historical data API for e.g. TradingView.
 
 Get info about specific derivative market symbol by ticker.
 
-`POST /ChronosAPI/derivativeMarketSymbolSearch`
-
 ### Request Parameters
 > Request Example:
 
@@ -128,8 +126,6 @@ Get info about specific derivative market symbol by ticker.
 
 Data feed configuration data for TradingView.
 
-`POST /ChronosAPI/spotMarketConfig`
-
 ### Request Parameters
 
 ### Response Parameters
@@ -174,8 +170,6 @@ Data feed configuration data for TradingView.
 ## ChronosAPI.SpotMarketSummary
 
 Gets spot market summary for the latest interval (hour, day, month)
-
-`POST /ChronosAPI/spotMarketSummary`
 
 ### Request Parameters
 > Request Example:
@@ -225,8 +219,6 @@ Gets spot market summary for the latest interval (hour, day, month)
 ## ChronosAPI.SpotMarketSymbolInfo
 
 Get a list of all spotMarket instruments for TradingView.
-
-`POST /ChronosAPI/spotMarketSymbolInfo`
 
 ### Request Parameters
 > Request Example:
@@ -406,7 +398,6 @@ Get a list of all spotMarket instruments for TradingView.
 
 Gets batch summary for all active markets, for the latest interval (hour, day, month)
 
-`POST /ChronosAPI/allSpotMarketSummary`
 
 ### Request Parameters
 > Request Example:
@@ -477,7 +468,6 @@ Data feed configuration data for TradingView.
 
 Request for history bars of derivativeMarket for TradingView.
 
-`POST /ChronosAPI/derivativeMarketHistory`
 
 ### Request Parameters
 > Request Example:
@@ -562,7 +552,6 @@ Request for history bars of derivativeMarket for TradingView.
 
 Get a list of all derivativeMarket instruments for TradingView.
 
-`POST /ChronosAPI/derivativeMarketSymbolInfo`
 
 ### Request Parameters
 > Request Example:
@@ -746,7 +735,6 @@ Get a list of all derivativeMarket instruments for TradingView.
 
 Gets batch summary for all active markets, for the latest interval (hour, day, month)
 
-`POST /ChronosAPI/allDerivativeMarketSummary`
 
 ### Request Parameters
 > Request Example:
@@ -772,7 +760,6 @@ Gets batch summary for all active markets, for the latest interval (hour, day, m
 
 Gets derivative market summary for the latest interval (hour, day, month)
 
-`POST /ChronosAPI/derivativeMarketSummary`
 
 ### Request Parameters
 > Request Example:
@@ -825,7 +812,6 @@ Gets derivative market summary for the latest interval (hour, day, month)
 
 Request for history bars of spotMarket for TradingView.
 
-`POST /ChronosAPI/spotMarketHistory`
 
 ### Request Parameters
 > Request Example:
@@ -910,7 +896,6 @@ Request for history bars of spotMarket for TradingView.
 
 Get info about specific spot market symbol by ticker.
 
-`POST /ChronosAPI/spotMarketSymbolSearch`
 
 ### Request Parameters
 > Request Example:

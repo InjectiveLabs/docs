@@ -7,17 +7,19 @@ InjectiveAccountsRPC defines gRPC API of Exchange Accounts provider.
 
 Get subaccount's deposits and withdrawals history
 
-`POST /InjectiveAccountsRPC/subaccountHistory`
-
 ### Request Parameters
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_accounts_rpc_pb2 as accounts_rpc_pb
-import injective.exchange_api.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+import pyinjective.proto.exchange.injective_accounts_rpc_pb2 as accounts_rpc_pb
+import pyinjective.proto.exchange.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         accounts_exchange_rpc = accounts_rpc_grpc.InjectiveAccountsRPCStub(channel)
         subacc_history = await accounts_exchange_rpc.SubaccountHistory(accounts_rpc_pb.SubaccountHistoryRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000", denom = "peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08"))
         print("\n-- Subaccount History Update:\n", subacc_history)
@@ -94,17 +96,19 @@ CosmosCoin:
 
 Get subaccount's orders summary
 
-`POST /InjectiveAccountsRPC/subaccountOrderSummary`
-
 ### Request Parameters
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_accounts_rpc_pb2 as accounts_rpc_pb
-import injective.exchange_api.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+import pyinjective.proto.exchange.injective_accounts_rpc_pb2 as accounts_rpc_pb
+import pyinjective.proto.exchange.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         accounts_exchange_rpc = accounts_rpc_grpc.InjectiveAccountsRPCStub(channel)
         subacc_orders = await accounts_exchange_rpc.SubaccountOrderSummary(accounts_rpc_pb.SubaccountOrderSummaryRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000", order_direction = "buy"))
         print("\n-- Subaccount Total Orders Update:\n", subacc_orders)
@@ -123,8 +127,8 @@ async def main() -> None:
 
 ``` json
 {
-  "derivativeOrdersTotal": 8592469896309637000,
-  "spotOrdersTotal": 1105944665870822500
+  "derivativeOrdersTotal": 10,
+  "spotOrdersTotal": 11
 }
 ```
 
@@ -140,20 +144,24 @@ async def main() -> None:
 
 List all subaccounts IDs of an account address
 
-`POST /InjectiveAccountsRPC/subaccountsList`
 
 ### Request Parameters
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_accounts_rpc_pb2 as accounts_rpc_pb
-import injective.exchange_api.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+import pyinjective.proto.exchange.injective_accounts_rpc_pb2 as accounts_rpc_pb
+import pyinjective.proto.exchange.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         accounts_exchange_rpc = accounts_rpc_grpc.InjectiveAccountsRPCStub(channel)
-        subacc_list = await accounts_exchange_rpc.SubaccountsList(accounts_rpc_pb.SubaccountsListRequest(account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"))
-        print("\n-- Subaccount List Update:\n", subacc_list)
+        subacc_list = await accounts_exchange_rpc.SubaccountBalancesList(accounts_rpc_pb.SubaccountBalancesListRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+))
+        print("\n-- Subaccount Balances List Update:\n", subacc_list)
 ```
 
 |Parameter|Type|Description|
@@ -186,17 +194,19 @@ async def main() -> None:
 
 StreamSubaccountBalance streams new balance changes for a specified subaccount and denoms. If no denoms are provided, all denom changes are streamed.
 
-`POST /InjectiveAccountsRPC/streamSubaccountBalance`
-
 ### Request Parameters
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_accounts_rpc_pb2 as accounts_rpc_pb
-import injective.exchange_api.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+import pyinjective.proto.exchange.injective_accounts_rpc_pb2 as accounts_rpc_pb
+import pyinjective.proto.exchange.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         accounts_exchange_rpc = accounts_rpc_grpc.InjectiveAccountsRPCStub(channel)
         stream_req = accounts_rpc_pb.StreamSubaccountBalanceRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000")
         stream_resp = accounts_exchange_rpc.StreamSubaccountBalance(stream_req)
@@ -256,18 +266,20 @@ SubaccountDeposit:
 
 Gets a balance for specific coin denom
 
-`POST /InjectiveAccountsRPC/subaccountBalance`
-
 ### Request Parameters
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_accounts_rpc_pb2 as accounts_rpc_pb
-import injective.exchange_api.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+import pyinjective.proto.exchange.injective_accounts_rpc_pb2 as accounts_rpc_pb
+import pyinjective.proto.exchange.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
-        accounts_exchange_rpc = accounts_rpc_grpc.InjectiveAccountsRPCStub(channel)        
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
+        accounts_exchange_rpc = accounts_rpc_grpc.InjectiveAccountsRPCStub(channel)
         subacc_balance = await accounts_exchange_rpc.SubaccountBalanceEndpoint(accounts_rpc_pb.SubaccountBalanceRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000", denom = "inj"))
         print("\n-- Subaccount Balance Update:\n", subacc_balance)
 ```
@@ -325,19 +337,23 @@ SubaccountDeposit:
 
 List subaccount balances for the provided denoms.
 
-`POST /InjectiveAccountsRPC/subaccountBalancesList`
 
 ### Request Parameters
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_accounts_rpc_pb2 as accounts_rpc_pb
-import injective.exchange_api.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+import pyinjective.proto.exchange.injective_accounts_rpc_pb2 as accounts_rpc_pb
+import pyinjective.proto.exchange.injective_accounts_rpc_pb2_grpc as accounts_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         accounts_exchange_rpc = accounts_rpc_grpc.InjectiveAccountsRPCStub(channel)
-        subacc_list = await accounts_exchange_rpc.SubaccountBalancesList(accounts_rpc_pb.SubaccountBalancesListRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000")
+        subacc_list = await accounts_exchange_rpc.SubaccountBalancesList(accounts_rpc_pb.SubaccountBalancesListRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+))
         print("\n-- Subaccount Balances List Update:\n", subacc_list)
 ```
 

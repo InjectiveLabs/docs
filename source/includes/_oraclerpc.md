@@ -6,8 +6,6 @@ InjectiveOracleRPC defines gRPC API of Exchange Oracle provider.
 
 StreamPrices streams new price changes for a specified oracle. If no oracles are provided, all price changes are streamed.
 
-`POST /InjectiveOracleRPC/streamPrices`
-
 ### Request Parameters
 > Request Example:
 
@@ -51,8 +49,6 @@ async def main() -> None:
 ## InjectiveOracleRPC.OracleList
 
 List all oracles
-
-`POST /InjectiveOracleRPC/oracleList`
 
 ### Request Parameters
 > Request Example:
@@ -104,8 +100,6 @@ Oracle:
 ## InjectiveOracleRPC.Price
 
 Gets the price of the oracle
-
-`POST /InjectiveOracleRPC/price`
 
 ### Request Parameters
 > Request Example:
