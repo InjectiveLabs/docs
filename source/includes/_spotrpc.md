@@ -10,8 +10,15 @@ Stream newly executed trades from Spot Market
 > Request Example:
 
 ``` python
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
+
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
         stream_req = spot_exchange_rpc_pb.StreamTradesRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0")
         stream_resp = spot_exchange_rpc.StreamTrades(stream_req)
@@ -88,11 +95,15 @@ List orders posted from this subaccount
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
         ordresp = await spot_exchange_rpc.SubaccountOrdersList(spot_exchange_rpc_pb.SubaccountOrdersListRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000", market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"))
         print("\n-- Subaccount Orders Update:\n", ordresp)
@@ -177,11 +188,15 @@ List trades executed by this subaccount
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
         traderesp = await spot_exchange_rpc.SubaccountTradesList(spot_exchange_rpc_pb.SubaccountTradesListRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000", market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"))
         print("\n-- Subaccount Trades Update:\n", traderesp)
@@ -271,11 +286,15 @@ Trades of a Spot Market
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
         traderesp = await spot_exchange_rpc.Trades(spot_exchange_rpc_pb.TradesRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0", execution_side = "maker"))
         print("\n-- Trades Update:\n", traderesp)
@@ -353,12 +372,16 @@ Get a list of Spot Markets
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
-        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)    
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
+        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
         mresp = await spot_exchange_rpc.Markets(spot_exchange_rpc_pb.MarketsRequest(market_status = "active"))
         print("\n-- Markets Update:\n", mresp)
 ```
@@ -454,13 +477,17 @@ Orders of a Spot Market
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
-        ordresp = await spot_exchange_rpc.Orders(spot_exchange_rpc_pb.OrdersRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0")
+        ordresp = await spot_exchange_rpc.Orders(spot_exchange_rpc_pb.OrdersRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"))
         print("\n-- Orders Update:\n", ordresp)
 ```
 
@@ -544,11 +571,15 @@ Stream live updates of selected spot market orderbook
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
         stream_req = spot_exchange_rpc_pb.StreamOrderbookRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0")
         stream_resp = spot_exchange_rpc.StreamOrderbook(stream_req)
@@ -622,11 +653,15 @@ Stream updates to individual orders of a Spot Market
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
         stream_req = spot_exchange_rpc_pb.StreamOrdersRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0")
         stream_resp = spot_exchange_rpc.StreamOrders(stream_req)
@@ -699,13 +734,17 @@ Get details of a single spot market
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
-        mresp = await spot_exchange_rpc.Market(spot_exchange_rpc_pb.MarketRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"))
+        mresp = await spot_exchange_rpc.Market(spot_exchange_rpc_pb.MarketRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0")
         print("\n-- Market Update:\n", mresp)
 ```
 
@@ -795,11 +834,15 @@ Orderbook of a Spot Market
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
         orderbookresp = await spot_exchange_rpc.Orderbook(spot_exchange_rpc_pb.OrderbookRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"))
         print("\n-- Orderbook Update:\n", orderbookresp)
@@ -886,17 +929,20 @@ Stream live updates of selected spot markets
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import injective.exchange_api.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
         stream_req = spot_exchange_rpc_pb.StreamMarketsRequest()
         stream_resp = spot_exchange_rpc.StreamMarkets(stream_req)
         async for market in stream_resp:
             print("\n-- Market Update:\n", market)
-
 ```
 
 |Parameter|Type|Description|
