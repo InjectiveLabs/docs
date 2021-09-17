@@ -12,13 +12,17 @@ SubaccountTradesList gets a list of derivatives trades executed by this subaccou
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
-        subacc_trades = await derivative_exchange_rpc.SubaccountTradesList(derivative_exchange_rpc_pb.SubaccountTradesListRequest(subaccount_id = subacc_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000", market_id = mkt_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30")
+        subacc_trades = await derivative_exchange_rpc.SubaccountTradesList(derivative_exchange_rpc_pb.SubaccountTradesListRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000", market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"))
         print("\n-- Subaccount Trades List Update:\n", subacc_trades)
 ```
 
@@ -112,13 +116,17 @@ DerivativeLimitOrders gets the limit orders of a Derivative Market.
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
-        ordresp = await derivative_exchange_rpc.Orders(derivative_exchange_rpc_pb.OrdersRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30", subaccount_id = "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000")
+        ordresp = await derivative_exchange_rpc.Orders(derivative_exchange_rpc_pb.OrdersRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"))
         print("\n-- Orders Update:\n", ordresp)
 ```
 
@@ -208,13 +216,17 @@ Positions gets the positions for a trader.
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
-        presp = await derivative_exchange_rpc.Positions(derivative_exchange_rpc_pb.PositionsRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"))
+        presp = await derivative_exchange_rpc.Positions(derivative_exchange_rpc_pb.PositionsRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30", subaccount_id = "0x4f0b9925e752f62558b8cd78c7f5a2f63c123d84000000000000000000000000"))
         print("\n-- Positions Update:\n", presp)
 ```
 
@@ -291,12 +303,17 @@ StreamMarket streams live updates of selected derivative markets
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
+
         stream_req = derivative_exchange_rpc_pb.StreamMarketRequest()
         stream_resp = derivative_exchange_rpc.StreamMarket(stream_req)
         async for market in stream_resp:
@@ -438,11 +455,15 @@ StreamOrders streams updates to individual orders of a Derivative Market.
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
         stream_req = derivative_exchange_rpc_pb.StreamOrdersRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30")
         stream_resp = derivative_exchange_rpc.StreamOrders(stream_req)
@@ -522,13 +543,17 @@ StreamPositions streams derivatives position updates.
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
-        stream_req = derivative_exchange_rpc_pb.StreamPositionsRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30", subaccount_id = "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000")
+        stream_req = derivative_exchange_rpc_pb.StreamPositionsRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30")
         stream_resp = derivative_exchange_rpc.StreamPositions(stream_req)
         async for position in stream_resp:
             print("\n-- Positions Update:\n", position)
@@ -593,13 +618,17 @@ Markets gets a list of Derivative Markets
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
-        derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)     
-        mresp = await derivative_exchange_rpc.Markets(derivative_exchange_rpc_pb.MarketsRequest(market_status = status = "active"))
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
+        derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
+        mresp = await derivative_exchange_rpc.Markets(derivative_exchange_rpc_pb.MarketsRequest(market_status = "active"))
         print("\n-- Markets Update:\n", mresp)
 ```
 
@@ -739,11 +768,15 @@ StreamOrderbook streams live updates of selected derivative market orderbook.
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
         stream_req = derivative_exchange_rpc_pb.StreamOrderbookRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30")
         stream_resp = derivative_exchange_rpc.StreamOrderbook(stream_req)
@@ -826,16 +859,20 @@ StreamTrades streams newly executed trades from Derivative Market.
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
-        stream_req = derivative_exchange_rpc_pb.StreamMarketRequest()
-        stream_resp = derivative_exchange_rpc.StreamMarket(stream_req)
-        async for market in stream_resp:
-            print("\n-- Order Update:\n", market)
+        stream_req = derivative_exchange_rpc_pb.StreamTradesRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30")
+        stream_resp = derivative_exchange_rpc.StreamTrades(stream_req)
+        async for trade in stream_resp:
+            print("\n-- Trades Update:\n", trade)
 ```
 
 |Parameter|Type|Description|
@@ -913,11 +950,15 @@ LiquidablePositions gets all the liquidable positions.
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
         lresp = await derivative_exchange_rpc.LiquidablePositions(derivative_exchange_rpc_pb.LiquidablePositionsRequest())
         print("\n-- Liquidable Positions Update:\n", lresp)
@@ -995,11 +1036,15 @@ Market gets details of a single derivative market
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
         mresp = await derivative_exchange_rpc.Market(derivative_exchange_rpc_pb.MarketRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"))
         print("\n-- Market Update:\n", mresp)
@@ -1140,11 +1185,15 @@ Orderbook gets the Orderbook of a Derivative Market
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
         orderbookresp = await derivative_exchange_rpc.Orderbook(derivative_exchange_rpc_pb.OrderbookRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"))
         print("\n-- Orderbook Update:\n", orderbookresp)
@@ -1218,13 +1267,17 @@ Trades gets the trades of a Derivative Market.
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
-        tresp = await derivative_exchange_rpc.Trades(derivative_exchange_rpc_pb.TradesRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30")
+        tresp = await derivative_exchange_rpc.Trades(derivative_exchange_rpc_pb.TradesRequest(market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"))
         print("\n-- Trades Update:\n", tresp)
 ```
 
@@ -1317,11 +1370,15 @@ SubaccountOrdersList lists orders posted from this subaccount.
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
-import injective.exchange_api.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2 as derivative_exchange_rpc_pb
+import pyinjective.proto.exchange.injective_derivative_exchange_rpc_pb2_grpc as derivative_exchange_rpc_grpc
+
+from pyinjective.constant import Network
+
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         derivative_exchange_rpc = derivative_exchange_rpc_grpc.InjectiveDerivativeExchangeRPCStub(channel)
         subacc_ord = await derivative_exchange_rpc.SubaccountOrdersList(derivative_exchange_rpc_pb.SubaccountOrdersListRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"))
         print("\n-- Subaccount Orders List Update:\n", subacc_ord)
