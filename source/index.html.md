@@ -8,6 +8,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
   # - http: HTTP
 
 includes:
+  - overview
   - architecture
   - accountsrpc
   - spotrpc
