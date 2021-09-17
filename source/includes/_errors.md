@@ -63,7 +63,7 @@
 |exchange| 30 | order hash is not valid |
 |cosmos-sdk| 31 | unknown extension options |
 |exchange| 31 | subaccount id is not valid |
-|cosmos-sdk| 32 | the account sequence defined doesn't match the account's actual sequence number |
+|cosmos-sdk| 32 | the account sequence defined in the signer info doesn't match the account's actual sequence number |
 |exchange| 32 | invalid ticker |
 |cosmos-sdk| 33 | failed packing protobuf message |
 |exchange| 33 | invalid base denom |
@@ -79,7 +79,7 @@
 |exchange| 38 | invalid quantity |
 |cosmos-sdk| 39 | internal IO error|
 |exchange| 39 | unsupported oracle type |
-|cosmos-sdk| 40 | the min-gas-prices in BaseConfig is empty |
+|cosmos-sdk| 40 | the min-gas-prices in baseconfig is empty |
 |exchange| 40 | order doesn't exist |
 |exchange| 41 | deposit doesn't exist |
 |exchange| 42 | spot limit orderbook doesn't exist |
@@ -93,20 +93,20 @@
 |exchange| 50 | derivative market not found |
 |exchange| 51 | position not found |
 |exchange| 52 | position direction does not oppose the reduce-only order |
-|exchange| 53 | price Surpasses Bankruptcy Price |
-|exchange| 54 | position not liquidable |
+|exchange| 53 | price surpasses the bankruptcy price |
+|exchange| 54 | position is not liquidable |
 |exchange| 55 | invalid trigger price |
 |exchange| 56 | invalid oracle type |
 |exchange| 57 | invalid minimum price tick size |
 |exchange| 58 | invalid minimum quantity tick size |
 |exchange| 59 | invalid minimum order margin |
 |exchange| 60 | exceeds order side count |
-|exchange| 61 | cannot place a market order when a market or limit order in the same market was already placed in the same block |
-|exchange| 62 | cannot place a limit order when a market order in the same market was already placed in the same block |
+|exchange| 61 | cannot place a market order from a subaccount when a market or limit order in the same market was already placed in the same block |
+|exchange| 62 | cannot place a limit order from a subaccount when a market order in the same market was already placed in the same block |
 |exchange| 63 | an equivalent market launch proposal already exists |
-|exchange| 64 | invalid Market Status |
+|exchange| 64 | invalid market status |
 |exchange| 65 | base denom cannot be the same with the quote denom |
 |exchange| 66 | oracle base cannot be the same with oracle quote |
-|exchange| 67 | makerFeeRate cannot be greater than TakerFeeRate |
-|exchange| 68 | maintenanceMarginRatio cannot be greater than InitialMarginRatio |
-|exchange| 69 | oracleScaleFactor cannot be greater than MaxOracleScaleFactor |
+|exchange| 67 | makerFeeRate cannot be greater than takerFeeRate |
+|exchange| 68 | maintenanceMarginRatio cannot be greater than the initialMarginRatio |
+|exchange| 69 | oracleScaleFactor cannot be greater than maxOracleScaleFactor |
