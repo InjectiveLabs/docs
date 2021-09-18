@@ -6,14 +6,14 @@ ChronosAPI implements historical data API for e.g. TradingView.
 
 Get info about specific derivative market symbol by ticker.
 
-### Request Parameters
+<!-- ### Request Parameters
 > Request Example:
 
 ``` json
 {
   "symbol": "inj/peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -21,7 +21,7 @@ Get info about specific derivative market symbol by ticker.
 
 
 
-### Response Parameters
+<!-- ### Response Parameters
 > Response Example:
 
 ``` json
@@ -82,7 +82,7 @@ Get info about specific derivative market symbol by ticker.
   "type": "crypto",
   "volume_precision": 1
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -126,7 +126,7 @@ Get info about specific derivative market symbol by ticker.
 
 Data feed configuration data for TradingView.
 
-### Request Parameters
+<!-- ### Request Parameters
 
 ### Response Parameters
 > Response Example:
@@ -154,7 +154,7 @@ Data feed configuration data for TradingView.
   "supports_search": false,
   "supports_timescale_marks": false
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -171,7 +171,7 @@ Data feed configuration data for TradingView.
 
 Gets spot market summary for the latest interval (hour, day, month)
 
-### Request Parameters
+<!-- ### Request Parameters
 > Request Example:
 
 ``` json
@@ -179,7 +179,7 @@ Gets spot market summary for the latest interval (hour, day, month)
   "marketId": "0x0000000000000000000000000000000000000000000000000000000000000000",
   "resolution": "24h"
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -188,10 +188,10 @@ Gets spot market summary for the latest interval (hour, day, month)
 
 
 
-### Response Parameters
-> Response Example:
+<!-- ### Response Parameters
+> Response Example: -->
 
-``` json
+<!-- ``` json
 {
   "change": 10.5555,
   "high": 3667.24,
@@ -201,7 +201,7 @@ Gets spot market summary for the latest interval (hour, day, month)
   "price": 3400,
   "volume": 34.7336
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -220,14 +220,14 @@ Gets spot market summary for the latest interval (hour, day, month)
 
 Get a list of all spotMarket instruments for TradingView.
 
-### Request Parameters
+<!-- ### Request Parameters
 > Request Example:
 
 ``` json
 {
   "group": "perpetuals"
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -235,7 +235,7 @@ Get a list of all spotMarket instruments for TradingView.
 
 
 
-### Response Parameters
+<!-- ### Response Parameters
 > Response Example:
 
 ``` json
@@ -356,7 +356,7 @@ Get a list of all spotMarket instruments for TradingView.
     "crypto"
   ]
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -399,14 +399,14 @@ Get a list of all spotMarket instruments for TradingView.
 Gets batch summary for all active markets, for the latest interval (hour, day, month)
 
 
-### Request Parameters
+<!-- ### Request Parameters
 > Request Example:
 
 ``` json
 {
   "resolution": "24h"
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -414,16 +414,14 @@ Gets batch summary for all active markets, for the latest interval (hour, day, m
 
 
 
-### Response Parameters
+<!-- ### Response Parameters -->
 
 
 ## ChronosAPI.DerivativeMarketConfig
 
 Data feed configuration data for TradingView.
 
-`POST /ChronosAPI/derivativeMarketConfig`
-
-### Request Parameters
+<!-- ### Request Parameters
 
 ### Response Parameters
 > Response Example:
@@ -451,7 +449,7 @@ Data feed configuration data for TradingView.
   "supports_search": false,
   "supports_timescale_marks": false
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -469,7 +467,7 @@ Data feed configuration data for TradingView.
 Request for history bars of derivativeMarket for TradingView.
 
 
-### Request Parameters
+<!-- ### Request Parameters
 > Request Example:
 
 ``` json
@@ -480,7 +478,7 @@ Request for history bars of derivativeMarket for TradingView.
   "symbol": "inj/peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
   "to": 2062263357013088000
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -492,7 +490,7 @@ Request for history bars of derivativeMarket for TradingView.
 
 
 
-### Response Parameters
+<!-- ### Response Parameters
 > Response Example:
 
 ``` json
@@ -531,7 +529,7 @@ Request for history bars of derivativeMarket for TradingView.
     11.7075
   ]
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -553,14 +551,14 @@ Request for history bars of derivativeMarket for TradingView.
 Get a list of all derivativeMarket instruments for TradingView.
 
 
-### Request Parameters
+<!-- ### Request Parameters
 > Request Example:
 
 ``` json
 {
   "group": "perpetuals"
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -568,7 +566,7 @@ Get a list of all derivativeMarket instruments for TradingView.
 
 
 
-### Response Parameters
+<!-- ### Response Parameters
 > Response Example:
 
 ``` json
@@ -693,7 +691,7 @@ Get a list of all derivativeMarket instruments for TradingView.
     "crypto"
   ]
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -736,7 +734,7 @@ Get a list of all derivativeMarket instruments for TradingView.
 Gets batch summary for all active markets, for the latest interval (hour, day, month)
 
 
-### Request Parameters
+<!-- ### Request Parameters
 > Request Example:
 
 ``` json
@@ -744,7 +742,7 @@ Gets batch summary for all active markets, for the latest interval (hour, day, m
   "indexPrice": false,
   "resolution": "24h"
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -753,7 +751,7 @@ Gets batch summary for all active markets, for the latest interval (hour, day, m
 
 
 
-### Response Parameters
+<!-- ### Response Parameters -->
 
 
 ## ChronosAPI.DerivativeMarketSummary
@@ -761,7 +759,7 @@ Gets batch summary for all active markets, for the latest interval (hour, day, m
 Gets derivative market summary for the latest interval (hour, day, month)
 
 
-### Request Parameters
+<!-- ### Request Parameters
 > Request Example:
 
 ``` json
@@ -770,7 +768,7 @@ Gets derivative market summary for the latest interval (hour, day, month)
   "marketId": "0x0000000000000000000000000000000000000000000000000000000000000000",
   "resolution": "24h"
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -780,7 +778,7 @@ Gets derivative market summary for the latest interval (hour, day, month)
 
 
 
-### Response Parameters
+<!-- ### Response Parameters
 > Response Example:
 
 ``` json
@@ -793,7 +791,7 @@ Gets derivative market summary for the latest interval (hour, day, month)
   "price": 3400,
   "volume": 34.7336
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -813,7 +811,7 @@ Gets derivative market summary for the latest interval (hour, day, month)
 Request for history bars of spotMarket for TradingView.
 
 
-### Request Parameters
+<!-- ### Request Parameters
 > Request Example:
 
 ``` json
@@ -824,7 +822,7 @@ Request for history bars of spotMarket for TradingView.
   "symbol": "inj/peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
   "to": 9192061341338120000
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -836,7 +834,7 @@ Request for history bars of spotMarket for TradingView.
 
 
 
-### Response Parameters
+<!-- ### Response Parameters
 > Response Example:
 
 ``` json
@@ -875,7 +873,7 @@ Request for history bars of spotMarket for TradingView.
     11.7075
   ]
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -897,14 +895,14 @@ Request for history bars of spotMarket for TradingView.
 Get info about specific spot market symbol by ticker.
 
 
-### Request Parameters
+<!-- ### Request Parameters
 > Request Example:
 
 ``` json
 {
   "symbol": "inj/peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -912,7 +910,7 @@ Get info about specific spot market symbol by ticker.
 
 
 
-### Response Parameters
+<!-- ### Response Parameters
 > Response Example:
 
 ``` json
@@ -973,7 +971,7 @@ Get info about specific spot market symbol by ticker.
   "type": "crypto",
   "volume_precision": 1
 }
-```
+``` -->
 
 |Parameter|Type|Description|
 |----|----|----|
