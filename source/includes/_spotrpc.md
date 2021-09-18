@@ -39,7 +39,7 @@ async def main() -> None:
 ### Response Parameters
 > Streaming Response Example:
 
-``` python
+``` json
 {
   "operationType": "insert",
   "timestamp": 1544614248000,
