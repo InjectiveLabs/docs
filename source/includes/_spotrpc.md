@@ -1,4 +1,4 @@
-# API - InjectiveSpotExchangeRPC
+# - InjectiveSpotExchangeRPC
 InjectiveSpotExchangeRPC defines gRPC API of Spot Exchange provider.
 
 

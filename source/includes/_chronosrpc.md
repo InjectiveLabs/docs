@@ -1,4 +1,4 @@
-# API - ChronosAPI
+# - ChronosAPI
 ChronosAPI implements historical data API for e.g. TradingView.
 
 

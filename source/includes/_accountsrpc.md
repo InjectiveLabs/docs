@@ -1,5 +1,5 @@
-
-# API - InjectiveAccountsRPC
+# Exchange API
+# - InjectiveAccountsRPC
 InjectiveAccountsRPC defines gRPC API of Exchange Accounts provider.
 
 

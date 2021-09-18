@@ -1,5 +1,4 @@
-
-# API - InjectiveInsuranceRPC
+# - InjectiveInsuranceRPC
 InjectiveInsuranceRPC defines gRPC API of Insurance provider.
 
 

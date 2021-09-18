@@ -1,5 +1,4 @@
-
-# API - InjectiveDerivativeExchangeRPC
+# - InjectiveDerivativeExchangeRPC
 InjectiveDerivativeExchangeRPC defines gRPC API of Derivative Markets provider.
 
 

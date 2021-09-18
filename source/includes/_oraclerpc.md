@@ -1,4 +1,4 @@
-# API - InjectiveOracleRPC
+# - InjectiveOracleRPC
 InjectiveOracleRPC defines gRPC API of Exchange Oracle provider.
 
 
