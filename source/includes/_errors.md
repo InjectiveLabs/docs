@@ -1,4 +1,4 @@
-# Error Codes
+<!-- # Error Codes
 
 |Module| Error | Description |
 |--- | --- | ---|
@@ -109,4 +109,4 @@
 |exchange| 66 | oracle base cannot be the same with oracle quote |
 |exchange| 67 | makerFeeRate cannot be greater than takerFeeRate |
 |exchange| 68 | maintenanceMarginRatio cannot be greater than the initialMarginRatio |
-|exchange| 69 | oracleScaleFactor cannot be greater than maxOracleScaleFactor |
+|exchange| 69 | oracleScaleFactor cannot be greater than maxOracleScaleFactor | -->
