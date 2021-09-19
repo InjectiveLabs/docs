@@ -5,17 +5,19 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - python: Python
   - golang: Golang
   - typescript: TypeScript
-  - http: HTTP
+  # - http: HTTP
 
 includes:
+  - overview
   - architecture
-  - exchangerpc
   - accountsrpc
   - spotrpc
   - derivativesrpc
   - oraclerpc
   - insurancerpc
+  - exchangerpc
   - chronosrpc
+  - errors
 search: true
 
 code_clipboard: true
@@ -34,7 +36,7 @@ If you would like to ask any questions or be a part of our community, please joi
 ## Python Client
 **Installation**
 
-Install injective-py from PyPI using pip:
+Install injective-py from PyPI using pip.
 
 ```bash
 pip install injective-py
@@ -42,9 +44,7 @@ pip install injective-py
 
 **Usage**
 
-See [InjectiveLabs/injective-py](https://github.com/InjectiveLabs/sdk-python).
-
-See the examples folder for simple python examples.
+[InjectiveLabs/sdk-python](https://github.com/InjectiveLabs/sdk-python).
 
 
 ## Golang Client
@@ -58,10 +58,10 @@ go get -u github.com/InjectiveLabs/sdk-go
 
 **Usage**
 
-See [InjectiveLabs/injective-exchange](https://github.com/InjectiveLabs/injective-exchange).
+[InjectiveLabs/sdk-go](https://github.com/InjectiveLabs/sdk-go).
 
-[comment]: <> (TODO: implement)
-See the examples folder for simple Golang examples.
+<!-- [comment]: <> (TODO: implement)
+See the examples folder for simple Golang examples. -->
 
 
 ## Typescript Client
@@ -75,5 +75,4 @@ yarn add @InjectiveLabs/exchange-consumer
 
 **Usage**
 
-See [InjectiveLabs/injective-ts](https://github.com/InjectiveLabs/injective-ts/tree/master/packages/exchange-consumer).
-
+[InjectiveLabs/injective-ts](https://github.com/InjectiveLabs/injective-ts/tree/master/packages/exchange-consumer).

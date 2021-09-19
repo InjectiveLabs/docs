@@ -1,4 +1,4 @@
-# API - InjectiveOracleRPC
+# - InjectiveOracleRPC
 InjectiveOracleRPC defines gRPC API of Exchange Oracle provider.
 
 
@@ -6,17 +6,20 @@ InjectiveOracleRPC defines gRPC API of Exchange Oracle provider.
 
 StreamPrices streams new price changes for a specified oracle. If no oracles are provided, all price changes are streamed.
 
-`POST /InjectiveOracleRPC/streamPrices`
-
 ### Request Parameters
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_oracle_rpc_pb2 as oracle_rpc_pb
-import injective.exchange_api.injective_oracle_rpc_pb2_grpc as oracle_rpc_grpc
+import pyinjective.proto.exchange.injective_oracle_rpc_pb2 as oracle_rpc_pb
+import pyinjective.proto.exchange.injective_oracle_rpc_pb2_grpc as oracle_rpc_grpc
+
+from pyinjective.constant import Network
+
+# select network: local, testnet, mainnet
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         oracle_exchange_rpc = oracle_rpc_grpc.InjectiveOracleRPCStub(channel)
         stream_req = oracle_rpc_pb.StreamPricesRequest(base_symbol = "BTC", quote_symbol = "USD", oracle_type = "coinbase")
         stream_resp = oracle_exchange_rpc.StreamPrices(stream_req)
@@ -52,17 +55,20 @@ async def main() -> None:
 
 List all oracles
 
-`POST /InjectiveOracleRPC/oracleList`
-
 ### Request Parameters
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_oracle_rpc_pb2 as oracle_rpc_pb
-import injective.exchange_api.injective_oracle_rpc_pb2_grpc as oracle_rpc_grpc
+import pyinjective.proto.exchange.injective_oracle_rpc_pb2 as oracle_rpc_pb
+import pyinjective.proto.exchange.injective_oracle_rpc_pb2_grpc as oracle_rpc_grpc
+
+from pyinjective.constant import Network
+
+# select network: local, testnet, mainnet
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         oracle_exchange_rpc = oracle_rpc_grpc.InjectiveOracleRPCStub(channel)
         oracle_list = await oracle_exchange_rpc.OracleList(oracle_rpc_pb.OracleListRequest())
         print("\n-- Oracle List Update:\n", oracle_list)
@@ -105,17 +111,20 @@ Oracle:
 
 Gets the price of the oracle
 
-`POST /InjectiveOracleRPC/price`
-
 ### Request Parameters
 > Request Example:
 
 ``` python
-import injective.exchange_api.injective_oracle_rpc_pb2 as oracle_rpc_pb
-import injective.exchange_api.injective_oracle_rpc_pb2_grpc as oracle_rpc_grpc
+import pyinjective.proto.exchange.injective_oracle_rpc_pb2 as oracle_rpc_pb
+import pyinjective.proto.exchange.injective_oracle_rpc_pb2_grpc as oracle_rpc_grpc
+
+from pyinjective.constant import Network
+
+# select network: local, testnet, mainnet
+network = Network.testnet()
 
 async def main() -> None:
-    async with grpc.aio.insecure_channel('testnet-sentry0.injective.network:9910') as channel:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
         oracle_exchange_rpc = oracle_rpc_grpc.InjectiveOracleRPCStub(channel)
         oracle_price = await oracle_exchange_rpc.Price(oracle_rpc_pb.PriceRequest(base_symbol = "BTC", quote_symbol = "USD", oracle_type = "coinbase", oracle_scale_factor = 6))
         print("\n-- Oracle Price Update:\n", oracle_price)
