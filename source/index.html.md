@@ -15,9 +15,12 @@ includes:
   - derivativesrpc
   - oraclerpc
   - insurancerpc
+  - derivatives
+  - spot
+  - account
   - exchangerpc
   - chronosrpc
-  - errors
+  # - errors
 search: true
 
 code_clipboard: true
@@ -27,9 +30,9 @@ code_clipboard: true
 
 Welcome to Injective Protocol's documentation!
 
-Here you can find a comprehensive overview of our protocol, as well as tutorials, guides and general resources for developers.
+Here you can find a comprehensive overview of our protocol, as well as tutorials, guides and general resources for developers and API traders.
 
-If you would like to ask any questions or be a part of our community, please join our [Discord Group](discord.gg/injective) or [Telegram Group](https://t.me/joininjective).
+If you would like to ask any questions or be a part of our community, please join our [Discord Group](discord.gg/injective) or [Telegram Group](https://t.me/joininjective). We have a dedicated channel in our Discord group for API queries and questions.
 
 # Clients
 
