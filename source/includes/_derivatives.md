@@ -1,4 +1,5 @@
 # Chain API
+
 **Initialize Client**
 
 Import dependencies from [injective-py](https://pypi.org/project/injective-py/) and configure the gRPC client in order to send messages to the Injective Chain. You can include multiple messages in a single transaction.
