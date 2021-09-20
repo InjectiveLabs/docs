@@ -3,8 +3,8 @@ title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - python: Python
-  - golang: Golang
-  - typescript: TypeScript
+  # - golang: Golang
+  # - typescript: TypeScript
   # - http: HTTP
 
 includes:
@@ -44,12 +44,14 @@ Install injective-py from PyPI using pip.
 pip install injective-py
 ```
 
-**Usage**
+**Reference**
 
 [InjectiveLabs/sdk-python](https://github.com/InjectiveLabs/sdk-python).
 
 
 ## Golang Client
+Examples are under construction, stay tuned.
+
 **Installation**
 
 Install sdk-go using `go get`.
@@ -58,7 +60,7 @@ Install sdk-go using `go get`.
 go get -u github.com/InjectiveLabs/sdk-go
 ```
 
-**Usage**
+**Reference**
 
 [InjectiveLabs/sdk-go](https://github.com/InjectiveLabs/sdk-go).
 
@@ -67,6 +69,8 @@ See the examples folder for simple Golang examples. -->
 
 
 ## Typescript Client
+Examples are under construction, stay tuned.
+
 **Installation**
 
 Install exchange-consumer using `yarn`.
@@ -75,6 +79,6 @@ Install exchange-consumer using `yarn`.
 yarn add @InjectiveLabs/exchange-consumer
 ```
 
-**Usage**
+**Reference**
 
 [InjectiveLabs/injective-ts](https://github.com/InjectiveLabs/injective-ts/tree/master/packages/exchange-consumer).
