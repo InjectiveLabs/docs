@@ -1,5 +1,3 @@
-# Relayers
-
 # - InjectiveExchangeRPC
 InjectiveExchangeRPC defines gRPC API of an Injective Exchange service.
 

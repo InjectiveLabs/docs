@@ -8,7 +8,7 @@ Includes all the messages related to accounts and transfers.
 
 ``` python
     # prepare tx msg
-    msg = ProtoMsgComposer.MsgSend(
+    msg = composer.MsgSend(
         from_address=address.to_acc_bech32(),
         to_address='inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku',
         amount=1000000000000000000, #1 INJ
@@ -17,7 +17,7 @@ Includes all the messages related to accounts and transfers.
     acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
     gas_price = 500000000
     gas_limit = 200000
-    fee = [ProtoMsgComposer.Coin(
+    fee = [composer.Coin(
         amount=str(gas_price * gas_limit),
         denom=network.fee_denom,
     )]
@@ -47,12 +47,12 @@ Includes all the messages related to accounts and transfers.
     print(res)
 ```
 
-|Parameter|Type|
-|----|----|
-|from_address|string|
-|to_address|string|
-|amount|int|
-|denom|string|
+|Parameter|Type|Description|
+|----|----|----|
+|from_address|string|The inj address of the sender|
+|to_address|string| The inj address of the receiver|
+|amount|int| The amount of tokens to send|
+|denom|string| The denom of that token|
 
 
 
@@ -133,7 +133,7 @@ Includes all the messages related to accounts and transfers.
 
 ``` python
     # prepare tx msg
-    msg = ProtoMsgComposer.MsgDeposit(
+    msg = composer.MsgDeposit(
         sender=address.to_acc_bech32(),
         subaccount_id=subaccount_id,
         amount=1000000000000000000,
@@ -143,7 +143,7 @@ Includes all the messages related to accounts and transfers.
     acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
     gas_price = 500000000
     gas_limit = 200000
-    fee = [ProtoMsgComposer.Coin(
+    fee = [composer.Coin(
         amount=str(gas_price * gas_limit),
         denom=network.fee_denom,
     )]
@@ -173,12 +173,12 @@ Includes all the messages related to accounts and transfers.
     print(res)
 ```
 
-|Parameter|Type|
-|----|----|
-|sender|string|
-|subaccount_id|string|
-|amount|int|
-|denom|string|
+|Parameter|Type|Description|
+|----|----|----|
+|sender|string|The inj address of the sender|
+|subaccount_id|string| The subaccount_id to receive the funds|
+|amount|int| The amount of tokens to send|
+|denom|string| The denom of that token|
 
 
 > Response Example:
@@ -258,6 +258,236 @@ Includes all the messages related to accounts and transfers.
 "gas_wanted": 200000,
 "gas_used": 93162
 
+
+}
+```
+
+## MsgWithdraw
+
+### Request Parameters
+> Request Example:
+
+``` python
+    # prepare tx msg
+    msg = composer.MsgWithdraw(
+        sender=address.to_acc_bech32(),
+        subaccount_id=subaccount_id,
+        amount=1000000000000000000,
+        denom="inj"
+    )
+
+    acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
+    gas_price = 500000000
+    gas_limit = 200000
+    fee = [composer.Coin(
+        amount=str(gas_price * gas_limit),
+        denom=network.fee_denom,
+    )]
+
+    # build tx
+    tx = (
+        Transaction()
+        .with_messages(msg)
+        .with_sequence(acc_seq)
+        .with_account_num(acc_num)
+        .with_chain_id(network.chain_id)
+        .with_gas(gas_limit)
+        .with_fee(fee)
+        .with_memo("")
+        .with_timeout_height(0)
+    )
+
+    # build signed tx
+    sign_doc = tx.get_sign_doc(pub_key)
+    sig = priv_key.sign(sign_doc.SerializeToString())
+    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+
+    # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
+    res = client.send_tx_block_mode(tx_raw_bytes)
+
+    # print tx response
+    print(res)
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|sender|string|The inj address of the sender|
+|subaccount_id|string| The subaccount_id to receive the funds|
+|amount|int| The amount of tokens to send|
+|denom|string| The denom of that token|
+
+
+> Response Example:
+
+``` json
+{
+"height": "8739822",
+"txhash": "1E015C6B0D3CEFA5C9729415E4462B3BF2EF56F9D01E68C0653658F00B1D8A5E",
+"data": "0A290A272F696E6A6563746976652E65786368616E67652E763162657461312E4D73675769746864726177",
+"raw_log": "[{\"events\":[{\"type\":\"coin_received\",\"attributes\":[{\"key\":\"receiver\",\"value\":\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\"},{\"key\":\"amount\",\"value\":\"1000000000000000000inj\"}]},{\"type\":\"coin_spent\",\"attributes\":[{\"key\":\"spender\",\"value\":\"inj14vnmw2wee3xtrsqfvpcqg35jg9v7j2vdpzx0kk\"},{\"key\":\"amount\",\"value\":\"1000000000000000000inj\"}]},{\"type\":\"injective.exchange.v1beta1.EventSubaccountWithdraw\",\"attributes\":[{\"key\":\"dst_address\",\"value\":\"\\\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\\\"\"},{\"key\":\"amount\",\"value\":\"{\\\"denom\\\":\\\"inj\\\",\\\"amount\\\":\\\"1000000000000000000\\\"}\"},{\"key\":\"subaccount_id\",\"value\":\"\\\"va7eyV1WP7BSQNbgGCEAhFTCTDYAAAAAAAAAAAAAAAA=\\\"\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/injective.exchange.v1beta1.MsgWithdraw\"},{\"key\":\"sender\",\"value\":\"inj14vnmw2wee3xtrsqfvpcqg35jg9v7j2vdpzx0kk\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\"},{\"key\":\"sender\",\"value\":\"inj14vnmw2wee3xtrsqfvpcqg35jg9v7j2vdpzx0kk\"},{\"key\":\"amount\",\"value\":\"1000000000000000000inj\"}]}]}]",
+"logs" {
+  "events" {
+    "type": "coin_received",
+    "attributes" {
+      "key": "receiver",
+      "value": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+    }
+    "attributes" {
+      "key": "amount",
+      "value": "1000000000000000000inj"
+    }
+  }
+  "events" {
+    "type": "coin_spent",
+    "attributes" {
+      "key": "spender",
+      "value": "inj14vnmw2wee3xtrsqfvpcqg35jg9v7j2vdpzx0kk"
+    }
+    "attributes" {
+      "key": "amount",
+      "value": "1000000000000000000inj"
+    }
+  }
+  "events" {
+    "type": "injective.exchange.v1beta1.EventSubaccountWithdraw",
+    "attributes" {
+      "key": "dst_address",
+      "value": "\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\""
+    }
+    "attributes" {
+      "key": "amount",
+      "value": "{\"denom\":\"inj\",\"amount\":\"1000000000000000000\"}"
+    }
+    "attributes" {
+      "key": "subaccount_id",
+      "value": "\"va7eyV1WP7BSQNbgGCEAhFTCTDYAAAAAAAAAAAAAAAA=\""
+    }
+  }
+  "events" {
+    "type": "message",
+    "attributes" {
+      "key": "action",
+      "value": "/injective.exchange.v1beta1.MsgWithdraw"
+    }
+    "attributes" {
+      "key": "sender",
+      "value": "inj14vnmw2wee3xtrsqfvpcqg35jg9v7j2vdpzx0kk"
+    }
+  }
+  "events" {
+    "type": "transfer",
+    "attributes" {
+      "key": "recipient",
+      "value": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+    }
+    "attributes" {
+      "key": "sender",
+      "value": "inj14vnmw2wee3xtrsqfvpcqg35jg9v7j2vdpzx0kk"
+    }
+    "attributes" {
+      "key": "amount",
+      "value": "1000000000000000000inj"
+    }
+  }
+}
+"gas_wanted": "200000",
+"gas_used": "91833"
+}
+```
+
+
+
+## MsgSubaccountTransfer
+
+### Request Parameters
+> Request Example:
+
+``` python
+    # prepare tx msg
+    msg = composer.MsgSubaccountTransfer(
+        sender=address.to_acc_bech32(),
+        source_subaccount_id=subaccount_id,
+        destination_subaccount_id=dest_subaccount_id,
+        amount=1000000000000000000,
+        denom="inj"
+    )
+
+    acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
+    gas_price = 500000000
+    gas_limit = 200000
+    fee = [composer.Coin(
+        amount=str(gas_price * gas_limit),
+        denom=network.fee_denom,
+    )]
+
+    # build tx
+    tx = (
+        Transaction()
+        .with_messages(msg)
+        .with_sequence(acc_seq)
+        .with_account_num(acc_num)
+        .with_chain_id(network.chain_id)
+        .with_gas(gas_limit)
+        .with_fee(fee)
+        .with_memo("")
+        .with_timeout_height(0)
+    )
+
+    # build signed tx
+    sign_doc = tx.get_sign_doc(pub_key)
+    sig = priv_key.sign(sign_doc.SerializeToString())
+    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+
+    # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
+    res = client.send_tx_block_mode(tx_raw_bytes)
+
+    # print tx response
+    print(res)
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|sender|string|The inj address of the sender|
+|source_subaccount_id|string|The subaccount_id to send the funds from|
+|destination_subaccount_id|string| The subaccount_id to receive the funds|
+|amount|int| The amount of tokens to send|
+|denom|string| The denom of that token|
+
+
+> Response Example:
+
+``` json
+{
+"height": "8739976",
+"txhash": "4D1EA75A18B967F3A5E35277DFF03D724D85A1DB77168F562CC26AD4C1BE0EA3",
+"data": "0A330A312F696E6A6563746976652E65786368616E67652E763162657461312E4D73675375626163636F756E745472616E73666572",
+"raw_log": "[{\"events\":[{\"type\":\"injective.exchange.v1beta1.EventSubaccountBalanceTransfer\",\"attributes\":[{\"key\":\"src_subaccount_id\",\"value\":\"\\\"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000\\\"\"},{\"key\":\"dst_subaccount_id\",\"value\":\"\\\"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000001\\\"\"},{\"key\":\"amount\",\"value\":\"{\\\"denom\\\":\\\"inj\\\",\\\"amount\\\":\\\"1000000000000000000\\\"}\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/injective.exchange.v1beta1.MsgSubaccountTransfer\"}]}]}]",
+"logs" {
+  "events" {
+    "type": "injective.exchange.v1beta1.EventSubaccountBalanceTransfer",
+    "attributes" {
+      "key": "src_subaccount_id",
+      "value": "\"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000\""
+    }
+    "attributes" {
+      "key": "dst_subaccount_id",
+      "value": "\"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000001\""
+    }
+    "attributes" {
+      "key": "amount",
+      "value": "{\"denom\":\"inj\",\"amount\":\"1000000000000000000\"}"
+    }
+  }
+  "events" {
+    "type": "message",
+    "attributes" {
+      "key": "action",
+      "value": "/injective.exchange.v1beta1.MsgSubaccountTransfer"
+    }
+  }
+}
+"gas_wanted": "200000",
+"gas_used": "86552"
 
 }
 ```
