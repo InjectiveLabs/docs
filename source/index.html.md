@@ -9,14 +9,17 @@ language_tabs: # must be one of https://git.io/vQNgJ
 
 includes:
   - overview
+  - exchangeapi
   - accountsrpc
   - spotrpc
   - derivativesrpc
   - oraclerpc
   - insurancerpc
+  - chainapi
   - derivatives
   - spot
   - account
+  - relayers
   - exchangerpc
   - chronosrpc
   # - errors

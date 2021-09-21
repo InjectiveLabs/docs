@@ -2,7 +2,7 @@
 InjectiveInsuranceRPC defines gRPC API of Insurance provider.
 
 
-## InjectiveInsuranceRPC.Funds
+## Funds
 
 Funds lists all insurance funds.
 
@@ -131,7 +131,7 @@ TokenMeta:
 |symbol|string|Token symbol short name|
 
 
-## InjectiveInsuranceRPC.Redemptions
+## Redemptions
 
 PendingRedemptions lists all pending redemptions according to a filter
 

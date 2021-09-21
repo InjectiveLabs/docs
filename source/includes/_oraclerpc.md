@@ -2,56 +2,7 @@
 InjectiveOracleRPC defines gRPC API of Exchange Oracle provider.
 
 
-## InjectiveOracleRPC.StreamPrices
-
-StreamPrices streams new price changes for a specified oracle. If no oracles are provided, all price changes are streamed.
-
-### Request Parameters
-> Request Example:
-
-``` python
-import pyinjective.proto.exchange.injective_oracle_rpc_pb2 as oracle_rpc_pb
-import pyinjective.proto.exchange.injective_oracle_rpc_pb2_grpc as oracle_rpc_grpc
-
-from pyinjective.constant import Network
-
-# select network: local, testnet, mainnet
-network = Network.testnet()
-
-async def main() -> None:
-    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
-        oracle_exchange_rpc = oracle_rpc_grpc.InjectiveOracleRPCStub(channel)
-        stream_req = oracle_rpc_pb.StreamPricesRequest(base_symbol = "BTC", quote_symbol = "USD", oracle_type = "coinbase")
-        stream_resp = oracle_exchange_rpc.StreamPrices(stream_req)
-        async for oracle in stream_resp:
-            print("\n-- Oracle Prices Update:\n", oracle)
-```
-
-|Parameter|Type|Description|
-|----|----|----|
-|baseSymbol|string|Oracle base currency|
-|quoteSymbol|string|Oracle quote currency|
-|oracleType|string|Oracle Type|
-
-
-### Response Parameters
-> Streaming Response Example:
-
-``` json
-{
-  "price": "14.01",
-  "timestamp": 1544614248000
-}
-```
-
-|Parameter|Type|Description|
-|----|----|----|
-|price|string|The price of the oracle asset|
-|timestamp|integer|Operation timestamp in UNIX millis.|
-
-
-
-## InjectiveOracleRPC.OracleList
+## OracleList
 
 List all oracles
 
@@ -107,7 +58,7 @@ Oracle:
 |symbol|string|The symbol of the oracle asset.|
 
 
-## InjectiveOracleRPC.Price
+## Price
 
 Gets the price of the oracle
 
@@ -150,3 +101,51 @@ async def main() -> None:
 |Parameter|Type|Description|
 |----|----|----|
 |price|string|The price of the oracle asset|
+
+
+## StreamPrices
+
+StreamPrices streams new price changes for a specified oracle. If no oracles are provided, all price changes are streamed.
+
+### Request Parameters
+> Request Example:
+
+``` python
+import pyinjective.proto.exchange.injective_oracle_rpc_pb2 as oracle_rpc_pb
+import pyinjective.proto.exchange.injective_oracle_rpc_pb2_grpc as oracle_rpc_grpc
+
+from pyinjective.constant import Network
+
+# select network: local, testnet, mainnet
+network = Network.testnet()
+
+async def main() -> None:
+    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
+        oracle_exchange_rpc = oracle_rpc_grpc.InjectiveOracleRPCStub(channel)
+        stream_req = oracle_rpc_pb.StreamPricesRequest(base_symbol = "BTC", quote_symbol = "USD", oracle_type = "coinbase")
+        stream_resp = oracle_exchange_rpc.StreamPrices(stream_req)
+        async for oracle in stream_resp:
+            print("\n-- Oracle Prices Update:\n", oracle)
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|baseSymbol|string|Oracle base currency|
+|quoteSymbol|string|Oracle quote currency|
+|oracleType|string|Oracle Type|
+
+
+### Response Parameters
+> Streaming Response Example:
+
+``` json
+{
+  "price": "14.01",
+  "timestamp": 1544614248000
+}
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|price|string|The price of the oracle asset|
+|timestamp|integer|Operation timestamp in UNIX millis.|
