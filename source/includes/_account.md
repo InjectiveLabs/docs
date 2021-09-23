@@ -11,8 +11,8 @@ Includes all the messages related to accounts and transfers.
     msg = composer.MsgSend(
         from_address=address.to_acc_bech32(),
         to_address='inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku',
-        amount=1000000000000000000, #1 INJ
-        denom='inj'
+        amount=1, #1 INJ
+        denom='USDT'
     )
     acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
     gas_price = 500000000
@@ -136,8 +136,8 @@ Includes all the messages related to accounts and transfers.
     msg = composer.MsgDeposit(
         sender=address.to_acc_bech32(),
         subaccount_id=subaccount_id,
-        amount=1000000000000000000,
-        denom='inj'
+        amount=1,
+        denom='USDT'
     )
 
     acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
@@ -272,8 +272,8 @@ Includes all the messages related to accounts and transfers.
     msg = composer.MsgWithdraw(
         sender=address.to_acc_bech32(),
         subaccount_id=subaccount_id,
-        amount=1000000000000000000,
-        denom="inj"
+        amount=1,
+        denom="USDT"
     )
 
     acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
