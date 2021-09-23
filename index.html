@@ -6683,7 +6683,7 @@ See the examples folder for simple Golang examples. -->
         <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
         <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
         <span class="n">fee_recipient</span><span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span><span class="p">,</span>
-        <span class="n">price</span><span class="o">=</span><span class="mi">41027</span><span class="p">,</span>
+        <span class="n">price</span><span class="o">=</span><span class="mf">44054.48</span><span class="p">,</span>
         <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
         <span class="n">leverage</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
         <span class="n">isBuy</span><span class="o">=</span><span class="bp">True</span>
@@ -7194,7 +7194,7 @@ See the examples folder for simple Golang examples. -->
         <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
         <span class="n">source_subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
         <span class="n">destination_subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-        <span class="n">amount</span><span class="o">=</span><span class="s">"50000000000000000000000000"</span>
+        <span class="n">amount</span><span class="o">=</span><span class="mi">2</span>
     <span class="p">)</span>
 
     <span class="n">acc_num</span><span class="p">,</span> <span class="n">acc_seq</span> <span class="o">=</span> <span class="k">await</span> <span class="n">address</span><span class="p">.</span><span class="n">get_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
@@ -7980,8 +7980,8 @@ See the examples folder for simple Golang examples. -->
 </span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgSend</span><span class="p">(</span>
         <span class="n">from_address</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
         <span class="n">to_address</span><span class="o">=</span><span class="s">'inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku'</span><span class="p">,</span>
-        <span class="n">amount</span><span class="o">=</span><span class="mi">1000000000000000000</span><span class="p">,</span> <span class="c1">#1 INJ
-</span>        <span class="n">denom</span><span class="o">=</span><span class="s">'inj'</span>
+        <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="c1">#1 INJ
+</span>        <span class="n">denom</span><span class="o">=</span><span class="s">'USDT'</span>
     <span class="p">)</span>
     <span class="n">acc_num</span><span class="p">,</span> <span class="n">acc_seq</span> <span class="o">=</span> <span class="k">await</span> <span class="n">address</span><span class="p">.</span><span class="n">get_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
     <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
@@ -8120,8 +8120,8 @@ See the examples folder for simple Golang examples. -->
 </span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgDeposit</span><span class="p">(</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
         <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-        <span class="n">amount</span><span class="o">=</span><span class="mi">1000000000000000000</span><span class="p">,</span>
-        <span class="n">denom</span><span class="o">=</span><span class="s">'inj'</span>
+        <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">denom</span><span class="o">=</span><span class="s">'USDT'</span>
     <span class="p">)</span>
 
     <span class="n">acc_num</span><span class="p">,</span> <span class="n">acc_seq</span> <span class="o">=</span> <span class="k">await</span> <span class="n">address</span><span class="p">.</span><span class="n">get_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
@@ -8272,8 +8272,8 @@ See the examples folder for simple Golang examples. -->
 </span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgWithdraw</span><span class="p">(</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
         <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-        <span class="n">amount</span><span class="o">=</span><span class="mi">1000000000000000000</span><span class="p">,</span>
-        <span class="n">denom</span><span class="o">=</span><span class="s">"inj"</span>
+        <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">denom</span><span class="o">=</span><span class="s">"USDT"</span>
     <span class="p">)</span>
 
     <span class="n">acc_num</span><span class="p">,</span> <span class="n">acc_seq</span> <span class="o">=</span> <span class="k">await</span> <span class="n">address</span><span class="p">.</span><span class="n">get_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
