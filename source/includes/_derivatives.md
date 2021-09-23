@@ -99,7 +99,7 @@ Includes all the messages related to derivative markets.
         sender=address.to_acc_bech32(),
         subaccount_id=subaccount_id,
         fee_recipient= "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-        price=41027,
+        price=44054.48,
         quantity=0.01,
         leverage=2.5,
         isBuy=True
@@ -496,7 +496,7 @@ orders:
         market_id=market_id,
         source_subaccount_id=subaccount_id,
         destination_subaccount_id=subaccount_id,
-        amount="50000000000000000000000000"
+        amount=2
     )
 
     acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
