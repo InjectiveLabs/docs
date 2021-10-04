@@ -5974,12 +5974,24 @@ See the examples folder for simple Golang examples. -->
 <p>Response Example:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"oracles"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"oracleType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"band"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"14.01"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INJ"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
+   </span><span class="s2">"oracles"</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ADA"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"oracle_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"band"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.797398"</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="s2">"oracles"</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AKRO"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"oracle_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"band"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0333066"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="s2">"oracles"</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AMPL"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"oracle_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"band"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.955257"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="p">}</span><span class="w">
+
 </span></code></pre></div>
 <table><thead>
 <tr>
@@ -6558,14 +6570,18 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code>    <span class="c1"># prepare tx msg
+<div class="highlight"><pre class="highlight python tab-python"><code>    <span class="c1"># prepare trade info
+</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span>
+    <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
+
+    <span class="c1"># prepare tx msg
 </span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgCreateDerivativeMarketOrder</span><span class="p">(</span>
-        <span class="n">market_id</span><span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+        <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
         <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-        <span class="n">fee_recipient</span><span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span><span class="p">,</span>
-        <span class="n">price</span><span class="o">=</span><span class="mi">60000</span><span class="p">,</span>
-        <span class="n">quantity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+        <span class="n">price</span><span class="o">=</span><span class="mi">46000</span><span class="p">,</span>
+        <span class="n">quantity</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
         <span class="n">leverage</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
         <span class="n">isBuy</span><span class="o">=</span><span class="bp">True</span>
     <span class="p">)</span>
@@ -6596,11 +6612,22 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
     <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">simResMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">simResMsg</span><span class="p">)</span>
+
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-
-    <span class="c1"># print tx response
-</span>    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">resMsg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -6677,15 +6704,19 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code>    <span class="c1"># prepare tx msg
+<div class="highlight"><pre class="highlight python tab-python"><code>    <span class="c1"># prepare trade info
+</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span>
+    <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
+
+    <span class="c1"># prepare tx msg
 </span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgCreateDerivativeLimitOrder</span><span class="p">(</span>
-        <span class="n">market_id</span><span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+        <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
         <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-        <span class="n">fee_recipient</span><span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span><span class="p">,</span>
+        <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
         <span class="n">price</span><span class="o">=</span><span class="mf">44054.48</span><span class="p">,</span>
         <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-        <span class="n">leverage</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
+        <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
         <span class="n">isBuy</span><span class="o">=</span><span class="bp">True</span>
     <span class="p">)</span>
 
@@ -6715,11 +6746,22 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
     <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">simResMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">simResMsg</span><span class="p">)</span>
+
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-
-    <span class="c1"># print tx response
-</span>    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">resMsg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -6796,12 +6838,16 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code>    <span class="c1"># prepare tx msg
+<div class="highlight"><pre class="highlight python tab-python"><code>    <span class="c1"># prepare trade info
+</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span>
+    <span class="n">order_hash</span> <span class="o">=</span> <span class="s">"0x5f4672dcca9b96ba2bb72e2ab484f71adf9814e74d12e615f489d0a616cddb8c"</span>
+
+    <span class="c1"># prepare tx msg
 </span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgCancelDerivativeOrder</span><span class="p">(</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
-        <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span>
-        <span class="n">subaccount_id</span> <span class="o">=</span> <span class="s">"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000"</span><span class="p">,</span>
-        <span class="n">order_hash</span> <span class="o">=</span> <span class="s">"0x531cb3a8d77656d6536f190a896c47caf0e11ebb7c895cc5dd3f355707acae70"</span>
+        <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
+        <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+        <span class="n">order_hash</span><span class="o">=</span><span class="n">order_hash</span>
     <span class="p">)</span>
 
     <span class="n">acc_num</span><span class="p">,</span> <span class="n">acc_seq</span> <span class="o">=</span> <span class="k">await</span> <span class="n">address</span><span class="p">.</span><span class="n">get_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
@@ -6830,11 +6876,16 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
     <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">return</span>
+
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-
-    <span class="c1"># print tx response
-</span>    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -6964,11 +7015,22 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
     <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">simResMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">simResMsg</span><span class="p">)</span>
+
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-
-    <span class="c1"># print tx response
-</span>    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">resMsg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7108,11 +7170,22 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
     <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">simResMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">simResMsg</span><span class="p">)</span>
+
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-
-    <span class="c1"># print tx response
-</span>    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">resMsg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7223,11 +7296,18 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
     <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">return</span>
+
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
 
     <span class="c1"># print tx response
 </span>    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7290,13 +7370,13 @@ See the examples folder for simple Golang examples. -->
 <p>Request Example:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight python tab-python"><code>    <span class="c1"># prepare trade info
-</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x0f4209dbe160ce7b09559c69012d2f5fd73070f8552699a9b77aebda16ccdeb1"</span>
+</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x31200279ada822061217372150d567be124f02df157650395d1d6ce58a8207aa"</span>
 
     <span class="c1"># prepare tx msg
 </span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgLiquidatePosition</span><span class="p">(</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
         <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
-        <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span>
+        <span class="n">subaccount_id</span><span class="o">=</span><span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span>
     <span class="p">)</span>
 
     <span class="n">acc_num</span><span class="p">,</span> <span class="n">acc_seq</span> <span class="o">=</span> <span class="k">await</span> <span class="n">address</span><span class="p">.</span><span class="n">get_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
@@ -7324,6 +7404,12 @@ See the examples folder for simple Golang examples. -->
 </span>    <span class="n">sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
     <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
     <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">return</span>
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
@@ -7370,13 +7456,13 @@ See the examples folder for simple Golang examples. -->
 </blockquote>
 <div class="highlight"><pre class="highlight python tab-python"><code>    <span class="c1"># prepare tx msg
 </span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgCreateSpotMarketOrder</span><span class="p">(</span>
-        <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span><span class="p">,</span>
-        <span class="n">sender</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
-        <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">subaccount_id</span><span class="p">,</span>
-        <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span><span class="p">,</span>
-        <span class="n">price</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
-        <span class="n">quantity</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
-        <span class="n">isBuy</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+        <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
+        <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+        <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+        <span class="n">price</span><span class="o">=</span><span class="mf">10.522</span><span class="p">,</span>
+        <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+        <span class="n">isBuy</span><span class="o">=</span><span class="bp">True</span>
     <span class="p">)</span>
 
     <span class="n">acc_num</span><span class="p">,</span> <span class="n">acc_seq</span> <span class="o">=</span> <span class="k">await</span> <span class="n">address</span><span class="p">.</span><span class="n">get_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
@@ -7405,11 +7491,22 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
     <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">simResMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">simResMsg</span><span class="p">)</span>
+
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-
-    <span class="c1"># print tx response
-</span>    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">resMsg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7483,13 +7580,13 @@ See the examples folder for simple Golang examples. -->
 </blockquote>
 <div class="highlight"><pre class="highlight python tab-python"><code>    <span class="c1"># prepare tx msg
 </span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgCreateSpotLimitOrder</span><span class="p">(</span>
-        <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span><span class="p">,</span>
-        <span class="n">sender</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
-        <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">subaccount_id</span><span class="p">,</span>
-        <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span><span class="p">,</span>
-        <span class="n">price</span> <span class="o">=</span> <span class="mf">7.523</span><span class="p">,</span>
-        <span class="n">quantity</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
-        <span class="n">isBuy</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+        <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
+        <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+        <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+        <span class="n">price</span><span class="o">=</span><span class="mf">7.523</span><span class="p">,</span>
+        <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+        <span class="n">isBuy</span><span class="o">=</span><span class="bp">True</span>
     <span class="p">)</span>
 
     <span class="n">acc_num</span><span class="p">,</span> <span class="n">acc_seq</span> <span class="o">=</span> <span class="k">await</span> <span class="n">address</span><span class="p">.</span><span class="n">get_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
@@ -7518,11 +7615,22 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
     <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">simResMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">simResMsg</span><span class="p">)</span>
+
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-
-    <span class="c1"># print tx response
-</span>    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">resMsg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7595,12 +7703,12 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="c1"># prepare tx msg
+<div class="highlight"><pre class="highlight python tab-python"><code>    <span class="c1"># prepare tx msg
 </span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgCancelSpotOrder</span><span class="p">(</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
-        <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span><span class="p">,</span>
+        <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
         <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-        <span class="n">order_hash</span> <span class="o">=</span> <span class="s">"0x4cdc7ebbd2fa43a0942b391848029b437bd4771fbcee31b36ca6786e003438d1"</span>
+        <span class="n">order_hash</span><span class="o">=</span><span class="n">order_hash</span>
     <span class="p">)</span>
 
     <span class="n">acc_num</span><span class="p">,</span> <span class="n">acc_seq</span> <span class="o">=</span> <span class="k">await</span> <span class="n">address</span><span class="p">.</span><span class="n">get_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
@@ -7629,11 +7737,16 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
     <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">return</span>
+
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-
-    <span class="c1"># print tx response
-</span>    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7757,11 +7870,22 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
     <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">simResMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">simResMsg</span><span class="p">)</span>
+
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-
-    <span class="c1"># print tx response
-</span>    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">resMsg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7862,6 +7986,11 @@ See the examples folder for simple Golang examples. -->
             <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
             <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
             <span class="n">order_hash</span><span class="o">=</span><span class="s">"0x8d4e780927f91011bf77dea8b625948a14c1ae55d8c5d3f5af3dadbd6bec591d"</span>
+        <span class="p">),</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0x8d4e111127f91011bf77dea8b625948a14c1ae55d8c5d3f5af3dadbd6bec591d"</span>
         <span class="p">)</span>
     <span class="p">]</span>
 
@@ -7897,11 +8026,22 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
     <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">simResMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">simResMsg</span><span class="p">)</span>
+
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-
-    <span class="c1"># print tx response
-</span>    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">resMsg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7979,9 +8119,9 @@ See the examples folder for simple Golang examples. -->
 <div class="highlight"><pre class="highlight python tab-python"><code>    <span class="c1"># prepare tx msg
 </span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgSend</span><span class="p">(</span>
         <span class="n">from_address</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
-        <span class="n">to_address</span><span class="o">=</span><span class="s">'inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku'</span><span class="p">,</span>
-        <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="c1">#1 INJ
-</span>        <span class="n">denom</span><span class="o">=</span><span class="s">'USDT'</span>
+        <span class="n">to_address</span><span class="o">=</span><span class="s">'inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r'</span><span class="p">,</span>
+        <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">denom</span><span class="o">=</span><span class="s">'USDT'</span>
     <span class="p">)</span>
     <span class="n">acc_num</span><span class="p">,</span> <span class="n">acc_seq</span> <span class="o">=</span> <span class="k">await</span> <span class="n">address</span><span class="p">.</span><span class="n">get_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
     <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
@@ -8008,6 +8148,12 @@ See the examples folder for simple Golang examples. -->
 </span>    <span class="n">sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
     <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
     <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">return</span>
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
@@ -8149,6 +8295,12 @@ See the examples folder for simple Golang examples. -->
 </span>    <span class="n">sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
     <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
     <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">return</span>
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
@@ -8302,6 +8454,12 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
     <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">return</span>
+
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
 
@@ -8451,6 +8609,12 @@ See the examples folder for simple Golang examples. -->
 </span>    <span class="n">sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
     <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
     <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">return</span>
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
