@@ -10,8 +10,8 @@ Includes all the messages related to accounts and transfers.
     # prepare tx msg
     msg = composer.MsgSend(
         from_address=address.to_acc_bech32(),
-        to_address='inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku',
-        amount=1, #1 INJ
+        to_address='inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r',
+        amount=1,
         denom='USDT'
     )
     acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
@@ -39,6 +39,12 @@ Includes all the messages related to accounts and transfers.
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+
+    # simulate tx
+    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
@@ -165,6 +171,12 @@ Includes all the messages related to accounts and transfers.
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+
+    # simulate tx
+    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
@@ -302,6 +314,12 @@ Includes all the messages related to accounts and transfers.
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
+    # simulate tx
+    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+        
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
 
@@ -438,6 +456,12 @@ Includes all the messages related to accounts and transfers.
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
+    # simulate tx
+    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+        
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
 
