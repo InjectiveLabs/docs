@@ -9,13 +9,13 @@ Includes all the messages related to spot markets.
 ``` python
     # prepare tx msg
     msg = composer.MsgCreateSpotMarketOrder(
-        market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
-        sender = address.to_acc_bech32(),
-        subaccount_id = subaccount_id,
-        fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-        price = 20,
-        quantity = 0.01,
-        isBuy = True
+        sender=address.to_acc_bech32(),
+        market_id=market_id,
+        subaccount_id=subaccount_id,
+        fee_recipient=fee_recipient,
+        price=10.522,
+        quantity=0.01,
+        isBuy=True
     )
 
     acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
@@ -44,11 +44,22 @@ Includes all the messages related to spot markets.
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
+    # simulate tx
+    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+    simResMsg = ProtoMsgComposer.MsgResponses(simRes.data, simulation=True)
+    print("simulation msg response")
+    print(simResMsg)
+
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-
-    # print tx response
+    resMsg = ProtoMsgComposer.MsgResponses(res.data)
+    print("tx response")
     print(res)
+    print("tx msg response")
+    print(resMsg)
 ```
 
 |Parameter|Type|Description|
@@ -94,13 +105,13 @@ Includes all the messages related to spot markets.
 ``` python
     # prepare tx msg
     msg = composer.MsgCreateSpotLimitOrder(
-        market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
-        sender = address.to_acc_bech32(),
-        subaccount_id = subaccount_id,
-        fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-        price = 7.523,
-        quantity = 0.01,
-        isBuy = True
+        sender=address.to_acc_bech32(),
+        market_id=market_id,
+        subaccount_id=subaccount_id,
+        fee_recipient=fee_recipient,
+        price=7.523,
+        quantity=0.01,
+        isBuy=True
     )
 
     acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
@@ -129,11 +140,22 @@ Includes all the messages related to spot markets.
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
+    # simulate tx
+    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+    simResMsg = ProtoMsgComposer.MsgResponses(simRes.data, simulation=True)
+    print("simulation msg response")
+    print(simResMsg)
+
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-
-    # print tx response
+    resMsg = ProtoMsgComposer.MsgResponses(res.data)
+    print("tx response")
     print(res)
+    print("tx msg response")
+    print(resMsg)
 ```
 
 |Parameter|Type|Description|
@@ -178,12 +200,12 @@ Includes all the messages related to spot markets.
 > Request Example:
 
 ``` python
-# prepare tx msg
+    # prepare tx msg
     msg = composer.MsgCancelSpotOrder(
         sender=address.to_acc_bech32(),
-        market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+        market_id=market_id,
         subaccount_id=subaccount_id,
-        order_hash = "0x4cdc7ebbd2fa43a0942b391848029b437bd4771fbcee31b36ca6786e003438d1"
+        order_hash=order_hash
     )
 
     acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
@@ -212,10 +234,15 @@ Includes all the messages related to spot markets.
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
+    # simulate tx
+    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-
-    # print tx response
+    print("tx response")
     print(res)
 ```
 
@@ -326,11 +353,22 @@ Includes all the messages related to spot markets.
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
+    # simulate tx
+    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+    simResMsg = ProtoMsgComposer.MsgResponses(simRes.data, simulation=True)
+    print("simulation msg response")
+    print(simResMsg)
+
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-
-    # print tx response
+    resMsg = ProtoMsgComposer.MsgResponses(res.data)
+    print("tx response")
     print(res)
+    print("tx msg response")
+    print(resMsg)
 ```
 
 |Parameter|Type|Description|
@@ -393,6 +431,11 @@ orders:
             market_id=market_id,
             subaccount_id=subaccount_id,
             order_hash="0x8d4e780927f91011bf77dea8b625948a14c1ae55d8c5d3f5af3dadbd6bec591d"
+        ),
+        composer.OrderData(
+            market_id=market_id,
+            subaccount_id=subaccount_id,
+            order_hash="0x8d4e111127f91011bf77dea8b625948a14c1ae55d8c5d3f5af3dadbd6bec591d"
         )
     ]
 
@@ -428,11 +471,22 @@ orders:
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
+    # simulate tx
+    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+    simResMsg = ProtoMsgComposer.MsgResponses(simRes.data, simulation=True)
+    print("simulation msg response")
+    print(simResMsg)
+
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-
-    # print tx response
+    resMsg = ProtoMsgComposer.MsgResponses(res.data)
+    print("tx response")
     print(res)
+    print("tx msg response")
+    print(resMsg)
 ```
 
 |Parameter|Type|Description|

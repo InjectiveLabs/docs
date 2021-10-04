@@ -7,14 +7,18 @@ Includes all the messages related to derivative markets.
 > Request Example:
 
 ``` python
+    # prepare trade info
+    market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"
+    fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+
     # prepare tx msg
     msg = composer.MsgCreateDerivativeMarketOrder(
-        market_id= "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
         sender=address.to_acc_bech32(),
+        market_id=market_id,
         subaccount_id=subaccount_id,
-        fee_recipient= "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-        price=60000,
-        quantity=2,
+        fee_recipient=fee_recipient,
+        price=46000,
+        quantity=30,
         leverage=3,
         isBuy=True
     )
@@ -45,11 +49,22 @@ Includes all the messages related to derivative markets.
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
+    # simulate tx
+    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+    simResMsg = ProtoMsgComposer.MsgResponses(simRes.data, simulation=True)
+    print("simulation msg response")
+    print(simResMsg)
+
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-
-    # print tx response
+    resMsg = ProtoMsgComposer.MsgResponses(res.data)
+    print("tx response")
     print(res)
+    print("tx msg response")
+    print(resMsg)
 ```
 
 |Parameter|Type|Description|
@@ -93,15 +108,19 @@ Includes all the messages related to derivative markets.
 > Request Example:
 
 ``` python
+    # prepare trade info
+    market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"
+    fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+
     # prepare tx msg
     msg = composer.MsgCreateDerivativeLimitOrder(
-        market_id= "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
         sender=address.to_acc_bech32(),
+        market_id=market_id,
         subaccount_id=subaccount_id,
-        fee_recipient= "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+        fee_recipient=fee_recipient,
         price=44054.48,
         quantity=0.01,
-        leverage=2.5,
+        leverage=0.7,
         isBuy=True
     )
 
@@ -131,11 +150,22 @@ Includes all the messages related to derivative markets.
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
+    # simulate tx
+    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+    simResMsg = ProtoMsgComposer.MsgResponses(simRes.data, simulation=True)
+    print("simulation msg response")
+    print(simResMsg)
+
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-
-    # print tx response
+    resMsg = ProtoMsgComposer.MsgResponses(res.data)
+    print("tx response")
     print(res)
+    print("tx msg response")
+    print(resMsg)
 ```
 
 |Parameter|Type|Description|
@@ -180,12 +210,16 @@ Includes all the messages related to derivative markets.
 > Request Example:
 
 ``` python
-	# prepare tx msg
+	# prepare trade info
+    market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"
+    order_hash = "0x5f4672dcca9b96ba2bb72e2ab484f71adf9814e74d12e615f489d0a616cddb8c"
+
+    # prepare tx msg
     msg = composer.MsgCancelDerivativeOrder(
         sender=address.to_acc_bech32(),
-        market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
-        subaccount_id = "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000",
-        order_hash = "0x531cb3a8d77656d6536f190a896c47caf0e11ebb7c895cc5dd3f355707acae70"
+        market_id=market_id,
+        subaccount_id=subaccount_id,
+        order_hash=order_hash
     )
 
     acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
@@ -214,10 +248,15 @@ Includes all the messages related to derivative markets.
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
+    # simulate tx
+    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-
-    # print tx response
+    print("tx response")
     print(res)
 ```
 
@@ -333,11 +372,22 @@ Includes all the messages related to derivative markets.
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
+    # simulate tx
+    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+    simResMsg = ProtoMsgComposer.MsgResponses(simRes.data, simulation=True)
+    print("simulation msg response")
+    print(simResMsg)
+
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-
-    # print tx response
+    resMsg = ProtoMsgComposer.MsgResponses(res.data)
+    print("tx response")
     print(res)
+    print("tx msg response")
+    print(resMsg)
 ```
 
 |Parameter|Type|Description|
@@ -437,11 +487,22 @@ orders:
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
+    # simulate tx
+    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+    simResMsg = ProtoMsgComposer.MsgResponses(simRes.data, simulation=True)
+    print("simulation msg response")
+    print(simResMsg)
+
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-
-    # print tx response
+    resMsg = ProtoMsgComposer.MsgResponses(res.data)
+    print("tx response")
     print(res)
+    print("tx msg response")
+    print(resMsg)
 ```
 
 |Parameter|Type|Description|
@@ -525,11 +586,18 @@ orders:
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
+    # simulate tx
+    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+        
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
 
     # print tx response
     print(res)
+
 ```
 
 |Parameter|Type|Description|
@@ -572,13 +640,13 @@ orders:
 
 ``` python
     # prepare trade info
-    market_id = "0x0f4209dbe160ce7b09559c69012d2f5fd73070f8552699a9b77aebda16ccdeb1"
+    market_id = "0x31200279ada822061217372150d567be124f02df157650395d1d6ce58a8207aa"
 
     # prepare tx msg
     msg = composer.MsgLiquidatePosition(
         sender=address.to_acc_bech32(),
         market_id=market_id,
-        subaccount_id=subaccount_id
+        subaccount_id="0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     )
 
     acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
@@ -607,6 +675,12 @@ orders:
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
+    # simulate tx
+    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+        
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
 

@@ -37,12 +37,24 @@ async def main() -> None:
 
 ``` json
 {
-  "oracles": [
-    {
-      "oracleType": "band",
-      "price": "14.01",
-      "symbol": "INJ"
-    }
+   "oracles" {
+  "symbol": "ADA",
+  "oracle_type": "band",
+  "price": "2.797398",
+}
+"oracles" {
+  "symbol": "AKRO",
+  "oracle_type": "band",
+  "price": "0.0333066"
+}
+"oracles" {
+  "symbol": "AMPL",
+  "oracle_type": "band",
+  "price": "0.955257"
+}
+
+}
+
 ```
 
 |Parameter|Type|Description|
