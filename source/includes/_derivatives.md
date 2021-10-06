@@ -7,7 +7,7 @@ Includes all the messages related to derivative markets.
 > Request Example:
 
 ``` python
-    # prepare trade info
+        # prepare trade info
     market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
@@ -23,7 +23,6 @@ Includes all the messages related to derivative markets.
         isBuy=True
     )
 
-    acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
     gas_price = 500000000
     gas_limit = 200000
     fee = [composer.Coin(
@@ -35,8 +34,8 @@ Includes all the messages related to derivative markets.
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(acc_seq)
-        .with_account_num(acc_num)
+        .with_sequence(address.get_sequence())
+        .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
         .with_gas(gas_limit)
         .with_fee(fee)
@@ -59,7 +58,7 @@ Includes all the messages related to derivative markets.
     print(simResMsg)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_block_mode(tx_raw_bytes)
+    res = client.send_tx_sync_mode(tx_raw_bytes)
     resMsg = ProtoMsgComposer.MsgResponses(res.data)
     print("tx response")
     print(res)
@@ -83,21 +82,13 @@ Includes all the messages related to derivative markets.
 ``` json
 {
 
-"height": 8579954,
-"txhash": "7E5F856C4DD3A868D4121283CD5A06177B528FBAF27897605E5A77A3B783E620",
-"data": "0A3C0A3A2F696E6A6563746976652E65786368616E67652E763162657461312E4D7367437265617465446572697661746976654D61726B65744F72646572",
-"raw_log": "[{\"events\":[{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/injective.exchange.v1beta1.MsgCreateDerivativeMarketOrder\"}]}]}]",
-"logs" {
-  "events" {
-    "type": "message",
-    "attributes" {
-      "key": "action",
-      "value": "/injective.exchange.v1beta1.MsgCreateDerivativeMarketOrder"
-    }
-  }
-}
-"gas_wanted": 200000,
-"gas_used": 93888
+"simulation msg response"
+["order_hash:" "0x6cc1c3d7653a1b526a332024b12b5e09d0ff306ce842d1ebb3599faff23b06fd"]
+"tx response"
+"txhash:" "E1C0F4B6C2F0AF2C256373AB648F58E3F63DEA1BCD2EB5AD323002E99DF83B4D"
+
+"tx msg response"
+[]
 
 }
 ```
@@ -124,7 +115,6 @@ Includes all the messages related to derivative markets.
         isBuy=True
     )
 
-    acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
     gas_price = 500000000
     gas_limit = 200000
     fee = [composer.Coin(
@@ -136,8 +126,8 @@ Includes all the messages related to derivative markets.
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(acc_seq)
-        .with_account_num(acc_num)
+        .with_sequence(address.get_sequence())
+        .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
         .with_gas(gas_limit)
         .with_fee(fee)
@@ -160,7 +150,7 @@ Includes all the messages related to derivative markets.
     print(simResMsg)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_block_mode(tx_raw_bytes)
+    res = client.send_tx_sync_mode(tx_raw_bytes)
     resMsg = ProtoMsgComposer.MsgResponses(res.data)
     print("tx response")
     print(res)
@@ -185,21 +175,13 @@ Includes all the messages related to derivative markets.
 ``` json
 {
 
-"height": 8579504,
-"txhash": "4C21BA601A905038A707B3D1F1E29A4D610FB67F730023BD22514E311B127881",
-"data": "0A81010A392F696E6A6563746976652E65786368616E67652E763162657461312E4D7367437265617465446572697661746976654C696D69744F7264657212440A42307835333163623361386437373635366436353336663139306138393663343763616630653131656262376338393563633564643366333535373037616361653730",
-"raw_log": "[{\"events\":[{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\"}]}]}]",
-"logs" {
-  "events" {
-    "type": "message",
-    "attributes" {
-      "key": "action",
-      "value": "/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder"
-    }
-  }
-}
-"gas_wanted": 200000,
-"gas_used": 100220
+"simulation msg response"
+["order_hash:" "0x0531e3c17cbdc5c535a0a0cfa20d354187ee1256236c3a7d47db227b107aa6dd"]
+"tx response"
+"txhash:" "95AE4D127F8F6FB4C2ACA0D5063624B124B938B298E4661FB3C5FE1F53A2A90F",
+
+"tx msg response"
+"[]"
 
 }
 ```
@@ -222,7 +204,6 @@ Includes all the messages related to derivative markets.
         order_hash=order_hash
     )
 
-    acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
     gas_price = 500000000
     gas_limit = 200000
     fee = [composer.Coin(
@@ -234,8 +215,8 @@ Includes all the messages related to derivative markets.
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(acc_seq)
-        .with_account_num(acc_num)
+        .with_sequence(address.get_sequence())
+        .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
         .with_gas(gas_limit)
         .with_fee(fee)
@@ -255,7 +236,7 @@ Includes all the messages related to derivative markets.
         return
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_block_mode(tx_raw_bytes)
+    res = client.send_tx_async_mode(tx_raw_bytes)
     print("tx response")
     print(res)
 ```
@@ -271,40 +252,12 @@ Includes all the messages related to derivative markets.
 > Response Example:
 
 ``` json
-"height": 8580322,
-"txhash": "11F918559724787B24F99D4CA047FD5279E7604637AFA2165B5D1BB5060574E5",
-"data": "0A360A342F696E6A6563746976652E65786368616E67652E763162657461312E4D736743616E63656C446572697661746976654F72646572",
-"raw_log": "[{\"events\":[{\"type\":\"injective.exchange.v1beta1.EventCancelDerivativeOrder\",\"attributes\":[{\"key\":\"market_id\",\"value\":\"\\\"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30\\\"\"},{\"key\":\"isLimitCancel\",\"value\":\"true\"},{\"key\":\"limit_order\",\"value\":\"{\\\"order_info\\\":{\\\"subaccount_id\\\":\\\"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000\\\",\\\"fee_recipient\\\":\\\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\\\",\\\"price\\\":\\\"41027000000.000000000000000000\\\",\\\"quantity\\\":\\\"0.010000000000000000\\\"},\\\"order_type\\\":\\\"BUY\\\",\\\"margin\\\":\\\"164108000.000000000000000000\\\",\\\"fillable\\\":\\\"0.010000000000000000\\\",\\\"trigger_price\\\":\\\"0.000000000000000000\\\",\\\"order_hash\\\":\\\"UxyzqNd2VtZTbxkKiWxHyvDhHrt8iVzF3T81VwesrnA=\\\"}\"},{\"key\":\"market_order_cancel\",\"value\":\"null\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/injective.exchange.v1beta1.MsgCancelDerivativeOrder\"}]}]}]",
-"logs" {
-  "events" {
-    "type": "injective.exchange.v1beta1.EventCancelDerivativeOrder",
-    "attributes" {
-      "key": "market_id",
-      "value": "\"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30\""
-    }
-    "attributes" {
-      "key": "isLimitCancel",
-      "value": "true"
-    }
-    "attributes" {
-      "key": "limit_order",
-      "value": "{\"order_info\":{\"subaccount_id\":\"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000\",\"fee_recipient\":\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\",\"price\":\"41027000000.000000000000000000\",\"quantity\":\"0.010000000000000000\"},\"order_type\":\"BUY\",\"margin\":\"164108000.000000000000000000\",\"fillable\":\"0.010000000000000000\",\"trigger_price\":\"0.000000000000000000\",\"order_hash\":\"UxyzqNd2VtZTbxkKiWxHyvDhHrt8iVzF3T81VwesrnA=\"}"
-    }
-    "attributes" {
-      "key": "market_order_cancel",
-      "value": "null"
-    }
-  }
-  "events" {
-    "type": "message",
-    "attributes" {
-      "key": "action",
-      "value": "/injective.exchange.v1beta1.MsgCancelDerivativeOrder"
-    }
-  }
+{
+
+"tx response"
+"txhash:" "20A3DC0B931D54DC20991FE2727249DBB2CFB00364C03DAAD4099263871F5D0D"
+
 }
-"gas_wanted": 200000,
-"gas_used": 93308
 
 ```
 
@@ -346,7 +299,6 @@ Includes all the messages related to derivative markets.
         orders=orders
     )
 
-    acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
     gas_price = 500000000
     gas_limit = 200000
     fee = [composer.Coin(
@@ -358,8 +310,8 @@ Includes all the messages related to derivative markets.
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(acc_seq)
-        .with_account_num(acc_num)
+        .with_sequence(address.get_sequence())
+        .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
         .with_gas(gas_limit)
         .with_fee(fee)
@@ -382,7 +334,7 @@ Includes all the messages related to derivative markets.
     print(simResMsg)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_block_mode(tx_raw_bytes)
+    res = client.send_tx_sync_mode(tx_raw_bytes)
     resMsg = ProtoMsgComposer.MsgResponses(res.data)
     print("tx response")
     print(res)
@@ -412,21 +364,14 @@ orders:
 ``` json
 {
 
-"height": "8734200",
-"txhash": "8E6C08D4DAF6958C7666B6EEA2C0439A01B771D0D4993044FBD5B18E10248099",
-"data": "0ACC010A3F2F696E6A6563746976652E65786368616E67652E763162657461312E4D73674261746368437265617465446572697661746976654C696D69744F72646572731288010A423078373330373836666164343461633764656462353363323134646365316531613734383339643564646163333830346537323631653561316338366362326336630A42307864373439666538316235663865346231343030313639373064393039386539356564653735636633386233383530336234396538653962353631643037643238",
-"raw_log": "[{\"events\":[{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/injective.exchange.v1beta1.MsgBatchCreateDerivativeLimitOrders\"}]}]}]",
-"logs" {
-  "events" {
-    "type": "message",
-    "attributes" {
-      "key": "action",
-      "value": "/injective.exchange.v1beta1.MsgBatchCreateDerivativeLimitOrders"
-    }
-  }
-}
-"gas_wanted": "200000",
-"gas_used": "127821"
+"simulation msg response"
+["order_hashes:" "0xfcbedb1f8135204e7d8b8e6e683042e61834435fb7841b9ef243ef7196ec6938",
+"order_hashes:" "0x0d19f6a10ad017abeac1b14070fec5d044128e40902085654f4da4055a8f6510"]
+"tx response"
+"txhash:" "B74104A1EC4C7000C421236D78EE29157DE1B857268EC834024BD44401B2B9B2"
+
+"tx msg response"
+"[]"
 
 }
 ```
@@ -497,7 +442,7 @@ orders:
     print(simResMsg)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_block_mode(tx_raw_bytes)
+    res = client.send_tx_sync_mode(tx_raw_bytes)
     resMsg = ProtoMsgComposer.MsgResponses(res.data)
     print("tx response")
     print(res)
@@ -523,21 +468,14 @@ orders:
 ``` json
 {
 
-"height": "8734285",
-"txhash": "62C850F2EE6D7CC028734C3D5CAD9E2A509D22CF8972D10F5303F473E31D6A40",
-"data": "0A420A3A2F696E6A6563746976652E65786368616E67652E763162657461312E4D7367426174636843616E63656C446572697661746976654F726465727312040A020000",
-"raw_log": "[{\"events\":[{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/injective.exchange.v1beta1.MsgBatchCancelDerivativeOrders\"}]}]}]",
-"logs" {
-  "events" {
-    "type": "message",
-    "attributes" {
-      "key": "action",
-      "value": "/injective.exchange.v1beta1.MsgBatchCancelDerivativeOrders"
-    }
-  }
-}
-"gas_wanted": "200000",
-"gas_used": "82976"
+"simulation msg response"
+["success:" "true"
+"success:" "true"]
+"tx response"
+"txhash:" "03F2EE49F66731C8DA70958093F0EDF24D046EF31AED3A0C79D639D67F7A1ADB"
+
+"tx msg response"
+"[]"
 
 }
 ```
@@ -560,7 +498,6 @@ orders:
         amount=2
     )
 
-    acc_num, acc_seq = await address.get_num_seq(network.lcd_endpoint)
     gas_price = 500000000
     gas_limit = 200000
     fee = [composer.Coin(
@@ -572,8 +509,8 @@ orders:
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(acc_seq)
-        .with_account_num(acc_num)
+        .with_sequence(address.get_sequence())
+        .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
         .with_gas(gas_limit)
         .with_fee(fee)
@@ -591,9 +528,9 @@ orders:
     if not success:
         print(simRes)
         return
-        
+
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_block_mode(tx_raw_bytes)
+    res = client.send_tx_sync_mode(tx_raw_bytes)
 
     # print tx response
     print(res)
