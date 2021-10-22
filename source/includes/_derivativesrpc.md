@@ -1433,7 +1433,7 @@ PositionDelta:
 
 
 
-## Funding Payments
+## FundingPayments
 
 Get the funding payments for a subaccount
 
