@@ -7,7 +7,7 @@ Includes all the messages related to spot markets.
 > Request Example:
 
 ``` python
-        # prepare trade info
+    # prepare trade info
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
@@ -22,42 +22,42 @@ Includes all the messages related to spot markets.
         isBuy=True
     )
 
-    gas_price = 500000000
-    gas_limit = 200000
-    fee = [composer.Coin(
-        amount=str(gas_price * gas_limit),
-        denom=network.fee_denom,
-    )]
-
-    # build tx
+    # build sim tx
     tx = (
         Transaction()
         .with_messages(msg)
         .with_sequence(address.get_sequence())
         .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
-        .with_gas(gas_limit)
-        .with_fee(fee)
-        .with_memo("")
-        .with_timeout_height(0)
     )
+    sim_sign_doc = tx.get_sign_doc(pub_key)
+    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
+    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
-    # build signed tx
+    # simulate tx
+    (simRes, success) = client.simulate_tx(sim_tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+
+    simResMsg = ProtoMsgComposer.MsgResponses(simRes.result.data, simulation=True)
+    print("simulation msg response")
+    print(simResMsg)
+
+    # build tx
+    gas_price = 500000000
+    gas_limit = simRes.gas_info.gas_used + 15000 # add 15k for gas, fee computation
+    fee = [composer.Coin(
+        amount=str(gas_price * gas_limit),
+        denom=network.fee_denom,
+    )]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
-    # simulate tx
-    (simRes, success) = client.simulate_tx(tx_raw_bytes)
-    if not success:
-        print(simRes)
-        return
-    simResMsg = ProtoMsgComposer.MsgResponses(simRes.data, simulation=True)
-    print("simulation msg response")
-    print(simResMsg)
-
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_sync_mode(tx_raw_bytes)
+    res = client.send_tx_block_mode(tx_raw_bytes)
     resMsg = ProtoMsgComposer.MsgResponses(res.data)
     print("tx response")
     print(res)
@@ -65,15 +65,15 @@ Includes all the messages related to spot markets.
     print(resMsg)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|market_id|string|MarketId of the market we want to send an order|
-|sender|string| The inj address of the sender|
-|subaccount_id|string| The subaccount we want to send an order from|
-|fee_recipient|string| The address that will receive 40% of the fees, this could be set to your own address|
-|price|float| The price of the base asset|
-|quantity|float| The quantity of the base asset|
-|isBuy|boolean| Set to true or false for buy and sell orders respectively|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|MarketId of the market we want to send an order|Yes|
+|sender|string|The inj address of the sender|Yes|
+|subaccount_id|string|The subaccount we want to send an order from|Yes|
+|fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
+|price|float|The price of the base asset|Yes|
+|quantity|float|The quantity of the base asset|Yes|
+|isBuy|boolean|Set to true or false for buy and sell orders respectively|Yes|
 
 
 > Response Example:
@@ -114,42 +114,42 @@ Includes all the messages related to spot markets.
         isBuy=True
     )
 
-    gas_price = 500000000
-    gas_limit = 200000
-    fee = [composer.Coin(
-        amount=str(gas_price * gas_limit),
-        denom=network.fee_denom,
-    )]
-
-    # build tx
+    # build sim tx
     tx = (
         Transaction()
         .with_messages(msg)
         .with_sequence(address.get_sequence())
         .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
-        .with_gas(gas_limit)
-        .with_fee(fee)
-        .with_memo("")
-        .with_timeout_height(0)
     )
+    sim_sign_doc = tx.get_sign_doc(pub_key)
+    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
+    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
-    # build signed tx
+    # simulate tx
+    (simRes, success) = client.simulate_tx(sim_tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+
+    simResMsg = ProtoMsgComposer.MsgResponses(simRes.result.data, simulation=True)
+    print("simulation msg response")
+    print(simResMsg)
+
+    # build tx
+    gas_price = 500000000
+    gas_limit = simRes.gas_info.gas_used + 15000 # add 15k for gas, fee computation
+    fee = [composer.Coin(
+        amount=str(gas_price * gas_limit),
+        denom=network.fee_denom,
+    )]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
-    # simulate tx
-    (simRes, success) = client.simulate_tx(tx_raw_bytes)
-    if not success:
-        print(simRes)
-        return
-    simResMsg = ProtoMsgComposer.MsgResponses(simRes.data, simulation=True)
-    print("simulation msg response")
-    print(simResMsg)
-
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_sync_mode(tx_raw_bytes)
+    res = client.send_tx_block_mode(tx_raw_bytes)
     resMsg = ProtoMsgComposer.MsgResponses(res.data)
     print("tx response")
     print(res)
@@ -157,15 +157,15 @@ Includes all the messages related to spot markets.
     print(resMsg)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|market_id|string|MarketId of the market we want to send an order|
-|sender|string| The inj address of the sender|
-|subaccount_id|string| The subaccount we want to send an order from|
-|fee_recipient|string| The address that will receive 40% of the fees, this could be set to your own address|
-|price|float| The price of the base asset|
-|quantity|float| The quantity of the base asset|
-|isBuy|boolean| Set to true or false for buy and sell orders respectively|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|MarketId of the market we want to send an order|Yes|
+|sender|string| The inj address of the sender|Yes|
+|subaccount_id|string| The subaccount we want to send an order from|Yes|
+|fee_recipient|string| The address that will receive 40% of the fees, this could be set to your own address|Yes|
+|price|float| The price of the base asset|Yes|
+|quantity|float| The quantity of the base asset|Yes|
+|isBuy|boolean| Set to true or false for buy and sell orders respectively|Yes|
 
 > Response Example:
 
@@ -192,15 +192,9 @@ Includes all the messages related to spot markets.
 > Request Example:
 
 ``` python
-    # load account
-    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
-    pub_key =  priv_key.to_public_key()
-    address = await pub_key.to_address().init_num_seq(network.lcd_endpoint)
-    subaccount_id = address.get_subaccount_id(index=0)
-
     # prepare trade info
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-    order_hash = "0xa48fbcd30fe2d589ea0887066f449e81c04ff5e2d234df908a03a8b31a1af93d"
+    order_hash = "0x9b250eacd9bde566506b811e02847059ba7a5eff54c04ec369f06d2de6b7f8fd"
 
     # prepare tx msg
     msg = composer.MsgCancelSpotOrder(
@@ -210,49 +204,49 @@ Includes all the messages related to spot markets.
         order_hash=order_hash
     )
 
-    gas_price = 500000000
-    gas_limit = 200000
-    fee = [composer.Coin(
-        amount=str(gas_price * gas_limit),
-        denom=network.fee_denom,
-    )]
-
-    # build tx
+    # build sim tx
     tx = (
         Transaction()
         .with_messages(msg)
         .with_sequence(address.get_sequence())
         .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
-        .with_gas(gas_limit)
-        .with_fee(fee)
-        .with_memo("")
-        .with_timeout_height(0)
     )
-
-    # build signed tx
-    sign_doc = tx.get_sign_doc(pub_key)
-    sig = priv_key.sign(sign_doc.SerializeToString())
-    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+    sim_sign_doc = tx.get_sign_doc(pub_key)
+    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
+    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    (simRes, success) = client.simulate_tx(sim_tx_raw_bytes)
     if not success:
         print(simRes)
         return
 
+    # build tx
+    gas_price = 500000000
+    gas_limit = simRes.gas_info.gas_used + 15000 # add 15k for gas, fee computation
+    fee = [composer.Coin(
+        amount=str(gas_price * gas_limit),
+        denom=network.fee_denom,
+    )]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    sign_doc = tx.get_sign_doc(pub_key)
+    sig = priv_key.sign(sign_doc.SerializeToString())
+    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_sync_mode(tx_raw_bytes)
+    res = client.send_tx_block_mode(tx_raw_bytes)
+    resMsg = ProtoMsgComposer.MsgResponses(res.data)
     print("tx response")
     print(res)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|market_id|string|MarketId of the market we want to send an order|
-|sender|string|The inj address of the sender|
-|subaccount_id|string|The subaccount we want to send an order from|
-|order_hash|string| The order hash of a specific order|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|MarketId of the market we want to send an order|Yes|
+|sender|string|The inj address of the sender|Yes|
+|subaccount_id|string|The subaccount we want to send an order from|Yes|
+|order_hash|string| The order hash of a specific order|Yes|
 
 
 > Response Example:
@@ -302,42 +296,42 @@ Includes all the messages related to spot markets.
         orders=orders
     )
 
-    gas_price = 500000000
-    gas_limit = 200000
-    fee = [composer.Coin(
-        amount=str(gas_price * gas_limit),
-        denom=network.fee_denom,
-    )]
-
-    # build tx
+    # build sim tx
     tx = (
         Transaction()
         .with_messages(msg)
         .with_sequence(address.get_sequence())
         .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
-        .with_gas(gas_limit)
-        .with_fee(fee)
-        .with_memo("")
-        .with_timeout_height(0)
     )
+    sim_sign_doc = tx.get_sign_doc(pub_key)
+    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
+    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
-    # build signed tx
+    # simulate tx
+    (simRes, success) = client.simulate_tx(sim_tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+
+    simResMsg = ProtoMsgComposer.MsgResponses(simRes.result.data, simulation=True)
+    print("simulation msg response")
+    print(simResMsg)
+
+    # build tx
+    gas_price = 500000000
+    gas_limit = simRes.gas_info.gas_used + 15000 # add 15k for gas, fee computation
+    fee = [composer.Coin(
+        amount=str(gas_price * gas_limit),
+        denom=network.fee_denom,
+    )]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
-    # simulate tx
-    (simRes, success) = client.simulate_tx(tx_raw_bytes)
-    if not success:
-        print(simRes)
-        return
-    simResMsg = ProtoMsgComposer.MsgResponses(simRes.data, simulation=True)
-    print("simulation msg response")
-    print(simResMsg)
-
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_sync_mode(tx_raw_bytes)
+    res = client.send_tx_block_mode(tx_raw_bytes)
     resMsg = ProtoMsgComposer.MsgResponses(res.data)
     print("tx response")
     print(res)
@@ -345,21 +339,21 @@ Includes all the messages related to spot markets.
     print(resMsg)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|sender|string|The inj address of the sender|
-|orders|Array| |
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|sender|string|The inj address of the sender|Yes|
+|orders|Array| |Yes|
 
 orders:
 
-|Parameter|Type|Description|
-|----|----|----|
-|market_id|string|MarketId of the market we want to send an order|
-|subaccount_id|string|The subaccount we want to send an order from|
-|fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|
-|price|float|The price of the base asset|
-|quantity|float|The quantity of the base asset|
-|isBuy|boolean|Set to true or false for buy and sell orders respectively|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|MarketId of the market we want to send an order|Yes|
+|subaccount_id|string|The subaccount we want to send an order from|Yes|
+|fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
+|price|float|The price of the base asset|Yes|
+|quantity|float|The quantity of the base asset|Yes|
+|isBuy|boolean|Set to true or false for buy and sell orders respectively|Yes|
 
 > Response Example:
 
@@ -391,12 +385,12 @@ orders:
         composer.OrderData(
             market_id=market_id,
             subaccount_id=subaccount_id,
-            order_hash="0x098f2c92336bb1ec3591435df1e135052760310bc08fc16e3b9bc409885b863b"
+            order_hash="0x3d2750114faabe76c2433fd0eeb1e4e9be771ee3acac63c3689b880fb27227a2"
         ),
         composer.OrderData(
             market_id=market_id,
             subaccount_id=subaccount_id,
-            order_hash="0x8d4e780927f91011bf77dea8b625948a14c1ae55d8c5d3f5af3dadbd6bec591d"
+            order_hash="0x101ee98abc9a5922689ae070f64fedae78728bf73a822a91498b68793ac7b7e7"
         ),
         composer.OrderData(
             market_id=market_id,
@@ -411,42 +405,42 @@ orders:
         data=orders
     )
 
-    gas_price = 500000000
-    gas_limit = 200000
-    fee = [composer.Coin(
-        amount=str(gas_price * gas_limit),
-        denom=network.fee_denom,
-    )]
-
-    # build tx
+    # build sim tx
     tx = (
         Transaction()
         .with_messages(msg)
         .with_sequence(address.get_sequence())
         .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
-        .with_gas(gas_limit)
-        .with_fee(fee)
-        .with_memo("")
-        .with_timeout_height(0)
     )
+    sim_sign_doc = tx.get_sign_doc(pub_key)
+    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
+    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
-    # build signed tx
+    # simulate tx
+    (simRes, success) = client.simulate_tx(sim_tx_raw_bytes)
+    if not success:
+        print(simRes)
+        return
+
+    simResMsg = ProtoMsgComposer.MsgResponses(simRes.result.data, simulation=True)
+    print("simulation msg response")
+    print(simResMsg)
+
+    # build tx
+    gas_price = 500000000
+    gas_limit = simRes.gas_info.gas_used + 15000 # add 15k for gas, fee computation
+    fee = [composer.Coin(
+        amount=str(gas_price * gas_limit),
+        denom=network.fee_denom,
+    )]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
-    # simulate tx
-    (simRes, success) = client.simulate_tx(tx_raw_bytes)
-    if not success:
-        print(simRes)
-        return
-    simResMsg = ProtoMsgComposer.MsgResponses(simRes.data, simulation=True)
-    print("simulation msg response")
-    print(simResMsg)
-
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_sync_mode(tx_raw_bytes)
+    res = client.send_tx_block_mode(tx_raw_bytes)
     resMsg = ProtoMsgComposer.MsgResponses(res.data)
     print("tx response")
     print(res)
@@ -454,18 +448,18 @@ orders:
     print(resMsg)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|sender|string|The inj address of the sender|
-|orders|Array| |
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|sender|string|The inj address of the sender|Yes|
+|orders|Array| |Yes|
 
 orders:
 
-|Parameter|Type|Description|
-|----|----|----|
-|market_id|string|MarketId of the market we want to send an order|
-|subaccount_id|string|The subaccount we want to send an order from|
-|order_hash|string|The order hash of a specific order|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|MarketId of the market we want to send an order|Yes|
+|subaccount_id|string|The subaccount we want to send an order from|Yes|
+|order_hash|string|The order hash of a specific order|Yes|
 
 > Response Example:
 
