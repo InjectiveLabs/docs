@@ -1,34 +1,33 @@
 # - InjectiveSpotExchangeRPC
-InjectiveSpotExchangeRPC defines gRPC API of Spot Exchange provider.
+InjectiveSpotExchangeRPC defines the gRPC API of the Spot Exchange provider.
 
 
 ## Market
 
-Get details of a single spot market
+Get details of a spot market
 
 
 ### Request Parameters
 > Request Example:
 
 ``` python
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import grpc
 
+from pyinjective.client import Client
 from pyinjective.constant import Network
 
-# select network: local, testnet, mainnet
-network = Network.testnet()
-
 async def main() -> None:
-    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
-        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
-        mresp = await spot_exchange_rpc.Market(spot_exchange_rpc_pb.MarketRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0")
-        print("\n-- Market Update:\n", mresp)
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    market = client.get_spot_market(market_id=market_id)
+    print(market)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|marketId|string|MarketId of the market we want to fetch|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|Filter by Market ID|Yes|
 
 
 
@@ -102,33 +101,34 @@ TokenMeta:
 
 ## Markets
 
-Get a list of Spot Markets
+Get a list of spot markets
 
 
 ### Request Parameters
 > Request Example:
 
 ``` python
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import grpc
 
+from pyinjective.client import Client
 from pyinjective.constant import Network
 
-# select network: local, testnet, mainnet
-network = Network.testnet()
-
 async def main() -> None:
-    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
-        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
-        mresp = await spot_exchange_rpc.Markets(spot_exchange_rpc_pb.MarketsRequest(market_status = "active"))
-        print("\n-- Markets Update:\n", mresp)
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    market_status = "active" # active, paused, suspended, demolished or expired
+    base_denom = "inj"
+    quote_denom = "peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08"
+    market = client.get_spot_markets(market_status=market_status, base_denom=base_denom, quote_denom=quote_denom)
+    print(market)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|baseDenom|string|Filter by the Coin denomination of the base currency|
-|marketStatus|string|Filter by market status (Should be one of: [active paused suspended demolished expired]) |
-|quoteDenom|string|Filter by the Coin denomination of the quote currency|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|base_denom|string|Filter by the Coin denomination of the base currency|No|
+|market_status|string|Filter by market status (Should be one of: [active paused suspended demolished expired])|No|
+|quote_denom|string|Filter by the Coin denomination of the quote currency|No|
 
 
 ### Response Parameters
@@ -203,35 +203,26 @@ TokenMeta:
 
 ## StreamMarkets
 
-Stream live updates of selected spot markets
+Stream live updates of spot markets
 
 
 ### Request Parameters
 > Request Example:
 
 ``` python
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import grpc
 
+from pyinjective.client import Client
 from pyinjective.constant import Network
 
-# select network: local, testnet, mainnet
-network = Network.testnet()
-
 async def main() -> None:
-    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
-        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
-        stream_req = spot_exchange_rpc_pb.StreamMarketsRequest()
-        stream_resp = spot_exchange_rpc.StreamMarkets(stream_req)
-        async for market in stream_resp:
-            print("\n-- Market Update:\n", market)
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    markets = client.stream_spot_markets()
+    for market in markets:
+        print(market)
 ```
-
-|Parameter|Type|Description|
-|----|----|----|
-|marketIds|Array of string|List of market IDs for updates streaming, empty means 'ALL' spot markets|
-
-
 
 ### Response Parameters
 > Streaming Response Example:
@@ -310,33 +301,34 @@ TokenMeta:
 
 ## Orders
 
-Orders of a Spot Market
+Get orders of a spot market
 
 
 ### Request Parameters
 > Request Example:
 
 ``` python
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import grpc
 
+from pyinjective.client import Client
 from pyinjective.constant import Network
 
-# select network: local, testnet, mainnet
-network = Network.testnet()
-
 async def main() -> None:
-    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
-        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
-        ordresp = await spot_exchange_rpc.Orders(spot_exchange_rpc_pb.OrdersRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"))
-        print("\n-- Orders Update:\n", ordresp)
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    order_side = "sell" # buy or sell
+    subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+    orders = client.get_spot_orders(market_id=market_id, order_side=order_side, subaccount_id=subaccount_id)
+    print(orders)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|marketId|string|MarketId of the market's orderbook we want to fetch|
-|orderSide|string|Look for specific order side (Should be one of: [buy sell]) |
-|subaccountId|string|Look for specific subaccountId of an order|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|Filter by Market ID|Yes|
+|order_side|string|Look for specific order side (Should be one of: [buy sell])|No|
+|subaccount_id|string|Filter by Subaccount ID|No|
 
 
 
@@ -403,34 +395,34 @@ SpotLimitOrder:
 
 ## StreamOrders
 
-Stream updates to individual orders of a Spot Market
+Stream order updates of a spot market
 
 ### Request Parameters
 > Request Example:
 
 ``` python
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import grpc
 
+from pyinjective.client import Client
 from pyinjective.constant import Network
 
-# select network: local, testnet, mainnet
-network = Network.testnet()
-
 async def main() -> None:
-    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
-        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
-        stream_req = spot_exchange_rpc_pb.StreamOrdersRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0")
-        stream_resp = spot_exchange_rpc.StreamOrders(stream_req)
-        async for order in stream_resp:
-            print("\n-- Orders Update:\n", order)
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    order_side = "sell" # sell or buy
+    subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+    orders = client.stream_spot_orders(market_id=market_id, order_side=order_side, subaccount_id=subaccount_id)
+    for order in orders:
+        print(order)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|marketId|string|MarketId of the market's orderbook we want to fetch|
-|orderSide|string|Look for specific order side (Should be one of: [buy sell]) |
-|subaccountId|string|Look for specific subaccountId of an order|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|Filter by Market ID|Yes|
+|order_side|string|Look for specific order side (Should be one of: [buy sell])|No|
+|subaccount_id|string|Filter by Subaccount ID|No|
 
 
 ### Response Parameters
@@ -482,35 +474,37 @@ SpotLimitOrder:
 
 ## Trades
 
-Trades of a Spot Market
+Get trades of a spot market
 
 
 ### Request Parameters
 > Request Example:
 
 ``` python
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import grpc
 
+from pyinjective.client import Client
 from pyinjective.constant import Network
 
-# select network: local, testnet, mainnet
-network = Network.testnet()
-
 async def main() -> None:
-    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
-        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
-        traderesp = await spot_exchange_rpc.Trades(spot_exchange_rpc_pb.TradesRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0", execution_side = "maker"))
-        print("\n-- Trades Update:\n", traderesp)
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+    direction = "buy" # buy or sell
+    execution_side = "taker" # taker or maker
+
+    orders = client.get_spot_trades(market_id=market_id, execution_side=execution_side, direction=direction, subaccount_id=subaccount_id)
+    print(orders)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|marketId|string|MarketId of the market's orderbook we want to fetch|
-|subaccountId|string|SubaccountId of the trader we want to get the trades from|
-|direction|string|Filter by direction the trade (Should be one of: [buy sell]) |
-|executionSide|string|Filter by execution side of the trade (Should be one of: [maker taker]) |
-
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|Market ID of the market to fetch|Yes|
+|subaccount_id|string|Subaccount ID to filter trades|No|
+|direction|string|Filter by the direction of the trade (Should be one of: [buy sell])|No|
+|execution_side|string|Filter by the execution side of the trade (Should be one of: [maker taker])|No|
 
 
 ### Response Parameters
@@ -565,35 +559,36 @@ PriceLevel:
 
 ## StreamTrades
 
-Stream newly executed trades from Spot Market
+Stream trades of a spot market
 
 ### Request Parameters
 > Request Example:
 
 ``` python
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import grpc
 
+from pyinjective.client import Client
 from pyinjective.constant import Network
 
-# select network: local, testnet, mainnet
-network = Network.testnet()
-
 async def main() -> None:
-    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
-        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
-        stream_req = spot_exchange_rpc_pb.StreamTradesRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0")
-        stream_resp = spot_exchange_rpc.StreamTrades(stream_req)
-        async for trade in stream_resp:
-            print("\n-- Trades Update:\n", trade)
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+    execution_side = "maker" # maker or taker
+    direction = "sell" # sell or buy
+    trades = client.stream_spot_trades(market_id=market_id, execution_side=execution_side, direction=direction, subaccount_id=subaccount_id)
+    for trade in trades:
+        print(trade)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|direction|string|Filter by direction the trade (Should be one of: [buy sell]) |
-|executionSide|string|Filter by execution side of the trade (Should be one of: [maker taker]) |
-|marketId|string|MarketId of the market's orderbook we want to fetch|
-|subaccountId|string|SubaccountId of the trader we want to get the trades from|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|Filter by Market ID|Yes|
+|subaccount_id|string|Filter by Subaccount ID|No|
+|execution_side|string|Filter by the execution side of the trade (Should be one of: [maker taker])|No|
+|direction|string|Filter by the direction of the trade (Should be one of: [buy sell])|No|
 
 
 
@@ -644,37 +639,36 @@ PriceLevel:
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|string|Price number of the price level.|
-|quantity|string|Quantity of the price level.|
-|timestamp|integer|Price level last updated timestamp in UNIX millis.|
+|price|string|Price number of the price level|
+|quantity|string|Quantity of the price level|
+|timestamp|integer|Price level last updated timestamp in UNIX millis|
 
 ## Orderbook
 
-Orderbook of a Spot Market
+Get the orderbook of a spot market
 
 
 ### Request Parameters
 > Request Example:
 
 ``` python
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import grpc
 
+from pyinjective.client import Client
 from pyinjective.constant import Network
 
-# select network: local, testnet, mainnet
-network = Network.testnet()
-
 async def main() -> None:
-    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
-        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
-        orderbookresp = await spot_exchange_rpc.Orderbook(spot_exchange_rpc_pb.OrderbookRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"))
-        print("\n-- Orderbook Update:\n", orderbookresp)
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    orderbook = client.get_spot_orderbook(market_id=market_id)
+    print(orderbook)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|marketId|string|MarketId of the market's orderbook we want to fetch|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|Filter by Market ID|Yes|
 
 
 ### Response Parameters
@@ -742,33 +736,31 @@ PriceLevel:
 
 ## StreamOrderbook
 
-Stream live updates of selected spot market orderbook
+Stream the orderbook of a spot market
 
 
 ### Request Parameters
 > Request Example:
 
 ``` python
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import grpc
 
+from pyinjective.client import Client
 from pyinjective.constant import Network
 
-# select network: local, testnet, mainnet
-network = Network.testnet()
-
 async def main() -> None:
-    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
-        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
-        stream_req = spot_exchange_rpc_pb.StreamOrderbookRequest(market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0")
-        stream_resp = spot_exchange_rpc.StreamOrderbook(stream_req)
-        async for orderbook in stream_resp:
-            print("\n-- Orderbook Update:\n", orderbook)
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    orderbook = client.stream_spot_orderbook(market_id=market_id)
+    for orders in orderbook:
+        print(orders)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|marketId|string|Market ID for orderbook updates streaming|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|Filter by Market ID|Yes|
 
 
 
@@ -824,37 +816,33 @@ PriceLevel:
 
 
 
-
-
-
 ## SubaccountOrdersList
 
-List orders posted from this subaccount
+Get orders of a subaccount
 
 ### Request Parameters
 > Request Example:
 
 ``` python
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import grpc
 
+from pyinjective.client import Client
 from pyinjective.constant import Network
 
-# select network: local, testnet, mainnet
-network = Network.testnet()
-
 async def main() -> None:
-    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
-        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
-        ordresp = await spot_exchange_rpc.SubaccountOrdersList(spot_exchange_rpc_pb.SubaccountOrdersListRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000", market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"))
-        print("\n-- Subaccount Orders Update:\n", ordresp)
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    orders = client.get_spot_subaccount_orders(subaccount_id=subaccount_id, market_id=market_id)
+    print(orders)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|marketId|string|Market ID to filter orders for specific market|
-|subaccountId|string|subaccount ID to filter orders for specific subaccount|
-
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|subaccount_id|string|Filter by Subaccount ID|Yes|
+|market_id|string|Filter by Market ID|No|
 
 
 ### Response Parameters
@@ -918,40 +906,38 @@ SpotLimitOrder:
 
 
 
-
-
 ## SubaccountTradesList
 
-List trades executed by this subaccount
+Get trades of a subaccount
 
 
 ### Request Parameters
 > Request Example:
 
 ``` python
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2 as spot_exchange_rpc_pb
-import pyinjective.proto.exchange.injective_spot_exchange_rpc_pb2_grpc as spot_exchange_rpc_grpc
+import grpc
 
+from pyinjective.client import Client
 from pyinjective.constant import Network
 
-# select network: local, testnet, mainnet
-network = Network.testnet()
-
 async def main() -> None:
-    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
-        spot_exchange_rpc = spot_exchange_rpc_grpc.InjectiveSpotExchangeRPCStub(channel)
-        traderesp = await spot_exchange_rpc.SubaccountTradesList(spot_exchange_rpc_pb.SubaccountTradesListRequest(subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000", market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"))
-        print("\n-- Subaccount Trades Update:\n", traderesp)
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    direction = "buy" # buy or sell
+    execution_type = "market" # market, limitFill, limitMatchRestingOrder or limitMatchNewOrder
+    trades = client.get_spot_subaccount_trades(subaccount_id=subaccount_id, market_id=market_id, execution_type=execution_type, direction=direction)
+    print(trades)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|subaccountId|string|SubaccountId of the trader we want to get the trades from|
-|direction|string|Filter by direction trades (Should be one of: [buy sell]) |
-|executionType|string|Filter by execution type of trades (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
-|marketId|string|Filter trades by market ID|
-
-
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|subaccount_id|string|Filter by Subaccount ID|Yes|
+|market_id|string|Filter by Market ID|No|
+|direction|string|Filter by the direction of the trades (Should be one of: [buy sell])|No|
+|execution_type|string|Filter by the execution type of the trades (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder])|No|
 
 ### Response Parameters
 > Response Example:
@@ -1015,4 +1001,3 @@ PriceLevel:
 |price|string|Price number of the price level.|
 |quantity|string|Quantity of the price level.|
 |timestamp|integer|Price level last updated timestamp in UNIX millis.|
-

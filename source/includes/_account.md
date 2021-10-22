@@ -14,50 +14,50 @@ Includes all the messages related to accounts and transfers.
         amount=0.000000000000000001,
         denom='INJ'
     )
-    gas_price = 500000000
-    gas_limit = 200000
-    fee = [composer.Coin(
-        amount=str(gas_price * gas_limit),
-        denom=network.fee_denom,
-    )]
 
-    # build tx
+    # build sim tx
     tx = (
         Transaction()
         .with_messages(msg)
         .with_sequence(address.get_sequence())
         .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
-        .with_gas(gas_limit)
-        .with_fee(fee)
-        .with_memo("")
-        .with_timeout_height(0)
     )
-
-    # build signed tx
-    sign_doc = tx.get_sign_doc(pub_key)
-    sig = priv_key.sign(sign_doc.SerializeToString())
-    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+    sim_sign_doc = tx.get_sign_doc(pub_key)
+    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
+    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    (simRes, success) = client.simulate_tx(sim_tx_raw_bytes)
     if not success:
         print(simRes)
         return
 
+    # build tx
+    gas_price = 500000000
+    gas_limit = simRes.gas_info.gas_used + 15000 # add 15k for gas, fee computation
+    fee = [composer.Coin(
+        amount=str(gas_price * gas_limit),
+        denom=network.fee_denom,
+    )]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    sign_doc = tx.get_sign_doc(pub_key)
+    sig = priv_key.sign(sign_doc.SerializeToString())
+    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_async_mode(tx_raw_bytes)
+    res = client.send_tx_block_mode(tx_raw_bytes)
 
     # print tx response
     print(res)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|from_address|string|The inj address of the sender|
-|to_address|string| The inj address of the receiver|
-|amount|int| The amount of tokens to send|
-|denom|string| The denom of that token|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|from_address|string|The inj address of the sender|Yes|
+|to_address|string| The inj address of the receiver|Yes|
+|amount|int| The amount of tokens to send|Yes|
+|denom|string| The denom of that token|Yes|
 
 
 
@@ -145,36 +145,35 @@ Includes all the messages related to accounts and transfers.
         denom='USDT'
     )
 
-    gas_price = 500000000
-    gas_limit = 200000
-    fee = [composer.Coin(
-        amount=str(gas_price * gas_limit),
-        denom=network.fee_denom,
-    )]
-
-    # build tx
+    # build sim tx
     tx = (
         Transaction()
         .with_messages(msg)
         .with_sequence(address.get_sequence())
         .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
-        .with_gas(gas_limit)
-        .with_fee(fee)
-        .with_memo("")
-        .with_timeout_height(0)
     )
-
-    # build signed tx
-    sign_doc = tx.get_sign_doc(pub_key)
-    sig = priv_key.sign(sign_doc.SerializeToString())
-    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+    sim_sign_doc = tx.get_sign_doc(pub_key)
+    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
+    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    (simRes, success) = client.simulate_tx(sim_tx_raw_bytes)
     if not success:
         print(simRes)
         return
+
+    # build tx
+    gas_price = 500000000
+    gas_limit = simRes.gas_info.gas_used + 15000 # add 15k for gas, fee computation
+    fee = [composer.Coin(
+        amount=str(gas_price * gas_limit),
+        denom=network.fee_denom,
+    )]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    sign_doc = tx.get_sign_doc(pub_key)
+    sig = priv_key.sign(sign_doc.SerializeToString())
+    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
@@ -183,12 +182,12 @@ Includes all the messages related to accounts and transfers.
     print(res)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|sender|string|The inj address of the sender|
-|subaccount_id|string| The subaccount_id to receive the funds|
-|amount|int| The amount of tokens to send|
-|denom|string| The denom of that token|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|sender|string|The inj address of the sender|Yes|
+|subaccount_id|string| The subaccount_id to receive the funds|Yes|
+|amount|int| The amount of tokens to send|Yes|
+|denom|string| The denom of that token|Yes|
 
 
 > Response Example:
@@ -278,7 +277,7 @@ Includes all the messages related to accounts and transfers.
 > Request Example:
 
 ``` python
-        # prepare tx msg
+    # prepare tx msg
     msg = composer.MsgWithdraw(
         sender=address.to_acc_bech32(),
         subaccount_id=subaccount_id,
@@ -286,50 +285,49 @@ Includes all the messages related to accounts and transfers.
         denom="USDT"
     )
 
-    gas_price = 500000000
-    gas_limit = 200000
-    fee = [composer.Coin(
-        amount=str(gas_price * gas_limit),
-        denom=network.fee_denom,
-    )]
-
-    # build tx
+    # build sim tx
     tx = (
         Transaction()
         .with_messages(msg)
         .with_sequence(address.get_sequence())
         .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
-        .with_gas(gas_limit)
-        .with_fee(fee)
-        .with_memo("")
-        .with_timeout_height(0)
     )
-
-    # build signed tx
-    sign_doc = tx.get_sign_doc(pub_key)
-    sig = priv_key.sign(sign_doc.SerializeToString())
-    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+    sim_sign_doc = tx.get_sign_doc(pub_key)
+    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
+    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    (simRes, success) = client.simulate_tx(sim_tx_raw_bytes)
     if not success:
         print(simRes)
         return
 
+    # build tx
+    gas_price = 500000000
+    gas_limit = simRes.gas_info.gas_used + 15000 # add 15k for gas, fee computation
+    fee = [composer.Coin(
+        amount=str(gas_price * gas_limit),
+        denom=network.fee_denom,
+    )]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    sign_doc = tx.get_sign_doc(pub_key)
+    sig = priv_key.sign(sign_doc.SerializeToString())
+    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-
-    # print tx response
+    resMsg = ProtoMsgComposer.MsgResponses(res.data)
+    print("tx response")
     print(res)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|sender|string|The inj address of the sender|
-|subaccount_id|string| The subaccount_id to receive the funds|
-|amount|int| The amount of tokens to send|
-|denom|string| The denom of that token|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|sender|string|The inj address of the sender|Yes|
+|subaccount_id|string| The subaccount_id to receive the funds|Yes|
+|amount|int| The amount of tokens to send|Yes|
+|denom|string| The denom of that token|Yes|
 
 
 > Response Example:
@@ -429,51 +427,50 @@ Includes all the messages related to accounts and transfers.
         denom="inj"
     )
 
-    gas_price = 500000000
-    gas_limit = 200000
-    fee = [composer.Coin(
-        amount=str(gas_price * gas_limit),
-        denom=network.fee_denom,
-    )]
-
-    # build tx
+    # build sim tx
     tx = (
         Transaction()
         .with_messages(msg)
         .with_sequence(address.get_sequence())
         .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
-        .with_gas(gas_limit)
-        .with_fee(fee)
-        .with_memo("")
-        .with_timeout_height(0)
     )
-
-    # build signed tx
-    sign_doc = tx.get_sign_doc(pub_key)
-    sig = priv_key.sign(sign_doc.SerializeToString())
-    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+    sim_sign_doc = tx.get_sign_doc(pub_key)
+    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
+    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (simRes, success) = client.simulate_tx(tx_raw_bytes)
+    (simRes, success) = client.simulate_tx(sim_tx_raw_bytes)
     if not success:
         print(simRes)
         return
 
+    # build tx
+    gas_price = 500000000
+    gas_limit = simRes.gas_info.gas_used + 15000 # add 15k for gas, fee computation
+    fee = [composer.Coin(
+        amount=str(gas_price * gas_limit),
+        denom=network.fee_denom,
+    )]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    sign_doc = tx.get_sign_doc(pub_key)
+    sig = priv_key.sign(sign_doc.SerializeToString())
+    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-
-    # print tx response
+    resMsg = ProtoMsgComposer.MsgResponses(res.data)
+    print("tx response")
     print(res)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|sender|string|The inj address of the sender|
-|source_subaccount_id|string|The subaccount_id to send the funds from|
-|destination_subaccount_id|string| The subaccount_id to receive the funds|
-|amount|int| The amount of tokens to send|
-|denom|string| The denom of that token|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|sender|string|The inj address of the sender|Yes|
+|source_subaccount_id|string|The subaccount_id to send the funds from|Yes|
+|destination_subaccount_id|string|The subaccount_id to receive the funds|Yes|
+|amount|int|The amount of tokens to send|Yes|
+|denom|string|The denom of that token|Yes|
 
 
 > Response Example:

@@ -1,35 +1,27 @@
 # - InjectiveOracleRPC
-InjectiveOracleRPC defines gRPC API of Exchange Oracle provider.
+InjectiveOracleRPC defines the gRPC API of the Exchange Oracle provider.
 
 
 ## OracleList
 
-List all oracles
+Get a list with oracles and feeds.
 
 ### Request Parameters
 > Request Example:
 
 ``` python
-import pyinjective.proto.exchange.injective_oracle_rpc_pb2 as oracle_rpc_pb
-import pyinjective.proto.exchange.injective_oracle_rpc_pb2_grpc as oracle_rpc_grpc
+import grpc
 
+from pyinjective.client import Client
 from pyinjective.constant import Network
 
-# select network: local, testnet, mainnet
-network = Network.testnet()
-
 async def main() -> None:
-    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
-        oracle_exchange_rpc = oracle_rpc_grpc.InjectiveOracleRPCStub(channel)
-        oracle_list = await oracle_exchange_rpc.OracleList(oracle_rpc_pb.OracleListRequest())
-        print("\n-- Oracle List Update:\n", oracle_list)
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    oracle_list = client.get_oracle_list()
+    print(oracle_list)
 ```
-
-|Parameter|Type|Description|
-|----|----|----|
-|baseSymbol|string|Oracle base currency|
-|oracleType|string|Oracle Type|
-|quoteSymbol|string|Oracle quote currency|
 
 
 ### Response Parameters
@@ -65,40 +57,42 @@ Oracle:
 
 |Parameter|Type|Description|
 |----|----|----|
-|oracleType|string|Oracle Type|
-|price|string|The price of the oracle asset|
-|symbol|string|The symbol of the oracle asset.|
+|symbol|string|The symbol of the asset|
+|oracle_type|string|The oracle provider|
+|price|string|The price of the asset|
 
 
 ## Price
 
-Gets the price of the oracle
+Get the oracle price of an asset
 
 ### Request Parameters
 > Request Example:
 
 ``` python
-import pyinjective.proto.exchange.injective_oracle_rpc_pb2 as oracle_rpc_pb
-import pyinjective.proto.exchange.injective_oracle_rpc_pb2_grpc as oracle_rpc_grpc
+import grpc
 
+from pyinjective.client import Client
 from pyinjective.constant import Network
 
-# select network: local, testnet, mainnet
-network = Network.testnet()
-
 async def main() -> None:
-    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
-        oracle_exchange_rpc = oracle_rpc_grpc.InjectiveOracleRPCStub(channel)
-        oracle_price = await oracle_exchange_rpc.Price(oracle_rpc_pb.PriceRequest(base_symbol = "BTC", quote_symbol = "USD", oracle_type = "coinbase", oracle_scale_factor = 6))
-        print("\n-- Oracle Price Update:\n", oracle_price)
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    base_symbol = 'BTC'
+    quote_symbol = 'USD'
+    oracle_type = 'coinbase'
+    oracle_scale_factor = 6
+    oracle_prices = client.get_oracle_prices(base_symbol=base_symbol, quote_symbol=quote_symbol, oracle_type=oracle_type, oracle_scale_factor=oracle_scale_factor)
+    print(oracle_prices)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|baseSymbol|string|Oracle base currency|
-|quoteSymbol|string|Oracle quote currency|
-|oracleType|string|Oracle Type|
-|oracleScaleFactor|integer|OracleScaleFactor|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|base_symbol|string|Oracle base currency|Yes|
+|quote_symbol|string|Oracle quote currency|Yes|
+|oracle_type|string|The oracle provider|Yes|
+|oracle_scale_factor|integer|Oracle scale factor for the quote asset|Yes|
 
 
 ### Response Parameters
@@ -117,34 +111,38 @@ async def main() -> None:
 
 ## StreamPrices
 
-StreamPrices streams new price changes for a specified oracle. If no oracles are provided, all price changes are streamed.
+Stream oracle prices for an asset
 
 ### Request Parameters
 > Request Example:
 
 ``` python
-import pyinjective.proto.exchange.injective_oracle_rpc_pb2 as oracle_rpc_pb
-import pyinjective.proto.exchange.injective_oracle_rpc_pb2_grpc as oracle_rpc_grpc
+import grpc
 
+from pyinjective.client import Client
 from pyinjective.constant import Network
 
-# select network: local, testnet, mainnet
-network = Network.testnet()
-
 async def main() -> None:
-    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
-        oracle_exchange_rpc = oracle_rpc_grpc.InjectiveOracleRPCStub(channel)
-        stream_req = oracle_rpc_pb.StreamPricesRequest(base_symbol = "BTC", quote_symbol = "USD", oracle_type = "coinbase")
-        stream_resp = oracle_exchange_rpc.StreamPrices(stream_req)
-        async for oracle in stream_resp:
-            print("\n-- Oracle Prices Update:\n", oracle)
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    base_symbol = 'BTC'
+    quote_symbol = 'USD'
+    oracle_type = 'coinbase'
+    oracle_prices = client.stream_oracle_prices(
+        base_symbol=base_symbol,
+        quote_symbol=quote_symbol,
+        oracle_type=oracle_type
+    )
+    for oracle in oracle_prices:
+        print(oracle)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|baseSymbol|string|Oracle base currency|
-|quoteSymbol|string|Oracle quote currency|
-|oracleType|string|Oracle Type|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|base_symbol|string|Oracle base currency|Yes|
+|quote_symbol|string|Oracle quote currency|Yes|
+|oracle_type|string|The oracle provider|Yes|
 
 
 ### Response Parameters

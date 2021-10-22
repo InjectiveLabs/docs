@@ -1,5 +1,5 @@
 # - InjectiveInsuranceRPC
-InjectiveInsuranceRPC defines gRPC API of Insurance provider.
+InjectiveInsuranceRPC defines the gRPC API of the Insurance Exchange provider.
 
 
 ## Funds
@@ -10,19 +10,17 @@ Funds lists all insurance funds.
 > Request Example:
 
 ``` python
-import pyinjective.proto.exchange.injective_insurance_rpc_pb2_grpc as insurance_rpc_grpc
-import pyinjective.proto.exchange.injective_insurance_rpc_pb2 as insurance_rpc_pb
+import grpc
 
+from pyinjective.client import Client
 from pyinjective.constant import Network
 
-# select network: local, testnet, mainnet
-network = Network.testnet()
-
 async def main() -> None:
-    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
-        insurance_exchange_rpc = insurance_rpc_grpc.InjectiveInsuranceRPCStub(channel)
-        insurance_fund = await insurance_exchange_rpc.Funds(insurance_rpc_pb.FundsRequest())
-        print("\n-- Insurance Fund Update:\n", insurance_fund)
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    insurance_funds = client.get_insurance_funds()
+    print(insurance_funds)
 ```
 
 ### Response Parameters
@@ -139,26 +137,27 @@ PendingRedemptions lists all pending redemptions according to a filter
 > Request Example:
 
 ``` python
-import pyinjective.proto.exchange.injective_insurance_rpc_pb2 as insurance_rpc_pb
-import pyinjective.proto.exchange.injective_insurance_rpc_pb2_grpc as insurance_rpc_grpc
+import grpc
 
+from pyinjective.client import Client
 from pyinjective.constant import Network
 
-# select network: local, testnet, mainnet
-network = Network.testnet()
-
 async def main() -> None:
-    async with grpc.aio.insecure_channel(network.grpc_exchange_endpoint) as channel:
-        insurance_exchange_rpc = insurance_rpc_grpc.InjectiveInsuranceRPCStub(channel)
-        redemptions = await insurance_exchange_rpc.Redemptions(insurance_rpc_pb.RedemptionsRequest())
-        print("\n-- Redemptions Update:\n", redemptions)
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    redeemer = "inj1gxqdj76ul07w4ujsl8403nhhzyvug2h66qk057"
+    redemption_denom = "share2"
+    status = "disbursed" # disbursed or pending
+    insurance_redemptions = client.get_redemptions(redeemer=redeemer, redemption_denom=redemption_denom, status=status)
+    print(insurance_redemptions)
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|redeemer|string|Account address of the redemption owner|
-|redemptionDenom|string|Denom of the insurance pool token. |
-|status|string|Status of the redemption. Either pending or disbursed.|
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|redeemer|string|Filter by Account Address|No|
+|redemptionDenom|string|Filter by Insurance Pool Denom|No|
+|status|string|Filter by Redemption Status (Should be one of: [disbursed pending])|No|
 
 
 ### Response Parameters
