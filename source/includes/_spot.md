@@ -82,11 +82,11 @@ Includes all the messages related to spot markets.
 {
 
 "simulation msg response"
-["order_hash:" "0x61fa86cbc82d6892d066ca340a5e547469a4bd8d00d76cdc05b43e0c37a09505"]
+"order_hash": "0x61fa86cbc82d6892d066ca340a5e547469a4bd8d00d76cdc05b43e0c37a09505",
 "tx response"
-"txhash:" "288403B6A767BC04212234395A6DF935AA6D711E58008391E4A1BF0003F868D1"
+"txhash": "288403B6A767BC04212234395A6DF935AA6D711E58008391E4A1BF0003F868D1",
 
-"tx msg response"
+"tx msg response":
 "[]"
 
 
@@ -173,14 +173,12 @@ Includes all the messages related to spot markets.
 {
 
 "simulation msg response"
-["order_hash:" "0x6f24ab1a2ae1d772562239146090df0d6a7b6e503296ebbf7fbc9517d607e7b0"]
+"order_hash": "0x6f24ab1a2ae1d772562239146090df0d6a7b6e503296ebbf7fbc9517d607e7b0",
 "tx response"
-"txhash:" "E59DD5C4AFF42A55E7864F854EB2163AA178E348C6F258813A5F7CE7FADC9192"
+"txhash": "E59DD5C4AFF42A55E7864F854EB2163AA178E348C6F258813A5F7CE7FADC9192",
 
-"tx msg response"
+"tx msg response":
 "[]"
-
-
 
 }
 ```
@@ -255,7 +253,7 @@ Includes all the messages related to spot markets.
 {
 
 "tx response"
-"txhash:" "4E12342489EB934F368855AE2BC8A2860A435D3A5A1F0C0AB5A4AA4DE8F05B0B"
+"txhash": "4E12342489EB934F368855AE2BC8A2860A435D3A5A1F0C0AB5A4AA4DE8F05B0B"
 
 }
 ```
@@ -361,12 +359,12 @@ orders:
 {
 
 "simulation msg response"
-["order_hashes:" "0x101ee98abc9a5922689ae070f64fedae78728bf73a822a91498b68793ac7b7e7"
-"order_hashes:" "0x3d2750114faabe76c2433fd0eeb1e4e9be771ee3acac63c3689b880fb27227a2"]
+"order_hashes": "0x101ee98abc9a5922689ae070f64fedae78728bf73a822a91498b68793ac7b7e7",
+"order_hashes": "0x3d2750114faabe76c2433fd0eeb1e4e9be771ee3acac63c3689b880fb27227a2",
 "tx response"
-"txhash:" "EE44F89530C1EAD7598872B86F73621190381A2DCE9A9446F9C5A839960DD323"
+"txhash": "EE44F89530C1EAD7598872B86F73621190381A2DCE9A9446F9C5A839960DD323",
 
-"tx msg response"
+"tx msg response":
 "[]"
 
 }
@@ -467,13 +465,13 @@ orders:
 {
 
 "simulation msg response"
-["success:" "true"
-"success:" "true"
-"success:" "false"]
+"success": "true",
+"success": "true",
+"success": "false",
 "tx response"
-"txhash:" "24723C0EEF0157EA9C294B2CF66EF1BF97440F3CE965AFE1EC00A226E2EE4A7F"
+"txhash": "24723C0EEF0157EA9C294B2CF66EF1BF97440F3CE965AFE1EC00A226E2EE4A7F",
 
-"tx msg response"
+"tx msg response":
 "[]"
 
 }

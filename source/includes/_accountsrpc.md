@@ -83,32 +83,28 @@ async def main() -> None:
 
 ``` json
 {
-  "transfers": [
-    {
-      "amount": {
-        "amount": "10000000000000000000",
-        "denom": "inj"
-      },
-      "dstAccountAddress": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-      "dstSubaccountID": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "executedAt": 1544614248000,
-      "srcAccountAddress": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-      "srcSubaccountID": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "transferType": "deposit"
-    },
-    {
-      "amount": {
-        "amount": "10000000000000000000",
-        "denom": "inj"
-      },
-      "dstAccountAddress": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-      "dstSubaccountID": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "executedAt": 1544614248000,
-      "srcAccountAddress": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-      "srcSubaccountID": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "transferType": "deposit"
-    }
-  ]
+  "transfers": {
+  "transfer_type": "withdraw",
+  "src_subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "dst_account_address": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+  "amount": {
+    "denom": "inj",
+    "amount": "50000000000000000000"
+  },
+  "executed_at": 1633006684272
+},
+
+"transfers": {
+  "transfer_type": "withdraw",
+  "src_subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "dst_account_address": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+  "amount": {
+    "denom": "inj",
+    "amount": "1000000000000000000000"
+  },
+  "executed_at": 1633011955869
+}
+
 }
 ```
 
@@ -121,12 +117,10 @@ SubaccountBalanceTransfer:
 |Parameter|Type|Description|
 |----|----|----|
 |amount|CosmosCoin||
-|dstAccountAddress|string|Account address of the receiving side|
-|dstSubaccountID|string|Subaccount ID of the receiving side|
-|executedAt|integer|Timestamp of the transfer in UNIX millis|
-|srcAccountAddress|string|Account address of the sending side|
-|srcSubaccountID|string|Subaccount ID of the sending side|
-|transferType|string|Type of the subaccount balance transfer (Should be one of: [internal external withdraw deposit]) |
+|dst_account_address|string|Account address of the receiving side|
+|executed_at|integer|Timestamp of the transfer in UNIX millis|
+|src_subaccountID|string|Subaccount ID of the sending side|
+|transfer_type|string|Type of the subaccount balance transfer (Should be one of: [internal external withdraw deposit]) |
 
 CosmosCoin:
 
@@ -172,16 +166,17 @@ async def main() -> None:
 ``` json
 {
   "balance": {
-    "accountAddress": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
+    "subaccount_id": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
+    "account_address": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
     "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
     "deposit": {
-      "availableBalance": "1000000000000000000",
-      "totalBalance": "1960000000000000000"
-    },
-    "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
+      "available_balance": "1000000000000000000",
+      "total_balance": "1960000000000000000"
+    }
   }
 }
 ```
+
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -193,15 +188,15 @@ SubaccountBalance:
 |----|----|----|
 |denom|string|Coin denom on the chain.|
 |deposit|SubaccountDeposit||
-|subaccountId|string|Related subaccount ID|
-|accountAddress|string|Account address, owner of this subaccount|
+|subaccount_id|string|Related subaccount ID|
+|account_address|string|Account address, owner of this subaccount|
 
 SubaccountDeposit:
 
 |Parameter|Type|Description|
 |----|----|----|
-|availableBalance|string||
-|totalBalance|string||
+|available_balance|string||
+|total_balance|string||
 
 
 
@@ -241,31 +236,31 @@ async def main() -> None:
 {
   "balances": [
     {
-      "accountAddress": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
+      "subaccount_id": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
+      "account_address": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
       "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
       "deposit": {
-        "availableBalance": "1000000000000000000",
-        "totalBalance": "1960000000000000000"
-      },
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
+        "available_balance": "1000000000000000000",
+        "total_balance": "1960000000000000000"
+      }
     },
     {
-      "accountAddress": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
+      "subaccount_id": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
+      "account_address": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
       "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
       "deposit": {
-        "availableBalance": "1000000000000000000",
-        "totalBalance": "1960000000000000000"
-      },
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
-    },
+        "available_balance": "1000000000000000000",
+        "total_balance": "1960000000000000000"
+      }, 
+    }
     {
-      "accountAddress": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
+      "subaccount_id": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
+      "account_address": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
       "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
       "deposit": {
-        "availableBalance": "1000000000000000000",
-        "totalBalance": "1960000000000000000"
-      },
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
+        "available_balance": "1000000000000000000",
+        "total_balance": "1960000000000000000"
+      }
     }
   ]
 }
@@ -279,17 +274,19 @@ SubaccountBalance:
 
 |Parameter|Type|Description|
 |----|----|----|
-|accountAddress|string|Account address, owner of this subaccount|
+|account_address|string|Account address, owner of this subaccount|
 |denom|string|Coin denom on the chain.|
 |deposit|SubaccountDeposit||
-|subaccountId|string|Related subaccount ID|
+|subaccount_id|string|Related subaccount ID|
 
 SubaccountDeposit:
 
 |Parameter|Type|Description|
 |----|----|----|
-|availableBalance|string||
-|totalBalance|string||
+|available_balance|string||
+|total_balance|string||
+
+
 
 ## SubaccountOrderSummary
 
@@ -328,15 +325,15 @@ async def main() -> None:
 
 ``` json
 {
-  "derivativeOrdersTotal": 10,
-  "spotOrdersTotal": 11
+  "derivative_orders_total": 10,
+  "spot_orders_total": 11
 }
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
-|derivativeOrdersTotal|integer|Total count of subaccount's derivative orders in given market and direction|
-|spotOrdersTotal|integer|Total count of subaccount's spot orders in given market and direction|
+|derivative_orders_total|integer|Total count of subaccount's derivative orders in given market and direction|
+|spot_orders_total|integer|Total count of subaccount's spot orders in given market and direction|
 
 
 
@@ -376,13 +373,13 @@ async def main() -> None:
 ``` json
 {
   "balance": {
-    "accountAddress": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
+    "subaccount_id": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
+    "account_address": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
     "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
     "deposit": {
-      "availableBalance": "1000000000000000000",
-      "totalBalance": "1960000000000000000"
-    },
-    "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"
+      "available_balance": "1000000000000000000",
+      "total_balance": "1960000000000000000"
+    }
   },
   "timestamp": 1544614248000
 }
@@ -399,12 +396,12 @@ SubaccountBalance:
 |----|----|----|
 |denom|string|Coin denom on the chain.|
 |deposit|SubaccountDeposit||
-|subaccountId|string|Related subaccount ID|
-|accountAddress|string|Account address, owner of this subaccount|
+|subaccount_id|string|Related subaccount ID|
+|account_address|string|Account address, owner of this subaccount|
 
 SubaccountDeposit:
 
 |Parameter|Type|Description|
 |----|----|----|
-|availableBalance|string||
-|totalBalance|string||
+|available_balance|string||
+|total_balance|string||
