@@ -19,6 +19,7 @@ includes:
   - derivatives
   - spot
   - account
+  - faq
   # - relayers
   # - exchangerpc
   # - chronosrpc

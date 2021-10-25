@@ -36,34 +36,35 @@ async def main() -> None:
 
 ``` json
 {
-  "market": {
-    "baseDenom": "inj",
-    "baseTokenMeta": {
-      "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "decimals": 18,
-      "logo": "https://static.alchemyapi.io/images/assets/825.png",
-      "name": "Tether",
-      "symbol": "USDT",
-      "updatedAt": 1544614248000
-    },
-    "makerFeeRate": "0.001",
-    "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-    "marketStatus": "active",
-    "minPriceTickSize": "0.001",
-    "minQuantityTickSize": "0.001",
-    "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "quoteTokenMeta": {
-      "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "decimals": 18,
-      "logo": "https://static.alchemyapi.io/images/assets/825.png",
-      "name": "Tether",
-      "symbol": "USDT",
-      "updatedAt": 1544614248000
-    },
-    "serviceProviderFee": "0.4",
-    "takerFeeRate": "0.002",
-    "ticker": "INJ/USDC"
-  }
+"market": {
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "market_status": "active",
+  "ticker": "INJ/USDT",
+  "base_denom": "inj",
+  "base_token_meta": {
+    "name": "Injective Protocol",
+    "address": "0xe28b3B32B6c345A34Ff64674606124Dd5Aceca30",
+    "symbol": "INJ",
+    "logo": "https://static.alchemyapi.io/images/assets/7226.png",
+    "decimals": 18,
+    "updated_at": 1632535055751
+  },
+  "quote_denom": "peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+  "quote_token_meta": {
+    "name": "Tether",
+    "address": "0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+    "symbol": "USDT",
+    "logo": "https://static.alchemyapi.io/images/assets/825.png",
+    "decimals": 6,
+    "updated_at": 1632535055759
+  },
+  "maker_fee_rate": "0.001",
+  "taker_fee_rate": "0.002",
+  "service_provider_fee": "0.4",
+  "min_price_tick_size": "0.000000000000001",
+  "min_quantity_tick_size": "1000000000000000"
+}
+
 }
 ```
 
@@ -75,17 +76,17 @@ SpotMarketInfo:
 
 |Parameter|Type|Description|
 |----|----|----|
-|baseDenom|string|Coin denom used for the base asset.|
-|marketId|string|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
-|marketStatus|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
-|minQuantityTickSize|string|Defines the minimum required tick size for the order's quantity|
-|quoteTokenMeta|TokenMeta||
-|serviceProviderFee|string|Percentage of the transaction fee shared with the service provider|
-|baseTokenMeta|TokenMeta||
-|makerFeeRate|string|Defines the fee percentage makers pay when trading (in quote asset)|
-|minPriceTickSize|string|Defines the minimum required tick size for the order's price|
-|quoteDenom|string|Coin denom used for the quote asset.|
-|takerFeeRate|string|Defines the fee percentage takers pay when trading (in quote asset)|
+|base_denom|string|Coin denom used for the base asset.|
+|market_id|string|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
+|market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
+|min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
+|quote_token_meta|TokenMeta||
+|service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
+|base_token_meta|TokenMeta||
+|maker_fee_rate|string|Defines the fee percentage makers pay when trading (in quote asset)|
+|min_price_tick_size|string|Defines the minimum required tick size for the order's price|
+|quote_denom|string|Coin denom used for the quote asset.|
+|taker_fee_rate|string|Defines the fee percentage takers pay when trading (in quote asset)|
 |ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset.|
 
 TokenMeta:
@@ -98,6 +99,7 @@ TokenMeta:
 |name|string|Token full name|
 |symbol|string|Token symbol short name|
 |updatedAt|integer|Token metadata fetched timestamp in UNIX millis.|
+
 
 ## Markets
 
@@ -136,36 +138,35 @@ async def main() -> None:
 
 ``` json
 {
-  "markets": [
-    {
-      "baseDenom": "inj",
-      "baseTokenMeta": {
-        "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        "decimals": 18,
-        "logo": "https://static.alchemyapi.io/images/assets/825.png",
-        "name": "Tether",
-        "symbol": "USDT",
-        "updatedAt": 1544614248000
-      },
-      "makerFeeRate": "0.001",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "marketStatus": "active",
-      "minPriceTickSize": "0.001",
-      "minQuantityTickSize": "0.001",
-      "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "quoteTokenMeta": {
-        "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        "decimals": 18,
-        "logo": "https://static.alchemyapi.io/images/assets/825.png",
-        "name": "Tether",
-        "symbol": "USDT",
-        "updatedAt": 1544614248000
-      },
-      "serviceProviderFee": "0.4",
-      "takerFeeRate": "0.002",
-      "ticker": "INJ/USDC"
-    },
-  ]
+"markets": {
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "market_status": "active",
+  "ticker": "INJ/USDT",
+  "base_denom": "inj",
+  "base_token_meta": {
+    "name": "Injective Protocol",
+    "address": "0xe28b3B32B6c345A34Ff64674606124Dd5Aceca30",
+    "symbol": "INJ",
+    "logo": "https://static.alchemyapi.io/images/assets/7226.png",
+    "decimals": 18,
+    "updated_at": 1632535055751
+  },
+  "quote_denom": "peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+  "quote_token_meta": {
+    "name": "Tether",
+    "address": "0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+    "symbol": "USDT",
+    "logo": "https://static.alchemyapi.io/images/assets/825.png",
+    "decimals": 6,
+    "updated_at": 1632535055759
+  },
+  "maker_fee_rate": "0.001",
+  "taker_fee_rate": "0.002",
+  "service_provider_fee": "0.4",
+  "min_price_tick_size": "0.000000000000001",
+  "min_quantity_tick_size": "1000000000000000"
+}
+
 }
 ```
 
@@ -177,18 +178,18 @@ SpotMarketInfo:
 
 |Parameter|Type|Description|
 |----|----|----|
-|takerFeeRate|string|Defines the fee percentage takers pay when trading (in quote asset)|
+|base_denom|string|Coin denom used for the base asset.|
+|market_id|string|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
+|market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
+|min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
+|quote_token_meta|TokenMeta||
+|service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
+|base_token_meta|TokenMeta||
+|maker_fee_rate|string|Defines the fee percentage makers pay when trading (in quote asset)|
+|min_price_tick_size|string|Defines the minimum required tick size for the order's price|
+|quote_denom|string|Coin denom used for the quote asset.|
+|taker_fee_rate|string|Defines the fee percentage takers pay when trading (in quote asset)|
 |ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset.|
-|baseTokenMeta|TokenMeta||
-|makerFeeRate|string|Defines the fee percentage makers pay when trading (in quote asset)|
-|minPriceTickSize|string|Defines the minimum required tick size for the order's price|
-|quoteDenom|string|Coin denom used for the quote asset.|
-|quoteTokenMeta|TokenMeta||
-|serviceProviderFee|string|Percentage of the transaction fee shared with the service provider|
-|baseDenom|string|Coin denom used for the base asset.|
-|marketId|string|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
-|marketStatus|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
-|minQuantityTickSize|string|Defines the minimum required tick size for the order's quantity|
 
 TokenMeta:
 
@@ -200,6 +201,9 @@ TokenMeta:
 |name|string|Token full name|
 |symbol|string|Token symbol short name|
 |updatedAt|integer|Token metadata fetched timestamp in UNIX millis.|
+
+
+
 
 ## StreamMarkets
 
@@ -229,73 +233,72 @@ async def main() -> None:
 
 ``` json
 {
-  "market": {
-    "baseDenom": "inj",
-    "baseTokenMeta": {
-      "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "decimals": 18,
-      "logo": "https://static.alchemyapi.io/images/assets/825.png",
-      "name": "Tether",
-      "symbol": "USDT",
-      "updatedAt": 1544614248000
-    },
-    "makerFeeRate": "0.001",
-    "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-    "marketStatus": "active",
-    "minPriceTickSize": "0.001",
-    "minQuantityTickSize": "0.001",
-    "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "quoteTokenMeta": {
-      "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "decimals": 18,
-      "logo": "https://static.alchemyapi.io/images/assets/825.png",
-      "name": "Tether",
-      "symbol": "USDT",
-      "updatedAt": 1544614248000
-    },
-    "serviceProviderFee": "0.4",
-    "takerFeeRate": "0.002",
-    "ticker": "INJ/USDC"
+"market": {
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "market_status": "active",
+  "ticker": "INJ/USDT",
+  "base_denom": "inj",
+  "base_token_meta": {
+    "name": "Injective Protocol",
+    "address": "0xe28b3B32B6c345A34Ff64674606124Dd5Aceca30",
+    "symbol": "INJ",
+    "logo": "https://static.alchemyapi.io/images/assets/7226.png",
+    "decimals": 18,
+    "updated_at": 1632535055751
   },
-  "operationType": "update",
-  "timestamp": 1544614248000
+  "quote_denom": "peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+  "quote_token_meta": {
+    "name": "Tether",
+    "address": "0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+    "symbol": "USDT",
+    "logo": "https://static.alchemyapi.io/images/assets/825.png",
+    "decimals": 6,
+    "updated_at": 1632535055759
+  },
+  "maker_fee_rate": "0.001",
+  "taker_fee_rate": "0.002",
+  "service_provider_fee": "0.4",
+  "min_price_tick_size": "0.000000000000001",
+  "min_quantity_tick_size": "1000000000000000"
+},
+  "operation_type": "update",
+  "timestamp": 1632535055790
 }
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
 |market|SpotMarketInfo||
-|operationType|string|Update type (Should be one of: [insert replace update invalidate]) |
+|operation_type|string|Update type (Should be one of: [insert replace update invalidate]) |
 |timestamp|integer|Operation timestamp in UNIX millis.|
 
 SpotMarketInfo:
 
 |Parameter|Type|Description|
 |----|----|----|
-|baseTokenMeta|TokenMeta||
-|makerFeeRate|string|Defines the fee percentage makers pay when trading (in quote asset)|
-|minPriceTickSize|string|Defines the minimum required tick size for the order's price|
-|quoteDenom|string|Coin denom used for the quote asset.|
-|takerFeeRate|string|Defines the fee percentage takers pay when trading (in quote asset)|
+|base_denom|string|Coin denom used for the base asset.|
+|market_id|string|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
+|market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
+|min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
+|quote_token_meta|TokenMeta||
+|service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
+|base_token_meta|TokenMeta||
+|maker_fee_rate|string|Defines the fee percentage makers pay when trading (in quote asset)|
+|min_price_tick_size|string|Defines the minimum required tick size for the order's price|
+|quote_denom|string|Coin denom used for the quote asset.|
+|taker_fee_rate|string|Defines the fee percentage takers pay when trading (in quote asset)|
 |ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset.|
-|baseDenom|string|Coin denom used for the base asset.|
-|marketId|string|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
-|marketStatus|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
-|minQuantityTickSize|string|Defines the minimum required tick size for the order's quantity|
-|quoteTokenMeta|TokenMeta||
-|serviceProviderFee|string|Percentage of the transaction fee shared with the service provider|
 
 TokenMeta:
 
 |Parameter|Type|Description|
 |----|----|----|
+|address|string|Token Ethereum contract address|
 |decimals|integer|Token decimals|
 |logo|string|URL to the logo image|
 |name|string|Token full name|
 |symbol|string|Token symbol short name|
 |updatedAt|integer|Token metadata fetched timestamp in UNIX millis.|
-|address|string|Token Ethereum contract address|
-
 
 
 
@@ -337,36 +340,33 @@ async def main() -> None:
 
 ``` json
 {
-  "orders": [
-    {
-      "createdAt": 1544614248000,
-      "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-      "marketId": "0x01e920e081b6f3b2e5183399d5b6733bb6f80319e6be3805b95cb7236910ff0e",
-      "orderHash": "0x4f4391f8ee11f656d0a9396370c6991f59c4bb491214e8b6ab2011a1bcf1c44e",
-      "orderSide": "buy",
-      "price": "0.000000003156",
-      "quantity": "28000000000000000.00000000000000000",
-      "state": "partial_filled",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "triggerPrice": "0",
-      "unfilledQuantity": "28000000000000000.00000000000000000",
-      "updatedAt": 1544614248000
-    },
-    {
-      "createdAt": 1544614248000,
-      "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-      "marketId": "0x01e920e081b6f3b2e5183399d5b6733bb6f80319e6be3805b95cb7236910ff0e",
-      "orderHash": "0x4f4391f8ee11f656d0a9396370c6991f59c4bb491214e8b6ab2011a1bcf1c44e",
-      "orderSide": "buy",
-      "price": "0.000000003156",
-      "quantity": "28000000000000000.00000000000000000",
-      "state": "partial_filled",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "triggerPrice": "0",
-      "unfilledQuantity": "28000000000000000.00000000000000000",
-      "updatedAt": 1544614248000
-    },
-  ]
+"orders": {
+  "order_hash": "0xb0704040d8a2005fc5154f8e7fd7bcc013a6e40b8f6ec79ac2235740a57e7d32",
+  "order_side": "buy",
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "subaccount_id": "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000",
+  "price": "0.000000000007523",
+  "quantity": "10000000000000000",
+  "unfilled_quantity": "10000000000000000",
+  "trigger_price": "0",
+  "fee_recipient": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+  "state": "booked",
+  "created_at": 1633720869740
+},
+"orders": {
+  "order_hash": "0xd5c94c3e7fbf7eaa6a1a3f831accc10929932315d06114bd7bd810ded4628590",
+  "order_side": "buy",
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "subaccount_id": "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000",
+  "price": "0.000000000007523",
+  "quantity": "10000000000000000",
+  "unfilled_quantity": "10000000000000000",
+  "trigger_price": "0",
+  "fee_recipient": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+  "state": "booked",
+  "created_at": 1633720644128
+}
+
 }
 ```
 
@@ -378,18 +378,17 @@ SpotLimitOrder:
 
 |Parameter|Type|Description|
 |----|----|----|
-|unfilledQuantity|string|The amount of the quantity remaining unfilled|
-|createdAt|integer|Order committed timestamp in UNIX millis.|
-|marketId|string|Spot Market ID is keccak265(baseDenom + quoteDenom)|
-|orderHash|string|Hash of the order|
-|orderSide|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
+|unfilled_quantity|string|The amount of the quantity remaining unfilled|
+|market_id|string|Spot Market ID is keccak265(baseDenom + quoteDenom)|
+|order_hash|string|Hash of the order|
+|order_side|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
 |state|string|Order state (Should be one of: [booked partial_filled filled canceled]) |
-|subaccountId|string|The subaccountId that this order belongs to|
-|feeRecipient|string|Fee recipient address|
+|subaccount_id|string|The subaccountId that this order belongs to|
+|fee_recipient|string|Fee recipient address|
 |price|string|Price of the order|
 |quantity|string|Quantity of the order|
-|triggerPrice|string|Trigger price is the trigger price used by stop/take orders. 0 if the trigger price is not set.|
-|updatedAt|integer|Order updated timestamp in UNIX millis.|
+|trigger_price|string|Trigger price is the trigger price used by stop/take orders. 0 if the trigger price is not set.|
+|created_at|integer|Order committed timestamp in UNIX millis.|
 
 
 
@@ -430,47 +429,65 @@ async def main() -> None:
 
 ``` json
 {
-  "operationType": "update",
-  "order": {
-    "createdAt": 1544614248000,
-    "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-    "marketId": "0x01e920e081b6f3b2e5183399d5b6733bb6f80319e6be3805b95cb7236910ff0e",
-    "orderHash": "0x4f4391f8ee11f656d0a9396370c6991f59c4bb491214e8b6ab2011a1bcf1c44e",
-    "orderSide": "buy",
-    "price": "0.000000003156",
-    "quantity": "28000000000000000.00000000000000000",
-    "state": "partial_filled",
-    "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-    "triggerPrice": "0",
-    "unfilledQuantity": "28000000000000000.00000000000000000",
-    "updatedAt": 1544614248000
-  },
-  "timestamp": 1544614248000
+"order": {
+  "order_hash": "0x1f07217915afff20f9fb6819ff265c260c65ab75743ea72ca3dcbe275872951b",
+  "order_side": "sell",
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+  "price": "0.00000000001318",
+  "quantity": "46000000000000000000",
+  "unfilled_quantity": "0",
+  "trigger_price": "0",
+  "fee_recipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
+  "state": "filled",
+  "created_at": 1634819677953,
+  "updated_at": 1634820261139
+},
+"operation_type": "update",
+"timestamp": 1634820263000,
+
+"order": {
+  "order_hash": "0x1074fc29ae8d41d00e5483a8116937c7059d57527c654272c1216b6e5de72134",
+  "order_side": "sell",
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+  "price": "0.000000000013186",
+  "quantity": "40000000000000000000",
+  "unfilled_quantity": "0",
+  "trigger_price": "0",
+  "fee_recipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
+  "state": "filled",
+  "created_at": 1634819677953,
+  "updated_at": 1634820305633,
+},
+"operation_type": "update",
+"timestamp": 1634820307000
+
 }
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
-|operationType|string|Order update type (Should be one of: [insert replace update invalidate]) |
 |order|SpotLimitOrder||
+|operation_type|string|Order update type (Should be one of: [insert replace update invalidate]) |
 |timestamp|integer|Operation timestamp in UNIX millis.|
 
 SpotLimitOrder:
 
 |Parameter|Type|Description|
 |----|----|----|
-|unfilledQuantity|string|The amount of the quantity remaining unfilled|
-|createdAt|integer|Order committed timestamp in UNIX millis.|
-|marketId|string|Spot Market ID is keccak265(baseDenom + quoteDenom)|
-|orderHash|string|Hash of the order|
-|orderSide|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
+|unfilled_quantity|string|The amount of the quantity remaining unfilled|
+|market_id|string|Spot Market ID is keccak265(baseDenom + quoteDenom)|
+|order_hash|string|Hash of the order|
+|order_side|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
 |state|string|Order state (Should be one of: [booked partial_filled filled canceled]) |
-|subaccountId|string|The subaccountId that this order belongs to|
-|feeRecipient|string|Fee recipient address|
+|subaccount_id|string|The subaccountId that this order belongs to|
+|fee_recipient|string|Fee recipient address|
 |price|string|Price of the order|
 |quantity|string|Quantity of the order|
-|triggerPrice|string|Trigger price is the trigger price used by stop/take orders. 0 if the trigger price is not set.|
-|updatedAt|integer|Order updated timestamp in UNIX millis.|
+|trigger_price|string|Trigger price is the trigger price used by stop/take orders. 0 if the trigger price is not set.|
+|created_at|integer|Order committed timestamp in UNIX millis.|
+
 
 ## Trades
 
@@ -512,22 +529,35 @@ async def main() -> None:
 
 ``` json
 {
-  "trades": [
-    {
-      "executedAt": 1544614248000,
-      "fee": "1960000000000000",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "orderHash": "0x482ce078117d4835fe005b643056d2d3f439e3010db40f68449d9e5b77e911bc",
-      "price": {
-        "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
-      },
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "tradeDirection": "buy",
-      "tradeExecutionType": "market"
-    },
-  ]
+"trades": {
+  "order_hash": "0x4e3068bfad0050d38908fd6604190c45c24633b462b886aac377023007276f70",
+  "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "trade_execution_type": "limitFill",
+  "trade_direction": "sell",
+  "price": {
+    "price": "0.000000000013512",
+    "quantity": "18000000000000000000",
+    "timestamp": 1634818491163
+  },
+  "fee": "243216",
+  "executed_at": 1634818491163
+},
+"trades": {
+  "order_hash": "0xc3085f4a23a0303f69aac5ee47914acb6257b10e844ea97281e0c422b8611109",
+  "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "trade_execution_type": "market",
+  "trade_direction": "buy",
+  "price": {
+    "price": "0.000000000013406",
+    "quantity": "30000000000000000000",
+    "timestamp": 1634818450613
+  },
+  "fee": "804360",
+  "executed_at": 1634818450613
+}
+
 }
 ```
 
@@ -539,14 +569,14 @@ SpotTrade:
 
 |Parameter|Type|Description|
 |----|----|----|
-|tradeDirection|string|The direction the trade (Should be one of: [buy sell]) |
-|tradeExecutionType|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
-|executedAt|integer|Timestamp of trade execution in UNIX millis|
+|trade_direction|string|The direction the trade (Should be one of: [buy sell]) |
+|trade_execution_type|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
 |fee|string|The fee associated with the trade (quote asset denom)|
-|marketId|string|The ID of the market that this trade is in|
-|orderHash|string|Maker order hash.|
+|market_id|string|The ID of the market that this trade is in|
+|order_hash|string|Maker order hash.|
 |price|PriceLevel||
-|subaccountId|string|The subaccountId that executed the trade|
+|subaccount_id|string|The subaccountId that executed the trade|
+|executed_at|integer|Timestamp of trade execution in UNIX millis|
 
 PriceLevel:
 
@@ -618,7 +648,7 @@ async def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|operationType|string|Executed trades update type (Should be one of: [insert invalidate]) |
+|operation_type|string|Executed trades update type (Should be one of: [insert invalidate]) |
 |timestamp|integer|Operation timestamp in UNIX millis.|
 |trade|SpotTrade||
 
@@ -626,22 +656,22 @@ SpotTrade:
 
 |Parameter|Type|Description|
 |----|----|----|
+|trade_direction|string|The direction the trade (Should be one of: [buy sell]) |
+|trade_execution_type|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
 |fee|string|The fee associated with the trade (quote asset denom)|
-|marketId|string|The ID of the market that this trade is in|
-|orderHash|string|Maker order hash.|
+|market_id|string|The ID of the market that this trade is in|
+|order_hash|string|Maker order hash.|
 |price|PriceLevel||
-|subaccountId|string|The subaccountId that executed the trade|
-|tradeDirection|string|The direction the trade (Should be one of: [buy sell]) |
-|tradeExecutionType|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
-|executedAt|integer|Timestamp of trade execution in UNIX millis|
+|subaccount_id|string|The subaccountId that executed the trade|
+|executed_at|integer|Timestamp of trade execution in UNIX millis|
 
 PriceLevel:
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|string|Price number of the price level|
-|quantity|string|Quantity of the price level|
-|timestamp|integer|Price level last updated timestamp in UNIX millis|
+|price|string|Price number of the price level.|
+|quantity|string|Quantity of the price level.|
+|timestamp|integer|Price level last updated timestamp in UNIX millis.|
 
 ## Orderbook
 
@@ -769,7 +799,6 @@ async def main() -> None:
 
 ``` json
 {
-  "operationType": "update",
   "orderbook": {
     "buys": [
       {
@@ -789,13 +818,14 @@ async def main() -> None:
       },
     ]
   },
+  "operationType": "update",
   "timestamp": 1544614248000
 }
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
-|operationType|string|Order update type (Should be one of: [insert replace update invalidate]) |
+|operation_type|string|Order update type (Should be one of: [insert replace update invalidate]) |
 |orderbook|SpotLimitOrderbook||
 |timestamp|integer|Operation timestamp in UNIX millis.|
 
@@ -850,36 +880,33 @@ async def main() -> None:
 
 ``` json
 {
-  "orders": [
-    {
-      "createdAt": 1544614248000,
-      "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-      "marketId": "0x01e920e081b6f3b2e5183399d5b6733bb6f80319e6be3805b95cb7236910ff0e",
-      "orderHash": "0x4f4391f8ee11f656d0a9396370c6991f59c4bb491214e8b6ab2011a1bcf1c44e",
-      "orderSide": "buy",
-      "price": "0.000000003156",
-      "quantity": "28000000000000000.00000000000000000",
-      "state": "partial_filled",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "triggerPrice": "0",
-      "unfilledQuantity": "28000000000000000.00000000000000000",
-      "updatedAt": 1544614248000
-    },
-    {
-      "createdAt": 1544614248000,
-      "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-      "marketId": "0x01e920e081b6f3b2e5183399d5b6733bb6f80319e6be3805b95cb7236910ff0e",
-      "orderHash": "0x4f4391f8ee11f656d0a9396370c6991f59c4bb491214e8b6ab2011a1bcf1c44e",
-      "orderSide": "buy",
-      "price": "0.000000003156",
-      "quantity": "28000000000000000.00000000000000000",
-      "state": "partial_filled",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "triggerPrice": "0",
-      "unfilledQuantity": "28000000000000000.00000000000000000",
-      "updatedAt": 1544614248000
-    },
-  ]
+"orders": {
+  "order_hash": "0x89d99cc898fdd6746c89c82e38adf935a3400181a0b9502daa6b4845e3447dfa",
+  "order_side": "buy",
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "price": "0.000000000005",
+  "quantity": "1000000000000000000",
+  "unfilled_quantity": "1000000000000000000",
+  "trigger_price": "0",
+  "fee_recipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+  "state": "booked",
+  "created_at": 1634813876780
+},
+"orders": {
+  "order_hash": "0xf43af77013733ec274194b9b7d344933db0977eec154e391d3db7316fd38fe95",
+  "order_side": "buy",
+  "market_id": "0x51092ddec80dfd0d41fee1a7d93c8465de47cd33966c8af8ee66c14fe341a545",
+  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "price": "0.000000000001",
+  "quantity": "1000000000000000000",
+  "unfilled_quantity": "1000000000000000000",
+  "trigger_price": "0",
+  "fee_recipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+  "state": "booked",
+  "created_at": 1616059590812
+}
+
 }
 ```
 
@@ -892,18 +919,16 @@ SpotLimitOrder:
 |Parameter|Type|Description|
 |----|----|----|
 |state|string|Order state (Should be one of: [booked partial_filled filled canceled]) |
-|subaccountId|string|The subaccountId that this order belongs to|
-|unfilledQuantity|string|The amount of the quantity remaining unfilled|
-|createdAt|integer|Order committed timestamp in UNIX millis.|
-|marketId|string|Spot Market ID is keccak265(baseDenom + quoteDenom)|
-|orderHash|string|Hash of the order|
-|orderSide|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
-|updatedAt|integer|Order updated timestamp in UNIX millis.|
-|feeRecipient|string|Fee recipient address|
+|subaccount_id|string|The subaccountId that this order belongs to|
+|unfilled_quantity|string|The amount of the quantity remaining unfilled|
+|market_id|string|Spot Market ID is keccak265(baseDenom + quoteDenom)|
+|order_hash|string|Hash of the order|
+|order_side|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
+|fee_recipient|string|Fee recipient address|
 |price|string|Price of the order|
 |quantity|string|Quantity of the order|
-|triggerPrice|string|Trigger price is the trigger price used by stop/take orders. 0 if the trigger price is not set.|
-
+|trigger_price|string|Trigger price is the trigger price used by stop/take orders. 0 if the trigger price is not set.|
+|created_at|integer|Order committed timestamp in UNIX millis.|
 
 
 ## SubaccountTradesList
@@ -944,36 +969,35 @@ async def main() -> None:
 
 ``` json
 {
-  "trades": [
-    {
-      "executedAt": 1544614248000,
-      "fee": "1960000000000000",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "orderHash": "0x482ce078117d4835fe005b643056d2d3f439e3010db40f68449d9e5b77e911bc",
-      "price": {
-        "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
-      },
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "tradeDirection": "buy",
-      "tradeExecutionType": "market"
-    },
-    {
-      "executedAt": 1544614248000,
-      "fee": "1960000000000000",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "orderHash": "0x482ce078117d4835fe005b643056d2d3f439e3010db40f68449d9e5b77e911bc",
-      "price": {
-        "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
-      },
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "tradeDirection": "buy",
-      "tradeExecutionType": "market"
-    }
-  ]
+"trades": {
+  "order_hash": "0x66616966cb813a4fd89603f3bfe9a762db659b6a5890ba8572925e22e727dafe",
+  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "trade_execution_type": "limitMatchRestingOrder",
+  "trade_direction": "buy",
+  "price": {
+    "price": "0.000000000010952",
+    "quantity": "650000000000000000000",
+    "timestamp": 1633088740309
+  },
+  "fee": "7118800",
+  "executed_at": 1633088740309
+},
+"trades": {
+  "order_hash": "0x66616966cb813a4fd89603f3bfe9a762db659b6a5890ba8572925e22e727dafe",
+  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "trade_execution_type": "limitMatchRestingOrder",
+  "trade_direction": "buy",
+  "price": {
+    "price": "0.000000000010965",
+    "quantity": "650000000000000000000",
+    "timestamp": 1633088723991
+  },
+  "fee": "7127250",
+  "executed_at": 1633088723991
+}
+
 }
 ```
 
@@ -986,13 +1010,13 @@ SpotTrade:
 |Parameter|Type|Description|
 |----|----|----|
 |price|PriceLevel||
-|subaccountId|string|The subaccountId that executed the trade|
-|tradeDirection|string|The direction the trade (Should be one of: [buy sell]) |
-|tradeExecutionType|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
-|executedAt|integer|Timestamp of trade execution in UNIX millis|
+|subaccount_id|string|The subaccountId that executed the trade|
+|trade_direction|string|The direction the trade (Should be one of: [buy sell]) |
+|trade_execution_type|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
 |fee|string|The fee associated with the trade (quote asset denom)|
-|marketId|string|The ID of the market that this trade is in|
-|orderHash|string|Maker order hash.|
+|market_id|string|The ID of the market that this trade is in|
+|order_hash|string|Maker order hash.|
+|executed_at|integer|Timestamp of trade execution in UNIX millis|
 
 PriceLevel:
 

@@ -70,60 +70,60 @@ Includes all the messages related to accounts and transfers.
 "txhash": "ED1A31933449525712EEFB2B27929117E291CC81E0827233E5C892F5D03EB9AB",
 "data": "0A1E0A1C2F636F736D6F732E62616E6B2E763162657461312E4D736753656E64",
 "raw_log": "[{\"events\":[{\"type\":\"coin_received\",\"attributes\":[{\"key\":\"receiver\",\"value\":\"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku\"},{\"key\":\"amount\",\"value\":\"1000000000000000000inj\"}]},{\"type\":\"coin_spent\",\"attributes\":[{\"key\":\"spender\",\"value\":\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\"},{\"key\":\"amount\",\"value\":\"1000000000000000000inj\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.bank.v1beta1.MsgSend\"},{\"key\":\"sender\",\"value\":\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\"},{\"key\":\"module\",\"value\":\"bank\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku\"},{\"key\":\"sender\",\"value\":\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\"},{\"key\":\"amount\",\"value\":\"1000000000000000000inj\"}]}]}]",
-"logs" {
-  "events" {
+"logs": {
+  "events": {
     "type": "coin_received",
-    "attributes" {
+    "attributes": {
       "key": "receiver",
       "value": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "amount",
       "value": "1000000000000000000inj"
     }
-  }
-  "events" {
+  },
+  "events": {
     "type": "coin_spent",
-    "attributes" {
+    "attributes": {
       "key": "spender",
       "value": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "amount",
       "value": "1000000000000000000inj"
     }
-  }
-  "events" {
+  },
+  "events": {
     "type": "message",
-    "attributes" {
+    "attributes": {
       "key": "action",
       "value": "/cosmos.bank.v1beta1.MsgSend"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "sender",
       "value": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "module",
       "value": "bank"
     }
-  }
-  "events" {
+  },
+  "events": {
     "type": "transfer",
-    "attributes" {
+    "attributes": {
       "key": "recipient",
       "value": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "sender",
       "value": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "amount",
       "value": "1000000000000000000inj"
     }
   }
-}
+},
 "gas_wanted": "200000",
 "gas_used": "86357"
 
@@ -199,71 +199,71 @@ Includes all the messages related to accounts and transfers.
 "txhash": "E2E0A4F8DF9E6C93DACF591A542B5677B70D17E3E46418668CE39828E3694DC6",
 "data": "0A280A262F696E6A6563746976652E65786368616E67652E763162657461312E4D73674465706F736974",
 "raw_log": "[{\"events\":[{\"type\":\"coin_received\",\"attributes\":[{\"key\":\"receiver\",\"value\":\"inj14vnmw2wee3xtrsqfvpcqg35jg9v7j2vdpzx0kk\"},{\"key\":\"amount\",\"value\":\"1000000000000000000inj\"}]},{\"type\":\"coin_spent\",\"attributes\":[{\"key\":\"spender\",\"value\":\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\"},{\"key\":\"amount\",\"value\":\"1000000000000000000inj\"}]},{\"type\":\"injective.exchange.v1beta1.EventSubaccountDeposit\",\"attributes\":[{\"key\":\"amount\",\"value\":\"{\\\"denom\\\":\\\"inj\\\",\\\"amount\\\":\\\"1000000000000000000\\\"}\"},{\"key\":\"src_address\",\"value\":\"\\\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\\\"\"},{\"key\":\"subaccount_id\",\"value\":\"\\\"va7eyV1WP7BSQNbgGCEAhFTCTDYAAAAAAAAAAAAAAAA=\\\"\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/injective.exchange.v1beta1.MsgDeposit\"},{\"key\":\"sender\",\"value\":\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"inj14vnmw2wee3xtrsqfvpcqg35jg9v7j2vdpzx0kk\"},{\"key\":\"sender\",\"value\":\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\"},{\"key\":\"amount\",\"value\":\"1000000000000000000inj\"}]}]}]",
-"logs" {
-  "events" {
+"logs": {
+  "events": {
     "type": "coin_received",
-    "attributes" {
+    "attributes": {
       "key": "receiver",
       "value": "inj14vnmw2wee3xtrsqfvpcqg35jg9v7j2vdpzx0kk"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "amount",
       "value": "1000000000000000000inj"
     }
-  }
-  "events" {
+  },
+  "events": {
     "type": "coin_spent",
-    "attributes" {
+    "attributes": {
       "key": "spender",
       "value": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "amount",
       "value": "1000000000000000000inj"
     }
-  }
-  "events" {
+  },
+  "events": {
     "type": "injective.exchange.v1beta1.EventSubaccountDeposit",
-    "attributes" {
+    "attributes": {
       "key": "amount",
       "value": "{\"denom\":\"inj\",\"amount\":\"1000000000000000000\"}"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "src_address",
       "value": "\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\""
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "subaccount_id",
       "value": "\"va7eyV1WP7BSQNbgGCEAhFTCTDYAAAAAAAAAAAAAAAA=\""
     }
-  }
-  "events" {
+  },
+  "events": {
     "type": "message",
-    "attributes" {
+    "attributes": {
       "key": "action",
       "value": "/injective.exchange.v1beta1.MsgDeposit"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "sender",
       "value": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
     }
-  }
-  "events" {
+  },
+  "events": {
     "type": "transfer",
-    "attributes" {
+    "attributes": {
       "key": "recipient",
       "value": "inj14vnmw2wee3xtrsqfvpcqg35jg9v7j2vdpzx0kk"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "sender",
       "value": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "amount",
       "value": "1000000000000000000inj"
     }
   }
-}
+},
 "gas_wanted": "200000",
 "gas_used": "93162"
 
@@ -338,71 +338,71 @@ Includes all the messages related to accounts and transfers.
 "txhash": "1E015C6B0D3CEFA5C9729415E4462B3BF2EF56F9D01E68C0653658F00B1D8A5E",
 "data": "0A290A272F696E6A6563746976652E65786368616E67652E763162657461312E4D73675769746864726177",
 "raw_log": "[{\"events\":[{\"type\":\"coin_received\",\"attributes\":[{\"key\":\"receiver\",\"value\":\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\"},{\"key\":\"amount\",\"value\":\"1000000000000000000inj\"}]},{\"type\":\"coin_spent\",\"attributes\":[{\"key\":\"spender\",\"value\":\"inj14vnmw2wee3xtrsqfvpcqg35jg9v7j2vdpzx0kk\"},{\"key\":\"amount\",\"value\":\"1000000000000000000inj\"}]},{\"type\":\"injective.exchange.v1beta1.EventSubaccountWithdraw\",\"attributes\":[{\"key\":\"dst_address\",\"value\":\"\\\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\\\"\"},{\"key\":\"amount\",\"value\":\"{\\\"denom\\\":\\\"inj\\\",\\\"amount\\\":\\\"1000000000000000000\\\"}\"},{\"key\":\"subaccount_id\",\"value\":\"\\\"va7eyV1WP7BSQNbgGCEAhFTCTDYAAAAAAAAAAAAAAAA=\\\"\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/injective.exchange.v1beta1.MsgWithdraw\"},{\"key\":\"sender\",\"value\":\"inj14vnmw2wee3xtrsqfvpcqg35jg9v7j2vdpzx0kk\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\"},{\"key\":\"sender\",\"value\":\"inj14vnmw2wee3xtrsqfvpcqg35jg9v7j2vdpzx0kk\"},{\"key\":\"amount\",\"value\":\"1000000000000000000inj\"}]}]}]",
-"logs" {
-  "events" {
+"logs": {
+  "events": {
     "type": "coin_received",
-    "attributes" {
+    "attributes": {
       "key": "receiver",
       "value": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "amount",
       "value": "1000000000000000000inj"
     }
-  }
-  "events" {
+  },
+  "events": {
     "type": "coin_spent",
-    "attributes" {
+    "attributes": {
       "key": "spender",
       "value": "inj14vnmw2wee3xtrsqfvpcqg35jg9v7j2vdpzx0kk"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "amount",
       "value": "1000000000000000000inj"
     }
-  }
-  "events" {
+  },
+  "events": {
     "type": "injective.exchange.v1beta1.EventSubaccountWithdraw",
-    "attributes" {
+    "attributes": {
       "key": "dst_address",
       "value": "\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\""
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "amount",
       "value": "{\"denom\":\"inj\",\"amount\":\"1000000000000000000\"}"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "subaccount_id",
       "value": "\"va7eyV1WP7BSQNbgGCEAhFTCTDYAAAAAAAAAAAAAAAA=\""
     }
-  }
-  "events" {
+  },
+  "events": {
     "type": "message",
-    "attributes" {
+    "attributes": {
       "key": "action",
       "value": "/injective.exchange.v1beta1.MsgWithdraw"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "sender",
       "value": "inj14vnmw2wee3xtrsqfvpcqg35jg9v7j2vdpzx0kk"
     }
-  }
-  "events" {
+  },
+  "events": {
     "type": "transfer",
-    "attributes" {
+    "attributes": {
       "key": "recipient",
       "value": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "sender",
       "value": "inj14vnmw2wee3xtrsqfvpcqg35jg9v7j2vdpzx0kk"
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "amount",
       "value": "1000000000000000000inj"
     }
   }
-}
+},
 "gas_wanted": "200000",
 "gas_used": "91833"
 }
@@ -481,30 +481,30 @@ Includes all the messages related to accounts and transfers.
 "txhash": "4D1EA75A18B967F3A5E35277DFF03D724D85A1DB77168F562CC26AD4C1BE0EA3",
 "data": "0A330A312F696E6A6563746976652E65786368616E67652E763162657461312E4D73675375626163636F756E745472616E73666572",
 "raw_log": "[{\"events\":[{\"type\":\"injective.exchange.v1beta1.EventSubaccountBalanceTransfer\",\"attributes\":[{\"key\":\"src_subaccount_id\",\"value\":\"\\\"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000\\\"\"},{\"key\":\"dst_subaccount_id\",\"value\":\"\\\"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000001\\\"\"},{\"key\":\"amount\",\"value\":\"{\\\"denom\\\":\\\"inj\\\",\\\"amount\\\":\\\"1000000000000000000\\\"}\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/injective.exchange.v1beta1.MsgSubaccountTransfer\"}]}]}]",
-"logs" {
-  "events" {
+"logs": {
+  "events": {
     "type": "injective.exchange.v1beta1.EventSubaccountBalanceTransfer",
-    "attributes" {
+    "attributes": {
       "key": "src_subaccount_id",
       "value": "\"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000\""
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "dst_subaccount_id",
       "value": "\"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000001\""
-    }
-    "attributes" {
+    },
+    "attributes": {
       "key": "amount",
       "value": "{\"denom\":\"inj\",\"amount\":\"1000000000000000000\"}"
     }
-  }
-  "events" {
+  },
+  "events": {
     "type": "message",
-    "attributes" {
+    "attributes": {
       "key": "action",
       "value": "/injective.exchange.v1beta1.MsgSubaccountTransfer"
     }
   }
-}
+},
 "gas_wanted": "200000",
 "gas_used": "86552"
 

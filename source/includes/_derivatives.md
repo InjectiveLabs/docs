@@ -83,12 +83,12 @@ Includes all the messages related to derivative markets.
 {
 
 "simulation msg response"
-["order_hash:" "0x6cc1c3d7653a1b526a332024b12b5e09d0ff306ce842d1ebb3599faff23b06fd"]
+"order_hash": "0x6cc1c3d7653a1b526a332024b12b5e09d0ff306ce842d1ebb3599faff23b06fd",
 "tx response"
-"txhash:" "E1C0F4B6C2F0AF2C256373AB648F58E3F63DEA1BCD2EB5AD323002E99DF83B4D"
+"txhash": "E1C0F4B6C2F0AF2C256373AB648F58E3F63DEA1BCD2EB5AD323002E99DF83B4D",
 
-"tx msg response"
-[]
+"tx msg response":
+"[]"
 
 }
 ```
@@ -176,11 +176,11 @@ Includes all the messages related to derivative markets.
 {
 
 "simulation msg response"
-["order_hash:" "0x0531e3c17cbdc5c535a0a0cfa20d354187ee1256236c3a7d47db227b107aa6dd"]
+"order_hash": "0x0531e3c17cbdc5c535a0a0cfa20d354187ee1256236c3a7d47db227b107aa6dd",
 "tx response"
-"txhash:" "95AE4D127F8F6FB4C2ACA0D5063624B124B938B298E4661FB3C5FE1F53A2A90F",
+"txhash": "95AE4D127F8F6FB4C2ACA0D5063624B124B938B298E4661FB3C5FE1F53A2A90F",
 
-"tx msg response"
+"tx msg response":
 "[]"
 
 }
@@ -255,7 +255,7 @@ Includes all the messages related to derivative markets.
 {
 
 "tx response"
-"txhash:" "20A3DC0B931D54DC20991FE2727249DBB2CFB00364C03DAAD4099263871F5D0D"
+"txhash": "20A3DC0B931D54DC20991FE2727249DBB2CFB00364C03DAAD4099263871F5D0D"
 
 }
 
@@ -365,12 +365,12 @@ orders:
 {
 
 "simulation msg response"
-["order_hashes:" "0xfcbedb1f8135204e7d8b8e6e683042e61834435fb7841b9ef243ef7196ec6938",
-"order_hashes:" "0x0d19f6a10ad017abeac1b14070fec5d044128e40902085654f4da4055a8f6510"]
+"order_hashes": "0xfcbedb1f8135204e7d8b8e6e683042e61834435fb7841b9ef243ef7196ec6938",
+"order_hashes": "0x0d19f6a10ad017abeac1b14070fec5d044128e40902085654f4da4055a8f6510",
 "tx response"
-"txhash:" "B74104A1EC4C7000C421236D78EE29157DE1B857268EC834024BD44401B2B9B2"
+"txhash": "B74104A1EC4C7000C421236D78EE29157DE1B857268EC834024BD44401B2B9B2",
 
-"tx msg response"
+"tx msg response":
 "[]"
 
 }
@@ -468,12 +468,12 @@ orders:
 {
 
 "simulation msg response"
-["success:" "true"
-"success:" "true"]
+"success": "true",
+"success": "true",
 "tx response"
-"txhash:" "03F2EE49F66731C8DA70958093F0EDF24D046EF31AED3A0C79D639D67F7A1ADB"
+"txhash": "03F2EE49F66731C8DA70958093F0EDF24D046EF31AED3A0C79D639D67F7A1ADB",
 
-"tx msg response"
+"tx msg response":
 "[]"
 
 }
@@ -552,15 +552,15 @@ orders:
 "txhash": "54AA465B6FEABE1A08BDD0AD156D5FE9E4AE43AF453CE6E5B6449D233BAEA05F",
 "data": "0A370A352F696E6A6563746976652E65786368616E67652E763162657461312E4D7367496E637265617365506F736974696F6E4D617267696E",
 "raw_log": "[{\"events\":[{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/injective.exchange.v1beta1.MsgIncreasePositionMargin\"}]}]}]",
-"logs" {
-  "events" {
+"logs": {
+  "events": {
     "type": "message",
-    "attributes" {
+    "attributes": {
       "key": "action",
       "value": "/injective.exchange.v1beta1.MsgIncreasePositionMargin"
     }
   }
-}
+},
 "gas_wanted": "200000",
 "gas_used": "91580"
 

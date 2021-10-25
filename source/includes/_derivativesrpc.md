@@ -36,46 +36,42 @@ async def main() -> None:
 ``` json
 {
   "market": {
-    "expiryFuturesMarketInfo": {
-      "expirationTimestamp": 1544614248,
-      "settlementPrice": "0.05"
-    },
-    "initialMarginRatio": "0.05",
-    "isPerpetual": false,
-    "maintenanceMarginRatio": "0.025",
-    "makerFeeRate": "0.001",
-    "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-    "marketStatus": "active",
-    "minPriceTickSize": "0.001",
-    "minQuantityTickSize": "0.001",
-    "oracleBase": "inj-band",
-    "oracleQuote": "usdt-band",
-    "oracleScaleFactor": 6,
-    "oracleType": "band",
-    "perpetualMarketFunding": {
-      "cumulativeFunding": "0.05",
-      "cumulativePrice": "-22.93180251",
-      "lastTimestamp": 1622930400
-    },
-    "perpetualMarketInfo": {
-      "fundingInterval": 3600,
-      "hourlyFundingRateCap": "0.000625",
-      "hourlyInterestRate": "0.00000416666",
-      "nextFundingTimestamp": 1622930400
-    },
-    "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "quoteTokenMeta": {
-      "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "decimals": 18,
-      "logo": "https://static.alchemyapi.io/images/assets/825.png",
-      "name": "Tether",
-      "symbol": "USDT",
-      "updatedAt": 1544614248000
-    },
-    "serviceProviderFee": "0.4",
-    "takerFeeRate": "0.002",
-    "ticker": "INJ/USDC"
+  "market_id": "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
+  "market_status": "active",
+  "ticker": "BTC/USDT",
+  "oracle_base": "BTC",
+  "oracle_quote": "USD",
+  "oracle_type": "coinbase",
+  "oracle_scale_factor": 6,
+  "initial_margin_ratio": "0.05",
+  "maintenance_margin_ratio": "0.02",
+  "quote_denom": "peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+  "quote_token_meta": {
+    "name": "Tether",
+    "address": "0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+    "symbol": "USDT",
+    "logo": "https://static.alchemyapi.io/images/assets/825.png",
+    "decimals": 6,
+    "updated_at": 1632535056616
+  },
+  "maker_fee_rate": "0.001",
+  "taker_fee_rate": "0.002",
+  "service_provider_fee": "0.4",
+  "is_perpetual": true,
+  "min_price_tick_size": "1000",
+  "min_quantity_tick_size": "0.01",
+  "perpetual_market_info": {
+    "hourly_funding_rate_cap": "0.000625",
+    "hourly_interest_rate": "0.00000416666",
+    "next_funding_timestamp": 1634806800,
+    "funding_interval": 3600
+  },
+  "perpetual_market_funding": {
+    "cumulative_funding": "0.675810253053067335",
+    "cumulative_price": "20.137372841146815096",
+    "last_timestamp": 1634806754
   }
+}
 }
 ```
 
@@ -87,59 +83,52 @@ DerivativeMarketInfo:
 
 |Parameter|Type|Description|
 |----|----|----|
-|oracleQuote|string|Oracle quote currency|
-|oracleType|string|Oracle Type|
-|quoteDenom|string|Coin denom used for the quote asset.|
-|isPerpetual|boolean|True if the market is a perpetual swap market|
-|makerFeeRate|string|Defines the fee percentage makers pay when trading (in quote asset)|
-|minPriceTickSize|string|Defines the minimum required tick size for the order's price|
-|minQuantityTickSize|string|Defines the minimum required tick size for the order's quantity|
-|oracleScaleFactor|integer|OracleScaleFactor|
-|takerFeeRate|string|Defines the fee percentage takers pay when trading (in quote asset)|
-|expiryFuturesMarketInfo|ExpiryFuturesMarketInfo||
-|initialMarginRatio|string|Defines the initial margin ratio of a derivative market|
-|marketStatus|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
-|serviceProviderFee|string|Percentage of the transaction fee shared with the service provider|
-|oracleBase|string|Oracle base currency|
-|perpetualMarketFunding|PerpetualMarketFunding||
-|perpetualMarketInfo|PerpetualMarketInfo||
+|oracle_quote|string|Oracle quote currency|
+|oracle_type|string|Oracle Type|
+|quote_denom|string|Coin denom used for the quote asset.|
+|is_perpetual|boolean|True if the market is a perpetual swap market|
+|maker_fee_rate|string|Defines the fee percentage makers pay when trading (in quote asset)|
+|min_price_tick_size|string|Defines the minimum required tick size for the order's price|
+|min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
+|oracle_scale_factor|integer|OracleScaleFactor|
+|taker_fee_rate|string|Defines the fee percentage takers pay when trading (in quote asset)|
+|expiry_futures_market_info|ExpiryFuturesMarketInfo||
+|initial_margin_ratio|string|Defines the initial margin ratio of a derivative market|
+|market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
+|service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
+|oracle_base|string|Oracle base currency|
+|perpetual_market_funding|PerpetualMarketFunding||
+|perpetual_market_info|PerpetualMarketInfo||
 |ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset.|
-|maintenanceMarginRatio|string|Defines the maintenance margin ratio of a derivative market|
-|marketId|string|DerivativeMarket ID is crypto.Keccak256Hash([]byte((oracleType.String() + ticker + quoteDenom + oracleBase + oracleQuote))) for perpetual markets and crypto.Keccak256Hash([]byte((oracleType.String() + ticker + quoteDenom + oracleBase + oracleQuote + strconv.Itoa(int(expiry))))) for expiry futures markets|
+|maintenance_margin_ratio|string|Defines the maintenance margin ratio of a derivative market|
+|market_id|string|DerivativeMarket ID|
 |quoteTokenMeta|TokenMeta||
-
-ExpiryFuturesMarketInfo:
-
-|Parameter|Type|Description|
-|----|----|----|
-|expirationTimestamp|integer|Defines the expiration time for a time expiry futures market in UNIX seconds.|
-|settlementPrice|string|Defines the settlement price for a time expiry futures market.|
 
 
 PerpetualMarketFunding:
 
 |Parameter|Type|Description|
 |----|----|----|
-|cumulativeFunding|string|Defines the cumulative funding of a perpetual market.|
-|cumulativePrice|string|Defines defines the cumulative price for the current hour up to the last timestamp.|
-|lastTimestamp|integer|Defines the last funding timestamp in seconds of a perpetual market in UNIX seconds.|
+|cumulative_funding|string|Defines the cumulative funding of a perpetual market.|
+|cumulative_price|string|Defines defines the cumulative price for the current hour up to the last timestamp.|
+|last_timestamp|integer|Defines the last funding timestamp in seconds of a perpetual market in UNIX seconds.|
 
 
 PerpetualMarketInfo:
 
 |Parameter|Type|Description|
 |----|----|----|
-|hourlyFundingRateCap|string|Defines the default maximum absolute value of the hourly funding rate of the perpetual market.|
-|hourlyInterestRate|string|Defines the hourly interest rate of the perpetual market.|
-|nextFundingTimestamp|integer|Defines the next funding timestamp in seconds of a perpetual market in UNIX seconds.|
-|fundingInterval|integer|Defines the funding interval in seconds of a perpetual market in seconds.|
+|hourly_funding_rate_cap|string|Defines the default maximum absolute value of the hourly funding rate of the perpetual market.|
+|hourly_interest_rate|string|Defines the hourly interest rate of the perpetual market.|
+|next_funding_timestamp|integer|Defines the next funding timestamp in seconds of a perpetual market in UNIX seconds.|
+|funding_interval|integer|Defines the funding interval in seconds of a perpetual market in seconds.|
 
 
 TokenMeta:
 
 |Parameter|Type|Description|
 |----|----|----|
-|updatedAt|integer|Token metadata fetched timestamp in UNIX millis.|
+|updated_at|integer|Token metadata fetched timestamp in UNIX millis.|
 |address|string|Token Ethereum contract address|
 |decimals|integer|Token decimals|
 |logo|string|URL to the logo image|
@@ -183,49 +172,43 @@ async def main() -> None:
 
 ``` json
 {
-  "markets": [
-    {
-      "expiryFuturesMarketInfo": {
-        "expirationTimestamp": 1544614248,
-        "settlementPrice": "0.05"
-      },
-      "initialMarginRatio": "0.05",
-      "isPerpetual": false,
-      "maintenanceMarginRatio": "0.025",
-      "makerFeeRate": "0.001",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "marketStatus": "active",
-      "minPriceTickSize": "0.001",
-      "minQuantityTickSize": "0.001",
-      "oracleBase": "inj-band",
-      "oracleQuote": "usdt-band",
-      "oracleScaleFactor": 6,
-      "oracleType": "band",
-      "perpetualMarketFunding": {
-        "cumulativeFunding": "0.05",
-        "cumulativePrice": "-22.93180251",
-        "lastTimestamp": 1622930400
-      },
-      "perpetualMarketInfo": {
-        "fundingInterval": 3600,
-        "hourlyFundingRateCap": "0.000625",
-        "hourlyInterestRate": "0.00000416666",
-        "nextFundingTimestamp": 1622930400
-      },
-      "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "quoteTokenMeta": {
-        "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        "decimals": 18,
-        "logo": "https://static.alchemyapi.io/images/assets/825.png",
-        "name": "Tether",
-        "symbol": "USDT",
-        "updatedAt": 1544614248000
-      },
-      "serviceProviderFee": "0.4",
-      "takerFeeRate": "0.002",
-      "ticker": "INJ/USDC"
-    }
-  ]
+  "markets": {
+  "market_id": "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
+  "market_status": "active",
+  "ticker": "BTC/USDT",
+  "oracle_base": "BTC",
+  "oracle_quote": "USD",
+  "oracle_type": "coinbase",
+  "oracle_scale_factor": 6,
+  "initial_margin_ratio": "0.05",
+  "maintenance_margin_ratio": "0.02",
+  "quote_denom": "peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+  "quote_token_meta": {
+    "name": "Tether",
+    "address": "0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+    "symbol": "USDT",
+    "logo": "https://static.alchemyapi.io/images/assets/825.png",
+    "decimals": 6,
+    "updated_at": 1632535056616
+  },
+  "maker_fee_rate": "0.001",
+  "taker_fee_rate": "0.002",
+  "service_provider_fee": "0.4",
+  "is_perpetual": true,
+  "min_price_tick_size": "1000",
+  "min_quantity_tick_size": "0.01",
+  "perpetual_market_info": {
+    "hourly_funding_rate_cap": "0.000625",
+    "hourly_interest_rate": "0.00000416666",
+    "next_funding_timestamp": 1634806800,
+    "funding_interval": 3600
+  },
+  "perpetual_market_funding": {
+    "cumulative_funding": "0.675810253053067335",
+    "cumulative_price": "20.137372841146815096",
+    "last_timestamp": 1634806754
+  }
+}
 }
 ```
 
@@ -237,64 +220,57 @@ DerivativeMarketInfo:
 
 |Parameter|Type|Description|
 |----|----|----|
-|oracleBase|string|Oracle base currency|
-|perpetualMarketFunding|PerpetualMarketFunding||
-|perpetualMarketInfo|PerpetualMarketInfo||
-|serviceProviderFee|string|Percentage of the transaction fee shared with the service provider|
-|maintenanceMarginRatio|string|Defines the maintenance margin ratio of a derivative market|
-|marketId|string|DerivativeMarket ID is crypto.Keccak256Hash([]byte((oracleType.String() + ticker + quoteDenom + oracleBase + oracleQuote))) for perpetual markets and crypto.Keccak256Hash([]byte((oracleType.String() + ticker + quoteDenom + oracleBase + oracleQuote + strconv.Itoa(int(expiry))))) for expiry futures markets|
-|quoteTokenMeta|TokenMeta||
+|oracle_quote|string|Oracle quote currency|
+|oracle_type|string|Oracle Type|
+|quote_denom|string|Coin denom used for the quote asset.|
+|is_perpetual|boolean|True if the market is a perpetual swap market|
+|maker_fee_rate|string|Defines the fee percentage makers pay when trading (in quote asset)|
+|min_price_tick_size|string|Defines the minimum required tick size for the order's price|
+|min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
+|oracle_scale_factor|integer|OracleScaleFactor|
+|taker_fee_rate|string|Defines the fee percentage takers pay when trading (in quote asset)|
+|expiry_futures_market_info|ExpiryFuturesMarketInfo||
+|initial_margin_ratio|string|Defines the initial margin ratio of a derivative market|
+|market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
+|service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
+|oracle_base|string|Oracle base currency|
+|perpetual_market_funding|PerpetualMarketFunding||
+|perpetual_market_info|PerpetualMarketInfo||
 |ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset.|
-|isPerpetual|boolean|True if the market is a perpetual swap market|
-|makerFeeRate|string|Defines the fee percentage makers pay when trading (in quote asset)|
-|minPriceTickSize|string|Defines the minimum required tick size for the order's price|
-|oracleQuote|string|Oracle quote currency|
-|oracleType|string|Oracle Type|
-|quoteDenom|string|Coin denom used for the quote asset.|
-|expiryFuturesMarketInfo|ExpiryFuturesMarketInfo||
-|initialMarginRatio|string|Defines the initial margin ratio of a derivative market|
-|marketStatus|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
-|minQuantityTickSize|string|Defines the minimum required tick size for the order's quantity|
-|oracleScaleFactor|integer|OracleScaleFactor|
-|takerFeeRate|string|Defines the fee percentage takers pay when trading (in quote asset)|
+|maintenance_margin_ratio|string|Defines the maintenance margin ratio of a derivative market|
+|market_id|string|DerivativeMarket ID|
+|quoteTokenMeta|TokenMeta||
+
 
 PerpetualMarketFunding:
 
 |Parameter|Type|Description|
 |----|----|----|
-|cumulativePrice|string|Defines defines the cumulative price for the current hour up to the last timestamp.|
-|lastTimestamp|integer|Defines the last funding timestamp in seconds of a perpetual market in UNIX seconds.|
-|cumulativeFunding|string|Defines the cumulative funding of a perpetual market.|
+|cumulative_funding|string|Defines the cumulative funding of a perpetual market.|
+|cumulative_price|string|Defines defines the cumulative price for the current hour up to the last timestamp.|
+|last_timestamp|integer|Defines the last funding timestamp in seconds of a perpetual market in UNIX seconds.|
 
 
 PerpetualMarketInfo:
 
 |Parameter|Type|Description|
 |----|----|----|
-|fundingInterval|integer|Defines the funding interval in seconds of a perpetual market in seconds.|
-|hourlyFundingRateCap|string|Defines the default maximum absolute value of the hourly funding rate of the perpetual market.|
-|hourlyInterestRate|string|Defines the hourly interest rate of the perpetual market.|
-|nextFundingTimestamp|integer|Defines the next funding timestamp in seconds of a perpetual market in UNIX seconds.|
+|hourly_funding_rate_cap|string|Defines the default maximum absolute value of the hourly funding rate of the perpetual market.|
+|hourly_interest_rate|string|Defines the hourly interest rate of the perpetual market.|
+|next_funding_timestamp|integer|Defines the next funding timestamp in seconds of a perpetual market in UNIX seconds.|
+|funding_interval|integer|Defines the funding interval in seconds of a perpetual market in seconds.|
 
 
 TokenMeta:
 
 |Parameter|Type|Description|
 |----|----|----|
+|updated_at|integer|Token metadata fetched timestamp in UNIX millis.|
+|address|string|Token Ethereum contract address|
 |decimals|integer|Token decimals|
 |logo|string|URL to the logo image|
 |name|string|Token full name|
 |symbol|string|Token symbol short name|
-|updatedAt|integer|Token metadata fetched timestamp in UNIX millis.|
-|address|string|Token Ethereum contract address|
-
-
-ExpiryFuturesMarketInfo:
-
-|Parameter|Type|Description|
-|----|----|----|
-|expirationTimestamp|integer|Defines the expiration time for a time expiry futures market in UNIX seconds.|
-|settlementPrice|string|Defines the settlement price for a time expiry futures market.|
 
 
 ## StreamMarket
@@ -326,122 +302,104 @@ async def main() -> None:
 ``` json
 {
   "market": {
-    "expiryFuturesMarketInfo": {
-      "expirationTimestamp": 1544614248,
-      "settlementPrice": "0.05"
-    },
-    "initialMarginRatio": "0.05",
-    "isPerpetual": false,
-    "maintenanceMarginRatio": "0.025",
-    "makerFeeRate": "0.001",
-    "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-    "marketStatus": "active",
-    "minPriceTickSize": "0.001",
-    "minQuantityTickSize": "0.001",
-    "oracleBase": "inj-band",
-    "oracleQuote": "usdt-band",
-    "oracleScaleFactor": 6,
-    "oracleType": "band",
-    "perpetualMarketFunding": {
-      "cumulativeFunding": "0.05",
-      "cumulativePrice": "-22.93180251",
-      "lastTimestamp": 1622930400
-    },
-    "perpetualMarketInfo": {
-      "fundingInterval": 3600,
-      "hourlyFundingRateCap": "0.000625",
-      "hourlyInterestRate": "0.00000416666",
-      "nextFundingTimestamp": 1622930400
-    },
-    "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "quoteTokenMeta": {
-      "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "decimals": 18,
-      "logo": "https://static.alchemyapi.io/images/assets/825.png",
-      "name": "Tether",
-      "symbol": "USDT",
-      "updatedAt": 1544614248000
-    },
-    "serviceProviderFee": "0.4",
-    "takerFeeRate": "0.002",
-    "ticker": "INJ/USDC"
+  "market_id": "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
+  "market_status": "active",
+  "ticker": "BTC/USDT",
+  "oracle_base": "BTC",
+  "oracle_quote": "USD",
+  "oracle_type": "coinbase",
+  "oracle_scale_factor": 6,
+  "initial_margin_ratio": "0.05",
+  "maintenance_margin_ratio": "0.02",
+  "quote_denom": "peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+  "quote_token_meta": {
+    "name": "Tether",
+    "address": "0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+    "symbol": "USDT",
+    "logo": "https://static.alchemyapi.io/images/assets/825.png",
+    "decimals": 6,
+    "updated_at": 1632535056616
   },
-  "operationType": "update",
-  "timestamp": 1544614248000
+  "maker_fee_rate": "0.001",
+  "taker_fee_rate": "0.002",
+  "service_provider_fee": "0.4",
+  "is_perpetual": true,
+  "min_price_tick_size": "1000",
+  "min_quantity_tick_size": "0.01",
+  "perpetual_market_info": {
+    "hourly_funding_rate_cap": "0.000625",
+    "hourly_interest_rate": "0.00000416666",
+    "next_funding_timestamp": 1634806800,
+    "funding_interval": 3600
+  },
+  "perpetual_market_funding": {
+    "cumulative_funding": "0.675810253053067335",
+    "cumulative_price": "20.137372841146815096",
+    "last_timestamp": 1634806754
+  }
+}
 }
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
-|operationType|string|Update type (Should be one of: [insert delete replace update invalidate]) |
-|timestamp|integer|Operation timestamp in UNIX millis.|
 |market|DerivativeMarketInfo||
 
 DerivativeMarketInfo:
 
 |Parameter|Type|Description|
 |----|----|----|
-|maintenanceMarginRatio|string|Defines the maintenance margin ratio of a derivative market|
-|marketId|string|DerivativeMarket ID is crypto.Keccak256Hash([]byte((oracleType.String() + ticker + quoteDenom + oracleBase + oracleQuote))) for perpetual markets and crypto.Keccak256Hash([]byte((oracleType.String() + ticker + quoteDenom + oracleBase + oracleQuote + strconv.Itoa(int(expiry))))) for expiry futures markets|
-|quoteTokenMeta|TokenMeta||
+|oracle_quote|string|Oracle quote currency|
+|oracle_type|string|Oracle Type|
+|quote_denom|string|Coin denom used for the quote asset.|
+|is_perpetual|boolean|True if the market is a perpetual swap market|
+|maker_fee_rate|string|Defines the fee percentage makers pay when trading (in quote asset)|
+|min_price_tick_size|string|Defines the minimum required tick size for the order's price|
+|min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
+|oracle_scale_factor|integer|OracleScaleFactor|
+|taker_fee_rate|string|Defines the fee percentage takers pay when trading (in quote asset)|
+|expiry_futures_market_info|ExpiryFuturesMarketInfo||
+|initial_margin_ratio|string|Defines the initial margin ratio of a derivative market|
+|market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
+|service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
+|oracle_base|string|Oracle base currency|
+|perpetual_market_funding|PerpetualMarketFunding||
+|perpetual_market_info|PerpetualMarketInfo||
 |ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset.|
-|isPerpetual|boolean|True if the market is a perpetual swap market|
-|makerFeeRate|string|Defines the fee percentage makers pay when trading (in quote asset)|
-|minPriceTickSize|string|Defines the minimum required tick size for the order's price|
-|oracleQuote|string|Oracle quote currency|
-|oracleType|string|Oracle Type|
-|quoteDenom|string|Coin denom used for the quote asset.|
-|expiryFuturesMarketInfo|ExpiryFuturesMarketInfo||
-|initialMarginRatio|string|Defines the initial margin ratio of a derivative market|
-|marketStatus|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
-|minQuantityTickSize|string|Defines the minimum required tick size for the order's quantity|
-|oracleScaleFactor|integer|OracleScaleFactor|
-|takerFeeRate|string|Defines the fee percentage takers pay when trading (in quote asset)|
-|oracleBase|string|Oracle base currency|
-|perpetualMarketFunding|PerpetualMarketFunding||
-|perpetualMarketInfo|PerpetualMarketInfo||
-|serviceProviderFee|string|Percentage of the transaction fee shared with the service provider|
-
-TokenMeta:
-
-|Parameter|Type|Description|
-|----|----|----|
-|address|string|Token Ethereum contract address|
-|decimals|integer|Token decimals|
-|logo|string|URL to the logo image|
-|name|string|Token full name|
-|symbol|string|Token symbol short name|
-|updatedAt|integer|Token metadata fetched timestamp in UNIX millis.|
-
-
-ExpiryFuturesMarketInfo:
-
-|Parameter|Type|Description|
-|----|----|----|
-|settlementPrice|string|Defines the settlement price for a time expiry futures market.|
-|expirationTimestamp|integer|Defines the expiration time for a time expiry futures market in UNIX seconds.|
+|maintenance_margin_ratio|string|Defines the maintenance margin ratio of a derivative market|
+|market_id|string|DerivativeMarket ID|
+|quoteTokenMeta|TokenMeta||
 
 
 PerpetualMarketFunding:
 
 |Parameter|Type|Description|
 |----|----|----|
-|cumulativeFunding|string|Defines the cumulative funding of a perpetual market.|
-|cumulativePrice|string|Defines defines the cumulative price for the current hour up to the last timestamp.|
-|lastTimestamp|integer|Defines the last funding timestamp in seconds of a perpetual market in UNIX seconds.|
+|cumulative_funding|string|Defines the cumulative funding of a perpetual market.|
+|cumulative_price|string|Defines defines the cumulative price for the current hour up to the last timestamp.|
+|last_timestamp|integer|Defines the last funding timestamp in seconds of a perpetual market in UNIX seconds.|
 
 
 PerpetualMarketInfo:
 
 |Parameter|Type|Description|
 |----|----|----|
-|fundingInterval|integer|Defines the funding interval in seconds of a perpetual market in seconds.|
-|hourlyFundingRateCap|string|Defines the default maximum absolute value of the hourly funding rate of the perpetual market.|
-|hourlyInterestRate|string|Defines the hourly interest rate of the perpetual market.|
-|nextFundingTimestamp|integer|Defines the next funding timestamp in seconds of a perpetual market in UNIX seconds.|
+|hourly_funding_rate_cap|string|Defines the default maximum absolute value of the hourly funding rate of the perpetual market.|
+|hourly_interest_rate|string|Defines the hourly interest rate of the perpetual market.|
+|next_funding_timestamp|integer|Defines the next funding timestamp in seconds of a perpetual market in UNIX seconds.|
+|funding_interval|integer|Defines the funding interval in seconds of a perpetual market in seconds.|
 
 
+TokenMeta:
 
+|Parameter|Type|Description|
+|----|----|----|
+|updated_at|integer|Token metadata fetched timestamp in UNIX millis.|
+|address|string|Token Ethereum contract address|
+|decimals|integer|Token decimals|
+|logo|string|URL to the logo image|
+|name|string|Token full name|
+|symbol|string|Token symbol short name|
 
 
 ## Orders
@@ -482,40 +440,35 @@ async def main() -> None:
 
 ``` json
 {
-  "orders": [
-    {
-      "createdAt": 1544614248000,
-      "feeRecipient": "inj15gnk95hvqrsr343ecqjuv7yf2af9rkdqeax52d",
-      "isReduceOnly": false,
-      "margin": "20000000000.000000000000000000",
-      "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-      "orderHash": "0x92da72606d9d26bbc5a8a5578373c6bbe11e39d0944788b5cd142a14d01f9d36",
-      "orderSide": "buy",
-      "price": "50900000000.000000000000000000",
-      "quantity": "0.200000000000000000",
-      "state": "partial_filled",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "triggerPrice": "0",
-      "unfilledQuantity": "0.200000000000000000",
-      "updatedAt": 1544614248000
-    },
-    {
-      "createdAt": 1544614248000,
-      "feeRecipient": "inj15gnk95hvqrsr343ecqjuv7yf2af9rkdqeax52d",
-      "isReduceOnly": false,
-      "margin": "20000000000.000000000000000000",
-      "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-      "orderHash": "0x92da72606d9d26bbc5a8a5578373c6bbe11e39d0944788b5cd142a14d01f9d36",
-      "orderSide": "buy",
-      "price": "50900000000.000000000000000000",
-      "quantity": "0.200000000000000000",
-      "state": "partial_filled",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "triggerPrice": "0",
-      "unfilledQuantity": "0.200000000000000000",
-      "updatedAt": 1544614248000
-    }
-  ]
+"orders": {
+  "order_hash": "0xeb650941906fe707534a70979c43714c0ca703b0d02e450a9f25bbe302419fc9",
+  "order_side": "buy",
+  "market_id": "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
+  "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+  "margin": "507634400000",
+  "price": "39048800000",
+  "quantity": "13",
+  "unfilled_quantity": "13",
+  "trigger_price": "0",
+  "fee_recipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
+  "state": "booked",
+  "created_at": 1616059590812
+},
+"orders": {
+  "order_hash": "0xbdb49ed59947cdce7544aa8d983b77f76e50177cc4287a6136bee8f16deb4bd2",
+  "order_side": "buy",
+  "market_id": "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
+  "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+  "margin": "500714162000",
+  "price": "38516474000",
+  "quantity": "13",
+  "unfilled_quantity": "13",
+  "trigger_price": "0",
+  "fee_recipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
+  "state": "booked",
+  "created_at": 1616059590812
+}
+
 }
 ```
 
@@ -527,20 +480,20 @@ DerivativeLimitOrder:
 
 |Parameter|Type|Description|
 |----|----|----|
-|feeRecipient|string|Fee recipient address|
-|orderHash|string|Hash of the order|
+|fee_recipient|string|Fee recipient address|
+|order_hash|string|Hash of the order|
 |quantity|string|Quantity of the order|
 |state|string|Order state (Should be one of: [booked partial_filled filled canceled]) |
-|triggerPrice|string|Trigger price is the trigger price used by stop/take orders|
-|marketId|string|Derivative Market ID|
-|createdAt|integer|Order committed timestamp in UNIX millis.|
+|trigger_price|string|Trigger price is the trigger price used by stop/take orders|
+|market_id|string|Derivative Market ID|
+|created_at|integer|Order committed timestamp in UNIX millis.|
 |price|string|Price of the order|
-|subaccountId|string|The subaccountId that this order belongs to|
-|updatedAt|integer|Order updated timestamp in UNIX millis.|
-|isReduceOnly|boolean|True if the order is a reduce-only order|
+|subaccount_id|string|The subaccountId that this order belongs to|
+|updated_at|integer|Order updated timestamp in UNIX millis.|
+|is_reduce_only|boolean|True if the order is a reduce-only order|
 |margin|string|Margin of the order|
-|orderSide|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
-|unfilledQuantity|string|The amount of the quantity remaining unfilled|
+|order_side|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
+|unfilled_quantity|string|The amount of the quantity remaining unfilled|
 
 
 ## StreamOrders
@@ -581,51 +534,69 @@ async def main() -> None:
 
 ``` json
 {
-  "operationType": "update",
-  "order": {
-    "createdAt": 1544614248000,
-    "feeRecipient": "inj15gnk95hvqrsr343ecqjuv7yf2af9rkdqeax52d",
-    "isReduceOnly": false,
-    "margin": "20000000000.000000000000000000",
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "orderHash": "0x92da72606d9d26bbc5a8a5578373c6bbe11e39d0944788b5cd142a14d01f9d36",
-    "orderSide": "buy",
-    "price": "50900000000.000000000000000000",
-    "quantity": "0.200000000000000000",
-    "state": "partial_filled",
-    "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-    "triggerPrice": "0",
-    "unfilledQuantity": "0.200000000000000000",
-    "updatedAt": 1544614248000
-  },
-  "timestamp": 1544614248000
+"orders": {
+  "order_hash": "0xeb650941906fe707534a70979c43714c0ca703b0d02e450a9f25bbe302419fc9",
+  "order_side": "buy",
+  "market_id": "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
+  "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+  "margin": "507634400000",
+  "price": "39048800000",
+  "quantity": "13",
+  "unfilled_quantity": "13",
+  "trigger_price": "0",
+  "fee_recipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
+  "state": "booked",
+  "created_at": 1616059590812,
+},
+  "operation_type": "update",
+  "timestamp": 1634815592000,
+
+"orders": {
+  "order_hash": "0xbdb49ed59947cdce7544aa8d983b77f76e50177cc4287a6136bee8f16deb4bd2",
+  "order_side": "buy",
+  "market_id": "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
+  "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+  "margin": "500714162000",
+  "price": "38516474000",
+  "quantity": "13",
+  "unfilled_quantity": "13",
+  "trigger_price": "0",
+  "fee_recipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
+  "state": "booked",
+  "created_at": 1616059590812
+},
+  "operation_type": "update",
+  "timestamp": 1634815592000,
+
 }
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
-|timestamp|integer|Operation timestamp in UNIX millis.|
-|operationType|string|Order update type (Should be one of: [insert delete replace update invalidate]) |
 |order|DerivativeLimitOrder||
+|operation_type|string|Order update type (Should be one of: [insert delete replace update invalidate]) |
+|timestamp|integer|Operation timestamp in UNIX millis.|
+
+
 
 DerivativeLimitOrder:
 
 |Parameter|Type|Description|
 |----|----|----|
-|subaccountId|string|The subaccountId that this order belongs to|
-|updatedAt|integer|Order updated timestamp in UNIX millis.|
-|createdAt|integer|Order committed timestamp in UNIX millis.|
-|price|string|Price of the order|
-|orderSide|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
-|unfilledQuantity|string|The amount of the quantity remaining unfilled|
-|isReduceOnly|boolean|True if the order is a reduce-only order|
-|margin|string|Margin of the order|
+|fee_recipient|string|Fee recipient address|
+|order_hash|string|Hash of the order|
 |quantity|string|Quantity of the order|
 |state|string|Order state (Should be one of: [booked partial_filled filled canceled]) |
-|triggerPrice|string|Trigger price is the trigger price used by stop/take orders|
-|feeRecipient|string|Fee recipient address|
-|orderHash|string|Hash of the order|
-|marketId|string|Derivative Market ID|
+|trigger_price|string|Trigger price is the trigger price used by stop/take orders|
+|market_id|string|Derivative Market ID|
+|created_at|integer|Order committed timestamp in UNIX millis.|
+|price|string|Price of the order|
+|subaccount_id|string|The subaccountId that this order belongs to|
+|updated_at|integer|Order updated timestamp in UNIX millis.|
+|is_reduce_only|boolean|True if the order is a reduce-only order|
+|margin|string|Margin of the order|
+|order_side|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
+|unfilled_quantity|string|The amount of the quantity remaining unfilled|
 
 
 ## Trades
@@ -662,40 +633,37 @@ async def main() -> None:
 
 ``` json
 {
-  "trades": [
-    {
-      "executedAt": 1544614248000,
-      "fee": "150428.571428571428571429",
-      "isLiquidation": false,
-      "marketId": "0xb6fa659501d170f3bfbbc16f9e3e46e8435d3b13cb2ceeed5945ddd16df435ef",
-      "orderHash": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "payout": "0",
-      "positionDelta": {
-        "executionMargin": "50000000",
-        "executionPrice": "12535714.285714285714285714",
-        "executionQuantity": "6",
-        "tradeDirection": "buy"
-      },
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "tradeExecutionType": "market"
-    },
-    {
-      "executedAt": 1544614248000,
-      "fee": "150428.571428571428571429",
-      "isLiquidation": false,
-      "marketId": "0xb6fa659501d170f3bfbbc16f9e3e46e8435d3b13cb2ceeed5945ddd16df435ef",
-      "orderHash": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "payout": "0",
-      "positionDelta": {
-        "executionMargin": "50000000",
-        "executionPrice": "12535714.285714285714285714",
-        "executionQuantity": "6",
-        "tradeDirection": "buy"
-      },
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "tradeExecutionType": "market"
-    }
-  ]
+  "trades": {
+  "order_hash": "0xfdd7865b3fe35fe986b07fafea8e1c301a9d83f9683542505085eb8730c3a907",
+  "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+  "market_id": "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
+  "trade_execution_type": "limitMatchRestingOrder",
+  "position_delta": {
+    "trade_direction": "buy",
+    "execution_price": "63003464233.333333333333333333",
+    "execution_quantity": "1",
+    "execution_margin": "66900442000",
+  },
+  "payout": "65693228106.612872505612710833",
+  "fee": "63003464.233333333333333333",
+  "executed_at": 1634816869894
+},
+"trades": {
+  "order_hash": "0x28a99e824c0e19c1bdd63676cfe58f37c018f9db12b9c3e5466c377e1354633c",
+  "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+  "market_id": "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
+  "trade_execution_type": "limitMatchRestingOrder",
+  "position_delta": {
+    "trade_direction": "buy",
+    "execution_price": "63003464233.333333333333333333",
+    "execution_quantity": "1",
+    "execution_margin": "66576312000"
+  },
+  "payout": "65693228106.612872505612710833",
+  "fee": "63003464.233333333333333333",
+  "executed_at": 1634816869894
+}
+
 }
 ```
 
@@ -707,24 +675,24 @@ DerivativeTrade:
 
 |Parameter|Type|Description|
 |----|----|----|
-|executedAt|integer|Timestamp of trade execution in UNIX millis|
-|positionDelta|PositionDelta||
-|subaccountId|string|The subaccountId that executed the trade|
-|tradeExecutionType|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
+|executed_at|integer|Timestamp of trade execution in UNIX millis|
+|position_delta|PositionDelta||
+|subaccount_id|string|The subaccountId that executed the trade|
+|trade_execution_type|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
 |fee|string|The fee associated with the trade|
 |isLiquidation|boolean|True if the trade is a liquidation|
-|marketId|string|The ID of the market that this trade is in|
-|orderHash|string|Order hash.|
+|market_id|string|The ID of the market that this trade is in|
+|order_hash|string|Order hash.|
 |payout|string|The payout associated with the trade|
 
 PositionDelta:
 
 |Parameter|Type|Description|
 |----|----|----|
-|executionPrice|string|Execution Price of the trade.|
-|executionQuantity|string|Execution Quantity of the trade.|
-|tradeDirection|string|The direction the trade (Should be one of: [buy sell]) |
-|executionMargin|string|Execution Margin of the trade.|
+|execution_price|string|Execution Price of the trade.|
+|execution_quantity|string|Execution Quantity of the trade.|
+|trade_direction|string|The direction the trade (Should be one of: [buy sell]) |
+|execution_margin|string|Execution Margin of the trade.|
 
 
 ## StreamTrades
@@ -764,55 +732,76 @@ async def main() -> None:
 
 ``` json
 {
-  "operationType": "insert",
-  "timestamp": 1544614248000,
   "trade": {
-    "executedAt": 1544614248000,
-    "fee": "150428.571428571428571429",
-    "isLiquidation": false,
-    "marketId": "0xb6fa659501d170f3bfbbc16f9e3e46e8435d3b13cb2ceeed5945ddd16df435ef",
-    "orderHash": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-    "payout": "0",
-    "positionDelta": {
-      "executionMargin": "50000000",
-      "executionPrice": "12535714.285714285714285714",
-      "executionQuantity": "6",
-      "tradeDirection": "buy"
-    },
-    "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-    "tradeExecutionType": "market"
-  }
+  "order_hash": "0x53940e211d5cd6caa2ea4f9d557c6992a8165ce328e7a3220b4b0e8ae7909897",
+  "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+  "market_id": "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
+  "trade_execution_type": "limitMatchNewOrder",
+  "position_delta": {
+    "trade_direction": "buy",
+    "execution_price": "65765036468.75",
+    "execution_quantity": "4",
+    "execution_margin": "271119536000"
+  },
+  "payout": "249899684995.443928042695147937",
+  "fee": "526120291.75",
+  "executed_at": 1634817291783
+},
+"operation_type": "insert",
+"timestamp": 1634817293000,
+
+"trade": {
+  "order_hash": "0x88cc481ff9f0e77a51fd1e829647bad434787080963bf20e275beb692a5d3558",
+  "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+  "market_id": "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
+  "trade_execution_type": "limitMatchNewOrder",
+  "position_delta": {
+    "trade_direction": "buy",
+    "execution_price": "65765036468.75",
+    "execution_quantity": "6",
+    "execution_margin": "396570642000"
+  },
+  "payout": "374849527493.165892064042721905",
+  "fee": "789180437.625",
+  "executed_at": 1634817291783
+},
+"operation_type": "insert",
+"timestamp": 1634817293000
+
+
 }
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
-|operationType|string|Executed trades update type (Should be one of: [insert invalidate]) |
-|timestamp|integer|Operation timestamp in UNIX millis.|
 |trade|DerivativeTrade||
+|operation_type|string|Executed trades update type (Should be one of: [insert invalidate]) |
+|timestamp|integer|Operation timestamp in UNIX millis.|
+
 
 DerivativeTrade:
 
 |Parameter|Type|Description|
 |----|----|----|
+|executed_at|integer|Timestamp of trade execution in UNIX millis|
+|position_delta|PositionDelta||
+|subaccount_id|string|The subaccountId that executed the trade|
+|trade_execution_type|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
 |fee|string|The fee associated with the trade|
 |isLiquidation|boolean|True if the trade is a liquidation|
-|marketId|string|The ID of the market that this trade is in|
-|orderHash|string|Order hash.|
+|market_id|string|The ID of the market that this trade is in|
+|order_hash|string|Order hash.|
 |payout|string|The payout associated with the trade|
-|subaccountId|string|The subaccountId that executed the trade|
-|tradeExecutionType|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
-|executedAt|integer|Timestamp of trade execution in UNIX millis|
-|positionDelta|PositionDelta||
 
 PositionDelta:
 
 |Parameter|Type|Description|
 |----|----|----|
-|executionMargin|string|Execution Margin of the trade.|
-|executionPrice|string|Execution Price of the trade.|
-|executionQuantity|string|Execution Quantity of the trade.|
-|tradeDirection|string|The direction the trade (Should be one of: [buy sell]) |
+|execution_price|string|Execution Price of the trade.|
+|execution_quantity|string|Execution Quantity of the trade.|
+|trade_direction|string|The direction the trade (Should be one of: [buy sell]) |
+|execution_margin|string|Execution Margin of the trade.|
+
 
 ## Positions
 
@@ -851,32 +840,31 @@ async def main() -> None:
 
 ``` json
 {
-  "positions": [
-    {
-      "aggregateReduceOnlyQuantity": "0",
-      "direction": "long",
-      "entryPrice": "15333333.333333333333333333",
-      "liquidationPrice": "23420479",
-      "margin": "77000000",
-      "markPrice": "14000000",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "quantity": "9",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "ticker": "INJ/USDT-PERP"
-    },
-    {
-      "aggregateReduceOnlyQuantity": "0",
-      "direction": "long",
-      "entryPrice": "15333333.333333333333333333",
-      "liquidationPrice": "23420479",
-      "margin": "77000000",
-      "markPrice": "14000000",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "quantity": "9",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "ticker": "INJ/USDT-PERP"
-    },
-  ]
+"positions": {
+  "ticker": "BTC/USDT",
+  "market_id": "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
+  "subaccount_id": "0xdffcc8962c7662ba69c3eb2b5ed7c435879e5229000000000000000000000000",
+  "direction": "long",
+  "quantity": "0.75",
+  "entry_price": "34478090933.333333333333333333",
+  "margin": "-19949596884",
+  "liquidation_price": "62324034127",
+  "mark_price": "64595190000",
+  "aggregate_reduce_only_quantity": "0"
+},
+"positions": {
+  "ticker": "BTC/USDT",
+  "market_id": "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
+  "subaccount_id": "0xfdc59dcaa0077fc178bcf12f9d677cbe75511d4a000000000000000000000000",
+  "direction": "long",
+  "quantity": "28.35",
+  "entry_price": "29450904077.30599647266313933",
+  "margin": "-693874107774",
+  "liquidation_price": "55026715558",
+  "mark_price": "64595190000",
+  "aggregate_reduce_only_quantity": "0"
+}
+
 }
 ```
 
@@ -889,14 +877,14 @@ DerivativePosition:
 |Parameter|Type|Description|
 |----|----|----|
 |direction|string|Direction of the position (Should be one of: [long short]) |
-|marketId|string|Derivative Market ID|
-|subaccountId|string|The subaccountId that the position belongs to|
+|market_id|string|Derivative Market ID|
+|subaccount_id|string|The subaccountId that the position belongs to|
 |ticker|string|Ticker of the derivative market|
-|aggregateReduceOnlyQuantity|string|Aggregate Quantity of the Reduce Only orders associated with the position|
-|entryPrice|string|Price of the position|
-|liquidationPrice|string|LiquidationPrice of the position|
+|aggregate_reduce_only_quantity|string|Aggregate Quantity of the Reduce Only orders associated with the position|
+|entry_price|string|Price of the position|
+|liquidation_price|string|LiquidationPrice of the position|
 |margin|string|Margin of the position|
-|markPrice|string|MarkPrice of the position|
+|mark_price|string|MarkPrice of the position|
 |quantity|string|Quantity of the position|
 
 
@@ -937,41 +925,56 @@ async def main() -> None:
 
 ``` json
 {
-  "position": {
-    "aggregateReduceOnlyQuantity": "0",
-    "direction": "long",
-    "entryPrice": "15333333.333333333333333333",
-    "liquidationPrice": "23420479",
-    "margin": "77000000",
-    "markPrice": "14000000",
-    "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-    "quantity": "9",
-    "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-    "ticker": "INJ/USDT-PERP"
-  },
-  "timestamp": 1544614248000
+"position": {
+  "ticker": "BTC/USDT",
+  "market_id": "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
+  "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+  "direction": "short",
+  "quantity": "500.36",
+  "entry_price": "64766166958.497442183360445476",
+  "margin": "31629324725359",
+  "liquidation_price": "125469904854",
+  "mark_price": "64878330000",
+  "aggregate_reduce_only_quantity": "0"
+},
+"timestamp": 1634817807000,
+
+"position": {
+  "ticker": "BTC/USDT",
+  "market_id": "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
+  "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+  "direction": "short",
+  "quantity": "500.36",
+  "entry_price": "64705529584.98346944076741553",
+  "margin": "31605881697496",
+  "liquidation_price": "125364522799",
+  "mark_price": "64919990000",
+  "aggregate_reduce_only_quantity": "0"
+},
+"timestamp": 1634817814000
+
 }
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
-|position|DerivativePosition||
+|positions|Array of DerivativePosition|List of derivative positions|
 |timestamp|integer|Operation timestamp in UNIX millis.|
 
 DerivativePosition:
 
 |Parameter|Type|Description|
 |----|----|----|
-|aggregateReduceOnlyQuantity|string|Aggregate Quantity of the Reduce Only orders associated with the position|
-|entryPrice|string|Price of the position|
-|liquidationPrice|string|LiquidationPrice of the position|
-|margin|string|Margin of the position|
-|markPrice|string|MarkPrice of the position|
-|quantity|string|Quantity of the position|
 |direction|string|Direction of the position (Should be one of: [long short]) |
-|marketId|string|Derivative Market ID|
-|subaccountId|string|The subaccountId that the position belongs to|
+|market_id|string|Derivative Market ID|
+|subaccount_id|string|The subaccountId that the position belongs to|
 |ticker|string|Ticker of the derivative market|
+|aggregate_reduce_only_quantity|string|Aggregate Quantity of the Reduce Only orders associated with the position|
+|entry_price|string|Price of the position|
+|liquidation_price|string|LiquidationPrice of the position|
+|margin|string|Margin of the position|
+|mark_price|string|MarkPrice of the position|
+|quantity|string|Quantity of the position|
 
 
 ## Orderbook
@@ -1057,8 +1060,6 @@ PriceLevel:
 
 
 
-
-
 ## StreamOrderbook
 
 Stream orderbook updates for a derivative market
@@ -1094,7 +1095,7 @@ async def main() -> None:
 
 ``` json
 {
-  "operationType": "update",
+  
   "orderbook": {
     "buys": [
       {
@@ -1121,7 +1122,9 @@ async def main() -> None:
       }
     ]
   },
+  "operation_type": "update",
   "timestamp": 1544614248000
+  
 }
 ```
 
@@ -1181,32 +1184,33 @@ async def main() -> None:
 
 ``` json
 {
-  "positions": [
-    {
-      "aggregateReduceOnlyQuantity": "0",
-      "direction": "long",
-      "entryPrice": "15333333.333333333333333333",
-      "liquidationPrice": "23420479",
-      "margin": "77000000",
-      "markPrice": "14000000",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "quantity": "9",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "ticker": "INJ/USDT-PERP"
-    },
-    {
-      "aggregateReduceOnlyQuantity": "0",
-      "direction": "long",
-      "entryPrice": "15333333.333333333333333333",
-      "liquidationPrice": "23420479",
-      "margin": "77000000",
-      "markPrice": "14000000",
-      "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "quantity": "9",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "ticker": "INJ/USDT-PERP"
-    }
-  ]
+
+"positions": {
+  "ticker": "SNX/USDT",
+  "market_id": "0x3b09614005c29a3a4dc2683b8bf38e17561bc66056304af8c417177cf2a9c060",
+  "subaccount_id": "0x57865974416c7c8618e2b503d5db3720740cd234000000000000000000000000",
+  "direction": "long",
+  "quantity": "382.7",
+  "entry_price": "30928942.727695167286245353",
+  "margin": "5949898980",
+  "liquidation_price": "15695694",
+  "mark_price": "9848700",
+  "aggregate_reduce_only_quantity": "0"
+},
+
+"positions": {
+  "ticker": "UNI/USDT",
+  "market_id": "0x897519d4cf8c460481638b3ff64871668d0a7f6afea10c1b0a952c0b5927f48f",
+  "subaccount_id": "0xac36c5ba614ee008ebd74848bc20619ca5855dab000000000000000000000000",
+  "direction": "long",
+  "quantity": "42.3",
+  "entry_price": "60347544.095665171898355755",
+  "margin": "1370618876",
+  "liquidation_price": "28515516",
+  "mark_price": "26938850",
+  "aggregate_reduce_only_quantity": "0"
+}
+
 }
 ```
 
@@ -1218,16 +1222,16 @@ DerivativePosition:
 
 |Parameter|Type|Description|
 |----|----|----|
-|subaccountId|string|The subaccountId that the position belongs to|
+|subaccount_id|string|The subaccountId that the position belongs to|
 |ticker|string|Ticker of the derivative market|
 |direction|string|Direction of the position (Should be one of: [long short]) |
-|marketId|string|Derivative Market ID|
-|liquidationPrice|string|LiquidationPrice of the position|
+|market_id|string|Derivative Market ID|
+|liquidation_price|string|LiquidationPrice of the position|
 |margin|string|Margin of the position|
-|markPrice|string|MarkPrice of the position|
+|mark_price|string|MarkPrice of the position|
 |quantity|string|Quantity of the position|
-|aggregateReduceOnlyQuantity|string|Aggregate Quantity of the Reduce Only orders associated with the position|
-|entryPrice|string|Price of the position|
+|aggregate_reduce_only_quantity|string|Aggregate Quantity of the Reduce Only orders associated with the position|
+|entry_price|string|Price of the position|
 
 
 
@@ -1267,40 +1271,35 @@ async def main() -> None:
 
 ``` json
 {
-  "orders": [
-    {
-      "createdAt": 1544614248000,
-      "feeRecipient": "inj15gnk95hvqrsr343ecqjuv7yf2af9rkdqeax52d",
-      "isReduceOnly": false,
-      "margin": "20000000000.000000000000000000",
-      "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-      "orderHash": "0x92da72606d9d26bbc5a8a5578373c6bbe11e39d0944788b5cd142a14d01f9d36",
-      "orderSide": "buy",
-      "price": "50900000000.000000000000000000",
-      "quantity": "0.200000000000000000",
-      "state": "partial_filled",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "triggerPrice": "0",
-      "unfilledQuantity": "0.200000000000000000",
-      "updatedAt": 1544614248000
-    },
-    {
-      "createdAt": 1544614248000,
-      "feeRecipient": "inj15gnk95hvqrsr343ecqjuv7yf2af9rkdqeax52d",
-      "isReduceOnly": false,
-      "margin": "20000000000.000000000000000000",
-      "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-      "orderHash": "0x92da72606d9d26bbc5a8a5578373c6bbe11e39d0944788b5cd142a14d01f9d36",
-      "orderSide": "buy",
-      "price": "50900000000.000000000000000000",
-      "quantity": "0.200000000000000000",
-      "state": "partial_filled",
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "triggerPrice": "0",
-      "unfilledQuantity": "0.200000000000000000",
-      "updatedAt": 1544614248000
-    }
-  ]
+"orders": {
+  "order_hash": "0xfd3436d9292e0693677ad5c584cb8bf20f33dd5e9fea87a374a98606439423ee",
+  "order_side": "buy",
+  "market_id": "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30",
+  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "margin": "15000000",
+  "price": "15000000",
+  "quantity": "1",
+  "unfilled_quantity": "1",
+  "trigger_price": "0",
+  "fee_recipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+  "state": "booked",
+  "created_at": 1634758478891
+},
+"orders": {
+  "order_hash": "0xbfa0fdcfcce6384d5231b458ed87382b2e2a13214aafe4636a6c44b8df9da1bd",
+  "order_side": "buy",
+  "market_id": "0x897519d4cf8c460481638b3ff64871668d0a7f6afea10c1b0a952c0b5927f48f",
+  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "margin": "180000000",
+  "price": "12000000",
+  "quantity": "15",
+  "unfilled_quantity": "15",
+  "trigger_price": "0",
+  "fee_recipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+  "state": "booked",
+  "created_at": 1633088535349
+}
+
 }
 ```
 
@@ -1312,20 +1311,19 @@ DerivativeLimitOrder:
 
 |Parameter|Type|Description|
 |----|----|----|
-|marketId|string|Derivative Market ID|
-|createdAt|integer|Order committed timestamp in UNIX millis.|
+|market_id|string|Derivative Market ID|
 |price|string|Price of the order|
-|subaccountId|string|The subaccountId that this order belongs to|
-|updatedAt|integer|Order updated timestamp in UNIX millis.|
-|isReduceOnly|boolean|True if the order is a reduce-only order|
+|subaccount_id|string|The subaccountId that this order belongs to|
+|is_reduce_only|boolean|True if the order is a reduce-only order|
 |margin|string|Margin of the order|
-|orderSide|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
-|unfilledQuantity|string|The amount of the quantity remaining unfilled|
-|feeRecipient|string|Fee recipient address|
-|orderHash|string|Hash of the order|
+|order_side|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
+|unfilled_quantity|string|The amount of the quantity remaining unfilled|
+|fee_recipient|string|Fee recipient address|
+|order_hash|string|Hash of the order|
 |quantity|string|Quantity of the order|
 |state|string|Order state (Should be one of: [booked partial_filled filled canceled]) |
-|triggerPrice|string|Trigger price is the trigger price used by stop/take orders|
+|trigger_price|string|Trigger price is the trigger price used by stop/take orders|
+|created_at|integer|Order committed timestamp in UNIX millis.|
 
 ## SubaccountTradesList
 
@@ -1366,40 +1364,39 @@ async def main() -> None:
 
 ``` json
 {
-  "trades": [
-    {
-      "executedAt": 1544614248000,
-      "fee": "150428.571428571428571429",
-      "isLiquidation": false,
-      "marketId": "0xb6fa659501d170f3bfbbc16f9e3e46e8435d3b13cb2ceeed5945ddd16df435ef",
-      "orderHash": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "payout": "0",
-      "positionDelta": {
-        "executionMargin": "50000000",
-        "executionPrice": "12535714.285714285714285714",
-        "executionQuantity": "6",
-        "tradeDirection": "buy"
-      },
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "tradeExecutionType": "market"
-    },
-    {
-      "executedAt": 1544614248000,
-      "fee": "150428.571428571428571429",
-      "isLiquidation": false,
-      "marketId": "0xb6fa659501d170f3bfbbc16f9e3e46e8435d3b13cb2ceeed5945ddd16df435ef",
-      "orderHash": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-      "payout": "0",
-      "positionDelta": {
-        "executionMargin": "50000000",
-        "executionPrice": "12535714.285714285714285714",
-        "executionQuantity": "6",
-        "tradeDirection": "buy"
-      },
-      "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-      "tradeExecutionType": "market"
-    },
-  ]
+"trades": {
+  "order_hash": "0xd15ebec8e0b6371a7601331d1704b8b46f2ed332910e2692e92f193a08e2d631",
+  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "market_id": "0x0f4209dbe160ce7b09559c69012d2f5fd73070f8552699a9b77aebda16ccdeb1",
+  "trade_execution_type": "market",
+  "is_liquidation": true,
+  "position_delta": {
+    "trade_direction": "sell",
+    "execution_price": "23802062.893081761006289308",
+    "execution_quantity": "15.9",
+    "execution_margin": "0"
+  },
+  "payout": "0",
+  "fee": "0",
+  "executed_at": 1634062461962
+},
+"trades": {
+  "order_hash": "0x3a9dc7a2d2689132f368ecad7aec9e485e5fb713675c1ea12674e31fe6f30a6a",
+  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "market_id": "0x0f4209dbe160ce7b09559c69012d2f5fd73070f8552699a9b77aebda16ccdeb1",
+  "trade_execution_type": "market",
+  "is_liquidation": true,
+  "position_delta": {
+    "trade_direction": "sell",
+    "execution_price": "23387380",
+    "execution_quantity": "15",
+    "execution_margin": "0"
+  },
+  "payout": "0",
+  "fee": "0",
+  "executed_at": 1634062439986
+}
+
 }
 ```
 
@@ -1411,25 +1408,24 @@ DerivativeTrade:
 
 |Parameter|Type|Description|
 |----|----|----|
-|orderHash|string|Order hash.|
+|order_hash|string|Order hash.|
 |payout|string|The payout associated with the trade|
-|subaccountId|string|The subaccountId that executed the trade|
-|tradeExecutionType|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
+|subaccount_id|string|The subaccountId that executed the trade|
+|trade_execution_type|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
 |fee|string|The fee associated with the trade|
-|isLiquidation|boolean|True if the trade is a liquidation|
-|marketId|string|The ID of the market that this trade is in|
-|executedAt|integer|Timestamp of trade execution in UNIX millis|
+|is_liquidation|boolean|True if the trade is a liquidation|
+|market_id|string|The ID of the market that this trade is in|
+|executed_at|integer|Timestamp of trade execution in UNIX millis|
 |positionDelta|PositionDelta||
 
 PositionDelta:
 
 |Parameter|Type|Description|
 |----|----|----|
-|executionPrice|string|Execution Price of the trade.|
-|executionQuantity|string|Execution Quantity of the trade.|
-|tradeDirection|string|The direction the trade (Should be one of: [buy sell]) |
-|executionMargin|string|Execution Margin of the trade.|
-
+|execution_price|string|Execution Price of the trade.|
+|execution_quantity|string|Execution Quantity of the trade.|
+|trade_direction|string|The direction the trade (Should be one of: [buy sell]) |
+|execution_margin|string|Execution Margin of the trade.|
 
 
 
@@ -1480,6 +1476,6 @@ async def main() -> None:
 |Parameter|Type|Description|
 |----|----|----|
 |market_id|string|Derivative Market ID|
-|subaccount_id|string|The subaccountId of the funding payments|
+|subaccount_id|string|The subaccount ID|
 |amount|string|The amount of the funding payment|
 |timestamp|integer|Operation timestamp in UNIX millis|
