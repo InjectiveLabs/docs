@@ -10,10 +10,9 @@ Get a list of subaccounts for a specific address
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -55,8 +54,6 @@ Get the subaccount's transfer history
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -66,7 +63,7 @@ async def main() -> None:
     client = Client(network, insecure=True)
     subaccount = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     denom = "inj"
-    transfer_types = ["withdraw", "deposit"] # "withdraw", "deposit", "internal", "external"
+    transfer_types = ["withdraw", "deposit"] # Enum with values "withdraw", "deposit", "internal", "external"
     subacc_history = client.get_subaccount_history(subaccount_id=subaccount, denom=denom, transfer_types=transfer_types)
     print(subacc_history)
 ```
@@ -139,8 +136,6 @@ Get the balance of a subaccount for a specific denom
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -209,8 +204,6 @@ List the subaccount's balances for all denoms
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -296,8 +289,6 @@ Get the subaccount's orders summary
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -345,8 +336,6 @@ Stream the subaccount's balance for all denoms
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 

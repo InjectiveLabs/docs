@@ -11,8 +11,6 @@ Get details of a spot market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -110,8 +108,6 @@ Get a list of spot markets
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -214,8 +210,6 @@ Stream live updates of spot markets
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -311,8 +305,6 @@ Get orders of a spot market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -400,8 +392,6 @@ Stream order updates of a spot market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -498,8 +488,6 @@ Get trades of a spot market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -595,8 +583,6 @@ Stream trades of a spot market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -682,8 +668,6 @@ Get the orderbook of a spot market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -773,8 +757,6 @@ Stream the orderbook of a spot market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -854,8 +836,6 @@ Get orders of a subaccount
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -940,8 +920,6 @@ Get trades of a subaccount
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 

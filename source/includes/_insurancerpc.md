@@ -10,8 +10,6 @@ Funds lists all insurance funds.
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -84,8 +82,6 @@ PendingRedemptions lists all pending redemptions according to a filter
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
