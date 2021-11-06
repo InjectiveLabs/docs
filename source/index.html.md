@@ -15,6 +15,7 @@ includes:
   - derivativesrpc
   - oraclerpc
   - insurancerpc
+  - metarpc
   - chainapi
   - derivatives
   - spot
