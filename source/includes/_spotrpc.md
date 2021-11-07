@@ -11,8 +11,6 @@ Get details of a spot market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -110,8 +108,6 @@ Get a list of spot markets
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -214,8 +210,6 @@ Stream live updates of spot markets
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -311,8 +305,6 @@ Get orders of a spot market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -400,8 +392,6 @@ Stream order updates of a spot market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -498,8 +488,6 @@ Get trades of a spot market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -595,8 +583,6 @@ Stream trades of a spot market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -682,8 +668,6 @@ Get the orderbook of a spot market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -773,8 +757,6 @@ Stream the orderbook of a spot market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -802,24 +784,24 @@ async def main() -> None:
   "orderbook": {
     "buys": [
       {
-        "price": "1960000000000000000",
-        "quantity": "40",
+        "price": "1460000000000000000",
+        "quantity": "20",
         "timestamp": 1544614248000
       },
       {
-        "price": "1960000000000000000",
+        "price": "1250000000000000000",
         "quantity": "40",
-        "timestamp": 1544614248000
+        "timestamp": 163213580000
       },
       {
-        "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
+        "price": "1310000000000000000",
+        "quantity": "35",
+        "timestamp": 164376879000
       },
     ]
   },
-  "operationType": "update",
-  "timestamp": 1544614248000
+  "operation_type": "update",
+  "timestamp": 165768323400
 }
 ```
 
@@ -828,6 +810,87 @@ async def main() -> None:
 |operation_type|string|Order update type (Should be one of: [insert replace update invalidate]) |
 |orderbook|SpotLimitOrderbook||
 |timestamp|integer|Operation timestamp in UNIX millis.|
+
+SpotLimitOrderbook:
+
+|Parameter|Type|Description|
+|----|----|----|
+|buys|Array of PriceLevel|Array of price levels for buys|
+|sells|Array of PriceLevel|Array of price levels for sells|
+
+PriceLevel:
+
+|Parameter|Type|Description|
+|----|----|----|
+|quantity|string|Quantity of the price level.|
+|timestamp|integer|Price level last updated timestamp in UNIX millis.|
+|price|string|Price number of the price level.|
+
+
+## StreamOrderbooks
+
+Stream orderbook updates for an array of spot markets
+
+
+### Request Parameters
+> Request Example:
+
+``` python
+from pyinjective.client import Client
+from pyinjective.constant import Network
+
+async def main() -> None:
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    market_ids = ["0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0", "0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31"]
+    orderbook = client.stream_spot_orderbooks(market_ids=market_ids)
+    for orders in orderbook:
+        print(orders)
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_ids|array|Filter by Market IDs|Yes|
+
+
+
+### Response Parameters
+> Streaming Response Example:
+
+``` json
+{
+  "orderbook": {
+    "buys": [
+      {
+        "price": "1510000000000000000",
+        "quantity": "50",
+        "timestamp": 1532768892100
+      },
+      {
+        "price": "1570000000000000000",
+        "quantity": "37",
+        "timestamp": 1544614248000
+      },
+      {
+        "price": "1620000000000000000",
+        "quantity": "32",
+        "timestamp": 1621274440540
+      },
+    ]
+  },
+  "operation_type": "update",
+  "timestamp": 1622764487000,
+  "market_id": "0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31"
+
+}
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|operation_type|string|Order update type (Should be one of: [insert replace update invalidate]) |
+|orderbook|SpotLimitOrderbook||
+|timestamp|integer|Operation timestamp in UNIX millis|
+|market_id|string|Filter by market ID|
 
 SpotLimitOrderbook:
 
@@ -854,8 +917,6 @@ Get orders of a subaccount
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -940,8 +1001,6 @@ Get trades of a subaccount
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 

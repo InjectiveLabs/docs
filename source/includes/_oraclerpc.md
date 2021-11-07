@@ -10,8 +10,6 @@ Get a list with oracles and feeds.
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -70,8 +68,6 @@ Get the oracle price of an asset
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -80,8 +76,8 @@ async def main() -> None:
     network = Network.testnet()
     client = Client(network, insecure=True)
     base_symbol = 'BTC'
-    quote_symbol = 'USD'
-    oracle_type = 'coinbase'
+    quote_symbol = 'USDT'
+    oracle_type = 'band'
     oracle_scale_factor = 6
     oracle_prices = client.get_oracle_prices(base_symbol=base_symbol, quote_symbol=quote_symbol, oracle_type=oracle_type, oracle_scale_factor=oracle_scale_factor)
     print(oracle_prices)
@@ -117,8 +113,6 @@ Stream oracle prices for an asset
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -127,8 +121,8 @@ async def main() -> None:
     network = Network.testnet()
     client = Client(network, insecure=True)
     base_symbol = 'BTC'
-    quote_symbol = 'USD'
-    oracle_type = 'coinbase'
+    quote_symbol = 'USDT'
+    oracle_type = 'band'
     oracle_prices = client.stream_oracle_prices(
         base_symbol=base_symbol,
         quote_symbol=quote_symbol,

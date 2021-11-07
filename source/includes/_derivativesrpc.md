@@ -10,8 +10,6 @@ Get details of a derivative market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -145,8 +143,6 @@ Get a list of derivative markets
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -282,8 +278,6 @@ Stream live updates of derivative markets
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -411,8 +405,6 @@ Get orders of a derivative market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -504,8 +496,6 @@ Stream order updates of a derivative market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -607,8 +597,6 @@ Get trades of a derivative market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -704,8 +692,6 @@ Stream trades of a derivative market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -812,8 +798,6 @@ Get the positions of a market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -898,8 +882,6 @@ Stream position updates for a specific market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -985,8 +967,6 @@ Get the orderbook of a derivative market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -1069,8 +1049,6 @@ Stream orderbook updates for a derivative market
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -1099,40 +1077,130 @@ async def main() -> None:
   "orderbook": {
     "buys": [
       {
-        "price": "1960000000000000000",
-        "quantity": "40",
+        "price": "1230000000000000000",
+        "quantity": "80",
         "timestamp": 1544614248000
       },
       {
-        "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
+        "price": "1450000000000000000",
+        "quantity": "67",
+        "timestamp": 1548214476800
       }
     ],
     "sells": [
       {
-        "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
+        "price": "1780000000000000000",
+        "quantity": "56",
+        "timestamp": 1552975578000
       },
       {
         "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
+        "quantity": "44",
+        "timestamp": 1631758698400
       }
     ]
   },
   "operation_type": "update",
-  "timestamp": 1544614248000
+  "timestamp": 1642177545000
   
 }
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
-|operationType|string|Order update type (Should be one of: [insert delete replace update invalidate]) |
+|operation_type|string|Order update type (Should be one of: [insert delete replace update invalidate]) |
 |orderbook|DerivativeLimitOrderbook||
 |timestamp|integer|Operation timestamp in UNIX millis.|
+
+DerivativeLimitOrderbook:
+
+|Parameter|Type|Description|
+|----|----|----|
+|buys|Array of PriceLevel|Array of price levels for buys|
+|sells|Array of PriceLevel|Array of price levels for sells|
+
+PriceLevel:
+
+|Parameter|Type|Description|
+|----|----|----|
+|quantity|string|Quantity of the price level.|
+|timestamp|integer|Price level last updated timestamp in UNIX millis.|
+|price|string|Price number of the price level.|
+
+## StreamOrderbooks
+
+Stream orderbook updates for an array of derivative markets
+
+
+### Request Parameters
+> Request Example:
+
+``` python
+from pyinjective.client import Client
+from pyinjective.constant import Network
+
+async def main() -> None:
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    market_ids = ["0x897519d4cf8c460481638b3ff64871668d0a7f6afea10c1b0a952c0b5927f48f", "0x31200279ada822061217372150d567be124f02df157650395d1d6ce58a8207aa"]
+    orderbook = client.stream_derivative_orderbooks(market_ids=market_ids)
+    for orders in orderbook:
+        print(orders)
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_ids|array|Filter by Market IDs|Yes|
+
+
+
+### Response Parameters
+> Streaming Response Example:
+
+``` json
+{
+  
+"orderbook": {
+  "buys": {
+    "price": "345286000",
+    "quantity": "0.6",
+    "timestamp": 1636221472301
+  },
+  "buys": {
+    "price": "341001000",
+    "quantity": "6.1",
+    "timestamp": 1636199382866
+  },
+  "buys": {
+    "price": "340287000",
+    "quantity": "2",
+    "timestamp": 1636195902990,
+
+ "sells": {
+    "price": "387636000",
+    "quantity": "0.9",
+    "timestamp": 1636280903442
+  },
+  "sells": {
+    "price": "387926000",
+    "quantity": "1",
+    "timestamp": 1636280838731
+  }
+},
+"operation_type": "update",
+"timestamp": 1636280908000,
+"market_id": "0x31200279ada822061217372150d567be124f02df157650395d1d6ce58a8207aa"
+
+  
+}
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|operation_type|string|Order update type (Should be one of: [insert delete replace update invalidate]) |
+|orderbook|DerivativeLimitOrderbook||
+|timestamp|integer|Operation timestamp in UNIX millis|
+|market_id|string|Filter by Market ID|
 
 DerivativeLimitOrderbook:
 
@@ -1159,8 +1227,6 @@ Get the positions that are subject to liquidation
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -1245,8 +1311,6 @@ Get the derivative orders of a specific subaccount
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -1334,8 +1398,6 @@ Get the derivative trades for a specific subaccount
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -1438,8 +1500,6 @@ Get the funding payments for a subaccount
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -1459,7 +1519,7 @@ async def main() -> None:
 
 
 ### Response Parameters
-> Streaming Response Example:
+> Response Example:
 
 ``` json
 {

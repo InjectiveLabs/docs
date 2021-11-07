@@ -19,7 +19,7 @@ Includes all the messages related to spot markets.
         fee_recipient=fee_recipient,
         price=10.522,
         quantity=0.01,
-        isBuy=True
+        is_buy=True
     )
 
     # build sim tx
@@ -35,20 +35,20 @@ Includes all the messages related to spot markets.
     sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (simRes, success) = client.simulate_tx(sim_tx_raw_bytes)
+    (sim_res, success) = client.simulate_tx(sim_tx_raw_bytes)
     if not success:
-        print(simRes)
+        print(sim_res)
         return
 
-    simResMsg = ProtoMsgComposer.MsgResponses(simRes.result.data, simulation=True)
+    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res.result.data, simulation=True)
     print("simulation msg response")
-    print(simResMsg)
+    print(sim_res_msg)
 
     # build tx
     gas_price = 500000000
-    gas_limit = simRes.gas_info.gas_used + 15000 # add 15k for gas, fee computation
+    gas_limit = sim_res.gas_info.gas_used + 15000 # add 15k for gas, fee computation
     fee = [composer.Coin(
-        amount=str(gas_price * gas_limit),
+        amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
     tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
@@ -58,11 +58,11 @@ Includes all the messages related to spot markets.
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-    resMsg = ProtoMsgComposer.MsgResponses(res.data)
+    res_msg = ProtoMsgComposer.MsgResponses(res.data)
     print("tx response")
     print(res)
     print("tx msg response")
-    print(resMsg)
+    print(res_msg)
 ```
 
 |Parameter|Type|Description|Required|
@@ -111,7 +111,7 @@ Includes all the messages related to spot markets.
         fee_recipient=fee_recipient,
         price=7.523,
         quantity=0.01,
-        isBuy=True
+        is_buy=True
     )
 
     # build sim tx
@@ -132,15 +132,15 @@ Includes all the messages related to spot markets.
         print(simRes)
         return
 
-    simResMsg = ProtoMsgComposer.MsgResponses(simRes.result.data, simulation=True)
+    sim_res_msg = ProtoMsgComposer.MsgResponses(simRes.result.data, simulation=True)
     print("simulation msg response")
-    print(simResMsg)
+    print(sim_res_msg)
 
     # build tx
     gas_price = 500000000
     gas_limit = simRes.gas_info.gas_used + 15000 # add 15k for gas, fee computation
     fee = [composer.Coin(
-        amount=str(gas_price * gas_limit),
+        amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
     tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
@@ -150,11 +150,11 @@ Includes all the messages related to spot markets.
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-    resMsg = ProtoMsgComposer.MsgResponses(res.data)
+    res_msg = ProtoMsgComposer.MsgResponses(res.data)
     print("tx response")
     print(res)
     print("tx msg response")
-    print(resMsg)
+    print(res_msg)
 ```
 
 |Parameter|Type|Description|Required|
@@ -224,7 +224,7 @@ Includes all the messages related to spot markets.
     gas_price = 500000000
     gas_limit = simRes.gas_info.gas_used + 15000 # add 15k for gas, fee computation
     fee = [composer.Coin(
-        amount=str(gas_price * gas_limit),
+        amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
     tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
@@ -234,9 +234,11 @@ Includes all the messages related to spot markets.
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-    resMsg = ProtoMsgComposer.MsgResponses(res.data)
+    res_msg = ProtoMsgComposer.MsgResponses(res.data)
     print("tx response")
     print(res)
+    print("tx msg response")
+    print(res_msg)
 ```
 
 |Parameter|Type|Description|Required|
@@ -276,7 +278,7 @@ Includes all the messages related to spot markets.
             fee_recipient=fee_recipient,
             price=7.523,
             quantity=0.01,
-            isBuy=True
+            is_buy=True
         ),
         composer.SpotOrder(
             market_id=market_id,
@@ -284,7 +286,7 @@ Includes all the messages related to spot markets.
             fee_recipient=fee_recipient,
             price=27.92,
             quantity=0.01,
-            isBuy=False
+            is_buy=False
         ),
     ]
 
@@ -312,15 +314,15 @@ Includes all the messages related to spot markets.
         print(simRes)
         return
 
-    simResMsg = ProtoMsgComposer.MsgResponses(simRes.result.data, simulation=True)
+    sim_res_msg = ProtoMsgComposer.MsgResponses(simRes.result.data, simulation=True)
     print("simulation msg response")
-    print(simResMsg)
+    print(sim_res_msg)
 
     # build tx
     gas_price = 500000000
     gas_limit = simRes.gas_info.gas_used + 15000 # add 15k for gas, fee computation
     fee = [composer.Coin(
-        amount=str(gas_price * gas_limit),
+        amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
     tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
@@ -330,11 +332,11 @@ Includes all the messages related to spot markets.
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-    resMsg = ProtoMsgComposer.MsgResponses(res.data)
+    res_msg = ProtoMsgComposer.MsgResponses(res.data)
     print("tx response")
     print(res)
     print("tx msg response")
-    print(resMsg)
+    print(res_msg)
 ```
 
 |Parameter|Type|Description|Required|
@@ -416,20 +418,20 @@ orders:
     sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (simRes, success) = client.simulate_tx(sim_tx_raw_bytes)
+    (sim_res, success) = client.simulate_tx(sim_tx_raw_bytes)
     if not success:
-        print(simRes)
+        print(sim_res)
         return
 
-    simResMsg = ProtoMsgComposer.MsgResponses(simRes.result.data, simulation=True)
+    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res.result.data, simulation=True)
     print("simulation msg response")
-    print(simResMsg)
+    print(sim_res_msg)
 
     # build tx
     gas_price = 500000000
-    gas_limit = simRes.gas_info.gas_used + 15000 # add 15k for gas, fee computation
+    gas_limit = sim_res.gas_info.gas_used + 15000 # add 15k for gas, fee computation
     fee = [composer.Coin(
-        amount=str(gas_price * gas_limit),
+        amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
     tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
@@ -439,11 +441,11 @@ orders:
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-    resMsg = ProtoMsgComposer.MsgResponses(res.data)
+    res_msg = ProtoMsgComposer.MsgResponses(res.data)
     print("tx response")
     print(res)
     print("tx msg response")
-    print(resMsg)
+    print(res_msg)
 ```
 
 |Parameter|Type|Description|Required|

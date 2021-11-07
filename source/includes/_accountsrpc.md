@@ -10,10 +10,9 @@ Get a list of subaccounts for a specific address
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -55,8 +54,6 @@ Get the subaccount's transfer history
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -66,7 +63,7 @@ async def main() -> None:
     client = Client(network, insecure=True)
     subaccount = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     denom = "inj"
-    transfer_types = ["withdraw", "deposit"] # "withdraw", "deposit", "internal", "external"
+    transfer_types = ["withdraw", "deposit"] # Enum with values "withdraw", "deposit", "internal", "external"
     subacc_history = client.get_subaccount_history(subaccount_id=subaccount, denom=denom, transfer_types=transfer_types)
     print(subacc_history)
 ```
@@ -139,8 +136,6 @@ Get the balance of a subaccount for a specific denom
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -209,8 +204,6 @@ List the subaccount's balances for all denoms
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -296,8 +289,6 @@ Get the subaccount's orders summary
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -345,8 +336,6 @@ Stream the subaccount's balance for all denoms
 > Request Example:
 
 ``` python
-import grpc
-
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
@@ -405,3 +394,125 @@ SubaccountDeposit:
 |----|----|----|
 |available_balance|string||
 |total_balance|string||
+
+
+## OrderStates
+
+Query orders with an order hash, this query will return market orders and limit orders in all states [booked, partial_filled, filled, canceled]. For filled and canceled orders, there is a TTL of 1 day. Should your order be filled or canceled you will still be able to query it for 24 hours.
+
+
+### Request Parameters
+> Request Example:
+
+``` python
+from pyinjective.client import Client
+from pyinjective.constant import Network
+
+async def main() -> None:
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    spot_order_hashes = ["0xce0d9b701f77cd6ddfda5dd3a4fe7b2d53ba83e5d6c054fb2e9e886200b7b7bb", "0x2e2245b5431638d76c6e0cc6268970418a1b1b7df60a8e94b8cf37eae6105542"]
+    derivative_order_hashes = ["0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50", "0xbb1f036001378cecb5fff1cc69303919985b5bf058c32f37d5aaf9b804c07a06"]
+    
+    orders = client.get_order_states(spot_order_hashes=spot_order_hashes, derivative_order_hashes=derivative_order_hashes)
+    print(orders)
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|spot_order_hashes|array|Array with the order hashes you want to fetch in spot markets|No|
+|derivative_order_hashes|array|Array with the order hashes you want to fetch in derivative markets|No|
+
+
+
+### Response Parameters
+> Response Example:
+
+``` json
+{
+"spot_order_states": {
+  "order_hash": "0xce0d9b701f77cd6ddfda5dd3a4fe7b2d53ba83e5d6c054fb2e9e886200b7b7bb",
+  "subaccount_id": "0x0cd5450e3dad3836c66761eb626495b6195a56a2000000000000000000000000",
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "order_type": "limit",
+  "order_side": "buy",
+  "state": "booked",
+  "quantity_filled": "0",
+  "quantity_remaining": "2000000000000000000",
+  "created_at": 1636237921271,
+  "updated_at": 1636237921271
+},
+"spot_order_states": {
+  "order_hash": "0x2e2245b5431638d76c6e0cc6268970418a1b1b7df60a8e94b8cf37eae6105542",
+  "subaccount_id": "0x0cd5450e3dad3836c66761eb626495b6195a56a2000000000000000000000000",
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "order_type": "limit",
+  "order_side": "buy",
+  "state": "canceled",
+  "quantity_filled": "0",
+  "quantity_remaining": "0",
+  "created_at": 1636237914316,
+  "updated_at": 1636238238466
+},
+"derivative_order_states": {
+  "order_hash": "0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50",
+  "subaccount_id": "0x0cd5450e3dad3836c66761eb626495b6195a56a2000000000000000000000000",
+  "market_id": "0xb64332daa987dcb200c26965bc9adaf8aa301fe3a0aecb0232fadbd3dfccd0d8",
+  "order_type": "limit",
+  "order_side": "buy",
+  "state": "booked",
+  "quantity_filled": "0",
+  "quantity_remaining": "15",
+  "created_at": 1636238295539,
+  "updated_at": 1636238295539
+},
+"derivative_order_states": {
+  "order_hash": "0xbb1f036001378cecb5fff1cc69303919985b5bf058c32f37d5aaf9b804c07a06",
+  "subaccount_id": "0x0cd5450e3dad3836c66761eb626495b6195a56a2000000000000000000000000",
+  "market_id": "0x979731deaaf17d26b2e256ad18fecd0ac742b3746b9ea5382bac9bd0b5e58f74",
+  "order_type": "limit",
+  "order_side": "buy",
+  "state": "booked",
+  "quantity_filled": "0",
+  "quantity_remaining": "1",
+  "created_at": 1636238267475,
+  "updated_at": 1636238267475
+}
+
+}
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|spot_order_states|Array||
+|derivative_order_states|Array||
+
+spot_order_states:
+
+|Parameter|Type|Description|
+|----|----|----|
+|order_hash|string|The order hash|
+|subaccount_id|string|The subaccount ID that posted the order|
+|market_id|string|The market ID of the order|
+|order_type|string|The order type (Should be one of: [limit, market])|
+|order_side|string|The order side (Should be one of: [buy, sell])|
+|state|string|The order state (Should be one of: [booked, partial_filled, filled, canceled])|
+|quantity_filled|string|The quantity that has been filled for your order|
+|quantity_remaining|string|The quantity that hasn't been filled for your order|
+|created_at|string|The timestamp of your order when it was first created|
+|updated_at|string|The timestamp of your order when it was last updated|
+
+derivative_order_states:
+
+|Parameter|Type|Description|
+|----|----|----|
+|order_hash|string|The order hash|
+|subaccount_id|string|The subaccount ID that posted the order|
+|market_id|string|The market ID of the order|
+|order_type|string|The order type (Should be one of: [limit, market])|
+|order_side|string|The order side (Should be one of: [buy, sell])|
+|state|string|The order state (Should be one of: [booked, partial_filled, filled, canceled])|
+|quantity_filled|string|The quantity that has been filled for your order|
+|quantity_remaining|string|The quantity that hasn't been filled for your order|
+|created_at|string|The timestamp of your order when it was first created|
+|updated_at|string|The timestamp of your order when it was last updated|
