@@ -357,6 +357,9 @@
             <a href="#overview" class="toc-h1 toc-link" data-title="Overview">Overview</a>
           </li>
           <li>
+            <a href="#swagger" class="toc-h1 toc-link" data-title="Swagger">Swagger</a>
+          </li>
+          <li>
             <a href="#exchange-api" class="toc-h1 toc-link" data-title="Exchange API">Exchange API</a>
           </li>
           <li>
@@ -379,6 +382,9 @@
                   </li>
                   <li>
                     <a href="#injectiveaccountsrpc-streamsubaccountbalance" class="toc-h2 toc-link" data-title="StreamSubaccountBalance">StreamSubaccountBalance</a>
+                  </li>
+                  <li>
+                    <a href="#injectiveaccountsrpc-orderstates" class="toc-h2 toc-link" data-title="OrderStates">OrderStates</a>
                   </li>
               </ul>
           </li>
@@ -411,6 +417,9 @@
                   </li>
                   <li>
                     <a href="#injectivespotexchangerpc-streamorderbook" class="toc-h2 toc-link" data-title="StreamOrderbook">StreamOrderbook</a>
+                  </li>
+                  <li>
+                    <a href="#injectivespotexchangerpc-streamorderbooks" class="toc-h2 toc-link" data-title="StreamOrderbooks">StreamOrderbooks</a>
                   </li>
                   <li>
                     <a href="#injectivespotexchangerpc-subaccountorderslist" class="toc-h2 toc-link" data-title="SubaccountOrdersList">SubaccountOrdersList</a>
@@ -457,6 +466,9 @@
                     <a href="#injectivederivativeexchangerpc-streamorderbook" class="toc-h2 toc-link" data-title="StreamOrderbook">StreamOrderbook</a>
                   </li>
                   <li>
+                    <a href="#injectivederivativeexchangerpc-streamorderbooks" class="toc-h2 toc-link" data-title="StreamOrderbooks">StreamOrderbooks</a>
+                  </li>
+                  <li>
                     <a href="#injectivederivativeexchangerpc-liquidablepositions" class="toc-h2 toc-link" data-title="LiquidablePositions">LiquidablePositions</a>
                   </li>
                   <li>
@@ -492,6 +504,23 @@
                   </li>
                   <li>
                     <a href="#injectiveinsurancerpc-redemptions" class="toc-h2 toc-link" data-title="Redemptions">Redemptions</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#injectivemetarpc" class="toc-h1 toc-link" data-title="- InjectiveMetaRPC">- InjectiveMetaRPC</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#injectivemetarpc-ping" class="toc-h2 toc-link" data-title="Ping">Ping</a>
+                  </li>
+                  <li>
+                    <a href="#injectivemetarpc-version" class="toc-h2 toc-link" data-title="Version">Version</a>
+                  </li>
+                  <li>
+                    <a href="#injectivemetarpc-info" class="toc-h2 toc-link" data-title="Info">Info</a>
+                  </li>
+                  <li>
+                    <a href="#injectivemetarpc-streamkeepalive" class="toc-h2 toc-link" data-title="StreamKeepAlive">StreamKeepAlive</a>
                   </li>
               </ul>
           </li>
@@ -612,6 +641,12 @@ See the examples folder for simple Golang examples. -->
 <p>It is the first layer-2 fully decentralized exchange protocol for decentralized perpetual swaps, futures, and spot trading that unlocks the full potential of decentralized derivatives and borderless DeFi. Every component of the protocol has been built to be fully trustless, censorship-resistant, publicly verifiable, and front-running resistant.</p>
 
 <p>By providing the unrestricted and unprecedented ability to express diverse views in the decentralized financial markets, we are striving to empower individuals with the ability to more efficiently allocate capital in our society.</p>
+<h1 id='swagger'>Swagger</h1>
+<p><strong>A REST interface for state queries, legacy transactions</strong></p>
+
+<p><a href="https://lcd.injective.network/swagger/#/">Swagger Mainnet</a></p>
+
+<p><a href="https://testnet.lcd.injective.dev/swagger/#/">Swagger Testnet</a></p>
 <h1 id='exchange-api'>Exchange API</h1><h1 id='injectiveaccountsrpc'>- InjectiveAccountsRPC</h1>
 <p>InjectiveAccountsRPC defines the gRPC API of the Exchange Accounts provider.</p>
 <h2 id='injectiveaccountsrpc-subaccountslist'>SubaccountsList</h2>
@@ -620,10 +655,9 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
@@ -679,9 +713,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -690,7 +722,7 @@ See the examples folder for simple Golang examples. -->
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">subaccount</span> <span class="o">=</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span>
     <span class="n">denom</span> <span class="o">=</span> <span class="s">"inj"</span>
-    <span class="n">transfer_types</span> <span class="o">=</span> <span class="p">[</span><span class="s">"withdraw"</span><span class="p">,</span> <span class="s">"deposit"</span><span class="p">]</span> <span class="c1"># "withdraw", "deposit", "internal", "external"
+    <span class="n">transfer_types</span> <span class="o">=</span> <span class="p">[</span><span class="s">"withdraw"</span><span class="p">,</span> <span class="s">"deposit"</span><span class="p">]</span> <span class="c1"># Enum with values "withdraw", "deposit", "internal", "external"
 </span>    <span class="n">subacc_history</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_subaccount_history</span><span class="p">(</span><span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount</span><span class="p">,</span> <span class="n">denom</span><span class="o">=</span><span class="n">denom</span><span class="p">,</span> <span class="n">transfer_types</span><span class="o">=</span><span class="n">transfer_types</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">subacc_history</span><span class="p">)</span>
 </code></pre></div>
@@ -826,9 +858,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -948,9 +978,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -1083,9 +1111,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -1158,9 +1184,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -1275,6 +1299,241 @@ See the examples folder for simple Golang examples. -->
 <td></td>
 </tr>
 </tbody></table>
+<h2 id='injectiveaccountsrpc-orderstates'>OrderStates</h2>
+<p>Query orders with an order hash, this query will return market orders and limit orders in all states [booked, partial_filled, filled, canceled]. For filled and canceled orders, there is a TTL of 1 day. Should your order be filled or canceled you will still be able to query it for 24 hours.</p>
+<h3 id='injectiveaccountsrpc-orderstates-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">spot_order_hashes</span> <span class="o">=</span> <span class="p">[</span><span class="s">"0xce0d9b701f77cd6ddfda5dd3a4fe7b2d53ba83e5d6c054fb2e9e886200b7b7bb"</span><span class="p">,</span> <span class="s">"0x2e2245b5431638d76c6e0cc6268970418a1b1b7df60a8e94b8cf37eae6105542"</span><span class="p">]</span>
+    <span class="n">derivative_order_hashes</span> <span class="o">=</span> <span class="p">[</span><span class="s">"0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50"</span><span class="p">,</span> <span class="s">"0xbb1f036001378cecb5fff1cc69303919985b5bf058c32f37d5aaf9b804c07a06"</span><span class="p">]</span>
+
+    <span class="n">orders</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_order_states</span><span class="p">(</span><span class="n">spot_order_hashes</span><span class="o">=</span><span class="n">spot_order_hashes</span><span class="p">,</span> <span class="n">derivative_order_hashes</span><span class="o">=</span><span class="n">derivative_order_hashes</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">orders</span><span class="p">)</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>spot_order_hashes</td>
+<td>array</td>
+<td>Array with the order hashes you want to fetch in spot markets</td>
+<td>No</td>
+</tr>
+<tr>
+<td>derivative_order_hashes</td>
+<td>array</td>
+<td>Array with the order hashes you want to fetch in derivative markets</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<h3 id='injectiveaccountsrpc-orderstates-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+</span><span class="nl">"spot_order_states"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"order_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xce0d9b701f77cd6ddfda5dd3a4fe7b2d53ba83e5d6c054fb2e9e886200b7b7bb"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0cd5450e3dad3836c66761eb626495b6195a56a2000000000000000000000000"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"order_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"order_side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"booked"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"quantity_filled"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"quantity_remaining"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2000000000000000000"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636237921271</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636237921271</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span><span class="nl">"spot_order_states"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"order_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x2e2245b5431638d76c6e0cc6268970418a1b1b7df60a8e94b8cf37eae6105542"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0cd5450e3dad3836c66761eb626495b6195a56a2000000000000000000000000"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"order_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"order_side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"canceled"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"quantity_filled"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"quantity_remaining"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636237914316</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636238238466</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span><span class="nl">"derivative_order_states"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"order_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0cd5450e3dad3836c66761eb626495b6195a56a2000000000000000000000000"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb64332daa987dcb200c26965bc9adaf8aa301fe3a0aecb0232fadbd3dfccd0d8"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"order_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"order_side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"booked"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"quantity_filled"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"quantity_remaining"</span><span class="p">:</span><span class="w"> </span><span class="s2">"15"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636238295539</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636238295539</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span><span class="nl">"derivative_order_states"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"order_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xbb1f036001378cecb5fff1cc69303919985b5bf058c32f37d5aaf9b804c07a06"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0cd5450e3dad3836c66761eb626495b6195a56a2000000000000000000000000"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x979731deaaf17d26b2e256ad18fecd0ac742b3746b9ea5382bac9bd0b5e58f74"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"order_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"order_side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"booked"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"quantity_filled"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"quantity_remaining"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636238267475</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636238267475</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>spot_order_states</td>
+<td>Array</td>
+<td></td>
+</tr>
+<tr>
+<td>derivative_order_states</td>
+<td>Array</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p>spot_order_states:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>order_hash</td>
+<td>string</td>
+<td>The order hash</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>string</td>
+<td>The subaccount ID that posted the order</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>The market ID of the order</td>
+</tr>
+<tr>
+<td>order_type</td>
+<td>string</td>
+<td>The order type (Should be one of: [limit, market])</td>
+</tr>
+<tr>
+<td>order_side</td>
+<td>string</td>
+<td>The order side (Should be one of: [buy, sell])</td>
+</tr>
+<tr>
+<td>state</td>
+<td>string</td>
+<td>The order state (Should be one of: [booked, partial_filled, filled, canceled])</td>
+</tr>
+<tr>
+<td>quantity_filled</td>
+<td>string</td>
+<td>The quantity that has been filled for your order</td>
+</tr>
+<tr>
+<td>quantity_remaining</td>
+<td>string</td>
+<td>The quantity that hasn&#39;t been filled for your order</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>string</td>
+<td>The timestamp of your order when it was first created</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>string</td>
+<td>The timestamp of your order when it was last updated</td>
+</tr>
+</tbody></table>
+
+<p>derivative_order_states:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>order_hash</td>
+<td>string</td>
+<td>The order hash</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>string</td>
+<td>The subaccount ID that posted the order</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>The market ID of the order</td>
+</tr>
+<tr>
+<td>order_type</td>
+<td>string</td>
+<td>The order type (Should be one of: [limit, market])</td>
+</tr>
+<tr>
+<td>order_side</td>
+<td>string</td>
+<td>The order side (Should be one of: [buy, sell])</td>
+</tr>
+<tr>
+<td>state</td>
+<td>string</td>
+<td>The order state (Should be one of: [booked, partial_filled, filled, canceled])</td>
+</tr>
+<tr>
+<td>quantity_filled</td>
+<td>string</td>
+<td>The quantity that has been filled for your order</td>
+</tr>
+<tr>
+<td>quantity_remaining</td>
+<td>string</td>
+<td>The quantity that hasn&#39;t been filled for your order</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>string</td>
+<td>The timestamp of your order when it was first created</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>string</td>
+<td>The timestamp of your order when it was last updated</td>
+</tr>
+</tbody></table>
 <h1 id='injectivespotexchangerpc'>- InjectiveSpotExchangeRPC</h1>
 <p>InjectiveSpotExchangeRPC defines the gRPC API of the Spot Exchange provider.</p>
 <h2 id='injectivespotexchangerpc-market'>Market</h2>
@@ -1283,9 +1542,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -1478,9 +1735,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -1687,9 +1942,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -1877,9 +2130,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -2038,9 +2289,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -2217,9 +2466,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -2399,9 +2646,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -2578,9 +2823,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -2715,9 +2958,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -2752,24 +2993,24 @@ See the examples folder for simple Golang examples. -->
   </span><span class="nl">"orderbook"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1960000000000000000"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1460000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20"</span><span class="p">,</span><span class="w">
         </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1960000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1250000000000000000"</span><span class="p">,</span><span class="w">
         </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
+        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">163213580000</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1960000000000000000"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
+        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1310000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"35"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">164376879000</span><span class="w">
       </span><span class="p">},</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="nl">"operationType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"update"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
+  </span><span class="nl">"operation_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"update"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">165768323400</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <table><thead>
@@ -2842,15 +3083,150 @@ See the examples folder for simple Golang examples. -->
 <td>Price number of the price level.</td>
 </tr>
 </tbody></table>
+<h2 id='injectivespotexchangerpc-streamorderbooks'>StreamOrderbooks</h2>
+<p>Stream orderbook updates for an array of spot markets</p>
+<h3 id='injectivespotexchangerpc-streamorderbooks-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">market_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span><span class="p">,</span> <span class="s">"0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31"</span><span class="p">]</span>
+    <span class="n">orderbook</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">stream_spot_orderbooks</span><span class="p">(</span><span class="n">market_ids</span><span class="o">=</span><span class="n">market_ids</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">orders</span> <span class="ow">in</span> <span class="n">orderbook</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">orders</span><span class="p">)</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_ids</td>
+<td>array</td>
+<td>Filter by Market IDs</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+<h3 id='injectivespotexchangerpc-streamorderbooks-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Streaming Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"orderbook"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1510000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1532768892100</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1570000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"37"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1620000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"32"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1621274440540</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"operation_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"update"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1622764487000</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31"</span><span class="w">
+
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>operation_type</td>
+<td>string</td>
+<td>Order update type (Should be one of: [insert replace update invalidate])</td>
+</tr>
+<tr>
+<td>orderbook</td>
+<td>SpotLimitOrderbook</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer</td>
+<td>Operation timestamp in UNIX millis</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>Filter by market ID</td>
+</tr>
+</tbody></table>
+
+<p>SpotLimitOrderbook:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>buys</td>
+<td>Array of PriceLevel</td>
+<td>Array of price levels for buys</td>
+</tr>
+<tr>
+<td>sells</td>
+<td>Array of PriceLevel</td>
+<td>Array of price levels for sells</td>
+</tr>
+</tbody></table>
+
+<p>PriceLevel:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>quantity</td>
+<td>string</td>
+<td>Quantity of the price level.</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer</td>
+<td>Price level last updated timestamp in UNIX millis.</td>
+</tr>
+<tr>
+<td>price</td>
+<td>string</td>
+<td>Price number of the price level.</td>
+</tr>
+</tbody></table>
 <h2 id='injectivespotexchangerpc-subaccountorderslist'>SubaccountOrdersList</h2>
 <p>Get orders of a subaccount</p>
 <h3 id='injectivespotexchangerpc-subaccountorderslist-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -3002,9 +3378,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -3185,9 +3559,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -3485,9 +3857,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -3792,9 +4162,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -4076,9 +4444,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -4254,9 +4620,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -4448,9 +4812,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -4627,9 +4989,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -4823,9 +5183,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -4970,9 +5328,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -5126,9 +5482,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -5253,9 +5607,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -5291,31 +5643,31 @@ See the examples folder for simple Golang examples. -->
   </span><span class="nl">"orderbook"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1960000000000000000"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1230000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"80"</span><span class="p">,</span><span class="w">
         </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1960000000000000000"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
+        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1450000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"67"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1548214476800</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
     </span><span class="nl">"sells"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1960000000000000000"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
+        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1780000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"56"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1552975578000</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1960000000000000000"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
+        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"44"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1631758698400</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nl">"operation_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"update"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
+  </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1642177545000</span><span class="w">
 
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
@@ -5327,7 +5679,7 @@ See the examples folder for simple Golang examples. -->
 </tr>
 </thead><tbody>
 <tr>
-<td>operationType</td>
+<td>operation_type</td>
 <td>string</td>
 <td>Order update type (Should be one of: [insert delete replace update invalidate])</td>
 </tr>
@@ -5389,15 +5741,160 @@ See the examples folder for simple Golang examples. -->
 <td>Price number of the price level.</td>
 </tr>
 </tbody></table>
+<h2 id='injectivederivativeexchangerpc-streamorderbooks'>StreamOrderbooks</h2>
+<p>Stream orderbook updates for an array of derivative markets</p>
+<h3 id='injectivederivativeexchangerpc-streamorderbooks-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">market_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s">"0x897519d4cf8c460481638b3ff64871668d0a7f6afea10c1b0a952c0b5927f48f"</span><span class="p">,</span> <span class="s">"0x31200279ada822061217372150d567be124f02df157650395d1d6ce58a8207aa"</span><span class="p">]</span>
+    <span class="n">orderbook</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">stream_derivative_orderbooks</span><span class="p">(</span><span class="n">market_ids</span><span class="o">=</span><span class="n">market_ids</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">orders</span> <span class="ow">in</span> <span class="n">orderbook</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">orders</span><span class="p">)</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_ids</td>
+<td>array</td>
+<td>Filter by Market IDs</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+<h3 id='injectivederivativeexchangerpc-streamorderbooks-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Streaming Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+
+</span><span class="nl">"orderbook"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"345286000"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.6"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636221472301</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"341001000"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6.1"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636199382866</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"340287000"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636195902990</span><span class="p">,</span><span class="w">
+
+ </span><span class="nl">"sells"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"387636000"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.9"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636280903442</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"sells"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"387926000"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636280838731</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span><span class="nl">"operation_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"update"</span><span class="p">,</span><span class="w">
+</span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636280908000</span><span class="p">,</span><span class="w">
+</span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x31200279ada822061217372150d567be124f02df157650395d1d6ce58a8207aa"</span><span class="w">
+
+
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>operation_type</td>
+<td>string</td>
+<td>Order update type (Should be one of: [insert delete replace update invalidate])</td>
+</tr>
+<tr>
+<td>orderbook</td>
+<td>DerivativeLimitOrderbook</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer</td>
+<td>Operation timestamp in UNIX millis</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>Filter by Market ID</td>
+</tr>
+</tbody></table>
+
+<p>DerivativeLimitOrderbook:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>buys</td>
+<td>Array of PriceLevel</td>
+<td>Array of price levels for buys</td>
+</tr>
+<tr>
+<td>sells</td>
+<td>Array of PriceLevel</td>
+<td>Array of price levels for sells</td>
+</tr>
+</tbody></table>
+
+<p>PriceLevel:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>quantity</td>
+<td>string</td>
+<td>Quantity of the price level.</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer</td>
+<td>Price level last updated timestamp in UNIX millis.</td>
+</tr>
+<tr>
+<td>price</td>
+<td>string</td>
+<td>Price number of the price level.</td>
+</tr>
+</tbody></table>
 <h2 id='injectivederivativeexchangerpc-liquidablepositions'>LiquidablePositions</h2>
 <p>Get the positions that are subject to liquidation</p>
 <h3 id='injectivederivativeexchangerpc-liquidablepositions-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -5537,9 +6034,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -5703,9 +6198,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -5898,9 +6391,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -5934,7 +6425,7 @@ See the examples folder for simple Golang examples. -->
 </tbody></table>
 <h3 id='injectivederivativeexchangerpc-fundingpayments-response-parameters'>Response Parameters</h3>
 <blockquote>
-<p>Streaming Response Example:</p>
+<p>Response Example:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
 </span><span class="nl">"payments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -5982,9 +6473,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -6062,9 +6551,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -6072,8 +6559,8 @@ See the examples folder for simple Golang examples. -->
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">base_symbol</span> <span class="o">=</span> <span class="s">'BTC'</span>
-    <span class="n">quote_symbol</span> <span class="o">=</span> <span class="s">'USD'</span>
-    <span class="n">oracle_type</span> <span class="o">=</span> <span class="s">'coinbase'</span>
+    <span class="n">quote_symbol</span> <span class="o">=</span> <span class="s">'USDT'</span>
+    <span class="n">oracle_type</span> <span class="o">=</span> <span class="s">'band'</span>
     <span class="n">oracle_scale_factor</span> <span class="o">=</span> <span class="mi">6</span>
     <span class="n">oracle_prices</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_oracle_prices</span><span class="p">(</span><span class="n">base_symbol</span><span class="o">=</span><span class="n">base_symbol</span><span class="p">,</span> <span class="n">quote_symbol</span><span class="o">=</span><span class="n">quote_symbol</span><span class="p">,</span> <span class="n">oracle_type</span><span class="o">=</span><span class="n">oracle_type</span><span class="p">,</span> <span class="n">oracle_scale_factor</span><span class="o">=</span><span class="n">oracle_scale_factor</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">oracle_prices</span><span class="p">)</span>
@@ -6138,9 +6625,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -6148,8 +6633,8 @@ See the examples folder for simple Golang examples. -->
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">base_symbol</span> <span class="o">=</span> <span class="s">'BTC'</span>
-    <span class="n">quote_symbol</span> <span class="o">=</span> <span class="s">'USD'</span>
-    <span class="n">oracle_type</span> <span class="o">=</span> <span class="s">'coinbase'</span>
+    <span class="n">quote_symbol</span> <span class="o">=</span> <span class="s">'USDT'</span>
+    <span class="n">oracle_type</span> <span class="o">=</span> <span class="s">'band'</span>
     <span class="n">oracle_prices</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">stream_oracle_prices</span><span class="p">(</span>
         <span class="n">base_symbol</span><span class="o">=</span><span class="n">base_symbol</span><span class="p">,</span>
         <span class="n">quote_symbol</span><span class="o">=</span><span class="n">quote_symbol</span><span class="p">,</span>
@@ -6220,9 +6705,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -6343,9 +6826,7 @@ See the examples folder for simple Golang examples. -->
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">grpc</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -6491,7 +6972,174 @@ See the examples folder for simple Golang examples. -->
 <td>Denom of the quote tokens disbursed</td>
 </tr>
 </tbody></table>
-<h1 id='chain-api'>Chain API</h1>
+<h1 id='injectivemetarpc'>- InjectiveMetaRPC</h1>
+<p>InjectiveMetaRPC defines the gRPC API of the Exchange Meta provider.</p>
+<h2 id='injectivemetarpc-ping'>Ping</h2>
+<p>Query the server health</p>
+
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># select network: local, testnet, mainnet
+</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">ping</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'Health OK?'</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h2 id='injectivemetarpc-version'>Version</h2>
+<p>Query the server version</p>
+
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># select network: local, testnet, mainnet
+</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">version</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+</span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dev"</span><span class="p">,</span><span class="w">
+</span><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BuildDate"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20211106-1852"</span><span class="p">,</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GitCommit"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2705336"</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GoArch"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"amd64"</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GoVersion"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"go1.17.2"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h2 id='injectivemetarpc-info'>Info</h2>
+<p>Query the server information</p>
+
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># select network: local, testnet, mainnet
+</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">info</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'[!] Info:'</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+
+    <span class="n">latency</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))</span> <span class="o">-</span> <span class="n">resp</span><span class="p">.</span><span class="n">timestamp</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">f'Server Latency: </span><span class="si">{</span><span class="n">latency</span><span class="si">}</span><span class="s">ms'</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+</span><span class="nl">"[!] Info"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636235761154</span><span class="p">,</span><span class="w">
+</span><span class="nl">"server_time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636235762168</span><span class="p">,</span><span class="w">
+</span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dev"</span><span class="p">,</span><span class="w">
+</span><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BuildDate"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20211106-1852"</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GitCommit"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2705336"</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GoArch"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"amd64"</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GoVersion"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"go1.17.2"</span><span class="w">
+</span><span class="p">},</span><span class="w">
+
+</span><span class="nl">"Server Latency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"822ms"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h2 id='injectivemetarpc-streamkeepalive'>StreamKeepAlive</h2>
+<p>Clients can subscribe to a stream and gracefully disconnect and connect to another endpoint if the primary becomes unavailable</p>
+
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># select network: local, testnet, mainnet
+</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="n">task1</span> <span class="o">=</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">get_markets</span><span class="p">(</span><span class="n">client</span><span class="p">))</span>
+    <span class="n">task2</span> <span class="o">=</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">keepalive</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">task1</span><span class="p">]))</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">gather</span><span class="p">(</span>
+            <span class="n">task1</span><span class="p">,</span>
+            <span class="n">task2</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">CancelledError</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"main(): get_markets is cancelled now"</span><span class="p">)</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">get_markets</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">stream_spot_markets</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">market</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">market</span><span class="p">)</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">keepalive</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">tasks</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">stream_keepalive</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">announce</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">announce</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
+            <span class="n">task</span><span class="p">.</span><span class="n">cancel</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'Cancelled all tasks'</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+</span><span class="nl">"event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"shutdown"</span><span class="p">,</span><span class="w">
+</span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636236225847</span><span class="p">,</span><span class="w">
+
+</span><span class="s2">"Cancelled all tasks"</span><span class="w">
+
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h1 id='chain-api'>Chain API</h1>
 <p><strong>Initialize Client</strong></p>
 
 <p>Import dependencies from <a href="https://pypi.org/project/injective-py/">injective-py</a> and configure the gRPC client in order to send messages to the Injective Chain. You can include multiple messages in a single transaction.</p>
@@ -6535,7 +7183,7 @@ See the examples folder for simple Golang examples. -->
         <span class="n">price</span><span class="o">=</span><span class="mi">60000</span><span class="p">,</span>
         <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
         <span class="n">leverage</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-        <span class="n">isBuy</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span>
     <span class="p">)</span>
 
     <span class="c1"># build sim tx
@@ -6556,15 +7204,15 @@ See the examples folder for simple Golang examples. -->
         <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">simResMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">simResMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
     <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">simRes</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">),</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
     <span class="p">)]</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">""</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -6574,11 +7222,11 @@ See the examples folder for simple Golang examples. -->
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">resMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res_msg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -6669,7 +7317,7 @@ See the examples folder for simple Golang examples. -->
         <span class="n">price</span><span class="o">=</span><span class="mf">44054.48</span><span class="p">,</span>
         <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
         <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
-        <span class="n">isBuy</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span>
     <span class="p">)</span>
 
     <span class="c1"># build sim tx
@@ -6685,20 +7333,20 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
     <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">simResMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">simResMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">simRes</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">),</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
     <span class="p">)]</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">""</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -6708,11 +7356,11 @@ See the examples folder for simple Golang examples. -->
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">resMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res_msg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -6815,16 +7463,16 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
     <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">simRes</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">),</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
     <span class="p">)]</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">""</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -6834,9 +7482,11 @@ See the examples folder for simple Golang examples. -->
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res_msg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -6898,7 +7548,7 @@ See the examples folder for simple Golang examples. -->
             <span class="n">price</span><span class="o">=</span><span class="mi">41027</span><span class="p">,</span>
             <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
             <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
-            <span class="n">isBuy</span><span class="o">=</span><span class="bp">True</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span>
         <span class="p">),</span>
         <span class="n">composer</span><span class="p">.</span><span class="n">DerivativeOrder</span><span class="p">(</span>
             <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
@@ -6907,7 +7557,7 @@ See the examples folder for simple Golang examples. -->
             <span class="n">price</span><span class="o">=</span><span class="mi">62140</span><span class="p">,</span>
             <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
             <span class="n">leverage</span><span class="o">=</span><span class="mf">1.4</span><span class="p">,</span>
-            <span class="n">isBuy</span><span class="o">=</span><span class="bp">False</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span>
         <span class="p">),</span>
     <span class="p">]</span>
 
@@ -6930,20 +7580,20 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
     <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">simResMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">simResMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">simRes</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">),</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
     <span class="p">)]</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">""</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -6953,11 +7603,11 @@ See the examples folder for simple Golang examples. -->
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">resMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res_msg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7088,20 +7738,20 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
     <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">simResMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">simResMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">simRes</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">),</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
     <span class="p">)]</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">""</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -7111,11 +7761,11 @@ See the examples folder for simple Golang examples. -->
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">resMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res_msg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7213,16 +7863,16 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
     <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">simRes</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">),</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
     <span class="p">)]</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">""</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -7232,9 +7882,11 @@ See the examples folder for simple Golang examples. -->
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res_msg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7325,20 +7977,20 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
     <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">simResMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">simResMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">simRes</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">),</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
     <span class="p">)]</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">""</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -7348,11 +8000,11 @@ See the examples folder for simple Golang examples. -->
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">resMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res_msg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7407,7 +8059,7 @@ See the examples folder for simple Golang examples. -->
         <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
         <span class="n">price</span><span class="o">=</span><span class="mf">10.522</span><span class="p">,</span>
         <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-        <span class="n">isBuy</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span>
     <span class="p">)</span>
 
     <span class="c1"># build sim tx
@@ -7423,20 +8075,20 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
     <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">simResMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">simResMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">simRes</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">),</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
     <span class="p">)]</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">""</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -7446,11 +8098,11 @@ See the examples folder for simple Golang examples. -->
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">resMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res_msg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7535,7 +8187,7 @@ See the examples folder for simple Golang examples. -->
         <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
         <span class="n">price</span><span class="o">=</span><span class="mf">7.523</span><span class="p">,</span>
         <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-        <span class="n">isBuy</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span>
     <span class="p">)</span>
 
     <span class="c1"># build sim tx
@@ -7556,15 +8208,15 @@ See the examples folder for simple Golang examples. -->
         <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">simResMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">simResMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
     <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">simRes</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">),</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
     <span class="p">)]</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">""</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -7574,11 +8226,11 @@ See the examples folder for simple Golang examples. -->
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">resMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res_msg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7684,7 +8336,7 @@ See the examples folder for simple Golang examples. -->
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
     <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">simRes</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">),</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
     <span class="p">)]</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">""</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -7694,9 +8346,11 @@ See the examples folder for simple Golang examples. -->
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res_msg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7756,7 +8410,7 @@ See the examples folder for simple Golang examples. -->
             <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
             <span class="n">price</span><span class="o">=</span><span class="mf">7.523</span><span class="p">,</span>
             <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-            <span class="n">isBuy</span><span class="o">=</span><span class="bp">True</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span>
         <span class="p">),</span>
         <span class="n">composer</span><span class="p">.</span><span class="n">SpotOrder</span><span class="p">(</span>
             <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
@@ -7764,7 +8418,7 @@ See the examples folder for simple Golang examples. -->
             <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
             <span class="n">price</span><span class="o">=</span><span class="mf">27.92</span><span class="p">,</span>
             <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-            <span class="n">isBuy</span><span class="o">=</span><span class="bp">False</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span>
         <span class="p">),</span>
     <span class="p">]</span>
 
@@ -7792,15 +8446,15 @@ See the examples folder for simple Golang examples. -->
         <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">simResMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">simResMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
     <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">simRes</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">),</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
     <span class="p">)]</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">""</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -7810,11 +8464,11 @@ See the examples folder for simple Golang examples. -->
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">resMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res_msg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7944,20 +8598,20 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
     <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">simResMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">simResMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">simRes</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">),</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
     <span class="p">)]</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">""</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -7967,11 +8621,11 @@ See the examples folder for simple Golang examples. -->
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">resMsg</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res_msg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -8068,16 +8722,16 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
     <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">simRes</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span>  <span class="c1"># add 15k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">),</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
     <span class="p">)]</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">""</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -8218,16 +8872,16 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
     <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">simRes</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">),</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
     <span class="p">)]</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">""</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -8379,16 +9033,16 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
     <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">simRes</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">),</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
     <span class="p">)]</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">""</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -8398,9 +9052,11 @@ See the examples folder for simple Golang examples. -->
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res_msg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -8540,16 +9196,16 @@ See the examples folder for simple Golang examples. -->
     <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
     <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">simRes</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">15000</span> <span class="c1"># add 15k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">),</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
     <span class="p">)]</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">""</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -8559,9 +9215,11 @@ See the examples folder for simple Golang examples. -->
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="n">resMsg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res_msg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
