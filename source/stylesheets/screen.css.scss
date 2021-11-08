@@ -210,6 +210,10 @@ html, body {
   transition-duration: 130ms;
 }
 
+.toc-h1 {
+  font-weight: normal !important;
+}
+
 // button to show navigation on mobile devices
 #nav-button {
   span {

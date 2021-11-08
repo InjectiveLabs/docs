@@ -22,7 +22,6 @@ includes:
   - spot
   - account
   - faq
-  # - relayers
   # - exchangerpc
   # - chronosrpc
   # - errors
