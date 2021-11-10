@@ -355,6 +355,11 @@
           </li>
           <li>
             <a href="#overview" class="toc-h1 toc-link" data-title="Overview">Overview</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#overview-architecture-overview" class="toc-h2 toc-link" data-title="Architecture Overview">Architecture Overview</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#swagger" class="toc-h1 toc-link" data-title="Swagger">Swagger</a>
@@ -641,6 +646,30 @@ See the examples folder for simple Golang examples. -->
 <p>It is the first layer-2 fully decentralized exchange protocol for decentralized perpetual swaps, futures, and spot trading that unlocks the full potential of decentralized derivatives and borderless DeFi. Every component of the protocol has been built to be fully trustless, censorship-resistant, publicly verifiable, and front-running resistant.</p>
 
 <p>By providing the unrestricted and unprecedented ability to express diverse views in the decentralized financial markets, we are striving to empower individuals with the ability to more efficiently allocate capital in our society.</p>
+<h2 id='overview-architecture-overview'>Architecture Overview</h2>
+<p>Injective Protocol enables traders to create and trade on arbitrary spot and derivative markets. The entire process of orderbook management, trade execution, order matching and settlement occurs on chain through the logic codified by the Injective Chain&#39;s exchange module.</p>
+
+<p>Architecturally there are two main services that traders should concern themselves with:
+1. The Injective Chain node (the Chain API)
+2. The Injective Exchange API </p>
+
+<p>The trading lifecycle is as follows:</p>
+
+<ol>
+<li>First, traders cryptographically sign a <strong>transaction</strong> containing one or more order <strong>messages</strong> (e.g. <code>MsgBatchCreateDerivativeLimitOrders</code>, <code>MsgCreateSpotMarketOrder</code>, <code>MsgCancelDerivativeLimitOrder</code>, etc. ). </li>
+<li>Then the transaction is broadcasted to an Injective Chain node. </li>
+<li>The transaction is then added to the mempool and becomes included in a block. More details on this process can be found <a href="https://docs.cosmos.network/master/basics/tx-lifecycle.html">here</a>. </li>
+<li>The handler for each respective message is run. During handler execution, order cancel and liquidation messages are processed immediately, whereas order creation messages are added to a queue.</li>
+<li>At the end of the block, the batch auction process for order matching begins. 
+
+<ol>
+<li>First, the queued market orders are executed against the resting orderbook (which does NOT include the new orders from the current block) and are cleared at a uniform clearing price.<br></li>
+<li>Then the queued limit orders are matched against each other and the resting orderbook to result in an uncrossed orderbook. Limit orders created in that block are cleared at a uniform clearing price while resting limit orders created in previous blocks are cleared at an equal or better price than their limit order price. </li>
+</ol></li>
+<li>The funds are settled accordingly, with positions being created for derivative trades and assets being swapped for spot trades.</li>
+<li>Events containing the trade and settlement information are emitted by the Chain.</li>
+<li>The Injective Exchange API backend indexes the events and pushes updates to all subscribed traders. </li>
+</ol>
 <h1 id='swagger'>Swagger</h1>
 <p><strong>A REST interface for state queries, legacy transactions</strong></p>
 
