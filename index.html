@@ -362,6 +362,20 @@
               </ul>
           </li>
           <li>
+            <a href="#examples" class="toc-h1 toc-link" data-title="Examples">Examples</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#examples-payouts" class="toc-h2 toc-link" data-title="Payouts">Payouts</a>
+                  </li>
+                  <li>
+                    <a href="#examples-market-order-matching" class="toc-h2 toc-link" data-title="Market Order Matching">Market Order Matching</a>
+                  </li>
+                  <li>
+                    <a href="#examples-limit-order-matching" class="toc-h2 toc-link" data-title="Limit Order Matching">Limit Order Matching</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#swagger" class="toc-h1 toc-link" data-title="Swagger">Swagger</a>
           </li>
           <li>
@@ -649,27 +663,320 @@ See the examples folder for simple Golang examples. -->
 <h2 id='overview-architecture-overview'>Architecture Overview</h2>
 <p>Injective Protocol enables traders to create and trade on arbitrary spot and derivative markets. The entire process of orderbook management, trade execution, order matching and settlement occurs on chain through the logic codified by the Injective Chain&#39;s exchange module.</p>
 
-<p>Architecturally there are two main services that traders should concern themselves with:
-1. The Injective Chain node (the Chain API)
-2. The Injective Exchange API </p>
+<p>Architecturally there are two main services that traders should concern themselves with:</p>
+
+<ol>
+<li>The Injective Chain node (the Chain API)</li>
+<li>The Injective Exchange API</li>
+</ol>
 
 <p>The trading lifecycle is as follows:</p>
 
 <ol>
-<li>First, traders cryptographically sign a <strong>transaction</strong> containing one or more order <strong>messages</strong> (e.g. <code>MsgBatchCreateDerivativeLimitOrders</code>, <code>MsgCreateSpotMarketOrder</code>, <code>MsgCancelDerivativeLimitOrder</code>, etc. ). </li>
-<li>Then the transaction is broadcasted to an Injective Chain node. </li>
-<li>The transaction is then added to the mempool and becomes included in a block. More details on this process can be found <a href="https://docs.cosmos.network/master/basics/tx-lifecycle.html">here</a>. </li>
+<li>First, traders cryptographically sign a <strong>transaction</strong> containing one or more order <strong>messages</strong> (e.g. <code>MsgBatchCreateDerivativeLimitOrders</code>, <code>MsgCreateSpotMarketOrder</code>, <code>MsgCancelDerivativeLimitOrder</code>, etc. ).</li>
+<li>Then the transaction is broadcasted to an Injective Chain node.</li>
+<li>The transaction is then added to the mempool and becomes included in a block. More details on this process can be found <a href="https://docs.cosmos.network/master/basics/tx-lifecycle.html">here</a>.</li>
 <li>The handler for each respective message is run. During handler execution, order cancel and liquidation messages are processed immediately, whereas order creation messages are added to a queue.</li>
-<li>At the end of the block, the batch auction process for order matching begins. 
+<li>At the end of the block, the batch auction process for order matching begins.
 
 <ol>
-<li>First, the queued market orders are executed against the resting orderbook (which does NOT include the new orders from the current block) and are cleared at a uniform clearing price.<br></li>
-<li>Then the queued limit orders are matched against each other and the resting orderbook to result in an uncrossed orderbook. Limit orders created in that block are cleared at a uniform clearing price while resting limit orders created in previous blocks are cleared at an equal or better price than their limit order price. </li>
+<li>First, the queued market orders are executed against the resting orderbook (which does NOT include the new orders from the current block) and are cleared at a uniform clearing price.</li>
+<li>Then the queued limit orders are matched against each other and the resting orderbook to result in an uncrossed orderbook. Limit orders created in that block are cleared at a uniform clearing price while resting limit orders created in previous blocks are cleared at an equal or better price than their limit order price.</li>
 </ol></li>
 <li>The funds are settled accordingly, with positions being created for derivative trades and assets being swapped for spot trades.</li>
 <li>Events containing the trade and settlement information are emitted by the Chain.</li>
-<li>The Injective Exchange API backend indexes the events and pushes updates to all subscribed traders. </li>
+<li>The Injective Exchange API backend indexes the events and pushes updates to all subscribed traders.</li>
 </ol>
+<h1 id='examples'>Examples</h1><h2 id='examples-payouts'>Payouts</h2><h3 id='examples-payouts-spot-market-order'>Spot Market Order</h3>
+<p><strong>Buy</strong>: Given a market buy order of 1 ETH with a worst price of 3,000 USDT which is getting fully matched at a clearing price of 2,000 USD and a maker and taker fee rate of 0.1% and 0.2%, the account&#39;s available balance is decremented by 3,000 USDT + taker fee = 3,006 USDT. Upon matching the new account balances are calculated as:</p>
+
+<ul>
+<li><code>Credit Amount = 1 ETH</code></li>
+<li><code>Debit Amount = 1 * 2,000 + 4 = 2,004 USDT</code></li>
+<li><code>Trading Fee = 1 * 2,000 * 0.002 = 4 USDT</code>
+
+<ul>
+<li><code>Relayer Fee Reward = 0.4 * 4 = 1.6 USDT</code></li>
+<li><code>Auction Fee Reward = 0.6 * 4 = 2.4 USDT</code></li>
+</ul></li>
+<li><code>Clearing Refund = 3,006 - 2,004 = 1,002 USDT</code></li>
+</ul>
+
+<p><strong>Sell</strong>: Given a market sell order of 1 ETH with a worst price of 3,000 USDT which is getting fully matched at a clearing price of 2,000 USD and a maker and taker fee rate of 0.1% and 0.2%, the account&#39;s available balance is decremented by 1 ETH. Upon matching the new account balances are calculated as:</p>
+
+<ul>
+<li><code>Credit Amount = 1 * 2,000 - 4 = 1996 USDT</code></li>
+<li><code>Debit Amount = 1 ETH</code></li>
+<li><code>Trading Fee = 1 * 2,000 * 0.002 = 4 USDT</code>
+
+<ul>
+<li><code>Relayer Fee Reward = 0.4 * 4 = 1.6 USDT</code></li>
+<li><code>Auction Fee Reward = 0.6 * 4 = 2.4 USDT</code></li>
+</ul></li>
+<li><code>Clearing Refund = 0</code></li>
+</ul>
+<h3 id='examples-payouts-spot-limit-order'>Spot Limit Order</h3>
+<p><strong>Buy</strong>: Given a limit buy order of 1 ETH with a price of 2,000 USDT and a maker and taker fee rate of 0.1% and 0.2%, the account&#39;s available balance is decremented by 2,000 USDT + taker fee = 2,004 USDT. The new account balances are calculated as:</p>
+
+<p>If <strong>Unmatched</strong>, the order becomes a resting limit order (maker) and we refund the fee difference between maker and taker:</p>
+
+<ul>
+<li><code>Fee Refund = 1 * 2000 * (0.002 - 0.001) = 2 USDT</code></li>
+</ul>
+
+<p>If <strong>Matched Immediately</strong>: (assuming a clearing price of 1,900 USDT)</p>
+
+<ul>
+<li><code>Credit Amount = 1 ETH</code></li>
+<li><code>Debit Amount = 1 * 1,900 + 3.8 = 1,903.8 USDT</code></li>
+<li><code>Trading Fee = 1 * 1,900 * 0.002 = 3.8 USDT</code>
+
+<ul>
+<li><code>Relayer Fee Reward = 0.4 * 3.8 = 1.52 USDT</code></li>
+<li><code>Auction Fee Reward = 0.6 * 3.8 = 2.28 USDT</code></li>
+</ul></li>
+<li><code>Clearing Refund = (1 + 0.002) * (2,000 - 1,900) = 100.2 USDT</code></li>
+<li><code>Unmatched Fee Refund = 0 USDT</code></li>
+</ul>
+
+<p>If <strong>Filled Later By Market Order</strong>:</p>
+
+<ul>
+<li><code>Credit Amount (in base asset) = 1 ETH</code></li>
+<li><code>Debit Amount (in quote asset) = 1 * 2,000 + 2 = 2,002 USDT</code></li>
+<li><code>Trading Fee = 1 * 2,000 * 0.001 = 2 USDT</code>
+
+<ul>
+<li><code>Relayer Fee Reward = 0.4 * 2 = 0.8 USDT</code></li>
+<li><code>Auction Fee Reward = 0.6 * 2 = 1.2 USDT</code></li>
+</ul></li>
+</ul>
+
+<p><strong>Sell</strong>: Given a limit buy order of 1 ETH with a price of 2,000 USDT and a maker and taker fee rate of 0.1% and 0.2%, the account&#39;s available balance is decremented by 2,000 USDT + taker fee = 2,004 USDT. The new account balances are calculated as:</p>
+
+<p>If <strong>Unmatched</strong>, the order becomes a resting limit order (maker) and we refund the fee difference between maker and taker:</p>
+
+<ul>
+<li><code>Fee Refund = 0 ETH</code></li>
+</ul>
+
+<p>If <strong>Matched Immediately</strong>: (assuming a clearing price of 1,900 USDT)</p>
+
+<ul>
+<li><code>Credit Amount = 1 * 2,100 * (1 - 0.002) = 2,095.8 USDT</code></li>
+<li><code>Debit Amount = 1 ETH</code></li>
+<li><code>Trading Fee = 1 * 2,100 * 0.002 = 4.2 USDT</code>
+
+<ul>
+<li><code>Relayer Fee Reward = 0.4 * 4.2 = 1.68 USDT</code></li>
+<li><code>Auction Fee Reward = 0.6 * 4.2 = 2.52 USDT</code></li>
+</ul></li>
+<li><code>Clearing Refund = 0 ETH</code></li>
+<li><code>Fee Refund = 0 USDT</code></li>
+</ul>
+
+<p>If <strong>Filled Later By Market Order</strong>:</p>
+
+<ul>
+<li><code>Credit Amount (in quote asset) = 1 * 2,000 - 2 = 1,998 USDT</code></li>
+<li><code>Debit Amount (in base asset) = 1 ETH</code></li>
+<li><code>Trading Fee = 1 * 2,000 * 0.001 = 2 USDT</code>
+
+<ul>
+<li><code>Relayer Fee Reward = 0.4 * 2 = 0.8 USDT</code></li>
+<li><code>Auction Fee Reward = 0.6 * 2 = 1.2 USDT</code></li>
+</ul></li>
+</ul>
+<h3 id='examples-payouts-derivative-market-order'>Derivative Market Order</h3>
+<p>The payouts for derivative market orders work the same way as for derivative limit orders with the one difference that they are cancelled if not immediately matched, see spot market and derivative limit orders as reference.</p>
+<h3 id='examples-payouts-derivative-limit-order'>Derivative Limit Order</h3>
+<ul>
+<li><code>Quantity = 1</code>, <code>Price = 2,000</code>, <code>Margin = 200</code></li>
+<li><code>Position Quantity = 0.5</code></li>
+<li><code>BuyClearingPrice = 1,990</code></li>
+<li><code>Entry Price = 1,950</code></li>
+<li><code>TakerFeeRate = 0.002</code></li>
+<li><code>MakerFeeRate = 0.001</code></li>
+</ul>
+
+<p>If <strong>Unmatched</strong>, the order becomes a resting limit order (maker) and we refund the fee difference between maker and taker for vanilla orders (reduce-only orders don&#39;t pay upfront fees):</p>
+
+<ul>
+<li><code>Fee Refund = Quantity * Price * (TakerFeeRate - MakerFeeRate) = 1 * 2,000 * (0.002 - 0.001) = 2 USDT</code></li>
+<li><code>AvailableBalance = AvailableBalance + Fee Refund = 0 + 2 = 2</code></li>
+</ul>
+
+<p><strong>If Matched:</strong></p>
+
+<ul>
+<li><code>ExecutionMargin</code>
+
+<ul>
+<li>- If Vanilla: <code>ExecutionMargin = Margin * FillQuantity / Quantity = 200 * 1/1 = 200 USDT</code></li>
+<li>- If Reduce-Only: <code>ExecutionMargin = 0</code></li>
+</ul></li>
+<li><code>TradingFee = FillQuantity * ClearingPrice * TakerFeeRate = 1 * 1,990 * 0.002 = 3.98 USDT</code>
+
+<ul>
+<li><code>Relayer Fee Reward = 0.4 * Trading Fee</code></li>
+<li><code>Auction Fee Reward = 0.6 * Trading Fee</code></li>
+</ul></li>
+<li><code>PriceDelta</code>
+
+<ul>
+<li>- If Buy: <code>PriceDelta = Price - BuyClearingPrice = 2,000 - 1,990 = 10</code></li>
+<li>- If Sell: <code>PriceDelta = SellClearingPrice - Price</code></li>
+</ul></li>
+<li><p><code>Payout and CloseExecutionMargin</code> (When netting in the opposing direction with either a vanilla order or a reduce-only order)</p>
+
+<ul>
+<li>- If Vanilla and netting in opposite direction:
+
+<ul>
+<li><code>CloseQuantity = max(Quantity - PositionQuantity, 0) = max(1 - 0.5, 0) = 0.5</code></li>
+<li><code>Payout = ClosingPayout</code></li>
+<li><code>CloseExecutionMargin = ExecutionMargin * CloseQuantity / PositionQuantity</code></li>
+</ul></li>
+<li>- If Reduce Only:
+
+<ul>
+<li><code>CloseQuantity = FillQuantity</code> (cannot exceed PositionQuantity)</li>
+<li><code>Payout = ClosingPayout - TradingFee</code></li>
+<li><code>CloseExecutionMargin = 0</code></li>
+</ul></li>
+<li><code>ClosingPayout = PNL + PositionMargin * CloseQuantity / PositionQuantity</code></li>
+<li>- If Buy (closing a short position):
+
+<ul>
+<li><code>PNL = CloseQuantity * (FillPrice - EntryPrice) = 0.5 * (1,990 - 1,950) = 20 USDT</code></li>
+</ul></li>
+<li>- If Sell (closing a long position):
+
+<ul>
+<li><code>PNL = -CloseQuantity * (FillPrice - EntryPrice) = -0.5 * (1,990 - 1,950) = -20 USDT</code></li>
+</ul></li>
+</ul></li>
+<li><p><code>FeeRefund</code>:</p>
+
+<ul>
+<li>- If Reduce-Only: <code>FeeRefund = 0</code></li>
+<li>- If Vanilla and Immediately Matched: <code>FeeRefund = ClearingFeeRefund + UnmatchedFeeRefund</code>
+
+<ul>
+<li>- <code>ClearingFeeRefund = FillQuantity * PriceDelta * TakerFeeRate</code>
+
+<ul>
+<li>If Buy: <code>ClearingFeeRefund = 1 * 10 * 0.002 = 0.002 USDT</code></li>
+<li>If Sell: <code>ClearingFeeCharge = 1 * 10 * -0.002 = -0.002 USDT</code></li>
+</ul></li>
+<li><code>UnmatchedFeeRefund = (Quantity - FillQuantity) * Price * (TakerFeeRate - MakerFeeRate) = 0</code></li>
+</ul></li>
+<li>- If Vanilla and Filled as a Resting Order: <code>FeeRefund = ClearingFeeRefund</code></li>
+</ul></li>
+<li><p><code>TotalBalance = TotalBalance + Payout</code></p></li>
+<li><p><code>AvailableBalance = AvailableBalance + Payout + CloseExecutionMargin + FeeRefund</code></p></li>
+</ul>
+<h2 id='examples-market-order-matching'>Market Order Matching</h2><h3 id='examples-market-order-matching-existing-orderbook'>Existing Orderbook</h3>
+<table><thead>
+<tr>
+<th>Sells</th>
+<th>Buys</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,390</td><td>0.3 BTC</td></tr><tr><td>$64,370</td><td>0.2 BTC</td></tr><tr><td>$64,360</td><td>0.5 BTC</td></tr> </table></td>
+<td><table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,210</td><td>0.1 BTC</td></tr><tr><td>$64,205</td><td>0.4 BTC</td></tr><tr><td>$64,200</td><td>0.2 BTC</td></tr> </table></td>
+</tr>
+</tbody></table>
+<h3 id='examples-market-order-matching-new-orders'>New Orders</h3>
+<ul>
+<li>1x market buy order for 0.2 BTC with worst price 64,360</li>
+<li>1x market buy order for 0.4 BTC with worst price 66,000</li>
+<li>1x market sell order for 0.1 BTC with worst price 60,000</li>
+<li>1x market sell order for 0.2 BTC with worst price 61,000</li>
+<li>1x market sell order for 0.3 BTC with worst price 69,000</li>
+</ul>
+<h3 id='examples-market-order-matching-resulting-orderbook'>Resulting Orderbook</h3>
+<table><thead>
+<tr>
+<th>Sells</th>
+<th>Buys</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,390</td><td>0.3 BTC</td></tr><tr><td>$64,370</td><td>0.2 BTC</td></tr></table></td>
+<td><table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,205</td><td>0.2 BTC</td></tr><tr><td>$64,200</td><td>0.2 BTC</td></tr> </table></td>
+</tr>
+</tbody></table>
+
+<p><strong>Market Buys</strong>: Matching the highest priced market buy order first for 0.4 BTC. Now for the second market buy order only 0.1 BTC is left at matchable price, meaning the other 0.1 BTC in the order will be cancelled. Both orders will be matched with the single resting limit order at a price of 64,350 for a total quantity of 0.5 BTC.</p>
+
+<p><strong>Market Sells</strong>: Matching the first two market sell orders for at a matching price of <code>(64,210*0.1 + 64,205*0.2) / 0.3 = 64,206.67</code> for a total quantity of 0.3 BTC. The resting limit orders are both matched at their specified price points of 64,210 and 64,205. Since the last market sell order of 69,000 cannot be fulfilled, it is cancelled.</p>
+<h2 id='examples-limit-order-matching'>Limit Order Matching</h2><h3 id='examples-limit-order-matching-existing-orderbook'>Existing Orderbook</h3>
+<table><thead>
+<tr>
+<th>Sells</th>
+<th>Buys</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,390</td><td>0.3 BTC</td></tr><tr><td>$64,370</td><td>0.2 BTC</td></tr><tr><td>$64,360</td><td>0.5 BTC</td></tr> </table></td>
+<td><table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,210</td><td>0.1 BTC</td></tr><tr><td>$64,205</td><td>0.3 BTC</td></tr><tr><td>$64,200</td><td>0.2 BTC</td></tr> </table></td>
+</tr>
+</tbody></table>
+<h3 id='examples-limit-order-matching-new-orders'>New Orders</h3>
+<ul>
+<li>1x limit buy order for 0.2 BTC with price 64,360</li>
+<li>1x limit buy order for 0.4 BTC with price 64,370</li>
+<li>1x limit sell order for 0.1 BTC with price 64,200</li>
+<li>1x limit sell order for 0.2 BTC with price 64,180</li>
+</ul>
+<h3 id='examples-limit-order-matching-matching-orders'>Matching Orders</h3>
+<p>All new orders are incorporated into the existing orderbook. In our case this results in a negative spread:</p>
+
+<table><thead>
+<tr>
+<th>Sells</th>
+<th>Buys</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,390</td><td>0.3 BTC</td></tr><tr><td>$64,370</td><td>0.2 BTC</td></tr><tr><td>$64,360</td><td>0.5 BTC</td></tr><tr><td>$64,200</td><td>0.1 BTC</td></tr><tr><td>$64,180</td><td>0.2 BTC</td></tr> </table></td>
+<td><table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,370</td><td>0.4 BTC</td></tr><tr><td>$64,360</td><td>0.1 BTC</td></tr><tr><td>$64,210</td><td>0.1 BTC</td></tr><tr><td>$64,205</td><td>0.3 BTC</td></tr><tr><td>$64,200</td><td>0.2 BTC</td></tr> </table></td>
+</tr>
+</tbody></table>
+
+<p>As long as negative spread exists, orders are matched against each other. The first buy order is fully matched:</p>
+
+<table><thead>
+<tr>
+<th>Sells</th>
+<th>Buys</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,390</td><td>0.3 BTC</td></tr><tr><td>$64,370</td><td>0.2 BTC</td></tr><tr><td>$64,360</td><td>0.4 BTC</td></tr> </table></td>
+<td><table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,360</td><td>0.1 BTC</td></tr><tr><td>$64,210</td><td>0.1 BTC</td></tr><tr><td>$64,205</td><td>0.3 BTC</td></tr><tr><td>$64,200</td><td>0.2 BTC</td></tr> </table></td>
+</tr>
+</tbody></table>
+
+<p>Now the second buy order can still be fully matched:</p>
+
+<table><thead>
+<tr>
+<th>Sells</th>
+<th>Buys</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,390</td><td>0.3 BTC</td></tr><tr><td>$64,370</td><td>0.2 BTC</td></tr><tr><td>$64,360</td><td>0.3 BTC</td></tr> </table></td>
+<td><table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,210</td><td>0.1 BTC</td></tr><tr><td>$64,205</td><td>0.3 BTC</td></tr><tr><td>$64,200</td><td>0.2 BTC</td></tr> </table></td>
+</tr>
+</tbody></table>
+
+<p>This is the end of the matching, since no more negative spread exists (<code>64,360 &gt; 62,210</code>).</p>
+
+<p>All orders will be matched with a clearing price of <code>(64,180*0.2 + 64,200*0.1 + 64,360*0.2 + 64,370*0.4 + 64,360*0.1) / (0.5*2) = 64,312</code> for a total quantity of 0.5 BTC. In edge cases where this clearing price violates any order price, it is instead calculated as the average of the last matched order on buy and sell side.</p>
 <h1 id='swagger'>Swagger</h1>
 <p><strong>A REST interface for state queries, legacy transactions</strong></p>
 
