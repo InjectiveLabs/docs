@@ -9,6 +9,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
 
 includes:
   - overview
+  - examples
   - swagger
   - exchangeapi
   - accountsrpc
@@ -38,10 +39,10 @@ Here you can find a comprehensive overview of our protocol, as well as tutorials
 
 If you would like to ask any questions or be a part of our community, please join our [Discord Group](https://discord.gg/injective) or [Telegram Group](https://t.me/InjectiveAPI). We have a dedicated channel in our Discord group for questions related to the API.
 
-
 # Clients
 
 ## Python Client
+
 **Installation**
 
 Install injective-py from PyPI using pip.
@@ -54,8 +55,8 @@ pip install injective-py
 
 [InjectiveLabs/sdk-python](https://github.com/InjectiveLabs/sdk-python).
 
-
 ## Golang Client
+
 Examples are under construction, stay tuned.
 
 **Installation**
@@ -73,8 +74,8 @@ go get -u github.com/InjectiveLabs/sdk-go
 <!-- [comment]: <> (TODO: implement)
 See the examples folder for simple Golang examples. -->
 
-
 ## Typescript Client
+
 Examples are under construction, stay tuned.
 
 **Installation**
