@@ -613,21 +613,21 @@ async def main() -> None:
 
 ``` json
 {
-  "operationType": "insert",
+  "operation_type": "insert",
   "timestamp": 1544614248000,
   "trade": {
-    "executedAt": 1544614248000,
+    "executed_at": 1544614248000,
     "fee": "1960000000000000",
-    "marketId": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
-    "orderHash": "0x482ce078117d4835fe005b643056d2d3f439e3010db40f68449d9e5b77e911bc",
+    "market_id": "0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb",
+    "order_hash": "0x482ce078117d4835fe005b643056d2d3f439e3010db40f68449d9e5b77e911bc",
     "price": {
       "price": "1960000000000000000",
       "quantity": "40",
       "timestamp": 1544614248000
     },
-    "subaccountId": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
-    "tradeDirection": "buy",
-    "tradeExecutionType": "market"
+    "subaccount_id": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
+    "trade_direction": "buy",
+    "trade_execution_type": "market"
   }
 }
 ```
@@ -690,42 +690,38 @@ async def main() -> None:
 
 ``` json
 {
-  "orderbook": {
-    "buys": [
-      {
-        "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
-      },
-      {
-        "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
-      },
-      {
-        "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
-      },
-      {
-        "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
-      }
-    ],
-    "sells": [
-      {
-        "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
-      },
-      {
-        "price": "1960000000000000000",
-        "quantity": "40",
-        "timestamp": 1544614248000
-      }
-    ]
+"orderbook": {
+  "buys": {
+    "price": "0.000000000010716",
+    "quantity": "10000000000000000000",
+    "timestamp": 1636697333186
+  },
+  "buys": {
+    "price": "0.00000000001",
+    "quantity": "1000000000000000",
+    "timestamp": 1616059590812
+  },
+  "buys": {
+    "price": "0.000000000009523",
+    "quantity": "2501950000000000000000",
+    "timestamp": 1636705938416
+  },
+ "sells": {
+    "price": "0.000000000011464",
+    "quantity": "44000000000000000000",
+    "timestamp": 1636698175470
+  },
+  "sells": {
+    "price": "0.000000000011476",
+    "quantity": "12000000000000000000",
+    "timestamp": 1636898385842
+  },
+  "sells": {
+    "price": "0.000000000011488",
+    "quantity": "24000000000000000000",
+    "timestamp": 1636705308464
   }
+
 }
 ```
 

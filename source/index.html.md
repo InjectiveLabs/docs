@@ -11,6 +11,7 @@ includes:
   - overview
   - examples
   - swagger
+  - explorer
   - exchangeapi
   - accountsrpc
   - spotrpc
@@ -18,6 +19,7 @@ includes:
   - oraclerpc
   - insurancerpc
   - metarpc
+  #- explorerrpc
   - chainapi
   - derivatives
   - spot

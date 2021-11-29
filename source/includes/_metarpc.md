@@ -25,7 +25,7 @@ async def main() -> None:
 
 ``` json
 {
-
+"Health OK?"
 }
 ```
 
