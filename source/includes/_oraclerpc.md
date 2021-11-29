@@ -122,7 +122,7 @@ async def main() -> None:
     client = Client(network, insecure=True)
     base_symbol = 'BTC'
     quote_symbol = 'USDT'
-    oracle_type = 'band'
+    oracle_type = 'bandibc'
     oracle_prices = client.stream_oracle_prices(
         base_symbol=base_symbol,
         quote_symbol=quote_symbol,
