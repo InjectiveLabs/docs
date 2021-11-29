@@ -379,6 +379,9 @@
             <a href="#swagger" class="toc-h1 toc-link" data-title="Swagger">Swagger</a>
           </li>
           <li>
+            <a href="#explorer" class="toc-h1 toc-link" data-title="Explorer">Explorer</a>
+          </li>
+          <li>
             <a href="#exchange-api" class="toc-h1 toc-link" data-title="Exchange API">Exchange API</a>
           </li>
           <li>
@@ -404,6 +407,9 @@
                   </li>
                   <li>
                     <a href="#injectiveaccountsrpc-orderstates" class="toc-h2 toc-link" data-title="OrderStates">OrderStates</a>
+                  </li>
+                  <li>
+                    <a href="#injectiveaccountsrpc-portfolio" class="toc-h2 toc-link" data-title="Portfolio">Portfolio</a>
                   </li>
               </ul>
           </li>
@@ -983,6 +989,12 @@ See the examples folder for simple Golang examples. -->
 <p><a href="https://lcd.injective.network/swagger/#/">Swagger Mainnet</a></p>
 
 <p><a href="https://testnet.lcd.injective.dev/swagger/#/">Swagger Testnet</a></p>
+<h1 id='explorer'>Explorer</h1>
+<p><strong>An interface that allows you to search for information on the Injective Chain</strong></p>
+
+<p><a href="https://explorer.injective.network/">Explorer Mainnet</a></p>
+
+<p><a href="https://testnet.explorer.injective.dev/">Explorer Testnet</a></p>
 <h1 id='exchange-api'>Exchange API</h1><h1 id='injectiveaccountsrpc'>- InjectiveAccountsRPC</h1>
 <p>InjectiveAccountsRPC defines the gRPC API of the Exchange Accounts provider.</p>
 <h2 id='injectiveaccountsrpc-subaccountslist'>SubaccountsList</h2>
@@ -1868,6 +1880,90 @@ See the examples folder for simple Golang examples. -->
 <td>updated_at</td>
 <td>string</td>
 <td>The timestamp of your order when it was last updated</td>
+</tr>
+</tbody></table>
+<h2 id='injectiveaccountsrpc-portfolio'>Portfolio</h2>
+<p>Query orders with an order hash, this query will return market orders and limit orders in all states [booked, partial_filled, filled, canceled]. For filled and canceled orders, there is a TTL of 1 day. Should your order be filled or canceled you will still be able to query it for 24 hours.</p>
+<h3 id='injectiveaccountsrpc-portfolio-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">account_address</span> <span class="o">=</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span>
+    <span class="n">portfolio</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_portfolio</span><span class="p">(</span><span class="n">account_address</span><span class="o">=</span><span class="n">account_address</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">portfolio</span><span class="p">)</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>account_address</td>
+<td>string</td>
+<td>The Injective Chain address</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+<h3 id='injectiveaccountsrpc-portfolio-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+</span><span class="nl">"portfolio"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"portfolio_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"14172.9011909999761785"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"available_balance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"14112.5174909999761785"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"locked_balance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"60.3837"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"unrealized_pnl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"subaccounts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"available_balance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"14112.5174909999761785"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"locked_balance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"60.3837"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"unrealized_pnl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"500"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>portfolio_value</td>
+<td>string</td>
+<td>The total value of your portfolio including bank balance, subaccounts&#39; balance, unrealized profit &amp; loss as well as margin in open positions</td>
+</tr>
+<tr>
+<td>available_balance</td>
+<td>string</td>
+<td>The total available balance in the subaccounts</td>
+</tr>
+<tr>
+<td>locked_balance</td>
+<td>string</td>
+<td>The amount of margin in open orders and positions</td>
+</tr>
+<tr>
+<td>unrealized_pnl</td>
+<td>string</td>
+<td>The approximate unrealized profit and loss across all positions (based on the mark price)</td>
+</tr>
+<tr>
+<td>subaccount_ID</td>
+<td>string</td>
+<td>Filter balances by Subaccount ID</td>
 </tr>
 </tbody></table>
 <h1 id='injectivespotexchangerpc'>- InjectiveSpotExchangeRPC</h1>
@@ -3035,21 +3131,21 @@ See the examples folder for simple Golang examples. -->
 <p>Streaming Response Example:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"operationType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"insert"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"operation_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"insert"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="p">,</span><span class="w">
   </span><span class="nl">"trade"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"executedAt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"executed_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="p">,</span><span class="w">
     </span><span class="nl">"fee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1960000000000000"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"marketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"orderHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x482ce078117d4835fe005b643056d2d3f439e3010db40f68449d9e5b77e911bc"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x3bdb3d8b5eb4d362371b72cf459216553d74abdb55eb0208091f7777dd85c8bb"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"order_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x482ce078117d4835fe005b643056d2d3f439e3010db40f68449d9e5b77e911bc"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1960000000000000000"</span><span class="p">,</span><span class="w">
       </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40"</span><span class="p">,</span><span class="w">
       </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"subaccountId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"tradeDirection"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"tradeExecutionType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="w">
+    </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"trade_direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"trade_execution_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
@@ -3190,42 +3286,38 @@ See the examples folder for simple Golang examples. -->
 <p>Response Example:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"orderbook"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1960000000000000000"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1960000000000000000"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1960000000000000000"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1960000000000000000"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-    </span><span class="p">],</span><span class="w">
-    </span><span class="nl">"sells"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1960000000000000000"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1960000000000000000"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544614248000</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-    </span><span class="p">]</span><span class="w">
+</span><span class="nl">"orderbook"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000010716"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10000000000000000000"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636697333186</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00000000001"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1000000000000000"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1616059590812</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000009523"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2501950000000000000000"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636705938416</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+ </span><span class="nl">"sells"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000011464"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"44000000000000000000"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636698175470</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"sells"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000011476"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12000000000000000000"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636898385842</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"sells"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000011488"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"24000000000000000000"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1636705308464</span><span class="w">
   </span><span class="p">}</span><span class="w">
+
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <table><thead>
@@ -6238,7 +6330,7 @@ See the examples folder for simple Golang examples. -->
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span>
-    <span class="n">liquidable_positions</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_derivative_liquidable_positions</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">)</span>
+    <span class="n">liquidable_positions</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_derivative_liquidable_positions</span><span class="p">()</span>
     <span class="k">print</span><span class="p">(</span><span class="n">liquidable_positions</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
@@ -7331,7 +7423,7 @@ See the examples folder for simple Golang examples. -->
 <p>Response Example:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-
+</span><span class="s2">"Health OK?"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><h2 id='injectivemetarpc-version'>Version</h2>
 <p>Query the server version</p>
@@ -7496,7 +7588,7 @@ See the examples folder for simple Golang examples. -->
     <span class="c1"># load account
 </span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">)</span>
     <span class="n">pub_key</span> <span class="o">=</span>  <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
-    <span class="n">address</span> <span class="o">=</span> <span class="k">await</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">().</span><span class="n">init_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">().</span><span class="n">init_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="k">print</span><span class="p">(</span><span class="n">subaccount_id</span><span class="p">)</span>
