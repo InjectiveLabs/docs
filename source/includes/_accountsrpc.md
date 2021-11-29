@@ -516,3 +516,60 @@ derivative_order_states:
 |quantity_remaining|string|The quantity that hasn't been filled for your order|
 |created_at|string|The timestamp of your order when it was first created|
 |updated_at|string|The timestamp of your order when it was last updated|
+
+
+
+
+## Portfolio
+
+Query orders with an order hash, this query will return market orders and limit orders in all states [booked, partial_filled, filled, canceled]. For filled and canceled orders, there is a TTL of 1 day. Should your order be filled or canceled you will still be able to query it for 24 hours.
+
+
+### Request Parameters
+> Request Example:
+
+``` python
+from pyinjective.client import Client
+from pyinjective.constant import Network
+
+async def main() -> None:
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+    portfolio = client.get_portfolio(account_address=account_address)
+    print(portfolio)
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|account_address|string|The Injective Chain address|Yes|
+
+
+### Response Parameters
+> Response Example:
+
+``` json
+{
+"portfolio": {
+  "portfolio_value": "14172.9011909999761785",
+  "available_balance": "14112.5174909999761785",
+  "locked_balance": "60.3837",
+  "unrealized_pnl": "0",
+  "subaccounts": {
+    "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    "available_balance": "14112.5174909999761785",
+    "locked_balance": "60.3837",
+    "unrealized_pnl": "500"
+  }
+}
+
+}
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|portfolio_value|string|The total value of your portfolio including bank balance, subaccounts' balance, unrealized profit & loss as well as margin in open positions|
+|available_balance|string|The total available balance in the subaccounts|
+|locked_balance|string|The amount of margin in open orders and positions|
+|unrealized_pnl|string|The approximate unrealized profit and loss across all positions (based on the mark price)|
+|subaccount_ID|string|Filter balances by Subaccount ID|

@@ -10,6 +10,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
 includes:
   - overview
   - swagger
+  - explorer
   - exchangeapi
   - accountsrpc
   - spotrpc
@@ -17,6 +18,7 @@ includes:
   - oraclerpc
   - insurancerpc
   - metarpc
+  #- explorerrpc
   - chainapi
   - derivatives
   - spot
