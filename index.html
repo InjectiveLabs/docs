@@ -250,8 +250,11 @@
 .highlight .kd {
   color: #cb4b16;
 }
-.highlight .s, .highlight .sa, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
   color: #859900;
+}
+.highlight .sa {
+  color: #6c71c4;
 }
 .highlight .sr {
   color: #2aa198;
@@ -281,9 +284,9 @@
   color: #859900;
 }
     </style>
-    <link href="stylesheets/screen-5fa60292.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-8bbaabda.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-953e3353.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all-e9bde216.js"></script>
+      <script src="javascripts/all-ae90cac7.js"></script>
 
     <script>
       $(function() { setupCodeCopy(); });
@@ -303,7 +306,7 @@
       <div style="max-width: 90%; margin: auto;">
         <svg width="760" height="326" viewBox="0 0 760 326" fill="none" xmlns="http://www.w3.org/2000/svg" style="
     max-width: 100%;
-    height: auto; "> 
+    height: auto; ">
 <path d="M237.827 197.015V141.855C237.827 136.189 242.421 131.596 248.087 131.596H248.839V197.015H237.827Z" fill="white"/>
 <path d="M264.802 197.015V131.596H276.388L302.913 179.072V131.596H303.186C308.852 131.596 313.446 136.189 313.446 141.855V197.015H301.859L275.335 149.539V197.015H264.802Z" fill="white"/>
 <path d="M348.149 198.604C341.318 198.604 335.988 196.517 332.157 192.343C328.327 188.168 326.412 182.623 326.412 175.707H337.424C337.424 179.757 338.318 182.997 340.105 185.427C341.957 187.794 344.638 188.978 348.149 188.978C351.66 188.978 354.341 187.794 356.192 185.427C358.108 182.997 359.065 179.788 359.065 175.801V141.855C359.065 136.189 363.659 131.596 369.325 131.596H370.077V175.801C370.077 182.716 368.13 188.262 364.236 192.436C360.406 196.548 355.043 198.604 348.149 198.604Z" fill="white"/>
@@ -7486,7 +7489,7 @@ See the examples folder for simple Golang examples. -->
     <span class="k">print</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
 
     <span class="n">latency</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))</span> <span class="o">-</span> <span class="n">resp</span><span class="p">.</span><span class="n">timestamp</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">f'Server Latency: </span><span class="si">{</span><span class="n">latency</span><span class="si">}</span><span class="s">ms'</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'Server Latency: </span><span class="si">{</span><span class="n">latency</span><span class="si">}</span><span class="s">ms'</span><span class="p">)</span>
 </code></pre></div>
 <blockquote>
 <p>Response Example:</p>
