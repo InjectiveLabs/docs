@@ -1,65 +1,129 @@
 # Changelog
 
+## Version 2.11.0
+
+_August 12, 2021_
+
+- **[Security]** Bump addressable transitive dependency from 2.7.0 to 2.8.0
+- Support specifying custom meta tags in YAML front-matter
+- Bump nokogiri from 1.11.3 to 1.12.3 (minimum supported version is 1.11.4)
+- Bump middleman-autoprefixer from 2.10.1 to 3.0.0
+- Bump jquery from 3.5.1 to 3.6.0
+- Bump middleman from [`d180ca3`](https://github.com/middleman/middleman/commit/d180ca337202873f2601310c74ba2b6b4cf063ec) to 4.4.0
+
+## Version 2.10.0
+
+_April 13, 2021_
+
+- Add support for Ruby 3.0 (thanks @shaun-scale)
+- Add requirement for Git on installing dependencies
+- Bump nokogiri from 1.11.2 to 1.11.3
+- Bump middleman from 4.3.11 to [`d180ca3`](https://github.com/middleman/middleman/commit/d180ca337202873f2601310c74ba2b6b4cf063ec)
+
+## Version 2.9.2
+
+_March 30, 2021_
+
+- **[Security]** Bump kramdown from 2.3.0 to 2.3.1
+- Bump nokogiri from 1.11.1 to 1.11.2
+
+## Version 2.9.1
+
+_February 27, 2021_
+
+- Fix Slate language tabs not working if localStorage is disabled
+
+## Version 2.9.0
+
+_January 19, 2021_
+
+- **Drop support for Ruby 2.3 and 2.4**
+- **[Security]** Bump nokogiri from 1.10.10 to 1.11.1
+- **[Security]** Bump redcarpet from 3.5.0 to 3.5.1
+- Specify slate is not supported on Ruby 3.x
+- Bump rouge from 3.24.0 to 3.26.0
+
+## Version 2.8.0
+
+_October 27, 2020_
+
+- Remove last trailing newline when using the copy code button
+- Rework docker image and make available at slatedocs/slate
+- Improve Dockerfile layout to improve caching (thanks @micvbang)
+- Bump rouge from 3.20 to 3.24
+- Bump nokogiri from 1.10.9 to 1.10.10
+- Bump middleman from 4.3.8 to 4.3.11
+- Bump lunr.js from 2.3.8 to 2.3.9
+
+## Version 2.7.1
+
+_August 13, 2020_
+
+- **[security]** Bumped middleman from 4.3.7 to 4.3.8
+
+_Note_: Slate uses redcarpet, not kramdown, for rendering markdown to HTML, and so was unaffected by the security vulnerability in middleman.
+If you have changed slate to use kramdown, and with GFM, you may need to install the `kramdown-parser-gfm` gem.
+
 ## Version 2.7.0
 
-*June 21, 2020*
+_June 21, 2020_
 
-* __[security]__ Bumped rack in Gemfile.lock from 2.2.2 to 2.2.3
-* Bumped bundled jQuery from 3.2.1 to 3.5.1
-* Bumped bundled lunr from 0.5.7 to 2.3.8
-* Bumped imagesloaded from 3.1.8 to 4.1.4
-* Bumped rouge from 3.17.0 to 3.20.0
-* Bumped redcarpet from 3.4.0 to 3.5.0
-* Fix color of highlighted code being unreadable when printing page
-* Add clipboard icon for "Copy to Clipboard" functionality to code boxes (see note below)
-* Fix handling of ToC selectors that contain punctutation (thanks @gruis)
-* Fix language bar truncating languages that overflow screen width
-* Strip HTML tags from ToC title before displaying it in title bar in JS (backup to stripping done in Ruby code) (thanks @atic)
+- **[security]** Bumped rack in Gemfile.lock from 2.2.2 to 2.2.3
+- Bumped bundled jQuery from 3.2.1 to 3.5.1
+- Bumped bundled lunr from 0.5.7 to 2.3.8
+- Bumped imagesloaded from 3.1.8 to 4.1.4
+- Bumped rouge from 3.17.0 to 3.20.0
+- Bumped redcarpet from 3.4.0 to 3.5.0
+- Fix color of highlighted code being unreadable when printing page
+- Add clipboard icon for "Copy to Clipboard" functionality to code boxes (see note below)
+- Fix handling of ToC selectors that contain punctutation (thanks @gruis)
+- Fix language bar truncating languages that overflow screen width
+- Strip HTML tags from ToC title before displaying it in title bar in JS (backup to stripping done in Ruby code) (thanks @atic)
 
 To enable the new clipboard icon, you need to add `code_clipboard: true` to the frontmatter of source/index.html.md.
 See [this line](https://github.com/slatedocs/slate/blame/main/source/index.html.md#L19) for an example of usage.
 
 ## Version 2.6.1
 
-*May 30, 2020*
+_May 30, 2020_
 
-* __[security]__ update child dependency activesupport in Gemfile.lock to 5.4.2.3
-* Update Middleman in Gemfile.lock to 4.3.7
-* Replace Travis-CI with GitHub actions for continuous integration
-* Replace Spectrum with GitHub discussions
+- **[security]** update child dependency activesupport in Gemfile.lock to 5.4.2.3
+- Update Middleman in Gemfile.lock to 4.3.7
+- Replace Travis-CI with GitHub actions for continuous integration
+- Replace Spectrum with GitHub discussions
 
 ## Version 2.6.0
 
-*May 18, 2020*
+_May 18, 2020_
 
-__Note__: 2.5.0 was "pulled" due to a breaking bug discovered after release. It is recommended to skip it, and move straight to 2.6.0.
+**Note**: 2.5.0 was "pulled" due to a breaking bug discovered after release. It is recommended to skip it, and move straight to 2.6.0.
 
-* Fix large whitespace gap in middle column for sections with codeblocks
-* Fix highlighted code elements having a different background than rest of code block
-* Change JSON keys to have a different font color than their values
-* Disable asset hashing for woff and woff2 elements due to middleman bug breaking woff2 asset hashing in general
-* Move Dockerfile to Debian from Alpine
-* Converted repo to a [GitHub template](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-template-repository)
-* Update sassc to 2.3.0 in Gemfile.lock
+- Fix large whitespace gap in middle column for sections with codeblocks
+- Fix highlighted code elements having a different background than rest of code block
+- Change JSON keys to have a different font color than their values
+- Disable asset hashing for woff and woff2 elements due to middleman bug breaking woff2 asset hashing in general
+- Move Dockerfile to Debian from Alpine
+- Converted repo to a [GitHub template](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-template-repository)
+- Update sassc to 2.3.0 in Gemfile.lock
 
 ## Version 2.5.0
 
-*May 8, 2020*
+_May 8, 2020_
 
-* __[security]__ update nokogiri to ~> 1.10.8
-* Update links in example docs to https://github.com/slatedocs/slate from https://github.com/lord/slate
-* Update LICENSE to include full Apache 2.0 text
-* Test slate against Ruby 2.5 and 2.6 on Travis-CI
-* Update Vagrantfile to use Ubuntu 18.04 (thanks @bradthurber)
-* Parse arguments and flags for deploy.sh on script start, instead of potentially after building source files
-* Install nodejs inside Vagrantfile (thanks @fernandoaguilar)
-* Add Dockerfile for running slate (thanks @redhatxl)
-* update middleman-syntax and rouge to ~>3.2
-* update middleman to 4.3.6
+- **[security]** update nokogiri to ~> 1.10.8
+- Update links in example docs to https://github.com/slatedocs/slate from https://github.com/lord/slate
+- Update LICENSE to include full Apache 2.0 text
+- Test slate against Ruby 2.5 and 2.6 on Travis-CI
+- Update Vagrantfile to use Ubuntu 18.04 (thanks @bradthurber)
+- Parse arguments and flags for deploy.sh on script start, instead of potentially after building source files
+- Install nodejs inside Vagrantfile (thanks @fernandoaguilar)
+- Add Dockerfile for running slate (thanks @redhatxl)
+- update middleman-syntax and rouge to ~>3.2
+- update middleman to 4.3.6
 
 ## Version 2.4.0
 
-*October 19, 2019*
+_October 19, 2019_
 
 - Move repository from lord/slate to slatedocs/slate
 - Fix documentation to point at new repo link, thanks to [Arun](https://github.com/slash-arun), [Gustavo Gawryszewski](https://github.com/gawry), and [Daniel Korbit](https://github.com/danielkorbit)
@@ -73,13 +137,13 @@ __Note__: 2.5.0 was "pulled" due to a breaking bug discovered after release. It 
 
 ## Version 2.3.1
 
-*July 5, 2018*
+_July 5, 2018_
 
 - Update `sprockets` in `Gemfile.lock` to fix security warnings
 
 ## Version 2.3
 
-*July 5, 2018*
+_July 5, 2018_
 
 - Allows strikethrough in markdown by default.
 - Upgrades jQuery to 3.2.1, thanks to [Tomi Takussaari](https://github.com/TomiTakussaari)
@@ -98,7 +162,7 @@ Thanks to everyone who contributed to this release!
 
 ## Version 2.2
 
-*January 19, 2018*
+_January 19, 2018_
 
 - Fixes bugs with some non-roman languages not generating unique headers
 - Adds editorconfig, thanks to [Jay Thomas](https://github.com/jaythomas)
@@ -108,7 +172,7 @@ Thanks to everyone who contributed to this release!
 
 ## Version 2.1
 
-*October 30, 2017*
+_October 30, 2017_
 
 - Right-to-left text stylesheet option, thanks to [Mohammad Hossein Rabiee](https://github.com/mhrabiee)
 - Fix for HTML5 history state bug, thanks to [Zach Toolson](https://github.com/ztoolson)
@@ -118,7 +182,7 @@ Thanks to everyone who submitted PRs for this version!
 
 ## Version 2.0
 
-*July 17, 2017*
+_July 17, 2017_
 
 - All-new statically generated table of contents
   - Should be much faster loading and scrolling for large pages
@@ -138,7 +202,7 @@ Thanks to everyone who helped debug or wrote code for this version! It was a ser
 
 ## Version 1.5
 
-*February 23, 2017*
+_February 23, 2017_
 
 - Add [multiple tabs per programming language](https://github.com/lord/slate/wiki/Multiple-language-tabs-per-programming-language) feature
 - Upgrade Middleman to add Ruby 1.4.0 compatibility
@@ -147,7 +211,7 @@ Thanks to everyone who helped debug or wrote code for this version! It was a ser
 
 ## Version 1.4
 
-*November 24, 2016*
+_November 24, 2016_
 
 - Upgrade Middleman and Rouge gems, should hopefully solve a number of bugs
 - Update some links in README
@@ -160,25 +224,25 @@ Thanks to everyone who helped debug or wrote code for this version! It was a ser
 
 ## Version 1.3.3
 
-*June 11, 2016*
+_June 11, 2016_
 
 Documentation and example changes.
 
 ## Version 1.3.2
 
-*February 3, 2016*
+_February 3, 2016_
 
 A small bugfix for slightly incorrect background colors on code samples in some cases.
 
 ## Version 1.3.1
 
-*January 31, 2016*
+_January 31, 2016_
 
 A small bugfix for incorrect whitespace in code blocks.
 
 ## Version 1.3
 
-*January 27, 2016*
+_January 27, 2016_
 
 We've upgraded Middleman and a number of other dependencies, which should fix quite a few bugs.
 
@@ -186,7 +250,7 @@ Instead of `rake build` and `rake deploy`, you should now run `bundle exec middl
 
 ## Version 1.2
 
-*June 20, 2015*
+_June 20, 2015_
 
 **Fixes:**
 
@@ -205,7 +269,7 @@ Instead of `rake build` and `rake deploy`, you should now run `bundle exec middl
 
 ## Version 1.1
 
-*July 27, 2014*
+_July 27, 2014_
 
 **Fixes:**
 
@@ -213,7 +277,7 @@ Instead of `rake build` and `rake deploy`, you should now run `bundle exec middl
 
 ## Version 1.0
 
-*July 2, 2014*
+_July 2, 2014_
 
 [View Issues](https://github.com/tripit/slate/issues?milestone=1&state=closed)
 
