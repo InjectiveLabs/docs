@@ -1,8 +1,6 @@
 # Examples
 
-## Payouts
-
-### Spot Market Order
+## Spot Market Order Payouts
 
 **Buy**: Given a market buy order of 1 ETH with a worst price of 3,000 USDT which is getting fully matched at a clearing price of 2,000 USD and a maker and taker fee rate of 0.1% and 0.2%, the account's available balance is decremented by 3,000 USDT + taker fee = 3,006 USDT. Upon matching the new account balances are calculated as:
 
@@ -22,7 +20,7 @@
   - `Auction Fee Reward = 0.6 * 4 = 2.4 USDT`
 - `Clearing Refund = 0`
 
-### Spot Limit Order
+## Spot Limit Order Payouts
 
 **Buy**: Given a limit buy order of 1 ETH with a price of 2,000 USDT and a maker and taker fee rate of 0.1% and 0.2%, the account's available balance is decremented by 2,000 USDT + taker fee = 2,004 USDT. The new account balances are calculated as:
 
@@ -72,11 +70,11 @@ If **Filled Later By Market Order**:
   - `Relayer Fee Reward = 0.4 * 2 = 0.8 USDT`
   - `Auction Fee Reward = 0.6 * 2 = 1.2 USDT`
 
-### Derivative Market Order
+## Derivative Market Order Payouts
 
 The payouts for derivative market orders work the same way as for derivative limit orders with the one difference that they are cancelled if not immediately matched, see spot market and derivative limit orders as reference.
 
-### Derivative Limit Order
+## Derivative Limit Order Payouts
 
 - `Quantity = 1`, `Price = 2,000`, `Margin = 200`
 - `Position Quantity = 0.5`

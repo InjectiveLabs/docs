@@ -24,6 +24,7 @@ includes:
   - derivatives
   - spot
   - account
+  - glossary
   - faq
   # - exchangerpc
   # - chronosrpc
