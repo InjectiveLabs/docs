@@ -8,7 +8,7 @@ By providing the unrestricted and unprecedented ability to express diverse views
 
 ## Architecture Overview
 
-Injective Protocol enables traders to create and trade on arbitrary spot and derivative markets. The entire process of orderbook management, trade execution, order matching and settlement occurs on-chain through the logic codified by the Injective Chain's [exchange module](https://chain.injective.network/modules/exchange/).
+Injective Protocol enables traders to create and trade on arbitrary spot and derivative markets. The entire process includes on-chain limit orderbook management, on-chain trade execution, on-chain order matching, on-chain transaction settlement, and on-chain trading incentive distribution through the logic codified by the Injective Chain's [exchange module](https://chain.injective.network/modules/exchange/).
 
 Architecturally there are two main services that traders should concern themselves with:
 
@@ -22,8 +22,8 @@ The trading lifecycle is as follows:
 3. The transaction is then added to the mempool and becomes included in a block. More details on this process can be found [here](https://docs.cosmos.network/master/basics/tx-lifecycle.html).
 4. The handler for each respective message is run. During handler execution, order cancel and liquidation messages are processed immediately, whereas order creation messages are added to a queue.
 5. At the end of the block, the batch auction process for order matching begins.
-   1. First, the queued market orders are executed against the resting orderbook (which does NOT include the new orders from the current block) and are cleared at a uniform clearing price.
-   2. Then the queued limit orders are matched against each other and the resting orderbook to result in an uncrossed orderbook. Limit orders created in that block are cleared at a uniform clearing price while resting limit orders created in previous blocks are cleared at an equal or better price than their limit order price.
+   First, the queued market orders are executed against the resting orderbook (which does NOT include the new orders from the current block) and are cleared at a uniform clearing price.
+   Second, the queued limit orders are matched against each other and the resting orderbook to result in an uncrossed orderbook. Limit orders created in that block are cleared at a uniform clearing price while resting limit orders created in previous blocks are cleared at an equal or better price than their limit order price.
 6. The funds are settled accordingly, with positions being created for derivative trades and assets being swapped for spot trades.
 7. Events containing the trade and settlement information are emitted by the Chain.
 8. The Injective Exchange API backend indexes the events and pushes updates to all subscribed traders.
