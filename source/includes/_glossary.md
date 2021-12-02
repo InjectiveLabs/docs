@@ -4,10 +4,14 @@
 
 ## Injective Chain
 
+## Injective Node
+
 ## On-chain Matching
 
 ## Relayer
 
-## FBA
+## Frequent Batch Auction (FBA)
 
 ## Mempool
+
+## gRPC
