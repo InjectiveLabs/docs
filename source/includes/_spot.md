@@ -51,7 +51,8 @@ Includes all the messages related to spot markets.
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    current_height = client.get_latest_block().block.header.height
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -73,7 +74,7 @@ Includes all the messages related to spot markets.
 |fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
-|isBuy|boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
 
 
 > Response Example:
@@ -143,7 +144,8 @@ Includes all the messages related to spot markets.
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    current_height = client.get_latest_block().block.header.height
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -165,7 +167,7 @@ Includes all the messages related to spot markets.
 |fee_recipient|string| The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|float| The price of the base asset|Yes|
 |quantity|float| The quantity of the base asset|Yes|
-|isBuy|boolean| Set to true or false for buy and sell orders respectively|Yes|
+|is_buy|boolean| Set to true or false for buy and sell orders respectively|Yes|
 
 > Response Example:
 
@@ -227,7 +229,8 @@ Includes all the messages related to spot markets.
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    current_height = client.get_latest_block().block.header.height
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -325,7 +328,8 @@ Includes all the messages related to spot markets.
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    current_height = client.get_latest_block().block.header.height
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -353,7 +357,7 @@ orders:
 |fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
-|isBuy|boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
 
 > Response Example:
 
@@ -434,7 +438,8 @@ orders:
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    current_height = client.get_latest_block().block.header.height
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)

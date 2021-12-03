@@ -29,17 +29,17 @@ async def main() -> None:
 {
 "oracles": {
   "symbol": "ADA",
-  "oracle_type": "band",
+  "oracle_type": "bandibc",
   "price": "2.797398",
 },
 "oracles": {
   "symbol": "AKRO",
-  "oracle_type": "band",
+  "oracle_type": "bandibc",
   "price": "0.0333066"
 },
 "oracles": {
   "symbol": "AMPL",
-  "oracle_type": "band",
+  "oracle_type": "bandibc",
   "price": "0.955257"
 }
 
@@ -77,7 +77,7 @@ async def main() -> None:
     client = Client(network, insecure=True)
     base_symbol = 'BTC'
     quote_symbol = 'USDT'
-    oracle_type = 'band'
+    oracle_type = 'bandibc'
     oracle_scale_factor = 6
     oracle_prices = client.get_oracle_prices(base_symbol=base_symbol, quote_symbol=quote_symbol, oracle_type=oracle_type, oracle_scale_factor=oracle_scale_factor)
     print(oracle_prices)
