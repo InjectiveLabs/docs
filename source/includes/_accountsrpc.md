@@ -163,7 +163,7 @@ async def main() -> None:
   "balance": {
     "subaccount_id": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
     "account_address": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-    "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "denom": "inj",
     "deposit": {
       "available_balance": "1000000000000000000",
       "total_balance": "1960000000000000000"
