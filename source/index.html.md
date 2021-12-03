@@ -19,8 +19,8 @@ includes:
   - oraclerpc
   - insurancerpc
   - metarpc
-  - auctionsrpc
-  - explorerrpc
+  # - auctionsrpc
+  # - explorerrpc
   - chainapi
   - derivatives
   - spot
