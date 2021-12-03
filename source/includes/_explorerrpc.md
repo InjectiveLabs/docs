@@ -1,5 +1,5 @@
 # - InjectiveExplorerRPC
-InjectiveAccountsRPC defines the gRPC API of the Exchange Explorer provider.
+InjectiveExplorerRPC defines the gRPC API of the Explorer provider.
 
 
 ## GetTxByHash
