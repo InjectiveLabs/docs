@@ -2992,6 +2992,18 @@ See the examples folder for simple Golang examples. -->
 <td>Filter by the execution side of the trade (Should be one of: [maker taker])</td>
 <td>No</td>
 </tr>
+<tr>
+<td>skip</td>
+<td>int</td>
+<td>Skip the last trades, you can use this to fetch all trades since the API caps at 100</td>
+<td>No</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>int</td>
+<td>Limit the trades returned</td>
+<td>No</td>
+</tr>
 </tbody></table>
 <h3 id='injectivespotexchangerpc-trades-response-parameters'>Response Parameters</h3>
 <blockquote>
@@ -3170,6 +3182,18 @@ See the examples folder for simple Golang examples. -->
 <td>direction</td>
 <td>string</td>
 <td>Filter by the direction of the trade (Should be one of: [buy sell])</td>
+<td>No</td>
+</tr>
+<tr>
+<td>skip</td>
+<td>int</td>
+<td>Skip the last trades, you can use this to fetch all trades since the API caps at 100</td>
+<td>No</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>int</td>
+<td>Limit the trades returned</td>
 <td>No</td>
 </tr>
 </tbody></table>
@@ -5319,6 +5343,30 @@ See the examples folder for simple Golang examples. -->
 <td>Filter by Subaccount ID</td>
 <td>No</td>
 </tr>
+<tr>
+<td>execution_side</td>
+<td>string</td>
+<td>Filter by the execution side of the trade (Should be one of: [maker taker])</td>
+<td>No</td>
+</tr>
+<tr>
+<td>direction</td>
+<td>string</td>
+<td>Filter by the direction of the trade (Should be one of: [buy sell])</td>
+<td>No</td>
+</tr>
+<tr>
+<td>skip</td>
+<td>int</td>
+<td>Skip the last trades, you can use this to fetch all trades since the API caps at 100</td>
+<td>No</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>int</td>
+<td>Limit the trades returned</td>
+<td>No</td>
+</tr>
 </tbody></table>
 <h3 id='injectivederivativeexchangerpc-trades-response-parameters'>Response Parameters</h3>
 <blockquote>
@@ -5495,6 +5543,30 @@ See the examples folder for simple Golang examples. -->
 <td>subaccount_id</td>
 <td>string</td>
 <td>Filter by Subaccount ID</td>
+<td>No</td>
+</tr>
+<tr>
+<td>execution_side</td>
+<td>string</td>
+<td>Filter by the execution side of the trade (Should be one of: [maker taker])</td>
+<td>No</td>
+</tr>
+<tr>
+<td>direction</td>
+<td>string</td>
+<td>Filter by the direction of the trade (Should be one of: [buy sell])</td>
+<td>No</td>
+</tr>
+<tr>
+<td>skip</td>
+<td>int</td>
+<td>Skip the last trades, you can use this to fetch all trades since the API caps at 100</td>
+<td>No</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>int</td>
+<td>Limit the trades returned</td>
 <td>No</td>
 </tr>
 </tbody></table>
