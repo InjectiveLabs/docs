@@ -614,6 +614,10 @@ async def main() -> None:
 |----|----|----|----|
 |market_id|string|Filter by Market ID|Yes|
 |subaccount_id|string|Filter by Subaccount ID|No|
+|execution_side|string|Filter by the execution side of the trade (Should be one of: [maker taker])|No|
+|direction|string|Filter by the direction of the trade (Should be one of: [buy sell])|No|
+|skip|int|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
+|limit|int|Limit the trades returned|No|
 
 
 ### Response Parameters
@@ -710,6 +714,10 @@ async def main() -> None:
 |----|----|----|----|
 |market_id|string|Filter by Market ID|Yes|
 |subaccount_id|string|Filter by Subaccount ID|No|
+|execution_side|string|Filter by the execution side of the trade (Should be one of: [maker taker])|No|
+|direction|string|Filter by the direction of the trade (Should be one of: [buy sell])|No|
+|skip|int|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
+|limit|int|Limit the trades returned|No|
 
 
 
