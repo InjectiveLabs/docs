@@ -22,8 +22,8 @@ The trading lifecycle is as follows:
 3. The transaction is then added to the mempool and becomes included in a block. More details on this process can be found [here](https://docs.cosmos.network/master/basics/tx-lifecycle.html).
 4. The handler for each respective message is run. During handler execution, order cancel and liquidation messages are processed immediately, whereas order creation messages are added to a queue.
 5. At the end of the block, the batch auction process for order matching begins.
-   First, the queued market orders are executed against the resting orderbook (which does NOT include the new orders from the current block) and are cleared at a uniform clearing price.
-   Second, the queued limit orders are matched against each other and the resting orderbook to result in an uncrossed orderbook. Limit orders created in that block are cleared at a uniform clearing price while resting limit orders created in previous blocks are cleared at an equal or better price than their limit order price.
+   - First, the queued market orders are executed against the resting orderbook (which does NOT include the new orders from the current block) and are cleared at a uniform clearing price.
+   - Second, the queued limit orders are matched against each other and the resting orderbook to result in an uncrossed orderbook. Limit orders created in that block are cleared at a uniform clearing price while resting limit orders created in previous blocks are cleared at an equal or better price than their limit order price.
 6. The funds are settled accordingly, with positions being created for derivative trades and assets being swapped for spot trades.
 7. Events containing the trade and settlement information are emitted by the Chain.
 8. The Injective Exchange API backend indexes the events and pushes updates to all subscribed traders.
@@ -66,16 +66,43 @@ In any given block:
 
 ## Trading Fees and Gas
 
-If you are a trader on existing centralized exchanges, you will be familiar with the concept of trading fees. Traders are charged a fee for each successful trade. However for a DEX, there are additional gas costs that must be paid to the network.
+If you are a trader on existing centralized exchanges, you will be familiar with the concept of trading fees. Traders are charged a fee for each successful trade. However, for a DEX, there are additional gas costs that must be paid to the network. And luckily, the gas fee from trading on Injective is very minimal.
 
 - If you are a trader using a DEX UI, you don't need to worry about the gas costs, because the relayer will pay them for you. But in return you will be paying the trading fee in full.
 - If you are using the API, then you will need to pay the gas costs.
-  - The minimum and currently recommended gas price is 500000000.
+  - The gas costs are currently very small. 20K transaction will cost about 1 INJ.
   - You can set the recipient_fee to any of your own wallet addresses since you are in essence your own relayer saving you about 40% of all fees.
 
-## MarkPrice Margin Requirement
+## Mark Price Margin Requirement
 
-You might be familiar with margin requirements on Centralized Exchanges. For example in a market with maximally 20x leverage, your initial margin must be at least 0.05 of the order's notional (`entryPrice * quantity`). On Injective additionally the margin must also be at least 0.05 of position size (`markPrice * quantity`).
+You might be familiar with margin requirements on Centralized Exchanges. When creating a new position, it must fulfill the following requirement:
+
+- `Margin >= InitialMarginRatio * Quantity * EntryPrice`
+
+For example in a market with maximally 20x leverage, your initial margin must be at least 0.05 of the order's notional (`entryPrice * quantity`). On Injective additionally the margin must also fulfill the following mark price requirement:
+
+- `Margin >= Quantity * (InitialMarginRatio * MarkPrice - PNL)`
+
+where `PNL` is the expected profit and loss of the position if it was closed at the MarkPrice. For example:
+
+```
+Quantity = 2 BTC, InitialMarginRatio = 0.05
+MarkPrice = $45,000, EntryPrice = $43,000
+
+Margin ≥ 2 * 0.05 * $45,000 = $4,500
+ MarginLong ≥ max(2 * (0.05 * $45,000 - ($45,000 - $43,000)), $4,500) = max($500, $4,500) = $4,500
+MarginShort ≥ max(2 * (0.05 * $45,000 - ($43,000 - $45,000)), $4,500) = max($8,500, $4,500) = $8,500
+```
+
+So in this case if the trader wanted to create a short position with an entry price which essentially starts at a loss of $2,000 as unrealized PNL, he would need to post at a minimum $8,500 as margin, rather than the usual required $4,500.
+
+## Liquidations
+
+When your position falls below the maintenance margin ratio, the position can and likely will be liquidated by anyone running the liquidator bot. You will loose your entire position and all funds remaining in the position. What happens on-chain is that automatically a reduce-only market order of the same size as the position is created. The market order will have a worst price defined as Infinity or 0 implying it will be matched at whatever prices are available in the order book.
+
+One key difference is that the payout from executing the reduce-only market order will not go towards the position owner. Instead, half of the remaining funds are transferred to the liquidator bot and the other half is transferred to the insurance fund.
+
+Also note that liquidations are execution immediately in a block before any other order matching occurs.
 
 ## Fee Discounts
 
@@ -85,9 +112,19 @@ Fee discounts are enabled by looking at the past trailing 30 day window. So long
 - Negative maker fee markets are not eligible for discounts.
 - If the fee discount proposal was passed less than 30 days ago, the fee paid requirement is ignored so we don't unfairly penalize market makers who onboard immediately.
 
+## Funding Rate
+
+The funding rate determines ...
+
+## Closing a Position
+
+### Closing via Reduce-Only Order
+
+### Closing via Vanilla Order
+
 ## Trading Rewards
 
-During a given campaign, the exchange will record each trader's cumulative trading reward points obtained from trading fees (with boosts applied, if applicable) from all eligible markets. At the end of each campaign each trader will receive a pro-rata percentage of the trading rewards pool based off their trading rewards points from that campaign epoch.
+During a given campaign, the exchange will record each trader's cumulative trading reward points obtained from trading fees (with boosts applied, if applicable) from all eligible markets. At the end of each campaign each trader will receive a pro-rata percentage of the trading rewards pool based off their trading rewards points from that campaign epoch. Those rewards will be **automatically deposited** into the trader's respective wallets, it's not necessary to manually withdraw them.
 
 Let's say you received 100 points in a campaign with 100 INJ trading rewards. At the end of the campaign, the total trading reward points from all traders is 1000. Meaning you will receive 100/1000 = 10% of the trading rewards pool, so 10 INJ.
 
