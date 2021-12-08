@@ -52,7 +52,8 @@ Includes all the messages related to derivative markets.
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    current_height = client.get_latest_block().block.header.height
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -75,7 +76,7 @@ Includes all the messages related to derivative markets.
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
 |leverage|float|The leverage factor for the order|Yes|
-|isBuy|boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
 
 > Response Example:
 
@@ -112,7 +113,8 @@ Includes all the messages related to derivative markets.
         price=44054.48,
         quantity=0.01,
         leverage=0.7,
-        is_buy=True
+        is_buy=True,
+        is_reduce_only=False
     )
 
     # build sim tx
@@ -144,7 +146,8 @@ Includes all the messages related to derivative markets.
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    current_height = client.get_latest_block().block.header.height
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -166,8 +169,9 @@ Includes all the messages related to derivative markets.
 |fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
-|leverage|float|The leverage factor for the order|Yes|
-|isBuy|boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
+|leverage|float|The leverage factor for the order|No|
+|is_reduce_only|boolean|Set to true or false for normal or reduce-only orders|No|
 
 
 > Response Example:
@@ -229,7 +233,8 @@ Includes all the messages related to derivative markets.
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    current_height = client.get_latest_block().block.header.height
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -282,7 +287,8 @@ Includes all the messages related to derivative markets.
             price=41027,
             quantity=0.01,
             leverage=0.7,
-            is_buy=True
+            is_buy=True,
+            is_reduce_only=False
         ),
         composer.DerivativeOrder(
             market_id=market_id,
@@ -291,7 +297,8 @@ Includes all the messages related to derivative markets.
             price=62140,
             quantity=0.01,
             leverage=1.4,
-            is_buy=False
+            is_buy=False,
+            is_reduce_only=False
         ),
     ]
 
@@ -330,7 +337,8 @@ Includes all the messages related to derivative markets.
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    current_height = client.get_latest_block().block.header.height
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -354,12 +362,14 @@ orders:
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|string|MarketId of the market we want to send an order|Yes|
+|sender|string|The inj address of the sender|Yes|
 |subaccount_id|string|The subaccount we want to send an order from|Yes|
-|fee_recipient|string|The address that will receive 40% of the fees this could be set to your own address|Yes|
+|fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
-|leverage|float|The leverage factor for a specific order|Yes|
-|isBuy|boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
+|leverage|float|The leverage factor for the order|No|
+|is_reduce_only|boolean|Set to true or false for normal or reduce-only orders|No|
 
 > Response Example:
 
@@ -437,7 +447,8 @@ orders:
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    current_height = client.get_latest_block().block.header.height
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -524,7 +535,8 @@ orders:
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    current_height = client.get_latest_block().block.header.height
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -616,7 +628,8 @@ orders:
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    current_height = client.get_latest_block().block.header.height
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)

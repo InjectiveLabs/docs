@@ -1,48 +1,10 @@
 # - InjectiveExplorerRPC
-InjectiveAccountsRPC defines the gRPC API of the Exchange Explorer provider.
-
-## GetAccount
-
-Get the account details
-
-
-### Request Parameters
-> Request Example:
-
-``` python
-from pyinjective.client import Client
-from pyinjective.constant import Network
-
-async def main() -> None:
-    network = Network.testnet()
-    client = Client(network, insecure=True)
-    address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-    account = client.get_account(address=address)
-    print(account)
-```
-
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|address|string|The Injective Chain address|Yes|
-
-
-### Response Parameters
-> Response Example:
-
-``` json
-{
-
-}
-```
-
-|Parameter|Type|Description|
-|----|----|----|
-|address|string||
+InjectiveExplorerRPC defines the gRPC API of the Explorer provider.
 
 
 ## GetTxByHash
 
-Get the details for a specific transaction
+Get the details for a specific transaction.
 
 
 ### Request Parameters
@@ -82,7 +44,7 @@ async def main() -> None:
   "pubkey": "injvalcons1cml96vmptgw99syqrrz8az79xer2pcgpvgp7ex",
   "address": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
   "sequence": 5367952,
-  "signature:" "wu7hFy9d3af86V4GnhsNArq8PmZA2PhHiAgSS3XedTZI4wU5WVj+PrZYf6E7ugsJ4DsXxHQ5mMH202oShjMAcwA="
+  "signature": "wu7hFy9d3af86V4GnhsNArq8PmZA2PhHiAgSS3XedTZI4wU5WVj+PrZYf6E7ugsJ4DsXxHQ5mMH202oShjMAcwA="
 }
 
 }
@@ -100,5 +62,5 @@ async def main() -> None:
 |messages|string|The messages included in this transaction|
 |pubkey|string|The public key of the block proposer|
 |address|string|The transaction sender address|
-|sequence|string|The sequence number of the sender's address|
+|sequence|int|The sequence number of the sender's address|
 |signature|string|The signature|

@@ -1,6 +1,6 @@
 # Explorer
 
-**An interface that allows you to search for information on the Injective Chain**
+**A Web interface that allows you to search for information on the Injective Chain**
 
 [Explorer Mainnet](https://explorer.injective.network/)
 

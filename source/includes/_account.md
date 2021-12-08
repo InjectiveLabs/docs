@@ -40,7 +40,8 @@ Includes all the messages related to accounts and transfers.
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    current_height = client.get_latest_block().block.header.height
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -170,7 +171,8 @@ Includes all the messages related to accounts and transfers.
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    current_height = client.get_latest_block().block.header.height
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -310,7 +312,8 @@ Includes all the messages related to accounts and transfers.
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    current_height = client.get_latest_block().block.header.height
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -454,7 +457,8 @@ Includes all the messages related to accounts and transfers.
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    current_height = client.get_latest_block().block.header.height
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)

@@ -19,12 +19,14 @@ includes:
   - oraclerpc
   - insurancerpc
   - metarpc
-  #- explorerrpc
+  # - auctionsrpc
+  # - explorerrpc
   - chainapi
   - derivatives
   - spot
   - account
   - glossary
+  # - auction
   - faq
   # - exchangerpc
   # - chronosrpc
