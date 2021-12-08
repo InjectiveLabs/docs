@@ -25,6 +25,7 @@ includes:
   - derivatives
   - spot
   - account
+  - glossary
   # - auction
   - faq
   # - exchangerpc
