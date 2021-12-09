@@ -62,18 +62,34 @@ In any given block:
 1. Calculate one uniform clearing price for all market orders and execute them. For an example for the market order matching in FBA fashion, look [here](/#examples-market-order-matching).
 2. Limit orders are combined with the resting orderbook and orders are matched as long as there is still negative spread. The limit orders are all matched at one uniform clearing price. For an example for the limit order matching in FBA fashion, look [here](#examples-limit-order-matching).
 
-![FBA](/images/fba-examples.png)
-
 ## Trading Fees and Gas
 
 If you are a trader on existing centralized exchanges, you will be familiar with the concept of trading fees. Traders are charged a fee for each successful trade. However, for a DEX, there are additional gas costs that must be paid to the network. And luckily, the gas fee from trading on Injective is very minimal.
 
 - If you are a trader using a DEX UI, you don't need to worry about the gas costs, because the relayer will pay them for you. But in return you will be paying the trading fee in full.
 - If you are using the API, then you will need to pay the gas costs.
-  - The gas costs are currently very small. 20K transaction will cost about 1 INJ.
+  - The gas costs are currently very small. 20K transactions will cost about 1 INJ.
   - You can set the recipient_fee to any of your own wallet addresses since you are in essence your own relayer saving you about 40% of all fees.
 
 ## Mark Price Margin Requirement
+
+```
+Quantity = 2 BTC, InitialMarginRatio = 0.05
+MarkPrice = $45,000, EntryPrice = $43,000
+
+Margin ≥ 2 * 0.05 * $45,000 = $4,500
+
+MarginLong ≥ max(2 * (0.05 * $45,000 - ($45,000 - $43,000)), $4,500)
+MarginLong ≥ max($500, $4,500) = $4,500
+
+MarginShort ≥ max(2 * (0.05 * $45,000 - ($43,000 - $45,000)), $4,500)
+MarginShort ≥ max($8,500, $4,500) = $8,500
+
+So in this case if the trader wanted to create a short position with
+an entry price which essentially starts at a loss of $2,000 as
+unrealized PNL, he would need to post at a minimum $8,500 as margin,
+rather than the usual required $4,500.
+```
 
 You might be familiar with margin requirements on Centralized Exchanges. When creating a new position, it must fulfill the following requirement:
 
@@ -83,50 +99,115 @@ For example in a market with maximally 20x leverage, your initial margin must be
 
 - `Margin >= Quantity * (InitialMarginRatio * MarkPrice - PNL)`
 
-where `PNL` is the expected profit and loss of the position if it was closed at the MarkPrice. For example:
-
-```
-Quantity = 2 BTC, InitialMarginRatio = 0.05
-MarkPrice = $45,000, EntryPrice = $43,000
-
-Margin ≥ 2 * 0.05 * $45,000 = $4,500
- MarginLong ≥ max(2 * (0.05 * $45,000 - ($45,000 - $43,000)), $4,500) = max($500, $4,500) = $4,500
-MarginShort ≥ max(2 * (0.05 * $45,000 - ($43,000 - $45,000)), $4,500) = max($8,500, $4,500) = $8,500
-```
-
-So in this case if the trader wanted to create a short position with an entry price which essentially starts at a loss of $2,000 as unrealized PNL, he would need to post at a minimum $8,500 as margin, rather than the usual required $4,500.
+where `PNL` is the expected profit and loss of the position if it was closed at the MarkPrice.
 
 ## Liquidations
 
-When your position falls below the maintenance margin ratio, the position can and likely will be liquidated by anyone running the liquidator bot. You will loose your entire position and all funds remaining in the position. What happens on-chain is that automatically a reduce-only market order of the same size as the position is created. The market order will have a worst price defined as Infinity or 0 implying it will be matched at whatever prices are available in the order book.
+```
+Long Position:
+Quantity = 1 BTC, MaintenanceMarginRatio = 0.05
+EntryPrice = $50,000, Margin = $5,000
+
+Now the MarkPrice drops down to $47,300
+which is below the liquidation price of $47,500.
+
+The position is auto-closed via reduce-only order:
+
+Sell order:
+Quantity = 1 BTC, Price = $0, Margin = $0
+
+Assuming it gets matched with a clearing price of 47,100:
+
+Liquidation Payout = Position Margin + PNL = $5,000 - $2,900 = $2,100
+Liquidator Profit = $2,100 * 0.5 = $1,050
+Insurance Fund Profit = $2,100 * 0.5 = $1,050
+```
+
+When your position falls below the maintenance margin ratio, the position can and likely will be liquidated by anyone running the liquidator bot. You will loose your entire position and all funds remaining in the position. What happens on-chain is that automatically a reduce-only market order of the same size as the position is created. The market order will have a worst price defined as _Infinity_ or _0_, implying it will be matched at whatever prices are available in the order book.
 
 One key difference is that the payout from executing the reduce-only market order will not go towards the position owner. Instead, half of the remaining funds are transferred to the liquidator bot and the other half is transferred to the insurance fund.
 
-Also note that liquidations are execution immediately in a block before any other order matching occurs.
+If the payout in the position was negative, i.e., the position's negative PNL was greater than its margin, then the insurance fund will cover the missing funds.
+
+Also note that liquidations are executed immediately in a block before any other order matching occurs.
 
 ## Fee Discounts
 
 Fee discounts are enabled by looking at the past trailing 30 day window. So long as you meet both conditions for a tier (past fees paid **AND** staked amount), you will receive the respective discounts.
 
-- Note that there is a caching mechanism in place which can take up to one day to change to a new tier.
+- Note that there is a caching mechanism in place which can take up to one day to before being updated with a new tier.
 - Negative maker fee markets are not eligible for discounts.
-- If the fee discount proposal was passed less than 30 days ago, the fee paid requirement is ignored so we don't unfairly penalize market makers who onboard immediately.
+- If the fee discount proposal was passed less than 30 days ago, the fee paid requirement is ignored so we don't unfairly penalize people who onboard immediately.
 
 ## Funding Rate
 
-The funding rate determines ...
+The hourly funding rate on perpetual markets determines the percentage that traders on one side have to pay to the other side each hour. If the rate is positive, longs are paying shorts. If the rate is negative shorts are paying longs. The further trade prices within that hour deviated from the mark price, the higher the funding rate will be up to a maximum of 0.0625% (1.5% per day).
 
 ## Closing a Position
 
+```
+Suppose you have an open position:
+
+- Direction = Long
+- Margin = $5,000
+- EntryPrice = $50,000
+- Quantity = 0.5 BTC
+
+You create a new vanilla order for
+
+- Direction = Sell
+- Margin = $10,000
+- Price = $35,000
+- Quantity = 0.75 BTC
+
+which is getting fully matched. First, the position is fully closed:
+
+- OrderMarginUsedForClosing = OrderMargin * CloseQuantity / OrderQuantity
+- OrderMarginUsedForClosing = $10,000 * 0.5 / 0.75 = $6,667
+
+The proportional closing order margin is then used for the payout:
+
+- Payout = PNL + PositionMargin + OrderMarginUsedForClosing
+- Payout = ($35,000-$50,000) * 0.5 + $5,000 + $6,667 = $4,167
+
+And a new position is opened in the opposite direction:
+
+- Direction = Short
+- Margin = $3,333
+- Price = $35,000
+- Quantity = 0.25 BTC
+```
+
+There are two ways to close a position:
+
 ### Closing via Reduce-Only Order
+
+When you close a position vis a reduce-only order, no additional margin is used from the order. All reduce-only orders have a margin of zero. In addition, reduce-only orders are only used to close positions, not to open new ones.
 
 ### Closing via Vanilla Order
 
+You can also close a position via vanilla orders. When a sell vanilla order is getting matched while you have an open Long position, the position will be closed at the price of the sell order. Depending on the size of the order and position, the position may be either
+
+1. partially closed
+2. fully closed
+3. or fully closed with subsequent opening of a new position in the opposite direction.
+
+Note that how the margin inside the order is used depends on which of the three scenarios you are in. If you close a position via vanilla order, the margin is only used to cover PNL payouts, **not to go into the position**. If the order subsequently opens a new position in the opposite direction (scenario 3), the remaining proportional margin will go towards the new position.
+
 ## Trading Rewards
 
-During a given campaign, the exchange will record each trader's cumulative trading reward points obtained from trading fees (with boosts applied, if applicable) from all eligible markets. At the end of each campaign each trader will receive a pro-rata percentage of the trading rewards pool based off their trading rewards points from that campaign epoch. Those rewards will be **automatically deposited** into the trader's respective wallets, it's not necessary to manually withdraw them.
+```
+Assume you have a trading rewards campaign with 100 INJ as rewards:
 
-Let's say you received 100 points in a campaign with 100 INJ trading rewards. At the end of the campaign, the total trading reward points from all traders is 1000. Meaning you will receive 100/1000 = 10% of the trading rewards pool, so 10 INJ.
+Reward Tokens: 100 INJ
+Trader Reward Points = 100
+Total Reward Points = 1,000
+
+Trader Rewards = Trader Reward Points / Total Reward Points * Reward Tokens
+Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
+```
+
+During a given campaign, the exchange will record each trader's cumulative trading reward points obtained from trading fees (with boosts applied, if applicable) from all eligible markets. At the end of each campaign each trader will receive a pro-rata percentage of the trading rewards pool based off their trading rewards points from that campaign epoch. Those rewards will be **automatically deposited** into the trader's respective wallets, it's not necessary to manually withdraw them.
 
 ## Reduce-Only Order Precedence
 
