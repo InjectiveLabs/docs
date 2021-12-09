@@ -18,7 +18,7 @@ Frequent Batch Auctions (FBA) are ensuring fair order matching prices by calcula
 
 ## Relayer
 
-The Injective Chain itself provides no historical data, no detailed statistics and no front-end. This is the role of the relayer. A relayer will index data emitted from the Injective Chain to provide an additional API.
+The Injective Chain itself provides no historical data, no detailed statistics and no front-end. This is the role of the relayer. A relayer will index data emitted from the Injective Chain to provide an additional API and front-end.
 
 ## Mempool
 

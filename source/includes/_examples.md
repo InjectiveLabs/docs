@@ -187,10 +187,9 @@ Would result in:
 
 ### New Orders
 
-- 1x limit buy order for 0.2 BTC with price 64,360
-- 1x limit buy order for 0.4 BTC with price 64,370
-- 1x limit sell order for 0.1 BTC with price 64,200
-- 1x limit sell order for 0.2 BTC with price 64,180
+| Sells                                                                                                                                       | Buys                                                                                                                                        |
+| ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,200</td><td>0.1 BTC</td></tr><tr><td>$64,180</td><td>0.2 BTC</td></tr> </table> | <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,370</td><td>0.4 BTC</td></tr><tr><td>$64,360</td><td>0.2 BTC</td></tr> </table> |
 
 ### Matching Orders
 
@@ -214,4 +213,8 @@ Now the second buy order can still be fully matched:
 
 This is the end of the matching, since no more negative spread exists (`64,360 > 62,210`).
 
-All orders will be matched with a clearing price of `(64,180*0.2 + 64,200*0.1 + 64,360*0.2 + 64,370*0.4 + 64,360*0.1) / (0.5*2) = 64,312` for a total quantity of 0.5 BTC. In edge cases where this clearing price violates any order price, it is instead calculated as the average of the last matched order on buy and sell side.
+All orders will be matched with a clearing price of
+
+- `(64,180*0.2 + 64,200*0.1 + 64,360*0.2 + 64,370*0.4 + 64,360*0.1) / (0.5*2) = 64,312`
+
+for a total quantity of 0.5 BTC. In edge cases where this clearing price violates any order price, it is instead calculated as the average of the last matched order on buy and sell side.
