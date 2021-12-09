@@ -874,8 +874,6 @@ See the examples folder for simple Golang examples. -->
 <li>Calculate one uniform clearing price for all market orders and execute them. For an example for the market order matching in FBA fashion, look <a href="/#examples-market-order-matching">here</a>.</li>
 <li>Limit orders are combined with the resting orderbook and orders are matched as long as there is still negative spread. The limit orders are all matched at one uniform clearing price. For an example for the limit order matching in FBA fashion, look <a href="#examples-limit-order-matching">here</a>.</li>
 </ol>
-
-<p><img src="images/fba-examples-7f2e2128.png" alt="FBA" /></p>
 <h2 id='overview-trading-fees-and-gas'>Trading Fees and Gas</h2>
 <p>If you are a trader on existing centralized exchanges, you will be familiar with the concept of trading fees. Traders are charged a fee for each successful trade. However, for a DEX, there are additional gas costs that must be paid to the network. And luckily, the gas fee from trading on Injective is very minimal.</p>
 
@@ -884,11 +882,26 @@ See the examples folder for simple Golang examples. -->
 <li>If you are using the API, then you will need to pay the gas costs.
 
 <ul>
-<li>The gas costs are currently very small. 20K transaction will cost about 1 INJ.</li>
+<li>The gas costs are currently very small. 20K transactions will cost about 1 INJ.</li>
 <li>You can set the recipient_fee to any of your own wallet addresses since you are in essence your own relayer saving you about 40% of all fees.</li>
 </ul></li>
 </ul>
-<h2 id='overview-mark-price-margin-requirement'>Mark Price Margin Requirement</h2>
+<h2 id='overview-mark-price-margin-requirement'>Mark Price Margin Requirement</h2><div class="highlight"><pre class="highlight plaintext"><code>Quantity = 2 BTC, InitialMarginRatio = 0.05
+MarkPrice = $45,000, EntryPrice = $43,000
+
+Margin ≥ 2 * 0.05 * $45,000 = $4,500
+
+MarginLong ≥ max(2 * (0.05 * $45,000 - ($45,000 - $43,000)), $4,500)
+MarginLong ≥ max($500, $4,500) = $4,500
+
+MarginShort ≥ max(2 * (0.05 * $45,000 - ($43,000 - $45,000)), $4,500)
+MarginShort ≥ max($8,500, $4,500) = $8,500
+
+So in this case if the trader wanted to create a short position with
+an entry price which essentially starts at a loss of $2,000 as
+unrealized PNL, he would need to post at a minimum $8,500 as margin,
+rather than the usual required $4,500.
+</code></pre></div>
 <p>You might be familiar with margin requirements on Centralized Exchanges. When creating a new position, it must fulfill the following requirement:</p>
 
 <ul>
@@ -901,35 +914,96 @@ See the examples folder for simple Golang examples. -->
 <li><code>Margin &gt;= Quantity * (InitialMarginRatio * MarkPrice - PNL)</code></li>
 </ul>
 
-<p>where <code>PNL</code> is the expected profit and loss of the position if it was closed at the MarkPrice. For example:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>Quantity = 2 BTC, InitialMarginRatio = 0.05
-MarkPrice = $45,000, EntryPrice = $43,000
+<p>where <code>PNL</code> is the expected profit and loss of the position if it was closed at the MarkPrice.</p>
+<h2 id='overview-liquidations'>Liquidations</h2><div class="highlight"><pre class="highlight plaintext"><code>Long Position:
+Quantity = 1 BTC, MaintenanceMarginRatio = 0.05
+EntryPrice = $50,000, Margin = $5,000
 
-Margin ≥ 2 * 0.05 * $45,000 = $4,500
- MarginLong ≥ max(2 * (0.05 * $45,000 - ($45,000 - $43,000)), $4,500) = max($500, $4,500) = $4,500
-MarginShort ≥ max(2 * (0.05 * $45,000 - ($43,000 - $45,000)), $4,500) = max($8,500, $4,500) = $8,500
+Now the MarkPrice drops down to $47,300
+which is below the liquidation price of $47,500.
+
+The position is auto-closed via reduce-only order:
+
+Sell order:
+Quantity = 1 BTC, Price = $0, Margin = $0
+
+Assuming it gets matched with a clearing price of 47,100:
+
+Liquidation Payout = Position Margin + PNL = $5,000 - $2,900 = $2,100
+Liquidator Profit = $2,100 * 0.5 = $1,050
+Insurance Fund Profit = $2,100 * 0.5 = $1,050
 </code></pre></div>
-<p>So in this case if the trader wanted to create a short position with an entry price which essentially starts at a loss of $2,000 as unrealized PNL, he would need to post at a minimum $8,500 as margin, rather than the usual required $4,500.</p>
-<h2 id='overview-liquidations'>Liquidations</h2>
-<p>When your position falls below the maintenance margin ratio, the position can and likely will be liquidated by anyone running the liquidator bot. You will loose your entire position and all funds remaining in the position. What happens on-chain is that automatically a reduce-only market order of the same size as the position is created. The market order will have a worst price defined as Infinity or 0 implying it will be matched at whatever prices are available in the order book.</p>
+<p>When your position falls below the maintenance margin ratio, the position can and likely will be liquidated by anyone running the liquidator bot. You will loose your entire position and all funds remaining in the position. What happens on-chain is that automatically a reduce-only market order of the same size as the position is created. The market order will have a worst price defined as <em>Infinity</em> or <em>0</em>, implying it will be matched at whatever prices are available in the order book.</p>
 
 <p>One key difference is that the payout from executing the reduce-only market order will not go towards the position owner. Instead, half of the remaining funds are transferred to the liquidator bot and the other half is transferred to the insurance fund.</p>
 
-<p>Also note that liquidations are execution immediately in a block before any other order matching occurs.</p>
+<p>If the payout in the position was negative, i.e., the position&#39;s negative PNL was greater than its margin, then the insurance fund will cover the missing funds.</p>
+
+<p>Also note that liquidations are executed immediately in a block before any other order matching occurs.</p>
 <h2 id='overview-fee-discounts'>Fee Discounts</h2>
 <p>Fee discounts are enabled by looking at the past trailing 30 day window. So long as you meet both conditions for a tier (past fees paid <strong>AND</strong> staked amount), you will receive the respective discounts.</p>
 
 <ul>
-<li>Note that there is a caching mechanism in place which can take up to one day to change to a new tier.</li>
+<li>Note that there is a caching mechanism in place which can take up to one day to before being updated with a new tier.</li>
 <li>Negative maker fee markets are not eligible for discounts.</li>
-<li>If the fee discount proposal was passed less than 30 days ago, the fee paid requirement is ignored so we don&#39;t unfairly penalize market makers who onboard immediately.</li>
+<li>If the fee discount proposal was passed less than 30 days ago, the fee paid requirement is ignored so we don&#39;t unfairly penalize people who onboard immediately.</li>
 </ul>
 <h2 id='overview-funding-rate'>Funding Rate</h2>
-<p>The funding rate determines ...</p>
-<h2 id='overview-closing-a-position'>Closing a Position</h2><h3 id='overview-closing-a-position-closing-via-reduce-only-order'>Closing via Reduce-Only Order</h3><h3 id='overview-closing-a-position-closing-via-vanilla-order'>Closing via Vanilla Order</h3><h2 id='overview-trading-rewards'>Trading Rewards</h2>
-<p>During a given campaign, the exchange will record each trader&#39;s cumulative trading reward points obtained from trading fees (with boosts applied, if applicable) from all eligible markets. At the end of each campaign each trader will receive a pro-rata percentage of the trading rewards pool based off their trading rewards points from that campaign epoch. Those rewards will be <strong>automatically deposited</strong> into the trader&#39;s respective wallets, it&#39;s not necessary to manually withdraw them.</p>
+<p>The hourly funding rate on perpetual markets determines the percentage that traders on one side have to pay to the other side each hour. If the rate is positive, longs are paying shorts. If the rate is negative shorts are paying longs. The further trade prices within that hour deviated from the mark price, the higher the funding rate will be up to a maximum of 0.0625% (1.5% per day).</p>
+<h2 id='overview-closing-a-position'>Closing a Position</h2><div class="highlight"><pre class="highlight plaintext"><code>Suppose you have an open position:
 
-<p>Let&#39;s say you received 100 points in a campaign with 100 INJ trading rewards. At the end of the campaign, the total trading reward points from all traders is 1000. Meaning you will receive 100/1000 = 10% of the trading rewards pool, so 10 INJ.</p>
+- Direction = Long
+- Margin = $5,000
+- EntryPrice = $50,000
+- Quantity = 0.5 BTC
+
+You create a new vanilla order for
+
+- Direction = Sell
+- Margin = $10,000
+- Price = $35,000
+- Quantity = 0.75 BTC
+
+which is getting fully matched. First, the position is fully closed:
+
+- OrderMarginUsedForClosing = OrderMargin * CloseQuantity / OrderQuantity
+- OrderMarginUsedForClosing = $10,000 * 0.5 / 0.75 = $6,667
+
+The proportional closing order margin is then used for the payout:
+
+- Payout = PNL + PositionMargin + OrderMarginUsedForClosing
+- Payout = ($35,000-$50,000) * 0.5 + $5,000 + $6,667 = $4,167
+
+And a new position is opened in the opposite direction:
+
+- Direction = Short
+- Margin = $3,333
+- Price = $35,000
+- Quantity = 0.25 BTC
+</code></pre></div>
+<p>There are two ways to close a position:</p>
+<h3 id='overview-closing-a-position-closing-via-reduce-only-order'>Closing via Reduce-Only Order</h3>
+<p>When you close a position vis a reduce-only order, no additional margin is used from the order. All reduce-only orders have a margin of zero. In addition, reduce-only orders are only used to close positions, not to open new ones.</p>
+<h3 id='overview-closing-a-position-closing-via-vanilla-order'>Closing via Vanilla Order</h3>
+<p>You can also close a position via vanilla orders. When a sell vanilla order is getting matched while you have an open Long position, the position will be closed at the price of the sell order. Depending on the size of the order and position, the position may be either</p>
+
+<ol>
+<li>partially closed</li>
+<li>fully closed</li>
+<li>or fully closed with subsequent opening of a new position in the opposite direction.</li>
+</ol>
+
+<p>Note that how the margin inside the order is used depends on which of the three scenarios you are in. If you close a position via vanilla order, the margin is only used to cover PNL payouts, <strong>not to go into the position</strong>. If the order subsequently opens a new position in the opposite direction (scenario 3), the remaining proportional margin will go towards the new position.</p>
+<h2 id='overview-trading-rewards'>Trading Rewards</h2><div class="highlight"><pre class="highlight plaintext"><code>Assume you have a trading rewards campaign with 100 INJ as rewards:
+
+Reward Tokens: 100 INJ
+Trader Reward Points = 100
+Total Reward Points = 1,000
+
+Trader Rewards = Trader Reward Points / Total Reward Points * Reward Tokens
+Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
+</code></pre></div>
+<p>During a given campaign, the exchange will record each trader&#39;s cumulative trading reward points obtained from trading fees (with boosts applied, if applicable) from all eligible markets. At the end of each campaign each trader will receive a pro-rata percentage of the trading rewards pool based off their trading rewards points from that campaign epoch. Those rewards will be <strong>automatically deposited</strong> into the trader&#39;s respective wallets, it&#39;s not necessary to manually withdraw them.</p>
 <h2 id='overview-reduce-only-order-precedence'>Reduce-Only Order Precedence</h2>
 <p>Imagine a trader has a the following position:</p>
 
@@ -1367,12 +1441,17 @@ MarginShort ≥ max(2 * (0.05 * $45,000 - ($43,000 - $45,000)), $4,500) = max($8
 </tr>
 </tbody></table>
 <h3 id='examples-limit-order-matching-new-orders'>New Orders</h3>
-<ul>
-<li>1x limit buy order for 0.2 BTC with price 64,360</li>
-<li>1x limit buy order for 0.4 BTC with price 64,370</li>
-<li>1x limit sell order for 0.1 BTC with price 64,200</li>
-<li>1x limit sell order for 0.2 BTC with price 64,180</li>
-</ul>
+<table><thead>
+<tr>
+<th>Sells</th>
+<th>Buys</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,200</td><td>0.1 BTC</td></tr><tr><td>$64,180</td><td>0.2 BTC</td></tr> </table></td>
+<td><table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,370</td><td>0.4 BTC</td></tr><tr><td>$64,360</td><td>0.2 BTC</td></tr> </table></td>
+</tr>
+</tbody></table>
 <h3 id='examples-limit-order-matching-matching-orders'>Matching Orders</h3>
 <p>All new orders are incorporated into the existing orderbook. In our case this results in a negative spread:</p>
 
@@ -1418,7 +1497,13 @@ MarginShort ≥ max(2 * (0.05 * $45,000 - ($43,000 - $45,000)), $4,500) = max($8
 
 <p>This is the end of the matching, since no more negative spread exists (<code>64,360 &gt; 62,210</code>).</p>
 
-<p>All orders will be matched with a clearing price of <code>(64,180*0.2 + 64,200*0.1 + 64,360*0.2 + 64,370*0.4 + 64,360*0.1) / (0.5*2) = 64,312</code> for a total quantity of 0.5 BTC. In edge cases where this clearing price violates any order price, it is instead calculated as the average of the last matched order on buy and sell side.</p>
+<p>All orders will be matched with a clearing price of</p>
+
+<ul>
+<li><code>(64,180*0.2 + 64,200*0.1 + 64,360*0.2 + 64,370*0.4 + 64,360*0.1) / (0.5*2) = 64,312</code></li>
+</ul>
+
+<p>for a total quantity of 0.5 BTC. In edge cases where this clearing price violates any order price, it is instead calculated as the average of the last matched order on buy and sell side.</p>
 <h1 id='swagger'>Swagger</h1>
 <p><strong>A REST interface for state queries, legacy transactions</strong></p>
 
@@ -10283,7 +10368,7 @@ MarginShort ≥ max(2 * (0.05 * $45,000 - ($43,000 - $45,000)), $4,500) = max($8
 <h2 id='glossary-frequent-batch-auction-fba'>Frequent Batch Auction (FBA)</h2>
 <p>Frequent Batch Auctions (FBA) are ensuring fair order matching prices by calculating one uniform clearing price over all orders in the same block. Rather than calculating the clearing price for every order, the FBA algorithm calculates the clearing price for a batch of orders. For more details, <a href="#overview-frequent-batch-auction-fba">here</a>.</p>
 <h2 id='glossary-relayer'>Relayer</h2>
-<p>The Injective Chain itself provides no historical data, no detailed statistics and no front-end. This is the role of the relayer. A relayer will index data emitted from the Injective Chain to provide an additional API.</p>
+<p>The Injective Chain itself provides no historical data, no detailed statistics and no front-end. This is the role of the relayer. A relayer will index data emitted from the Injective Chain to provide an additional API and front-end.</p>
 <h2 id='glossary-mempool'>Mempool</h2>
 <p>A mempool refers to pending transactions in a blockchain. It is the place where transactions are stored before they are included in a block.</p>
 <h2 id='glossary-grpc'>gRPC</h2>
