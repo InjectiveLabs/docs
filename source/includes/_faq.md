@@ -10,8 +10,8 @@
 ## 2. What are the gas fees on Injective?
 	If you place trades through the UI on one of the available [relayers](https://hub.injective.network/trade) you can experience gas-less trading, if you place trades from the API you will pay gas fees in INJ but they will be very low at an average of 0.00005 INJ per message.
 	
-## 3. How can I calculate the gas in INJ coins based on the gas used?
-	The minimum gas price set to the node is 500000000, in order to find the exact INJ amount paid you multiply the gas used with the minimum gas price and divide by 1e18. For instance, if gas used is 104519 then you would calculate it as follows:
+## 3. How can I calculate the gas fees in INJ?
+	The minimum gas price set to the node is 500000000, in order to find the exact INJ amount paid you multiply the gas wanted with the minimum gas price and divide by 1e18. For instance, if gas wanted is 104519 then you would calculate it as follows:
 
 	500000000 * 104519 / 1e18 = 0.0000522595 INJ
 
