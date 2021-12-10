@@ -12,6 +12,7 @@ includes:
   - examples
   - swagger
   - explorer
+  - faucet
   - exchangeapi
   - accountsrpc
   - spotrpc
