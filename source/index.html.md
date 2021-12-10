@@ -20,13 +20,13 @@ includes:
   - insurancerpc
   - metarpc
   # - auctionsrpc
-  # - explorerrpc
+  - explorerrpc
   - chainapi
   - derivatives
   - spot
   - account
+  - auction
   - glossary
-  # - auction
   - faq
   # - exchangerpc
   # - chronosrpc
