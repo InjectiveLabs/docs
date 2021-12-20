@@ -16,7 +16,7 @@ from pyinjective.constant import Network
 async def main() -> None:
     network = Network.testnet()
     client = Client(network, insecure=True)
-    action_round = 135
+    action_round = 12
     auction = client.get_auction(bid_round=action_round)
     print(auction)
 ```
@@ -31,11 +31,24 @@ async def main() -> None:
 {
 
 "auction": {
-  "winner": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-  "winning_bid_amount": "2000000000000000000",
-  "round": 135,
-  "end_timestamp": 1638365345361,
-  "updated_at": 1638365944467
+  "winner": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+  "basket": {
+    "denom": "peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "amount": "300100663"
+  },
+  "basket": {
+    "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "amount": "8084075059004"
+  },
+  "winning_bid_amount": "1000000000000000000000",
+  "round": 12,
+  "end_timestamp": 1639999020325,
+  "updated_at": 1639999022779,
+},
+"bids": {
+  "bidder": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+  "amount": "1000000000000000000000",
+  "timestamp": 1640000366576
 }
 
 }
@@ -66,19 +79,32 @@ async def main() -> None:
 
 "auctions": {
   "winner": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-  "winning_bid_amount": "1000000000000000000",
-  "round": 66,
-  "end_timestamp": 1638399544188,
-  "updated_at": 1638400144108,
+  "basket": {
+    "denom": "peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "amount": "300100663"
+  },
+  "basket": {
+    "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "amount": "8084075059004"
+  },
+  "winning_bid_amount": "1000000000000000000000",
+  "round": 12,
+  "end_timestamp": 1639999020325,
+  "updated_at": 1639999022779
 },
 "auctions": {
-"winner": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-  "winning_bid_amount": "2000000000000000000",
-  "round": 67,
-  "end_timestamp": 1638400144108,
-  "updated_at": 1638400146240
+  "basket": {
+    "denom": "peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "amount": "18930656"
+  },
+  "basket": {
+    "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "amount": "404428070978"
+  },
+  "round": 13,
+  "end_timestamp": 1640000820966,
+  "updated_at": 1640000824348
 }
-
 
 }
 ```
