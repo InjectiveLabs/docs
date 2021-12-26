@@ -1555,7 +1555,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -1612,7 +1612,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -1757,7 +1757,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -1877,7 +1877,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -2010,7 +2010,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -2083,7 +2083,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -2204,7 +2204,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">spot_order_hashes</span> <span class="o">=</span> <span class="p">[</span><span class="s">"0xce0d9b701f77cd6ddfda5dd3a4fe7b2d53ba83e5d6c054fb2e9e886200b7b7bb"</span><span class="p">,</span> <span class="s">"0x2e2245b5431638d76c6e0cc6268970418a1b1b7df60a8e94b8cf37eae6105542"</span><span class="p">]</span>
@@ -2439,7 +2439,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">account_address</span> <span class="o">=</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span>
@@ -2525,7 +2525,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -2718,7 +2718,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -2925,7 +2925,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -3113,7 +3113,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -3272,7 +3272,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -3449,7 +3449,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -3641,7 +3641,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -3830,7 +3830,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -3961,7 +3961,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -4092,7 +4092,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">market_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span><span class="p">,</span> <span class="s">"0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31"</span><span class="p">]</span>
@@ -4229,7 +4229,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -4381,7 +4381,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -4562,11 +4562,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span>
     <span class="n">market</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_derivative_market</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">market</span><span class="p">)</span>
 </code></pre></div>
@@ -4591,7 +4591,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"market"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"market_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"ticker"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC/USDT"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"oracle_base"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="p">,</span><span class="w">
@@ -4860,7 +4860,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -4896,7 +4896,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"markets"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"market_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"ticker"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC/USDT"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"oracle_base"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="p">,</span><span class="w">
@@ -5165,7 +5165,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -5178,7 +5178,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"market"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"market_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"ticker"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC/USDT"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"oracle_base"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="p">,</span><span class="w">
@@ -5447,11 +5447,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span>
     <span class="n">subaccount_id</span><span class="o">=</span> <span class="s">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span>
     <span class="n">order_side</span> <span class="o">=</span> <span class="s">"buy"</span> <span class="c1"># buy or sell
 </span>    <span class="n">orders</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_derivative_orders</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span> <span class="n">order_side</span><span class="o">=</span><span class="n">order_side</span><span class="p">,</span> <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">)</span>
@@ -5492,7 +5492,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </span><span class="nl">"orders"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="nl">"order_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xeb650941906fe707534a70979c43714c0ca703b0d02e450a9f25bbe302419fc9"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"order_side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"margin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"507634400000"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"39048800000"</span><span class="p">,</span><span class="w">
@@ -5506,7 +5506,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </span><span class="nl">"orders"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="nl">"order_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xbdb49ed59947cdce7544aa8d983b77f76e50177cc4287a6136bee8f16deb4bd2"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"order_side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"margin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"500714162000"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"38516474000"</span><span class="p">,</span><span class="w">
@@ -5623,11 +5623,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span>
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="s">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span>
     <span class="n">order_side</span> <span class="o">=</span> <span class="s">"buy"</span> <span class="c1"># buy or sell
 </span>    <span class="n">orders</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">stream_derivative_orders</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span> <span class="n">order_side</span><span class="o">=</span><span class="n">order_side</span><span class="p">,</span> <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">)</span>
@@ -5669,7 +5669,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </span><span class="nl">"orders"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="nl">"order_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xeb650941906fe707534a70979c43714c0ca703b0d02e450a9f25bbe302419fc9"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"order_side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"margin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"507634400000"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"39048800000"</span><span class="p">,</span><span class="w">
@@ -5686,7 +5686,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </span><span class="nl">"orders"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="nl">"order_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xbdb49ed59947cdce7544aa8d983b77f76e50177cc4287a6136bee8f16deb4bd2"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"order_side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"margin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"500714162000"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"38516474000"</span><span class="p">,</span><span class="w">
@@ -5815,11 +5815,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span>
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="s">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span>
     <span class="n">trades</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_derivative_trades</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span> <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">trades</span><span class="p">)</span>
@@ -5877,7 +5877,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   </span><span class="nl">"trades"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="nl">"order_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xfdd7865b3fe35fe986b07fafea8e1c301a9d83f9683542505085eb8730c3a907"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"trade_execution_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limitMatchRestingOrder"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"position_delta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"trade_direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
@@ -5892,7 +5892,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </span><span class="nl">"trades"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="nl">"order_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x28a99e824c0e19c1bdd63676cfe58f37c018f9db12b9c3e5466c377e1354633c"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"trade_execution_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limitMatchRestingOrder"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"position_delta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"trade_direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
@@ -6016,11 +6016,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span>
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="s">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span>
     <span class="n">trades</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">stream_derivative_trades</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span> <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">trade</span> <span class="ow">in</span> <span class="n">trades</span><span class="p">:</span>
@@ -6079,7 +6079,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   </span><span class="nl">"trade"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="nl">"order_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x53940e211d5cd6caa2ea4f9d557c6992a8165ce328e7a3220b4b0e8ae7909897"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"trade_execution_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limitMatchNewOrder"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"position_delta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"trade_direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
@@ -6097,7 +6097,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </span><span class="nl">"trade"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="nl">"order_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x88cc481ff9f0e77a51fd1e829647bad434787080963bf20e275beb692a5d3558"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"trade_execution_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limitMatchNewOrder"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"position_delta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"trade_direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
@@ -6234,11 +6234,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span>
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="s">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span>
     <span class="n">positions</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_derivative_positions</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span> <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
@@ -6271,7 +6271,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
 </span><span class="nl">"positions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="nl">"ticker"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC/USDT"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xdffcc8962c7662ba69c3eb2b5ed7c435879e5229000000000000000000000000"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.75"</span><span class="p">,</span><span class="w">
@@ -6283,7 +6283,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </span><span class="p">},</span><span class="w">
 </span><span class="nl">"positions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="nl">"ticker"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC/USDT"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xfdc59dcaa0077fc178bcf12f9d677cbe75511d4a000000000000000000000000"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"28.35"</span><span class="p">,</span><span class="w">
@@ -6379,11 +6379,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span>
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="s">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span>
     <span class="n">positions</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">stream_derivative_positions</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span> <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">:</span>
@@ -6417,7 +6417,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
 </span><span class="nl">"position"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="nl">"ticker"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC/USDT"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"short"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"500.36"</span><span class="p">,</span><span class="w">
@@ -6431,7 +6431,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 </span><span class="nl">"position"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="nl">"ticker"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC/USDT"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"short"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"500.36"</span><span class="p">,</span><span class="w">
@@ -6533,11 +6533,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span>
     <span class="n">market</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_derivative_orderbook</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">market</span><span class="p">)</span>
 </code></pre></div>
@@ -6658,11 +6658,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span>
     <span class="n">markets</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">stream_derivative_orderbook</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">market</span> <span class="ow">in</span> <span class="n">markets</span><span class="p">:</span>
         <span class="k">print</span><span class="p">(</span><span class="n">market</span><span class="p">)</span>
@@ -6798,7 +6798,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">market_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s">"0x897519d4cf8c460481638b3ff64871668d0a7f6afea10c1b0a952c0b5927f48f"</span><span class="p">,</span> <span class="s">"0x31200279ada822061217372150d567be124f02df157650395d1d6ce58a8207aa"</span><span class="p">]</span>
@@ -6945,11 +6945,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span>
     <span class="n">liquidable_positions</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_derivative_liquidable_positions</span><span class="p">()</span>
     <span class="k">print</span><span class="p">(</span><span class="n">liquidable_positions</span><span class="p">)</span>
 </code></pre></div>
@@ -7085,7 +7085,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -7249,7 +7249,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -7442,10 +7442,10 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span>
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span>
     <span class="n">funding</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_funding_payments</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span> <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">funding</span><span class="p">)</span>
@@ -7477,7 +7477,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
 </span><span class="nl">"payments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb18d64f679077773b0d5151293f67e68394e5abb815cea00f1180a9f14574d16"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"subaccount_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"79677138"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1634515200458</span><span class="w">
@@ -7524,7 +7524,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -7602,7 +7602,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -7676,7 +7676,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -7756,7 +7756,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -7877,7 +7877,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -8032,7 +8032,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -8055,7 +8055,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -8097,7 +8097,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -8144,6 +8144,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </blockquote>
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+<span class="kn">import</span> <span class="nn">asyncio</span>
 
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -8198,7 +8200,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">tx_hash</span> <span class="o">=</span> <span class="s">"CF241CAACFA434DBC38645441FA330743C0F5BEB413FDE6DFCE6082EEB3E3D27"</span>
@@ -8320,7 +8322,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 <span class="kn">from</span> <span class="nn">pyinjective.wallet</span> <span class="kn">import</span> <span class="n">PrivateKey</span><span class="p">,</span> <span class="n">PublicKey</span><span class="p">,</span> <span class="n">Address</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">composer</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
