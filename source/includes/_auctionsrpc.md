@@ -13,7 +13,7 @@ Get the details of a specific auction.
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     network = Network.testnet()
     client = Client(network, insecure=True)
     action_round = 12
@@ -65,7 +65,7 @@ Get the details of previous auctions.
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     network = Network.testnet()
     client = Client(network, insecure=True)
     auctions = client.get_auctions()
@@ -121,7 +121,7 @@ from pyinjective.client import Client
 from pyinjective.constant import Network
 
 
-async def main() -> None:
+def main() -> None:
     network = Network.testnet()
     client = Client(network, insecure=True)
     bids = client.stream_bids()

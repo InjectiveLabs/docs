@@ -13,7 +13,7 @@ from pyinjective.client import Client
 from pyinjective.constant import Network
 
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -41,7 +41,7 @@ from pyinjective.client import Client
 from pyinjective.constant import Network
 
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -87,7 +87,7 @@ from pyinjective.client import Client
 from pyinjective.constant import Network
 
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -138,6 +138,8 @@ Clients can subscribe to a stream and gracefully disconnect and connect to anoth
 ``` python
 from pyinjective.client import Client
 from pyinjective.constant import Network
+
+import asyncio
 
 
 async def main() -> None:

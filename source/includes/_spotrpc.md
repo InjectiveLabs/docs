@@ -14,7 +14,7 @@ Get details of a spot market
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -111,7 +111,7 @@ Get a list of spot markets
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -213,7 +213,7 @@ Stream live updates of spot markets
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -308,7 +308,7 @@ Get orders of a spot market
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -395,7 +395,7 @@ Stream order updates of a spot market
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -491,7 +491,7 @@ Get trades of a spot market
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -588,7 +588,7 @@ Stream trades of a spot market
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -674,7 +674,7 @@ Get the orderbook of a spot market
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -759,7 +759,7 @@ Stream the orderbook of a spot market
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -838,7 +838,7 @@ Stream orderbook updates for an array of spot markets
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     network = Network.testnet()
     client = Client(network, insecure=True)
     market_ids = ["0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0", "0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31"]
@@ -919,7 +919,7 @@ Get orders of a subaccount
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -1003,7 +1003,7 @@ Get trades of a subaccount
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
