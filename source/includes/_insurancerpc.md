@@ -13,7 +13,7 @@ Funds lists all insurance funds.
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -85,7 +85,7 @@ PendingRedemptions lists all pending redemptions according to a filter
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)

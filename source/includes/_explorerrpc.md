@@ -14,7 +14,7 @@ Get the details for a specific transaction.
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     network = Network.testnet()
     client = Client(network, insecure=True)
     tx_hash = "CF241CAACFA434DBC38645441FA330743C0F5BEB413FDE6DFCE6082EEB3E3D27"

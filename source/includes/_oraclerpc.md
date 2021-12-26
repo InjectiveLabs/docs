@@ -13,7 +13,7 @@ Get a list with oracles and feeds.
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -71,7 +71,7 @@ Get the oracle price of an asset
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -116,7 +116,7 @@ Stream oracle prices for an asset
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)

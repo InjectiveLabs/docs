@@ -13,7 +13,7 @@ Get details of a derivative market
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -146,7 +146,7 @@ Get a list of derivative markets
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -281,7 +281,7 @@ Stream live updates of derivative markets
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -408,7 +408,7 @@ Get orders of a derivative market
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -499,7 +499,7 @@ Stream order updates of a derivative market
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -600,7 +600,7 @@ Get trades of a derivative market
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -699,7 +699,7 @@ Stream trades of a derivative market
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -809,7 +809,7 @@ Get the positions of a market
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -893,7 +893,7 @@ Stream position updates for a specific market
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -978,7 +978,7 @@ Get the orderbook of a derivative market
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -1060,7 +1060,7 @@ Stream orderbook updates for a derivative market
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -1147,7 +1147,7 @@ Stream orderbook updates for an array of derivative markets
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     network = Network.testnet()
     client = Client(network, insecure=True)
     market_ids = ["0x897519d4cf8c460481638b3ff64871668d0a7f6afea10c1b0a952c0b5927f48f", "0x31200279ada822061217372150d567be124f02df157650395d1d6ce58a8207aa"]
@@ -1238,7 +1238,7 @@ Get the positions that are subject to liquidation
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -1322,7 +1322,7 @@ Get the derivative orders of a specific subaccount
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -1409,7 +1409,7 @@ Get the derivative trades for a specific subaccount
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = Client(network, insecure=True)
@@ -1511,7 +1511,7 @@ Get the funding payments for a subaccount
 from pyinjective.client import Client
 from pyinjective.constant import Network
 
-async def main() -> None:
+def main() -> None:
     network = Network.testnet()
     client = Client(network, insecure=True)
     market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"
