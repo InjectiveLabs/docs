@@ -1524,6 +1524,9 @@ def main() -> None:
 |----|----|----|----|
 |subaccount_id|string|Filter by Subaccount ID|Yes|
 |market_id|string|Filter by Market ID|No|
+|skip|int|Skip the last funding payments, you can use this to fetch all payments since the API caps at 100|No|
+|limit|int|Limit the funding payments returned|No|
+
 
 
 ### Response Parameters
