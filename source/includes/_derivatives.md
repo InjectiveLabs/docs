@@ -495,7 +495,11 @@ orders:
 
 ## MsgBatchUpdateOrders
 
-If the user specifies MarketIdsToCancelAll, then they MUST specify the associated SubaccountID AND MarketIDs here cannot be included in SpotOrdersToCancel or DerivativeOrdersToCancel. If the user is not specifying SpotMarketIdsToCancelAll or DerivativeMarketIdsToCancelAll, then they should NOT include the SubaccountID.
+MsgBatchUpdateOrders allows for the atomic cancellation and creation of spot and derivative limit orders, along with a new order cancellation mode. Upon execution, order cancellations (if any) occur first, followed by order creations (if any).
+
+Users can cancel all limit orders in a given spot or derivative market for a given subaccountID by specifying the associated marketID in the SpotMarketIdsToCancelAll and DerivativeMarketIdsToCancelAll. Users can also cancel individual limit orders in SpotOrdersToCancel or DerivativeOrdersToCancel, but must ensure that marketIDs in these individual order cancellations are not already provided in the SpotMarketIdsToCancelAll or DerivativeMarketIdsToCancelAll.
+
+Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll or DerivativeMarketIdsToCancelAll, then the SubaccountID in the Msg should be left empty.
 
 ### Request Parameters
 > Request Example:
