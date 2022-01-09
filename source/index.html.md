@@ -53,21 +53,15 @@ If you would like to ask any questions or be a part of our community, please joi
 
 *Ubuntu*
 
-```bash
-sudo apt install python3.X-dev autoconf automake build-essential libffi-dev libtool pkg-config
-```
+`sudo apt install python3.X-dev autoconf automake build-essential libffi-dev libtool pkg-config`
 
 *Fedora*
 
-```bash
-sudo dnf install python3-devel autoconf automake gcc gcc-c++ libffi-devel libtool make pkgconfig
-```
+`sudo dnf install python3-devel autoconf automake gcc gcc-c++ libffi-devel libtool make pkgconfig`
 
 *macOS*
 
-```bash
-brew install autoconf automake libtool
-```
+`brew install autoconf automake libtool`
 
 **Installation**
 
