@@ -465,6 +465,9 @@
                   <li>
                     <a href="#injectiveaccountsrpc-portfolio" class="toc-h2 toc-link" data-title="Portfolio">Portfolio</a>
                   </li>
+                  <li>
+                    <a href="#injectiveaccountsrpc-rewards" class="toc-h2 toc-link" data-title="Rewards">Rewards</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -798,7 +801,7 @@
 
 <p><strong>Installation</strong></p>
 
-<p>Install injective-py from PyPI using pip.</p>
+<p>Install injective-py from PyPI <code>using pip</code>.</p>
 <div class="highlight"><pre class="highlight shell"><code>pip <span class="nb">install </span>injective-py
 </code></pre></div>
 <p><strong>Reference</strong></p>
@@ -1566,7 +1569,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <h1 id='exchange-api'>Exchange API</h1><h1 id='injectiveaccountsrpc'>- InjectiveAccountsRPC</h1>
 <p>InjectiveAccountsRPC defines the gRPC API of the Exchange Accounts provider.</p>
 <h2 id='injectiveaccountsrpc-subaccountslist'>SubaccountsList</h2>
-<p>Get a list of subaccounts for a specific address</p>
+<p>Get a list of subaccounts for a specific address.</p>
 <h3 id='injectiveaccountsrpc-subaccountslist-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -1619,12 +1622,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </thead><tbody>
 <tr>
 <td>subaccounts</td>
-<td>Array</td>
+<td>array</td>
 <td></td>
 </tr>
 </tbody></table>
 <h2 id='injectiveaccountsrpc-subaccounthistory'>SubaccountHistory</h2>
-<p>Get the subaccount&#39;s transfer history</p>
+<p>Get the subaccount&#39;s transfer history.</p>
 <h3 id='injectiveaccountsrpc-subaccounthistory-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -1653,7 +1656,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>subaccount_id</td>
 <td>string</td>
-<td>Filter by Subaccount ID</td>
+<td>Filter by subaccount ID</td>
 <td>Yes</td>
 </tr>
 <tr>
@@ -1664,7 +1667,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 <tr>
 <td>transfer_types</td>
-<td>Array</td>
+<td>array</td>
 <td>Filter by transfer types</td>
 <td>No</td>
 </tr>
@@ -1707,12 +1710,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </thead><tbody>
 <tr>
 <td>transfers</td>
+<td>array</td>
 <td>Array of SubaccountBalanceTransfer</td>
-<td>List of subaccount transfers</td>
 </tr>
 </tbody></table>
 
-<p>SubaccountBalanceTransfer:</p>
+<p><strong>SubaccountBalanceTransfer</strong></p>
 
 <table><thead>
 <tr>
@@ -1724,7 +1727,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>amount</td>
 <td>CosmosCoin</td>
-<td></td>
+<td>Array of CosmosCoin</td>
 </tr>
 <tr>
 <td>dst_account_address</td>
@@ -1737,7 +1740,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Timestamp of the transfer in UNIX millis</td>
 </tr>
 <tr>
-<td>src_subaccountID</td>
+<td>src_subaccount_id</td>
 <td>string</td>
 <td>Subaccount ID of the sending side</td>
 </tr>
@@ -1748,7 +1751,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 </tbody></table>
 
-<p>CosmosCoin:</p>
+<p><strong>CosmosCoin</strong></p>
 
 <table><thead>
 <tr>
@@ -1760,7 +1763,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>amount</td>
 <td>string</td>
-<td>Coin amount (big int)</td>
+<td>Coin amount</td>
 </tr>
 <tr>
 <td>denom</td>
@@ -1769,7 +1772,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 </tbody></table>
 <h2 id='injectiveaccountsrpc-subaccountbalance'>SubaccountBalance</h2>
-<p>Get the balance of a subaccount for a specific denom</p>
+<p>Get the balance of a subaccount for a specific denom.</p>
 <h3 id='injectiveaccountsrpc-subaccountbalance-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -1797,7 +1800,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>subaccount_id</td>
 <td>string</td>
-<td>Filter by Subaccount ID</td>
+<td>Filter by subaccount ID</td>
 <td>Yes</td>
 </tr>
 <tr>
@@ -1832,12 +1835,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </thead><tbody>
 <tr>
 <td>balance</td>
-<td>SubaccountBalance</td>
-<td></td>
+<td>array</td>
+<td>Array of SubaccountBalance</td>
 </tr>
 </tbody></table>
 
-<p>SubaccountBalance:</p>
+<p><strong>SubaccountBalance</strong></p>
 
 <table><thead>
 <tr>
@@ -1849,26 +1852,26 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>denom</td>
 <td>string</td>
-<td>Coin denom on the chain.</td>
+<td>Coin denom on the chain</td>
 </tr>
 <tr>
 <td>deposit</td>
-<td>SubaccountDeposit</td>
-<td></td>
+<td>array</td>
+<td>Array of SubaccountDeposit</td>
 </tr>
 <tr>
 <td>subaccount_id</td>
 <td>string</td>
-<td>Related subaccount ID</td>
+<td>Filter by subaccount ID</td>
 </tr>
 <tr>
 <td>account_address</td>
 <td>string</td>
-<td>Account address, owner of this subaccount</td>
+<td>The Injective Chain address</td>
 </tr>
 </tbody></table>
 
-<p>SubaccountDeposit:</p>
+<p><strong>SubaccountDeposit</strong></p>
 
 <table><thead>
 <tr>
@@ -1880,16 +1883,16 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>available_balance</td>
 <td>string</td>
-<td></td>
+<td>The available balance for a denom</td>
 </tr>
 <tr>
 <td>total_balance</td>
 <td>string</td>
-<td></td>
+<td>The total balance for a denom</td>
 </tr>
 </tbody></table>
 <h2 id='injectiveaccountsrpc-subaccountbalanceslist'>SubaccountBalancesList</h2>
-<p>List the subaccount&#39;s balances for all denoms</p>
+<p>List the subaccount&#39;s balances for all denoms.</p>
 <h3 id='injectiveaccountsrpc-subaccountbalanceslist-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -1916,7 +1919,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>subaccount_id</td>
 <td>string</td>
-<td>Filter by Subaccount ID</td>
+<td>Filter by subaccount ID</td>
 <td>Yes</td>
 </tr>
 </tbody></table>
@@ -1965,12 +1968,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </thead><tbody>
 <tr>
 <td>balances</td>
+<td>array</td>
 <td>Array of SubaccountBalance</td>
-<td>List of subaccount balances</td>
 </tr>
 </tbody></table>
 
-<p>SubaccountBalance:</p>
+<p><strong>SubaccountBalance</strong></p>
 
 <table><thead>
 <tr>
@@ -1982,26 +1985,26 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>account_address</td>
 <td>string</td>
-<td>Account address, owner of this subaccount</td>
+<td>The Injective Chain address</td>
 </tr>
 <tr>
 <td>denom</td>
 <td>string</td>
-<td>Coin denom on the chain.</td>
+<td>Coin denom on the chain</td>
 </tr>
 <tr>
 <td>deposit</td>
-<td>SubaccountDeposit</td>
-<td></td>
+<td>array</td>
+<td>Array of SubaccountDeposit</td>
 </tr>
 <tr>
 <td>subaccount_id</td>
 <td>string</td>
-<td>Related subaccount ID</td>
+<td>Filter by subaccount ID</td>
 </tr>
 </tbody></table>
 
-<p>SubaccountDeposit:</p>
+<p><strong>SubaccountDeposit</strong></p>
 
 <table><thead>
 <tr>
@@ -2013,16 +2016,16 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>available_balance</td>
 <td>string</td>
-<td></td>
+<td>The available balance for a denom</td>
 </tr>
 <tr>
 <td>total_balance</td>
 <td>string</td>
-<td></td>
+<td>The total balance for a denom</td>
 </tr>
 </tbody></table>
 <h2 id='injectiveaccountsrpc-subaccountordersummary'>SubaccountOrderSummary</h2>
-<p>Get the subaccount&#39;s orders summary</p>
+<p>Get the subaccount&#39;s orders summary.</p>
 <h3 id='injectiveaccountsrpc-subaccountordersummary-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -2051,13 +2054,13 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>subaccount_id</td>
 <td>string</td>
-<td>Filter by Subaccount ID</td>
+<td>Filter by subaccount ID</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td>market_id</td>
 <td>string</td>
-<td>Filter by Market ID</td>
+<td>Filter by market ID</td>
 <td>No</td>
 </tr>
 <tr>
@@ -2086,16 +2089,16 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>derivative_orders_total</td>
 <td>integer</td>
-<td>Total count of subaccount&#39;s derivative orders in given market and direction</td>
+<td>Total count of subaccount&#39;s derivative orders in a given market</td>
 </tr>
 <tr>
 <td>spot_orders_total</td>
 <td>integer</td>
-<td>Total count of subaccount&#39;s spot orders in given market and direction</td>
+<td>Total count of subaccount&#39;s spot orders in a given market</td>
 </tr>
 </tbody></table>
 <h2 id='injectiveaccountsrpc-streamsubaccountbalance'>StreamSubaccountBalance</h2>
-<p>Stream the subaccount&#39;s balance for all denoms</p>
+<p>Stream the subaccount&#39;s balance for all denoms.</p>
 <h3 id='injectiveaccountsrpc-streamsubaccountbalance-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -2124,7 +2127,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>subaccount_id</td>
 <td>string</td>
-<td>Filter by Subaccount ID</td>
+<td>Filter by subaccount ID</td>
 <td>Yes</td>
 </tr>
 </tbody></table>
@@ -2154,17 +2157,17 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </thead><tbody>
 <tr>
 <td>balance</td>
-<td>SubaccountBalance</td>
-<td></td>
+<td>array</td>
+<td>Array of SubaccountBalance</td>
 </tr>
 <tr>
 <td>timestamp</td>
 <td>integer</td>
-<td>Operation timestamp in UNIX millis.</td>
+<td>Operation timestamp in UNIX millis</td>
 </tr>
 </tbody></table>
 
-<p>SubaccountBalance:</p>
+<p><strong>SubaccountBalance</strong></p>
 
 <table><thead>
 <tr>
@@ -2176,26 +2179,26 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>denom</td>
 <td>string</td>
-<td>Coin denom on the chain.</td>
+<td>Coin denom on the chain</td>
 </tr>
 <tr>
 <td>deposit</td>
-<td>SubaccountDeposit</td>
-<td></td>
+<td>array</td>
+<td>Array of SubaccountDeposit</td>
 </tr>
 <tr>
 <td>subaccount_id</td>
 <td>string</td>
-<td>Related subaccount ID</td>
+<td>Filter by subaccount ID</td>
 </tr>
 <tr>
 <td>account_address</td>
 <td>string</td>
-<td>Account address, owner of this subaccount</td>
+<td>The Injective Chain address</td>
 </tr>
 </tbody></table>
 
-<p>SubaccountDeposit:</p>
+<p><strong>SubaccountDeposit</strong></p>
 
 <table><thead>
 <tr>
@@ -2207,16 +2210,16 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>available_balance</td>
 <td>string</td>
-<td></td>
+<td>The available balance for a denom</td>
 </tr>
 <tr>
 <td>total_balance</td>
 <td>string</td>
-<td></td>
+<td>The total balance for a denom</td>
 </tr>
 </tbody></table>
 <h2 id='injectiveaccountsrpc-orderstates'>OrderStates</h2>
-<p>Query orders with an order hash, this query will return market orders and limit orders in all states [booked, partial_filled, filled, canceled]. For filled and canceled orders, there is a TTL of 1 day. Should your order be filled or canceled you will still be able to query it for 24 hours.</p>
+<p>Get orders with an order hash, this request will return market orders and limit orders in all states [booked, partial_filled, filled, canceled]. For filled and canceled orders, there is a TTL of 1 day. Should your order be filled or canceled you will still be able to fetch it for 24 hours.</p>
 <h3 id='injectiveaccountsrpc-orderstates-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -2319,17 +2322,17 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </thead><tbody>
 <tr>
 <td>spot_order_states</td>
-<td>Array</td>
-<td></td>
+<td>array</td>
+<td>Array of SpotOrderStates</td>
 </tr>
 <tr>
 <td>derivative_order_states</td>
-<td>Array</td>
-<td></td>
+<td>array</td>
+<td>Array of DerivativeOrderStates</td>
 </tr>
 </tbody></table>
 
-<p>spot_order_states:</p>
+<p><strong>SpotOrderStates</strong></p>
 
 <table><thead>
 <tr>
@@ -2390,7 +2393,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 </tbody></table>
 
-<p>derivative_order_states:</p>
+<p><strong>DerivativeOrderStates</strong></p>
 
 <table><thead>
 <tr>
@@ -2451,7 +2454,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 </tbody></table>
 <h2 id='injectiveaccountsrpc-portfolio'>Portfolio</h2>
-<p>Query orders with an order hash, this query will return market orders and limit orders in all states [booked, partial_filled, filled, canceled]. For filled and canceled orders, there is a TTL of 1 day. Should your order be filled or canceled you will still be able to query it for 24 hours.</p>
+<p>Get an overview of your portfolio.</p>
 <h3 id='injectiveaccountsrpc-portfolio-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -2529,9 +2532,91 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>The approximate unrealized profit and loss across all positions (based on the mark price)</td>
 </tr>
 <tr>
-<td>subaccount_ID</td>
+<td>subaccount_id</td>
 <td>string</td>
-<td>Filter balances by Subaccount ID</td>
+<td>Filter balances by subaccount ID</td>
+</tr>
+</tbody></table>
+<h2 id='injectiveaccountsrpc-rewards'>Rewards</h2>
+<p>Get the rewards for Trade &amp; Earn. The query will fetch all addresses for the latest epoch (-1) by default.</p>
+<h3 id='injectiveaccountsrpc-rewards-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">account_address</span> <span class="o">=</span> <span class="s">"inj13q8u96uftm0d7ljcf6hdp0uj5tyqrwftmxllaq"</span>
+    <span class="n">epoch</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">rewards</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_rewards</span><span class="p">(</span><span class="n">account_address</span><span class="o">=</span><span class="n">account_address</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="n">epoch</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>account_address</td>
+<td>string</td>
+<td>The Injective Chain address</td>
+<td>No</td>
+</tr>
+<tr>
+<td>epoch</td>
+<td>integer</td>
+<td>The epoch ID</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<h3 id='injectiveaccountsrpc-rewards-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+</span><span class="nl">"rewards"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"account_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"inj13q8u96uftm0d7ljcf6hdp0uj5tyqrwftmxllaq"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"rewards"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"denom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"inj"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100000000000000000000"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"distributed_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1641821040539</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>account_address</td>
+<td>string</td>
+<td>The Injective Chain address</td>
+</tr>
+<tr>
+<td>denom</td>
+<td>string</td>
+<td>The token denom</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>string</td>
+<td>The amount of rewards distributed</td>
+</tr>
+<tr>
+<td>distributed_at</td>
+<td>integer</td>
+<td>Timestamp of the transfer in UNIX millis</td>
 </tr>
 </tbody></table>
 <h1 id='injectivespotexchangerpc'>- InjectiveSpotExchangeRPC</h1>
