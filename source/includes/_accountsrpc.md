@@ -518,8 +518,6 @@ derivative_order_states:
 |updated_at|string|The timestamp of your order when it was last updated|
 
 
-
-
 ## Portfolio
 
 Query orders with an order hash, this query will return market orders and limit orders in all states [booked, partial_filled, filled, canceled]. For filled and canceled orders, there is a TTL of 1 day. Should your order be filled or canceled you will still be able to query it for 24 hours.
@@ -573,3 +571,55 @@ def main() -> None:
 |locked_balance|string|The amount of margin in open orders and positions|
 |unrealized_pnl|string|The approximate unrealized profit and loss across all positions (based on the mark price)|
 |subaccount_ID|string|Filter balances by Subaccount ID|
+
+
+## Rewards
+
+Get the rewards for Trade & Earn. The query will fetch all addresses for the latest epoch (-1) by default.
+
+
+### Request Parameters
+> Request Example:
+
+``` python
+from pyinjective.client import Client
+from pyinjective.constant import Network
+
+async def main() -> None:
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    account_address = "inj13q8u96uftm0d7ljcf6hdp0uj5tyqrwftmxllaq"
+    epoch = 2
+    rewards = client.get_rewards(account_address=account_address, epoch=epoch)
+    print(rewards)
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|account_address|string|The Injective Chain address|No|
+|epoch|int|The epoch ID|No|
+
+
+### Response Parameters
+> Response Example:
+
+``` json
+{
+"rewards": {
+  "account_address": "inj13q8u96uftm0d7ljcf6hdp0uj5tyqrwftmxllaq",
+  "rewards": {
+    "denom": "inj",
+    "amount": "100000000000000000000"
+  },
+  "distributed_at": 1641821040539
+}
+
+}
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|account_address|string|The Injective Chain address|
+|denom|string|The token denom|
+|amount|string|The amount of rewards distributed|
+|distributed_at|int|Timestamp of the transfer in UNIX millis|
