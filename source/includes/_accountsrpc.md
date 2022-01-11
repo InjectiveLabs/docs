@@ -3,7 +3,7 @@ InjectiveAccountsRPC defines the gRPC API of the Exchange Accounts provider.
 
 ## SubaccountsList
 
-Get a list of subaccounts for a specific address
+Get a list of subaccounts for a specific address.
 
 
 ### Request Parameters
@@ -44,11 +44,11 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|subaccounts|Array||
+|subaccounts|array||
 
 ## SubaccountHistory
 
-Get the subaccount's transfer history
+Get the subaccount's transfer history.
 
 ### Request Parameters
 > Request Example:
@@ -70,9 +70,9 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|string|Filter by Subaccount ID|Yes|
+|subaccount_id|string|Filter by subaccount ID|Yes|
 |denom|string|Filter by denom|No|
-|transfer_types|Array|Filter by transfer types|No|
+|transfer_types|array|Filter by transfer types|No|
 
 
 ### Response Parameters
@@ -107,30 +107,30 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|transfers|Array of SubaccountBalanceTransfer|List of subaccount transfers|
+|transfers|array|Array of SubaccountBalanceTransfer|
 
-SubaccountBalanceTransfer:
+**SubaccountBalanceTransfer**
 
 |Parameter|Type|Description|
 |----|----|----|
-|amount|CosmosCoin||
+|amount|CosmosCoin|Array of CosmosCoin|
 |dst_account_address|string|Account address of the receiving side|
 |executed_at|integer|Timestamp of the transfer in UNIX millis|
-|src_subaccountID|string|Subaccount ID of the sending side|
+|src_subaccount_id|string|Subaccount ID of the sending side|
 |transfer_type|string|Type of the subaccount balance transfer (Should be one of: [internal external withdraw deposit]) |
 
-CosmosCoin:
+**CosmosCoin**
 
 |Parameter|Type|Description|
 |----|----|----|
-|amount|string|Coin amount (big int)|
+|amount|string|Coin amount|
 |denom|string|Coin denominator|
 
 
 
 ## SubaccountBalance
 
-Get the balance of a subaccount for a specific denom
+Get the balance of a subaccount for a specific denom.
 
 ### Request Parameters
 > Request Example:
@@ -151,7 +151,7 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|string|Filter by Subaccount ID|Yes|
+|subaccount_id|string|Filter by subaccount ID|Yes|
 |denom|string|Filter by denom|Yes|
 
 
@@ -175,29 +175,28 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|balance|SubaccountBalance||
+|balance|array|Array of SubaccountBalance|
 
-SubaccountBalance:
-
-|Parameter|Type|Description|
-|----|----|----|
-|denom|string|Coin denom on the chain.|
-|deposit|SubaccountDeposit||
-|subaccount_id|string|Related subaccount ID|
-|account_address|string|Account address, owner of this subaccount|
-
-SubaccountDeposit:
+**SubaccountBalance**
 
 |Parameter|Type|Description|
 |----|----|----|
-|available_balance|string||
-|total_balance|string||
+|denom|string|Coin denom on the chain|
+|deposit|array|Array of SubaccountDeposit|
+|subaccount_id|string|Filter by subaccount ID|
+|account_address|string|The Injective Chain address|
 
+**SubaccountDeposit**
+
+|Parameter|Type|Description|
+|----|----|----|
+|available_balance|string|The available balance for a denom|
+|total_balance|string|The total balance for a denom|
 
 
 ## SubaccountBalancesList
 
-List the subaccount's balances for all denoms
+List the subaccount's balances for all denoms.
 
 
 ### Request Parameters
@@ -218,7 +217,7 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|string|Filter by Subaccount ID|Yes|
+|subaccount_id|string|Filter by subaccount ID|Yes|
 
 
 
@@ -261,29 +260,27 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|balances|Array of SubaccountBalance|List of subaccount balances|
+|balances|array|Array of SubaccountBalance|
 
-SubaccountBalance:
-
-|Parameter|Type|Description|
-|----|----|----|
-|account_address|string|Account address, owner of this subaccount|
-|denom|string|Coin denom on the chain.|
-|deposit|SubaccountDeposit||
-|subaccount_id|string|Related subaccount ID|
-
-SubaccountDeposit:
+**SubaccountBalance**
 
 |Parameter|Type|Description|
 |----|----|----|
-|available_balance|string||
-|total_balance|string||
+|account_address|string|The Injective Chain address|
+|denom|string|Coin denom on the chain|
+|deposit|array|Array of SubaccountDeposit|
+|subaccount_id|string|Filter by subaccount ID|
 
+**SubaccountDeposit**
 
+|Parameter|Type|Description|
+|----|----|----|
+|available_balance|string|The available balance for a denom|
+|total_balance|string|The total balance for a denom|
 
 ## SubaccountOrderSummary
 
-Get the subaccount's orders summary
+Get the subaccount's orders summary.
 
 ### Request Parameters
 > Request Example:
@@ -305,8 +302,8 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|string|Filter by Subaccount ID|Yes|
-|market_id|string|Filter by Market ID|No|
+|subaccount_id|string|Filter by subaccount ID|Yes|
+|market_id|string|Filter by market ID|No|
 |order_direction|string|Filter by the direction of the orders (Should be one of: [buy sell])|No|
 
 
@@ -323,14 +320,14 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|derivative_orders_total|integer|Total count of subaccount's derivative orders in given market and direction|
-|spot_orders_total|integer|Total count of subaccount's spot orders in given market and direction|
+|derivative_orders_total|integer|Total count of subaccount's derivative orders in a given market|
+|spot_orders_total|integer|Total count of subaccount's spot orders in a given market|
 
 
 
 ## StreamSubaccountBalance
 
-Stream the subaccount's balance for all denoms
+Stream the subaccount's balance for all denoms.
 
 ### Request Parameters
 > Request Example:
@@ -352,8 +349,7 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|string|Filter by Subaccount ID|Yes|
-
+|subaccount_id|string|Filter by subaccount ID|Yes|
 
 
 ### Response Parameters
@@ -376,29 +372,29 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|balance|SubaccountBalance||
-|timestamp|integer|Operation timestamp in UNIX millis.|
+|balance|array|Array of SubaccountBalance|
+|timestamp|integer|Operation timestamp in UNIX millis|
 
-SubaccountBalance:
-
-|Parameter|Type|Description|
-|----|----|----|
-|denom|string|Coin denom on the chain.|
-|deposit|SubaccountDeposit||
-|subaccount_id|string|Related subaccount ID|
-|account_address|string|Account address, owner of this subaccount|
-
-SubaccountDeposit:
+**SubaccountBalance**
 
 |Parameter|Type|Description|
 |----|----|----|
-|available_balance|string||
-|total_balance|string||
+|denom|string|Coin denom on the chain|
+|deposit|array|Array of SubaccountDeposit|
+|subaccount_id|string|Filter by subaccount ID|
+|account_address|string|The Injective Chain address|
+
+**SubaccountDeposit**
+
+|Parameter|Type|Description|
+|----|----|----|
+|available_balance|string|The available balance for a denom|
+|total_balance|string|The total balance for a denom|
 
 
 ## OrderStates
 
-Query orders with an order hash, this query will return market orders and limit orders in all states [booked, partial_filled, filled, canceled]. For filled and canceled orders, there is a TTL of 1 day. Should your order be filled or canceled you will still be able to query it for 24 hours.
+Get orders with an order hash, this request will return market orders and limit orders in all states [booked, partial_filled, filled, canceled]. For filled and canceled orders, there is a TTL of 1 day. Should your order be filled or canceled you will still be able to fetch it for 24 hours.
 
 
 ### Request Parameters
@@ -422,7 +418,6 @@ def main() -> None:
 |----|----|----|----|
 |spot_order_hashes|array|Array with the order hashes you want to fetch in spot markets|No|
 |derivative_order_hashes|array|Array with the order hashes you want to fetch in derivative markets|No|
-
 
 
 ### Response Parameters
@@ -484,25 +479,10 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|spot_order_states|Array||
-|derivative_order_states|Array||
+|spot_order_states|array|Array of SpotOrderStates|
+|derivative_order_states|array|Array of DerivativeOrderStates|
 
-spot_order_states:
-
-|Parameter|Type|Description|
-|----|----|----|
-|order_hash|string|The order hash|
-|subaccount_id|string|The subaccount ID that posted the order|
-|market_id|string|The market ID of the order|
-|order_type|string|The order type (Should be one of: [limit, market])|
-|order_side|string|The order side (Should be one of: [buy, sell])|
-|state|string|The order state (Should be one of: [booked, partial_filled, filled, canceled])|
-|quantity_filled|string|The quantity that has been filled for your order|
-|quantity_remaining|string|The quantity that hasn't been filled for your order|
-|created_at|string|The timestamp of your order when it was first created|
-|updated_at|string|The timestamp of your order when it was last updated|
-
-derivative_order_states:
+**SpotOrderStates**
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -517,12 +497,25 @@ derivative_order_states:
 |created_at|string|The timestamp of your order when it was first created|
 |updated_at|string|The timestamp of your order when it was last updated|
 
+**DerivativeOrderStates**
 
+|Parameter|Type|Description|
+|----|----|----|
+|order_hash|string|The order hash|
+|subaccount_id|string|The subaccount ID that posted the order|
+|market_id|string|The market ID of the order|
+|order_type|string|The order type (Should be one of: [limit, market])|
+|order_side|string|The order side (Should be one of: [buy, sell])|
+|state|string|The order state (Should be one of: [booked, partial_filled, filled, canceled])|
+|quantity_filled|string|The quantity that has been filled for your order|
+|quantity_remaining|string|The quantity that hasn't been filled for your order|
+|created_at|string|The timestamp of your order when it was first created|
+|updated_at|string|The timestamp of your order when it was last updated|
 
 
 ## Portfolio
 
-Query orders with an order hash, this query will return market orders and limit orders in all states [booked, partial_filled, filled, canceled]. For filled and canceled orders, there is a TTL of 1 day. Should your order be filled or canceled you will still be able to query it for 24 hours.
+Get an overview of your portfolio.
 
 
 ### Request Parameters
@@ -572,4 +565,56 @@ def main() -> None:
 |available_balance|string|The total available balance in the subaccounts|
 |locked_balance|string|The amount of margin in open orders and positions|
 |unrealized_pnl|string|The approximate unrealized profit and loss across all positions (based on the mark price)|
-|subaccount_ID|string|Filter balances by Subaccount ID|
+|subaccount_id|string|Filter balances by subaccount ID|
+
+
+## Rewards
+
+Get the rewards for Trade & Earn. The query will fetch all addresses for the latest epoch (-1) by default.
+
+
+### Request Parameters
+> Request Example:
+
+``` python
+from pyinjective.client import Client
+from pyinjective.constant import Network
+
+async def main() -> None:
+    network = Network.testnet()
+    client = Client(network, insecure=True)
+    account_address = "inj13q8u96uftm0d7ljcf6hdp0uj5tyqrwftmxllaq"
+    epoch = 2
+    rewards = client.get_rewards(account_address=account_address, epoch=epoch)
+    print(rewards)
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|account_address|string|The Injective Chain address|No|
+|epoch|integer|The epoch ID|No|
+
+
+### Response Parameters
+> Response Example:
+
+``` json
+{
+"rewards": {
+  "account_address": "inj13q8u96uftm0d7ljcf6hdp0uj5tyqrwftmxllaq",
+  "rewards": {
+    "denom": "inj",
+    "amount": "100000000000000000000"
+  },
+  "distributed_at": 1641821040539
+}
+
+}
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|account_address|string|The Injective Chain address|
+|denom|string|The token denom|
+|amount|string|The amount of rewards distributed|
+|distributed_at|integer|Timestamp of the transfer in UNIX millis|
