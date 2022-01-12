@@ -582,7 +582,7 @@
             <a href="#injectiveinsurancerpc" class="toc-h1 toc-link" data-title="- InjectiveInsuranceRPC">- InjectiveInsuranceRPC</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#injectiveinsurancerpc-funds" class="toc-h2 toc-link" data-title="Funds">Funds</a>
+                    <a href="#injectiveinsurancerpc-insurancefunds" class="toc-h2 toc-link" data-title="InsuranceFunds">InsuranceFunds</a>
                   </li>
                   <li>
                     <a href="#injectiveinsurancerpc-redemptions" class="toc-h2 toc-link" data-title="Redemptions">Redemptions</a>
@@ -7896,9 +7896,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tbody></table>
 <h1 id='injectiveinsurancerpc'>- InjectiveInsuranceRPC</h1>
 <p>InjectiveInsuranceRPC defines the gRPC API of the Insurance Exchange provider.</p>
-<h2 id='injectiveinsurancerpc-funds'>Funds</h2>
+<h2 id='injectiveinsurancerpc-insurancefunds'>InsuranceFunds</h2>
 <p>Get all the insurance funds.</p>
-<h3 id='injectiveinsurancerpc-funds-request-parameters'>Request Parameters</h3>
+<h3 id='injectiveinsurancerpc-insurancefunds-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -7911,7 +7911,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">insurance_funds</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_insurance_funds</span><span class="p">()</span>
     <span class="k">print</span><span class="p">(</span><span class="n">insurance_funds</span><span class="p">)</span>
-</code></pre></div><h3 id='injectiveinsurancerpc-funds-response-parameters'>Response Parameters</h3>
+</code></pre></div><h3 id='injectiveinsurancerpc-insurancefunds-response-parameters'>Response Parameters</h3>
 <blockquote>
 <p>Response Example:</p>
 </blockquote>
@@ -8018,7 +8018,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 </tbody></table>
 <h2 id='injectiveinsurancerpc-redemptions'>Redemptions</h2>
-<p>PendingRedemptions lists all pending redemptions according to a filter.</p>
+<p>Get the pending redemptions.</p>
 <h3 id='injectiveinsurancerpc-redemptions-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
