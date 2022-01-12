@@ -1,5 +1,5 @@
 # - Account
-Includes all the messages related to accounts and transfers.
+Includes all messages related to accounts and transfers.
 
 ## MsgSend
 
@@ -55,10 +55,10 @@ Includes all the messages related to accounts and transfers.
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|from_address|string|The inj address of the sender|Yes|
-|to_address|string| The inj address of the receiver|Yes|
-|amount|int| The amount of tokens to send|Yes|
-|denom|string| The denom of that token|Yes|
+|from_address|string|The Injective Chain address of the sender|Yes|
+|to_address|string| The Injective Chain address of the receiver|Yes|
+|amount|int|The amount of tokens to send|Yes|
+|denom|string|The token denom|Yes|
 
 
 
@@ -186,10 +186,11 @@ Includes all the messages related to accounts and transfers.
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The inj address of the sender|Yes|
-|subaccount_id|string| The subaccount_id to receive the funds|Yes|
-|amount|int| The amount of tokens to send|Yes|
-|denom|string| The denom of that token|Yes|
+|sender|string|The Injective Chain address|Yes|
+|subaccount_id|string|The subaccount ID to receive the funds|Yes|
+|amount|int|The amount of tokens to send|Yes|
+|denom|string|The token denom|Yes|
+
 
 
 > Response Example:
@@ -329,10 +330,10 @@ Includes all the messages related to accounts and transfers.
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The inj address of the sender|Yes|
-|subaccount_id|string| The subaccount_id to receive the funds|Yes|
-|amount|int| The amount of tokens to send|Yes|
-|denom|string| The denom of that token|Yes|
+|sender|string|The Injective Chain address|Yes|
+|subaccount_id|string|The subaccount ID to withdraw the funds from|Yes|
+|amount|int|The amount of tokens to send|Yes|
+|denom|string|The token denom|Yes|
 
 
 > Response Example:
@@ -474,11 +475,12 @@ Includes all the messages related to accounts and transfers.
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The inj address of the sender|Yes|
-|source_subaccount_id|string|The subaccount_id to send the funds from|Yes|
-|destination_subaccount_id|string|The subaccount_id to receive the funds|Yes|
+|sender|string|The Injective Chain address|Yes|
 |amount|int|The amount of tokens to send|Yes|
-|denom|string|The denom of that token|Yes|
+|denom|string|The token denom|Yes|
+|source_subaccount_id|string|The subaccount ID to send the funds|Yes|
+|destination_subaccount_id|string|The subaccount ID to receive the funds|Yes|
+
 
 
 > Response Example:

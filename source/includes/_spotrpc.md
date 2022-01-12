@@ -4,7 +4,7 @@ InjectiveSpotExchangeRPC defines the gRPC API of the Spot Exchange provider.
 
 ## Market
 
-Get details of a spot market
+Get details of a spot market.
 
 
 ### Request Parameters
@@ -25,7 +25,7 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by Market ID|Yes|
+|market_id|string|Filter by market ID|Yes|
 
 
 
@@ -68,40 +68,40 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|market|SpotMarketInfo||
+|market|SpotMarketInfo|Array of SpotMarketInfo|
 
-SpotMarketInfo:
+**SpotMarketInfo**
 
 |Parameter|Type|Description|
 |----|----|----|
-|base_denom|string|Coin denom used for the base asset.|
+|base_denom|string|Coin denom of the base asset|
 |market_id|string|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
 |market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
 |min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
-|quote_token_meta|TokenMeta||
+|quote_token_meta|TokenMeta|Array of TokenMeta|
 |service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
-|base_token_meta|TokenMeta||
-|maker_fee_rate|string|Defines the fee percentage makers pay when trading (in quote asset)|
+|base_token_meta|TokenMeta|Array of TokenMeta|
+|maker_fee_rate|string|Defines the fee percentage makers pay when trading (in the quote asset)|
 |min_price_tick_size|string|Defines the minimum required tick size for the order's price|
-|quote_denom|string|Coin denom used for the quote asset.|
-|taker_fee_rate|string|Defines the fee percentage takers pay when trading (in quote asset)|
-|ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset.|
+|quote_denom|string|Coin denom of the quote asset|
+|taker_fee_rate|string|Defines the fee percentage takers pay when trading (in the quote asset)|
+|ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset|
 
-TokenMeta:
+**TokenMeta**
 
 |Parameter|Type|Description|
 |----|----|----|
-|address|string|Token Ethereum contract address|
+|address|string|Token's Ethereum contract address|
 |decimals|integer|Token decimals|
 |logo|string|URL to the logo image|
 |name|string|Token full name|
 |symbol|string|Token symbol short name|
-|updatedAt|integer|Token metadata fetched timestamp in UNIX millis.|
+|updatedAt|integer|Token metadata fetched timestamp in UNIX millis|
 
 
 ## Markets
 
-Get a list of spot markets
+Get a list of spot markets.
 
 
 ### Request Parameters
@@ -124,9 +124,9 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|base_denom|string|Filter by the Coin denomination of the base currency|No|
+|base_denom|string|Filter by the base currency|No|
 |market_status|string|Filter by market status (Should be one of: [active paused suspended demolished expired])|No|
-|quote_denom|string|Filter by the Coin denomination of the quote currency|No|
+|quote_denom|string|Filter by the quote currency|No|
 
 
 ### Response Parameters
@@ -168,42 +168,41 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|markets|Array of SpotMarketInfo|Spot Markets list|
+|markets|SpotMarketInfo|Array of SpotMarketInfo|
 
-SpotMarketInfo:
+**SpotMarketInfo**
 
 |Parameter|Type|Description|
 |----|----|----|
-|base_denom|string|Coin denom used for the base asset.|
+|base_denom|string|Coin denom of the base asset|
 |market_id|string|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
 |market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
 |min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
-|quote_token_meta|TokenMeta||
+|quote_token_meta|TokenMeta|Array of TokenMeta|
 |service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
-|base_token_meta|TokenMeta||
-|maker_fee_rate|string|Defines the fee percentage makers pay when trading (in quote asset)|
+|base_token_meta|TokenMeta|Array of TokenMeta|
+|maker_fee_rate|string|Defines the fee percentage makers pay when trading (in the quote asset)|
 |min_price_tick_size|string|Defines the minimum required tick size for the order's price|
-|quote_denom|string|Coin denom used for the quote asset.|
-|taker_fee_rate|string|Defines the fee percentage takers pay when trading (in quote asset)|
-|ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset.|
+|quote_denom|string|Coin denom of the quote asset|
+|taker_fee_rate|string|Defines the fee percentage takers pay when trading (in the quote asset)|
+|ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset|
 
-TokenMeta:
+**TokenMeta**
 
 |Parameter|Type|Description|
 |----|----|----|
-|address|string|Token Ethereum contract address|
+|address|string|Token's Ethereum contract address|
 |decimals|integer|Token decimals|
 |logo|string|URL to the logo image|
 |name|string|Token full name|
 |symbol|string|Token symbol short name|
-|updatedAt|integer|Token metadata fetched timestamp in UNIX millis.|
-
+|updatedAt|integer|Token metadata fetched timestamp in UNIX millis|
 
 
 
 ## StreamMarkets
 
-Stream live updates of spot markets
+Stream live updates of spot markets.
 
 
 ### Request Parameters
@@ -262,43 +261,43 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|market|SpotMarketInfo||
+|market|SpotMarketInfo|Array of SpotMarketInfo|
 |operation_type|string|Update type (Should be one of: [insert replace update invalidate]) |
-|timestamp|integer|Operation timestamp in UNIX millis.|
+|timestamp|integer|Operation timestamp in UNIX millis|
 
-SpotMarketInfo:
+**SpotMarketInfo**
 
 |Parameter|Type|Description|
 |----|----|----|
-|base_denom|string|Coin denom used for the base asset.|
+|base_denom|string|Coin denom of the base asset|
 |market_id|string|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
 |market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
 |min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
-|quote_token_meta|TokenMeta||
+|quote_token_meta|TokenMeta|Array of TokenMeta|
 |service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
-|base_token_meta|TokenMeta||
-|maker_fee_rate|string|Defines the fee percentage makers pay when trading (in quote asset)|
+|base_token_meta|TokenMeta|Array of TokenMeta|
+|maker_fee_rate|string|Defines the fee percentage makers pay when trading (in the quote asset)|
 |min_price_tick_size|string|Defines the minimum required tick size for the order's price|
-|quote_denom|string|Coin denom used for the quote asset.|
-|taker_fee_rate|string|Defines the fee percentage takers pay when trading (in quote asset)|
-|ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset.|
+|quote_denom|string|Coin denom of the quote asset|
+|taker_fee_rate|string|Defines the fee percentage takers pay when trading (in the quote asset)|
+|ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset|
 
-TokenMeta:
+**TokenMeta**
 
 |Parameter|Type|Description|
 |----|----|----|
-|address|string|Token Ethereum contract address|
+|address|string|Token's Ethereum contract address|
 |decimals|integer|Token decimals|
 |logo|string|URL to the logo image|
 |name|string|Token full name|
 |symbol|string|Token symbol short name|
-|updatedAt|integer|Token metadata fetched timestamp in UNIX millis.|
+|updatedAt|integer|Token metadata fetched timestamp in UNIX millis|
 
 
 
 ## Orders
 
-Get orders of a spot market
+Get orders of a spot market.
 
 
 ### Request Parameters
@@ -321,9 +320,9 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by Market ID|Yes|
-|order_side|string|Look for specific order side (Should be one of: [buy sell])|No|
-|subaccount_id|string|Filter by Subaccount ID|No|
+|market_id|string|Filter by market ID|Yes|
+|order_side|string|Filter by order side (Should be one of: [buy sell])|No|
+|subaccount_id|string|Filter by subaccount ID|No|
 
 
 
@@ -364,9 +363,9 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|orders|Array of SpotLimitOrder|List of spot market orders|
+|orders|SpotLimitOrder|Array of SpotLimitOrder|
 
-SpotLimitOrder:
+**SpotLimitOrder**
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -374,19 +373,19 @@ SpotLimitOrder:
 |market_id|string|Spot Market ID is keccak265(baseDenom + quoteDenom)|
 |order_hash|string|Hash of the order|
 |order_side|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
-|state|string|Order state (Should be one of: [booked partial_filled filled canceled]) |
-|subaccount_id|string|The subaccountId that this order belongs to|
-|fee_recipient|string|Fee recipient address|
-|price|string|Price of the order|
-|quantity|string|Quantity of the order|
-|trigger_price|string|Trigger price is the trigger price used by stop/take orders. 0 if the trigger price is not set.|
-|created_at|integer|Order committed timestamp in UNIX millis.|
+|state|string|The state of the order (Should be one of: [booked partial_filled filled canceled]) |
+|subaccount_id|string|The subaccount ID this order belongs to|
+|fee_recipient|string|The fee recipient address|
+|price|string|The price of the order|
+|quantity|string|The quantity of the order|
+|trigger_price|string|The price used by stop/take orders. This will be 0 if the trigger price is not set|
+|created_at|integer|Order committed timestamp in UNIX millis|
 
 
 
 ## StreamOrders
 
-Stream order updates of a spot market
+Stream order updates of a spot market.
 
 ### Request Parameters
 > Request Example:
@@ -409,9 +408,9 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by Market ID|Yes|
-|order_side|string|Look for specific order side (Should be one of: [buy sell])|No|
-|subaccount_id|string|Filter by Subaccount ID|No|
+|market_id|string|Filter by market ID|Yes|
+|order_side|string|Filter by order side (Should be one of: [buy sell])|No|
+|subaccount_id|string|Filter by subaccount ID|No|
 
 
 ### Response Parameters
@@ -458,11 +457,11 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|order|SpotLimitOrder||
+|order|SpotLimitOrder|Array of SpotLimitOrder|
 |operation_type|string|Order update type (Should be one of: [insert replace update invalidate]) |
-|timestamp|integer|Operation timestamp in UNIX millis.|
+|timestamp|integer|Operation timestamp in UNIX millis|
 
-SpotLimitOrder:
+**SpotLimitOrder**
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -470,18 +469,18 @@ SpotLimitOrder:
 |market_id|string|Spot Market ID is keccak265(baseDenom + quoteDenom)|
 |order_hash|string|Hash of the order|
 |order_side|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
-|state|string|Order state (Should be one of: [booked partial_filled filled canceled]) |
-|subaccount_id|string|The subaccountId that this order belongs to|
-|fee_recipient|string|Fee recipient address|
-|price|string|Price of the order|
-|quantity|string|Quantity of the order|
-|trigger_price|string|Trigger price is the trigger price used by stop/take orders. 0 if the trigger price is not set.|
-|created_at|integer|Order committed timestamp in UNIX millis.|
+|state|string|The state of the order (Should be one of: [booked partial_filled filled canceled]) |
+|subaccount_id|string|The subaccount ID this order belongs to|
+|fee_recipient|string|The fee recipient address|
+|price|string|The price of the order|
+|quantity|string|The quantity of the order|
+|trigger_price|string|The price used by stop/take orders. This will be 0 if the trigger price is not set|
+|created_at|integer|Order committed timestamp in UNIX millis|
 
 
 ## Trades
 
-Get trades of a spot market
+Get trades of a spot market.
 
 
 ### Request Parameters
@@ -506,12 +505,12 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Market ID of the market to fetch|Yes|
-|subaccount_id|string|Subaccount ID to filter trades|No|
+|market_id|string|Filter by market ID|Yes|
+|subaccount_id|string|Filter by subaccount ID|No|
 |direction|string|Filter by the direction of the trade (Should be one of: [buy sell])|No|
 |execution_side|string|Filter by the execution side of the trade (Should be one of: [maker taker])|No|
-|skip|int|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
-|limit|int|Limit the trades returned|No|
+|skip|integer|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
+|limit|integer|Limit the trades returned|No|
 
 
 ### Response Parameters
@@ -553,33 +552,33 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|trades|Array of SpotTrade|Trades of a Spot Market|
+|trades|SpotTrade|Array of SpotTrade|
 
-SpotTrade:
+**SpotTrade**
 
 |Parameter|Type|Description|
 |----|----|----|
-|trade_direction|string|The direction the trade (Should be one of: [buy sell]) |
-|trade_execution_type|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
+|trade_direction|string|Filter by the trade direction(Should be one of: [buy sell]) |
+|trade_execution_type|string|Filter by the trade execution type (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
 |fee|string|The fee associated with the trade (quote asset denom)|
-|market_id|string|The ID of the market that this trade is in|
-|order_hash|string|Maker order hash.|
-|price|PriceLevel||
-|subaccount_id|string|The subaccountId that executed the trade|
+|market_id|string|Filter by the market ID|
+|order_hash|string|The order hash|
+|price|PriceLevel|Array of PriceLevel|
+|subaccount_id|string|Filter by the subaccount ID|
 |executed_at|integer|Timestamp of trade execution in UNIX millis|
 
-PriceLevel:
+**PriceLevel**
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|string|Price number of the price level.|
-|quantity|string|Quantity of the price level.|
-|timestamp|integer|Price level last updated timestamp in UNIX millis.|
+|price|string|Number of the price level|
+|quantity|string|Quantity of the price level|
+|timestamp|integer|Price level last updated timestamp in UNIX millis|
 
 
 ## StreamTrades
 
-Stream trades of a spot market
+Stream trades of a spot market.
 
 ### Request Parameters
 > Request Example:
@@ -637,34 +636,34 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|operation_type|string|Executed trades update type (Should be one of: [insert invalidate]) |
-|timestamp|integer|Operation timestamp in UNIX millis.|
-|trade|SpotTrade||
+|operation_type|string|Trade operation type (Should be one of: [insert invalidate]) |
+|timestamp|integer|Operation timestamp in UNIX millis|
+|trade|SpotTrade|Array of SpotTrade|
 
-SpotTrade:
+**SpotTrade**
 
 |Parameter|Type|Description|
 |----|----|----|
-|trade_direction|string|The direction the trade (Should be one of: [buy sell]) |
-|trade_execution_type|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
+|trade_direction|string|Filter by the trade direction(Should be one of: [buy sell]) |
+|trade_execution_type|string|Filter by the trade execution type (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
 |fee|string|The fee associated with the trade (quote asset denom)|
-|market_id|string|The ID of the market that this trade is in|
-|order_hash|string|Maker order hash.|
-|price|PriceLevel||
-|subaccount_id|string|The subaccountId that executed the trade|
+|market_id|string|Filter by the market ID|
+|order_hash|string|The order hash|
+|price|PriceLevel|Array of PriceLevel|
+|subaccount_id|string|Filter by the subaccount ID|
 |executed_at|integer|Timestamp of trade execution in UNIX millis|
 
-PriceLevel:
+**PriceLevel**
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|string|Price number of the price level.|
-|quantity|string|Quantity of the price level.|
-|timestamp|integer|Price level last updated timestamp in UNIX millis.|
+|price|string|Number of the price level|
+|quantity|string|Quantity of the price level|
+|timestamp|integer|Price level last updated timestamp in UNIX millis|
 
 ## Orderbook
 
-Get the orderbook of a spot market
+Get the orderbook of a spot market.
 
 
 ### Request Parameters
@@ -685,7 +684,7 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by Market ID|Yes|
+|market_id|string|Filter by market ID|Yes|
 
 
 ### Response Parameters
@@ -730,26 +729,26 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|orderbook|SpotLimitOrderbook||
+|orderbook|SpotLimitOrderbook|Array of SpotLimitOrderbook|
 
-SpotLimitOrderbook:
-
-|Parameter|Type|Description|
-|----|----|----|
-|buys|Array of PriceLevel|Array of price levels for buys|
-|sells|Array of PriceLevel|Array of price levels for sells|
-
-PriceLevel:
+**SpotLimitOrderbook**
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|string|Price number of the price level.|
-|quantity|string|Quantity of the price level.|
-|timestamp|integer|Price level last updated timestamp in UNIX millis.|
+|buys|PriceLevel|Array of PriceLevel|
+|sells|PriceLevel|Array of PriceLevel|
+
+**PriceLevel**
+
+|Parameter|Type|Description|
+|----|----|----|
+|price|string|Number of the price level|
+|quantity|string|Quantity of the price level|
+|timestamp|integer|Price level last updated timestamp in UNIX millis|
 
 ## StreamOrderbook
 
-Stream the orderbook of a spot market
+Stream the orderbook of a spot market.
 
 
 ### Request Parameters
@@ -807,28 +806,28 @@ def main() -> None:
 |Parameter|Type|Description|
 |----|----|----|
 |operation_type|string|Order update type (Should be one of: [insert replace update invalidate]) |
-|orderbook|SpotLimitOrderbook||
-|timestamp|integer|Operation timestamp in UNIX millis.|
+|orderbook|SpotLimitOrderbook|Array of SpotLimitOrderbook|
+|timestamp|integer|Operation timestamp in UNIX millis|
 
-SpotLimitOrderbook:
-
-|Parameter|Type|Description|
-|----|----|----|
-|buys|Array of PriceLevel|Array of price levels for buys|
-|sells|Array of PriceLevel|Array of price levels for sells|
-
-PriceLevel:
+**SpotLimitOrderbook**
 
 |Parameter|Type|Description|
 |----|----|----|
-|quantity|string|Quantity of the price level.|
-|timestamp|integer|Price level last updated timestamp in UNIX millis.|
-|price|string|Price number of the price level.|
+|buys|PriceLevel|Array of PriceLevel|
+|sells|PriceLevel|Array of PriceLevel|
+
+**PriceLevel**
+
+|Parameter|Type|Description|
+|----|----|----|
+|price|string|Number of the price level|
+|quantity|string|Quantity of the price level|
+|timestamp|integer|Price level last updated timestamp in UNIX millis|
 
 
 ## StreamOrderbooks
 
-Stream orderbook updates for an array of spot markets
+Stream orderbook updates for an array of spot markets.
 
 
 ### Request Parameters
@@ -887,30 +886,30 @@ def main() -> None:
 |Parameter|Type|Description|
 |----|----|----|
 |operation_type|string|Order update type (Should be one of: [insert replace update invalidate]) |
-|orderbook|SpotLimitOrderbook||
+|orderbook|SpotLimitOrderbook|Array of SpotLimitOrderbook|
 |timestamp|integer|Operation timestamp in UNIX millis|
 |market_id|string|Filter by market ID|
 
-SpotLimitOrderbook:
+**SpotLimitOrderbook**
 
 |Parameter|Type|Description|
 |----|----|----|
-|buys|Array of PriceLevel|Array of price levels for buys|
-|sells|Array of PriceLevel|Array of price levels for sells|
+|buys|PriceLevel|Array of PriceLevel|
+|sells|PriceLevel|Array of PriceLevel|
 
-PriceLevel:
+**PriceLevel**
 
 |Parameter|Type|Description|
 |----|----|----|
-|quantity|string|Quantity of the price level.|
-|timestamp|integer|Price level last updated timestamp in UNIX millis.|
-|price|string|Price number of the price level.|
+|price|string|Number of the price level|
+|quantity|string|Quantity of the price level|
+|timestamp|integer|Price level last updated timestamp in UNIX millis|
 
 
 
 ## SubaccountOrdersList
 
-Get orders of a subaccount
+Get orders of a subaccount.
 
 ### Request Parameters
 > Request Example:
@@ -931,8 +930,8 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|string|Filter by Subaccount ID|Yes|
-|market_id|string|Filter by Market ID|No|
+|subaccount_id|string|Filter by subaccount ID|Yes|
+|market_id|string|Filter by market ID|No|
 
 
 ### Response Parameters
@@ -972,28 +971,28 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|orders|Array of SpotLimitOrder|List of spot orders|
+|orders|SpotLimitOrder|Array of SpotLimitOrder|
 
-SpotLimitOrder:
+**SpotLimitOrder**
 
 |Parameter|Type|Description|
 |----|----|----|
-|state|string|Order state (Should be one of: [booked partial_filled filled canceled]) |
-|subaccount_id|string|The subaccountId that this order belongs to|
+|state|string|Order state (Should be one of: [booked partial_filled filled canceled])|
+|subaccount_id|string|The subaccount ID this order belongs to|
 |unfilled_quantity|string|The amount of the quantity remaining unfilled|
-|market_id|string|Spot Market ID is keccak265(baseDenom + quoteDenom)|
+|market_id|string|Spot market ID is keccak265(baseDenom + quoteDenom)|
 |order_hash|string|Hash of the order|
 |order_side|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
-|fee_recipient|string|Fee recipient address|
-|price|string|Price of the order|
-|quantity|string|Quantity of the order|
-|trigger_price|string|Trigger price is the trigger price used by stop/take orders. 0 if the trigger price is not set.|
-|created_at|integer|Order committed timestamp in UNIX millis.|
+|fee_recipient|string|The fee recipient address|
+|price|string|The price of the order|
+|quantity|string|The quantity of the order|
+|trigger_price|string|The price used by stop/take orders|
+|created_at|integer|Order committed timestamp in UNIX millis|
 
 
 ## SubaccountTradesList
 
-Get trades of a subaccount
+Get trades of a subaccount.
 
 
 ### Request Parameters
@@ -1017,8 +1016,8 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|string|Filter by Subaccount ID|Yes|
-|market_id|string|Filter by Market ID|No|
+|subaccount_id|string|Filter by subaccount ID|Yes|
+|market_id|string|Filter by market ID|No|
 |direction|string|Filter by the direction of the trades (Should be one of: [buy sell])|No|
 |execution_type|string|Filter by the execution type of the trades (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder])|No|
 
@@ -1061,25 +1060,25 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|trades|Array of SpotTrade|List of spot market trades|
+|trades|SpotTrade|Array of SpotTrade|
 
-SpotTrade:
+**SpotTrade**
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|PriceLevel||
-|subaccount_id|string|The subaccountId that executed the trade|
-|trade_direction|string|The direction the trade (Should be one of: [buy sell]) |
-|trade_execution_type|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
+|trade_direction|string|Filter by the trade direction(Should be one of: [buy sell]) |
+|trade_execution_type|string|Filter by the trade execution type (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
 |fee|string|The fee associated with the trade (quote asset denom)|
-|market_id|string|The ID of the market that this trade is in|
-|order_hash|string|Maker order hash.|
+|market_id|string|Filter by the market ID|
+|order_hash|string|The order hash|
+|price|PriceLevel|Array of PriceLevel|
+|subaccount_id|string|Filter by the subaccount ID|
 |executed_at|integer|Timestamp of trade execution in UNIX millis|
 
-PriceLevel:
+**PriceLevel**
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|string|Price number of the price level.|
-|quantity|string|Quantity of the price level.|
-|timestamp|integer|Price level last updated timestamp in UNIX millis.|
+|price|string|Number of the price level|
+|quantity|string|Quantity of the price level|
+|timestamp|integer|Price level last updated timestamp in UNIX millis|

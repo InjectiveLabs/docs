@@ -49,9 +49,9 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|oracles|Array of Oracle||
+|oracles|Oracle|Array of Oracle|
 
-Oracle:
+**Oracle**
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -62,7 +62,7 @@ Oracle:
 
 ## Price
 
-Get the oracle price of an asset
+Get the oracle price of an asset.
 
 ### Request Parameters
 > Request Example:
@@ -107,7 +107,7 @@ def main() -> None:
 
 ## StreamPrices
 
-Stream oracle prices for an asset
+Stream oracle prices for an asset.
 
 ### Request Parameters
 > Request Example:

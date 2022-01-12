@@ -4,7 +4,7 @@ InjectiveInsuranceRPC defines the gRPC API of the Insurance Exchange provider.
 
 ## Funds
 
-Funds lists all insurance funds.
+Get all the insurance funds.
 
 ### Request Parameters
 > Request Example:
@@ -56,27 +56,27 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|funds|Array of InsuranceFund||
+|funds|InsuranceFund|Array of InsuranceFund|
 
-InsuranceFund:
+**InsuranceFund**
 
 |Parameter|Type|Description|
 |----|----|----|
 |oracle_type|string|Oracle Type|
 |pool_token_denom|string|Pool token denom|
-|total_share|string||
-|balance|string||
+|total_share|string|Total share|
+|balance|string|The balance|
 |oracle_base|string|Oracle base currency|
-|market_id|string|Derivative Market ID|
-|market_ticker|string|Ticker of the derivative market.|
+|market_id|string|The market ID|
+|market_ticker|string|Ticker of the derivative market|
 |oracle_quote|string|Oracle quote currency|
-|redemption_notice_period_duration|integer|Redemption notice period duration in seconds.|
-|deposit_denom|string|Coin denom used for the underwriting of the insurance fund.|
+|redemption_notice_period_duration|integer|Redemption notice period duration in seconds|
+|deposit_denom|string|Coin denom used to underwrite the insurance fund|
 
 
 ## Redemptions
 
-PendingRedemptions lists all pending redemptions according to a filter
+PendingRedemptions lists all pending redemptions according to a filter.
 
 ### Request Parameters
 > Request Example:
@@ -98,9 +98,9 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|redeemer|string|Filter by Account Address|No|
-|redemptionDenom|string|Filter by Insurance Pool Denom|No|
-|status|string|Filter by Redemption Status (Should be one of: [disbursed pending])|No|
+|redeemer|string|Filter by account address|No|
+|redemption_denom|string|Filter by insurance pool denom|No|
+|status|string|Filter by redemption status (Should be one of: [disbursed pending])|No|
 
 
 ### Response Parameters
@@ -138,19 +138,19 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|redemption_schedules|Array of RedemptionSchedule||
+|redemption_schedules|RedemptionSchedule|Array of RedemptionSchedule|
 
-RedemptionSchedule:
+**RedemptionSchedule**
 
 |Parameter|Type|Description|
 |----|----|----|
 |claimable_redemption_time|integer|Claimable redemption time in seconds|
 |redeemer|string|Account address of the redemption owner|
-|redemption_denom|string|Pool token denom being redeemed.|
-|requested_at|integer|Redemption request time in unix milliseconds.|
-|status|string|Status of the redemption. Either pending or disbursed.|
-|redemption_amount|string|Amount of pool tokens being redeemed.|
-|redemption_id|integer|Redemption ID.|
+|redemption_denom|string|Pool token denom being redeemed|
+|requested_at|integer|Redemption request time in unix milliseconds|
+|status|string|Status of the redemption (Should be one of: [disbursed pending])|
+|redemption_amount|string|Amount of pool tokens being redeemed|
+|redemption_id|integer|Redemption ID|
 |disbursed_amount|string|Amount of quote tokens disbursed|
-|disbursed_at|integer|Redemption disbursement time in unix milliseconds.|
+|disbursed_at|integer|Redemption disbursement time in unix milliseconds|
 |disbursed_denom|string|Denom of the quote tokens disbursed|

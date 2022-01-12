@@ -1,6 +1,6 @@
 # - Auction
 
-Includes the message for placing bids in auctions
+Includes the message for placing bids in auctions.
 
 ## MsgBid
 
@@ -55,7 +55,7 @@ Includes the message for placing bids in auctions
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The inj address of the sender|Yes|
+|sender|string|The Injective Chain address|Yes|
 |round|string|The auction round|Yes|
 |bid_amount|string|The bid amount in INJ|Yes|
 

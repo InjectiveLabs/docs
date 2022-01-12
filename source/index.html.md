@@ -19,14 +19,15 @@ includes:
   - derivativesrpc
   - oraclerpc
   - insurancerpc
-  - metarpc
-  # - auctionsrpc
+  - auctionsrpc
   - explorerrpc
+  - metarpc
   - chainapi
   - derivatives
   - spot
   - account
   - auction
+  - authz
   - glossary
   - faq
   # - exchangerpc
@@ -65,7 +66,7 @@ If you would like to ask any questions or be a part of our community, please joi
 
 **Installation**
 
-Install injective-py from PyPI `using pip`.
+Install injective-py from PyPI using `pip`.
 
 ```bash
 pip install injective-py

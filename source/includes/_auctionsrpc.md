@@ -25,6 +25,8 @@ def main() -> None:
 |----|----|----|----|
 |bid_round|int|The auction round|Yes|
 
+
+### Response Parameters
 > Response Example:
 
 ``` json
@@ -54,6 +56,39 @@ def main() -> None:
 }
 ```
 
+|Parameter|Type|Description|
+|----|----|----|
+|auction|Auction|Array of Auction|
+|bids|Bids|Array of Bids|
+
+**Auction**
+
+|Parameter|Type|Description|
+|----|----|----|
+|winner|string|The Injective Chain address with the highest bid|
+|basket|Basket|Array of Basket|
+|winning_bid_amount|string|The highest bid|
+|round|integer|The auction round|
+|end_timestamp|integer|The auction's ending timestamp|
+|updated_at|integer|The timestamp of the last submitted bid|
+
+**Bids**
+
+|Parameter|Type|Description|
+|----|----|----|
+|bidder|string|The Injective Chain address|
+|amount|string|The bid amount|
+|timestamp|integer|The timestamp at which the bid was submitted|
+
+
+**Basket**
+
+|Parameter|Type|Description|
+|----|----|----|
+|denom|string|Token denominator|
+|amount|string|Token quantity|
+
+
 
 ## Auctions
 
@@ -72,6 +107,7 @@ def main() -> None:
     print(auctions)
 ```
 
+### Response Parameters
 > Response Example:
 
 ``` json
@@ -109,6 +145,39 @@ def main() -> None:
 }
 ```
 
+|Parameter|Type|Description|
+|----|----|----|
+|auction|Auction|Array of Auction|
+|bids|Bids|Array of Bids|
+
+**Auction**
+
+|Parameter|Type|Description|
+|----|----|----|
+|winner|string|The Injective Chain address with the highest bid|
+|basket|Basket|Array of Basket|
+|winning_bid_amount|string|The highest bid|
+|round|integer|The auction round|
+|end_timestamp|integer|The auction's ending timestamp|
+|updated_at|integer|The timestamp of the last submitted bid|
+
+**Bids**
+
+|Parameter|Type|Description|
+|----|----|----|
+|bidder|string|The Injective Chain address|
+|amount|string|The bid amount|
+|timestamp|integer|The timestamp at which the bid was submitted|
+
+
+**Basket**
+
+|Parameter|Type|Description|
+|----|----|----|
+|denom|string|Token denominator|
+|amount|string|Token quantity|
+
+
 
 ## StreamBids
 
@@ -129,6 +198,7 @@ def main() -> None:
         print(bid)
 ```
 
+### Response Parameters
 > Response Example:
 
 ``` json
@@ -146,3 +216,10 @@ def main() -> None:
 
 }
 ```
+
+|Parameter|Type|Description|
+|----|----|----|
+|bidder|string|The Injective Chain address|
+|bid_amount|string|Bid quantity|
+|round|integer|The auction round|
+|timestamp|integer|The timestamp at which the bid was submitted|

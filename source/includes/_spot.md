@@ -1,5 +1,5 @@
 # - Spot
-Includes all the messages related to spot markets.
+Includes all messages related to spot markets.
 
 ## MsgCreateSpotMarketOrder
 
@@ -68,8 +68,8 @@ Includes all the messages related to spot markets.
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|MarketId of the market we want to send an order|Yes|
-|sender|string|The inj address of the sender|Yes|
+|market_id|string|Market ID of the market we want to send an order|Yes|
+|sender|string|The Injective Chain address|Yes|
 |subaccount_id|string|The subaccount we want to send an order from|Yes|
 |fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|float|The price of the base asset|Yes|
@@ -161,13 +161,13 @@ Includes all the messages related to spot markets.
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|MarketId of the market we want to send an order|Yes|
-|sender|string| The inj address of the sender|Yes|
-|subaccount_id|string| The subaccount we want to send an order from|Yes|
-|fee_recipient|string| The address that will receive 40% of the fees, this could be set to your own address|Yes|
-|price|float| The price of the base asset|Yes|
-|quantity|float| The quantity of the base asset|Yes|
-|is_buy|boolean| Set to true or false for buy and sell orders respectively|Yes|
+|market_id|string|Market ID of the market we want to send an order|Yes|
+|sender|string|The Injective Chain address|Yes|
+|subaccount_id|string|The subaccount we want to send an order from|Yes|
+|fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
+|price|float|The price of the base asset|Yes|
+|quantity|float|The quantity of the base asset|Yes|
+|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
 
 > Response Example:
 
@@ -246,10 +246,10 @@ Includes all the messages related to spot markets.
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|MarketId of the market we want to send an order|Yes|
-|sender|string|The inj address of the sender|Yes|
-|subaccount_id|string|The subaccount we want to send an order from|Yes|
-|order_hash|string| The order hash of a specific order|Yes|
+|market_id|string|Market ID of the market we want to cancel an order|Yes|
+|sender|string|The Injective Chain address|Yes|
+|subaccount_id|string|The subaccount we want to cancel an order from|Yes|
+|order_hash|string|The hash of a specific order|Yes|
 
 
 > Response Example:
@@ -345,14 +345,14 @@ Includes all the messages related to spot markets.
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The inj address of the sender|Yes|
-|orders|Array| |Yes|
+|sender|string|The Injective Chain address|Yes|
+|orders|SpotOrder|Array of SpotOrder|Yes|
 
-orders:
+**SpotOrder**
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|MarketId of the market we want to send an order|Yes|
+|market_id|string|Market ID of the market we want to send an order|Yes|
 |subaccount_id|string|The subaccount we want to send an order from|Yes|
 |fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|float|The price of the base asset|Yes|
@@ -455,16 +455,16 @@ orders:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The inj address of the sender|Yes|
-|orders|Array| |Yes|
+|sender|string|The Injective Chain address|Yes|
+|orders|OrderData|Array of OrderData|Yes|
 
-orders:
+**OrderData**
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|MarketId of the market we want to send an order|Yes|
-|subaccount_id|string|The subaccount we want to send an order from|Yes|
-|order_hash|string|The order hash of a specific order|Yes|
+|market_id|string|Market ID of the market we want to cancel an order|Yes|
+|subaccount_id|string|The subaccount we want to cancel an order from|Yes|
+|order_hash|string|The hash of a specific order|Yes|
 
 > Response Example:
 
@@ -634,14 +634,48 @@ Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll o
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The inj address of the sender|Yes|
+|sender|string|The Injective Chain address|Yes|
 |subaccount_id|string|The subaccount ID|Conditional|
-|derivative_orders_to_create|string|Derivative Order object|No|
-|spot_orders_to_create|string|Spot Order object|No|
-|derivative_orders_to_cancel|string|Orderdata object to cancel|No|
-|spot_orders_to_cancel|string|Orderdata object to cancel|No|
-|spot_market_ids_to_cancel_all|string|Spot Market IDs for the markets the trader wants to cancel all active orders|No|
-|derivative_market_ids_to_cancel_all|string|Derivative Market IDs for the markets the trader wants to cancel all active orders|No|
+|derivative_orders_to_create|DerivativeOrder|DerivativeOrder object|No|
+|spot_orders_to_create|SpotOrder|SpotOrder object|No|
+|derivative_orders_to_cancel|OrderData|OrderData object to cancel|No|
+|spot_orders_to_cancel|Orderdata|OrderData object to cancel|No|
+|spot_market_ids_to_cancel_all|array|Spot Market IDs for the markets the trader wants to cancel all active orders|No|
+|derivative_market_ids_to_cancel_all|array|Derivative Market IDs for the markets the trader wants to cancel all active orders|No|
+
+**SpotOrder**
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|Market ID of the market we want to send an order|Yes|
+|subaccount_id|string|The subaccount we want to send an order from|Yes|
+|fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
+|price|float|The price of the base asset|Yes|
+|quantity|float|The quantity of the base asset|Yes|
+|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
+
+
+**DerivativeOrder**
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|Market ID of the market we want to send an order|Yes|
+|subaccount_id|string|The subaccount ID we want to send an order from|Yes|
+|fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
+|price|float|The price of the base asset|Yes|
+|quantity|float|The quantity of the base asset|Yes|
+|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
+|leverage|float|The leverage factor for the order|No|
+|is_reduce_only|boolean|Set to true or false for reduce-only or normal orders respectively|No|
+
+
+**OrderData**
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|Market ID of the market we want to cancel an order|Yes|
+|subaccount_id|string|The subaccount we want to cancel an order from|Yes|
+|order_hash|string|The hash of a specific order|Yes|
 
 
 > Response Example:

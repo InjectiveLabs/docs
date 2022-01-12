@@ -3,7 +3,7 @@ InjectiveMetaRPC defines the gRPC API of the Exchange Meta provider.
 
 ## Ping
 
-Query the server health.
+Get the server health.
 
 
 > Request Example:
@@ -32,7 +32,7 @@ def main() -> None:
 
 ## Version
 
-Query the server version.
+Get the server version.
 
 > Request Example:
 
@@ -76,7 +76,7 @@ def main() -> None:
 
 ## Info
 
-Query the server information.
+Get the server information.
 
 > Request Example:
 
@@ -131,7 +131,7 @@ def main() -> None:
 
 ## StreamKeepAlive
 
-Clients can subscribe to a stream and gracefully disconnect and connect to another endpoint if the primary becomes unavailable.
+Subscribe to a stream and gracefully disconnect and connect to another sentry node if the primary becomes unavailable.
 
 > Request Example:
 
