@@ -76,7 +76,7 @@ def main() -> None:
 
 ## Redemptions
 
-PendingRedemptions lists all pending redemptions according to a filter
+PendingRedemptions lists all pending redemptions according to a filter.
 
 ### Request Parameters
 > Request Example:
