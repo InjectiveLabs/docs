@@ -2,7 +2,7 @@
 InjectiveInsuranceRPC defines the gRPC API of the Insurance Exchange provider.
 
 
-## Funds
+## InsuranceFunds
 
 Get all the insurance funds.
 
@@ -76,7 +76,7 @@ def main() -> None:
 
 ## Redemptions
 
-PendingRedemptions lists all pending redemptions according to a filter.
+Get the pending redemptions.
 
 ### Request Parameters
 > Request Example:
