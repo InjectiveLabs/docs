@@ -24,6 +24,4 @@ def main() -> None:
     pub_key =  priv_key.to_public_key()
     address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
     subaccount_id = address.get_subaccount_id(index=0)
-    
-    print(subaccount_id)
 ```

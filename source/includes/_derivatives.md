@@ -1,5 +1,5 @@
 # - Derivatives
-Includes all the messages related to derivative markets.
+Includes all messages related to derivative markets.
 
 ## MsgCreateDerivativeMarketOrder
 

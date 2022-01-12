@@ -1,5 +1,5 @@
 # - Account
-Includes all the messages related to accounts and transfers.
+Includes all messages related to accounts and transfers.
 
 ## MsgSend
 

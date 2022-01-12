@@ -1,5 +1,5 @@
 # - Spot
-Includes all the messages related to spot markets.
+Includes all messages related to spot markets.
 
 ## MsgCreateSpotMarketOrder
 
