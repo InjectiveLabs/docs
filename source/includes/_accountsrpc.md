@@ -570,7 +570,7 @@ def main() -> None:
 
 ## Rewards
 
-Get the rewards for Trade & Earn. The query will fetch all addresses for the latest epoch (-1) by default.
+Get the rewards for Trade & Earn, the request will fetch all addresses for the latest epoch (-1) by default.
 
 
 ### Request Parameters
