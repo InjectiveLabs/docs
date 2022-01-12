@@ -4,7 +4,7 @@ InjectiveInsuranceRPC defines the gRPC API of the Insurance Exchange provider.
 
 ## Funds
 
-Funds lists all insurance funds.
+Get all the insurance funds.
 
 ### Request Parameters
 > Request Example:
