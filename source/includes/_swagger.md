@@ -5,5 +5,3 @@
 [Swagger Mainnet](https://lcd.injective.network/swagger/#/)
 
 [Swagger Testnet](https://testnet.lcd.injective.dev/swagger/#/)
-
-![Swagger](/images/swagger.png)

@@ -5,5 +5,3 @@
 [Explorer Mainnet](https://explorer.injective.network/)
 
 [Explorer Testnet](https://testnet.explorer.injective.dev/)
-
-![Block Explorer](/images/explorer.png)
