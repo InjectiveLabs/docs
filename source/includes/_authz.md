@@ -196,14 +196,11 @@ Includes all messages and queries related to the Authz module. Authz is an imple
 > Request Example:
 
 ``` python
-    granter = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-    grantee = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-    msg_type_url = "/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"
-
+    # prepare tx msg
     msg = composer.MsgRevoke(
-        granter=granter,
-        grantee=grantee,
-        msg_type_url=msg_type_url
+        granter = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+        grantee = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+        msg_type = "/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"
     )
 
     # build sim tx
@@ -219,42 +216,35 @@ Includes all messages and queries related to the Authz module. Authz is an imple
     sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (simRes, success) = client.simulate_tx(sim_tx_raw_bytes)
+    (sim_res, success) = client.simulate_tx(sim_tx_raw_bytes)
     if not success:
-        print(simRes)
+        print(sim_res)
         return
-
-    sim_res_msg = ProtoMsgComposer.MsgResponses(simRes.result.data, simulation=True)
-    print("simulation msg response")
-    print(sim_res_msg)
 
     # build tx
     gas_price = 500000000
-    gas_limit = simRes.gas_info.gas_used + 15000 # add 15k for gas, fee computation
+    gas_limit = sim_res.gas_info.gas_used + 15000  # add 15k for gas, fee computation
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    current_height = client.get_latest_block().block.header.height
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
-    res_msg = ProtoMsgComposer.MsgResponses(res.data)
-    print("tx response")
+
+    # print tx response
     print(res)
-    print("tx msg response")
-    print(res_msg)
 ```
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |granter|string|The INJ address unauthorizing a grantee|Yes|
 |grantee|string|The INJ address being unauthorized by the granter|Yes|
-|msg_type_url|string|The message type being unauthorized by the granter|Yes|
+|msg_type|string|The message type being unauthorized by the granter|Yes|
 
 > Response Example:
 
