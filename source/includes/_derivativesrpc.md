@@ -3,7 +3,7 @@ InjectiveDerivativeExchangeRPC defines the gRPC API of the Derivative Exchange p
 
 ## Market
 
-Get details of a derivative market
+Get details of a derivative market.
 
 
 ### Request Parameters
@@ -24,7 +24,7 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by Market ID|Yes|
+|market_id|string|Filter by market ID|Yes|
 
 
 
@@ -75,58 +75,58 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|market|DerivativeMarketInfo||
+|market|array|Array of DerivativeMarketInfo|
 
-DerivativeMarketInfo:
+**DerivativeMarketInfo**
 
 |Parameter|Type|Description|
 |----|----|----|
 |oracle_quote|string|Oracle quote currency|
 |oracle_type|string|Oracle Type|
-|quote_denom|string|Coin denom used for the quote asset.|
+|quote_denom|string|Coin denom used for the quote asset|
 |is_perpetual|boolean|True if the market is a perpetual swap market|
 |maker_fee_rate|string|Defines the fee percentage makers pay when trading (in quote asset)|
 |min_price_tick_size|string|Defines the minimum required tick size for the order's price|
 |min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
 |oracle_scale_factor|integer|OracleScaleFactor|
 |taker_fee_rate|string|Defines the fee percentage takers pay when trading (in quote asset)|
-|expiry_futures_market_info|ExpiryFuturesMarketInfo||
+|expiry_futures_market_info|array|Array of ExpiryFuturesMarketInfo|
 |initial_margin_ratio|string|Defines the initial margin ratio of a derivative market|
 |market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
 |service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
 |oracle_base|string|Oracle base currency|
-|perpetual_market_funding|PerpetualMarketFunding||
+|perpetual_market_funding|array|Array of PerpetualMarketFunding|
 |perpetual_market_info|PerpetualMarketInfo||
-|ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset.|
+|ticker|string|The name of the pair in format AAA/BBB, where AAA is the base asset and BBB is the quote asset|
 |maintenance_margin_ratio|string|Defines the maintenance margin ratio of a derivative market|
-|market_id|string|DerivativeMarket ID|
-|quoteTokenMeta|TokenMeta||
+|market_id|string|The market ID|
+|quoteTokenMeta|array|Array of TokenMeta|
 
 
-PerpetualMarketFunding:
-
-|Parameter|Type|Description|
-|----|----|----|
-|cumulative_funding|string|Defines the cumulative funding of a perpetual market.|
-|cumulative_price|string|Defines defines the cumulative price for the current hour up to the last timestamp.|
-|last_timestamp|integer|Defines the last funding timestamp in seconds of a perpetual market in UNIX seconds.|
-
-
-PerpetualMarketInfo:
+**PerpetualMarketFunding**
 
 |Parameter|Type|Description|
 |----|----|----|
-|hourly_funding_rate_cap|string|Defines the default maximum absolute value of the hourly funding rate of the perpetual market.|
-|hourly_interest_rate|string|Defines the hourly interest rate of the perpetual market.|
-|next_funding_timestamp|integer|Defines the next funding timestamp in seconds of a perpetual market in UNIX seconds.|
-|funding_interval|integer|Defines the funding interval in seconds of a perpetual market in seconds.|
+|cumulative_funding|string|Defines the cumulative funding of a perpetual market|
+|cumulative_price|string|Defines the cumulative price for the current hour up to the last timestamp|
+|last_timestamp|integer|Defines the last funding timestamp in UNIX seconds|
 
 
-TokenMeta:
+**PerpetualMarketInfo**
 
 |Parameter|Type|Description|
 |----|----|----|
-|updated_at|integer|Token metadata fetched timestamp in UNIX millis.|
+|hourly_funding_rate_cap|string|Defines the default maximum absolute value of the hourly funding rate|
+|hourly_interest_rate|string|Defines the hourly interest rate of the perpetual market|
+|next_funding_timestamp|integer|Defines the next funding timestamp in UNIX seconds|
+|funding_interval|integer|Defines the funding interval in seconds|
+
+
+**TokenMeta**
+
+|Parameter|Type|Description|
+|----|----|----|
+|updated_at|integer|Token metadata fetched timestamp in UNIX millis|
 |address|string|Token Ethereum contract address|
 |decimals|integer|Token decimals|
 |logo|string|URL to the logo image|
@@ -136,7 +136,7 @@ TokenMeta:
 
 ## Markets
 
-Get a list of derivative markets
+Get a list of derivative markets.
 
 
 ### Request Parameters
@@ -210,58 +210,58 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|markets|Array of DerivativeMarketInfo|Derivative Markets list|
+|markets|array|Array of DerivativeMarketInfo|
 
-DerivativeMarketInfo:
+**DerivativeMarketInfo**
 
 |Parameter|Type|Description|
 |----|----|----|
 |oracle_quote|string|Oracle quote currency|
 |oracle_type|string|Oracle Type|
-|quote_denom|string|Coin denom used for the quote asset.|
+|quote_denom|string|Coin denom used for the quote asset|
 |is_perpetual|boolean|True if the market is a perpetual swap market|
 |maker_fee_rate|string|Defines the fee percentage makers pay when trading (in quote asset)|
 |min_price_tick_size|string|Defines the minimum required tick size for the order's price|
 |min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
 |oracle_scale_factor|integer|OracleScaleFactor|
 |taker_fee_rate|string|Defines the fee percentage takers pay when trading (in quote asset)|
-|expiry_futures_market_info|ExpiryFuturesMarketInfo||
+|expiry_futures_market_info|array|Array of ExpiryFuturesMarketInfo|
 |initial_margin_ratio|string|Defines the initial margin ratio of a derivative market|
 |market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
 |service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
 |oracle_base|string|Oracle base currency|
-|perpetual_market_funding|PerpetualMarketFunding||
+|perpetual_market_funding|array|Array of PerpetualMarketFunding|
 |perpetual_market_info|PerpetualMarketInfo||
-|ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset.|
+|ticker|string|The name of the pair in format AAA/BBB, where AAA is the base asset and BBB is the quote asset|
 |maintenance_margin_ratio|string|Defines the maintenance margin ratio of a derivative market|
-|market_id|string|DerivativeMarket ID|
-|quoteTokenMeta|TokenMeta||
+|market_id|string|The market ID|
+|quoteTokenMeta|array|Array of TokenMeta|
 
 
-PerpetualMarketFunding:
-
-|Parameter|Type|Description|
-|----|----|----|
-|cumulative_funding|string|Defines the cumulative funding of a perpetual market.|
-|cumulative_price|string|Defines defines the cumulative price for the current hour up to the last timestamp.|
-|last_timestamp|integer|Defines the last funding timestamp in seconds of a perpetual market in UNIX seconds.|
-
-
-PerpetualMarketInfo:
+**PerpetualMarketFunding**
 
 |Parameter|Type|Description|
 |----|----|----|
-|hourly_funding_rate_cap|string|Defines the default maximum absolute value of the hourly funding rate of the perpetual market.|
-|hourly_interest_rate|string|Defines the hourly interest rate of the perpetual market.|
-|next_funding_timestamp|integer|Defines the next funding timestamp in seconds of a perpetual market in UNIX seconds.|
-|funding_interval|integer|Defines the funding interval in seconds of a perpetual market in seconds.|
+|cumulative_funding|string|Defines the cumulative funding of a perpetual market|
+|cumulative_price|string|Defines the cumulative price for the current hour up to the last timestamp|
+|last_timestamp|integer|Defines the last funding timestamp in UNIX seconds|
 
 
-TokenMeta:
+**PerpetualMarketInfo**
 
 |Parameter|Type|Description|
 |----|----|----|
-|updated_at|integer|Token metadata fetched timestamp in UNIX millis.|
+|hourly_funding_rate_cap|string|Defines the default maximum absolute value of the hourly funding rate|
+|hourly_interest_rate|string|Defines the hourly interest rate of the perpetual market|
+|next_funding_timestamp|integer|Defines the next funding timestamp in UNIX seconds|
+|funding_interval|integer|Defines the funding interval in seconds|
+
+
+**TokenMeta**
+
+|Parameter|Type|Description|
+|----|----|----|
+|updated_at|integer|Token metadata fetched timestamp in UNIX millis|
 |address|string|Token Ethereum contract address|
 |decimals|integer|Token decimals|
 |logo|string|URL to the logo image|
@@ -271,7 +271,7 @@ TokenMeta:
 
 ## StreamMarket
 
-Stream live updates of derivative markets
+Stream live updates of derivative markets.
 
 
 ### Request Parameters
@@ -337,58 +337,58 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|market|DerivativeMarketInfo||
+|market|array|Array of DerivativeMarketInfo|
 
-DerivativeMarketInfo:
+**DerivativeMarketInfo**
 
 |Parameter|Type|Description|
 |----|----|----|
 |oracle_quote|string|Oracle quote currency|
 |oracle_type|string|Oracle Type|
-|quote_denom|string|Coin denom used for the quote asset.|
+|quote_denom|string|Coin denom used for the quote asset|
 |is_perpetual|boolean|True if the market is a perpetual swap market|
 |maker_fee_rate|string|Defines the fee percentage makers pay when trading (in quote asset)|
 |min_price_tick_size|string|Defines the minimum required tick size for the order's price|
 |min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
 |oracle_scale_factor|integer|OracleScaleFactor|
 |taker_fee_rate|string|Defines the fee percentage takers pay when trading (in quote asset)|
-|expiry_futures_market_info|ExpiryFuturesMarketInfo||
+|expiry_futures_market_info|array|Array of ExpiryFuturesMarketInfo|
 |initial_margin_ratio|string|Defines the initial margin ratio of a derivative market|
 |market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
 |service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
 |oracle_base|string|Oracle base currency|
-|perpetual_market_funding|PerpetualMarketFunding||
+|perpetual_market_funding|array|Array of PerpetualMarketFunding|
 |perpetual_market_info|PerpetualMarketInfo||
-|ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset.|
+|ticker|string|The name of the pair in format AAA/BBB, where AAA is the base asset and BBB is the quote asset|
 |maintenance_margin_ratio|string|Defines the maintenance margin ratio of a derivative market|
-|market_id|string|DerivativeMarket ID|
-|quoteTokenMeta|TokenMeta||
+|market_id|string|The market ID|
+|quoteTokenMeta|array|Array of TokenMeta|
 
 
-PerpetualMarketFunding:
-
-|Parameter|Type|Description|
-|----|----|----|
-|cumulative_funding|string|Defines the cumulative funding of a perpetual market.|
-|cumulative_price|string|Defines defines the cumulative price for the current hour up to the last timestamp.|
-|last_timestamp|integer|Defines the last funding timestamp in seconds of a perpetual market in UNIX seconds.|
-
-
-PerpetualMarketInfo:
+**PerpetualMarketFunding**
 
 |Parameter|Type|Description|
 |----|----|----|
-|hourly_funding_rate_cap|string|Defines the default maximum absolute value of the hourly funding rate of the perpetual market.|
-|hourly_interest_rate|string|Defines the hourly interest rate of the perpetual market.|
-|next_funding_timestamp|integer|Defines the next funding timestamp in seconds of a perpetual market in UNIX seconds.|
-|funding_interval|integer|Defines the funding interval in seconds of a perpetual market in seconds.|
+|cumulative_funding|string|Defines the cumulative funding of a perpetual market|
+|cumulative_price|string|Defines the cumulative price for the current hour up to the last timestamp|
+|last_timestamp|integer|Defines the last funding timestamp in UNIX seconds|
 
 
-TokenMeta:
+**PerpetualMarketInfo**
 
 |Parameter|Type|Description|
 |----|----|----|
-|updated_at|integer|Token metadata fetched timestamp in UNIX millis.|
+|hourly_funding_rate_cap|string|Defines the default maximum absolute value of the hourly funding rate|
+|hourly_interest_rate|string|Defines the hourly interest rate of the perpetual market|
+|next_funding_timestamp|integer|Defines the next funding timestamp in UNIX seconds|
+|funding_interval|integer|Defines the funding interval in seconds|
+
+
+**TokenMeta**
+
+|Parameter|Type|Description|
+|----|----|----|
+|updated_at|integer|Token metadata fetched timestamp in UNIX millis|
 |address|string|Token Ethereum contract address|
 |decimals|integer|Token decimals|
 |logo|string|URL to the logo image|
@@ -398,7 +398,7 @@ TokenMeta:
 
 ## Orders
 
-Get orders of a derivative market
+Get orders of a derivative market.
 
 
 ### Request Parameters
@@ -421,8 +421,8 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by Market ID|Yes|
-|subaccount_id|string|Filter by Subaccount ID|No|
+|market_id|string|Filter by market ID|Yes|
+|subaccount_id|string|Filter by subaccount ID|No|
 |order_side|string|Filter by order side (Should be one of: [buy sell])|No|
 
 
@@ -490,7 +490,7 @@ DerivativeLimitOrder:
 
 ## StreamOrders
 
-Stream order updates of a derivative market
+Stream order updates of a derivative market.
 
 ### Request Parameters
 > Request Example:
@@ -513,9 +513,9 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by Market ID|Yes|
+|market_id|string|Filter by market ID|Yes|
 |order_side|string|Filter by order side (Should be one of: [buy sell])|No|
-|subaccount_id|string|Filter by Subaccount ID|No|
+|subaccount_id|string|Filter by subaccount ID|No|
 
 
 
@@ -563,13 +563,12 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|order|DerivativeLimitOrder||
-|operation_type|string|Order update type (Should be one of: [insert delete replace update invalidate]) |
-|timestamp|integer|Operation timestamp in UNIX millis.|
+|order|array|Array of DerivativeLimitOrder|
+|operation_type|string|Order update type (Should be one of: [insert delete replace update invalidate])|
+|timestamp|integer|Operation timestamp in UNIX millis|
 
 
-
-DerivativeLimitOrder:
+**DerivativeLimitOrder**
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -577,21 +576,21 @@ DerivativeLimitOrder:
 |order_hash|string|Hash of the order|
 |quantity|string|Quantity of the order|
 |state|string|Order state (Should be one of: [booked partial_filled filled canceled]) |
-|trigger_price|string|Trigger price is the trigger price used by stop/take orders|
-|market_id|string|Derivative Market ID|
-|created_at|integer|Order committed timestamp in UNIX millis.|
+|trigger_price|string|The price used by stop/take orders|
+|market_id|string|The market ID|
+|created_at|integer|Order committed timestamp in UNIX millis|
 |price|string|Price of the order|
-|subaccount_id|string|The subaccountId that this order belongs to|
-|updated_at|integer|Order updated timestamp in UNIX millis.|
+|subaccount_id|string|The subaccount ID this order belongs to|
+|updated_at|integer|Order updated timestamp in UNIX millis|
 |is_reduce_only|boolean|True if the order is a reduce-only order|
 |margin|string|Margin of the order|
-|order_side|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
+|order_side|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell])|
 |unfilled_quantity|string|The amount of the quantity remaining unfilled|
 
 
 ## Trades
 
-Get trades of a derivative market
+Get trades of a derivative market.
 
 ### Request Parameters
 > Request Example:
@@ -612,8 +611,8 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by Market ID|Yes|
-|subaccount_id|string|Filter by Subaccount ID|No|
+|market_id|string|Filter by market ID|Yes|
+|subaccount_id|string|Filter by subaccount ID|No|
 |execution_side|string|Filter by the execution side of the trade (Should be one of: [maker taker])|No|
 |direction|string|Filter by the direction of the trade (Should be one of: [buy sell])|No|
 |skip|int|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
@@ -661,35 +660,35 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|trades|Array of DerivativeTrade|Trades of a Derivative Market|
+|trades|array|Array of DerivativeTrade|
 
-DerivativeTrade:
+**DerivativeTrade**
 
 |Parameter|Type|Description|
 |----|----|----|
 |executed_at|integer|Timestamp of trade execution in UNIX millis|
-|position_delta|PositionDelta||
-|subaccount_id|string|The subaccountId that executed the trade|
+|position_delta|array|Array of PositionDelta|
+|subaccount_id|string|The subaccount ID that executed the trade|
 |trade_execution_type|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
 |fee|string|The fee associated with the trade|
-|isLiquidation|boolean|True if the trade is a liquidation|
-|market_id|string|The ID of the market that this trade is in|
-|order_hash|string|Order hash.|
+|is_liquidation|boolean|True if the trade is a liquidation|
+|market_id|string|The market ID|
+|order_hash|string|The order hash|
 |payout|string|The payout associated with the trade|
 
-PositionDelta:
+**PositionDelta**
 
 |Parameter|Type|Description|
 |----|----|----|
-|execution_price|string|Execution Price of the trade.|
-|execution_quantity|string|Execution Quantity of the trade.|
+|execution_price|string|Execution price of the trade|
+|execution_quantity|string|Execution quantity of the trade|
 |trade_direction|string|The direction the trade (Should be one of: [buy sell]) |
-|execution_margin|string|Execution Margin of the trade.|
+|execution_margin|string|Execution margin of the trade|
 
 
 ## StreamTrades
 
-Stream trades of a derivative market
+Stream trades of a derivative market.
 
 
 ### Request Parameters
@@ -712,8 +711,8 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by Market ID|Yes|
-|subaccount_id|string|Filter by Subaccount ID|No|
+|market_id|string|Filter by market ID|Yes|
+|subaccount_id|string|Filter by subaccount ID|No|
 |execution_side|string|Filter by the execution side of the trade (Should be one of: [maker taker])|No|
 |direction|string|Filter by the direction of the trade (Should be one of: [buy sell])|No|
 |skip|int|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
@@ -768,38 +767,38 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|trade|DerivativeTrade||
+|trade|array|Array of DerivativeTrade|
 |operation_type|string|Executed trades update type (Should be one of: [insert invalidate]) |
-|timestamp|integer|Operation timestamp in UNIX millis.|
+|timestamp|integer|Operation timestamp in UNIX millis|
 
 
-DerivativeTrade:
+**DerivativeTrade**
 
 |Parameter|Type|Description|
 |----|----|----|
 |executed_at|integer|Timestamp of trade execution in UNIX millis|
-|position_delta|PositionDelta||
-|subaccount_id|string|The subaccountId that executed the trade|
+|position_delta|array|Array of PositionDelta|
+|subaccount_id|string|The subaccount ID that executed the trade|
 |trade_execution_type|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
 |fee|string|The fee associated with the trade|
-|isLiquidation|boolean|True if the trade is a liquidation|
-|market_id|string|The ID of the market that this trade is in|
-|order_hash|string|Order hash.|
+|is_liquidation|boolean|True if the trade is a liquidation|
+|market_id|string|The market ID|
+|order_hash|string|The order hash|
 |payout|string|The payout associated with the trade|
 
-PositionDelta:
+**PositionDelta**
 
 |Parameter|Type|Description|
 |----|----|----|
-|execution_price|string|Execution Price of the trade.|
-|execution_quantity|string|Execution Quantity of the trade.|
+|execution_price|string|Execution price of the trade|
+|execution_quantity|string|Execution quantity of the trade|
 |trade_direction|string|The direction the trade (Should be one of: [buy sell]) |
-|execution_margin|string|Execution Margin of the trade.|
+|execution_margin|string|Execution margin of the trade|
 
 
 ## Positions
 
-Get the positions of a market
+Get the positions of a market.
 
 
 ### Request Parameters
@@ -821,10 +820,8 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by Market ID|Yes|
-|subaccount_id|string|Filter by Subaccount ID|No|
-
-
+|market_id|string|Filter by market ID|Yes|
+|subaccount_id|string|Filter by subaccount ID|No|
 
 
 ### Response Parameters
@@ -862,28 +859,28 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|positions|Array of DerivativePosition|List of derivative positions|
+|positions|array|Array of DerivativePosition|
 
-DerivativePosition:
+**DerivativePosition**
 
 |Parameter|Type|Description|
 |----|----|----|
 |direction|string|Direction of the position (Should be one of: [long short]) |
-|market_id|string|Derivative Market ID|
-|subaccount_id|string|The subaccountId that the position belongs to|
+|market_id|string|The market ID|
+|subaccount_id|string|The subaccount ID the position belongs to|
 |ticker|string|Ticker of the derivative market|
-|aggregate_reduce_only_quantity|string|Aggregate Quantity of the Reduce Only orders associated with the position|
-|entry_price|string|Price of the position|
-|liquidation_price|string|LiquidationPrice of the position|
+|aggregate_reduce_only_quantity|string|Aggregate quantity of the reduce-only orders associated with the position|
+|entry_price|string|Entry price of the position|
+|liquidation_price|string|Liquidation price of the position|
 |margin|string|Margin of the position|
-|mark_price|string|MarkPrice of the position|
+|mark_price|string|Oracle price of the base asset|
 |quantity|string|Quantity of the position|
 
 
 
 ## StreamPositions
 
-Stream position updates for a specific market
+Stream position updates for a specific market.
 
 
 ### Request Parameters
@@ -906,8 +903,8 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by Market ID|Yes|
-|subaccount_id|string|Filter by Subaccount ID|No|
+|market_id|string|Filter by market ID|Yes|
+|subaccount_id|string|Filter by subaccount ID|No|
 
 
 ### Response Parameters
@@ -948,28 +945,28 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|positions|Array of DerivativePosition|List of derivative positions|
-|timestamp|integer|Operation timestamp in UNIX millis.|
+|positions|array|Array of DerivativePosition|
+|timestamp|integer|Operation timestamp in UNIX millis|
 
-DerivativePosition:
+**DerivativePosition**
 
 |Parameter|Type|Description|
 |----|----|----|
 |direction|string|Direction of the position (Should be one of: [long short]) |
-|market_id|string|Derivative Market ID|
-|subaccount_id|string|The subaccountId that the position belongs to|
+|market_id|string|The market ID|
+|subaccount_id|string|The subaccount ID the position belongs to|
 |ticker|string|Ticker of the derivative market|
-|aggregate_reduce_only_quantity|string|Aggregate Quantity of the Reduce Only orders associated with the position|
-|entry_price|string|Price of the position|
-|liquidation_price|string|LiquidationPrice of the position|
+|aggregate_reduce_only_quantity|string|Aggregate quantity of the reduce-only orders associated with the position|
+|entry_price|string|Entry price of the position|
+|liquidation_price|string|Liquidation price of the position|
 |margin|string|Margin of the position|
-|mark_price|string|MarkPrice of the position|
+|mark_price|string|Oracle price of the base asset|
 |quantity|string|Quantity of the position|
 
 
 ## Orderbook
 
-Get the orderbook of a derivative market
+Get the orderbook of a derivative market.
 
 ### Request Parameters
 > Request Example:
@@ -989,7 +986,7 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by Market ID|Yes|
+|market_id|string|Filter by market ID|Yes|
 
 
 
@@ -1029,22 +1026,22 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|orderbook|DerivativeLimitOrderbook||
+|orderbook|array|Array of DerivativeLimitOrderbook|
 
-DerivativeLimitOrderbook:
-
-|Parameter|Type|Description|
-|----|----|----|
-|buys|Array of PriceLevel|Array of price levels for buys|
-|sells|Array of PriceLevel|Array of price levels for sells|
-
-PriceLevel:
+**DerivativeLimitOrderbook**
 
 |Parameter|Type|Description|
 |----|----|----|
-|quantity|string|Quantity of the price level.|
-|timestamp|integer|Price level last updated timestamp in UNIX millis.|
-|price|string|Price number of the price level.|
+|buys|array|Array of PriceLevel|
+|sells|array|Array of PriceLevel|
+
+**PriceLevel**
+
+|Parameter|Type|Description|
+|----|----|----|
+|quantity|string|Quantity of the price level|
+|timestamp|integer|Price level last updated timestamp in UNIX millis|
+|price|string|Price number of the price level|
 
 
 
@@ -1072,7 +1069,7 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by Market ID|Yes|
+|market_id|string|Filter by market ID|Yes|
 
 
 
@@ -1116,24 +1113,24 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|operation_type|string|Order update type (Should be one of: [insert delete replace update invalidate]) |
-|orderbook|DerivativeLimitOrderbook||
-|timestamp|integer|Operation timestamp in UNIX millis.|
+|operation_type|string|Order update type (Should be one of: [insert delete replace update invalidate])|
+|orderbook|array|Array of DerivativeLimitOrderbook|
+|timestamp|integer|Operation timestamp in UNIX millis|
 
-DerivativeLimitOrderbook:
-
-|Parameter|Type|Description|
-|----|----|----|
-|buys|Array of PriceLevel|Array of price levels for buys|
-|sells|Array of PriceLevel|Array of price levels for sells|
-
-PriceLevel:
+**DerivativeLimitOrderbook**
 
 |Parameter|Type|Description|
 |----|----|----|
-|quantity|string|Quantity of the price level.|
-|timestamp|integer|Price level last updated timestamp in UNIX millis.|
-|price|string|Price number of the price level.|
+|buys|array|Array of PriceLevel|
+|sells|array|Array of PriceLevel|
+
+**PriceLevel**
+
+|Parameter|Type|Description|
+|----|----|----|
+|quantity|string|Quantity of the price level|
+|timestamp|integer|Price level last updated timestamp in UNIX millis|
+|price|string|Price number of the price level|
 
 ## StreamOrderbooks
 
@@ -1205,25 +1202,25 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|operation_type|string|Order update type (Should be one of: [insert delete replace update invalidate]) |
-|orderbook|DerivativeLimitOrderbook||
+|operation_type|string|Order update type (Should be one of: [insert delete replace update invalidate])|
+|orderbook|array|Array of DerivativeLimitOrderbook|
 |timestamp|integer|Operation timestamp in UNIX millis|
-|market_id|string|Filter by Market ID|
+|market_id|string|Filter by market ID|
 
-DerivativeLimitOrderbook:
-
-|Parameter|Type|Description|
-|----|----|----|
-|buys|Array of PriceLevel|Array of price levels for buys|
-|sells|Array of PriceLevel|Array of price levels for sells|
-
-PriceLevel:
+**DerivativeLimitOrderbook**
 
 |Parameter|Type|Description|
 |----|----|----|
-|quantity|string|Quantity of the price level.|
-|timestamp|integer|Price level last updated timestamp in UNIX millis.|
-|price|string|Price number of the price level.|
+|buys|array|Array of PriceLevel|
+|sells|array|Array of PriceLevel|
+
+**PriceLevel**
+
+|Parameter|Type|Description|
+|----|----|----|
+|quantity|string|Quantity of the price level|
+|timestamp|integer|Price level last updated timestamp in UNIX millis|
+|price|string|Price number of the price level|
 
 
 ## LiquidablePositions
@@ -1249,7 +1246,7 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by Market ID|No|
+|market_id|string|Filter by market ID|No|
 
 
 
@@ -1290,29 +1287,29 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|positions|Array of DerivativePosition|List of derivative positions|
+|positions|array|Array of DerivativePosition|
 
-DerivativePosition:
+**DerivativePosition**
 
 |Parameter|Type|Description|
 |----|----|----|
-|subaccount_id|string|The subaccountId that the position belongs to|
+|subaccount_id|string|The subaccount ID the position belongs to|
 |ticker|string|Ticker of the derivative market|
 |direction|string|Direction of the position (Should be one of: [long short]) |
-|market_id|string|Derivative Market ID|
-|liquidation_price|string|LiquidationPrice of the position|
+|market_id|string|The market ID|
+|liquidation_price|string|Liquidation price of the position|
 |margin|string|Margin of the position|
-|mark_price|string|MarkPrice of the position|
+|mark_price|string|Oracle price of the base asset|
 |quantity|string|Quantity of the position|
-|aggregate_reduce_only_quantity|string|Aggregate Quantity of the Reduce Only orders associated with the position|
-|entry_price|string|Price of the position|
+|aggregate_reduce_only_quantity|string|Aggregate Quantity of the reduce-only orders associated with the position|
+|entry_price|string|Entry price of the position|
 
 
 
 
 ## SubaccountOrdersList
 
-Get the derivative orders of a specific subaccount
+Get the derivative orders of a specific subaccount.
 
 
 ### Request Parameters
@@ -1334,8 +1331,8 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|string|Filter by Subaccount ID|Yes|
-|market_id|string|Filter by Market ID|No|
+|subaccount_id|string|Filter by subaccount ID|Yes|
+|market_id|string|Filter by market ID|No|
 
 
 ### Response Parameters
@@ -1377,29 +1374,30 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|orders|Array of DerivativeLimitOrder|List of derivative orders|
+|orders|array|Array of DerivativeLimitOrder|
 
-DerivativeLimitOrder:
+**DerivativeLimitOrder**
 
 |Parameter|Type|Description|
 |----|----|----|
-|market_id|string|Derivative Market ID|
-|price|string|Price of the order|
-|subaccount_id|string|The subaccountId that this order belongs to|
-|is_reduce_only|boolean|True if the order is a reduce-only order|
-|margin|string|Margin of the order|
-|order_side|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
-|unfilled_quantity|string|The amount of the quantity remaining unfilled|
 |fee_recipient|string|Fee recipient address|
 |order_hash|string|Hash of the order|
 |quantity|string|Quantity of the order|
 |state|string|Order state (Should be one of: [booked partial_filled filled canceled]) |
-|trigger_price|string|Trigger price is the trigger price used by stop/take orders|
-|created_at|integer|Order committed timestamp in UNIX millis.|
+|trigger_price|string|The price used by stop/take orders|
+|market_id|string|The market ID|
+|created_at|integer|Order committed timestamp in UNIX millis|
+|price|string|Price of the order|
+|subaccount_id|string|The subaccount ID this order belongs to|
+|updated_at|integer|Order updated timestamp in UNIX millis|
+|is_reduce_only|boolean|True if the order is a reduce-only order|
+|margin|string|Margin of the order|
+|order_side|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell])|
+|unfilled_quantity|string|The amount of the quantity remaining unfilled|
 
 ## SubaccountTradesList
 
-Get the derivative trades for a specific subaccount
+Get the derivative trades for a specific subaccount.
 
 
 ### Request Parameters
@@ -1472,30 +1470,30 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|trades|Array of DerivativeTrade|List of derivative market trades|
+|trades|array|Array of DerivativeTrade|
 
-DerivativeTrade:
+**DerivativeTrade**
 
 |Parameter|Type|Description|
 |----|----|----|
-|order_hash|string|Order hash.|
-|payout|string|The payout associated with the trade|
-|subaccount_id|string|The subaccountId that executed the trade|
+|executed_at|integer|Timestamp of trade execution in UNIX millis|
+|position_delta|array|Array of PositionDelta|
+|subaccount_id|string|The subaccount ID that executed the trade|
 |trade_execution_type|string|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
 |fee|string|The fee associated with the trade|
 |is_liquidation|boolean|True if the trade is a liquidation|
-|market_id|string|The ID of the market that this trade is in|
-|executed_at|integer|Timestamp of trade execution in UNIX millis|
-|positionDelta|PositionDelta||
+|market_id|string|The market ID|
+|order_hash|string|The order hash|
+|payout|string|The payout associated with the trade|
 
-PositionDelta:
+**PositionDelta**
 
 |Parameter|Type|Description|
 |----|----|----|
-|execution_price|string|Execution Price of the trade.|
-|execution_quantity|string|Execution Quantity of the trade.|
+|execution_price|string|Execution price of the trade|
+|execution_quantity|string|Execution quantity of the trade|
 |trade_direction|string|The direction the trade (Should be one of: [buy sell]) |
-|execution_margin|string|Execution Margin of the trade.|
+|execution_margin|string|Execution margin of the trade|
 
 
 
@@ -1522,8 +1520,8 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|string|Filter by Subaccount ID|Yes|
-|market_id|string|Filter by Market ID|No|
+|subaccount_id|string|Filter by subaccount ID|Yes|
+|market_id|string|Filter by market ID|No|
 |skip|int|Skip the last funding payments, you can use this to fetch all payments since the API caps at 100|No|
 |limit|int|Limit the funding payments returned|No|
 
@@ -1546,7 +1544,7 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|market_id|string|Derivative Market ID|
+|market_id|string|The market ID|
 |subaccount_id|string|The subaccount ID|
 |amount|string|The amount of the funding payment|
 |timestamp|integer|Operation timestamp in UNIX millis|
