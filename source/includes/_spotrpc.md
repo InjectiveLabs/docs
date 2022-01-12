@@ -68,7 +68,7 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|market|array|Array of SpotMarketInfo|
+|market|SpotMarketInfo|Array of SpotMarketInfo|
 
 **SpotMarketInfo**
 
@@ -78,9 +78,9 @@ def main() -> None:
 |market_id|string|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
 |market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
 |min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
-|quote_token_meta|array|Array of TokenMeta|
+|quote_token_meta|TokenMeta|Array of TokenMeta|
 |service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
-|base_token_meta|array|Array of TokenMeta|
+|base_token_meta|TokenMeta|Array of TokenMeta|
 |maker_fee_rate|string|Defines the fee percentage makers pay when trading (in the quote asset)|
 |min_price_tick_size|string|Defines the minimum required tick size for the order's price|
 |quote_denom|string|Coin denom of the quote asset|
@@ -101,7 +101,7 @@ def main() -> None:
 
 ## Markets
 
-Get a list of spot markets
+Get a list of spot markets.
 
 
 ### Request Parameters
@@ -168,7 +168,7 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|markets|array|Array of SpotMarketInfo|
+|markets|SpotMarketInfo|Array of SpotMarketInfo|
 
 **SpotMarketInfo**
 
@@ -178,9 +178,9 @@ def main() -> None:
 |market_id|string|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
 |market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
 |min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
-|quote_token_meta|array|Array of TokenMeta|
+|quote_token_meta|TokenMeta|Array of TokenMeta|
 |service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
-|base_token_meta|array|Array of TokenMeta|
+|base_token_meta|TokenMeta|Array of TokenMeta|
 |maker_fee_rate|string|Defines the fee percentage makers pay when trading (in the quote asset)|
 |min_price_tick_size|string|Defines the minimum required tick size for the order's price|
 |quote_denom|string|Coin denom of the quote asset|
@@ -202,7 +202,7 @@ def main() -> None:
 
 ## StreamMarkets
 
-Stream live updates of spot markets
+Stream live updates of spot markets.
 
 
 ### Request Parameters
@@ -261,7 +261,7 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|market|array|Array of SpotMarketInfo|
+|market|SpotMarketInfo|Array of SpotMarketInfo|
 |operation_type|string|Update type (Should be one of: [insert replace update invalidate]) |
 |timestamp|integer|Operation timestamp in UNIX millis|
 
@@ -273,9 +273,9 @@ def main() -> None:
 |market_id|string|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
 |market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
 |min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
-|quote_token_meta|array|Array of TokenMeta|
+|quote_token_meta|TokenMeta|Array of TokenMeta|
 |service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
-|base_token_meta|array|Array of TokenMeta|
+|base_token_meta|TokenMeta|Array of TokenMeta|
 |maker_fee_rate|string|Defines the fee percentage makers pay when trading (in the quote asset)|
 |min_price_tick_size|string|Defines the minimum required tick size for the order's price|
 |quote_denom|string|Coin denom of the quote asset|
@@ -363,7 +363,7 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|orders|array|Array of SpotLimitOrder|
+|orders|SpotLimitOrder|Array of SpotLimitOrder|
 
 **SpotLimitOrder**
 
@@ -457,7 +457,7 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|order|array|Array of SpotLimitOrder|
+|order|SpotLimitOrder|Array of SpotLimitOrder|
 |operation_type|string|Order update type (Should be one of: [insert replace update invalidate]) |
 |timestamp|integer|Operation timestamp in UNIX millis|
 
@@ -552,7 +552,7 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|trades|array|Array of SpotTrade|
+|trades|SpotTrade|Array of SpotTrade|
 
 **SpotTrade**
 
@@ -563,7 +563,7 @@ def main() -> None:
 |fee|string|The fee associated with the trade (quote asset denom)|
 |market_id|string|Filter by the market ID|
 |order_hash|string|The order hash|
-|price|array|Array of PriceLevel|
+|price|PriceLevel|Array of PriceLevel|
 |subaccount_id|string|Filter by the subaccount ID|
 |executed_at|integer|Timestamp of trade execution in UNIX millis|
 
@@ -638,7 +638,7 @@ def main() -> None:
 |----|----|----|
 |operation_type|string|Trade operation type (Should be one of: [insert invalidate]) |
 |timestamp|integer|Operation timestamp in UNIX millis|
-|trade|array|Array of SpotTrade|
+|trade|SpotTrade|Array of SpotTrade|
 
 **SpotTrade**
 
@@ -649,7 +649,7 @@ def main() -> None:
 |fee|string|The fee associated with the trade (quote asset denom)|
 |market_id|string|Filter by the market ID|
 |order_hash|string|The order hash|
-|price|array|Array of PriceLevel|
+|price|PriceLevel|Array of PriceLevel|
 |subaccount_id|string|Filter by the subaccount ID|
 |executed_at|integer|Timestamp of trade execution in UNIX millis|
 
@@ -729,14 +729,14 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|orderbook|array|Array of SpotLimitOrderbook|
+|orderbook|SpotLimitOrderbook|Array of SpotLimitOrderbook|
 
 **SpotLimitOrderbook**
 
 |Parameter|Type|Description|
 |----|----|----|
-|buys|array|Array of PriceLevel|
-|sells|array|Array of PriceLevel|
+|buys|PriceLevel|Array of PriceLevel|
+|sells|PriceLevel|Array of PriceLevel|
 
 **PriceLevel**
 
@@ -748,7 +748,7 @@ def main() -> None:
 
 ## StreamOrderbook
 
-Stream the orderbook of a spot market
+Stream the orderbook of a spot market.
 
 
 ### Request Parameters
@@ -806,15 +806,15 @@ def main() -> None:
 |Parameter|Type|Description|
 |----|----|----|
 |operation_type|string|Order update type (Should be one of: [insert replace update invalidate]) |
-|orderbook|array|Array of SpotLimitOrderbook|
+|orderbook|SpotLimitOrderbook|Array of SpotLimitOrderbook|
 |timestamp|integer|Operation timestamp in UNIX millis|
 
 **SpotLimitOrderbook**
 
 |Parameter|Type|Description|
 |----|----|----|
-|buys|array|Array of PriceLevel|
-|sells|array|Array of PriceLevel|
+|buys|PriceLevel|Array of PriceLevel|
+|sells|PriceLevel|Array of PriceLevel|
 
 **PriceLevel**
 
@@ -827,7 +827,7 @@ def main() -> None:
 
 ## StreamOrderbooks
 
-Stream orderbook updates for an array of spot markets
+Stream orderbook updates for an array of spot markets.
 
 
 ### Request Parameters
@@ -886,7 +886,7 @@ def main() -> None:
 |Parameter|Type|Description|
 |----|----|----|
 |operation_type|string|Order update type (Should be one of: [insert replace update invalidate]) |
-|orderbook|array|Array of SpotLimitOrderbook|
+|orderbook|SpotLimitOrderbook|Array of SpotLimitOrderbook|
 |timestamp|integer|Operation timestamp in UNIX millis|
 |market_id|string|Filter by market ID|
 
@@ -894,8 +894,8 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|buys|array|Array of PriceLevel|
-|sells|array|Array of PriceLevel|
+|buys|PriceLevel|Array of PriceLevel|
+|sells|PriceLevel|Array of PriceLevel|
 
 **PriceLevel**
 
@@ -909,7 +909,7 @@ def main() -> None:
 
 ## SubaccountOrdersList
 
-Get orders of a subaccount
+Get orders of a subaccount.
 
 ### Request Parameters
 > Request Example:
@@ -930,8 +930,8 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|string|Filter by Subaccount ID|Yes|
-|market_id|string|Filter by Market ID|No|
+|subaccount_id|string|Filter by subaccount ID|Yes|
+|market_id|string|Filter by market ID|No|
 
 
 ### Response Parameters
@@ -971,7 +971,7 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|orders|array|Array of SpotLimitOrder|
+|orders|SpotLimitOrder|Array of SpotLimitOrder|
 
 **SpotLimitOrder**
 
@@ -992,7 +992,7 @@ def main() -> None:
 
 ## SubaccountTradesList
 
-Get trades of a subaccount
+Get trades of a subaccount.
 
 
 ### Request Parameters
@@ -1060,7 +1060,7 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|trades|array|Array of SpotTrade|
+|trades|SpotTrade|Array of SpotTrade|
 
 **SpotTrade**
 
@@ -1071,7 +1071,7 @@ def main() -> None:
 |fee|string|The fee associated with the trade (quote asset denom)|
 |market_id|string|Filter by the market ID|
 |order_hash|string|The order hash|
-|price|array|Array of PriceLevel|
+|price|PriceLevel|Array of PriceLevel|
 |subaccount_id|string|Filter by the subaccount ID|
 |executed_at|integer|Timestamp of trade execution in UNIX millis|
 

@@ -107,7 +107,7 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|transfers|array|Array of SubaccountBalanceTransfer|
+|transfers|SubaccountBalanceTransfer|Array of SubaccountBalanceTransfer|
 
 **SubaccountBalanceTransfer**
 
@@ -175,14 +175,14 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|balance|array|Array of SubaccountBalance|
+|balance|SubaccountBalance|Array of SubaccountBalance|
 
 **SubaccountBalance**
 
 |Parameter|Type|Description|
 |----|----|----|
 |denom|string|Coin denom on the chain|
-|deposit|array|Array of SubaccountDeposit|
+|deposit|SubaccountDeposit|Array of SubaccountDeposit|
 |subaccount_id|string|Filter by subaccount ID|
 |account_address|string|The Injective Chain address|
 
@@ -260,7 +260,7 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|balances|array|Array of SubaccountBalance|
+|balances|SubaccountBalance|Array of SubaccountBalance|
 
 **SubaccountBalance**
 
@@ -268,7 +268,7 @@ def main() -> None:
 |----|----|----|
 |account_address|string|The Injective Chain address|
 |denom|string|Coin denom on the chain|
-|deposit|array|Array of SubaccountDeposit|
+|deposit|SubaccountDeposit|Array of SubaccountDeposit|
 |subaccount_id|string|Filter by subaccount ID|
 
 **SubaccountDeposit**
@@ -372,7 +372,7 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|balance|array|Array of SubaccountBalance|
+|balance|SubaccountBalance|Array of SubaccountBalance|
 |timestamp|integer|Operation timestamp in UNIX millis|
 
 **SubaccountBalance**
@@ -380,7 +380,7 @@ def main() -> None:
 |Parameter|Type|Description|
 |----|----|----|
 |denom|string|Coin denom on the chain|
-|deposit|array|Array of SubaccountDeposit|
+|deposit|SubaccountDeposit|Array of SubaccountDeposit|
 |subaccount_id|string|Filter by subaccount ID|
 |account_address|string|The Injective Chain address|
 
@@ -479,8 +479,8 @@ def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|spot_order_states|array|Array of SpotOrderStates|
-|derivative_order_states|array|Array of DerivativeOrderStates|
+|spot_order_states|SpotOrderStates|Array of SpotOrderStates|
+|derivative_order_states|DerivativeOrderStates|Array of DerivativeOrderStates|
 
 **SpotOrderStates**
 
