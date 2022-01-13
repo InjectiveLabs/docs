@@ -544,7 +544,8 @@ def main() -> None:
     "timestamp": 1634818450613
   },
   "fee": "804360",
-  "executed_at": 1634818450613
+  "executed_at": 1634818450613,
+  "fee_recipient": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
 }
 
 }
@@ -566,6 +567,8 @@ def main() -> None:
 |price|PriceLevel|Array of PriceLevel|
 |subaccount_id|string|Filter by the subaccount ID|
 |executed_at|integer|Timestamp of trade execution in UNIX millis|
+|fee_recipient|string|The address that received 40% of the fees|
+
 
 **PriceLevel**
 
@@ -629,7 +632,8 @@ def main() -> None:
     },
     "subaccount_id": "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1000000000000000000000002",
     "trade_direction": "buy",
-    "trade_execution_type": "market"
+    "trade_execution_type": "market",
+    "fee_recipient": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
   }
 }
 ```
@@ -652,6 +656,8 @@ def main() -> None:
 |price|PriceLevel|Array of PriceLevel|
 |subaccount_id|string|Filter by the subaccount ID|
 |executed_at|integer|Timestamp of trade execution in UNIX millis|
+|fee_recipient|string|The address that received 40% of the fees|
+
 
 **PriceLevel**
 
@@ -1052,7 +1058,8 @@ def main() -> None:
     "timestamp": 1633088723991
   },
   "fee": "7127250",
-  "executed_at": 1633088723991
+  "executed_at": 1633088723991,
+  "fee_recipient": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
 }
 
 }
@@ -1074,6 +1081,7 @@ def main() -> None:
 |price|PriceLevel|Array of PriceLevel|
 |subaccount_id|string|Filter by the subaccount ID|
 |executed_at|integer|Timestamp of trade execution in UNIX millis|
+|fee_recipient|string|The address that received 40% of the fees|
 
 **PriceLevel**
 
