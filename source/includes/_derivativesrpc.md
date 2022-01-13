@@ -5,7 +5,6 @@ InjectiveDerivativeExchangeRPC defines the gRPC API of the Derivative Exchange p
 
 Get details of a derivative market.
 
-
 ### Request Parameters
 > Request Example:
 
@@ -652,7 +651,8 @@ def main() -> None:
   },
   "payout": "65693228106.612872505612710833",
   "fee": "63003464.233333333333333333",
-  "executed_at": 1634816869894
+  "executed_at": 1634816869894,
+  "fee_recipient": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
 }
 
 }
@@ -675,6 +675,7 @@ def main() -> None:
 |market_id|string|The market ID|
 |order_hash|string|The order hash|
 |payout|string|The payout associated with the trade|
+|fee_recipient|string|The address that received 40% of the fees|
 
 **PositionDelta**
 
@@ -759,7 +760,8 @@ def main() -> None:
   "executed_at": 1634817291783
 },
 "operation_type": "insert",
-"timestamp": 1634817293000
+"timestamp": 1634817293000,
+"fee_recipient": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
 
 
 }
@@ -785,6 +787,7 @@ def main() -> None:
 |market_id|string|The market ID|
 |order_hash|string|The order hash|
 |payout|string|The payout associated with the trade|
+|fee_recipient|string|The address that received 40% of the fees|
 
 **PositionDelta**
 
@@ -794,7 +797,6 @@ def main() -> None:
 |execution_quantity|string|Execution quantity of the trade|
 |trade_direction|string|The direction the trade (Should be one of: [buy sell]) |
 |execution_margin|string|Execution margin of the trade|
-
 
 ## Positions
 
@@ -1462,7 +1464,8 @@ def main() -> None:
   },
   "payout": "0",
   "fee": "0",
-  "executed_at": 1634062439986
+  "executed_at": 1634062439986,
+  "fee_recipient": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
 }
 
 }
@@ -1485,6 +1488,7 @@ def main() -> None:
 |market_id|string|The market ID|
 |order_hash|string|The order hash|
 |payout|string|The payout associated with the trade|
+|fee_recipient|string|The address that received 40% of the fees|
 
 **PositionDelta**
 
@@ -1494,8 +1498,6 @@ def main() -> None:
 |execution_quantity|string|Execution quantity of the trade|
 |trade_direction|string|The direction the trade (Should be one of: [buy sell]) |
 |execution_margin|string|Execution margin of the trade|
-
-
 
 ## FundingPayments
 
