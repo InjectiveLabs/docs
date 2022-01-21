@@ -35,7 +35,7 @@ Includes all messages related to accounts and transfers.
 
     # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 15000  # add 15k for gas, fee computation
+    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
@@ -166,7 +166,7 @@ Includes all messages related to accounts and transfers.
 
     # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 15000 # add 15k for gas, fee computation
+    gas_limit = sim_res.gas_info.gas_used + 20000 # add 20k for gas, fee computation
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
@@ -308,7 +308,7 @@ Includes all messages related to accounts and transfers.
 
     # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 15000 # add 15k for gas, fee computation
+    gas_limit = sim_res.gas_info.gas_used + 20000 # add 20k for gas, fee computation
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
@@ -453,7 +453,7 @@ Includes all messages related to accounts and transfers.
 
     # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 15000 # add 15k for gas, fee computation
+    gas_limit = sim_res.gas_info.gas_used + 20000 # add 20k for gas, fee computation
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
