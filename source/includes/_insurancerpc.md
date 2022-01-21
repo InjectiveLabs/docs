@@ -16,7 +16,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     insurance_funds = client.get_insurance_funds()
     print(insurance_funds)
 ```
@@ -88,7 +88,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     redeemer = "inj1gxqdj76ul07w4ujsl8403nhhzyvug2h66qk057"
     redemption_denom = "share2"
     status = "disbursed" # disbursed or pending

@@ -16,7 +16,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     oracle_list = client.get_oracle_list()
     print(oracle_list)
 ```
@@ -74,7 +74,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     base_symbol = 'BTC'
     quote_symbol = 'USDT'
     oracle_type = 'bandibc'
@@ -119,7 +119,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     base_symbol = 'BTC'
     quote_symbol = 'USDT'
     oracle_type = 'bandibc'

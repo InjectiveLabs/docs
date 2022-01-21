@@ -16,7 +16,7 @@ from pyinjective.constant import Network
 
 def main() -> None:
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     tx_hash = "CF241CAACFA434DBC38645441FA330743C0F5BEB413FDE6DFCE6082EEB3E3D27"
     account = client.get_tx_by_hash(tx_hash=tx_hash)
     print(account)

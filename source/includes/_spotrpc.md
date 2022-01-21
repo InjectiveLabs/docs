@@ -17,7 +17,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     market = client.get_spot_market(market_id=market_id)
     print(market)
@@ -114,7 +114,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     market_status = "active" # active, paused, suspended, demolished or expired
     base_denom = "inj"
     quote_denom = "peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08"
@@ -215,7 +215,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     markets = client.stream_spot_markets()
     for market in markets:
         print(market)
@@ -310,7 +310,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     order_side = "sell" # buy or sell
     subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
@@ -397,7 +397,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     order_side = "sell" # sell or buy
     subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
@@ -493,7 +493,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
     direction = "buy" # buy or sell
@@ -593,7 +593,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
     execution_side = "maker" # maker or taker
@@ -682,7 +682,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     orderbook = client.get_spot_orderbook(market_id=market_id)
     print(orderbook)
@@ -767,7 +767,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     orderbook = client.stream_spot_orderbook(market_id=market_id)
     for orders in orderbook:
@@ -849,7 +849,7 @@ from pyinjective.constant import Network
 
 def main() -> None:
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     market_ids = ["0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0", "0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31"]
     orderbook = client.stream_spot_orderbooks(market_ids=market_ids)
     for orders in orderbook:
@@ -933,7 +933,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     orders = client.get_spot_subaccount_orders(subaccount_id=subaccount_id, market_id=market_id)
@@ -1017,7 +1017,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     direction = "buy" # buy or sell

@@ -17,7 +17,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
     subacc_list = client.get_subaccount_list(account_address)
     print(subacc_list)
@@ -60,7 +60,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     subaccount = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     denom = "inj"
     transfer_types = ["withdraw", "deposit"] # Enum with values "withdraw", "deposit", "internal", "external"
@@ -142,7 +142,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     denom = "inj"
     balance = client.get_subaccount_balance(subaccount_id=subaccount_id, denom=denom)
@@ -209,7 +209,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     subaccount = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     subacc_balances_list = client.get_subaccount_balances_list(subaccount)
     print(subacc_balances_list)
@@ -292,7 +292,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     subaccount = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     order_direction = "buy" #buy or sell
@@ -339,7 +339,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     subaccount = client.stream_subaccount_balance(subaccount_id)
     for balance in subaccount:
@@ -406,7 +406,7 @@ from pyinjective.constant import Network
 
 def main() -> None:
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     spot_order_hashes = ["0xce0d9b701f77cd6ddfda5dd3a4fe7b2d53ba83e5d6c054fb2e9e886200b7b7bb", "0x2e2245b5431638d76c6e0cc6268970418a1b1b7df60a8e94b8cf37eae6105542"]
     derivative_order_hashes = ["0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50", "0xbb1f036001378cecb5fff1cc69303919985b5bf058c32f37d5aaf9b804c07a06"]
     
@@ -527,7 +527,7 @@ from pyinjective.constant import Network
 
 def main() -> None:
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
     portfolio = client.get_portfolio(account_address=account_address)
     print(portfolio)
@@ -582,7 +582,7 @@ from pyinjective.constant import Network
 
 async def main() -> None:
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     account_address = "inj13q8u96uftm0d7ljcf6hdp0uj5tyqrwftmxllaq"
     epoch = 2
     rewards = client.get_rewards(account_address=account_address, epoch=epoch)
