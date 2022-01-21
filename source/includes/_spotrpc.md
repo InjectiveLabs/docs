@@ -776,7 +776,7 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by Market ID|Yes|
+|market_id|string|Filter by market ID|Yes|
 
 
 
@@ -786,26 +786,30 @@ def main() -> None:
 ``` json
 {
   "orderbook": {
-    "buys": [
-      {
-        "price": "1460000000000000000",
-        "quantity": "20",
-        "timestamp": 1544614248000
-      },
-      {
-        "price": "1250000000000000000",
-        "quantity": "40",
-        "timestamp": 163213580000
-      },
-      {
-        "price": "1310000000000000000",
-        "quantity": "35",
-        "timestamp": 164376879000
-      },
-    ]
+    "buys": {
+      "price": "0.000000000005616",
+      "quantity": "32000000000000000000",
+      "timestamp": 1642702243902,
+    },
+    "buys": {
+      "price": "0.00000000000561",
+      "quantity": "36000000000000000000",
+      "timestamp": 1642585507231
+    },
+    "sells": {
+      "price": "0.000000000006069",
+      "quantity": "46000000000000000000",
+      "timestamp": 1642753915151
+    },
+    "sells": {
+      "price": "0.000000000006089",
+      "quantity": "46000000000000000000",
+      "timestamp": 1642753915151
+    }
   },
   "operation_type": "update",
-  "timestamp": 165768323400
+  "timestamp": 1642755027000,
+  "market_id":"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
 }
 ```
 
@@ -854,7 +858,7 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_ids|array|Filter by Market IDs|Yes|
+|market_ids|array|Filter by market IDs|Yes|
 
 
 
@@ -863,29 +867,31 @@ def main() -> None:
 
 ``` json
 {
-  "orderbook": {
-    "buys": [
-      {
-        "price": "1510000000000000000",
-        "quantity": "50",
-        "timestamp": 1532768892100
-      },
-      {
-        "price": "1570000000000000000",
-        "quantity": "37",
-        "timestamp": 1544614248000
-      },
-      {
-        "price": "1620000000000000000",
-        "quantity": "32",
-        "timestamp": 1621274440540
-      },
-    ]
+  "orderbooks": {
+    "buys": {
+      "price": "0.000000000005616",
+      "quantity": "32000000000000000000",
+      "timestamp": 1642702243902,
+    },
+    "buys": {
+      "price": "0.00000000000561",
+      "quantity": "36000000000000000000",
+      "timestamp": 1642585507231
+    },
+    "sells": {
+      "price": "0.000000000006069",
+      "quantity": "46000000000000000000",
+      "timestamp": 1642753915151
+    },
+    "sells": {
+      "price": "0.000000000006089",
+      "quantity": "46000000000000000000",
+      "timestamp": 1642753915151
+    }
   },
   "operation_type": "update",
-  "timestamp": 1622764487000,
-  "market_id": "0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31"
-
+  "timestamp": 1642755027000,
+  "market_id":"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
 }
 ```
 
