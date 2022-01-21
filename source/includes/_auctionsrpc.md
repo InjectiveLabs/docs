@@ -15,7 +15,7 @@ from pyinjective.constant import Network
 
 def main() -> None:
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     action_round = 12
     auction = client.get_auction(bid_round=action_round)
     print(auction)
@@ -102,7 +102,7 @@ from pyinjective.constant import Network
 
 def main() -> None:
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     auctions = client.get_auctions()
     print(auctions)
 ```
@@ -192,7 +192,7 @@ from pyinjective.constant import Network
 
 def main() -> None:
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     bids = client.stream_bids()
     for bid in bids:
         print(bid)

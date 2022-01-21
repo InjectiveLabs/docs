@@ -105,12 +105,15 @@ Includes all messages and queries related to the Authz module. Authz is an imple
 ``` python
     # prepare tx msg
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-    granter = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+
     grantee = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+    granter_inj_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+    granter_address = Address.from_acc_bech32(granter_inj_address)
+    granter_subaccount_id = granter_address.get_subaccount_id(index=0)
     msg0 = composer.MsgCreateSpotLimitOrder(
-        sender=granter,
+        sender=granter_inj_address,
         market_id=market_id,
-        subaccount_id=subaccount_id,
+        subaccount_id=granter_subaccount_id,
         fee_recipient=grantee,
         price=7.523,
         quantity=0.01,
@@ -300,7 +303,7 @@ from pyinjective.constant import Network
 
 def main() -> None:
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     granter = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
     grantee = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
     msg_type_url = "/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"

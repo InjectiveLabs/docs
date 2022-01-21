@@ -16,7 +16,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     resp = client.ping()
     print('Health OK?', resp)
 ```
@@ -44,7 +44,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     resp = client.version()
     print(resp)
 ```
@@ -90,7 +90,7 @@ from pyinjective.constant import Network
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
     resp = client.info()
     print('[!] Info:')
     print(resp)
@@ -145,7 +145,7 @@ import asyncio
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=True)
+    client = Client(network, insecure=False)
 
     task1 = asyncio.create_task(get_markets(client))
     task2 = asyncio.create_task(keepalive(client, [task1]))
