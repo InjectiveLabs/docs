@@ -76,7 +76,8 @@ Includes all messages related to derivative markets.
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
 |is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
-|leverage|float|The leverage factor for the order|Yes|
+|leverage|float|The leverage factor for the order|No|
+|is_reduce_only|boolean|Set to true or false for reduce-only or normal orders respectively|No|
 
 > Response Example:
 
@@ -170,7 +171,7 @@ Includes all messages related to derivative markets.
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
 |is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
-|leverage|float|The leverage factor for the order|Yes|
+|leverage|float|The leverage factor for the order|No|
 |is_reduce_only|boolean|Set to true or false for reduce-only or normal orders respectively|No|
 
 
