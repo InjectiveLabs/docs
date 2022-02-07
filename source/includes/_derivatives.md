@@ -8,72 +8,25 @@ Includes all messages related to derivative markets.
 
 ``` python
     # prepare trade info
-    derivative_market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+    market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
-    derivative_orders_1 = [
-        composer.DerivativeOrder(
-            market_id=derivative_market_id,
-            subaccount_id=subaccount_id,
-            fee_recipient=fee_recipient,
-            price=31027,
-            quantity=0.01,
-            leverage=0.7,
-            is_buy=True,
-        ),
-        composer.DerivativeOrder(
-            market_id=derivative_market_id,
-            subaccount_id=subaccount_id,
-            fee_recipient=fee_recipient,
-            price=62140,
-            quantity=0.01,
-            leverage=0.7,
-            is_buy=False,
-            is_reduce_only=False
-        ),
-    ]
-
-    derivative_orders_2 = [
-        composer.DerivativeOrder(
-            market_id=derivative_market_id,
-            subaccount_id=subaccount_id,
-            fee_recipient=fee_recipient,
-            price=31050,
-            quantity=0.01,
-            leverage=0.7,
-            is_buy=True,
-        ),
-        composer.DerivativeOrder(
-            market_id=derivative_market_id,
-            subaccount_id=subaccount_id,
-            fee_recipient=fee_recipient,
-            price=62300,
-            quantity=0.01,
-            leverage=0.7,
-            is_buy=False,
-            is_reduce_only=False
-        ),
-    ]
-
     # prepare tx msg
-    derivative_msg_1 = composer.MsgBatchCreateDerivativeLimitOrders(
+    msg = composer.MsgCreateDerivativeMarketOrder(
         sender=address.to_acc_bech32(),
-        orders=derivative_orders_1
+        market_id=market_id,
+        subaccount_id=subaccount_id,
+        fee_recipient=fee_recipient,
+        price=50000,
+        quantity=0.01,
+        leverage=3,
+        is_buy=True
     )
-
-    derivative_msg_2 = composer.MsgBatchCreateDerivativeLimitOrders(
-        sender=address.to_acc_bech32(),
-        orders=derivative_orders_2
-    )
-
-    # compute order hashes
-    order_hashes = compute_order_hashes(network, derivative_orders_1 + derivative_orders_2)
-    print("The order hashes: ", order_hashes)
 
     # build sim tx
     tx = (
         Transaction()
-        .with_messages(derivative_msg_1,derivative_msg_2)
+        .with_messages(msg)
         .with_sequence(address.get_sequence())
         .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
@@ -104,10 +57,14 @@ Includes all messages related to derivative markets.
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
-    
+
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
     res_msg = ProtoMsgComposer.MsgResponses(res.data)
+    print("tx response")
+    print(res)
+    print("tx msg response")
+    print(res_msg)
 ```
 
 |Parameter|Type|Description|Required|
@@ -320,42 +277,72 @@ Includes all messages related to derivative markets.
 
 ``` python
     # prepare trade info
-    market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"
+    derivative_market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
-    orders = [
+    derivative_orders_1 = [
         composer.DerivativeOrder(
-            market_id=market_id,
+            market_id=derivative_market_id,
             subaccount_id=subaccount_id,
             fee_recipient=fee_recipient,
-            price=41027,
+            price=31027,
             quantity=0.01,
             leverage=0.7,
             is_buy=True,
-            is_reduce_only=False
         ),
         composer.DerivativeOrder(
-            market_id=market_id,
+            market_id=derivative_market_id,
             subaccount_id=subaccount_id,
             fee_recipient=fee_recipient,
             price=62140,
             quantity=0.01,
-            leverage=1.4,
+            leverage=0.7,
+            is_buy=False,
+            is_reduce_only=False
+        ),
+    ]
+
+    derivative_orders_2 = [
+        composer.DerivativeOrder(
+            market_id=derivative_market_id,
+            subaccount_id=subaccount_id,
+            fee_recipient=fee_recipient,
+            price=31050,
+            quantity=0.01,
+            leverage=0.7,
+            is_buy=True,
+        ),
+        composer.DerivativeOrder(
+            market_id=derivative_market_id,
+            subaccount_id=subaccount_id,
+            fee_recipient=fee_recipient,
+            price=62300,
+            quantity=0.01,
+            leverage=0.7,
             is_buy=False,
             is_reduce_only=False
         ),
     ]
 
     # prepare tx msg
-    msg = composer.MsgBatchCreateDerivativeLimitOrders(
+    derivative_msg_1 = composer.MsgBatchCreateDerivativeLimitOrders(
         sender=address.to_acc_bech32(),
-        orders=orders
+        orders=derivative_orders_1
     )
+
+    derivative_msg_2 = composer.MsgBatchCreateDerivativeLimitOrders(
+        sender=address.to_acc_bech32(),
+        orders=derivative_orders_2
+    )
+
+    # compute order hashes
+    order_hashes = compute_order_hashes(network, derivative_orders_1 + derivative_orders_2)
+    print("The order hashes: ", order_hashes)
 
     # build sim tx
     tx = (
         Transaction()
-        .with_messages(msg)
+        .with_messages(derivative_msg_1,derivative_msg_2)
         .with_sequence(address.get_sequence())
         .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
@@ -365,18 +352,18 @@ Includes all messages related to derivative markets.
     sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (sim_res, success) = client.simulate_tx(sim_tx_raw_bytes)
+    (simRes, success) = client.simulate_tx(sim_tx_raw_bytes)
     if not success:
-        print(sim_res)
+        print(simRes)
         return
 
-    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res.result.data, simulation=True)
+    sim_res_msg = ProtoMsgComposer.MsgResponses(simRes.result.data, simulation=True)
     print("simulation msg response")
     print(sim_res_msg)
 
     # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 20000 # add 20k for gas, fee computation
+    gas_limit = simRes.gas_info.gas_used + 20000 # add 20k for gas, fee computation
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
@@ -386,14 +373,10 @@ Includes all messages related to derivative markets.
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
-
+    
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
     res_msg = ProtoMsgComposer.MsgResponses(res.data)
-    print("tx response")
-    print(res)
-    print("tx msg response")
-    print(res_msg)
 ```
 
 |Parameter|Type|Description|Required|
@@ -420,14 +403,13 @@ Includes all messages related to derivative markets.
 ``` json
 {
 
-"simulation msg response"
-"order_hashes": "0xfcbedb1f8135204e7d8b8e6e683042e61834435fb7841b9ef243ef7196ec6938",
-"order_hashes": "0x0d19f6a10ad017abeac1b14070fec5d044128e40902085654f4da4055a8f6510",
-"tx response"
-"txhash": "B74104A1EC4C7000C421236D78EE29157DE1B857268EC834024BD44401B2B9B2",
-
-"tx msg response":
-"[]"
+"The order hashes:  ['0xac3c9bae97a9c3ce57c2f2487be919daa331c29c5017e74df787da0d49a04999', '0x25de3e25526da06014ad81c0bdbba2bff4f0307330c221d9be98e1276aa5b5ff', '0xe24842add4f298ed55def0e07bf448535e3f75efe787b629e7d01e592c53d29a', '0x2c79b71391dceaff5d492577410f20ecf6b7dfccca22aaf25cf978e8551a66cc']"
+"simulation msg response":
+["order_hashes:" "0xac3c9bae97a9c3ce57c2f2487be919daa331c29c5017e74df787da0d49a04999",
+"order_hashes:" "0x25de3e25526da06014ad81c0bdbba2bff4f0307330c221d9be98e1276aa5b5ff",
+"order_hashes:" "0xe24842add4f298ed55def0e07bf448535e3f75efe787b629e7d01e592c53d29a",
+"order_hashes:" "0x2c79b71391dceaff5d492577410f20ecf6b7dfccca22aaf25cf978e8551a66cc"
+]
 
 }
 ```

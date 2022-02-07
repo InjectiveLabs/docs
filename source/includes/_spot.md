@@ -388,14 +388,16 @@ Includes all messages related to spot markets.
 ``` json
 {
 
-"simulation msg response"
-"order_hashes": "0x101ee98abc9a5922689ae070f64fedae78728bf73a822a91498b68793ac7b7e7",
-"order_hashes": "0x3d2750114faabe76c2433fd0eeb1e4e9be771ee3acac63c3689b880fb27227a2",
-"tx response"
-"txhash": "EE44F89530C1EAD7598872B86F73621190381A2DCE9A9446F9C5A839960DD323",
+"starting subaccount nonce 2193"
+"The order hashes:  ['0x109bd433d44a2a4a771a30b4aa1eccc1d97e02fae064fe2273297893ce39b0cb', '0xc1dd07efb7cf3a90c3d09da958fa22d96a5787eba3dbec56b63902c482accbd4', '0xc1f0e5065d573544705bc13c0809fd2568d231e19c2801fe5878852eb9c8b6e9', '0x18880a54de8d741562e13ad5cf48ce288a20bdd93d8d0a23b0cb5e9d83662efd']"
 
-"tx msg response":
-"[]"
+"simulation msg response":
+
+["order_hashes:" "0x109bd433d44a2a4a771a30b4aa1eccc1d97e02fae064fe2273297893ce39b0cb",
+"order_hashes:" "0xc1dd07efb7cf3a90c3d09da958fa22d96a5787eba3dbec56b63902c482accbd4",
+"order_hashes:" "0xc1f0e5065d573544705bc13c0809fd2568d231e19c2801fe5878852eb9c8b6e9",
+"order_hashes:" "0x18880a54de8d741562e13ad5cf48ce288a20bdd93d8d0a23b0cb5e9d83662efd"
+]
 
 }
 ```
