@@ -8755,72 +8755,25 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <p>Request Example:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight python tab-python"><code>    <span class="c1"># prepare trade info
-</span>    <span class="n">derivative_market_id</span> <span class="o">=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
     <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
 
-    <span class="n">derivative_orders_1</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">composer</span><span class="p">.</span><span class="n">DerivativeOrder</span><span class="p">(</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">derivative_market_id</span><span class="p">,</span>
-            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
-            <span class="n">price</span><span class="o">=</span><span class="mi">31027</span><span class="p">,</span>
-            <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-            <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">composer</span><span class="p">.</span><span class="n">DerivativeOrder</span><span class="p">(</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">derivative_market_id</span><span class="p">,</span>
-            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
-            <span class="n">price</span><span class="o">=</span><span class="mi">62140</span><span class="p">,</span>
-            <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-            <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-            <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
-        <span class="p">),</span>
-    <span class="p">]</span>
-
-    <span class="n">derivative_orders_2</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">composer</span><span class="p">.</span><span class="n">DerivativeOrder</span><span class="p">(</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">derivative_market_id</span><span class="p">,</span>
-            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
-            <span class="n">price</span><span class="o">=</span><span class="mi">31050</span><span class="p">,</span>
-            <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-            <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">composer</span><span class="p">.</span><span class="n">DerivativeOrder</span><span class="p">(</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">derivative_market_id</span><span class="p">,</span>
-            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
-            <span class="n">price</span><span class="o">=</span><span class="mi">62300</span><span class="p">,</span>
-            <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-            <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-            <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
-        <span class="p">),</span>
-    <span class="p">]</span>
-
     <span class="c1"># prepare tx msg
-</span>    <span class="n">derivative_msg_1</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgBatchCreateDerivativeLimitOrders</span><span class="p">(</span>
+</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgCreateDerivativeMarketOrder</span><span class="p">(</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
-        <span class="n">orders</span><span class="o">=</span><span class="n">derivative_orders_1</span>
+        <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
+        <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+        <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+        <span class="n">price</span><span class="o">=</span><span class="mi">50000</span><span class="p">,</span>
+        <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+        <span class="n">leverage</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span>
     <span class="p">)</span>
-
-    <span class="n">derivative_msg_2</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgBatchCreateDerivativeLimitOrders</span><span class="p">(</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
-        <span class="n">orders</span><span class="o">=</span><span class="n">derivative_orders_2</span>
-    <span class="p">)</span>
-
-    <span class="c1"># compute order hashes
-</span>    <span class="n">order_hashes</span> <span class="o">=</span> <span class="n">compute_order_hashes</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">derivative_orders_1</span> <span class="o">+</span> <span class="n">derivative_orders_2</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"The order hashes: "</span><span class="p">,</span> <span class="n">order_hashes</span><span class="p">)</span>
 
     <span class="c1"># build sim tx
 </span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Transaction</span><span class="p">()</span>
-        <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">derivative_msg_1</span><span class="p">,</span><span class="n">derivative_msg_2</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="p">.</span><span class="n">with_sequence</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_sequence</span><span class="p">())</span>
         <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
         <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
@@ -8855,6 +8808,10 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
     <span class="n">res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res_msg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -9180,42 +9137,72 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <p>Request Example:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight python tab-python"><code>    <span class="c1"># prepare trade info
-</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"</span>
+</span>    <span class="n">derivative_market_id</span> <span class="o">=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
     <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
 
-    <span class="n">orders</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">derivative_orders_1</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">composer</span><span class="p">.</span><span class="n">DerivativeOrder</span><span class="p">(</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">derivative_market_id</span><span class="p">,</span>
             <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
             <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
-            <span class="n">price</span><span class="o">=</span><span class="mi">41027</span><span class="p">,</span>
+            <span class="n">price</span><span class="o">=</span><span class="mi">31027</span><span class="p">,</span>
             <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
             <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
             <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-            <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
         <span class="p">),</span>
         <span class="n">composer</span><span class="p">.</span><span class="n">DerivativeOrder</span><span class="p">(</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">derivative_market_id</span><span class="p">,</span>
             <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
             <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
             <span class="n">price</span><span class="o">=</span><span class="mi">62140</span><span class="p">,</span>
             <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-            <span class="n">leverage</span><span class="o">=</span><span class="mf">1.4</span><span class="p">,</span>
+            <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+            <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
+        <span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="n">derivative_orders_2</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">DerivativeOrder</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">derivative_market_id</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+            <span class="n">price</span><span class="o">=</span><span class="mi">31050</span><span class="p">,</span>
+            <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+            <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">DerivativeOrder</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">derivative_market_id</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+            <span class="n">price</span><span class="o">=</span><span class="mi">62300</span><span class="p">,</span>
+            <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+            <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
             <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
             <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
         <span class="p">),</span>
     <span class="p">]</span>
 
     <span class="c1"># prepare tx msg
-</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgBatchCreateDerivativeLimitOrders</span><span class="p">(</span>
+</span>    <span class="n">derivative_msg_1</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgBatchCreateDerivativeLimitOrders</span><span class="p">(</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
-        <span class="n">orders</span><span class="o">=</span><span class="n">orders</span>
+        <span class="n">orders</span><span class="o">=</span><span class="n">derivative_orders_1</span>
     <span class="p">)</span>
+
+    <span class="n">derivative_msg_2</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgBatchCreateDerivativeLimitOrders</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+        <span class="n">orders</span><span class="o">=</span><span class="n">derivative_orders_2</span>
+    <span class="p">)</span>
+
+    <span class="c1"># compute order hashes
+</span>    <span class="n">order_hashes</span> <span class="o">=</span> <span class="n">compute_order_hashes</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">derivative_orders_1</span> <span class="o">+</span> <span class="n">derivative_orders_2</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"The order hashes: "</span><span class="p">,</span> <span class="n">order_hashes</span><span class="p">)</span>
 
     <span class="c1"># build sim tx
 </span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Transaction</span><span class="p">()</span>
-        <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">derivative_msg_1</span><span class="p">,</span><span class="n">derivative_msg_2</span><span class="p">)</span>
         <span class="p">.</span><span class="n">with_sequence</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_sequence</span><span class="p">())</span>
         <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
         <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
@@ -9225,18 +9212,18 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
 
     <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+</span>    <span class="p">(</span><span class="n">simRes</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">simRes</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">simRes</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span> <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">simRes</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span> <span class="c1"># add 20k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
@@ -9250,10 +9237,6 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
     <span class="n">res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"tx msg response"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">res_msg</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -9342,14 +9325,13 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
 
-</span><span class="s2">"simulation msg response"</span><span class="w">
-</span><span class="nl">"order_hashes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xfcbedb1f8135204e7d8b8e6e683042e61834435fb7841b9ef243ef7196ec6938"</span><span class="p">,</span><span class="w">
-</span><span class="nl">"order_hashes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0d19f6a10ad017abeac1b14070fec5d044128e40902085654f4da4055a8f6510"</span><span class="p">,</span><span class="w">
-</span><span class="s2">"tx response"</span><span class="w">
-</span><span class="nl">"txhash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"B74104A1EC4C7000C421236D78EE29157DE1B857268EC834024BD44401B2B9B2"</span><span class="p">,</span><span class="w">
-
-</span><span class="nl">"tx msg response"</span><span class="p">:</span><span class="w">
-</span><span class="s2">"[]"</span><span class="w">
+</span><span class="s2">"The order hashes:  ['0xac3c9bae97a9c3ce57c2f2487be919daa331c29c5017e74df787da0d49a04999', '0x25de3e25526da06014ad81c0bdbba2bff4f0307330c221d9be98e1276aa5b5ff', '0xe24842add4f298ed55def0e07bf448535e3f75efe787b629e7d01e592c53d29a', '0x2c79b71391dceaff5d492577410f20ecf6b7dfccca22aaf25cf978e8551a66cc']"</span><span class="w">
+</span><span class="nl">"simulation msg response"</span><span class="p">:</span><span class="w">
+</span><span class="p">[</span><span class="s2">"order_hashes:"</span><span class="w"> </span><span class="s2">"0xac3c9bae97a9c3ce57c2f2487be919daa331c29c5017e74df787da0d49a04999"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"order_hashes:"</span><span class="w"> </span><span class="s2">"0x25de3e25526da06014ad81c0bdbba2bff4f0307330c221d9be98e1276aa5b5ff"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"order_hashes:"</span><span class="w"> </span><span class="s2">"0xe24842add4f298ed55def0e07bf448535e3f75efe787b629e7d01e592c53d29a"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"order_hashes:"</span><span class="w"> </span><span class="s2">"0x2c79b71391dceaff5d492577410f20ecf6b7dfccca22aaf25cf978e8551a66cc"</span><span class="w">
+</span><span class="p">]</span><span class="w">
 
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><h2 id='derivatives-msgbatchcancelderivativeorders'>MsgBatchCancelDerivativeOrders</h2><h3 id='derivatives-msgbatchcancelderivativeorders-request-parameters'>Request Parameters</h3>
@@ -10549,14 +10531,16 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
 
-</span><span class="s2">"simulation msg response"</span><span class="w">
-</span><span class="nl">"order_hashes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x101ee98abc9a5922689ae070f64fedae78728bf73a822a91498b68793ac7b7e7"</span><span class="p">,</span><span class="w">
-</span><span class="nl">"order_hashes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x3d2750114faabe76c2433fd0eeb1e4e9be771ee3acac63c3689b880fb27227a2"</span><span class="p">,</span><span class="w">
-</span><span class="s2">"tx response"</span><span class="w">
-</span><span class="nl">"txhash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EE44F89530C1EAD7598872B86F73621190381A2DCE9A9446F9C5A839960DD323"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"starting subaccount nonce 2193"</span><span class="w">
+</span><span class="s2">"The order hashes:  ['0x109bd433d44a2a4a771a30b4aa1eccc1d97e02fae064fe2273297893ce39b0cb', '0xc1dd07efb7cf3a90c3d09da958fa22d96a5787eba3dbec56b63902c482accbd4', '0xc1f0e5065d573544705bc13c0809fd2568d231e19c2801fe5878852eb9c8b6e9', '0x18880a54de8d741562e13ad5cf48ce288a20bdd93d8d0a23b0cb5e9d83662efd']"</span><span class="w">
 
-</span><span class="nl">"tx msg response"</span><span class="p">:</span><span class="w">
-</span><span class="s2">"[]"</span><span class="w">
+</span><span class="nl">"simulation msg response"</span><span class="p">:</span><span class="w">
+
+</span><span class="p">[</span><span class="s2">"order_hashes:"</span><span class="w"> </span><span class="s2">"0x109bd433d44a2a4a771a30b4aa1eccc1d97e02fae064fe2273297893ce39b0cb"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"order_hashes:"</span><span class="w"> </span><span class="s2">"0xc1dd07efb7cf3a90c3d09da958fa22d96a5787eba3dbec56b63902c482accbd4"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"order_hashes:"</span><span class="w"> </span><span class="s2">"0xc1f0e5065d573544705bc13c0809fd2568d231e19c2801fe5878852eb9c8b6e9"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"order_hashes:"</span><span class="w"> </span><span class="s2">"0x18880a54de8d741562e13ad5cf48ce288a20bdd93d8d0a23b0cb5e9d83662efd"</span><span class="w">
+</span><span class="p">]</span><span class="w">
 
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><h2 id='spot-msgbatchcancelspotorders'>MsgBatchCancelSpotOrders</h2><h3 id='spot-msgbatchcancelspotorders-request-parameters'>Request Parameters</h3>
