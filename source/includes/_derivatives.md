@@ -8,25 +8,72 @@ Includes all messages related to derivative markets.
 
 ``` python
     # prepare trade info
-    market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"
+    derivative_market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
+    derivative_orders_1 = [
+        composer.DerivativeOrder(
+            market_id=derivative_market_id,
+            subaccount_id=subaccount_id,
+            fee_recipient=fee_recipient,
+            price=31027,
+            quantity=0.01,
+            leverage=0.7,
+            is_buy=True,
+        ),
+        composer.DerivativeOrder(
+            market_id=derivative_market_id,
+            subaccount_id=subaccount_id,
+            fee_recipient=fee_recipient,
+            price=62140,
+            quantity=0.01,
+            leverage=0.7,
+            is_buy=False,
+            is_reduce_only=False
+        ),
+    ]
+
+    derivative_orders_2 = [
+        composer.DerivativeOrder(
+            market_id=derivative_market_id,
+            subaccount_id=subaccount_id,
+            fee_recipient=fee_recipient,
+            price=31050,
+            quantity=0.01,
+            leverage=0.7,
+            is_buy=True,
+        ),
+        composer.DerivativeOrder(
+            market_id=derivative_market_id,
+            subaccount_id=subaccount_id,
+            fee_recipient=fee_recipient,
+            price=62300,
+            quantity=0.01,
+            leverage=0.7,
+            is_buy=False,
+            is_reduce_only=False
+        ),
+    ]
+
     # prepare tx msg
-    msg = composer.MsgCreateDerivativeMarketOrder(
+    derivative_msg_1 = composer.MsgBatchCreateDerivativeLimitOrders(
         sender=address.to_acc_bech32(),
-        market_id=market_id,
-        subaccount_id=subaccount_id,
-        fee_recipient=fee_recipient,
-        price=60000,
-        quantity=0.01,
-        leverage=3,
-        is_buy=True
+        orders=derivative_orders_1
     )
+
+    derivative_msg_2 = composer.MsgBatchCreateDerivativeLimitOrders(
+        sender=address.to_acc_bech32(),
+        orders=derivative_orders_2
+    )
+
+    # compute order hashes
+    order_hashes = compute_order_hashes(network, derivative_orders_1 + derivative_orders_2)
+    print("The order hashes: ", order_hashes)
 
     # build sim tx
     tx = (
         Transaction()
-        .with_messages(msg)
+        .with_messages(derivative_msg_1,derivative_msg_2)
         .with_sequence(address.get_sequence())
         .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
@@ -57,14 +104,10 @@ Includes all messages related to derivative markets.
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
-
+    
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
     res_msg = ProtoMsgComposer.MsgResponses(res.data)
-    print("tx response")
-    print(res)
-    print("tx msg response")
-    print(res_msg)
 ```
 
 |Parameter|Type|Description|Required|

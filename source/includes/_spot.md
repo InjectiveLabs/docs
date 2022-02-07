@@ -271,38 +271,66 @@ Includes all messages related to spot markets.
 
 ``` python
     # prepare trade info
-    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    spot_market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
-    orders = [
+    spot_orders_1 = [
         composer.SpotOrder(
-            market_id=market_id,
+            market_id=spot_market_id,
             subaccount_id=subaccount_id,
             fee_recipient=fee_recipient,
-            price=7.523,
+            price=3.5,
             quantity=0.01,
             is_buy=True
         ),
         composer.SpotOrder(
-            market_id=market_id,
+            market_id=spot_market_id,
             subaccount_id=subaccount_id,
             fee_recipient=fee_recipient,
-            price=27.92,
+            price=27.9,
+            quantity=0.01,
+            is_buy=False
+        ),
+    ]
+
+    spot_orders_2 = [
+        composer.SpotOrder(
+            market_id=spot_market_id,
+            subaccount_id=subaccount_id,
+            fee_recipient=fee_recipient,
+            price=3.5,
+            quantity=0.01,
+            is_buy=True
+        ),
+        composer.SpotOrder(
+            market_id=spot_market_id,
+            subaccount_id=subaccount_id,
+            fee_recipient=fee_recipient,
+            price=27.9,
             quantity=0.01,
             is_buy=False
         ),
     ]
 
     # prepare tx msg
-    msg = composer.MsgBatchCreateSpotLimitOrders(
+    spot_msg_1 = composer.MsgBatchCreateSpotLimitOrders(
         sender=address.to_acc_bech32(),
-        orders=orders
+        orders=spot_orders_1
     )
+
+    spot_msg_2 = composer.MsgBatchCreateSpotLimitOrders(
+        sender=address.to_acc_bech32(),
+        orders=spot_orders_2
+    )
+
+    # compute order hashes
+    order_hashes = compute_order_hashes(network, spot_orders_1 + spot_orders_2)
+    print("The order hashes: ", order_hashes)
 
     # build sim tx
     tx = (
         Transaction()
-        .with_messages(msg)
+        .with_messages(spot_msg_1,spot_msg_2)
         .with_sequence(address.get_sequence())
         .with_account_num(address.get_number())
         .with_chain_id(network.chain_id)
@@ -333,14 +361,10 @@ Includes all messages related to spot markets.
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
-
+    
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = client.send_tx_block_mode(tx_raw_bytes)
     res_msg = ProtoMsgComposer.MsgResponses(res.data)
-    print("tx response")
-    print(res)
-    print("tx msg response")
-    print(res_msg)
 ```
 
 |Parameter|Type|Description|Required|
