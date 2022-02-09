@@ -696,3 +696,69 @@ Includes all messages related to accounts and transfers.
 
 }
 ```
+
+
+## SendToCosmos
+
+### Request Parameters
+> Request Example:
+
+``` python
+    import json
+    import requests
+    import asyncio
+    import logging
+
+    from pyinjective.constant import Network
+    from pyinjective.composer import Composer as ProtoMsgComposer
+    import importlib.resources as pkg_resources
+    import pyinjective
+
+    def main() -> None:
+        # select network: testnet, mainnet
+        network = Network.testnet()
+        composer = ProtoMsgComposer(network=network.string())
+
+        private_key = "f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"
+        ethereum_endpoint = "https://kovan.infura.io/v3/c518f454950e48aeab12161c49f26e30"
+
+        maxFeePerGas_Gwei = 4
+        maxPriorityFeePerGas_Gwei = 4
+
+        token_contract = "0x36b3d7ace7201e28040eff30e815290d7b37ffad"
+        receiver = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+        amount = 1
+
+        import_peggo = pkg_resources.read_text(pyinjective, 'Peggo_ABI.json')
+        peggo_abi = json.loads(import_peggo)
+
+        composer.SendToCosmos(
+          ethereum_endpoint=ethereum_endpoint, private_key=private_key,
+          token_contract=token_contract, receiver=receiver, amount=amount,
+          maxFeePerGas=maxFeePerGas_Gwei, maxPriorityFeePerGas=maxPriorityFeePerGas_Gwei,
+          peggo_abi=peggo_abi)
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|ethereum_endpoint|string|The ethereum endpoint, you can get one from providers like Infura and Alchemy|Yes|
+|maxFeePerGas_Gwei|int|The maxFeePerGas in Gwei|Yes|
+|maxPriorityFeePerGas_Gwei|int|The maxPriorityFeePerGas in Gwei|Yes|
+|token_contract|string|The token contract, you can find the contract for the token you want to transfer on etherscan|Yes|
+|receiver|string|The Injective Chain address to receive the funds|Yes|
+|amount|int|The amount you want to transfer|Yes|
+
+
+
+> Response Example:
+
+``` json
+{
+
+"Transferred 1 0x36b3d7ace7201e28040eff30e815290d7b37ffad from 0xbdAEdEc95d563Fb05240d6e01821008454c24C36 to inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+
+"Transaction hash: 0xb538abc7c2f893a2fe24c7a8ea606ff48d980a754499f1bec89b862c2bcb9ea7"
+
+
+}
+```
