@@ -695,6 +695,9 @@
                   <li>
                     <a href="#account-msgsendtoeth" class="toc-h2 toc-link" data-title="MsgSendToEth">MsgSendToEth</a>
                   </li>
+                  <li>
+                    <a href="#account-sendtocosmos" class="toc-h2 toc-link" data-title="SendToCosmos">SendToCosmos</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -11901,6 +11904,101 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </span><span class="p">},</span><span class="w">
 </span><span class="nl">"gas_wanted"</span><span class="p">:</span><span class="w"> </span><span class="mi">119267</span><span class="p">,</span><span class="w">
 </span><span class="nl">"gas_used"</span><span class="p">:</span><span class="w"> </span><span class="mi">114729</span><span class="w">
+
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h2 id='account-sendtocosmos'>SendToCosmos</h2><h3 id='account-sendtocosmos-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code>    <span class="kn">import</span> <span class="nn">json</span>
+    <span class="kn">import</span> <span class="nn">requests</span>
+    <span class="kn">import</span> <span class="nn">asyncio</span>
+    <span class="kn">import</span> <span class="nn">logging</span>
+
+    <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+    <span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span> <span class="k">as</span> <span class="n">ProtoMsgComposer</span>
+    <span class="kn">import</span> <span class="nn">importlib.resources</span> <span class="k">as</span> <span class="n">pkg_resources</span>
+    <span class="kn">import</span> <span class="nn">pyinjective</span>
+
+    <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c1"># select network: testnet, mainnet
+</span>        <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+        <span class="n">composer</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
+
+        <span class="n">private_key</span> <span class="o">=</span> <span class="s">"f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"</span>
+        <span class="n">ethereum_endpoint</span> <span class="o">=</span> <span class="s">"https://kovan.infura.io/v3/c518f454950e48aeab12161c49f26e30"</span>
+
+        <span class="n">maxFeePerGas_Gwei</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="n">maxPriorityFeePerGas_Gwei</span> <span class="o">=</span> <span class="mi">4</span>
+
+        <span class="n">token_contract</span> <span class="o">=</span> <span class="s">"0x36b3d7ace7201e28040eff30e815290d7b37ffad"</span>
+        <span class="n">receiver</span> <span class="o">=</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span>
+        <span class="n">amount</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="n">import_peggo</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="p">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">pyinjective</span><span class="p">,</span> <span class="s">'Peggo_ABI.json'</span><span class="p">)</span>
+        <span class="n">peggo_abi</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">import_peggo</span><span class="p">)</span>
+
+        <span class="n">composer</span><span class="p">.</span><span class="n">SendToCosmos</span><span class="p">(</span>
+          <span class="n">ethereum_endpoint</span><span class="o">=</span><span class="n">ethereum_endpoint</span><span class="p">,</span> <span class="n">private_key</span><span class="o">=</span><span class="n">private_key</span><span class="p">,</span>
+          <span class="n">token_contract</span><span class="o">=</span><span class="n">token_contract</span><span class="p">,</span> <span class="n">receiver</span><span class="o">=</span><span class="n">receiver</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="n">amount</span><span class="p">,</span>
+          <span class="n">maxFeePerGas</span><span class="o">=</span><span class="n">maxFeePerGas_Gwei</span><span class="p">,</span> <span class="n">maxPriorityFeePerGas</span><span class="o">=</span><span class="n">maxPriorityFeePerGas_Gwei</span><span class="p">,</span>
+          <span class="n">peggo_abi</span><span class="o">=</span><span class="n">peggo_abi</span><span class="p">)</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ethereum_endpoint</td>
+<td>string</td>
+<td>The ethereum endpoint, you can get one from providers like Infura and Alchemy</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>maxFeePerGas_Gwei</td>
+<td>int</td>
+<td>The maxFeePerGas in Gwei</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>maxPriorityFeePerGas_Gwei</td>
+<td>int</td>
+<td>The maxPriorityFeePerGas in Gwei</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>token_contract</td>
+<td>string</td>
+<td>The token contract, you can find the contract for the token you want to transfer on etherscan</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>receiver</td>
+<td>string</td>
+<td>The Injective Chain address to receive the funds</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>int</td>
+<td>The amount you want to transfer</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+
+</span><span class="s2">"Transferred 1 0x36b3d7ace7201e28040eff30e815290d7b37ffad from 0xbdAEdEc95d563Fb05240d6e01821008454c24C36 to inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span><span class="w">
+
+</span><span class="s2">"Transaction hash: 0xb538abc7c2f893a2fe24c7a8ea606ff48d980a754499f1bec89b862c2bcb9ea7"</span><span class="w">
+
 
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><h1 id='auction'>- Auction</h1>
