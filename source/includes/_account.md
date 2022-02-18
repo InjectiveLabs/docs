@@ -742,10 +742,10 @@ Includes all messages related to accounts and transfers.
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |ethereum_endpoint|string|The ethereum endpoint, you can get one from providers like Infura and Alchemy|Yes|
-|maxFeePerGas_Gwei|int|The maxFeePerGas in Gwei|Yes|
-|maxPriorityFeePerGas_Gwei|int|The maxPriorityFeePerGas in Gwei|Yes|
 |token_contract|string|The token contract, you can find the contract for the token you want to transfer on etherscan|Yes|
 |receiver|string|The Injective Chain address to receive the funds|Yes|
+|maxFeePerGas_Gwei|int|The maxFeePerGas in Gwei|Yes|
+|maxPriorityFeePerGas_Gwei|int|The maxPriorityFeePerGas in Gwei|Yes|
 |amount|int|The amount you want to transfer|Yes|
 
 
