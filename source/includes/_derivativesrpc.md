@@ -1444,3 +1444,64 @@ def main() -> None:
 |subaccount_id|string|The subaccount ID|
 |amount|string|The amount of the funding payment|
 |timestamp|integer|Operation timestamp in UNIX millis|
+
+
+
+## FundingRates
+
+Get the historical funding rates for a specific market.
+
+
+### Request Parameters
+> Request Example:
+
+``` python
+from pyinjective.client import Client
+from pyinjective.constant import Network
+
+async def main() -> None:
+    network = Network.testnet()
+    client = Client(network, insecure=False)
+    market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+    skip=0
+    limit=2
+    funding_rates = client.get_funding_rates(
+        market_id=market_id,
+        skip=skip,
+        limit=limit
+    )
+    print(funding_rates)
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|Filter by market ID|Yes|
+|skip|int|Skip the last funding rates, you can use this to fetch all funding rates since the API caps at 100|No|
+|limit|int|Limit the funding rates returned|No|
+
+
+### Response Parameters
+> Response Example:
+
+``` json
+{
+
+"funding_rates": {
+  "market_id": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
+  "rate": "0.00449891062",
+  "timestamp": 1643572800988
+},
+"funding_rates": {
+  "market_id": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
+  "rate": "-0.03218407323",
+  "timestamp": 1643587201580
+}
+
+}
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|market_id|string|The market ID|
+|rate|string|The funding rate|
+|timestamp|integer|Timestamp in UNIX millis|
