@@ -28,6 +28,7 @@ includes:
   - account
   - auction
   - authz
+  - oracle
   - glossary
   - faq
   # - exchangerpc
