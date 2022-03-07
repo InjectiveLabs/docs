@@ -55,7 +55,7 @@ When you submit an order to Injective Chain,
 
 ## Frequent Batch Auction (FBA)
 
-The goal is to further prevent any [Front-Running](https://www.investopedia.com/terms/f/frontrunning.asp) in a decentralized setting. Most DEX's suffer from this as all information is public and traders can collide with miners or pay high gas fees enabling them to front-run any trades. We mitigate this by fast block times combined with a Frequent Batch Auction:
+The goal is to further prevent any [Front-Running](https://www.investopedia.com/terms/f/frontrunning.asp) in a decentralized setting. Most DEX's suffer from this as all information is public and traders can collude with miners or pay high gas fees enabling them to front-run any trades. We mitigate this by fast block times combined with a Frequent Batch Auction:
 
 In any given block:
 
@@ -232,23 +232,23 @@ This has some implications when placing new orders.
 
 In our example, consider a new reduce-only order of `0.4 BTC` at `$64,600`.
 
-|  Buy Price  |  Quantity   |   Order Type    |
-| :---------: | :---------: | :-------------: |
-|   $66,500   |   0.2 BTC   |     Vanilla     |
-|   $65,500   |   0.2 BTC   |   Reduce-only   |
-| **$64,600** | **0.4 BTC** | **Reduce-only** |
-|   $64,500   |   0.3 BTC   |     Vanilla     |
-|   $63,500   |   0.1 BTC   |   Reduce-only   |
+|  Sell Price  |  Quantity   |   Order Type    |
+| :---------:  | :---------: | :-------------: |
+|   $66,500    |   0.2 BTC   |     Vanilla     |
+|   $65,500    |   0.2 BTC   |   Reduce-only   |
+| **$64,600**  | **0.4 BTC** | **Reduce-only** |
+|   $64,500    |   0.3 BTC   |     Vanilla     |
+|   $63,500    |   0.1 BTC   |   Reduce-only   |
 
 This is perfectly valid and no further action is required. But what if the order was for `0.5 BTC` instead?
 
-|  Buy Price  |  Quantity   |   Order Type    |
-| :---------: | :---------: | :-------------: |
-|   $66,500   |   0.2 BTC   |     Vanilla     |
-|   $65,500   |   0.2 BTC   |   Reduce-only   |
-| **$64,600** | **0.5 BTC** | **Reduce-only** |
-|   $64,500   |   0.3 BTC   |     Vanilla     |
-|   $63,500   |   0.1 BTC   |   Reduce-only   |
+|  Sell Price  |  Quantity   |   Order Type    |
+| :---------:  | :---------: | :-------------: |
+|   $66,500    |   0.2 BTC   |     Vanilla     |
+|   $65,500    |   0.2 BTC   |   Reduce-only   |
+| **$64,600**  | **0.5 BTC** | **Reduce-only** |
+|   $64,500    |   0.3 BTC   |     Vanilla     |
+|   $63,500    |   0.1 BTC   |   Reduce-only   |
 
 If the orders are getting matched, once the last reduce-only of $65,500 with 0.2 BTC order is reached, the position will have been reduced to `1 BTC - 0.1 BTC - 0.3 BTC - 0.5 BTC = 0.1 BTC`. A reduce-only order of 0.2 BTC after that will thus be invalid.
 
@@ -260,23 +260,23 @@ To prevent that, we simply **reject the creation of the new 0.5 BTC reduce-only 
 
 In our example, consider a new vanilla order of `0.4 BTC` at `$64,600`.
 
-|  Buy Price  |  Quantity   | Order Type  |
-| :---------: | :---------: | :---------: |
-|   $66,500   |   0.2 BTC   |   Vanilla   |
-|   $65,500   |   0.2 BTC   | Reduce-only |
-| **$64,600** | **0.4 BTC** | **Vanilla** |
-|   $64,500   |   0.3 BTC   |   Vanilla   |
-|   $63,500   |   0.1 BTC   | Reduce-only |
+|  Sell Price  |  Quantity   | Order Type  |
+| :---------:  | :---------: | :---------: |
+|   $66,500    |   0.2 BTC   |   Vanilla   |
+|   $65,500    |   0.2 BTC   | Reduce-only |
+| **$64,600**  | **0.4 BTC** | **Vanilla** |
+|   $64,500    |   0.3 BTC   |   Vanilla   |
+|   $63,500    |   0.1 BTC   | Reduce-only |
 
 Again this perfectly valid and no further action is required. But what if the order was for `0.5 BTC` instead?
 
-|  Buy Price  |  Quantity   | Order Type  |
-| :---------: | :---------: | :---------: |
-|   $66,500   |   0.2 BTC   |   Vanilla   |
-|   $65,500   |   0.2 BTC   | Reduce-only |
-| **$64,600** | **0.5 BTC** | **Vanilla** |
-|   $64,500   |   0.3 BTC   |   Vanilla   |
-|   $63,500   |   0.1 BTC   | Reduce-only |
+|  Sell Price  |  Quantity   | Order Type  |
+| :---------:  | :---------: | :---------: |
+|   $66,500    |   0.2 BTC   |   Vanilla   |
+|   $65,500    |   0.2 BTC   | Reduce-only |
+| **$64,600**  | **0.5 BTC** | **Vanilla** |
+|   $64,500    |   0.3 BTC   |   Vanilla   |
+|   $63,500    |   0.1 BTC   | Reduce-only |
 
 If the orders are getting matched, once the last reduce-only of $65,500 with 0.2 BTC order is reached, the position will have been reduced to `1 BTC - 0.1 BTC - 0.3 BTC - 0.5 BTC = 0.1 BTC`. A reduce-only order of 0.2 BTC after that will thus be invalid.
 
