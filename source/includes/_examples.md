@@ -13,8 +13,8 @@
 
 Upon matching with a resting sell order with price of `2000 USDT` the new account balances are calculated as:
 
-- `Credit Amount = 1 ETH`
 - `Trading Fee = 1 * 2,000 * 0.002 = 4 USDT`
+- `Credit Amount = 1 ETH`
 - `Debit Amount = 1 * 2,000 + 4 = 2,004 USDT`
 - `Clearing Refund = 3,006 - 2,004 = 1,002 USDT`
 
@@ -31,8 +31,8 @@ Upon matching with a resting sell order with price of `2000 USDT` the new accoun
 
 Upon matching the with a resting sell order with price of `2000 USDT` new account balances are calculated as:
 
-- `Debit Amount = 1 ETH`
 - `Trading Fee = 1 * 2,000 * 0.002 = 4 USDT`
+- `Debit Amount = 1 ETH`
 - `Credit Amount = 1 * 2,000 - 4 = 1996 USDT`
 - `Clearing Refund = 0`
 
@@ -55,17 +55,17 @@ If **Unmatched**, the order becomes a resting limit order (maker) and we refund 
 
 If **Matched Immediately**: (assuming an FBA clearing price of 1,900 USDT)
 
+- `Trading Fee = 1 * 1,900 * 0.002 = 3.8 USDT`
 - `Credit Amount = 1 ETH`
 - `Debit Amount = 1 * 1,900 + 3.8 = 1,903.8 USDT`
-- `Trading Fee = 1 * 1,900 * 0.002 = 3.8 USDT`
 - `Clearing Refund = (1 + 0.002) * (2,000 - 1,900) = 100.2 USDT`
 - `Unmatched Fee Refund = 0 USDT`
 
 If **Filled Later By Market Order**:
 
+- `Trading Fee = 1 * 2,000 * 0.001 = 2 USDT`
 - `Credit Amount (in base asset) = 1 ETH`
 - `Debit Amount (in quote asset) = 1 * 2,000 + 2 = 2,002 USDT`
-- `Trading Fee = 1 * 2,000 * 0.001 = 2 USDT`
 
 ## Adding a Spot Limit Sell Order
 
@@ -84,11 +84,11 @@ If **Unmatched**, the order becomes a resting limit order (maker) and we refund 
 
 - `Fee Refund = 0 ETH`
 
-If **Matched Immediately**: (assuming an FBA clearing price of 1,900 USDT)
+If **Matched Immediately**: (assuming an FBA clearing price of 2,100 USDT)
 
+- `Trading Fee = 1 * 2,100 * 0.002 = 4.2 USDT`
 - `Credit Amount = 1 * 2,100 * (1 - 0.002) = 2,095.8 USDT`
 - `Debit Amount = 1 ETH`
-- `Trading Fee = 1 * 2,100 * 0.002 = 4.2 USDT`
 - `Clearing Refund = 0 ETH`
 - `Fee Refund = 0 USDT`
 
