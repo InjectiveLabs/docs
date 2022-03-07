@@ -950,7 +950,7 @@ See the examples folder for simple Golang examples. -->
 </tr>
 </tbody></table>
 <h2 id='overview-frequent-batch-auction-fba'>Frequent Batch Auction (FBA)</h2>
-<p>The goal is to further prevent any <a href="https://www.investopedia.com/terms/f/frontrunning.asp">Front-Running</a> in a decentralized setting. Most DEX&#39;s suffer from this as all information is public and traders can collide with miners or pay high gas fees enabling them to front-run any trades. We mitigate this by fast block times combined with a Frequent Batch Auction:</p>
+<p>The goal is to further prevent any <a href="https://www.investopedia.com/terms/f/frontrunning.asp">Front-Running</a> in a decentralized setting. Most DEX&#39;s suffer from this as all information is public and traders can collude with miners or pay high gas fees enabling them to front-run any trades. We mitigate this by fast block times combined with a Frequent Batch Auction:</p>
 
 <p>In any given block:</p>
 
@@ -1136,7 +1136,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <table><thead>
 <tr>
-<th style="text-align: center">Buy Price</th>
+<th style="text-align: center">Sell Price</th>
 <th style="text-align: center">Quantity</th>
 <th style="text-align: center">Order Type</th>
 </tr>
@@ -1172,7 +1172,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <table><thead>
 <tr>
-<th style="text-align: center">Buy Price</th>
+<th style="text-align: center">Sell Price</th>
 <th style="text-align: center">Quantity</th>
 <th style="text-align: center">Order Type</th>
 </tr>
@@ -1216,7 +1216,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <table><thead>
 <tr>
-<th style="text-align: center">Buy Price</th>
+<th style="text-align: center">Sell Price</th>
 <th style="text-align: center">Quantity</th>
 <th style="text-align: center">Order Type</th>
 </tr>
@@ -1252,7 +1252,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <table><thead>
 <tr>
-<th style="text-align: center">Buy Price</th>
+<th style="text-align: center">Sell Price</th>
 <th style="text-align: center">Quantity</th>
 <th style="text-align: center">Order Type</th>
 </tr>
@@ -1301,12 +1301,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <p>→ The account&#39;s available balance is decremented by <code>3,000 USDT + Taker Fee = 3,006 USDT</code>.</p>
 
-<p>Upon matching the new account balances are calculated as:</p>
+<p>Upon matching with a resting sell order with price of <code>2,000 USDT</code> the new account balances are calculated as:</p>
 
 <ul>
+<li><code>Trading Fee = 1 * 2,000 * 0.002 = 4 USDT</code></li>
 <li><code>Credit Amount = 1 ETH</code></li>
 <li><code>Debit Amount = 1 * 2,000 + 4 = 2,004 USDT</code></li>
-<li><code>Trading Fee = 1 * 2,000 * 0.002 = 4 USDT</code></li>
 <li><code>Clearing Refund = 3,006 - 2,004 = 1,002 USDT</code></li>
 </ul>
 <h2 id='examples-adding-a-spot-market-sell-order'>Adding a Spot Market Sell Order</h2>
@@ -1317,18 +1317,18 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <ul>
 <li><code>Quantity = 1 ETH</code></li>
-<li><code>Worst Price = 3,000 USDT</code></li>
+<li><code>Worst Price = 1,500 USDT</code></li>
 </ul></li>
 </ul>
 
 <p>→ The account&#39;s available balance is decremented by <code>1 ETH</code>.</p>
 
-<p>Upon matching the new account balances are calculated as:</p>
+<p>Upon matching the with a resting sell order with price of <code>2,000 USDT</code> new account balances are calculated as:</p>
 
 <ul>
-<li><code>Credit Amount = 1 * 2,000 - 4 = 1996 USDT</code></li>
-<li><code>Debit Amount = 1 ETH</code></li>
 <li><code>Trading Fee = 1 * 2,000 * 0.002 = 4 USDT</code></li>
+<li><code>Debit Amount = 1 ETH</code></li>
+<li><code>Credit Amount = 1 * 2,000 - 4 = 1,996 USDT</code></li>
 <li><code>Clearing Refund = 0</code></li>
 </ul>
 <h2 id='examples-adding-a-spot-limit-buy-order'>Adding a Spot Limit Buy Order</h2>
@@ -1356,9 +1356,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <p>If <strong>Matched Immediately</strong>: (assuming an FBA clearing price of 1,900 USDT)</p>
 
 <ul>
+<li><code>Trading Fee = 1 * 1,900 * 0.002 = 3.8 USDT</code></li>
 <li><code>Credit Amount = 1 ETH</code></li>
 <li><code>Debit Amount = 1 * 1,900 + 3.8 = 1,903.8 USDT</code></li>
-<li><code>Trading Fee = 1 * 1,900 * 0.002 = 3.8 USDT</code></li>
 <li><code>Clearing Refund = (1 + 0.002) * (2,000 - 1,900) = 100.2 USDT</code></li>
 <li><code>Unmatched Fee Refund = 0 USDT</code></li>
 </ul>
@@ -1366,9 +1366,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <p>If <strong>Filled Later By Market Order</strong>:</p>
 
 <ul>
+<li><code>Trading Fee = 1 * 2,000 * 0.001 = 2 USDT</code></li>
 <li><code>Credit Amount (in base asset) = 1 ETH</code></li>
 <li><code>Debit Amount (in quote asset) = 1 * 2,000 + 2 = 2,002 USDT</code></li>
-<li><code>Trading Fee = 1 * 2,000 * 0.001 = 2 USDT</code></li>
 </ul>
 <h2 id='examples-adding-a-spot-limit-sell-order'>Adding a Spot Limit Sell Order</h2>
 <ul>
@@ -1392,12 +1392,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <li><code>Fee Refund = 0 ETH</code></li>
 </ul>
 
-<p>If <strong>Matched Immediately</strong>: (assuming an FBA clearing price of 1,900 USDT)</p>
+<p>If <strong>Matched Immediately</strong>: (assuming an FBA clearing price of 2,100 USDT)</p>
 
 <ul>
+<li><code>Trading Fee = 1 * 2,100 * 0.002 = 4.2 USDT</code></li>
 <li><code>Credit Amount = 1 * 2,100 * (1 - 0.002) = 2,095.8 USDT</code></li>
 <li><code>Debit Amount = 1 ETH</code></li>
-<li><code>Trading Fee = 1 * 2,100 * 0.002 = 4.2 USDT</code></li>
 <li><code>Clearing Refund = 0 ETH</code></li>
 <li><code>Fee Refund = 0 USDT</code></li>
 </ul>
@@ -1509,7 +1509,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 </tbody></table>
 
-<p><strong>Market Buys</strong>: Matching the highest priced market buy order first for 0.4 BTC. Now for the second market buy order only 0.1 BTC is left at matchable price, meaning the other 0.1 BTC in the order will be cancelled. Both orders will be matched with the single resting limit order at a price of 64,350 for a total quantity of 0.5 BTC.</p>
+<p><strong>Market Buys</strong>: Matching the highest priced market buy order first for 0.4 BTC. Now for the second market buy order only 0.1 BTC is left at matchable price, meaning the other 0.1 BTC in the order will be cancelled. Both orders will be matched with the single resting limit order at a price of 64,360 for a total quantity of 0.5 BTC.</p>
 
 <p><strong>Market Sells</strong>: Matching the first two market sell orders for at a matching price of <code>(64,210*0.1 + 64,205*0.2) / 0.3 = 64,206.67</code> for a total quantity of 0.3 BTC. The resting limit orders are both matched at their specified price points of 64,210 and 64,205. Since the last market sell order of 69,000 cannot be fulfilled, it is cancelled.</p>
 <h2 id='examples-limit-order-matching'>Limit Order Matching</h2><h3 id='examples-limit-order-matching-existing-orderbook'>Existing Orderbook</h3>
@@ -12910,7 +12910,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <h2 id='faq-7-are-there-limits-in-the-api-requests'>7. Are there limits in the API requests?</h2>
 <p>No, there are currently no limits in the API requests.</p>
 <h2 id='faq-8-what-is-the-normal-order-latency-i-can-expect'>8. What is the normal order latency I can expect?</h2>
-<p>There&#39;s no guarantee on when the exchange will process your transaction. It depends on the peer to peer gossip of the network and whether your transaction reaches a given block producer to get included in a block. You can read more details about this here <a href="https://docs.tendermint.com/master/assets/img/tm-transaction-flow.258ca020.png">https://docs.tendermint.com/master/assets/img/tm-transaction-flow.258ca020.png</a> as well as the docs here <a href="https://docs.tendermint.com/master/introduction/what-is-tendermint.html">https://docs.tendermint.com/master/introduction/what-is-tendermint.html</a></p>
+<p>There&#39;s no guarantee on when the exchange will process your transaction. It depends on the peer to peer gossip of the network and whether your transaction reaches a given block producer to get included in a block. You can read more details about this here <a href="https://docs.tendermint.com/v0.35/assets/img/tm-transaction-flow.258ca020.png">https://docs.tendermint.com/v0.35/assets/img/tm-transaction-flow.258ca020.png</a> as well as the docs here <a href="https://docs.tendermint.com/v0.35/introduction/what-is-tendermint.html">https://docs.tendermint.com/v0.35/introduction/what-is-tendermint.html</a></p>
 
 <p>We strongly recommend following the guide to setup your own infrastructure which will ultimately reduce latency to a great extent.</p>
 <h2 id='faq-9-can-i-have-my-own-client-id-to-send-messages-through-the-api'>9. Can I have my own client id to send messages through the API?</h2>
