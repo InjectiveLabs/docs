@@ -11,7 +11,7 @@
 
 → The account's available balance is decremented by `3,000 USDT + Taker Fee = 3,006 USDT`.
 
-Upon matching with a resting sell order with price of `2000 USDT` the new account balances are calculated as:
+Upon matching with a resting sell order with price of `2,000 USDT` the new account balances are calculated as:
 
 - `Trading Fee = 1 * 2,000 * 0.002 = 4 USDT`
 - `Credit Amount = 1 ETH`
