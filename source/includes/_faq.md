@@ -37,7 +37,7 @@
 	No, there are currently no limits in the API requests.
 
 ## 8. What is the normal order latency I can expect?
-	There's no guarantee on when the exchange will process your transaction. It depends on the peer to peer gossip of the network and whether your transaction reaches a given block producer to get included in a block. You can read more details about this here [https://docs.tendermint.com/master/assets/img/tm-transaction-flow.258ca020.png](https://docs.tendermint.com/master/assets/img/tm-transaction-flow.258ca020.png) as well as the docs here [https://docs.tendermint.com/master/introduction/what-is-tendermint.html](https://docs.tendermint.com/master/introduction/what-is-tendermint.html)
+	There's no guarantee on when the exchange will process your transaction. It depends on the peer to peer gossip of the network and whether your transaction reaches a given block producer to get included in a block. You can read more details about this here [https://docs.tendermint.com/v0.35/assets/img/tm-transaction-flow.258ca020.png](https://docs.tendermint.com/v0.35/assets/img/tm-transaction-flow.258ca020.png) as well as the docs here [https://docs.tendermint.com/v0.35/introduction/what-is-tendermint.html](https://docs.tendermint.com/v0.35/introduction/what-is-tendermint.html)
 
 	We strongly recommend following the guide to setup your own infrastructure which will ultimately reduce latency to a great extent.
 
