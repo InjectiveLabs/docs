@@ -33,7 +33,7 @@ Upon matching the with a resting sell order with price of `2000 USDT` new accoun
 
 - `Trading Fee = 1 * 2,000 * 0.002 = 4 USDT`
 - `Debit Amount = 1 ETH`
-- `Credit Amount = 1 * 2,000 - 4 = 1996 USDT`
+- `Credit Amount = 1 * 2,000 - 4 = 1,996 USDT`
 - `Clearing Refund = 0`
 
 ## Adding a Spot Limit Buy Order
