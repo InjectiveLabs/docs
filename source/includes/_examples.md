@@ -29,7 +29,7 @@ Upon matching with a resting sell order with price of `2000 USDT` the new accoun
 
 → The account's available balance is decremented by `1 ETH`.
 
-Upon matching the with a resting sell order with price of `2000 USDT` new account balances are calculated as:
+Upon matching the with a resting sell order with price of `2,000 USDT` new account balances are calculated as:
 
 - `Trading Fee = 1 * 2,000 * 0.002 = 4 USDT`
 - `Debit Amount = 1 ETH`
