@@ -712,8 +712,10 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by market ID|Yes|
-|subaccount_id|string|Filter by subaccount ID|No|
+|market_ids|array|Filter by an array of market IDs|Conditional|
+|market_id|string|Filter by market ID|Conditional|
+|subaccount_ids|array|Filter by an array of subaccount IDs|Conditional|
+|subaccount_id|string|Filter by subaccount ID|Conditional|
 |execution_side|string|Filter by the execution side of the trade (Should be one of: [maker taker])|No|
 |direction|string|Filter by the direction of the trade (Should be one of: [buy sell])|No|
 |skip|int|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
@@ -906,7 +908,8 @@ def main() -> None:
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|string|Filter by market ID|Yes|
-|subaccount_id|string|Filter by subaccount ID|No|
+|subaccount_ids|array|Filter by an array of subaccount IDs|Conditional|
+|subaccount_id|string|Filter by subaccount ID|Conditional|
 
 
 ### Response Parameters
@@ -1029,6 +1032,94 @@ def main() -> None:
 |Parameter|Type|Description|
 |----|----|----|
 |orderbook|DerivativeLimitOrderbook|Array of DerivativeLimitOrderbook|
+
+**DerivativeLimitOrderbook**
+
+|Parameter|Type|Description|
+|----|----|----|
+|buys|PriceLevel|Array of PriceLevel|
+|sells|PriceLevel|Array of PriceLevel|
+
+**PriceLevel**
+
+|Parameter|Type|Description|
+|----|----|----|
+|quantity|string|Quantity of the price level|
+|timestamp|integer|Price level last updated timestamp in UNIX millis|
+|price|string|Price number of the price level|
+
+
+## Orderbooks
+
+Get the orderbook for an array of derivative markets.
+
+### Request Parameters
+> Request Example:
+
+``` python
+from pyinjective.client import Client
+from pyinjective.constant import Network
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=False)
+        market_ids = [
+        "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
+        "0x1f73e21972972c69c03fb105a5864592ac2b47996ffea3c500d1ea2d20138717"
+    ]
+    market = client.get_derivative_orderbooks(market_ids=market_ids)
+    print(market)
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_ids|array|Filter by an array of market IDs|Yes|
+
+
+
+### Response Parameters
+> Response Example:
+
+``` json
+{
+"orderbooks": {
+  "market_id": "0x1f73e21972972c69c03fb105a5864592ac2b47996ffea3c500d1ea2d20138717",
+  "orderbook": {
+    "buys": {
+      "price": "13107000",
+      "quantity": "0.3",
+      "timestamp": 1646998496535
+    },
+    "buys": {
+      "price": "12989000",
+      "quantity": "0.8",
+      "timestamp": 1646998520256
+    }
+  }
+},
+"orderbooks": {
+  "market_id": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
+  "orderbook": {
+    "buys": {
+      "price": "39873942000",
+      "quantity": "0.1",
+      "timestamp": 1646998535041
+    },
+    "buys": {
+      "price": "39752458000",
+      "quantity": "0.3",
+      "timestamp": 1646998517630
+    }
+  }
+}
+}
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|orderbook|DerivativeLimitOrderbook|Array of DerivativeLimitOrderbook|
+|market_id|string|Filter by market ID|
 
 **DerivativeLimitOrderbook**
 

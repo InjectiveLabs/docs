@@ -605,8 +605,10 @@ def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by Market ID|Yes|
-|subaccount_id|string|Filter by Subaccount ID|No|
+|market_ids|array|Filter by an array of market IDs|Conditional|
+|market_id|string|Filter by market ID|Conditional|
+|subaccount_ids|array|Filter by an array of subaccount IDs|Conditional|
+|subaccount_id|string|Filter by subaccount ID|Conditional|
 |execution_side|string|Filter by the execution side of the trade (Should be one of: [maker taker])|No|
 |direction|string|Filter by the direction of the trade (Should be one of: [buy sell])|No|
 |skip|int|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
@@ -751,6 +753,93 @@ def main() -> None:
 |price|string|Number of the price level|
 |quantity|string|Quantity of the price level|
 |timestamp|integer|Price level last updated timestamp in UNIX millis|
+
+
+## Orderbooks
+
+Get the orderbook for an array of spot markets.
+
+
+### Request Parameters
+> Request Example:
+
+``` python
+from pyinjective.client import Client
+from pyinjective.constant import Network
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = Client(network, insecure=False)
+    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    orderbook = client.get_spot_orderbook(market_id=market_id)
+    print(orderbook)
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_ids|array|Filter by an array of market IDs|Yes|
+
+
+### Response Parameters
+> Response Example:
+
+``` json
+{
+
+"orderbooks": {
+  "market_id": "0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31",
+  "orderbook": {
+    "buys": {
+      "price": "0.00000000001376",
+      "quantity": "40000000000000000000",
+      "timestamp": 1646999035779
+    },
+    "buys": {
+      "price": "0.000000000013747",
+      "quantity": "36000000000000000000",
+      "timestamp": 1647007029601
+    }
+  }
+},
+"orderbooks": {
+  "market_id": "0x74b17b0d6855feba39f1f7ab1e8bad0363bd510ee1dcc74e40c2adfe1502f781",
+  "orderbook": {
+    "buys": {
+      "price": "0.000000000379929",
+      "quantity": "40000000000000000000",
+      "timestamp": 1646998834092
+    },
+    "buys": {
+      "price": "0.000000000378619",
+      "quantity": "28000000000000000000",
+      "timestamp": 1647006634098
+    }
+  }
+}
+}
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|orderbook|SpotLimitOrderbook|Array of SpotLimitOrderbook|
+|market_id|string|Filter by market ID|
+
+**SpotLimitOrderbook**
+
+|Parameter|Type|Description|
+|----|----|----|
+|buys|PriceLevel|Array of PriceLevel|
+|sells|PriceLevel|Array of PriceLevel|
+
+**PriceLevel**
+
+|Parameter|Type|Description|
+|----|----|----|
+|price|string|Number of the price level|
+|quantity|string|Quantity of the price level|
+|timestamp|integer|Price level last updated timestamp in UNIX millis|
+
 
 ## StreamOrderbook
 

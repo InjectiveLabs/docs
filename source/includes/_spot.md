@@ -112,7 +112,8 @@ Includes all messages related to spot markets.
         fee_recipient=fee_recipient,
         price=7.523,
         quantity=0.01,
-        is_buy=True
+        is_buy=True,
+        is_po=True
     )
 
     # build sim tx
@@ -168,6 +169,7 @@ Includes all messages related to spot markets.
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
 |is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_po|boolean|Set to true or false for post-only or normal orders respectively|No|
 
 > Response Example:
 
@@ -281,7 +283,8 @@ Includes all messages related to spot markets.
             fee_recipient=fee_recipient,
             price=3.5,
             quantity=0.01,
-            is_buy=True
+            is_buy=True,
+            is_po=True
         ),
         composer.SpotOrder(
             market_id=spot_market_id,
@@ -289,7 +292,8 @@ Includes all messages related to spot markets.
             fee_recipient=fee_recipient,
             price=27.9,
             quantity=0.01,
-            is_buy=False
+            is_buy=False,
+            is_po=False
         ),
     ]
 
@@ -300,7 +304,8 @@ Includes all messages related to spot markets.
             fee_recipient=fee_recipient,
             price=3.5,
             quantity=0.01,
-            is_buy=True
+            is_buy=True,
+            is_po=True
         ),
         composer.SpotOrder(
             market_id=spot_market_id,
@@ -308,7 +313,8 @@ Includes all messages related to spot markets.
             fee_recipient=fee_recipient,
             price=27.9,
             quantity=0.01,
-            is_buy=False
+            is_buy=False,
+            is_po=False
         ),
     ]
 
@@ -382,6 +388,7 @@ Includes all messages related to spot markets.
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
 |is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_po|boolean|Set to true or false for post-only or normal orders respectively|No|
 
 > Response Example:
 
@@ -570,7 +577,8 @@ Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll o
             price=3,
             quantity=35,
             leverage=1,
-            is_buy=True
+            is_buy=True,
+            is_po=True
         ),
         composer.DerivativeOrder(
             market_id=derivative_market_id_create,
@@ -580,6 +588,7 @@ Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll o
             quantity=55,
             leverage=1,
             is_buy=False,
+            is_po=False
         ),
     ]
 
@@ -590,7 +599,8 @@ Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll o
             fee_recipient=fee_recipient,
             price=3,
             quantity=62,
-            is_buy=True
+            is_buy=True,
+            is_po=True
         ),
         composer.SpotOrder(
             market_id=spot_market_id_create,
@@ -598,7 +608,8 @@ Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll o
             fee_recipient=fee_recipient,
             price=300,
             quantity=32,
-            is_buy=False
+            is_buy=False,
+            is_po=False
         ),
     ]
 
@@ -679,6 +690,7 @@ Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll o
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
 |is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_po|boolean|Set to true or false for post-only or normal orders respectively|No|
 
 
 **DerivativeOrder**
@@ -690,9 +702,10 @@ Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll o
 |fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
-|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
 |leverage|float|The leverage factor for the order|No|
+|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_reduce_only|boolean|Set to true or false for reduce-only or normal orders respectively|No|
+|is_po|boolean|Set to true or false for post-only or normal orders respectively|No|
 
 
 **OrderData**
