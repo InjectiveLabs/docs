@@ -498,6 +498,9 @@
                     <a href="#injectivespotexchangerpc-orderbook" class="toc-h2 toc-link" data-title="Orderbook">Orderbook</a>
                   </li>
                   <li>
+                    <a href="#injectivespotexchangerpc-orderbooks" class="toc-h2 toc-link" data-title="Orderbooks">Orderbooks</a>
+                  </li>
+                  <li>
                     <a href="#injectivespotexchangerpc-streamorderbook" class="toc-h2 toc-link" data-title="StreamOrderbook">StreamOrderbook</a>
                   </li>
                   <li>
@@ -543,6 +546,9 @@
                   </li>
                   <li>
                     <a href="#injectivederivativeexchangerpc-orderbook" class="toc-h2 toc-link" data-title="Orderbook">Orderbook</a>
+                  </li>
+                  <li>
+                    <a href="#injectivederivativeexchangerpc-orderbooks" class="toc-h2 toc-link" data-title="Orderbooks">Orderbooks</a>
                   </li>
                   <li>
                     <a href="#injectivederivativeexchangerpc-streamorderbook" class="toc-h2 toc-link" data-title="StreamOrderbook">StreamOrderbook</a>
@@ -3811,16 +3817,28 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 </thead><tbody>
 <tr>
+<td>market_ids</td>
+<td>array</td>
+<td>Filter by an array of market IDs</td>
+<td>Conditional</td>
+</tr>
+<tr>
 <td>market_id</td>
 <td>string</td>
-<td>Filter by Market ID</td>
-<td>Yes</td>
+<td>Filter by market ID</td>
+<td>Conditional</td>
+</tr>
+<tr>
+<td>subaccount_ids</td>
+<td>array</td>
+<td>Filter by an array of subaccount IDs</td>
+<td>Conditional</td>
 </tr>
 <tr>
 <td>subaccount_id</td>
 <td>string</td>
-<td>Filter by Subaccount ID</td>
-<td>No</td>
+<td>Filter by subaccount ID</td>
+<td>Conditional</td>
 </tr>
 <tr>
 <td>execution_side</td>
@@ -4058,6 +4076,141 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>orderbook</td>
 <td>SpotLimitOrderbook</td>
 <td>Array of SpotLimitOrderbook</td>
+</tr>
+</tbody></table>
+
+<p><strong>SpotLimitOrderbook</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>buys</td>
+<td>PriceLevel</td>
+<td>Array of PriceLevel</td>
+</tr>
+<tr>
+<td>sells</td>
+<td>PriceLevel</td>
+<td>Array of PriceLevel</td>
+</tr>
+</tbody></table>
+
+<p><strong>PriceLevel</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>price</td>
+<td>string</td>
+<td>Number of the price level</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>string</td>
+<td>Quantity of the price level</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer</td>
+<td>Price level last updated timestamp in UNIX millis</td>
+</tr>
+</tbody></table>
+<h2 id='injectivespotexchangerpc-orderbooks'>Orderbooks</h2>
+<p>Get the orderbook for an array of spot markets.</p>
+<h3 id='injectivespotexchangerpc-orderbooks-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># select network: local, testnet, mainnet
+</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span>
+    <span class="n">orderbook</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_spot_orderbook</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">orderbook</span><span class="p">)</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_ids</td>
+<td>array</td>
+<td>Filter by an array of market IDs</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+<h3 id='injectivespotexchangerpc-orderbooks-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+
+</span><span class="nl">"orderbooks"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"orderbook"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00000000001376"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40000000000000000000"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1646999035779</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000013747"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"36000000000000000000"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1647007029601</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span><span class="nl">"orderbooks"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x74b17b0d6855feba39f1f7ab1e8bad0363bd510ee1dcc74e40c2adfe1502f781"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"orderbook"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000379929"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40000000000000000000"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1646998834092</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000378619"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"28000000000000000000"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1647006634098</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>orderbook</td>
+<td>SpotLimitOrderbook</td>
+<td>Array of SpotLimitOrderbook</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>Filter by market ID</td>
 </tr>
 </tbody></table>
 
@@ -6208,16 +6361,28 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 </thead><tbody>
 <tr>
+<td>market_ids</td>
+<td>array</td>
+<td>Filter by an array of market IDs</td>
+<td>Conditional</td>
+</tr>
+<tr>
 <td>market_id</td>
 <td>string</td>
 <td>Filter by market ID</td>
-<td>Yes</td>
+<td>Conditional</td>
+</tr>
+<tr>
+<td>subaccount_ids</td>
+<td>array</td>
+<td>Filter by an array of subaccount IDs</td>
+<td>Conditional</td>
 </tr>
 <tr>
 <td>subaccount_id</td>
 <td>string</td>
 <td>Filter by subaccount ID</td>
-<td>No</td>
+<td>Conditional</td>
 </tr>
 <tr>
 <td>execution_side</td>
@@ -6583,10 +6748,16 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 <tr>
+<td>subaccount_ids</td>
+<td>array</td>
+<td>Filter by an array of subaccount IDs</td>
+<td>Conditional</td>
+</tr>
+<tr>
 <td>subaccount_id</td>
 <td>string</td>
 <td>Filter by subaccount ID</td>
-<td>No</td>
+<td>Conditional</td>
 </tr>
 </tbody></table>
 <h3 id='injectivederivativeexchangerpc-streampositions-response-parameters'>Response Parameters</h3>
@@ -6779,6 +6950,143 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>orderbook</td>
 <td>DerivativeLimitOrderbook</td>
 <td>Array of DerivativeLimitOrderbook</td>
+</tr>
+</tbody></table>
+
+<p><strong>DerivativeLimitOrderbook</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>buys</td>
+<td>PriceLevel</td>
+<td>Array of PriceLevel</td>
+</tr>
+<tr>
+<td>sells</td>
+<td>PriceLevel</td>
+<td>Array of PriceLevel</td>
+</tr>
+</tbody></table>
+
+<p><strong>PriceLevel</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>quantity</td>
+<td>string</td>
+<td>Quantity of the price level</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer</td>
+<td>Price level last updated timestamp in UNIX millis</td>
+</tr>
+<tr>
+<td>price</td>
+<td>string</td>
+<td>Price number of the price level</td>
+</tr>
+</tbody></table>
+<h2 id='injectivederivativeexchangerpc-orderbooks'>Orderbooks</h2>
+<p>Get the orderbook for an array of derivative markets.</p>
+<h3 id='injectivederivativeexchangerpc-orderbooks-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># select network: local, testnet, mainnet
+</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">market_ids</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span><span class="p">,</span>
+        <span class="s">"0x1f73e21972972c69c03fb105a5864592ac2b47996ffea3c500d1ea2d20138717"</span>
+    <span class="p">]</span>
+    <span class="n">market</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_derivative_orderbooks</span><span class="p">(</span><span class="n">market_ids</span><span class="o">=</span><span class="n">market_ids</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">market</span><span class="p">)</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_ids</td>
+<td>array</td>
+<td>Filter by an array of market IDs</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+<h3 id='injectivederivativeexchangerpc-orderbooks-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+</span><span class="nl">"orderbooks"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x1f73e21972972c69c03fb105a5864592ac2b47996ffea3c500d1ea2d20138717"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"orderbook"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"13107000"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.3"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1646998496535</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12989000"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.8"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1646998520256</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span><span class="nl">"orderbooks"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"orderbook"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"39873942000"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.1"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1646998535041</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"39752458000"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.3"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1646998517630</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>orderbook</td>
+<td>DerivativeLimitOrderbook</td>
+<td>Array of DerivativeLimitOrderbook</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>string</td>
+<td>Filter by market ID</td>
 </tr>
 </tbody></table>
 
@@ -8963,16 +9271,16 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 <tr>
-<td>is_buy</td>
-<td>boolean</td>
-<td>Set to true or false for buy and sell orders respectively</td>
-<td>Yes</td>
-</tr>
-<tr>
 <td>leverage</td>
 <td>float</td>
 <td>The leverage factor for the order</td>
 <td>No</td>
+</tr>
+<tr>
+<td>is_buy</td>
+<td>boolean</td>
+<td>Set to true or false for buy and sell orders respectively</td>
+<td>Yes</td>
 </tr>
 <tr>
 <td>is_reduce_only</td>
@@ -9014,6 +9322,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
         <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
         <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">is_po</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
         <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
     <span class="p">)</span>
 
@@ -9105,21 +9414,27 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 <tr>
-<td>is_buy</td>
-<td>boolean</td>
-<td>Set to true or false for buy and sell orders respectively</td>
-<td>Yes</td>
-</tr>
-<tr>
 <td>leverage</td>
 <td>float</td>
 <td>The leverage factor for the order</td>
 <td>No</td>
 </tr>
 <tr>
+<td>is_buy</td>
+<td>boolean</td>
+<td>Set to true or false for buy and sell orders respectively</td>
+<td>Yes</td>
+</tr>
+<tr>
 <td>is_reduce_only</td>
 <td>boolean</td>
 <td>Set to true or false for reduce-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+<tr>
+<td>is_po</td>
+<td>boolean</td>
+<td>Set to true or false for post-only or normal orders respectively</td>
 <td>No</td>
 </tr>
 </tbody></table>
@@ -9254,6 +9569,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
             <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
             <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">True</span>
         <span class="p">),</span>
         <span class="n">composer</span><span class="p">.</span><span class="n">DerivativeOrder</span><span class="p">(</span>
             <span class="n">market_id</span><span class="o">=</span><span class="n">derivative_market_id</span><span class="p">,</span>
@@ -9263,6 +9579,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
             <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
             <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
             <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
         <span class="p">),</span>
     <span class="p">]</span>
@@ -9276,6 +9593,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
             <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
             <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">True</span>
         <span class="p">),</span>
         <span class="n">composer</span><span class="p">.</span><span class="n">DerivativeOrder</span><span class="p">(</span>
             <span class="n">market_id</span><span class="o">=</span><span class="n">derivative_market_id</span><span class="p">,</span>
@@ -9285,6 +9603,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
             <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
             <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
             <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
         <span class="p">),</span>
     <span class="p">]</span>
@@ -9406,21 +9725,27 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 <tr>
-<td>is_buy</td>
-<td>boolean</td>
-<td>Set to true or false for buy and sell orders respectively</td>
-<td>Yes</td>
-</tr>
-<tr>
 <td>leverage</td>
 <td>float</td>
 <td>The leverage factor for the order</td>
 <td>No</td>
 </tr>
 <tr>
+<td>is_buy</td>
+<td>boolean</td>
+<td>Set to true or false for buy and sell orders respectively</td>
+<td>Yes</td>
+</tr>
+<tr>
 <td>is_reduce_only</td>
 <td>boolean</td>
 <td>Set to true or false for reduce-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+<tr>
+<td>is_po</td>
+<td>boolean</td>
+<td>Set to true or false for post-only or normal orders respectively</td>
 <td>No</td>
 </tr>
 </tbody></table>
@@ -9632,7 +9957,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">price</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
             <span class="n">quantity</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span>
             <span class="n">leverage</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">True</span>
         <span class="p">),</span>
         <span class="n">composer</span><span class="p">.</span><span class="n">DerivativeOrder</span><span class="p">(</span>
             <span class="n">market_id</span><span class="o">=</span><span class="n">derivative_market_id_create</span><span class="p">,</span>
@@ -9642,6 +9968,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">quantity</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span>
             <span class="n">leverage</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
             <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span>
         <span class="p">),</span>
     <span class="p">]</span>
 
@@ -9652,7 +9979,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
             <span class="n">price</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
             <span class="n">quantity</span><span class="o">=</span><span class="mi">62</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">True</span>
         <span class="p">),</span>
         <span class="n">composer</span><span class="p">.</span><span class="n">SpotOrder</span><span class="p">(</span>
             <span class="n">market_id</span><span class="o">=</span><span class="n">spot_market_id_create</span><span class="p">,</span>
@@ -9660,7 +9988,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
             <span class="n">price</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
             <span class="n">quantity</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span>
         <span class="p">),</span>
     <span class="p">]</span>
 
@@ -9823,6 +10152,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Set to true or false for buy and sell orders respectively</td>
 <td>Yes</td>
 </tr>
+<tr>
+<td>is_po</td>
+<td>boolean</td>
+<td>Set to true or false for post-only or normal orders respectively</td>
+<td>No</td>
+</tr>
 </tbody></table>
 
 <p><strong>DerivativeOrder</strong></p>
@@ -9866,21 +10201,27 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 <tr>
-<td>is_buy</td>
-<td>boolean</td>
-<td>Set to true or false for buy and sell orders respectively</td>
-<td>Yes</td>
-</tr>
-<tr>
 <td>leverage</td>
 <td>float</td>
 <td>The leverage factor for the order</td>
 <td>No</td>
 </tr>
 <tr>
+<td>is_buy</td>
+<td>boolean</td>
+<td>Set to true or false for buy and sell orders respectively</td>
+<td>Yes</td>
+</tr>
+<tr>
 <td>is_reduce_only</td>
 <td>boolean</td>
 <td>Set to true or false for reduce-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+<tr>
+<td>is_po</td>
+<td>boolean</td>
+<td>Set to true or false for post-only or normal orders respectively</td>
 <td>No</td>
 </tr>
 </tbody></table>
@@ -10251,7 +10592,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
         <span class="n">price</span><span class="o">=</span><span class="mf">7.523</span><span class="p">,</span>
         <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-        <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">is_po</span><span class="o">=</span><span class="bp">True</span>
     <span class="p">)</span>
 
     <span class="c1"># build sim tx
@@ -10346,6 +10688,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>boolean</td>
 <td>Set to true or false for buy and sell orders respectively</td>
 <td>Yes</td>
+</tr>
+<tr>
+<td>is_po</td>
+<td>boolean</td>
+<td>Set to true or false for post-only or normal orders respectively</td>
+<td>No</td>
 </tr>
 </tbody></table>
 
@@ -10476,7 +10824,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
             <span class="n">price</span><span class="o">=</span><span class="mf">3.5</span><span class="p">,</span>
             <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">True</span>
         <span class="p">),</span>
         <span class="n">composer</span><span class="p">.</span><span class="n">SpotOrder</span><span class="p">(</span>
             <span class="n">market_id</span><span class="o">=</span><span class="n">spot_market_id</span><span class="p">,</span>
@@ -10484,7 +10833,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
             <span class="n">price</span><span class="o">=</span><span class="mf">27.9</span><span class="p">,</span>
             <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span>
         <span class="p">),</span>
     <span class="p">]</span>
 
@@ -10495,7 +10845,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
             <span class="n">price</span><span class="o">=</span><span class="mf">3.5</span><span class="p">,</span>
             <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">True</span>
         <span class="p">),</span>
         <span class="n">composer</span><span class="p">.</span><span class="n">SpotOrder</span><span class="p">(</span>
             <span class="n">market_id</span><span class="o">=</span><span class="n">spot_market_id</span><span class="p">,</span>
@@ -10503,7 +10854,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
             <span class="n">price</span><span class="o">=</span><span class="mf">27.9</span><span class="p">,</span>
             <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span>
         <span class="p">),</span>
     <span class="p">]</span>
 
@@ -10628,6 +10980,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>boolean</td>
 <td>Set to true or false for buy and sell orders respectively</td>
 <td>Yes</td>
+</tr>
+<tr>
+<td>is_po</td>
+<td>boolean</td>
+<td>Set to true or false for post-only or normal orders respectively</td>
+<td>No</td>
 </tr>
 </tbody></table>
 
@@ -10847,7 +11205,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">price</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
             <span class="n">quantity</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span>
             <span class="n">leverage</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">True</span>
         <span class="p">),</span>
         <span class="n">composer</span><span class="p">.</span><span class="n">DerivativeOrder</span><span class="p">(</span>
             <span class="n">market_id</span><span class="o">=</span><span class="n">derivative_market_id_create</span><span class="p">,</span>
@@ -10857,6 +11216,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">quantity</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span>
             <span class="n">leverage</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
             <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span>
         <span class="p">),</span>
     <span class="p">]</span>
 
@@ -10867,7 +11227,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
             <span class="n">price</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
             <span class="n">quantity</span><span class="o">=</span><span class="mi">62</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">True</span>
         <span class="p">),</span>
         <span class="n">composer</span><span class="p">.</span><span class="n">SpotOrder</span><span class="p">(</span>
             <span class="n">market_id</span><span class="o">=</span><span class="n">spot_market_id_create</span><span class="p">,</span>
@@ -10875,7 +11236,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
             <span class="n">price</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
             <span class="n">quantity</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span>
         <span class="p">),</span>
     <span class="p">]</span>
 
@@ -11038,6 +11400,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Set to true or false for buy and sell orders respectively</td>
 <td>Yes</td>
 </tr>
+<tr>
+<td>is_po</td>
+<td>boolean</td>
+<td>Set to true or false for post-only or normal orders respectively</td>
+<td>No</td>
+</tr>
 </tbody></table>
 
 <p><strong>DerivativeOrder</strong></p>
@@ -11081,21 +11449,27 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 <tr>
-<td>is_buy</td>
-<td>boolean</td>
-<td>Set to true or false for buy and sell orders respectively</td>
-<td>Yes</td>
-</tr>
-<tr>
 <td>leverage</td>
 <td>float</td>
 <td>The leverage factor for the order</td>
 <td>No</td>
 </tr>
 <tr>
+<td>is_buy</td>
+<td>boolean</td>
+<td>Set to true or false for buy and sell orders respectively</td>
+<td>Yes</td>
+</tr>
+<tr>
 <td>is_reduce_only</td>
 <td>boolean</td>
 <td>Set to true or false for reduce-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+<tr>
+<td>is_po</td>
+<td>boolean</td>
+<td>Set to true or false for post-only or normal orders respectively</td>
 <td>No</td>
 </tr>
 </tbody></table>
