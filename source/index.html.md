@@ -105,7 +105,7 @@ Examples are under construction, stay tuned.
 Install exchange-consumer using `yarn`.
 
 ```bash
-yarn add @InjectiveLabs/exchange-consumer
+yarn add @injectivelabs/exchange-consumer
 ```
 
 **Reference**
