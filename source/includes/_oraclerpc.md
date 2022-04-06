@@ -21,6 +21,35 @@ def main() -> None:
     print(oracle_list)
 ```
 
+``` go
+package main
+
+import (
+    "context"
+    "fmt"
+
+    "github.com/InjectiveLabs/sdk-go/client/common"
+    exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+    network := common.LoadNetwork("mainnet", "lb")
+    exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    ctx := context.Background()
+    res, err := exchangeClient.GetOracleList(ctx)
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    fmt.Println(res)
+}
+
+```
+
 
 ### Response Parameters
 > Response Example:
@@ -83,6 +112,38 @@ def main() -> None:
     print(oracle_prices)
 ```
 
+``` go
+package main
+
+import (
+    "context"
+    "fmt"
+    "github.com/InjectiveLabs/sdk-go/client/common"
+    exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+    network := common.LoadNetwork("mainnet", "lb")
+    exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    ctx := context.Background()
+    baseSymbol := "BTC"
+    quoteSymbol := "USDT"
+    oracleType := "BandIBC"
+    oracleScaleFactor := uint32(6)
+    res, err := exchangeClient.GetPrice(ctx, baseSymbol, quoteSymbol, oracleType, oracleScaleFactor)
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    fmt.Println(res)
+}
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |base_symbol|string|Oracle base currency|Yes|
@@ -130,6 +191,50 @@ def main() -> None:
     )
     for oracle in oracle_prices:
         print(oracle)
+```
+
+``` go
+package main
+
+import (
+    "context"
+    "fmt"
+
+    "github.com/InjectiveLabs/sdk-go/client/common"
+    exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+    network := common.LoadNetwork("mainnet", "lb")
+    exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    ctx := context.Background()
+    baseSymbol := "BTC"
+    quoteSymbol := "USDT"
+    oracleType := "BandIBC"
+    stream, err := exchangeClient.StreamPrices(ctx, baseSymbol, quoteSymbol, oracleType)
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    for {
+        select {
+        case <-ctx.Done():
+            return
+        default:
+            res, err := stream.Recv()
+            if err != nil {
+                fmt.Println(err)
+                return
+            }
+            fmt.Println(res)
+        }
+    }
+}
+
 ```
 
 |Parameter|Type|Description|Required|

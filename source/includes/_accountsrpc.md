@@ -9,6 +9,7 @@ Get a list of subaccounts for a specific address.
 ### Request Parameters
 > Request Example:
 
+
 ``` python
 from pyinjective.client import Client
 from pyinjective.constant import Network
@@ -21,6 +22,37 @@ def main() -> None:
     account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
     subacc_list = client.get_subaccount_list(account_address)
     print(subacc_list)
+```
+
+
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    panic(err)
+  }
+
+  ctx := context.Background()
+  accountAddress := "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+  res, err := exchangeClient.GetSubaccountsList(ctx, accountAddress)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  fmt.Println(res)
+}
 ```
 
 |Parameter|Type|Description|Required|
@@ -67,6 +99,48 @@ def main() -> None:
     subacc_history = client.get_subaccount_history(subaccount_id=subaccount, denom=denom, transfer_types=transfer_types)
     print(subacc_history)
 ```
+
+``` go
+
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+  accountPB "github.com/InjectiveLabs/sdk-go/exchange/accounts_rpc/pb"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    panic(err)
+  }
+
+  ctx := context.Background()
+  denom := "inj"
+  subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+  transferTypes := []string{"deposit"}
+
+  req := accountPB.SubaccountHistoryRequest{
+    Denom:         denom,
+    SubaccountId:  subaccountId,
+    TransferTypes: transferTypes,
+  }
+
+  res, err := exchangeClient.GetSubaccountHistory(ctx, req)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  fmt.Println(res)
+}
+```
+
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
@@ -149,6 +223,38 @@ def main() -> None:
     print(balance)
 ```
 
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    panic(err)
+  }
+
+  ctx := context.Background()
+  subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+  denom := "inj"
+  res, err := exchangeClient.GetSubaccountBalance(ctx, subaccountId, denom)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  fmt.Println(res)
+}
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |subaccount_id|string|Filter by subaccount ID|Yes|
@@ -214,6 +320,38 @@ def main() -> None:
     subacc_balances_list = client.get_subaccount_balances_list(subaccount)
     print(subacc_balances_list)
 ```
+
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    panic(err)
+  }
+
+  ctx := context.Background()
+  subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+  res, err := exchangeClient.GetSubaccountBalancesList(ctx, subaccountId)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  fmt.Println(res)
+}
+
+```
+
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
@@ -300,6 +438,47 @@ def main() -> None:
     print(subacc_order_summary)
 ```
 
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+  accountPB "github.com/InjectiveLabs/sdk-go/exchange/accounts_rpc/pb"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    panic(err)
+  }
+
+  ctx := context.Background()
+  marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+  orderDirection := "buy"
+
+  req := accountPB.SubaccountOrderSummaryRequest{
+    MarketId:       marketId,
+    SubaccountId:   subaccountId,
+    OrderDirection: orderDirection,
+  }
+
+  res, err := exchangeClient.GetSubaccountOrderSummary(ctx, req)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  fmt.Println(res)
+}
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |subaccount_id|string|Filter by subaccount ID|Yes|
@@ -345,6 +524,49 @@ def main() -> None:
     for balance in subaccount:
         print("Subaccount balance Update:\n")
         print(balance)
+```
+
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    panic(err)
+  }
+
+  ctx := context.Background()
+  subaccountId := "0x1b99514e320ae0087be7f87b1e3057853c43b799000000000000000000000000"
+  stream, err := exchangeClient.StreamSubaccountBalance(ctx, subaccountId)
+  if err != nil {
+    panic(err)
+  }
+
+  for {
+    select {
+    case <-ctx.Done():
+      return
+    default:
+      res, err := stream.Recv()
+      if err != nil {
+        fmt.Println(err)
+        return
+      }
+      fmt.Println(res)
+    }
+  }
+}
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -412,6 +634,45 @@ def main() -> None:
     
     orders = client.get_order_states(spot_order_hashes=spot_order_hashes, derivative_order_hashes=derivative_order_hashes)
     print(orders)
+```
+
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+  accountPB "github.com/InjectiveLabs/sdk-go/exchange/accounts_rpc/pb"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    panic(err)
+  }
+
+  ctx := context.Background()
+  spotOrderHashes := []string{"0x0b156df549747187210ca5381f0291f179d76d613d0bae1a3c4fd2e3c0504b7c"}
+  derivativeOrderHashes := []string{"0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50"}
+
+  req := accountPB.OrderStatesRequest{
+    SpotOrderHashes:       spotOrderHashes,
+    DerivativeOrderHashes: derivativeOrderHashes,
+  }
+
+  res, err := exchangeClient.GetOrderStates(ctx, req)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  fmt.Println(res)
+}
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -533,6 +794,37 @@ def main() -> None:
     print(portfolio)
 ```
 
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    panic(err)
+  }
+
+  ctx := context.Background()
+  accountAddress := "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+  res, err := exchangeClient.GetPortfolio(ctx, accountAddress)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  fmt.Println(res)
+}
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |account_address|string|The Injective Chain address|Yes|
@@ -588,6 +880,46 @@ async def main() -> None:
     rewards = client.get_rewards(account_address=account_address, epoch=epoch)
     print(rewards)
 ```
+
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+  accountPB "github.com/InjectiveLabs/sdk-go/exchange/accounts_rpc/pb"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    panic(err)
+  }
+
+  ctx := context.Background()
+  accountAddress := "inj1rwv4zn3jptsqs7l8lpa3uvzhs57y8duemete9e"
+  epoch := int64(1)
+
+  req := accountPB.RewardsRequest{
+    Epoch:          epoch,
+    AccountAddress: accountAddress,
+  }
+
+  res, err := exchangeClient.GetRewards(ctx, req)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  fmt.Println(res)
+}
+
+```
+
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|

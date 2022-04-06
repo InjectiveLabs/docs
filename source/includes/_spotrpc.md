@@ -23,6 +23,37 @@ def main() -> None:
     print(market)
 ```
 
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  res, err := exchangeClient.GetSpotMarket(ctx, marketId)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  fmt.Println(res)
+}
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|string|Filter by market ID|Yes|
@@ -121,6 +152,46 @@ def main() -> None:
     market = client.get_spot_markets(market_status=market_status, base_denom=base_denom, quote_denom=quote_denom)
     print(market)
 ```
+
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+  spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  marketStatus := "active"
+  quoteDenom := "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+
+  req := spotExchangePB.MarketsRequest{
+    MarketStatus: marketStatus,
+    QuoteDenom:   quoteDenom,
+  }
+
+  res, err := exchangeClient.GetSpotMarkets(ctx, req)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  fmt.Println(res)
+}
+
+```
+
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
@@ -221,6 +292,49 @@ def main() -> None:
         print(market)
 ```
 
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
+  stream, err := exchangeClient.StreamSpotMarket(ctx, marketIds)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  for {
+    select {
+    case <-ctx.Done():
+      return
+    default:
+      res, err := stream.Recv()
+      if err != nil {
+        fmt.Println(err)
+        return
+      }
+      fmt.Println(res)
+    }
+  }
+}
+
+```
+
 ### Response Parameters
 > Streaming Response Example:
 
@@ -318,6 +432,43 @@ def main() -> None:
     print(orders)
 ```
 
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+  spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+
+  req := spotExchangePB.OrdersRequest{
+    MarketId: marketId,
+  }
+
+  res, err := exchangeClient.GetSpotOrders(ctx, req)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  fmt.Println(res)
+}
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|string|Filter by market ID|Yes|
@@ -404,6 +555,58 @@ def main() -> None:
     orders = client.stream_spot_orders(market_id=market_id, order_side=order_side, subaccount_id=subaccount_id)
     for order in orders:
         print(order)
+```
+
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+  spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+  orderSide := "buy"
+
+  req := spotExchangePB.StreamOrdersRequest{
+    MarketId:     marketId,
+    SubaccountId: subaccountId,
+    OrderSide:    orderSide,
+  }
+  stream, err := exchangeClient.StreamSpotOrders(ctx, req)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  for {
+    select {
+    case <-ctx.Done():
+      return
+    default:
+      res, err := stream.Recv()
+      if err != nil {
+        fmt.Println(err)
+        return
+      }
+      fmt.Println(res)
+    }
+  }
+}
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -501,6 +704,45 @@ def main() -> None:
 
     orders = client.get_spot_trades(market_id=market_id, execution_side=execution_side, direction=direction, subaccount_id=subaccount_id)
     print(orders)
+```
+
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+  derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  marketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+  subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+
+  req := derivativeExchangePB.TradesRequest{
+    MarketId:     marketId,
+    SubaccountId: subaccountId,
+  }
+
+  res, err := exchangeClient.GetDerivativeTrades(ctx, req)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  fmt.Println(res)
+}
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -603,6 +845,56 @@ def main() -> None:
         print(trade)
 ```
 
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+  spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+
+  req := spotExchangePB.StreamTradesRequest{
+    MarketId:     marketId,
+    SubaccountId: subaccountId,
+  }
+  stream, err := exchangeClient.StreamSpotTrades(ctx, req)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  for {
+    select {
+    case <-ctx.Done():
+      return
+    default:
+      res, err := stream.Recv()
+      if err != nil {
+        fmt.Println(err)
+        return
+      }
+      fmt.Println(res)
+    }
+  }
+}
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_ids|array|Filter by an array of market IDs|Conditional|
@@ -690,6 +982,37 @@ def main() -> None:
     print(orderbook)
 ```
 
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  res, err := exchangeClient.GetSpotOrderbook(ctx, marketId)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  fmt.Println(res)
+}
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|string|Filter by market ID|Yes|
@@ -774,6 +1097,37 @@ def main() -> None:
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     orderbook = client.get_spot_orderbook(market_id=market_id)
     print(orderbook)
+```
+
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
+  res, err := exchangeClient.GetSpotOrderbooks(ctx, marketIds)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  fmt.Println(res)
+}
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -863,6 +1217,50 @@ def main() -> None:
         print(orders)
 ```
 
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
+  stream, err := exchangeClient.StreamSpotOrderbook(ctx, marketIds)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  for {
+    select {
+    case <-ctx.Done():
+      return
+    default:
+      res, err := stream.Recv()
+      if err != nil {
+        fmt.Println(err)
+        return
+      }
+      fmt.Println(res)
+    }
+  }
+}
+
+```
+
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|string|Filter by market ID|Yes|
@@ -943,6 +1341,48 @@ def main() -> None:
     orderbook = client.stream_spot_orderbooks(market_ids=market_ids)
     for orders in orderbook:
         print(orders)
+```
+
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
+  stream, err := exchangeClient.StreamSpotOrderbook(ctx, marketIds)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  for {
+    select {
+    case <-ctx.Done():
+      return
+    default:
+      res, err := stream.Recv()
+      if err != nil {
+        fmt.Println(err)
+        return
+      }
+      fmt.Println(res)
+    }
+  }
+}
 ```
 
 |Parameter|Type|Description|Required|
@@ -1029,6 +1469,45 @@ def main() -> None:
     print(orders)
 ```
 
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+  spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  subaccountId := "0x7453466968297ccaf24f78deb674ad54f9b86697000000000000000000000000"
+
+  req := spotExchangePB.SubaccountOrdersListRequest{
+    MarketId:     marketId,
+    SubaccountId: subaccountId,
+  }
+
+  res, err := exchangeClient.GetSubaccountSpotOrdersList(ctx, req)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  fmt.Println(res)
+}
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |subaccount_id|string|Filter by subaccount ID|Yes|
@@ -1113,6 +1592,45 @@ def main() -> None:
     execution_type = "market" # market, limitFill, limitMatchRestingOrder or limitMatchNewOrder
     trades = client.get_spot_subaccount_trades(subaccount_id=subaccount_id, market_id=market_id, execution_type=execution_type, direction=direction)
     print(trades)
+```
+
+``` go
+package main
+
+import (
+  "context"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+  spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+
+  req := spotExchangePB.SubaccountTradesListRequest{
+    MarketId:     marketId,
+    SubaccountId: subaccountId,
+  }
+
+  res, err := exchangeClient.GetSubaccountSpotTradesList(ctx, req)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  fmt.Println(res)
+}
+
 ```
 
 |Parameter|Type|Description|Required|
