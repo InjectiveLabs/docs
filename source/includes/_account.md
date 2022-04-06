@@ -164,9 +164,7 @@ func main() {
 
 > Response Example:
 
-``` json
-{
-
+``` python
 "height": "8581276",
 "txhash": "ED1A31933449525712EEFB2B27929117E291CC81E0827233E5C892F5D03EB9AB",
 "data": "0A1E0A1C2F636F736D6F732E62616E6B2E763162657461312E4D736753656E64",
@@ -227,10 +225,14 @@ func main() {
 },
 "gas_wanted": "200000",
 "gas_used": "86357"
-
-
-}
 ```
+
+```go
+DEBU[0001] broadcastTx with nonce 2993                   fn=func1 src="client/chain/chain.go:482"
+DEBU[0002] msg batch committed successfully at height 3663068  fn=func1 src="client/chain/chain.go:503" txHash=165951FD724A4BB9907A72224EC17221619121AE5FF4E454370FF9DCC450F0F2
+DEBU[0002] nonce incremented to 2994                     fn=func1 src="client/chain/chain.go:507"
+```
+
 
 ## MsgDeposit
 
@@ -396,9 +398,7 @@ func main() {
 
 > Response Example:
 
-``` json
-{
-
+``` python
 "height": "8581522",
 "txhash": "E2E0A4F8DF9E6C93DACF591A542B5677B70D17E3E46418668CE39828E3694DC6",
 "data": "0A280A262F696E6A6563746976652E65786368616E67652E763162657461312E4D73674465706F736974",
@@ -470,9 +470,12 @@ func main() {
 },
 "gas_wanted": "200000",
 "gas_used": "93162"
+```
 
-
-}
+```go
+DEBU[0001] broadcastTx with nonce 2995                   fn=func1 src="client/chain/chain.go:482"
+DEBU[0003] msg batch committed successfully at height 3663161  fn=func1 src="client/chain/chain.go:503" txHash=428EEF90B5453F6F287B1171C420B589823D2AB49552A0BB7221503230FD9FB2
+DEBU[0003] nonce incremented to 2996                     fn=func1 src="client/chain/chain.go:507"
 ```
 
 ## MsgWithdraw
@@ -640,8 +643,7 @@ func main() {
 
 > Response Example:
 
-``` json
-{
+``` python
 "height": "8739822",
 "txhash": "1E015C6B0D3CEFA5C9729415E4462B3BF2EF56F9D01E68C0653658F00B1D8A5E",
 "data": "0A290A272F696E6A6563746976652E65786368616E67652E763162657461312E4D73675769746864726177",
@@ -713,7 +715,12 @@ func main() {
 },
 "gas_wanted": "200000",
 "gas_used": "91833"
-}
+```
+
+```go
+DEBU[0001] broadcastTx with nonce 2996                   fn=func1 src="client/chain/chain.go:482"
+DEBU[0003] msg batch committed successfully at height 3663188  fn=func1 src="client/chain/chain.go:503" txHash=0039F8FD6BD1F87F8161DEE6FF28088AC8FC45DAAEE898F337FCD1FB68C692C0
+DEBU[0003] nonce incremented to 2997                     fn=func1 src="client/chain/chain.go:507"
 ```
 
 
@@ -888,8 +895,7 @@ func main() {
 
 > Response Example:
 
-``` json
-{
+``` python
 "height": "8739976",
 "txhash": "4D1EA75A18B967F3A5E35277DFF03D724D85A1DB77168F562CC26AD4C1BE0EA3",
 "data": "0A330A312F696E6A6563746976652E65786368616E67652E763162657461312E4D73675375626163636F756E745472616E73666572",
@@ -920,8 +926,12 @@ func main() {
 },
 "gas_wanted": "200000",
 "gas_used": "86552"
+```
 
-}
+```go
+DEBU[0001] broadcastTx with nonce 2997                   fn=func1 src="client/chain/chain.go:482"
+DEBU[0003] msg batch committed successfully at height 3663214  fn=func1 src="client/chain/chain.go:503" txHash=02EB1FC4F3A61A5353D81B54B5BECC6251FB41975E1B2C8D533FCE5BB0F33A77
+DEBU[0003] nonce incremented to 2998                     fn=func1 src="client/chain/chain.go:507"
 ```
 
 
@@ -1104,8 +1114,7 @@ func main() {
 
 > Response Example:
 
-``` json
-{
+``` python
 "height": 918024,
 "txhash": "0ECDD061DB698A4162E45DCA9A21795937E55B92CE41EC49B71098833D2E316F",
 "data": "0A220A202F696E6A6563746976652E70656767792E76312E4D736753656E64546F457468",
@@ -1204,8 +1213,12 @@ func main() {
 },
 "gas_wanted": 119267,
 "gas_used": 114729
+```
 
-}
+```go
+DEBU[0001] broadcastTx with nonce 2997                   fn=func1 src="client/chain/chain.go:482"
+DEBU[0003] msg batch committed successfully at height 3663214  fn=func1 src="client/chain/chain.go:503" txHash=0ECDD061DB698A4162E45DCA9A21795937E55B92CE41EC49B71098833D2E316F
+DEBU[0003] nonce incremented to 2998                     fn=func1 src="client/chain/chain.go:507"
 ```
 
 
@@ -1263,13 +1276,8 @@ func main() {
 
 > Response Example:
 
-``` json
-{
-
+``` python
 "Transferred 1 0x36b3d7ace7201e28040eff30e815290d7b37ffad from 0xbdAEdEc95d563Fb05240d6e01821008454c24C36 to inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
 
 "Transaction hash: 0xb538abc7c2f893a2fe24c7a8ea606ff48d980a754499f1bec89b862c2bcb9ea7"
-
-
-}
 ```

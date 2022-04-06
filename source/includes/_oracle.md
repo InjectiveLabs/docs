@@ -168,9 +168,7 @@ func main() {
 
 > Response Example:
 
-``` json
-{
-
+``` python
 "height": 1433865,
 "txhash": "1248012FD21D87752212389CA5F715566578A0ACB58D77ADB25806018B24216F",
 "data": "0A320A302F696E6A6563746976652E6F7261636C652E763162657461312E4D736752656C61795072696365466565645072696365",
@@ -205,6 +203,10 @@ func main() {
 },
 "gas_wanted": 89097,
 "gas_used": 84566
+```
 
-}
+```go
+DEBU[0001] broadcastTx with nonce 3001                   fn=func1 src="client/chain/chain.go:482"
+DEBU[0003] msg batch committed successfully at height 3663646  fn=func1 src="client/chain/chain.go:503" txHash=1248012FD21D87752212389CA5F715566578A0ACB58D77ADB25806018B24216F
+DEBU[0003] nonce incremented to 3002                     fn=func1 src="client/chain/chain.go:507"
 ```
