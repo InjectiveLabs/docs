@@ -7,6 +7,25 @@ Includes all messages and queries related to the Authz module. Authz is an imple
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    
     msg = composer.MsgGrant(
         granter = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
         grantee = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
@@ -103,6 +122,26 @@ Includes all messages and queries related to the Authz module. Authz is an imple
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
+    
     # prepare tx msg
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
 
@@ -199,6 +238,25 @@ Includes all messages and queries related to the Authz module. Authz is an imple
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    
     # prepare tx msg
     msg = composer.MsgRevoke(
         granter = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",

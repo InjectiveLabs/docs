@@ -7,6 +7,26 @@ Includes all messages related to derivative markets.
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
+
     # prepare trade info
     market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
@@ -101,6 +121,26 @@ Includes all messages related to derivative markets.
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
+    
     # prepare trade info
     market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
@@ -198,7 +238,27 @@ Includes all messages related to derivative markets.
 > Request Example:
 
 ``` python
-	# prepare trade info
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
+    
+    # prepare trade info
     market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"
     order_hash = "0x7d0b95cfc0fb5901ba4d686060074107eaff6bbcc9eba25823d16fa21508bfeb"
 
@@ -277,6 +337,26 @@ Includes all messages related to derivative markets.
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
+    
     # prepare trade info
     derivative_market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
@@ -429,6 +509,26 @@ Includes all messages related to derivative markets.
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
+    
     # prepare trade info
     market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"
     orders = [
@@ -538,6 +638,26 @@ Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll o
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
+    
     # prepare trade info
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
@@ -807,6 +927,26 @@ Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll o
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
+    
     # prepare trade info
     market_id = "0x0f4209dbe160ce7b09559c69012d2f5fd73070f8552699a9b77aebda16ccdeb1"
 
