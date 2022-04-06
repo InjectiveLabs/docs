@@ -192,9 +192,7 @@ func main() {
 
 > Response Example:
 
-``` json
-{
-
+``` python
 "simulation msg response"
 "order_hash": "0x61fa86cbc82d6892d066ca340a5e547469a4bd8d00d76cdc05b43e0c37a09505",
 "tx response"
@@ -202,9 +200,12 @@ func main() {
 
 "tx msg response":
 "[]"
+```
 
-
-}
+```go
+DEBU[0001] broadcastTx with nonce 2998                   fn=func1 src="client/chain/chain.go:482"
+DEBU[0003] msg batch committed successfully at height 3663290  fn=func1 src="client/chain/chain.go:503" txHash=0DF365155E4F57F3413E36D38F467B45B9960EB14DB38CFD5B3EE04E82628438
+DEBU[0003] nonce incremented to 2999                     fn=func1 src="client/chain/chain.go:507"
 ```
 
 ## MsgCreateSpotLimitOrder
@@ -400,9 +401,7 @@ func main() {
 
 > Response Example:
 
-``` json
-{
-
+``` python
 "simulation msg response"
 "order_hash": "0x6f24ab1a2ae1d772562239146090df0d6a7b6e503296ebbf7fbc9517d607e7b0",
 "tx response"
@@ -410,10 +409,13 @@ func main() {
 
 "tx msg response":
 "[]"
-
-}
 ```
 
+```go
+DEBU[0001] broadcastTx with nonce 2999                   fn=func1 src="client/chain/chain.go:482"
+DEBU[0002] msg batch committed successfully at height 3663350  fn=func1 src="client/chain/chain.go:503" txHash=6B7C7D1B9E5680351FFAD3C6004141BCD0A99F628490FD01821AD79F65824260
+DEBU[0002] nonce incremented to 3000                     fn=func1 src="client/chain/chain.go:507"
+```
 
 ## MsgCancelSpotOrder
 
@@ -582,13 +584,15 @@ func main() {
 
 > Response Example:
 
-``` json
-{
-
+``` python
 "tx response"
 "txhash": "4E12342489EB934F368855AE2BC8A2860A435D3A5A1F0C0AB5A4AA4DE8F05B0B"
+```
 
-}
+```go
+DEBU[0001] broadcastTx with nonce 2999                   fn=func1 src="client/chain/chain.go:482"
+DEBU[0002] msg batch committed successfully at height 3663350  fn=func1 src="client/chain/chain.go:503" txHash=4E12342489EB934F368855AE2BC8A2860A435D3A5A1F0C0AB5A4AA4DE8F05B0B
+DEBU[0002] nonce incremented to 3000                     fn=func1 src="client/chain/chain.go:507"
 ```
 
 
@@ -831,9 +835,7 @@ func main() {
 
 > Response Example:
 
-``` json
-{
-
+``` python
 "starting subaccount nonce 2193"
 "The order hashes:  ['0x109bd433d44a2a4a771a30b4aa1eccc1d97e02fae064fe2273297893ce39b0cb', '0xc1dd07efb7cf3a90c3d09da958fa22d96a5787eba3dbec56b63902c482accbd4', '0xc1f0e5065d573544705bc13c0809fd2568d231e19c2801fe5878852eb9c8b6e9', '0x18880a54de8d741562e13ad5cf48ce288a20bdd93d8d0a23b0cb5e9d83662efd']"
 
@@ -844,8 +846,12 @@ func main() {
 "order_hashes:" "0xc1f0e5065d573544705bc13c0809fd2568d231e19c2801fe5878852eb9c8b6e9",
 "order_hashes:" "0x18880a54de8d741562e13ad5cf48ce288a20bdd93d8d0a23b0cb5e9d83662efd"
 ]
+```
 
-}
+```go
+DEBU[0001] broadcastTx with nonce 2999                   fn=func1 src="client/chain/chain.go:482"
+DEBU[0002] msg batch committed successfully at height 3663350  fn=func1 src="client/chain/chain.go:503" txHash=597E2F021119634B97A82EC3297114B10678D4E3AFB31447C9A8806837222921
+DEBU[0002] nonce incremented to 3000                     fn=func1 src="client/chain/chain.go:507"
 ```
 
 
@@ -1048,9 +1054,7 @@ func main() {
 
 > Response Example:
 
-``` json
-{
-
+``` python
 "simulation msg response"
 "success": "true",
 "success": "true",
@@ -1060,8 +1064,12 @@ func main() {
 
 "tx msg response":
 "[]"
+```
 
-}
+```go
+DEBU[0001] broadcastTx with nonce 3000                   fn=func1 src="client/chain/chain.go:482"
+DEBU[0003] msg batch committed successfully at height 3663409  fn=func1 src="client/chain/chain.go:503" txHash=24723C0EEF0157EA9C294B2CF66EF1BF97440F3CE965AFE1EC00A226E2EE4A7F
+DEBU[0003] nonce incremented to 3001                     fn=func1 src="client/chain/chain.go:507"
 ```
 
 ## MsgBatchUpdateOrders
@@ -1400,9 +1408,7 @@ func main() {
 
 > Response Example:
 
-``` json
-{
-
+``` python
 "simulation msg response"
 "spot_cancel_success": true,
 "spot_cancel_success": false,
@@ -1468,6 +1474,10 @@ func main() {
 "spot_order_hashes": "0x1c400acc9ca1a3f2cb2a98d35bc252753e5931f762b337410750be327189922f",
 "derivative_order_hashes": "0x11f3c2aed7ed892a1cbf280534b7b2eaafe0bc7f8078b79e7d2c331b49547d99",
 "derivative_order_hashes": ""
+```
 
-}
+```go
+DEBU[0001] broadcastTx with nonce 3000                   fn=func1 src="client/chain/chain.go:482"
+DEBU[0003] msg batch committed successfully at height 3663409  fn=func1 src="client/chain/chain.go:503" txHash=B8BF33A8E62F4F1C3FA6FA9E84F35CCED44D5D7CF004C058AA2E7FC3F1A9E50A
+DEBU[0003] nonce incremented to 3001                     fn=func1 src="client/chain/chain.go:507"
 ```
