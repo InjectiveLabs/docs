@@ -7,6 +7,26 @@ Includes all messages related to spot markets.
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
+    
     # prepare trade info
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
@@ -66,6 +86,99 @@ Includes all messages related to spot markets.
     print(res_msg)
 ```
 
+``` go
+package main
+
+import (
+    "fmt"
+    "os"
+    "time"
+
+    cosmtypes "github.com/cosmos/cosmos-sdk/types"
+    "github.com/shopspring/decimal"
+    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+
+    exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+    chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+    "github.com/InjectiveLabs/sdk-go/client/common"
+)
+
+func main() {
+    // network := common.LoadNetwork("mainnet", "k8s")
+    network := common.LoadNetwork("testnet", "sentry0")
+    tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+        os.Getenv("HOME")+"/.injectived",
+        "injectived",
+        "file",
+        "inj-user",
+        "12345678",
+        "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+        false,
+    )
+
+    if err != nil {
+        panic(err)
+    }
+
+    clientCtx, err := chainclient.NewClientContext(
+        network.ChainId,
+        senderAddress.String(),
+        cosmosKeyring,
+    )
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    clientCtx.WithNodeURI(network.TmEndpoint)
+    clientCtx = clientCtx.WithClient(tmRPC)
+
+    chainClient, err := chainclient.NewChainClient(
+        clientCtx,
+        network.ChainGrpcEndpoint,
+        common.OptionTLSCert(network.ChainTlsCert),
+        common.OptionGasPrices("500000000inj"),
+    )
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    defaultSubaccountID := chainClient.DefaultSubaccount(senderAddress)
+
+    marketId := "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"
+    amount := decimal.NewFromFloat(0.1)
+    price := decimal.NewFromFloat(22)
+
+    order := chainClient.SpotOrder(defaultSubaccountID, network, &chainclient.SpotOrderData{
+        OrderType:    exchangetypes.OrderType_SELL,
+        Quantity:     amount,
+        Price:        price,
+        FeeRecipient: senderAddress.String(),
+        MarketId:     marketId,
+    })
+
+    msg := new(exchangetypes.MsgCreateSpotMarketOrder)
+    msg.Sender = senderAddress.String()
+    msg.Order = exchangetypes.SpotOrder(*order)
+    CosMsgs := []cosmtypes.Msg{msg}
+
+    err = chainClient.QueueBroadcastMsg(CosMsgs...)
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    time.Sleep(time.Second * 5)
+}
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|string|Market ID of the market we want to send an order|Yes|
@@ -100,6 +213,26 @@ Includes all messages related to spot markets.
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
+    
     # prepare trade info
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
@@ -160,6 +293,100 @@ Includes all messages related to spot markets.
     print(res_msg)
 ```
 
+``` go
+package main
+
+import (
+    "fmt"
+    "os"
+    "time"
+
+    cosmtypes "github.com/cosmos/cosmos-sdk/types"
+    "github.com/shopspring/decimal"
+    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+
+    exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+    chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+    "github.com/InjectiveLabs/sdk-go/client/common"
+)
+
+func main() {
+    // network := common.LoadNetwork("mainnet", "k8s")
+    network := common.LoadNetwork("testnet", "k8s")
+    tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+        os.Getenv("HOME")+"/.injectived",
+        "injectived",
+        "file",
+        "inj-user",
+        "12345678",
+        "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+        false,
+    )
+
+    if err != nil {
+        panic(err)
+    }
+
+    clientCtx, err := chainclient.NewClientContext(
+        network.ChainId,
+        senderAddress.String(),
+        cosmosKeyring,
+    )
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    clientCtx.WithNodeURI(network.TmEndpoint)
+    clientCtx = clientCtx.WithClient(tmRPC)
+
+    chainClient, err := chainclient.NewChainClient(
+        clientCtx,
+        network.ChainGrpcEndpoint,
+        common.OptionTLSCert(network.ChainTlsCert),
+        common.OptionGasPrices("500000000inj"),
+    )
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    defaultSubaccountID := chainClient.DefaultSubaccount(senderAddress)
+
+    marketId := "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"
+
+    amount := decimal.NewFromFloat(2)
+    price := decimal.NewFromFloat(22.53)
+
+    order := chainClient.SpotOrder(defaultSubaccountID, network, &chainclient.SpotOrderData{
+        OrderType:    exchangetypes.OrderType_BUY,
+        Quantity:     amount,
+        Price:        price,
+        FeeRecipient: senderAddress.String(),
+        MarketId:     marketId,
+    })
+
+    msg := new(exchangetypes.MsgCreateSpotLimitOrder)
+    msg.Sender = senderAddress.String()
+    msg.Order = exchangetypes.SpotOrder(*order)
+    CosMsgs := []cosmtypes.Msg{msg}
+
+    err = chainClient.QueueBroadcastMsg(CosMsgs...)
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    time.Sleep(time.Second * 5)
+}
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|string|Market ID of the market we want to send an order|Yes|
@@ -194,6 +421,26 @@ Includes all messages related to spot markets.
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
+    
     # prepare trade info
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     order_hash = "0x9b250eacd9bde566506b811e02847059ba7a5eff54c04ec369f06d2de6b7f8fd"
@@ -246,6 +493,85 @@ Includes all messages related to spot markets.
     print(res_msg)
 ```
 
+``` go
+package main
+
+import (
+    "fmt"
+    "os"
+    "time"
+
+    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+
+    exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+    chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+    "github.com/InjectiveLabs/sdk-go/client/common"
+)
+
+func main() {
+    // network := common.LoadNetwork("mainnet", "k8s")
+    network := common.LoadNetwork("testnet", "k8s")
+    tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+        os.Getenv("HOME")+"/.injectived",
+        "injectived",
+        "file",
+        "inj-user",
+        "12345678",
+        "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+        false,
+    )
+
+    if err != nil {
+        panic(err)
+    }
+
+    clientCtx, err := chainclient.NewClientContext(
+        network.ChainId,
+        senderAddress.String(),
+        cosmosKeyring,
+    )
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    clientCtx.WithNodeURI(network.TmEndpoint)
+    clientCtx = clientCtx.WithClient(tmRPC)
+
+    msg := &exchangetypes.MsgCancelSpotOrder{
+        Sender:       senderAddress.String(),
+        MarketId:     "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+        SubaccountId: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+        OrderHash:    "0xc1dd07efb7cf3a90c3d09da958fa22d96a5787eba3dbec56b63902c482accbd4",
+    }
+
+    chainClient, err := chainclient.NewChainClient(
+        clientCtx,
+        network.ChainGrpcEndpoint,
+        common.OptionTLSCert(network.ChainTlsCert),
+        common.OptionGasPrices("500000000inj"),
+    )
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    err = chainClient.QueueBroadcastMsg(msg)
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    time.Sleep(time.Second * 5)
+}
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|string|Market ID of the market we want to cancel an order|Yes|
@@ -272,6 +598,26 @@ Includes all messages related to spot markets.
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
+    
     # prepare trade info
     spot_market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
@@ -373,6 +719,99 @@ Includes all messages related to spot markets.
     res_msg = ProtoMsgComposer.MsgResponses(res.data)
 ```
 
+``` go
+package main
+
+import (
+    "fmt"
+    "os"
+    "time"
+
+    cosmtypes "github.com/cosmos/cosmos-sdk/types"
+    "github.com/shopspring/decimal"
+    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+
+    exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+    chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+    "github.com/InjectiveLabs/sdk-go/client/common"
+)
+
+func main() {
+    // network := common.LoadNetwork("mainnet", "k8s")
+    network := common.LoadNetwork("testnet", "k8s")
+    tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+        os.Getenv("HOME")+"/.injectived",
+        "injectived",
+        "file",
+        "inj-user",
+        "12345678",
+        "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+        false,
+    )
+
+    if err != nil {
+        panic(err)
+    }
+
+    clientCtx, err := chainclient.NewClientContext(
+        network.ChainId,
+        senderAddress.String(),
+        cosmosKeyring,
+    )
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    clientCtx.WithNodeURI(network.TmEndpoint)
+    clientCtx = clientCtx.WithClient(tmRPC)
+
+    chainClient, err := chainclient.NewChainClient(
+        clientCtx,
+        network.ChainGrpcEndpoint,
+        common.OptionTLSCert(network.ChainTlsCert),
+        common.OptionGasPrices("500000000inj"),
+    )
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    defaultSubaccountID := chainClient.DefaultSubaccount(senderAddress)
+
+    marketId := "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"
+    amount := decimal.NewFromFloat(2)
+    price := decimal.NewFromFloat(22.5)
+
+    order := chainClient.SpotOrder(defaultSubaccountID, network, &chainclient.SpotOrderData{
+        OrderType:    exchangetypes.OrderType_SELL,
+        Quantity:     amount,
+        Price:        price,
+        FeeRecipient: senderAddress.String(),
+        MarketId:     marketId,
+    })
+
+    msg := new(exchangetypes.MsgBatchCreateSpotLimitOrders)
+    msg.Sender = senderAddress.String()
+    msg.Orders = []exchangetypes.SpotOrder{*order}
+    CosMsgs := []cosmtypes.Msg{msg}
+
+    err = chainClient.QueueBroadcastMsg(CosMsgs...)
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    time.Sleep(time.Second * 5)
+}
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |sender|string|The Injective Chain address|Yes|
@@ -416,6 +855,26 @@ Includes all messages related to spot markets.
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
+    
     # prepare trade info
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     orders = [
@@ -486,6 +945,94 @@ Includes all messages related to spot markets.
     print(res_msg)
 ```
 
+``` go
+package main
+
+import (
+    "fmt"
+    "os"
+    "time"
+
+    cosmtypes "github.com/cosmos/cosmos-sdk/types"
+    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+
+    exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+    chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+    "github.com/InjectiveLabs/sdk-go/client/common"
+)
+
+func main() {
+    // network := common.LoadNetwork("mainnet", "k8s")
+    network := common.LoadNetwork("testnet", "k8s")
+    tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+        os.Getenv("HOME")+"/.injectived",
+        "injectived",
+        "file",
+        "inj-user",
+        "12345678",
+        "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+        false,
+    )
+
+    if err != nil {
+        panic(err)
+    }
+
+    clientCtx, err := chainclient.NewClientContext(
+        network.ChainId,
+        senderAddress.String(),
+        cosmosKeyring,
+    )
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    clientCtx.WithNodeURI(network.TmEndpoint)
+    clientCtx = clientCtx.WithClient(tmRPC)
+
+    chainClient, err := chainclient.NewChainClient(
+        clientCtx,
+        network.ChainGrpcEndpoint,
+        common.OptionTLSCert(network.ChainTlsCert),
+        common.OptionGasPrices("500000000inj"),
+    )
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    defaultSubaccountID := chainClient.DefaultSubaccount(senderAddress)
+
+    marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    orderHash := "0x17196096ffc32ad088ef959ad95b4cc247a87c7c9d45a2500b81ab8f5a71da5a"
+
+    order := chainClient.OrderCancel(defaultSubaccountID, &chainclient.OrderCancelData{
+        MarketId:  marketId,
+        OrderHash: orderHash,
+    })
+
+    msg := new(exchangetypes.MsgBatchCancelSpotOrders)
+    msg.Sender = senderAddress.String()
+    msg.Data = []exchangetypes.OrderData{*order}
+    CosMsgs := []cosmtypes.Msg{msg}
+
+    err = chainClient.QueueBroadcastMsg(CosMsgs...)
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    time.Sleep(time.Second * 5)
+}
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |sender|string|The Injective Chain address|Yes|
@@ -529,6 +1076,26 @@ Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll o
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
+    
     # prepare trade info
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
@@ -667,6 +1234,120 @@ Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll o
     print(res)
     print("tx msg response")
     print(res_msg)
+```
+
+``` go
+package main
+
+import (
+    "fmt"
+    "os"
+    "time"
+
+    cosmtypes "github.com/cosmos/cosmos-sdk/types"
+    "github.com/shopspring/decimal"
+    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+
+    exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+    chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+    "github.com/InjectiveLabs/sdk-go/client/common"
+)
+
+func main() {
+    // network := common.LoadNetwork("mainnet", "k8s")
+    network := common.LoadNetwork("testnet", "k8s")
+    tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+        os.Getenv("HOME")+"/.injectived",
+        "injectived",
+        "file",
+        "inj-user",
+        "12345678",
+        "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+        false,
+    )
+
+    if err != nil {
+        panic(err)
+    }
+
+    clientCtx, err := chainclient.NewClientContext(
+        network.ChainId,
+        senderAddress.String(),
+        cosmosKeyring,
+    )
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    clientCtx.WithNodeURI(network.TmEndpoint)
+    clientCtx = clientCtx.WithClient(tmRPC)
+
+    chainClient, err := chainclient.NewChainClient(
+        clientCtx,
+        network.ChainGrpcEndpoint,
+        common.OptionTLSCert(network.ChainTlsCert),
+        common.OptionGasPrices("500000000inj"),
+    )
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    defaultSubaccountID := chainClient.DefaultSubaccount(senderAddress)
+
+    smarketId := "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"
+    samount := decimal.NewFromFloat(2)
+    sprice := decimal.NewFromFloat(22.5)
+    smarketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
+
+    spot_order := chainClient.SpotOrder(defaultSubaccountID, network, &chainclient.SpotOrderData{
+        OrderType:    exchangetypes.OrderType_BUY,
+        Quantity:     samount,
+        Price:        sprice,
+        FeeRecipient: senderAddress.String(),
+        MarketId:     smarketId,
+    })
+
+    dmarketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+    damount := decimal.NewFromFloat(2)
+    dprice := cosmtypes.MustNewDecFromStr("31000000000") //31,000
+    dleverage := cosmtypes.MustNewDecFromStr("2.5")
+    dmarketIds := []string{"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"}
+
+    derivative_order := chainClient.DerivativeOrder(defaultSubaccountID, network, &chainclient.DerivativeOrderData{
+        OrderType:    exchangetypes.OrderType_BUY,
+        Quantity:     damount,
+        Price:        dprice,
+        Leverage:     dleverage,
+        FeeRecipient: senderAddress.String(),
+        MarketId:     dmarketId,
+    })
+
+    msg := new(exchangetypes.MsgBatchUpdateOrders)
+    msg.Sender = senderAddress.String()
+    msg.SubaccountId = defaultSubaccountID.Hex()
+    msg.SpotOrdersToCreate = []*exchangetypes.SpotOrder{spot_order}
+    msg.DerivativeOrdersToCreate = []*exchangetypes.DerivativeOrder{derivative_order}
+    msg.SpotMarketIdsToCancelAll = smarketIds
+    msg.DerivativeMarketIdsToCancelAll = dmarketIds
+
+    CosMsgs := []cosmtypes.Msg{msg}
+
+    err = chainClient.QueueBroadcastMsg(CosMsgs...)
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    time.Sleep(time.Second * 5)
+}
+
 ```
 
 |Parameter|Type|Description|Required|

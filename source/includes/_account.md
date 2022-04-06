@@ -7,6 +7,25 @@ Includes all messages related to accounts and transfers.
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    
     # prepare tx msg
     msg = composer.MsgSend(
         from_address=address.to_acc_bech32(),
@@ -51,6 +70,87 @@ Includes all messages related to accounts and transfers.
 
     # print tx response
     print(res)
+```
+
+``` go
+package main
+
+import (
+  "fmt"
+  "os"
+  "time"
+
+  sdktypes "github.com/cosmos/cosmos-sdk/types"
+  banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+
+  chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+  "github.com/InjectiveLabs/sdk-go/client/common"
+)
+
+func main() {
+  // network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+    os.Getenv("HOME")+"/.injectived",
+    "injectived",
+    "file",
+    "inj-user",
+    "12345678",
+    "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+    false,
+  )
+
+  if err != nil {
+    panic(err)
+  }
+
+  clientCtx, err := chainclient.NewClientContext(
+    network.ChainId,
+    senderAddress.String(),
+    cosmosKeyring,
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  clientCtx.WithNodeURI(network.TmEndpoint)
+  clientCtx = clientCtx.WithClient(tmRPC)
+
+  msg := &banktypes.MsgSend{
+    FromAddress: senderAddress.String(),
+    ToAddress:   "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+    Amount: []sdktypes.Coin{{
+      Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000)}, // 1 INJ
+    },
+  }
+
+  chainClient, err := chainclient.NewChainClient(
+    clientCtx,
+    network.ChainGrpcEndpoint,
+    common.OptionTLSCert(network.ChainTlsCert),
+    common.OptionGasPrices("500000000inj"),
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  err = chainClient.QueueBroadcastMsg(msg)
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  time.Sleep(time.Second * 5)
+}
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -138,6 +238,26 @@ Includes all messages related to accounts and transfers.
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
+    
     # prepare tx msg
     msg = composer.MsgDeposit(
         sender=address.to_acc_bech32(),
@@ -182,6 +302,87 @@ Includes all messages related to accounts and transfers.
 
     # print tx response
     print(res)
+```
+
+``` go
+package main
+
+import (
+  "fmt"
+  "os"
+  "time"
+
+  sdktypes "github.com/cosmos/cosmos-sdk/types"
+  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+
+  exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+  chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+  "github.com/InjectiveLabs/sdk-go/client/common"
+)
+
+func main() {
+  // network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+    os.Getenv("HOME")+"/.injectived",
+    "injectived",
+    "file",
+    "inj-user",
+    "12345678",
+    "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+    false,
+  )
+
+  if err != nil {
+    panic(err)
+  }
+
+  clientCtx, err := chainclient.NewClientContext(
+    network.ChainId,
+    senderAddress.String(),
+    cosmosKeyring,
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  clientCtx.WithNodeURI(network.TmEndpoint)
+  clientCtx = clientCtx.WithClient(tmRPC)
+
+  msg := &exchangetypes.MsgDeposit{
+    Sender:       senderAddress.String(),
+    SubaccountId: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    Amount: sdktypes.Coin{
+      Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
+    },
+  }
+
+  chainClient, err := chainclient.NewChainClient(
+    clientCtx,
+    network.ChainGrpcEndpoint,
+    common.OptionTLSCert(network.ChainTlsCert),
+    common.OptionGasPrices("500000000inj"),
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  err = chainClient.QueueBroadcastMsg(msg)
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  time.Sleep(time.Second * 5)
+}
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -280,6 +481,26 @@ Includes all messages related to accounts and transfers.
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
+    
     # prepare tx msg
     msg = composer.MsgWithdraw(
         sender=address.to_acc_bech32(),
@@ -326,6 +547,87 @@ Includes all messages related to accounts and transfers.
     print(res)
     print("tx msg response")
     print(res_msg)
+```
+
+``` go
+package main
+
+import (
+  "fmt"
+  "os"
+  "time"
+
+  sdktypes "github.com/cosmos/cosmos-sdk/types"
+  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+
+  exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+  chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+  "github.com/InjectiveLabs/sdk-go/client/common"
+)
+
+func main() {
+  // network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+    os.Getenv("HOME")+"/.injectived",
+    "injectived",
+    "file",
+    "inj-user",
+    "12345678",
+    "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+    false,
+  )
+
+  if err != nil {
+    panic(err)
+  }
+
+  clientCtx, err := chainclient.NewClientContext(
+    network.ChainId,
+    senderAddress.String(),
+    cosmosKeyring,
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  clientCtx.WithNodeURI(network.TmEndpoint)
+  clientCtx = clientCtx.WithClient(tmRPC)
+
+  msg := &exchangetypes.MsgWithdraw{
+    Sender:       senderAddress.String(),
+    SubaccountId: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    Amount: sdktypes.Coin{
+      Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
+    },
+  }
+
+  chainClient, err := chainclient.NewChainClient(
+    clientCtx,
+    network.ChainGrpcEndpoint,
+    common.OptionTLSCert(network.ChainTlsCert),
+    common.OptionGasPrices("500000000inj"),
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  err = chainClient.QueueBroadcastMsg(msg)
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  time.Sleep(time.Second * 5)
+}
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -422,6 +724,25 @@ Includes all messages related to accounts and transfers.
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
     dest_subaccount_id = address.get_subaccount_id(index=1)
 
     # prepare tx msg
@@ -471,6 +792,88 @@ Includes all messages related to accounts and transfers.
     print(res)
     print("tx msg response")
     print(res_msg)
+```
+
+``` go
+package main
+
+import (
+  "fmt"
+  "os"
+  "time"
+
+  sdktypes "github.com/cosmos/cosmos-sdk/types"
+  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+
+  exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+  chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+  "github.com/InjectiveLabs/sdk-go/client/common"
+)
+
+func main() {
+  // network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+    os.Getenv("HOME")+"/.injectived",
+    "injectived",
+    "file",
+    "inj-user",
+    "12345678",
+    "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+    false,
+  )
+
+  if err != nil {
+    panic(err)
+  }
+
+  clientCtx, err := chainclient.NewClientContext(
+    network.ChainId,
+    senderAddress.String(),
+    cosmosKeyring,
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  clientCtx.WithNodeURI(network.TmEndpoint)
+  clientCtx = clientCtx.WithClient(tmRPC)
+
+  msg := &exchangetypes.MsgSubaccountTransfer{
+    Sender:                  senderAddress.String(),
+    SourceSubaccountId:      "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    DestinationSubaccountId: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000001",
+    Amount: sdktypes.Coin{
+      Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
+    },
+  }
+
+  chainClient, err := chainclient.NewChainClient(
+    clientCtx,
+    network.ChainGrpcEndpoint,
+    common.OptionTLSCert(network.ChainTlsCert),
+    common.OptionGasPrices("500000000inj"),
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  err = chainClient.QueueBroadcastMsg(msg)
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  time.Sleep(time.Second * 5)
+}
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -528,6 +931,25 @@ Includes all messages related to accounts and transfers.
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    
     # prepare msg
     asset = "injective-protocol"
     coingecko_endpoint = f"https://api.coingecko.com/api/v3/simple/price?ids={asset}&vs_currencies=usd"
@@ -579,6 +1001,95 @@ Includes all messages related to accounts and transfers.
 
     # print tx response
     print(res)
+```
+
+``` go
+package main
+
+import (
+  "fmt"
+  "os"
+  "time"
+
+  sdktypes "github.com/cosmos/cosmos-sdk/types"
+  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+
+  peggytypes "github.com/InjectiveLabs/sdk-go/chain/peggy/types"
+  chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+  "github.com/InjectiveLabs/sdk-go/client/common"
+)
+
+func main() {
+  // network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+    os.Getenv("HOME")+"/.injectived",
+    "injectived",
+    "file",
+    "inj-user",
+    "12345678",
+    "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+    false,
+  )
+
+  if err != nil {
+    panic(err)
+  }
+
+  clientCtx, err := chainclient.NewClientContext(
+    network.ChainId,
+    senderAddress.String(),
+    cosmosKeyring,
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  clientCtx.WithNodeURI(network.TmEndpoint)
+  clientCtx = clientCtx.WithClient(tmRPC)
+
+  ethDest := "0xaf79152ac5df276d9a8e1e2e22822f9713474902"
+
+  amount := sdktypes.Coin{
+    Denom: "inj", Amount: sdktypes.NewInt(5000000000000000000), // 5 INJ
+  }
+  bridgeFee := sdktypes.Coin{
+    Denom: "inj", Amount: sdktypes.NewInt(2000000000000000000), // 2 INJ
+  }
+
+  msg := &peggytypes.MsgSendToEth{
+    Sender:    senderAddress.String(),
+    Amount:    amount,
+    EthDest:   ethDest,
+    BridgeFee: bridgeFee,
+  }
+
+  chainClient, err := chainclient.NewChainClient(
+    clientCtx,
+    network.ChainGrpcEndpoint,
+    common.OptionTLSCert(network.ChainTlsCert),
+    common.OptionGasPrices("500000000inj"),
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  err = chainClient.QueueBroadcastMsg(msg)
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  time.Sleep(time.Second * 5)
+}
+
 ```
 
 |Parameter|Type|Description|Required|

@@ -7,6 +7,25 @@ Includes the message to relay a price feed.
 > Request Example:
 
 ``` python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.client import Client
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+
+def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = Client(network, insecure=False)
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key =  priv_key.to_public_key()
+    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    
     price = 100
     quote_decimals = 18
 
@@ -53,6 +72,90 @@ Includes the message to relay a price feed.
     res = client.send_tx_block_mode(tx_raw_bytes)
     res_msg = ProtoMsgComposer.MsgResponses(res.data)
     print(res)
+```
+
+``` go
+package main
+
+import (
+  "fmt"
+  "os"
+  "time"
+
+  cosmtypes "github.com/cosmos/cosmos-sdk/types"
+  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+
+  oracletypes "github.com/InjectiveLabs/sdk-go/chain/oracle/types"
+  chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+  "github.com/InjectiveLabs/sdk-go/client/common"
+)
+
+func main() {
+  // network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+    os.Getenv("HOME")+"/.injectived",
+    "injectived",
+    "file",
+    "inj-user",
+    "12345678",
+    "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+    false,
+  )
+
+  if err != nil {
+    panic(err)
+  }
+
+  clientCtx, err := chainclient.NewClientContext(
+    network.ChainId,
+    senderAddress.String(),
+    cosmosKeyring,
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  clientCtx.WithNodeURI(network.TmEndpoint)
+  clientCtx = clientCtx.WithClient(tmRPC)
+
+  price := []cosmtypes.Dec{cosmtypes.MustNewDecFromStr("100")}
+  base := []string{"BAYC"}
+  quote := []string{"WETH"}
+
+  msg := &oracletypes.MsgRelayPriceFeedPrice{
+    Sender: senderAddress.String(),
+    Price:  price,
+    Base:   base,
+    Quote:  quote,
+  }
+
+  chainClient, err := chainclient.NewChainClient(
+    clientCtx,
+    network.ChainGrpcEndpoint,
+    common.OptionTLSCert(network.ChainTlsCert),
+    common.OptionGasPrices("500000000inj"),
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  err = chainClient.QueueBroadcastMsg(msg)
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  time.Sleep(time.Second * 5)
+}
+
 ```
 
 |Parameter|Type|Description|Required|

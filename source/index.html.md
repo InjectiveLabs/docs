@@ -3,7 +3,7 @@ title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - python: Python
-  # - golang: Golang
+  - go: Golang
   # - typescript: TypeScript
   # - http: HTTP
 
@@ -79,8 +79,6 @@ pip install injective-py
 
 ## Golang Client
 
-Examples are under construction, stay tuned.
-
 **Installation**
 
 Install sdk-go using `go get`.
@@ -92,9 +90,6 @@ go get -u github.com/InjectiveLabs/sdk-go
 **Reference**
 
 [InjectiveLabs/sdk-go](https://github.com/InjectiveLabs/sdk-go).
-
-<!-- [comment]: <> (TODO: implement)
-See the examples folder for simple Golang examples. -->
 
 ## Typescript Client
 
