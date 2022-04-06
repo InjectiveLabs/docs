@@ -167,9 +167,7 @@ func main() {
 
 > Response Example:
 
-``` json
-{
-
+``` python
 "height": 13994948,
 "txhash": "F4340E4A11EFE2685C604147FBDB6703D8C704525046D651934B7C667F55A241",
 "data": "0A200A1E2F636F736D6F732E617574687A2E763162657461312E4D73674772616E74",
@@ -200,8 +198,12 @@ func main() {
 },
 "gas_wanted": 82201,
 "gas_used": 79363
+```
 
-}
+```go
+DEBU[0001] broadcastTx with nonce 3001                   fn=func1 src="client/chain/chain.go:482"
+DEBU[0003] msg batch committed successfully at height 3663646  fn=func1 src="client/chain/chain.go:503" txHash=F4340E4A11EFE2685C604147FBDB6703D8C704525046D651934B7C667F55A241
+DEBU[0003] nonce incremented to 3002                     fn=func1 src="client/chain/chain.go:507"
 ```
 
 ## MsgExec
@@ -408,9 +410,6 @@ func main() {
 > Response Example:
 
 ``` json
-{
-
-
 "height": 13994957,
 "txhash": "5C2376EF69E1CBC0E85588BDFFBEDDBC38DE4D4CB1DE87950C6D1A83E7BDA59C",
 "data": "0A670A1D2F636F736D6F732E617574687A2E763162657461312E4D73674578656312460A440A42307839366361613465656337333564383631616266333031333265656439353864363539626237333962623934643832616230663536333162633535393138313563",
@@ -426,8 +425,12 @@ func main() {
 },
 "gas_wanted": 93631,
 "gas_used": 90796
+```
 
-}
+```go
+DEBU[0001] broadcastTx with nonce 3001                   fn=func1 src="client/chain/chain.go:482"
+DEBU[0003] msg batch committed successfully at height 3663646  fn=func1 src="client/chain/chain.go:503" txHash=5C2376EF69E1CBC0E85588BDFFBEDDBC38DE4D4CB1DE87950C6D1A83E7BDA59C
+DEBU[0003] nonce incremented to 3002                     fn=func1 src="client/chain/chain.go:507"
 ```
 
 ## MsgRevoke
@@ -588,9 +591,7 @@ func main() {
 
 > Response Example:
 
-``` json
-{
-
+``` python
 "height": 13994965,
 "txhash": "43C9F83AB520B3CE18D210D8D45E49AF68D6A71E7A0E3F5E273A9EA929DFE540",
 "data": "0A210A1F2F636F736D6F732E617574687A2E763162657461312E4D73675265766F6B65",
@@ -621,9 +622,12 @@ func main() {
 },
 "gas_wanted": 78688,
 "gas_used": 75886
+```
 
-
-}
+```go
+DEBU[0001] broadcastTx with nonce 3001                   fn=func1 src="client/chain/chain.go:482"
+DEBU[0003] msg batch committed successfully at height 3663646  fn=func1 src="client/chain/chain.go:503" txHash=43C9F83AB520B3CE18D210D8D45E49AF68D6A71E7A0E3F5E273A9EA929DFE540
+DEBU[0003] nonce incremented to 3002                     fn=func1 src="client/chain/chain.go:507"
 ```
 
 
