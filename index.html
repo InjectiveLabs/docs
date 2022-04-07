@@ -9383,7 +9383,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="p">)</span>
 
 <span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"mainnet"</span><span class="p">,</span> <span class="s">"lb"</span><span class="p">)</span>
+    <span class="c">//network := common.LoadNetwork("mainnet", "k8s")</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
     <span class="n">exchangeClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeclient</span><span class="o">.</span><span class="n">NewExchangeClient</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeGrpcEndpoint</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeTlsCert</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
         <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
@@ -9490,7 +9491,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="p">)</span>
 
 <span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"mainnet"</span><span class="p">,</span> <span class="s">"lb"</span><span class="p">)</span>
+    <span class="c">//network := common.LoadNetwork("mainnet", "k8s")</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
     <span class="n">exchangeClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeclient</span><span class="o">.</span><span class="n">NewExchangeClient</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeGrpcEndpoint</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeTlsCert</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
         <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
@@ -9598,7 +9600,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="p">)</span>
 
 <span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"mainnet"</span><span class="p">,</span> <span class="s">"lb"</span><span class="p">)</span>
+    <span class="c">//network := common.LoadNetwork("mainnet", "k8s")</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
     <span class="n">exchangeClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeclient</span><span class="o">.</span><span class="n">NewExchangeClient</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeGrpcEndpoint</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeTlsCert</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
         <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
