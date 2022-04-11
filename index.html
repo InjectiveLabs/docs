@@ -2239,7 +2239,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
   <span class="p">}</span>
 
-  <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+  <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"spot orders:"</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">SpotOrdersTotal</span><span class="p">)</span>
+  <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"derivative orders:"</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">DerivativeOrdersTotal</span><span class="p">)</span>
 <span class="p">}</span>
 
 </code></pre></div>
