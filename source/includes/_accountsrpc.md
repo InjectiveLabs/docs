@@ -474,7 +474,8 @@ func main() {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  fmt.Println("spot orders:", res.SpotOrdersTotal)
+  fmt.Println("derivative orders:", res.DerivativeOrdersTotal)
 }
 
 ```
