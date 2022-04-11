@@ -17481,9 +17481,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <h1 id='faq'>FAQ</h1><h2 id='faq-1-what-are-the-trading-fees-on-injective'>1. What are the trading fees on Injective?</h2>
 <p>Trading fees differ per market and are defined through <a href="https://hub.injective.network/governance">governance</a> for both maker and taker orders. The fees can also be reduced based on your <a href="https://injective.exchange/fee-discounts">tier</a> which is determined based on your staked INJ and 30-day trailing fees.</p>
 
-<p>Note that if you place trades through the API, you will only pay 60% of the trading fees regardless if your order is filled as a maker or taker. In every exchange message related to orders you can set recipient_fee to your own address in order to collect 40% of the trading fees. On the UI, recipient_fee is set to the relayer&#39;s address which acts as a source of revenue but on the API you can set this field to any address of your choosing, including your own.</p>
+<p>Note that if you place trades through the API, you will only pay 60% of the trading fees regardless if your order is filled as a maker or taker. In every exchange-related message you can set recipient_fee to your own address in order to collect 40% of the trading fees. On the DEX UI, recipient_fee is set to the relayer&#39;s address which acts as a source of revenue but on the API you can set this field to any address of your choosing, including your own.</p>
 
-<p>The UI will also show you the full fees but if you have placed a trade through the API you would have paid only 60% of those fees.</p>
+<p>The DEX UI will also show you the full fees but if you have placed a trade through the API you would have paid only 60% of those fees.</p>
 <h2 id='faq-2-what-are-the-gas-fees-on-injective'>2. What are the gas fees on Injective?</h2>
 <p>If you place trades through the UI on one of the available <a href="https://hub.injective.network/trade">relayers</a> you can experience gas-less trading, if you place trades from the API you will pay gas fees in INJ but they will be very low at an average of 0.00005 INJ per message.</p>
 <h2 id='faq-3-how-can-i-calculate-the-gas-fees-in-inj'>3. How can I calculate the gas fees in INJ?</h2>
@@ -17491,11 +17491,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <p>500000000 * 104519 / 1e18 = 0.0000522595 INJ</p>
 <h2 id='faq-4-which-api-nodes-can-i-connect-to'>4. Which API nodes can I connect to?</h2>
-<p>There are currently three sentry nodes you can connect to on Mainnet that are based in the U.S. and Tokyo. It&#39;s recommended to connect to the sentry node closer to your location in order to reduce latency. You can also run your own Injective Node and Exchange API backend to have lower latency and full control over the infrastructure. </p>
+<p>There are currently three sentry nodes you can connect to on Mainnet that are based in the U.S. and Tokyo. It&#39;s recommended to connect to the sentry node closer to your location in order to reduce latency. You can also run your own Injective Node and Exchange API backend to have lower latency and full control over the infrastructure. You can find the guide on that <a href="https://injective.notion.site/Colocation-Service-Setup-Guide-ac00450b82bd4f638827c6261751049e">here</a></p>
 
 <p>U.S. Sentry Node: sentry0.injective.network</p>
 
-<p>U.S. Sentry Node: sentry2.injective.network</p>
+<p>U.S. Sentry Node: sentry1.injective.network</p>
 
 <p>Tokyo Sentry Node: sentry3.injective.network</p>
 
@@ -17507,19 +17507,19 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <h2 id='faq-7-are-there-limits-in-the-api-requests'>7. Are there limits in the API requests?</h2>
 <p>No, there are currently no limits in the API requests.</p>
 <h2 id='faq-8-what-is-the-normal-order-latency-i-can-expect'>8. What is the normal order latency I can expect?</h2>
-<p>There&#39;s no guarantee on when the exchange will process your transaction. It depends on the peer to peer gossip of the network and whether your transaction reaches a given block producer to get included in a block. You can read more details about this here <a href="https://docs.tendermint.com/v0.35/assets/img/tm-transaction-flow.258ca020.png">https://docs.tendermint.com/v0.35/assets/img/tm-transaction-flow.258ca020.png</a> as well as the docs here <a href="https://docs.tendermint.com/v0.35/introduction/what-is-tendermint.html">https://docs.tendermint.com/v0.35/introduction/what-is-tendermint.html</a></p>
+<p>There&#39;s no guarantee on when the chain will process your transaction. It depends on the peer to peer gossip of the network and whether your transaction reaches a given block producer to get included in a block. You can read more details about this here <a href="https://docs.tendermint.com/v0.35/assets/img/tm-transaction-flow.258ca020.png">https://docs.tendermint.com/v0.35/assets/img/tm-transaction-flow.258ca020.png</a> as well as the docs here <a href="https://docs.tendermint.com/v0.35/introduction/what-is-tendermint.html">https://docs.tendermint.com/v0.35/introduction/what-is-tendermint.html</a></p>
 
 <p>We strongly recommend following the guide to setup your own infrastructure which will ultimately reduce latency to a great extent.</p>
 <h2 id='faq-9-can-i-have-my-own-client-id-to-send-messages-through-the-api'>9. Can I have my own client id to send messages through the API?</h2>
 <p>No, we don&#39;t store private information on the Injective Chain.</p>
 <h2 id='faq-10-would-i-save-gas-fees-if-i-batch-messages-in-transactions'>10. Would I save gas fees if I batch messages in transactions?</h2>
-<p>Yes, a transaction includes fields such as messages, fee, signatures, memo and timeout_height. When you send a batch of messages in a single transaction, the transaction size is less than the cumulative transaction size of individual transactions which ultimately results in a fee difference.</p>
+<p>Yes, a transaction includes fields such as messages, fee, signatures, memo and timeout height. When you send a batch of messages in a single transaction, the transaction size is less than the cumulative transaction size of individual transactions which ultimately results in less gas fees.</p>
 <h2 id='faq-11-what-is-the-timeout_height'>11. What is the timeout_height?</h2>
 <p>The timeout_height specifies a height at which your transaction will timeout and eventually prevents it from being committed past a certain height. Essentially, the transaction will be discarded from the mempool (timeout) after the block with number timeout_height has been mined and your sequence number is cleared if a bad transaction with a lower account sequence does not get processed correctly.</p>
 <h2 id='faq-12-do-fee-discounts-apply-to-all-markets'>12. Do fee discounts apply to all markets?</h2>
 <p>Discounts apply to all markets apart from markets that have negative maker fees or markets that have been explicitly excluded.</p>
 <h2 id='faq-13-what-is-the-block-time-on-the-network'>13. What is the block time on the network?</h2>
-<p>The block time is currently around 2.5 seconds.</p>
+<p>The average block time is currently around 2.5 seconds.</p>
 
       </div>
       <div class="dark-box">
