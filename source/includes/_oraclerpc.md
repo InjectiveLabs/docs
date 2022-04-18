@@ -10,14 +10,14 @@ Get a list with oracles and feeds.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
-    oracle_list = client.get_oracle_list()
+    client = AsyncClient(network, insecure=False)
+    oracle_list = await client.get_oracle_list()
     print(oracle_list)
 ```
 
@@ -98,18 +98,18 @@ Get the oracle price of an asset.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     base_symbol = 'BTC'
     quote_symbol = 'USDT'
     oracle_type = 'bandibc'
     oracle_scale_factor = 6
-    oracle_prices = client.get_oracle_prices(base_symbol=base_symbol, quote_symbol=quote_symbol, oracle_type=oracle_type, oracle_scale_factor=oracle_scale_factor)
+    oracle_prices = await client.get_oracle_prices(base_symbol=base_symbol, quote_symbol=quote_symbol, oracle_type=oracle_type, oracle_scale_factor=oracle_scale_factor)
     print(oracle_prices)
 ```
 
@@ -176,22 +176,22 @@ Stream oracle prices for an asset.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     base_symbol = 'BTC'
     quote_symbol = 'USDT'
     oracle_type = 'bandibc'
-    oracle_prices = client.stream_oracle_prices(
+    oracle_prices = await client.stream_oracle_prices(
         base_symbol=base_symbol,
         quote_symbol=quote_symbol,
         oracle_type=oracle_type
     )
-    for oracle in oracle_prices:
+    async for oracle in oracle_prices:
         print(oracle)
 ```
 

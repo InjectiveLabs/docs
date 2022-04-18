@@ -11,14 +11,14 @@ Get the details for a specific transaction.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     tx_hash = "CF241CAACFA434DBC38645441FA330743C0F5BEB413FDE6DFCE6082EEB3E3D27"
-    account = client.get_tx_by_hash(tx_hash=tx_hash)
+    account = await client.get_tx_by_hash(tx_hash=tx_hash)
     print(account)
 ```
 

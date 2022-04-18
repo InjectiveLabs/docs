@@ -10,14 +10,14 @@ Get all the insurance funds.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
-    insurance_funds = client.get_insurance_funds()
+    client = AsyncClient(network, insecure=False)
+    insurance_funds = await client.get_insurance_funds()
     print(insurance_funds)
 ```
 
@@ -115,17 +115,17 @@ Get the pending redemptions.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     redeemer = "inj1gxqdj76ul07w4ujsl8403nhhzyvug2h66qk057"
     redemption_denom = "share2"
     status = "disbursed" # disbursed or pending
-    insurance_redemptions = client.get_redemptions(redeemer=redeemer, redemption_denom=redemption_denom, status=status)
+    insurance_redemptions = await client.get_redemptions(redeemer=redeemer, redemption_denom=redemption_denom, status=status)
     print(insurance_redemptions)
 ```
 

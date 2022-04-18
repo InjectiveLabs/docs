@@ -8,7 +8,7 @@ Includes the message to relay a price feed.
 
 ``` python
 from pyinjective.composer import Composer as ProtoMsgComposer
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey, PublicKey, Address
@@ -19,12 +19,13 @@ def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
+    await client.sync_timeout_height()
 
     # load account
     priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
     pub_key =  priv_key.to_public_key()
-    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
     
     price = 100
     quote_decimals = 18
@@ -50,7 +51,7 @@ def main() -> None:
     sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (sim_res, success) = client.simulate_tx(sim_tx_raw_bytes)
+    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
     if not success:
         print(sim_res)
         return
@@ -62,14 +63,14 @@ def main() -> None:
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    current_height = client.get_latest_block().block.header.height
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
+    
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_block_mode(tx_raw_bytes)
+    res = await client.send_tx_block_mode(tx_raw_bytes)
     res_msg = ProtoMsgComposer.MsgResponses(res.data)
     print(res)
 ```

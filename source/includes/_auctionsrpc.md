@@ -10,14 +10,14 @@ Get the details of a specific auction.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     action_round = 12
-    auction = client.get_auction(bid_round=action_round)
+    auction = await client.get_auction(bid_round=action_round)
     print(auction)
 ```
 
@@ -62,7 +62,6 @@ func main() {
 
 ``` json
 {
-
 "auction": {
   "winner": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
   "basket": {
@@ -128,13 +127,13 @@ Get the details of previous auctions.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     network = Network.testnet()
-    client = Client(network, insecure=False)
-    auctions = client.get_auctions()
+    client = AsyncClient(network, insecure=False)
+    auctions = await client.get_auctions()
     print(auctions)
 ```
 
@@ -173,7 +172,6 @@ func main() {
 
 ``` json
 {
-
 "auctions": {
   "winner": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
   "basket": {
@@ -247,15 +245,15 @@ Stream live updates for auction bids.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 
 def main() -> None:
     network = Network.testnet()
-    client = Client(network, insecure=False)
-    bids = client.stream_bids()
-    for bid in bids:
+    client = AsyncClient(network, insecure=False)
+    bids = await client.stream_bids()
+    async for bid in bids:
         print(bid)
 ```
 
@@ -307,7 +305,6 @@ func main() {
 
 ``` json
 {
-
 "bidder": "inj1pn252r3a45urd3n8v84kyey4kcv4544zj70wkp",
 "bid_amount": "1000000000000000000",
 "round": 69,

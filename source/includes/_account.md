@@ -8,7 +8,7 @@ Includes all messages related to accounts and transfers.
 
 ``` python
 from pyinjective.composer import Composer as ProtoMsgComposer
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey, PublicKey, Address
@@ -19,12 +19,13 @@ def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
+    await client.sync_timeout_height()
 
     # load account
     priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
     pub_key =  priv_key.to_public_key()
-    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
     
     # prepare tx msg
     msg = composer.MsgSend(
@@ -47,7 +48,7 @@ def main() -> None:
     sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (sim_res, success) = client.simulate_tx(sim_tx_raw_bytes)
+    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
     if not success:
         print(sim_res)
         return
@@ -59,14 +60,14 @@ def main() -> None:
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    current_height = client.get_latest_block().block.header.height
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
+    
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_block_mode(tx_raw_bytes)
+    res = await client.send_tx_block_mode(tx_raw_bytes)
 
     # print tx response
     print(res)
@@ -241,7 +242,7 @@ DEBU[0002] nonce incremented to 2994                     fn=func1 src="client/ch
 
 ``` python
 from pyinjective.composer import Composer as ProtoMsgComposer
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey, PublicKey, Address
@@ -252,12 +253,13 @@ def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
+    await client.sync_timeout_height()
 
     # load account
     priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
     pub_key =  priv_key.to_public_key()
-    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
     subaccount_id = address.get_subaccount_id(index=0)
     
     # prepare tx msg
@@ -281,7 +283,7 @@ def main() -> None:
     sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (sim_res, success) = client.simulate_tx(sim_tx_raw_bytes)
+    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
     if not success:
         print(sim_res)
         return
@@ -293,14 +295,14 @@ def main() -> None:
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    current_height = client.get_latest_block().block.header.height
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
+    
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_block_mode(tx_raw_bytes)
+    res = await client.send_tx_block_mode(tx_raw_bytes)
 
     # print tx response
     print(res)
@@ -485,7 +487,7 @@ DEBU[0003] nonce incremented to 2996                     fn=func1 src="client/ch
 
 ``` python
 from pyinjective.composer import Composer as ProtoMsgComposer
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey, PublicKey, Address
@@ -496,12 +498,13 @@ def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
+    await client.sync_timeout_height()
 
     # load account
     priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
     pub_key =  priv_key.to_public_key()
-    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
     subaccount_id = address.get_subaccount_id(index=0)
     
     # prepare tx msg
@@ -525,7 +528,7 @@ def main() -> None:
     sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (sim_res, success) = client.simulate_tx(sim_tx_raw_bytes)
+    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
     if not success:
         print(sim_res)
         return
@@ -537,14 +540,14 @@ def main() -> None:
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    current_height = client.get_latest_block().block.header.height
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
+    
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_block_mode(tx_raw_bytes)
+    res = await client.send_tx_block_mode(tx_raw_bytes)
     res_msg = ProtoMsgComposer.MsgResponses(res.data)
     print("tx response")
     print(res)
@@ -732,7 +735,7 @@ DEBU[0003] nonce incremented to 2997                     fn=func1 src="client/ch
 
 ``` python
 from pyinjective.composer import Composer as ProtoMsgComposer
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey, PublicKey, Address
@@ -743,12 +746,13 @@ def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
+    await client.sync_timeout_height()
 
     # load account
     priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
     pub_key =  priv_key.to_public_key()
-    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
     subaccount_id = address.get_subaccount_id(index=0)
     dest_subaccount_id = address.get_subaccount_id(index=1)
 
@@ -774,7 +778,7 @@ def main() -> None:
     sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (sim_res, success) = client.simulate_tx(sim_tx_raw_bytes)
+    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
     if not success:
         print(sim_res)
         return
@@ -786,14 +790,14 @@ def main() -> None:
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    current_height = client.get_latest_block().block.header.height
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(current_height+50)
+    
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_block_mode(tx_raw_bytes)
+    res = await client.send_tx_block_mode(tx_raw_bytes)
     res_msg = ProtoMsgComposer.MsgResponses(res.data)
     print("tx response")
     print(res)
@@ -942,7 +946,7 @@ DEBU[0003] nonce incremented to 2998                     fn=func1 src="client/ch
 
 ``` python
 from pyinjective.composer import Composer as ProtoMsgComposer
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey, PublicKey, Address
@@ -953,12 +957,13 @@ def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
+    await client.sync_timeout_height()
 
     # load account
     priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
     pub_key =  priv_key.to_public_key()
-    address = pub_key.to_address().init_num_seq(network.lcd_endpoint)
+    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
     
     # prepare msg
     asset = "injective-protocol"
@@ -989,7 +994,7 @@ def main() -> None:
     sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (sim_res, success) = client.simulate_tx(sim_tx_raw_bytes)
+    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
     if not success:
         print(sim_res)
         return
@@ -1001,13 +1006,13 @@ def main() -> None:
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(0)
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = client.send_tx_block_mode(tx_raw_bytes)
+    res = await client.send_tx_block_mode(tx_raw_bytes)
 
     # print tx response
     print(res)
@@ -1228,39 +1233,39 @@ DEBU[0003] nonce incremented to 2998                     fn=func1 src="client/ch
 > Request Example:
 
 ``` python
-    import json
-    import requests
-    import asyncio
-    import logging
+import json
+import requests
+import asyncio
+import logging
 
-    from pyinjective.constant import Network
-    from pyinjective.composer import Composer as ProtoMsgComposer
-    import importlib.resources as pkg_resources
-    import pyinjective
+from pyinjective.constant import Network
+from pyinjective.composer import Composer as ProtoMsgComposer
+import importlib.resources as pkg_resources
+import pyinjective
 
-    def main() -> None:
-        # select network: testnet, mainnet
-        network = Network.testnet()
-        composer = ProtoMsgComposer(network=network.string())
+def main() -> None:
+    # select network: testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
 
-        private_key = "f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"
-        ethereum_endpoint = "https://kovan.infura.io/v3/c518f454950e48aeab12161c49f26e30"
+    private_key = "f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"
+    ethereum_endpoint = "https://kovan.infura.io/v3/c518f454950e48aeab12161c49f26e30"
 
-        maxFeePerGas_Gwei = 4
-        maxPriorityFeePerGas_Gwei = 4
+    maxFeePerGas_Gwei = 4
+    maxPriorityFeePerGas_Gwei = 4
 
-        token_contract = "0x36b3d7ace7201e28040eff30e815290d7b37ffad"
-        receiver = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-        amount = 1
+    token_contract = "0x36b3d7ace7201e28040eff30e815290d7b37ffad"
+    receiver = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+    amount = 1
 
-        import_peggo = pkg_resources.read_text(pyinjective, 'Peggo_ABI.json')
-        peggo_abi = json.loads(import_peggo)
+    import_peggo = pkg_resources.read_text(pyinjective, 'Peggo_ABI.json')
+    peggo_abi = json.loads(import_peggo)
 
-        composer.SendToCosmos(
-          ethereum_endpoint=ethereum_endpoint, private_key=private_key,
-          token_contract=token_contract, receiver=receiver, amount=amount,
-          maxFeePerGas=maxFeePerGas_Gwei, maxPriorityFeePerGas=maxPriorityFeePerGas_Gwei,
-          peggo_abi=peggo_abi)
+    composer.SendToCosmos(
+      ethereum_endpoint=ethereum_endpoint, private_key=private_key,
+      token_contract=token_contract, receiver=receiver, amount=amount,
+      maxFeePerGas=maxFeePerGas_Gwei, maxPriorityFeePerGas=maxPriorityFeePerGas_Gwei,
+      peggo_abi=peggo_abi)
 ```
 
 |Parameter|Type|Description|Required|
