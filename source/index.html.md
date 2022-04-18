@@ -29,6 +29,7 @@ includes:
   - auction
   - authz
   - oracle
+  - staking
   - glossary
   - faq
   # - exchangerpc

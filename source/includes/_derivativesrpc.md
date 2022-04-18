@@ -9,15 +9,15 @@ Get details of a derivative market.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-    market = client.get_derivative_market(market_id=market_id)
+    market = await client.get_derivative_market(market_id=market_id)
     print(market)
 ```
 
@@ -173,16 +173,16 @@ Get a list of derivative markets.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     market_status = "active" # active, paused, suspended, demolished or expired
     quote_denom = "peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08"
-    market = client.get_derivative_markets(market_status=market_status, quote_denom=quote_denom)
+    market = await client.get_derivative_markets(market_status=market_status, quote_denom=quote_denom)
     print(market)
 ```
 
@@ -347,15 +347,15 @@ Stream live updates of derivative markets.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
-    markets = client.stream_derivative_markets()
-    for market in markets:
+    client = AsyncClient(network, insecure=False)
+    markets = await client.stream_derivative_markets()
+    async for market in markets:
         print(market)
 ```
 
@@ -517,17 +517,17 @@ Get orders of a derivative market.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     subaccount_id= "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
     order_side = "buy" # buy or sell
-    orders = client.get_derivative_orders(market_id=market_id, order_side=order_side, subaccount_id=subaccount_id)
+    orders = await client.get_derivative_orders(market_id=market_id, order_side=order_side, subaccount_id=subaccount_id)
     print(orders)
 ```
 
@@ -645,18 +645,18 @@ Stream order updates of a derivative market.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
     order_side = "buy" # buy or sell
-    orders = client.stream_derivative_orders(market_id=market_id, order_side=order_side, subaccount_id=subaccount_id)
-    for order in orders:
+    orders = await client.stream_derivative_orders(market_id=market_id, order_side=order_side, subaccount_id=subaccount_id)
+    async for order in orders:
         print(order)
 ```
 
@@ -797,16 +797,16 @@ Get trades of a derivative market.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
-    trades = client.get_derivative_trades(market_id=market_id, subaccount_id=subaccount_id)
+    trades = await client.get_derivative_trades(market_id=market_id, subaccount_id=subaccount_id)
     print(trades)
 ```
 
@@ -937,17 +937,17 @@ Stream trades of a derivative market.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
-    trades = client.stream_derivative_trades(market_id=market_id, subaccount_id=subaccount_id)
-    for trade in trades:
+    trades = await client.stream_derivative_trades(market_id=market_id, subaccount_id=subaccount_id)
+    async for trade in trades:
         print(trade)
 ```
 
@@ -1100,16 +1100,16 @@ Get the positions of a market.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
-    positions = client.get_derivative_positions(market_id=market_id, subaccount_id=subaccount_id)
+    positions = await client.get_derivative_positions(market_id=market_id, subaccount_id=subaccount_id)
     print(positions)
 ```
 
@@ -1221,17 +1221,17 @@ Stream position updates for a specific market.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
-    positions = client.stream_derivative_positions(market_id=market_id, subaccount_id=subaccount_id)
-    for position in positions:
+    positions = await client.stream_derivative_positions(market_id=market_id, subaccount_id=subaccount_id)
+    async for position in positions:
         print(position)
 ```
 
@@ -1357,15 +1357,15 @@ Get the orderbook of a derivative market.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-    market = client.get_derivative_orderbook(market_id=market_id)
+    market = await client.get_derivative_orderbook(market_id=market_id)
     print(market)
 ```
 
@@ -1468,18 +1468,18 @@ Get the orderbook for an array of derivative markets.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
         market_ids = [
         "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
         "0x1f73e21972972c69c03fb105a5864592ac2b47996ffea3c500d1ea2d20138717"
     ]
-    market = client.get_derivative_orderbooks(market_ids=market_ids)
+    market = await client.get_derivative_orderbooks(market_ids=market_ids)
     print(market)
 ```
 
@@ -1589,17 +1589,17 @@ Stream orderbook updates for a derivative market.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-    markets = client.stream_derivative_orderbook(market_id=market_id)
-    for market in markets:
-        print(market)
+    orderbooks = await client.stream_derivative_orderbook(market_id=market_id)
+    async for orderbook in orderbooks:
+        print(orderbook)
 ```
 
 ``` go
@@ -1656,7 +1656,6 @@ func main() {
 
 ``` json
 {
-  
 "orderbook": {
   "buys": {
     "price": "40746400000",
@@ -1716,16 +1715,16 @@ Stream orderbook updates for an array of derivative markets.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     market_ids = ["0x897519d4cf8c460481638b3ff64871668d0a7f6afea10c1b0a952c0b5927f48f", "0x31200279ada822061217372150d567be124f02df157650395d1d6ce58a8207aa"]
-    orderbook = client.stream_derivative_orderbooks(market_ids=market_ids)
-    for orders in orderbook:
-        print(orders)
+    orderbooks = await client.stream_derivative_orderbooks(market_ids=market_ids)
+    async for orderbook in orderbooks:
+        print(orderbook)
 ```
 
 ``` go
@@ -1781,7 +1780,6 @@ func main() {
 
 ``` json
 {
-  
 "orderbook": {
   "buys": {
     "price": "486810000",
@@ -1844,16 +1842,16 @@ Get the derivative orders of a specific subaccount.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-    orders = client.get_derivative_subaccount_orders(subaccount_id=subaccount_id, market_id=market_id)
+    orders = await client.get_derivative_subaccount_orders(subaccount_id=subaccount_id, market_id=market_id)
     print(orders)
 ```
 
@@ -1958,18 +1956,18 @@ Get the derivative trades for a specific subaccount.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     execution_type = "market" # market, limitFill, limitMatchRestingOrder or limitMatchNewOrder
     direction = "buy" # buy or sell
-    trades = client.get_derivative_subaccount_trades(subaccount_id=subaccount_id, market_id=market_id, execution_type=execution_type, direction=direction)
+    trades = await client.get_derivative_subaccount_trades(subaccount_id=subaccount_id, market_id=market_id, execution_type=execution_type, direction=direction)
     print(trades)
 ```
 
@@ -2098,15 +2096,15 @@ Get the funding payments for a subaccount.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 def main() -> None:
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-    funding = client.get_funding_payments(market_id=market_id, subaccount_id=subaccount_id)
+    funding = await client.get_funding_payments(market_id=market_id, subaccount_id=subaccount_id)
     print(funding)
 ```
 
@@ -2191,16 +2189,16 @@ Get the historical funding rates for a specific market.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
     market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     skip=0
     limit=2
-    funding_rates = client.get_funding_rates(
+    funding_rates = await client.get_funding_rates(
         market_id=market_id,
         skip=skip,
         limit=limit
@@ -2257,7 +2255,6 @@ func main() {
 
 ``` json
 {
-
 "funding_rates": {
   "market_id": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
   "rate": "0.00449891062",

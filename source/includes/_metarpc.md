@@ -9,15 +9,15 @@ Get the server health.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
-    resp = client.ping()
+    client = AsyncClient(network, insecure=False)
+    resp = await client.ping()
     print('Health OK?', resp)
 ```
 
@@ -71,15 +71,15 @@ Get the server version.
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
-    resp = client.version()
+    client = AsyncClient(network, insecure=False)
+    resp = await client.version()
     print(resp)
 ```
 
@@ -152,15 +152,15 @@ Get the server information.
 ``` python
 import time
 
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 
 def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
-    resp = client.info()
+    client = AsyncClient(network, insecure=False)
+    resp = await client.info()
     print('[!] Info:')
     print(resp)
 
@@ -239,7 +239,7 @@ Subscribe to a stream and gracefully disconnect and connect to another sentry no
 > Request Example:
 
 ``` python
-from pyinjective.client import Client
+from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 import asyncio
@@ -248,7 +248,7 @@ import asyncio
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = Client(network, insecure=False)
+    client = AsyncClient(network, insecure=False)
 
     task1 = asyncio.create_task(get_markets(client))
     task2 = asyncio.create_task(keepalive(client, [task1]))
@@ -263,14 +263,14 @@ async def main() -> None:
 
 
 async def get_markets(client):
-    stream = client.stream_spot_markets()
-    for market in stream:
+    stream = await client.stream_spot_markets()
+    async for market in stream:
         print(market)
 
 
 async def keepalive(client, tasks: list):
-    stream = client.stream_keepalive()
-    for announce in stream:
+    stream = await client.stream_keepalive()
+    async for announce in stream:
         print(announce)
         for task in tasks:
             task.cancel()
