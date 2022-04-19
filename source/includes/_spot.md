@@ -136,8 +136,7 @@ func main() {
         fmt.Println(err)
     }
 
-    clientCtx.WithNodeURI(network.TmEndpoint)
-    clientCtx = clientCtx.WithClient(tmRPC)
+    clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
     chainClient, err := chainclient.NewChainClient(
         clientCtx,
@@ -304,7 +303,6 @@ import (
     "os"
     "time"
 
-    cosmtypes "github.com/cosmos/cosmos-sdk/types"
     "github.com/shopspring/decimal"
     rpchttp "github.com/tendermint/tendermint/rpc/client/http"
 
@@ -345,8 +343,7 @@ func main() {
         fmt.Println(err)
     }
 
-    clientCtx.WithNodeURI(network.TmEndpoint)
-    clientCtx = clientCtx.WithClient(tmRPC)
+    clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
     chainClient, err := chainclient.NewChainClient(
         clientCtx,
@@ -364,10 +361,10 @@ func main() {
     marketId := "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"
 
     amount := decimal.NewFromFloat(2)
-    price := decimal.NewFromFloat(22.53)
+    price := decimal.NewFromFloat(22.55)
 
     order := chainClient.SpotOrder(defaultSubaccountID, network, &chainclient.SpotOrderData{
-        OrderType:    exchangetypes.OrderType_BUY,
+        OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
         Quantity:     amount,
         Price:        price,
         FeeRecipient: senderAddress.String(),
@@ -377,14 +374,23 @@ func main() {
     msg := new(exchangetypes.MsgCreateSpotLimitOrder)
     msg.Sender = senderAddress.String()
     msg.Order = exchangetypes.SpotOrder(*order)
-    CosMsgs := []cosmtypes.Msg{msg}
 
-    err = chainClient.QueueBroadcastMsg(CosMsgs...)
-
+    simRes, err := chainClient.SimulateMsg(clientCtx, msg)
     if err != nil {
         fmt.Println(err)
     }
+    simResMsgs := common.MsgResponse(simRes.Result.Data)
+    msgCreateSpotLimitOrderResponse := exchangetypes.MsgCreateSpotLimitOrderResponse{}
+    msgCreateSpotLimitOrderResponse.Unmarshal(simResMsgs[0].Data)
+    if err != nil {
+        fmt.Println(err)
+    }
+    fmt.Println("simulated order hash", msgCreateSpotLimitOrderResponse.OrderHash)
 
+    err = chainClient.QueueBroadcastMsg(msg)
+    if err != nil {
+        fmt.Println(err)
+    }
     time.Sleep(time.Second * 5)
 }
 
@@ -545,8 +551,7 @@ func main() {
         fmt.Println(err)
     }
 
-    clientCtx.WithNodeURI(network.TmEndpoint)
-    clientCtx = clientCtx.WithClient(tmRPC)
+    clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
     msg := &exchangetypes.MsgCancelSpotOrder{
         Sender:       senderAddress.String(),
@@ -605,7 +610,6 @@ DEBU[0002] nonce incremented to 3000                     fn=func1 src="client/ch
 > Request Example:
 
 ``` python
-
 import asyncio
 import logging
 
@@ -713,7 +717,6 @@ import (
     "os"
     "time"
 
-    cosmtypes "github.com/cosmos/cosmos-sdk/types"
     "github.com/shopspring/decimal"
     rpchttp "github.com/tendermint/tendermint/rpc/client/http"
 
@@ -754,8 +757,7 @@ func main() {
         fmt.Println(err)
     }
 
-    clientCtx.WithNodeURI(network.TmEndpoint)
-    clientCtx = clientCtx.WithClient(tmRPC)
+    clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
     chainClient, err := chainclient.NewChainClient(
         clientCtx,
@@ -775,24 +777,32 @@ func main() {
     price := decimal.NewFromFloat(22.5)
 
     order := chainClient.SpotOrder(defaultSubaccountID, network, &chainclient.SpotOrderData{
-        OrderType:    exchangetypes.OrderType_SELL,
+        OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
         Quantity:     amount,
         Price:        price,
         FeeRecipient: senderAddress.String(),
         MarketId:     marketId,
     })
-
     msg := new(exchangetypes.MsgBatchCreateSpotLimitOrders)
     msg.Sender = senderAddress.String()
     msg.Orders = []exchangetypes.SpotOrder{*order}
-    CosMsgs := []cosmtypes.Msg{msg}
 
-    err = chainClient.QueueBroadcastMsg(CosMsgs...)
-
+    simRes, err := chainClient.SimulateMsg(clientCtx, msg)
     if err != nil {
         fmt.Println(err)
     }
+    simResMsgs := common.MsgResponse(simRes.Result.Data)
+    msgBatchCreateSpotLimitOrdersResponse := exchangetypes.MsgBatchCreateSpotLimitOrdersResponse{}
+    msgBatchCreateSpotLimitOrdersResponse.Unmarshal(simResMsgs[0].Data)
+    if err != nil {
+        fmt.Println(err)
+    }
+    fmt.Println("simulated order hashes", msgBatchCreateSpotLimitOrdersResponse.OrderHashes)
 
+    err = chainClient.QueueBroadcastMsg(msg)
+    if err != nil {
+        fmt.Println(err)
+    }
     time.Sleep(time.Second * 5)
 }
 
@@ -982,8 +992,7 @@ func main() {
         fmt.Println(err)
     }
 
-    clientCtx.WithNodeURI(network.TmEndpoint)
-    clientCtx = clientCtx.WithClient(tmRPC)
+    clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
     chainClient, err := chainclient.NewChainClient(
         clientCtx,
@@ -1277,8 +1286,7 @@ func main() {
         fmt.Println(err)
     }
 
-    clientCtx.WithNodeURI(network.TmEndpoint)
-    clientCtx = clientCtx.WithClient(tmRPC)
+    clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
     chainClient, err := chainclient.NewChainClient(
         clientCtx,
@@ -1299,7 +1307,7 @@ func main() {
     smarketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
 
     spot_order := chainClient.SpotOrder(defaultSubaccountID, network, &chainclient.SpotOrderData{
-        OrderType:    exchangetypes.OrderType_BUY,
+        OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
         Quantity:     samount,
         Price:        sprice,
         FeeRecipient: senderAddress.String(),
@@ -1307,18 +1315,19 @@ func main() {
     })
 
     dmarketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-    damount := decimal.NewFromFloat(2)
+    damount := decimal.NewFromFloat(0.01)
     dprice := cosmtypes.MustNewDecFromStr("31000000000") //31,000
-    dleverage := cosmtypes.MustNewDecFromStr("2.5")
+    dleverage := cosmtypes.MustNewDecFromStr("2")
     dmarketIds := []string{"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"}
 
     derivative_order := chainClient.DerivativeOrder(defaultSubaccountID, network, &chainclient.DerivativeOrderData{
-        OrderType:    exchangetypes.OrderType_BUY,
+        OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
         Quantity:     damount,
         Price:        dprice,
         Leverage:     dleverage,
         FeeRecipient: senderAddress.String(),
         MarketId:     dmarketId,
+        IsReduceOnly: false,
     })
 
     msg := new(exchangetypes.MsgBatchUpdateOrders)
@@ -1329,14 +1338,23 @@ func main() {
     msg.SpotMarketIdsToCancelAll = smarketIds
     msg.DerivativeMarketIdsToCancelAll = dmarketIds
 
-    CosMsgs := []cosmtypes.Msg{msg}
-
-    err = chainClient.QueueBroadcastMsg(CosMsgs...)
-
+    simRes, err := chainClient.SimulateMsg(clientCtx, msg)
     if err != nil {
         fmt.Println(err)
     }
 
+    simResMsgs := common.MsgResponse(simRes.Result.Data)
+    MsgBatchUpdateOrdersResponse := exchangetypes.MsgBatchUpdateOrdersResponse{}
+    MsgBatchUpdateOrdersResponse.Unmarshal(simResMsgs[0].Data)
+
+    fmt.Println("simulated spot order hashes", MsgBatchUpdateOrdersResponse.SpotOrderHashes)
+
+    fmt.Println("simulated derivative order hashes", MsgBatchUpdateOrdersResponse.DerivativeOrderHashes)
+
+    err = chainClient.QueueBroadcastMsg(msg)
+    if err != nil {
+        fmt.Println(err)
+    }
     time.Sleep(time.Second * 5)
 }
 

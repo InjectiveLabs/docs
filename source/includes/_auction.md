@@ -121,8 +121,7 @@ func main() {
     fmt.Println(err)
   }
 
-  clientCtx.WithNodeURI(network.TmEndpoint)
-  clientCtx = clientCtx.WithClient(tmRPC)
+  clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
   round := uint64(9355)
   bidAmount := sdktypes.Coin{
