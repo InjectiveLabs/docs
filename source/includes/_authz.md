@@ -119,8 +119,7 @@ func main() {
         fmt.Println(err)
     }
 
-    clientCtx.WithNodeURI(network.TmEndpoint)
-    clientCtx = clientCtx.WithClient(tmRPC)
+    clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
     // build generic authz msg
     grantee := "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
@@ -345,8 +344,7 @@ func main() {
         fmt.Println(err)
     }
 
-    clientCtx.WithNodeURI(network.TmEndpoint)
-    clientCtx = clientCtx.WithClient(tmRPC)
+    clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
     chainClient, err := chainclient.NewChainClient(
         clientCtx,
@@ -370,7 +368,7 @@ func main() {
     price := cosmtypes.MustNewDecFromStr("22")
     orderSize := chainClient.GetSpotQuantity(amount, cosmtypes.MustNewDecFromStr("10000"), 6)
     order := chainClient.SpotOrder(defaultSubaccountID, &chainclient.SpotOrderData{
-        OrderType:    exchangetypes.OrderType_BUY,
+        OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
         Quantity:     orderSize,
         Price:        price,
         FeeRecipient: senderAddress.String(),
@@ -552,8 +550,7 @@ func main() {
         fmt.Println(err)
     }
 
-    clientCtx.WithNodeURI(network.TmEndpoint)
-    clientCtx = clientCtx.WithClient(tmRPC)
+    clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
     grantee := "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
     msgType := "/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"

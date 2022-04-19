@@ -121,8 +121,7 @@ func main() {
     fmt.Println(err)
   }
 
-  clientCtx.WithNodeURI(network.TmEndpoint)
-  clientCtx = clientCtx.WithClient(tmRPC)
+  clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
   msg := &banktypes.MsgSend{
     FromAddress: senderAddress.String(),
@@ -356,8 +355,7 @@ func main() {
     fmt.Println(err)
   }
 
-  clientCtx.WithNodeURI(network.TmEndpoint)
-  clientCtx = clientCtx.WithClient(tmRPC)
+  clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
   msg := &exchangetypes.MsgDeposit{
     Sender:       senderAddress.String(),
@@ -603,8 +601,7 @@ func main() {
     fmt.Println(err)
   }
 
-  clientCtx.WithNodeURI(network.TmEndpoint)
-  clientCtx = clientCtx.WithClient(tmRPC)
+  clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
   msg := &exchangetypes.MsgWithdraw{
     Sender:       senderAddress.String(),
@@ -853,8 +850,7 @@ func main() {
     fmt.Println(err)
   }
 
-  clientCtx.WithNodeURI(network.TmEndpoint)
-  clientCtx = clientCtx.WithClient(tmRPC)
+  clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
   msg := &exchangetypes.MsgSubaccountTransfer{
     Sender:                  senderAddress.String(),
@@ -1066,8 +1062,7 @@ func main() {
     fmt.Println(err)
   }
 
-  clientCtx.WithNodeURI(network.TmEndpoint)
-  clientCtx = clientCtx.WithClient(tmRPC)
+  clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
   ethDest := "0xaf79152ac5df276d9a8e1e2e22822f9713474902"
 
