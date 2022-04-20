@@ -1483,3 +1483,308 @@ DEBU[0001] broadcastTx with nonce 3000                   fn=func1 src="client/ch
 DEBU[0003] msg batch committed successfully at height 3663409  fn=func1 src="client/chain/chain.go:503" txHash=B8BF33A8E62F4F1C3FA6FA9E84F35CCED44D5D7CF004C058AA2E7FC3F1A9E50A
 DEBU[0003] nonce incremented to 3001                     fn=func1 src="client/chain/chain.go:507"
 ```
+
+## LocalOrderHashComputation
+
+This function computes order hashes locally for SpotOrder and DerivativeOrder. Note that the subaccount nonce is used as one of the primary parameters to the calculation and is fetched every time from the Chain Node when you call the function. Thus, to use the function properly you must provide all the orders you'll send in a given block and call it only once per block.
+
+Also note that if any of the orders does not get submitted on-chain either because of low account balance, incorrect order details or any other reason then the subsequent order hashes will be incorrect. That's because when you post the actual transactions and one of them fails the subaccount nonce won't be increased so the subsequent order hashes derived from the local calculation will be incorrect.
+
+### Request Parameters
+> Request Example:
+
+``` python
+import asyncio
+import logging
+
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.async_client import AsyncClient
+from pyinjective.transaction import Transaction
+from pyinjective.constant import Network
+from pyinjective.wallet import PrivateKey, PublicKey, Address
+from pyinjective.orderhash import compute_order_hashes
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
+
+    # initialize grpc client
+    client = AsyncClient(network, insecure=False)
+    await client.sync_timeout_height()
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key = priv_key.to_public_key()
+    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    subaccount_id = address.get_subaccount_id(index=0)
+
+    # prepare trade info
+    spot_market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    deriv_market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+    fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+
+    spot_orders = [
+        composer.SpotOrder(
+            market_id=spot_market_id,
+            subaccount_id=subaccount_id,
+            fee_recipient=fee_recipient,
+            price=3.524,
+            quantity=0.01,
+            is_buy=True,
+            is_po=True
+        ),
+        composer.SpotOrder(
+            market_id=spot_market_id,
+            subaccount_id=subaccount_id,
+            fee_recipient=fee_recipient,
+            price=27.92,
+            quantity=0.01,
+            is_buy=False,
+            is_po=False
+        ),
+    ]
+
+    derivative_orders = [
+        composer.DerivativeOrder(
+            market_id=deriv_market_id,
+            subaccount_id=subaccount_id,
+            fee_recipient=fee_recipient,
+            price=25111,
+            quantity=0.01,
+            leverage=1.5,
+            is_buy=True,
+            is_po=False
+        ),
+        composer.DerivativeOrder(
+            market_id=deriv_market_id,
+            subaccount_id=subaccount_id,
+            fee_recipient=fee_recipient,
+            price=65111,
+            quantity=0.01,
+            leverage=2,
+            is_buy=False,
+            is_reduce_only=False
+        ),
+    ]
+
+    # prepare tx msg
+    spot_msg = composer.MsgBatchCreateSpotLimitOrders(
+        sender=address.to_acc_bech32(),
+        orders=spot_orders
+    )
+
+    deriv_msg = composer.MsgBatchCreateDerivativeLimitOrders(
+        sender=address.to_acc_bech32(),
+        orders=derivative_orders
+    )
+
+    # compute order hashes
+    order_hashes = compute_order_hashes(network, spot_orders=spot_orders, derivative_orders=derivative_orders)
+
+    print("computed spot order hashes", order_hashes.spot)
+    print("computed derivative order hashes", order_hashes.derivative)
+
+    # build sim tx
+    tx = (
+        Transaction()
+        .with_messages(spot_msg, deriv_msg)
+        .with_sequence(address.get_sequence())
+        .with_account_num(address.get_number())
+        .with_chain_id(network.chain_id)
+    )
+    sim_sign_doc = tx.get_sign_doc(pub_key)
+    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
+    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
+
+    # simulate tx
+    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
+    if not success:
+        print(sim_res)
+        return
+
+    # build tx
+    gas_price = 500000000
+    gas_limit = sim_res.gas_info.gas_used + 20000  # add 15k for gas, fee computation
+    fee = [composer.Coin(
+        amount=gas_price * gas_limit,
+        denom=network.fee_denom,
+    )]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
+    sign_doc = tx.get_sign_doc(pub_key)
+    sig = priv_key.sign(sign_doc.SerializeToString())
+    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+
+    # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
+    res = await client.send_tx_sync_mode(tx_raw_bytes)
+    res_msg = ProtoMsgComposer.MsgResponses(res.data)
+    print("tx response")
+    print(res)
+    print("tx msg response")
+    print(res_msg)
+```
+
+``` go
+package main
+
+import (
+    "fmt"
+    "time"
+    exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+    chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+    "github.com/InjectiveLabs/sdk-go/client/common"
+    cosmtypes "github.com/cosmos/cosmos-sdk/types"
+    "github.com/shopspring/decimal"
+    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+    "os"
+)
+
+func main() {
+    // network := common.LoadNetwork("mainnet", "k8s")
+    network := common.LoadNetwork("testnet", "k8s")
+    tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+        os.Getenv("HOME")+"/.injectived",
+        "injectived",
+        "file",
+        "inj-user",
+        "12345678",
+        "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+        false,
+    )
+    if err != nil {
+        panic(err)
+    }
+
+    clientCtx, err := chainclient.NewClientContext(
+        network.ChainId,
+        senderAddress.String(),
+        cosmosKeyring,
+    )
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
+    chainClient, err := chainclient.NewChainClient(
+        clientCtx,
+        network.ChainGrpcEndpoint,
+        common.OptionTLSCert(network.ChainTlsCert),
+        common.OptionGasPrices("500000000inj"),
+    )
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    // build orders
+    defaultSubaccountID := chainClient.DefaultSubaccount(senderAddress)
+
+    spotOrder := chainClient.SpotOrder(defaultSubaccountID, network, &chainclient.SpotOrderData{
+        OrderType:    exchangetypes.OrderType_BUY,
+        Quantity:     decimal.NewFromFloat(2),
+        Price:        decimal.NewFromFloat(22.55),
+        FeeRecipient: senderAddress.String(),
+        MarketId:     "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa",
+    })
+
+    derivativeOrder := chainClient.DerivativeOrder(defaultSubaccountID, network, &chainclient.DerivativeOrderData{
+        OrderType:    exchangetypes.OrderType_BUY,
+        Quantity:     decimal.NewFromFloat(2),
+        Price:        cosmtypes.MustNewDecFromStr("31000000000"),
+        Leverage:     cosmtypes.MustNewDecFromStr("2.5"),
+        FeeRecipient: senderAddress.String(),
+        MarketId:     "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
+    })
+
+    msg := new(exchangetypes.MsgBatchCreateSpotLimitOrders)
+    msg.Sender = senderAddress.String()
+    msg.Orders = []exchangetypes.SpotOrder{*spotOrder}
+
+    msg1 := new(exchangetypes.MsgBatchCreateDerivativeLimitOrders)
+    msg1.Sender = senderAddress.String()
+    msg1.Orders = []exchangetypes.DerivativeOrder{*derivativeOrder, *derivativeOrder}
+
+    orderHashes, err := chainClient.ComputeOrderHashes(msg.Orders, msg1.Orders)
+    if err != nil {
+        fmt.Println(err)
+    }
+    fmt.Println("computed spot order hashes", orderHashes.Spot)
+    fmt.Println("computed derivative order hashes", orderHashes.Derivative)
+
+    err = chainClient.QueueBroadcastMsg(msg, msg1)
+    if err != nil {
+        fmt.Println(err)
+    }
+    time.Sleep(time.Second * 5)
+}
+
+```
+
+
+**MsgBatchCreateDerivativeLimitOrders**
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|sender|string|The Injective Chain address|Yes|
+|orders|DerivativeOrder|Array of DerivativeOrder|Yes|
+
+**DerivativeOrder**
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|Market ID of the market we want to send an order|Yes|
+|subaccount_id|string|The subaccount ID we want to send an order from|Yes|
+|fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
+|price|float|The price of the base asset|Yes|
+|quantity|float|The quantity of the base asset|Yes|
+|leverage|float|The leverage factor for the order|No|
+|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_reduce_only|boolean|Set to true or false for reduce-only or normal orders respectively|No|
+|is_po|boolean|Set to true or false for post-only or normal orders respectively|No|
+
+
+**MsgBatchCreateSpotLimitOrders**
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|sender|string|The Injective Chain address|Yes|
+|orders|SpotOrder|Array of SpotOrder|Yes|
+
+**SpotOrder**
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|string|Market ID of the market we want to send an order|Yes|
+|subaccount_id|string|The subaccount we want to send an order from|Yes|
+|fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
+|price|float|The price of the base asset|Yes|
+|quantity|float|The quantity of the base asset|Yes|
+|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_po|boolean|Set to true or false for post-only or normal orders respectively|No|
+
+
+> Response Example:
+
+``` python
+computed spot order hashes ['0x2d6b636de9dd3c1ed2e94765df558bd87d9b431ae669e248d3e2df607f069fb9', '0xe48258021f295ec61e6d94aeb87615a33221f007555cea29ab64f6be90531878']
+computed derivative order hashes ['0xb09b98289cec971c7a544c083d5b0aec7ea0c40a09dea330c3dca1ef9edd6a84', '0x76752ee736b60e64ba2bbfb5050ea94988cfd90cf13e1680345c57ac2033967d']
+tx response
+txhash: "577887F6C88F40145F6C443920BA774A8040CF91FCFBC9F7CA836142358289CF"
+raw_log: "[]"
+
+tx msg response
+[]
+```
+
+```go
+computed spot order hashes [0x03b4fc2cfa3f530a435b4ff2c8d27029056aad78ad33d9f7a183fd181bf5071b]
+computed derivative order hashes [0x558167f8457a178b73fda91d4d0a7af9cb68c18f2647674f3c02b0f2dd006806 0xce51ad4b43ce098ce2112f194393549c902b1981aeb18262cb521de5ce065798]
+DEBU[0001] broadcastTx with nonce 3297                   fn=func1 src="client/chain/chain.go:543"
+DEBU[0003] msg batch committed successfully at height 4306136  fn=func1 src="client/chain/chain.go:564" txHash=1A441B85B7945D9B30805BD6E99B478379B7363960668F9AF6E04238A50E0517
+DEBU[0003] nonce incremented to 3298                     fn=func1 src="client/chain/chain.go:568"
+```
