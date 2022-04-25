@@ -13,7 +13,7 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
@@ -75,7 +75,7 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
@@ -156,7 +156,7 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)

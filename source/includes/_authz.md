@@ -13,7 +13,7 @@ from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey, PublicKey, Address
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
@@ -218,7 +218,7 @@ from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey, PublicKey, Address
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
@@ -445,7 +445,7 @@ from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey, PublicKey, Address
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
@@ -642,7 +642,7 @@ Get the details of an authorization between a granter and a grantee.
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
-def main() -> None:
+async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     granter = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"

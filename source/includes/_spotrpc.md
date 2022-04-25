@@ -14,7 +14,7 @@ Get details of a spot market.
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
@@ -142,7 +142,7 @@ Get a list of spot markets.
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
@@ -283,7 +283,7 @@ Stream live updates of spot markets.
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
@@ -421,7 +421,7 @@ Get orders of a spot market.
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
@@ -545,7 +545,7 @@ Stream order updates of a spot market.
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
@@ -693,7 +693,7 @@ Get trades of a spot market.
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
@@ -831,7 +831,7 @@ Stream trades of a spot market.
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
@@ -972,7 +972,7 @@ Get the orderbook of a spot market.
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
@@ -1089,7 +1089,7 @@ Get the orderbook for an array of spot markets.
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
@@ -1205,7 +1205,7 @@ Stream the orderbook of a spot market.
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
@@ -1332,7 +1332,7 @@ Stream orderbook updates for an array of spot markets.
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
-def main() -> None:
+async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     market_ids = ["0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0", "0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31"]
@@ -1457,7 +1457,7 @@ Get orders of a subaccount.
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
@@ -1580,7 +1580,7 @@ Get trades of a subaccount.
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
