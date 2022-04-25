@@ -13,7 +13,7 @@ from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey, PublicKey, Address
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
@@ -220,7 +220,7 @@ from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey, PublicKey, Address
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
@@ -437,7 +437,7 @@ from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey, PublicKey, Address
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
@@ -859,7 +859,7 @@ from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey, PublicKey, Address
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
@@ -1082,7 +1082,7 @@ from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey, PublicKey, Address
 
-def main() -> None:
+async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())

@@ -14,7 +14,7 @@ Get the details for a specific transaction.
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
-def main() -> None:
+async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     tx_hash = "CF241CAACFA434DBC38645441FA330743C0F5BEB413FDE6DFCE6082EEB3E3D27"
