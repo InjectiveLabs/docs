@@ -685,6 +685,14 @@ func main() {
 
 Get trades of a spot market.
 
+**Trade execution types**
+
+1. Market for market orders
+2. limitFill for a resting limit order getting filled by a market order
+3. LimitMatchRestingOrder for a resting limit order getting matched with another new limit order
+4. LimitMatchNewOrder for the other way around (new limit order getting matched)
+
+
 
 ### Request Parameters
 > Request Example:
@@ -823,6 +831,14 @@ func main() {
 ## StreamTrades
 
 Stream trades of a spot market.
+
+**Trade execution types**
+
+1. Market for market orders
+2. limitFill for a resting limit order getting filled by a market order
+3. LimitMatchRestingOrder for a resting limit order getting matched with another new limit order
+4. LimitMatchNewOrder for the other way around (new limit order getting matched)
+
 
 ### Request Parameters
 > Request Example:
