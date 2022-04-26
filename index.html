@@ -837,6 +837,21 @@
                   <li>
                     <a href="#faq-13-what-is-the-block-time-on-the-network" class="toc-h2 toc-link" data-title="13. What is the block time on the network?">13. What is the block time on the network?</a>
                   </li>
+                  <li>
+                    <a href="#faq-14-does-gas-fee-affect-block-inclusion-and-transaction-ordering" class="toc-h2 toc-link" data-title="14. Does gas fee affect block inclusion and transaction ordering?">14. Does gas fee affect block inclusion and transaction ordering?</a>
+                  </li>
+                  <li>
+                    <a href="#faq-15-when-may-i-see-account-sequence-mismatch-errors" class="toc-h2 toc-link" data-title="15. When may I see account sequence mismatch errors?">15. When may I see account sequence mismatch errors?</a>
+                  </li>
+                  <li>
+                    <a href="#faq-16-what-are-the-broadcast-modes-i-can-use-to-send-a-transaction" class="toc-h2 toc-link" data-title="16. What are the broadcast modes I can use to send a transaction?">16. What are the broadcast modes I can use to send a transaction?</a>
+                  </li>
+                  <li>
+                    <a href="#faq-17-when-may-i-see-a-max-subscriptions-per-client-error" class="toc-h2 toc-link" data-title="17. When may I see a max subscriptions per client error?">17. When may I see a max subscriptions per client error?</a>
+                  </li>
+                  <li>
+                    <a href="#faq-18-how-long-does-it-take-until-the-exchange-api-returns-my-orders-trades-after-the-transaction-has-been-sent" class="toc-h2 toc-link" data-title="18. How long does it take until the Exchange API returns my orders/trades after the transaction has been sent?">18. How long does it take until the Exchange API returns my orders/trades after the transaction has been sent?</a>
+                  </li>
               </ul>
           </li>
       </ul>
@@ -4091,6 +4106,15 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tbody></table>
 <h2 id='injectivespotexchangerpc-trades'>Trades</h2>
 <p>Get trades of a spot market.</p>
+
+<p><strong>Trade execution types</strong></p>
+
+<ol>
+<li>Market for market orders</li>
+<li>limitFill for a resting limit order getting filled by a market order</li>
+<li>LimitMatchRestingOrder for a resting limit order getting matched with another new limit order</li>
+<li>LimitMatchNewOrder for the other way around (new limit order getting matched)</li>
+</ol>
 <h3 id='injectivespotexchangerpc-trades-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -4324,6 +4348,15 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tbody></table>
 <h2 id='injectivespotexchangerpc-streamtrades'>StreamTrades</h2>
 <p>Stream trades of a spot market.</p>
+
+<p><strong>Trade execution types</strong></p>
+
+<ol>
+<li>Market for market orders</li>
+<li>limitFill for a resting limit order getting filled by a market order</li>
+<li>LimitMatchRestingOrder for a resting limit order getting matched with another new limit order</li>
+<li>LimitMatchNewOrder for the other way around (new limit order getting matched)</li>
+</ol>
 <h3 id='injectivespotexchangerpc-streamtrades-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -7103,6 +7136,15 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-trades'>Trades</h2>
 <p>Get trades of a derivative market.</p>
+
+<p><strong>Trade execution types</strong></p>
+
+<ol>
+<li>Market for market orders</li>
+<li>limitFill for a resting limit order getting filled by a market order</li>
+<li>LimitMatchRestingOrder for a resting limit order getting matched with another new limit order</li>
+<li>LimitMatchNewOrder for the other way around (new limit order getting matched)</li>
+</ol>
 <h3 id='injectivederivativeexchangerpc-trades-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -7346,6 +7388,15 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-streamtrades'>StreamTrades</h2>
 <p>Stream trades of a derivative market.</p>
+
+<p><strong>Trade execution types</strong></p>
+
+<ol>
+<li>Market for market orders</li>
+<li>limitFill for a resting limit order getting filled by a market order</li>
+<li>LimitMatchRestingOrder for a resting limit order getting matched with another new limit order</li>
+<li>LimitMatchNewOrder for the other way around (new limit order getting matched)</li>
+</ol>
 <h3 id='injectivederivativeexchangerpc-streamtrades-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -18836,7 +18887,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <p>The DEX UI will also show you the full fees but if you have placed a trade through the API you would have paid only 60% of those fees.</p>
 <h2 id='faq-2-what-are-the-gas-fees-on-injective'>2. What are the gas fees on Injective?</h2>
-<p>If you place trades through the UI on one of the available <a href="https://hub.injective.network/trade">relayers</a> you can experience gas-less trading, if you place trades from the API you will pay gas fees in INJ but they will be very low at an average of 0.00005 INJ per message.</p>
+<p>If you place trades through the UI on one of the available <a href="https://hub.injective.network/trade">relayers</a> you can experience gas-less trading, if you place trades from the API you will pay gas fees in INJ but they will be very low at an average of 0.00005 INJ per message. Note that the INJ to pay for gas must be in the bank balance (wallet) and not the subaccount (trading account).</p>
 <h2 id='faq-3-how-can-i-calculate-the-gas-fees-in-inj'>3. How can I calculate the gas fees in INJ?</h2>
 <p>The minimum gas price set to the node is 500000000, in order to find the exact INJ amount paid you multiply the gas wanted with the minimum gas price and divide by 1e18. For instance, if gas wanted is 104519 then you would calculate it as follows:</p>
 
@@ -18849,8 +18900,6 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <p>U.S. Sentry Node: sentry1.injective.network</p>
 
 <p>Tokyo Sentry Node: sentry3.injective.network</p>
-
-<p>You can change the sentry node <a href="https://github.com/InjectiveLabs/sdk-python/blob/master/pyinjective/constant.py#L101">here</a></p>
 <h2 id='faq-5-does-injective-have-an-api-support-channel'>5. Does Injective have an API support channel?</h2>
 <p>Yes, you can join the <a href="https://discord.gg/dkEgUW4dzY">Discord</a> and <a href="https://t.me/InjectiveAPI">Telegram</a> API channels to ask any questions you might have or if you need any support.</p>
 <h2 id='faq-6-can-i-get-the-order_hash-order_id-right-after-i-send-a-new-order'>6. Can I get the order_hash (order_id) right after I send a new order?</h2>
@@ -18871,6 +18920,52 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <p>Discounts apply to all markets apart from markets that have negative maker fees or markets that have been explicitly excluded.</p>
 <h2 id='faq-13-what-is-the-block-time-on-the-network'>13. What is the block time on the network?</h2>
 <p>The average block time is currently around 2.5 seconds.</p>
+<h2 id='faq-14-does-gas-fee-affect-block-inclusion-and-transaction-ordering'>14. Does gas fee affect block inclusion and transaction ordering?</h2>
+<p>Gas fee affects block inclusion but not ordering, currently there&#39;s no ordering of transactions other than the order they&#39;ve arrived (based on the sequence number). For more information refer to the Tendermint <a href="https://docs.tendermint.com/v0.33/tendermint-core/mempool.html">docs</a></p>
+<h2 id='faq-15-when-may-i-see-account-sequence-mismatch-errors'>15. When may I see account sequence mismatch errors?</h2>
+<p>On a high-level, when a sentry node receives a transaction it runs a <code>CheckTx</code> to verify the validity of the transaction which includes <strong>stateless</strong> and <strong>stateful</strong> checks. One of those checks is to verify that the sender’s sequence number is valid - the sequence number is primarily used for replay protection and it also affects the ordering logic of transactions.</p>
+
+<p>When you broadcast multiple transactions sequentially to the node the sequence is incremented by one for each transaction and your transactions will be included in a block in the order they arrive (based on the sequence). Should the transaction pass all the checks from <code>CheckTx</code> then it is included in the nodes’ mempool (an in-memory pool of transactions unique to each node) which will be gossiped to other peers in the network prior to consensus. When the transaction reaches the proposer validator node then it will be included in a block. Note that in <a href="https://docs.tendermint.com/master/introduction/what-is-tendermint.html">Tendermint BFT</a> (cosmos-sdk consensus algorithm) finality is <strong>absolute</strong>, meaning that transactions are finalized when they are included in a block.</p>
+
+<p>There are a couple of reasons you might see account sequence mismatch errors:</p>
+
+<p>1) If you run a trading bot and at the same time you try to broadcast a transaction on the DEX you&#39;ll end up with a sequence mismatch since the bot will fetch the sequence from the node and the same will happen with the Frontend so you end up broadcasting a transaction with the same sequence number. Similarly, if you run a trading bot with the same private key you&#39;ll also see sequence mismatch errors, thus you should use the private key only at one platform at a time.</p>
+
+<p>2) In the examples we&#39;re using a function to handle the sequence locally because if you send multiple transactions in a single block the only way to do that is to use local sequence as until the tx is confirmed the peers in the network are not aware that the sequence has been increased. Essentially, we fetch the sequence the first time through the node directly and then handle it locally for consecutive transactions. If you use sync/async and fetch the sequence from the node every time opposed to handling it locally then you&#39;ll occasionally end up with a sequence mismatch.</p>
+
+<p>You can refer to these functions below for sdk-python.</p>
+
+<p>https://github.com/InjectiveLabs/sdk-python/blob/master/pyinjective/wallet.py#L269</p>
+
+<p>https://github.com/InjectiveLabs/sdk-python/blob/master/pyinjective/wallet.py#L296</p>
+
+<p>On the other hand, if you use broadcast mode you essentially expect the tx to be included in a block and then you&#39;ll get a response back from the sentry - that&#39;s not really recommended since it&#39;s wasting a lot of resources from the sentry and it&#39;s slower on the client-side too but in this case it guarantees that the sequence will always be unique and you can fetch it from the node every time you send a tx.</p>
+
+<p>3) If you broadcasted a transaction with gas fee lower than the minimum threshold on the node then this transaction will remain in the mempool until the node is restarted and the transaction is discarded or until the transaction expires (if you&#39;ve set a timeout_height before you broadcasted it). If a transaction is stuck in the mempool then you won&#39;t be able to broadcast transactions to that node (and potentially to other nodes in the network if it has been gossiped) since the account sequence will be incorrect. To ensure that transactions don&#39;t get stuck in the mempool please use the gas fee set in the examples.</p>
+<h2 id='faq-16-what-are-the-broadcast-modes-i-can-use-to-send-a-transaction'>16. What are the broadcast modes I can use to send a transaction?</h2>
+<p><strong>Sync:</strong> Wait for the tx to pass/fail CheckTx</p>
+
+<p><strong>Async:</strong> Don’t wait for the tx to pass/fail CheckTx; send and return tx immediately</p>
+
+<p><strong>Block:</strong> Wait for the tx to pass/fail CheckTx, DeliverTx, and be committed in a block</p>
+<h2 id='faq-17-when-may-i-see-a-max-subscriptions-per-client-error'>17. When may I see a max subscriptions per client error?</h2>
+<p>You can open up to 5 chain channels per IP, if you run more than 5 trading bots from the same IP then this error would naturally show up and you should use a different IP. Every trading bot should open one chain channel only, thus if you&#39;re seeing this error and don&#39;t have 5 distinct trading bots then it indicates an issue in your logic. If you want to broadcast multiple transactions in a single block you can use sync mode and open one channel only. You can refer <a href="https://github.com/InjectiveLabs/sdk-python/blob/master/examples/async/chain_client/1_MsgSend.py#L32">here</a> for the chain channel initialization in sdk-python.</p>
+<h2 id='faq-18-how-long-does-it-take-until-the-exchange-api-returns-my-orders-trades-after-the-transaction-has-been-sent'>18. How long does it take until the Exchange API returns my orders/trades after the transaction has been sent?</h2>
+<p>This depends on a lot of factors such as the P2P network topology and geolocation of the client-server. When you broadcast a transaction, the following cycle takes place:</p>
+
+<p>1) The transaction is gossiped to other peers in the network</p>
+
+<p>2) The transaction eventually reaches the proposer node</p>
+
+<p>3) Validators participating in the consensus round sign the block and it&#39;s produced on-chain</p>
+
+<p>4) The block information is gossiped to the read-only peers (sentry nodes)</p>
+
+<p>5) The events emitted by the chain are picked up by the indexer (Exchange API) and included in a MongoDB</p>
+
+<p>6) Exchange API will query MongoDB to fetch you the data</p>
+
+<p>7) Geolocation between client-sentry will determine the latency until the data is served on the client</p>
 
       </div>
       <div class="dark-box">
