@@ -3,6 +3,10 @@ Includes all messages and queries related to the Authz module. Authz is an imple
 
 ## MsgGrant
 
+There are two types of authorization, Generic and Typed. Generic authorization will grant permissions to the grantee to execute exchange-related messages in all markets, typed authorization restricts the privileges to specified markets. Typed authorization is generally more safe since even if the grantee's key is compromised the attacker will only be able to send orders in specified markets - thus prevents them from launching bogus markets on-chain and executing orders on behalf of the granter.
+
+
+
 ### Request Parameters
 > Request Example:
 
@@ -12,6 +16,7 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey, PublicKey, Address
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -24,14 +29,29 @@ async def main() -> None:
 
     # load account
     priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
-    pub_key =  priv_key.to_public_key()
+    pub_key = priv_key.to_public_key()
     address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
-    
-    msg = composer.MsgGrant(
+    subaccount_id = address.get_subaccount_id(index=0)
+    market_ids = ["0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"]
+
+    # prepare tx msg
+
+    #GENERIC AUTHZ
+    # msg = composer.MsgGrantGeneric(
+    #     granter = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+    #     grantee = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+    #     msg_type = "/injective.exchange.v1beta1.MsgCreateSpotLimitOrder",
+    #     expire_in=31536000 # 1 year
+    # )
+
+    #TYPED AUTHZ
+    msg = composer.MsgGrantTyped(
         granter = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
         grantee = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-        msg_type = "/injective.exchange.v1beta1.MsgCreateSpotLimitOrder",
-        expire_in=31536000 # 1 year
+        msg_type = "CreateSpotLimitOrderAuthz",
+        expire_in=31536000, # 1 year
+        subaccount_id=subaccount_id,
+        market_ids=market_ids
     )
 
     # build sim tx
@@ -54,7 +74,7 @@ async def main() -> None:
 
     # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
+    gas_limit = sim_res.gas_info.gas_used + 20000 # add 20k for gas, fee computation
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
@@ -66,9 +86,9 @@ async def main() -> None:
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = await client.send_tx_block_mode(tx_raw_bytes)
-
-    # print tx response
+    print("tx response")
     print(res)
+
 ```
 
 ``` go
@@ -79,8 +99,6 @@ import (
     "os"
     "time"
 
-    codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-    authztypes "github.com/cosmos/cosmos-sdk/x/authz"
     rpchttp "github.com/tendermint/tendermint/rpc/client/http"
 
     chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
@@ -104,7 +122,6 @@ func main() {
         "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
         false,
     )
-
     if err != nil {
         panic(err)
     }
@@ -114,27 +131,10 @@ func main() {
         senderAddress.String(),
         cosmosKeyring,
     )
-
     if err != nil {
         fmt.Println(err)
     }
-
     clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
-
-    // build generic authz msg
-    grantee := "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-    auth := authztypes.NewGenericAuthorization("/injective.exchange.v1beta1.MsgCreateSpotLimitOrder")
-    authAny := codectypes.UnsafePackAny(auth)
-    expireIn := time.Now().AddDate(1, 0, 0)
-
-    msg := &authztypes.MsgGrant{
-        Granter: senderAddress.String(),
-        Grantee: grantee,
-        Grant: authztypes.Grant{
-            Authorization: authAny,
-            Expiration:    expireIn,
-        },
-    }
 
     chainClient, err := chainclient.NewChainClient(
         clientCtx,
@@ -142,17 +142,32 @@ func main() {
         common.OptionTLSCert(network.ChainTlsCert),
         common.OptionGasPrices("500000000inj"),
     )
-
     if err != nil {
         fmt.Println(err)
     }
+
+    granter := senderAddress.String()
+    grantee := "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+    expireIn := time.Now().AddDate(1, 0, 0) // years months days
+
+    //GENERIC AUTHZ
+    //msgtype := "/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"
+    //msg := chainClient.BuildGenericAuthz(granter, grantee, msgtype, expireIn)
+
+    //TYPED AUTHZ
+    msg := chainClient.BuildExchangeAuthz(
+        granter,
+        grantee,
+        chainclient.CreateSpotLimitOrderAuthz,
+        chainClient.DefaultSubaccount(senderAddress).String(),
+        []string{"0xe0dc13205fb8b23111d8555a6402681965223135d368eeeb964681f9ff12eb2a"},
+        expireIn,
+    )
 
     err = chainClient.QueueBroadcastMsg(msg)
-
     if err != nil {
         fmt.Println(err)
     }
-
     time.Sleep(time.Second * 5)
 }
 
@@ -165,39 +180,67 @@ func main() {
 |msg_type|string|The message type being authorized by the granter|Yes|
 |expire_in|integer|The expiration time for the authorization|Yes|
 
+**Typed Authorization Messages**
+
+1. CreateSpotLimitOrderAuthz
+
+2. CreateSpotMarketOrderAuthz
+
+3. BatchCreateSpotLimitOrdersAuthz
+
+4. CancelSpotOrderAuthz
+
+5. BatchCancelSpotOrdersAuthz
+
+6. CreateDerivativeLimitOrderAuthz
+
+7. CreateDerivativeMarketOrderAuthz
+
+8. BatchCreateDerivativeLimitOrdersAuthz
+
+9. CancelDerivativeOrderAuthz
+
+10. BatchCancelDerivativeOrdersAuthz
+
+11. BatchUpdateOrdersAuthz
+
 > Response Example:
 
 ``` python
-"height": 13994948,
-"txhash": "F4340E4A11EFE2685C604147FBDB6703D8C704525046D651934B7C667F55A241",
-"data": "0A200A1E2F636F736D6F732E617574687A2E763162657461312E4D73674772616E74",
-"raw_log": "[{\"events\":[{\"type\":\"cosmos.authz.v1beta1.EventGrant\",\"attributes\":[{\"key\":\"msg_type_url\",\"value\":\"\\\"/injective.exchange.v1beta1.MsgCreateSpotLimitOrder\\\"\"},{\"key\":\"granter\",\"value\":\"\\\"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku\\\"\"},{\"key\":\"grantee\",\"value\":\"\\\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\\\"\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.authz.v1beta1.MsgGrant\"}]}]}]",
-"logs": {
-  "events": {
-    "type": "cosmos.authz.v1beta1.EventGrant",
-    "attributes": {
-      "key": "msg_type_url",
-      "value": "\"/injective.exchange.v1beta1.MsgCreateSpotLimitOrder\""
-    },
-    "attributes": {
-      "key": "granter",
-      "value": "\"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku\""
-    },
-    "attributes": {
-      "key": "grantee",
-      "value": "\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\""
+tx response
+height: 4456266
+txhash: "E77C40894B88B88415468ECFF4636734DB364F85FFE19E3876870366780DBECF"
+data: "0A200A1E2F636F736D6F732E617574687A2E763162657461312E4D73674772616E74"
+raw_log: "[{\"events\":[{\"type\":\"cosmos.authz.v1beta1.EventGrant\",\"attributes\":[{\"key\":\"msg_type_url\",\"value\":\"\\\"/injective.exchange.v1beta1.MsgCreateSpotLimitOrder\\\"\"},{\"key\":\"granter\",\"value\":\"\\\"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku\\\"\"},{\"key\":\"grantee\",\"value\":\"\\\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\\\"\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.authz.v1beta1.MsgGrant\"}]}]}]"
+logs {
+  events {
+    type: "cosmos.authz.v1beta1.EventGrant"
+    attributes {
+      key: "msg_type_url"
+      value: "\"/injective.exchange.v1beta1.MsgCreateSpotLimitOrder\""
     }
-  },
-  "events": {
-    "type": "message",
-    "attributes": {
-      "key": "action",
-      "value": "/cosmos.authz.v1beta1.MsgGrant"
+    attributes {
+      key: "granter"
+      value: "\"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku\""
+    }
+    attributes {
+      key: "grantee"
+      value: "\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\""
     }
   }
-},
-"gas_wanted": 82201,
-"gas_used": 79363
+  events {
+    type: "message"
+    attributes {
+      key: "action"
+      value: "/cosmos.authz.v1beta1.MsgGrant"
+    }
+  }
+}
+gas_wanted: 96103
+gas_used: 89785
+
+tx msg response
+[]
 ```
 
 ```go
