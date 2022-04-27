@@ -17346,7 +17346,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3002</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:507"</span>
 </code></pre></div><h1 id='authz'>- Authz</h1>
 <p>Includes all messages and queries related to the Authz module. Authz is an implementation of the Cosmos SDK module, that allows granting arbitrary privileges from one account (the granter) to another account (the grantee). Authorizations must be granted for a particular Msg service method one by one using an implementation of the Authorization interface.</p>
-<h2 id='authz-msggrant'>MsgGrant</h2><h3 id='authz-msggrant-request-parameters'>Request Parameters</h3>
+<h2 id='authz-msggrant'>MsgGrant</h2>
+<p>There are two types of authorization, Generic and Typed. Generic authorization will grant permissions to the grantee to execute exchange-related messages in all markets, typed authorization restricts the privileges to specified markets. Typed authorization is generally more safe since even if the grantee&#39;s key is compromised the attacker will only be able to send orders in specified markets - thus prevents them from launching bogus markets on-chain and executing orders on behalf of the granter.</p>
+<h3 id='authz-msggrant-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -17355,6 +17357,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="kn">from</span> <span class="nn">pyinjective.transaction</span> <span class="kn">import</span> <span class="n">Transaction</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 <span class="kn">from</span> <span class="nn">pyinjective.wallet</span> <span class="kn">import</span> <span class="n">PrivateKey</span><span class="p">,</span> <span class="n">PublicKey</span><span class="p">,</span> <span class="n">Address</span>
+
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
@@ -17367,15 +17370,30 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># load account
 </span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">)</span>
-    <span class="n">pub_key</span> <span class="o">=</span>  <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
+    <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
     <span class="n">address</span> <span class="o">=</span> <span class="k">await</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">().</span><span class="n">async_init_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
+    <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">market_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s">"0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"</span><span class="p">]</span>
 
-    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgGrant</span><span class="p">(</span>
+    <span class="c1"># prepare tx msg
+</span>
+    <span class="c1">#GENERIC AUTHZ
+</span>    <span class="c1"># msg = composer.MsgGrantGeneric(
+</span>    <span class="c1">#     granter = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+</span>    <span class="c1">#     grantee = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+</span>    <span class="c1">#     msg_type = "/injective.exchange.v1beta1.MsgCreateSpotLimitOrder",
+</span>    <span class="c1">#     expire_in=31536000 # 1 year
+</span>    <span class="c1"># )
+</span>
+    <span class="c1">#TYPED AUTHZ
+</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgGrantTyped</span><span class="p">(</span>
         <span class="n">granter</span> <span class="o">=</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span><span class="p">,</span>
         <span class="n">grantee</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span><span class="p">,</span>
-        <span class="n">msg_type</span> <span class="o">=</span> <span class="s">"/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"</span><span class="p">,</span>
-        <span class="n">expire_in</span><span class="o">=</span><span class="mi">31536000</span> <span class="c1"># 1 year
-</span>    <span class="p">)</span>
+        <span class="n">msg_type</span> <span class="o">=</span> <span class="s">"CreateSpotLimitOrderAuthz"</span><span class="p">,</span>
+        <span class="n">expire_in</span><span class="o">=</span><span class="mi">31536000</span><span class="p">,</span> <span class="c1"># 1 year
+</span>        <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+        <span class="n">market_ids</span><span class="o">=</span><span class="n">market_ids</span>
+    <span class="p">)</span>
 
     <span class="c1"># build sim tx
 </span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
@@ -17397,7 +17415,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span> <span class="c1"># add 20k for gas, fee computation
 </span>    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
@@ -17409,9 +17427,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
 </span>    <span class="n">res</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_block_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"tx response"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
-    <span class="c1"># print tx response
-</span>    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
 
 <span class="k">import</span> <span class="p">(</span>
@@ -17419,8 +17437,6 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="s">"os"</span>
     <span class="s">"time"</span>
 
-    <span class="n">codectypes</span> <span class="s">"github.com/cosmos/cosmos-sdk/codec/types"</span>
-    <span class="n">authztypes</span> <span class="s">"github.com/cosmos/cosmos-sdk/x/authz"</span>
     <span class="n">rpchttp</span> <span class="s">"github.com/tendermint/tendermint/rpc/client/http"</span>
 
     <span class="n">chainclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/chain"</span>
@@ -17444,7 +17460,6 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">,</span> <span class="c">// keyring will be used if pk not provided</span>
         <span class="no">false</span><span class="p">,</span>
     <span class="p">)</span>
-
     <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
         <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
     <span class="p">}</span>
@@ -17454,27 +17469,10 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span>
         <span class="n">cosmosKeyring</span><span class="p">,</span>
     <span class="p">)</span>
-
     <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
         <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
     <span class="p">}</span>
-
     <span class="n">clientCtx</span> <span class="o">=</span> <span class="n">clientCtx</span><span class="o">.</span><span class="n">WithNodeURI</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">)</span><span class="o">.</span><span class="n">WithClient</span><span class="p">(</span><span class="n">tmRPC</span><span class="p">)</span>
-
-    <span class="c">// build generic authz msg</span>
-    <span class="n">grantee</span> <span class="o">:=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
-    <span class="n">auth</span> <span class="o">:=</span> <span class="n">authztypes</span><span class="o">.</span><span class="n">NewGenericAuthorization</span><span class="p">(</span><span class="s">"/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"</span><span class="p">)</span>
-    <span class="n">authAny</span> <span class="o">:=</span> <span class="n">codectypes</span><span class="o">.</span><span class="n">UnsafePackAny</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span>
-    <span class="n">expireIn</span> <span class="o">:=</span> <span class="n">time</span><span class="o">.</span><span class="n">Now</span><span class="p">()</span><span class="o">.</span><span class="n">AddDate</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">)</span>
-
-    <span class="n">msg</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="n">authztypes</span><span class="o">.</span><span class="n">MsgGrant</span><span class="p">{</span>
-        <span class="n">Granter</span><span class="o">:</span> <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span>
-        <span class="n">Grantee</span><span class="o">:</span> <span class="n">grantee</span><span class="p">,</span>
-        <span class="n">Grant</span><span class="o">:</span> <span class="n">authztypes</span><span class="o">.</span><span class="n">Grant</span><span class="p">{</span>
-            <span class="n">Authorization</span><span class="o">:</span> <span class="n">authAny</span><span class="p">,</span>
-            <span class="n">Expiration</span><span class="o">:</span>    <span class="n">expireIn</span><span class="p">,</span>
-        <span class="p">},</span>
-    <span class="p">}</span>
 
     <span class="n">chainClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">NewChainClient</span><span class="p">(</span>
         <span class="n">clientCtx</span><span class="p">,</span>
@@ -17482,17 +17480,32 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ChainTlsCert</span><span class="p">),</span>
         <span class="n">common</span><span class="o">.</span><span class="n">OptionGasPrices</span><span class="p">(</span><span class="s">"500000000inj"</span><span class="p">),</span>
     <span class="p">)</span>
-
     <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
         <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
     <span class="p">}</span>
+
+    <span class="n">granter</span> <span class="o">:=</span> <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">()</span>
+    <span class="n">grantee</span> <span class="o">:=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
+    <span class="n">expireIn</span> <span class="o">:=</span> <span class="n">time</span><span class="o">.</span><span class="n">Now</span><span class="p">()</span><span class="o">.</span><span class="n">AddDate</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">)</span> <span class="c">// years months days</span>
+
+    <span class="c">//GENERIC AUTHZ</span>
+    <span class="c">//msgtype := "/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"</span>
+    <span class="c">//msg := chainClient.BuildGenericAuthz(granter, grantee, msgtype, expireIn)</span>
+
+    <span class="c">//TYPED AUTHZ</span>
+    <span class="n">msg</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">BuildExchangeAuthz</span><span class="p">(</span>
+        <span class="n">granter</span><span class="p">,</span>
+        <span class="n">grantee</span><span class="p">,</span>
+        <span class="n">chainclient</span><span class="o">.</span><span class="n">CreateSpotLimitOrderAuthz</span><span class="p">,</span>
+        <span class="n">chainClient</span><span class="o">.</span><span class="n">DefaultSubaccount</span><span class="p">(</span><span class="n">senderAddress</span><span class="p">)</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span>
+        <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">"0xe0dc13205fb8b23111d8555a6402681965223135d368eeeb964681f9ff12eb2a"</span><span class="p">},</span>
+        <span class="n">expireIn</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="n">err</span> <span class="o">=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">QueueBroadcastMsg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-
     <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
         <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
     <span class="p">}</span>
-
     <span class="n">time</span><span class="o">.</span><span class="n">Sleep</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">Second</span> <span class="o">*</span> <span class="m">5</span><span class="p">)</span>
 <span class="p">}</span>
 
@@ -17531,39 +17544,59 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 </tbody></table>
 
+<p><strong>Typed Authorization Messages</strong></p>
+
+<ol>
+<li><p>CreateSpotLimitOrderAuthz</p></li>
+<li><p>CreateSpotMarketOrderAuthz</p></li>
+<li><p>BatchCreateSpotLimitOrdersAuthz</p></li>
+<li><p>CancelSpotOrderAuthz</p></li>
+<li><p>BatchCancelSpotOrdersAuthz</p></li>
+<li><p>CreateDerivativeLimitOrderAuthz</p></li>
+<li><p>CreateDerivativeMarketOrderAuthz</p></li>
+<li><p>BatchCreateDerivativeLimitOrdersAuthz</p></li>
+<li><p>CancelDerivativeOrderAuthz</p></li>
+<li><p>BatchCancelDerivativeOrdersAuthz</p></li>
+<li><p>BatchUpdateOrdersAuthz</p></li>
+</ol>
+
 <blockquote>
 <p>Response Example:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="s">"height"</span><span class="p">:</span> <span class="mi">13994948</span><span class="p">,</span>
-<span class="s">"txhash"</span><span class="p">:</span> <span class="s">"F4340E4A11EFE2685C604147FBDB6703D8C704525046D651934B7C667F55A241"</span><span class="p">,</span>
-<span class="s">"data"</span><span class="p">:</span> <span class="s">"0A200A1E2F636F736D6F732E617574687A2E763162657461312E4D73674772616E74"</span><span class="p">,</span>
-<span class="s">"raw_log"</span><span class="p">:</span> <span class="s">"[{</span><span class="se">\"</span><span class="s">events</span><span class="se">\"</span><span class="s">:[{</span><span class="se">\"</span><span class="s">type</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">cosmos.authz.v1beta1.EventGrant</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">attributes</span><span class="se">\"</span><span class="s">:[{</span><span class="se">\"</span><span class="s">key</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">msg_type_url</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">value</span><span class="se">\"</span><span class="s">:</span><span class="se">\"\\\"</span><span class="s">/injective.exchange.v1beta1.MsgCreateSpotLimitOrder</span><span class="se">\\\"\"</span><span class="s">},{</span><span class="se">\"</span><span class="s">key</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">granter</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">value</span><span class="se">\"</span><span class="s">:</span><span class="se">\"\\\"</span><span class="s">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="se">\\\"\"</span><span class="s">},{</span><span class="se">\"</span><span class="s">key</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">grantee</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">value</span><span class="se">\"</span><span class="s">:</span><span class="se">\"\\\"</span><span class="s">inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r</span><span class="se">\\\"\"</span><span class="s">}]},{</span><span class="se">\"</span><span class="s">type</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">message</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">attributes</span><span class="se">\"</span><span class="s">:[{</span><span class="se">\"</span><span class="s">key</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">action</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">value</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">/cosmos.authz.v1beta1.MsgGrant</span><span class="se">\"</span><span class="s">}]}]}]"</span><span class="p">,</span>
-<span class="s">"logs"</span><span class="p">:</span> <span class="p">{</span>
-  <span class="s">"events"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"type"</span><span class="p">:</span> <span class="s">"cosmos.authz.v1beta1.EventGrant"</span><span class="p">,</span>
-    <span class="s">"attributes"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s">"key"</span><span class="p">:</span> <span class="s">"msg_type_url"</span><span class="p">,</span>
-      <span class="s">"value"</span><span class="p">:</span> <span class="s">"</span><span class="se">\"</span><span class="s">/injective.exchange.v1beta1.MsgCreateSpotLimitOrder</span><span class="se">\"</span><span class="s">"</span>
-    <span class="p">},</span>
-    <span class="s">"attributes"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s">"key"</span><span class="p">:</span> <span class="s">"granter"</span><span class="p">,</span>
-      <span class="s">"value"</span><span class="p">:</span> <span class="s">"</span><span class="se">\"</span><span class="s">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="se">\"</span><span class="s">"</span>
-    <span class="p">},</span>
-    <span class="s">"attributes"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s">"key"</span><span class="p">:</span> <span class="s">"grantee"</span><span class="p">,</span>
-      <span class="s">"value"</span><span class="p">:</span> <span class="s">"</span><span class="se">\"</span><span class="s">inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r</span><span class="se">\"</span><span class="s">"</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">tx</span> <span class="n">response</span>
+<span class="n">height</span><span class="p">:</span> <span class="mi">4456266</span>
+<span class="n">txhash</span><span class="p">:</span> <span class="s">"E77C40894B88B88415468ECFF4636734DB364F85FFE19E3876870366780DBECF"</span>
+<span class="n">data</span><span class="p">:</span> <span class="s">"0A200A1E2F636F736D6F732E617574687A2E763162657461312E4D73674772616E74"</span>
+<span class="n">raw_log</span><span class="p">:</span> <span class="s">"[{</span><span class="se">\"</span><span class="s">events</span><span class="se">\"</span><span class="s">:[{</span><span class="se">\"</span><span class="s">type</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">cosmos.authz.v1beta1.EventGrant</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">attributes</span><span class="se">\"</span><span class="s">:[{</span><span class="se">\"</span><span class="s">key</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">msg_type_url</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">value</span><span class="se">\"</span><span class="s">:</span><span class="se">\"\\\"</span><span class="s">/injective.exchange.v1beta1.MsgCreateSpotLimitOrder</span><span class="se">\\\"\"</span><span class="s">},{</span><span class="se">\"</span><span class="s">key</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">granter</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">value</span><span class="se">\"</span><span class="s">:</span><span class="se">\"\\\"</span><span class="s">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="se">\\\"\"</span><span class="s">},{</span><span class="se">\"</span><span class="s">key</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">grantee</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">value</span><span class="se">\"</span><span class="s">:</span><span class="se">\"\\\"</span><span class="s">inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r</span><span class="se">\\\"\"</span><span class="s">}]},{</span><span class="se">\"</span><span class="s">type</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">message</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">attributes</span><span class="se">\"</span><span class="s">:[{</span><span class="se">\"</span><span class="s">key</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">action</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">value</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">/cosmos.authz.v1beta1.MsgGrant</span><span class="se">\"</span><span class="s">}]}]}]"</span>
+<span class="n">logs</span> <span class="p">{</span>
+  <span class="n">events</span> <span class="p">{</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="s">"cosmos.authz.v1beta1.EventGrant"</span>
+    <span class="n">attributes</span> <span class="p">{</span>
+      <span class="n">key</span><span class="p">:</span> <span class="s">"msg_type_url"</span>
+      <span class="n">value</span><span class="p">:</span> <span class="s">"</span><span class="se">\"</span><span class="s">/injective.exchange.v1beta1.MsgCreateSpotLimitOrder</span><span class="se">\"</span><span class="s">"</span>
     <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="s">"events"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"type"</span><span class="p">:</span> <span class="s">"message"</span><span class="p">,</span>
-    <span class="s">"attributes"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s">"key"</span><span class="p">:</span> <span class="s">"action"</span><span class="p">,</span>
-      <span class="s">"value"</span><span class="p">:</span> <span class="s">"/cosmos.authz.v1beta1.MsgGrant"</span>
+    <span class="n">attributes</span> <span class="p">{</span>
+      <span class="n">key</span><span class="p">:</span> <span class="s">"granter"</span>
+      <span class="n">value</span><span class="p">:</span> <span class="s">"</span><span class="se">\"</span><span class="s">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="se">\"</span><span class="s">"</span>
+    <span class="p">}</span>
+    <span class="n">attributes</span> <span class="p">{</span>
+      <span class="n">key</span><span class="p">:</span> <span class="s">"grantee"</span>
+      <span class="n">value</span><span class="p">:</span> <span class="s">"</span><span class="se">\"</span><span class="s">inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r</span><span class="se">\"</span><span class="s">"</span>
     <span class="p">}</span>
   <span class="p">}</span>
-<span class="p">},</span>
-<span class="s">"gas_wanted"</span><span class="p">:</span> <span class="mi">82201</span><span class="p">,</span>
-<span class="s">"gas_used"</span><span class="p">:</span> <span class="mi">79363</span>
+  <span class="n">events</span> <span class="p">{</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="s">"message"</span>
+    <span class="n">attributes</span> <span class="p">{</span>
+      <span class="n">key</span><span class="p">:</span> <span class="s">"action"</span>
+      <span class="n">value</span><span class="p">:</span> <span class="s">"/cosmos.authz.v1beta1.MsgGrant"</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">gas_wanted</span><span class="p">:</span> <span class="mi">96103</span>
+<span class="n">gas_used</span><span class="p">:</span> <span class="mi">89785</span>
+
+<span class="n">tx</span> <span class="n">msg</span> <span class="n">response</span>
+<span class="p">[]</span>
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="n">DEBU</span><span class="p">[</span><span class="m">0001</span><span class="p">]</span> <span class="n">broadcastTx</span> <span class="n">with</span> <span class="n">nonce</span> <span class="m">3001</span>                   <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:482"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">msg</span> <span class="n">batch</span> <span class="n">committed</span> <span class="n">successfully</span> <span class="n">at</span> <span class="n">height</span> <span class="m">3663646</span>  <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:503"</span> <span class="n">txHash</span><span class="o">=</span><span class="n">F4340E4A11EFE2685C604147FBDB6703D8C704525046D651934B7C667F55A241</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3002</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:507"</span>
