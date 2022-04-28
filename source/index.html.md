@@ -96,13 +96,9 @@ go get -u github.com/InjectiveLabs/sdk-go
 
 **Installation**
 
-Install the sdk-ts using `yarn`.
-
-```bash
-yarn add @injectivelabs/sdk-ts
-```
+Install the `@injectivelabs/sdk-ts` npm package using `yarn` => `yarn add @injectivelabs/sdk-ts`
 
 **Reference**
 
-[Source code of the @injectivelabs/sdk-ts package](https://github.com/InjectiveLabs/injective-ts/tree/master/packages/sdk-ts).
-[Examples based on the @injectivelabs/sdk-ts packages](https://github.com/InjectiveLabs/injective-sdk-ts-example).
+- [Source code of the @injectivelabs/sdk-ts package](https://github.com/InjectiveLabs/injective-ts/tree/master/packages/sdk-ts)
+- [Examples based on the @injectivelabs/sdk-ts packages](https://github.com/InjectiveLabs/injective-sdk-ts-example).
