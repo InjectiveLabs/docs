@@ -898,16 +898,15 @@
 
 <p><a href="https://github.com/InjectiveLabs/sdk-go">InjectiveLabs/sdk-go</a>.</p>
 <h2 id='clients-typescript-client'>Typescript Client</h2>
-<p>Examples are under construction, stay tuned.</p>
-
 <p><strong>Installation</strong></p>
 
-<p>Install exchange-consumer using <code>yarn</code>.</p>
-<div class="highlight"><pre class="highlight shell"><code>yarn add @injectivelabs/exchange-consumer
+<p>Install the sdk-ts using <code>yarn</code>.</p>
+<div class="highlight"><pre class="highlight shell"><code>yarn add @injectivelabs/sdk-ts
 </code></pre></div>
 <p><strong>Reference</strong></p>
 
-<p><a href="https://github.com/InjectiveLabs/injective-ts/tree/master/packages/exchange-consumer">InjectiveLabs/injective-ts</a>.</p>
+<p><a href="https://github.com/InjectiveLabs/injective-ts/tree/master/packages/sdk-ts">Source code of the @injectivelabs/sdk-ts package</a>.
+<a href="https://github.com/InjectiveLabs/injective-sdk-ts-example">Examples based on the @injectivelabs/sdk-ts packages</a>.</p>
 <h1 id='overview'>Overview</h1>
 <p>Injective Protocol is a fully decentralized layer-2 DEX protocol built for the next generation of decentralized derivatives exchange. The Injective Chain is a Tendermint-based IBC-compatible blockchain which supports a decentralized orderbook-based DEX protocol and a trustless ERC-20 token bridge to the Ethereum blockchain.</p>
 
@@ -1954,6 +1953,26 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="cm">/** Fetching subaccount balance for a particular denom */</span>
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span>
+    <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">denom</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">inj</span><span class="dl">"</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">subaccountBalance</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">accountApi</span><span class="p">.</span><span class="nx">subaccountBalance</span><span class="p">(</span>
+    <span class="nx">subaccountId</span><span class="p">,</span>
+    <span class="nx">denom</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">subaccountBalance</span><span class="p">.</span><span class="nx">toObject</span><span class="p">());</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -17238,6 +17257,83 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">time</span><span class="o">.</span><span class="n">Sleep</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">Second</span> <span class="o">*</span> <span class="m">5</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span>
+  <span class="nx">AuctionCore</span><span class="p">,</span>
+  <span class="nx">ChainClient</span><span class="p">,</span>
+  <span class="nx">PrivateKey</span><span class="p">,</span>
+  <span class="nx">BaseAccount</span><span class="p">,</span>
+  <span class="nx">TxInjective</span><span class="p">,</span>
+  <span class="nx">TxService</span><span class="p">,</span>
+<span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">BigNumberInBase</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/utils</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="cm">/** MsgBid Example */</span>
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">privateKey</span> <span class="o">=</span> <span class="nx">PrivateKey</span><span class="p">.</span><span class="nx">fromPrivateKey</span><span class="p">(</span>
+    <span class="dl">"</span><span class="s2">241824dffdda13c05f5a0de30d3ac7511849005585d89f7a045368cded0e6271</span><span class="dl">"</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">injectiveAddress</span> <span class="o">=</span> <span class="nx">privateKey</span><span class="p">.</span><span class="nx">toBech32</span><span class="p">();</span>
+
+  <span class="cm">/** Account Details **/</span>
+  <span class="kd">const</span> <span class="nx">accountDetails</span> <span class="o">=</span> <span class="k">await</span> <span class="k">new</span> <span class="nx">ChainClient</span><span class="p">.</span><span class="nx">AuthRestApi</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">sentryHttpApi</span>
+  <span class="p">).</span><span class="nx">account</span><span class="p">(</span><span class="nx">injectiveAddress</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">baseAccount</span> <span class="o">=</span> <span class="nx">BaseAccount</span><span class="p">.</span><span class="nx">fromRestApi</span><span class="p">(</span><span class="nx">accountDetails</span><span class="p">);</span>
+
+  <span class="cm">/** Prepare the Message */</span>
+  <span class="kd">const</span> <span class="nx">auctionModuleState</span> <span class="o">=</span> <span class="k">await</span> <span class="k">new</span> <span class="nx">ChainClient</span><span class="p">.</span><span class="nx">AuctionApi</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">sentryGrpcApi</span>
+  <span class="p">).</span><span class="nx">moduleState</span><span class="p">();</span>
+  <span class="kd">const</span> <span class="nx">latestRound</span> <span class="o">=</span> <span class="nx">auctionModuleState</span><span class="p">.</span><span class="nx">getState</span><span class="p">()?.</span><span class="nx">getAuctionRound</span><span class="p">();</span>
+  <span class="kd">const</span> <span class="nx">round</span> <span class="o">=</span> <span class="nx">latestRound</span> <span class="o">||</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">bid</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="cm">/** 1 INJ */</span>
+  <span class="kd">const</span> <span class="nx">amount</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">amount</span><span class="p">:</span> <span class="k">new</span> <span class="nx">BigNumberInBase</span><span class="p">(</span><span class="nx">bid</span><span class="p">).</span><span class="nx">toWei</span><span class="p">().</span><span class="nx">toFixed</span><span class="p">(),</span>
+    <span class="na">denom</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj</span><span class="dl">"</span><span class="p">,</span>
+  <span class="p">};</span>
+  <span class="kd">const</span> <span class="nx">msg</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">AuctionCore</span><span class="p">.</span><span class="nx">MsgBid</span><span class="p">({</span>
+    <span class="nx">round</span><span class="p">,</span>
+    <span class="nx">amount</span><span class="p">,</span>
+    <span class="nx">injectiveAddress</span><span class="p">,</span>
+  <span class="p">});</span>
+
+  <span class="cm">/** Prepare the Transaction **/</span>
+  <span class="kd">const</span> <span class="nx">txInjective</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TxInjective</span><span class="p">({</span>
+    <span class="nx">baseAccount</span><span class="p">,</span>
+    <span class="na">msgs</span><span class="p">:</span> <span class="p">[</span><span class="nx">msg</span><span class="p">],</span>
+    <span class="na">chainId</span><span class="p">:</span> <span class="nx">network</span><span class="p">.</span><span class="nx">chainId</span><span class="p">,</span>
+    <span class="na">address</span><span class="p">:</span> <span class="nx">injectiveAddress</span><span class="p">,</span>
+  <span class="p">});</span>
+
+  <span class="cm">/** Sign transaction */</span>
+  <span class="kd">const</span> <span class="nx">signature</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">privateKey</span><span class="p">.</span><span class="nx">sign</span><span class="p">(</span><span class="nx">txInjective</span><span class="p">.</span><span class="nx">signBytes</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">signedTxInjective</span> <span class="o">=</span> <span class="nx">txInjective</span><span class="p">.</span><span class="nx">withSignature</span><span class="p">(</span><span class="nx">signature</span><span class="p">);</span>
+
+  <span class="cm">/** Calculate hash of the transaction */</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Transaction Hash: </span><span class="p">${</span><span class="nx">signedTxInjective</span><span class="p">.</span><span class="nx">getTxHash</span><span class="p">()}</span><span class="s2">`</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">txService</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TxService</span><span class="p">({</span>
+    <span class="na">txInjective</span><span class="p">:</span> <span class="nx">signedTxInjective</span><span class="p">,</span>
+    <span class="na">endpoint</span><span class="p">:</span> <span class="nx">network</span><span class="p">.</span><span class="nx">sentryGrpcApi</span><span class="p">,</span>
+  <span class="p">});</span>
+
+  <span class="cm">/** Simulate transaction */</span>
+  <span class="kd">const</span> <span class="nx">simulationResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">txService</span><span class="p">.</span><span class="nx">simulate</span><span class="p">();</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
+    <span class="s2">`Transaction simulation response: </span><span class="p">${</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span>
+      <span class="nx">simulationResponse</span><span class="p">.</span><span class="nx">gasInfo</span>
+    <span class="p">)}</span><span class="s2">`</span>
+  <span class="p">);</span>
+
+  <span class="cm">/** Broadcast transaction */</span>
+  <span class="kd">const</span> <span class="nx">txResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">txService</span><span class="p">.</span><span class="nx">broadcast</span><span class="p">();</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
+    <span class="s2">`Broadcasted transaction hash: </span><span class="p">${</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">txResponse</span><span class="p">.</span><span class="nx">txhash</span><span class="p">)}</span><span class="s2">`</span>
+  <span class="p">);</span>
+<span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -17344,6 +17440,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="n">DEBU</span><span class="p">[</span><span class="m">0001</span><span class="p">]</span> <span class="n">broadcastTx</span> <span class="n">with</span> <span class="n">nonce</span> <span class="m">3001</span>                   <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:482"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">msg</span> <span class="n">batch</span> <span class="n">committed</span> <span class="n">successfully</span> <span class="n">at</span> <span class="n">height</span> <span class="m">3663646</span>  <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:503"</span> <span class="n">txHash</span><span class="o">=</span><span class="n">EFC7609AB31B89F90729312E41817676AC8B4657F794E4F4440CB5959FA5B1FC</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3002</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:507"</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript"><code><span class="nx">Transaction</span> <span class="nx">Hash</span><span class="p">:</span> <span class="nx">d0c50c3e6e630a70de1525ef43af3a33939a0e93f6b7b6a8c0108406a86bb9a3</span>
+<span class="nx">Transaction</span> <span class="nx">simulation</span> <span class="nx">response</span><span class="p">:</span> <span class="p">{</span><span class="dl">"</span><span class="s2">gasWanted</span><span class="dl">"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="dl">"</span><span class="s2">gasUsed</span><span class="dl">"</span><span class="p">:</span><span class="mi">99477</span><span class="p">}</span>
+<span class="nx">Broadcasted</span> <span class="nx">transaction</span> <span class="nx">hash</span><span class="p">:</span> <span class="dl">"</span><span class="s2">D0C50C3E6E630A70DE1525EF43AF3A33939A0E93F6B7B6A8C0108406A86BB9A3</span><span class="dl">"</span>
 </code></pre></div><h1 id='authz'>- Authz</h1>
 <p>Includes all messages and queries related to the Authz module. Authz is an implementation of the Cosmos SDK module, that allows granting arbitrary privileges from one account (the granter) to another account (the grantee). Authorizations must be granted for a particular Msg service method one by one using an implementation of the Authorization interface.</p>
 <h2 id='authz-msggrant'>MsgGrant</h2>
