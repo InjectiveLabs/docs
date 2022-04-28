@@ -94,16 +94,15 @@ go get -u github.com/InjectiveLabs/sdk-go
 
 ## Typescript Client
 
-Examples are under construction, stay tuned.
-
 **Installation**
 
-Install exchange-consumer using `yarn`.
+Install the sdk-ts using `yarn`.
 
 ```bash
-yarn add @injectivelabs/exchange-consumer
+yarn add @injectivelabs/sdk-ts
 ```
 
 **Reference**
 
-[InjectiveLabs/injective-ts](https://github.com/InjectiveLabs/injective-ts/tree/master/packages/exchange-consumer).
+[Source code of the @injectivelabs/sdk-ts package](https://github.com/InjectiveLabs/injective-ts/tree/master/packages/sdk-ts).
+[Examples based on the @injectivelabs/sdk-ts packages](https://github.com/InjectiveLabs/injective-sdk-ts-example).

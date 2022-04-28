@@ -156,6 +156,86 @@ func main() {
 
 ```
 
+```ts
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import {
+  AuctionCore,
+  ChainClient,
+  PrivateKey,
+  BaseAccount,
+  TxInjective,
+  TxService,
+} from "@injectivelabs/sdk-ts";
+import { BigNumberInBase } from "@injectivelabs/utils";
+
+/** MsgBid Example */
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+  const privateKey = PrivateKey.fromPrivateKey(
+    "241824dffdda13c05f5a0de30d3ac7511849005585d89f7a045368cded0e6271"
+  );
+  const injectiveAddress = privateKey.toBech32();
+
+  /** Account Details **/
+  const accountDetails = await new ChainClient.AuthRestApi(
+    network.sentryHttpApi
+  ).account(injectiveAddress);
+  const baseAccount = BaseAccount.fromRestApi(accountDetails);
+
+  /** Prepare the Message */
+  const auctionModuleState = await new ChainClient.AuctionApi(
+    network.sentryGrpcApi
+  ).moduleState();
+  const latestRound = auctionModuleState.getState()?.getAuctionRound();
+  const round = latestRound || 1;
+  const bid = 1; /** 1 INJ */
+  const amount = {
+    amount: new BigNumberInBase(bid).toWei().toFixed(),
+    denom: "inj",
+  };
+  const msg = new AuctionCore.MsgBid({
+    round,
+    amount,
+    injectiveAddress,
+  });
+
+  /** Prepare the Transaction **/
+  const txInjective = new TxInjective({
+    baseAccount,
+    msgs: [msg],
+    chainId: network.chainId,
+    address: injectiveAddress,
+  });
+
+  /** Sign transaction */
+  const signature = await privateKey.sign(txInjective.signBytes);
+  const signedTxInjective = txInjective.withSignature(signature);
+
+  /** Calculate hash of the transaction */
+  console.log(`Transaction Hash: ${signedTxInjective.getTxHash()}`);
+
+  const txService = new TxService({
+    txInjective: signedTxInjective,
+    endpoint: network.sentryGrpcApi,
+  });
+
+  /** Simulate transaction */
+  const simulationResponse = await txService.simulate();
+  console.log(
+    `Transaction simulation response: ${JSON.stringify(
+      simulationResponse.gasInfo
+    )}`
+  );
+
+  /** Broadcast transaction */
+  const txResponse = await txService.broadcast();
+  console.log(
+    `Broadcasted transaction hash: ${JSON.stringify(txResponse.txhash)}`
+  );
+})();
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |sender|string|The Injective Chain address|Yes|
@@ -242,4 +322,10 @@ func main() {
 DEBU[0001] broadcastTx with nonce 3001                   fn=func1 src="client/chain/chain.go:482"
 DEBU[0003] msg batch committed successfully at height 3663646  fn=func1 src="client/chain/chain.go:503" txHash=EFC7609AB31B89F90729312E41817676AC8B4657F794E4F4440CB5959FA5B1FC
 DEBU[0003] nonce incremented to 3002                     fn=func1 src="client/chain/chain.go:507"
+```
+
+```ts
+Transaction Hash: d0c50c3e6e630a70de1525ef43af3a33939a0e93f6b7b6a8c0108406a86bb9a3
+Transaction simulation response: {"gasWanted":0,"gasUsed":99477}
+Broadcasted transaction hash: "D0C50C3E6E630A70DE1525EF43AF3A33939A0E93F6B7B6A8C0108406A86BB9A3"
 ```
