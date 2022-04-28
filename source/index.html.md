@@ -4,7 +4,7 @@ title: API Reference
 language_tabs: # must be one of https://git.io/vQNgJ
   - python: Python
   - go: Golang
-  # - typescript: TypeScript
+  - typescript: TypeScript
   # - http: HTTP
 
 includes:
