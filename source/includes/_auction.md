@@ -156,7 +156,7 @@ func main() {
 
 ```
 
-```ts
+```typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import {
   AuctionCore,
@@ -324,7 +324,7 @@ DEBU[0003] msg batch committed successfully at height 3663646  fn=func1 src="cli
 DEBU[0003] nonce incremented to 3002                     fn=func1 src="client/chain/chain.go:507"
 ```
 
-```ts
+```typescript
 Transaction Hash: d0c50c3e6e630a70de1525ef43af3a33939a0e93f6b7b6a8c0108406a86bb9a3
 Transaction simulation response: {"gasWanted":0,"gasUsed":99477}
 Broadcasted transaction hash: "D0C50C3E6E630A70DE1525EF43AF3A33939A0E93F6B7B6A8C0108406A86BB9A3"

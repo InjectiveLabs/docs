@@ -255,7 +255,7 @@ func main() {
 
 ```
 
-```ts
+```typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { ExchangeClient } from "@injectivelabs/sdk-ts";
 
