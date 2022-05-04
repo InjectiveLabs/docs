@@ -80,25 +80,46 @@ pip install injective-py
 
 ## Golang Client
 
-**Installation**
+### 1. Create your own client repo and go.mod file
 
-Install sdk-go using `go get`.
+go mod init foo
+
+### 2. Import SDK into go.mod
+
+module foo
+
+go 1.18
+
+require (
+  github.com/InjectiveLabs/sdk-go v1.38.1
+)
+
+### 3. Download the package
+
+Download the package using `go mod download`
 
 ```bash
-go get -u github.com/InjectiveLabs/sdk-go
+go mod download github.com/InjectiveLabs/sdk-go
 ```
 
 **Reference**
 
 [InjectiveLabs/sdk-go](https://github.com/InjectiveLabs/sdk-go).
 
+*Consult the sdk-go repository to find the latest release and replace the version in your go.mod file*
+
 ## Typescript Client
 
 **Installation**
 
-Install the `@injectivelabs/sdk-ts` npm package using `yarn` => `yarn add @injectivelabs/sdk-ts`
+Install the `@injectivelabs/sdk-ts` npm package using `yarn`
+
+```bash
+yarn add @injectivelabs/sdk-ts
+```
 
 **Reference**
 
-- [Source code of the @injectivelabs/sdk-ts package](https://github.com/InjectiveLabs/injective-ts/tree/master/packages/sdk-ts)
-- [Examples based on the @injectivelabs/sdk-ts packages](https://github.com/InjectiveLabs/injective-sdk-ts-example).
+- [InjectiveLabs/injective-ts](https://github.com/InjectiveLabs/injective-ts/tree/master/packages/sdk-ts)
+
+- [InjectiveLabs/injective-sdk-ts-example](https://github.com/InjectiveLabs/injective-sdk-ts-example).
