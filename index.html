@@ -889,25 +889,36 @@
 <p><strong>Reference</strong></p>
 
 <p><a href="https://github.com/InjectiveLabs/sdk-python">InjectiveLabs/sdk-python</a>.</p>
-<h2 id='clients-golang-client'>Golang Client</h2>
-<p><strong>Installation</strong></p>
+<h2 id='clients-golang-client'>Golang Client</h2><h3 id='clients-golang-client-1-create-your-own-client-repo-and-go-mod-file'>1. Create your own client repo and go.mod file</h3>
+<p>go mod init foo</p>
+<h3 id='clients-golang-client-2-import-sdk-into-go-mod'>2. Import SDK into go.mod</h3>
+<p>module foo</p>
 
-<p>Install sdk-go using <code>go get</code>.</p>
-<div class="highlight"><pre class="highlight shell"><code>go get <span class="nt">-u</span> github.com/InjectiveLabs/sdk-go
+<p>go 1.18</p>
+
+<p>require (
+  github.com/InjectiveLabs/sdk-go v1.38.1
+)</p>
+<h3 id='clients-golang-client-3-download-the-package'>3. Download the package</h3>
+<p>Download the package using <code>go mod download</code></p>
+<div class="highlight"><pre class="highlight shell"><code>go mod download github.com/InjectiveLabs/sdk-go
 </code></pre></div>
 <p><strong>Reference</strong></p>
 
 <p><a href="https://github.com/InjectiveLabs/sdk-go">InjectiveLabs/sdk-go</a>.</p>
+
+<p><em>Consult the sdk-go repository to find the latest release and replace the version in your go.mod file</em></p>
 <h2 id='clients-typescript-client'>Typescript Client</h2>
 <p><strong>Installation</strong></p>
 
-<p>Install the <code>@injectivelabs/sdk-ts</code> npm package using <code>yarn</code> =&gt; <code>yarn add @injectivelabs/sdk-ts</code></p>
-
+<p>Install the <code>@injectivelabs/sdk-ts</code> npm package using <code>yarn</code></p>
+<div class="highlight"><pre class="highlight shell"><code>yarn add @injectivelabs/sdk-ts
+</code></pre></div>
 <p><strong>Reference</strong></p>
 
 <ul>
-<li><a href="https://github.com/InjectiveLabs/injective-ts/tree/master/packages/sdk-ts">Source code of the @injectivelabs/sdk-ts package</a></li>
-<li><a href="https://github.com/InjectiveLabs/injective-sdk-ts-example">Examples based on the @injectivelabs/sdk-ts packages</a>.</li>
+<li><p><a href="https://github.com/InjectiveLabs/injective-ts/tree/master/packages/sdk-ts">InjectiveLabs/injective-ts</a></p></li>
+<li><p><a href="https://github.com/InjectiveLabs/injective-sdk-ts-example">InjectiveLabs/injective-sdk-ts-example</a>.</p></li>
 </ul>
 <h1 id='overview'>Overview</h1>
 <p>Injective Protocol is a fully decentralized layer-2 DEX protocol built for the next generation of decentralized derivatives exchange. The Injective Chain is a Tendermint-based IBC-compatible blockchain which supports a decentralized orderbook-based DEX protocol and a trustless ERC-20 token bridge to the Ethereum blockchain.</p>
