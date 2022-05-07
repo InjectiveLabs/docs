@@ -55,6 +55,24 @@ func main() {
 
 ```
 
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const ping = await exchangeClient.metaApi.fetchPing(
+  );
+
+  console.log(protoObjectToJson(ping, {}))
+})();
+
+```
+
 > Response Example:
 
 ``` json
@@ -114,6 +132,24 @@ func main() {
 
     fmt.Println(res)
 }
+
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const version = await exchangeClient.metaApi.fetchVersion(
+  );
+
+  console.log(protoObjectToJson(version, {}));
+})();
 
 ```
 
@@ -199,6 +235,25 @@ func main() {
 
     fmt.Println(res)
 }
+
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const info = await exchangeClient.metaApi.fetchInfo(
+  );
+
+  console.log(protoObjectToJson(info, {}));
+})();
 
 ```
 

@@ -55,6 +55,25 @@ func main() {
 }
 ```
 
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+  const accountAddress = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const subaccountLists = await exchangeClient.accountApi.fetchSubaccountsList(
+    accountAddress
+  );
+
+  console.log(protoObjectToJson(subaccountLists, {}));
+})();
+
+````
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |account_address|string|The Injective Chain address|Yes|
@@ -139,6 +158,29 @@ func main() {
 
   fmt.Println(res)
 }
+```
+
+```typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+  const subaccountId =
+    "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
+  const denom = "inj";
+  const transferTypes = ["deposit"];
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const subaccountHistory = await exchangeClient.accountApi.fetchSubaccountHistory(
+    {
+      subaccountId,
+      denom,
+      transferTypes });
+
+  console.log(protoObjectToJson(subaccountHistory, {}));
+})();
 ```
 
 
@@ -257,9 +299,8 @@ func main() {
 
 ```typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
-/** Fetching subaccount balance for a particular denom */
 (async () => {
   const network = getNetworkInfo(Network.Testnet);
   const subaccountId =
@@ -269,13 +310,14 @@ import { ExchangeClient } from "@injectivelabs/sdk-ts";
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
   );
-  const subaccountBalance = await exchangeClient.accountApi.subaccountBalance(
+  const subaccountBalance = await exchangeClient.accountApi.fetchSubaccountBalance(
     subaccountId,
     denom
   );
 
-  console.log(subaccountBalance.toObject());
+  console.log(protoObjectToJson(subaccountBalance, {}));
 })();
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -373,6 +415,24 @@ func main() {
   fmt.Println(res)
 }
 
+```
+
+```typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const subaccountBalancesList = await exchangeClient.accountApi.fetchSubaccountBalancesList(
+    subaccountId
+  );
+
+  console.log(protoObjectToJson(subaccountBalancesList, {}));
+})();
 ```
 
 
@@ -503,6 +563,32 @@ func main() {
 
 ```
 
+```typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  const orderDirection = "buy"
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const subaccountOrderSummary = await exchangeClient.accountApi.fetchSubaccountOrderSummary(
+    {
+    subaccountId,
+    marketId,
+    orderDirection
+  }
+  );
+
+  console.log(protoObjectToJson(subaccountOrderSummary, {}));
+})();
+
+````
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |subaccount_id|string|Filter by subaccount ID|Yes|
@@ -590,6 +676,32 @@ func main() {
     }
   }
 }
+
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+  const subaccountId =
+    "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
+    network.exchangeApi
+  );
+
+  await exchangeClient.accountStream.streamSubaccountBalance({
+    subaccountId,
+    callback: (subaccountBalance) => {
+      console.log(protoObjectToJson(subaccountBalance, {}));
+    },
+    onEndCallback: (status) => {
+      console.log("Stream has ended with status: " + status);
+    },
+  });
+})();
 
 ```
 
@@ -695,6 +807,30 @@ func main() {
 
   fmt.Println(res)
 }
+
+```
+
+```typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+  const spotOrderHashes = ["0xbae2927fbc4fd12c70eb7f41fb69b28eeceabbad68fecf4547df7c9dba5eb816"]
+  const derivativeOrderHashes = ["0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50"]
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const orderStates = await exchangeClient.accountApi.fetchOrderStates(
+    {
+      spotOrderHashes,
+      derivativeOrderHashes
+    }
+  );
+
+  console.log(protoObjectToJson(orderStates, {}));
+})();
 
 ```
 
@@ -848,6 +984,26 @@ func main() {
 
 ```
 
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+  const accountAddress = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const portfolio = await exchangeClient.accountApi.fetchPortfolio(
+      accountAddress
+    );
+
+  console.log(protoObjectToJson(portfolio, {}));
+})();
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |account_address|string|The Injective Chain address|Yes|
@@ -943,6 +1099,29 @@ func main() {
 
 ```
 
+```typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+  const address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+  const epoch = -1;
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const rewards = await exchangeClient.accountApi.fetchRewards(
+    {
+      address: address,
+      epoch: epoch
+    }
+    );
+
+  console.log(protoObjectToJson(rewards, {}));
+})();
+
+````
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|

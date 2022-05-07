@@ -54,6 +54,25 @@ func main() {
 
 ```
 
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const market = await exchangeClient.spotApi.fetchSpotMarket(marketId);
+
+  console.log(protoObjectToJson(market, {}));
+})();
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|string|Filter by market ID|Yes|
@@ -190,6 +209,31 @@ func main() {
   fmt.Println(res)
 }
 
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketStatus = "active";
+  const quoteDenom = "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const markets = await exchangeClient.spotApi.fetchSpotMarkets(
+    {
+      marketStatus,
+      quoteDenom
+    }
+  );
+
+  console.log(protoObjectToJson(markets, {}));
+})();
 ```
 
 
@@ -335,6 +379,31 @@ func main() {
 
 ```
 
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+  const marketIds = ["0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"]
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
+    network.exchangeApi
+  );
+
+  await exchangeClient.spotStream.streamSpotMarket({
+    marketIds,
+      callback: (streamSpotMarket) => {
+        console.log(protoObjectToJson(streamSpotMarket, {}));
+      },
+      onEndCallback: (status) => {
+        console.log("Stream has ended with status: " + status);
+      },
+    });
+})();
+
+```
+
 ### Response Parameters
 > Streaming Response Example:
 
@@ -467,6 +536,32 @@ func main() {
   fmt.Println(res)
 }
 
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, SpotOrderSide, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+  const orderSide = SpotOrderSide.Buy
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const market = await exchangeClient.spotApi.fetchSpotOrders(
+    {
+      marketId: marketId,
+      subaccountId: subaccountId,
+      orderSide: orderSide,
+    }
+  );
+
+  console.log(protoObjectToJson(market, {}));
+})();
 ```
 
 |Parameter|Type|Description|Required|
@@ -606,6 +701,36 @@ func main() {
     }
   }
 }
+
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, SpotOrderSide, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
+  const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000";
+  const orderSide = SpotOrderSide.Buy;
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
+    network.exchangeApi
+  );
+
+  await exchangeClient.spotStream.streamSpotOrders(
+    {
+      marketId,
+      orderSide,
+      subaccountId,
+      callback: (streamSpotOrders) => {
+        console.log(protoObjectToJson(streamSpotOrders, {}));
+      },
+      onEndCallback: (status) => {
+        console.log("Stream has ended with status: " + status);
+      },
+    });
+})();
 
 ```
 
@@ -750,6 +875,33 @@ func main() {
   fmt.Println(res)
 }
 
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, TradeExecutionSide, TradeDirection, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
+  const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000";
+  const direction = TradeDirection.Buy;
+  const executionSide = TradeExecutionSide.Maker;
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const market = await exchangeClient.spotApi.fetchSpotTrades(
+    {
+      marketId: marketId,
+      subaccountId: subaccountId,
+      direction: direction,
+      executionSide: executionSide
+  });
+
+  console.log(protoObjectToJson(market, {}));
+})();
 ```
 
 |Parameter|Type|Description|Required|
@@ -910,6 +1062,42 @@ func main() {
 
 ```
 
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, TradeExecutionSide, TradeDirection, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
+  const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000";
+  const direction = TradeDirection.Buy;
+  const executionSide = TradeExecutionSide.Maker;
+  const limit = 0;
+  const skip = 0;
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
+    network.exchangeApi
+  );
+
+  await exchangeClient.spotStream.streamSpotTrades(
+    {
+      marketId: marketId,
+      direction: direction,
+      subaccountId: subaccountId,
+      skip: skip,
+      limit: limit,
+      executionSide: executionSide,
+      callback: (streamSpotTrades) => {
+        console.log(protoObjectToJson(streamSpotTrades, {}));
+      },
+      onEndCallback: (status) => {
+        console.log("Stream has ended with status: " + status);
+      },
+    });
+})();
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_ids|array|Filter by an array of market IDs|Conditional|
@@ -1026,6 +1214,25 @@ func main() {
   fmt.Println(res)
 }
 
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const market = await exchangeClient.spotApi.fetchSpotOrderbook(marketId);
+
+  console.log(protoObjectToJson(market, {}));
+})();
 ```
 
 |Parameter|Type|Description|Required|
@@ -1145,6 +1352,25 @@ func main() {
 
 ```
 
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketIds = ["0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"]
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const market = await exchangeClient.spotApi.fetchSpotOrderbooks({marketIds});
+
+  console.log(protoObjectToJson(market, {}));
+})();
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_ids|array|Filter by an array of market IDs|Yes|
@@ -1192,133 +1418,6 @@ func main() {
 |----|----|----|
 |orderbook|SpotLimitOrderbook|Array of SpotLimitOrderbook|
 |market_id|string|Filter by market ID|
-
-**SpotLimitOrderbook**
-
-|Parameter|Type|Description|
-|----|----|----|
-|buys|PriceLevel|Array of PriceLevel|
-|sells|PriceLevel|Array of PriceLevel|
-
-**PriceLevel**
-
-|Parameter|Type|Description|
-|----|----|----|
-|price|string|Number of the price level|
-|quantity|string|Quantity of the price level|
-|timestamp|integer|Price level last updated timestamp in UNIX millis|
-
-
-## StreamOrderbook
-
-Stream the orderbook of a spot market.
-
-
-### Request Parameters
-> Request Example:
-
-``` python
-from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
-
-async def main() -> None:
-    # select network: local, testnet, mainnet
-    network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
-    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-    orderbook = await client.stream_spot_orderbook(market_id=market_id)
-    async for orders in orderbook:
-        print(orders)
-```
-
-``` go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-)
-
-func main() {
-  //network := common.LoadNetwork("mainnet", "k8s")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  ctx := context.Background()
-  marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
-  stream, err := exchangeClient.StreamSpotOrderbook(ctx, marketIds)
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  for {
-    select {
-    case <-ctx.Done():
-      return
-    default:
-      res, err := stream.Recv()
-      if err != nil {
-        fmt.Println(err)
-        return
-      }
-      fmt.Println(res)
-    }
-  }
-}
-
-```
-
-
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|string|Filter by market ID|Yes|
-
-
-
-### Response Parameters
-> Streaming Response Example:
-
-``` json
-{
-  "orderbook": {
-    "buys": {
-      "price": "0.000000000005616",
-      "quantity": "32000000000000000000",
-      "timestamp": 1642702243902,
-    },
-    "buys": {
-      "price": "0.00000000000561",
-      "quantity": "36000000000000000000",
-      "timestamp": 1642585507231
-    },
-    "sells": {
-      "price": "0.000000000006069",
-      "quantity": "46000000000000000000",
-      "timestamp": 1642753915151
-    },
-    "sells": {
-      "price": "0.000000000006089",
-      "quantity": "46000000000000000000",
-      "timestamp": 1642753915151
-    }
-  },
-  "operation_type": "update",
-  "timestamp": 1642755027000,
-  "market_id":"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-}
-```
-
-|Parameter|Type|Description|
-|----|----|----|
-|operation_type|string|Order update type (Should be one of: [insert replace update invalidate]) |
-|orderbook|SpotLimitOrderbook|Array of SpotLimitOrderbook|
-|timestamp|integer|Operation timestamp in UNIX millis|
 
 **SpotLimitOrderbook**
 
@@ -1397,6 +1496,32 @@ func main() {
     }
   }
 }
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+  const marketIds = ["0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"];
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
+    network.exchangeApi
+  );
+
+  await exchangeClient.spotStream.streamSpotOrderbook(
+    {
+      marketIds,
+      callback: (streamSpotOrderbook) => {
+        console.log(protoObjectToJson(streamSpotOrderbook, {}));
+      },
+      onEndCallback: (status) => {
+        console.log("Stream has ended with status: " + status);
+      },
+    });
+})();
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -1522,6 +1647,31 @@ func main() {
 
 ```
 
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const market = await exchangeClient.spotApi.fetchSpotSubaccountOrdersList(
+    {
+      subaccountId: subaccountId,
+      marketId: marketId
+    }
+  );
+
+  console.log(protoObjectToJson(market, {}));
+})();
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |subaccount_id|string|Filter by subaccount ID|Yes|
@@ -1645,6 +1795,35 @@ func main() {
   fmt.Println(res)
 }
 
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, TradeExecutionType, TradeDirection, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
+  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
+  const direction = TradeDirection.Buy;
+  const executionType = TradeExecutionType.Market;
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const market = await exchangeClient.spotApi.fetchSpotSubaccountTradesList(
+    {
+      subaccountId: subaccountId,
+      marketId: marketId,
+      direction: direction,
+      executionType: executionType
+    }
+  );
+
+  console.log(protoObjectToJson(market, {}));
+})();
 ```
 
 |Parameter|Type|Description|Required|
