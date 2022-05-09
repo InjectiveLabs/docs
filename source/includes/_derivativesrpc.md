@@ -52,6 +52,25 @@ func main() {
 
 ```
 
+```typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const market = await exchangeClient.derivativesApi.fetchDerivativeMarket(marketId);
+
+  console.log(protoObjectToJson(market, {}));
+})();
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|string|Filter by market ID|Yes|
@@ -181,7 +200,7 @@ async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     market_status = "active" # active, paused, suspended, demolished or expired
-    quote_denom = "peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08"
+    quote_denom = "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
     market = await client.get_derivative_markets(market_status=market_status, quote_denom=quote_denom)
     print(market)
 ```
@@ -223,6 +242,31 @@ func main() {
   fmt.Println(res)
 }
 
+```
+
+```typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketStatus = "active";
+  const quoteDenom = "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7";
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const markets = await exchangeClient.derivativesApi.fetchDerivativeMarkets(
+    {
+      marketStatus: marketStatus,
+      quoteDenom: quoteDenom
+    }
+  );
+
+  console.log(protoObjectToJson(markets, {}));
+})();
 ```
 
 |Parameter|Type|Description|Required|
@@ -402,6 +446,32 @@ func main() {
 
 ```
 
+```typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketIds = ["0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"]
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
+    network.exchangeApi
+  );
+
+  await exchangeClient.derivativesStream.streamDerivativeMarket(
+    {
+      marketIds,
+      callback: (streamDerivativeMarket) => {
+        console.log(protoObjectToJson(streamDerivativeMarket, {}));
+      },
+      onEndCallback: (status) => {
+        console.log("Stream has ended with status: " + status);
+      },
+    });
+})();
+```
+
 ### Response Parameters
 > Streaming Response Example:
 
@@ -568,6 +638,31 @@ func main() {
 
 ```
 
+``` typescript
+import {getNetworkInfo, Network} from "@injectivelabs/networks";
+import {protoObjectToJson, DerivativeOrderSide, ExchangeClient} from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce";
+  const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000";
+  const orderSide = DerivativeOrderSide.Buy
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const orders = await exchangeClient.derivativesApi.fetchDerivativeOrders({
+    marketId: marketId,
+    subaccountId: subaccountId,
+    orderSide: orderSide
+  });
+
+  console.log(protoObjectToJson(orders, {}));
+})();
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|string|Filter by market ID|Yes|
@@ -712,6 +807,36 @@ func main() {
 
 ```
 
+```typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, DerivativeOrderSide, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce";
+  const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000";
+  const orderSide = DerivativeOrderSide.Buy;
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
+    network.exchangeApi
+  );
+
+  await exchangeClient.derivativesStream.streamDerivativeOrders(
+    {
+      marketId: marketId,
+      subaccountId: subaccountId,
+      orderSide: orderSide,
+      callback: (streamDerivativeOrders) => {
+        console.log(protoObjectToJson(streamDerivativeOrders, {}));
+      },
+      onEndCallback: (status) => {
+        console.log("Stream has ended with status: " + status);
+      },
+    });
+})();
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|string|Filter by market ID|Yes|
@@ -854,6 +979,39 @@ func main() {
   fmt.Println(res)
 }
 
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, TradeExecutionSide, TradeDirection, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce";
+  const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000";
+  const executionSide = TradeExecutionSide.Maker;
+  const direction = TradeDirection.Buy;
+  const skip = 0;
+  const limit = 10;
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const trades = await exchangeClient.derivativesApi.fetchDerivativeTrades(
+    {
+      marketId: marketId,
+      subaccountId: subaccountId,
+      executionSide: executionSide,
+      direction: direction,
+      skip: skip,
+      limit: limit,
+    }
+  );
+
+  console.log(protoObjectToJson(trades, {}));
+})();
 ```
 
 |Parameter|Type|Description|Required|
@@ -1016,6 +1174,44 @@ func main() {
 
 ```
 
+
+```typescript
+import {getNetworkInfo, Network} from "@injectivelabs/networks";
+import {protoObjectToJson, ExchangeClient, TradeDirection, TradeExecutionSide} from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketIds = ["0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"];
+  const subaccountIds = ["0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"];
+  const executionSide = TradeExecutionSide.Maker;
+  const direction = TradeDirection.Buy;
+  const skip = 0;
+  const limit = 10;
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
+    network.exchangeApi
+  );
+
+  await exchangeClient.derivativesStream.streamDerivativeTrades(
+    {
+      marketIds: marketIds,
+      subaccountIds: subaccountIds,
+      executionSide: executionSide,
+      direction: direction,
+      skip: skip,
+      limit: limit,
+      callback: (streamDerivativeTrades) => {
+        console.log(protoObjectToJson(streamDerivativeTrades, {}));
+      },
+      onEndCallback: (status) => {
+        console.log("Stream has ended with status: " + status);
+      },
+    });
+})();
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_ids|array|Filter by an array of market IDs|Conditional|
@@ -1167,6 +1363,30 @@ func main() {
 
 ```
 
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce";
+  const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000";
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const positions = await exchangeClient.derivativesApi.fetchDerivativePositions(
+    {
+      marketId: marketId,
+      subaccountId: subaccountId
+  });
+
+  console.log(protoObjectToJson(positions, {}));
+})();
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|string|Filter by market ID|Yes|
@@ -1300,6 +1520,35 @@ func main() {
 
 ```
 
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce";
+  const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000";
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
+    network.exchangeApi
+  );
+
+  await exchangeClient.derivativesStream.streamDerivativePositions(
+    {
+      marketId,
+      subaccountId,
+      callback: (streamDerivativePositions) => {
+        console.log(protoObjectToJson(streamDerivativePositions, {}));
+      },
+      onEndCallback: (status) => {
+        console.log("Stream has ended with status: " + status);
+      },
+    });
+})();
+
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|string|Filter by market ID|Yes|
@@ -1413,6 +1662,25 @@ func main() {
   fmt.Println(res)
 }
 
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce";
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const orderbook = await exchangeClient.derivativesApi.fetchDerivativeOrderbook(marketId);
+
+  console.log(protoObjectToJson(orderbook, {}));
+})();
 ```
 
 |Parameter|Type|Description|Required|
@@ -1529,6 +1797,25 @@ func main() {
 
 ```
 
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketIds = ["0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"];
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const market = await exchangeClient.derivativesApi.fetchDerivativeOrderbooks({marketIds});
+
+  console.log(protoObjectToJson(market, {}));
+})();
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_ids|array|Filter by an array of market IDs|Yes|
@@ -1594,133 +1881,6 @@ func main() {
 |price|string|Price number of the price level|
 
 
-
-## StreamOrderbook
-
-Stream orderbook updates for a derivative market.
-
-
-### Request Parameters
-> Request Example:
-
-``` python
-from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
-
-async def main() -> None:
-    # select network: local, testnet, mainnet
-    network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
-    market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-    orderbooks = await client.stream_derivative_orderbook(market_id=market_id)
-    async for orderbook in orderbooks:
-        print(orderbook)
-```
-
-``` go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-)
-
-func main() {
-  //network := common.LoadNetwork("mainnet", "k8s")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    panic(err)
-  }
-
-  ctx := context.Background()
-  marketIds := []string{"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"}
-  stream, err := exchangeClient.StreamDerivativeOrderbook(ctx, marketIds)
-  if err != nil {
-    panic(err)
-  }
-
-  for {
-    select {
-    case <-ctx.Done():
-      return
-    default:
-      res, err := stream.Recv()
-      if err != nil {
-        panic(err)
-        return
-      }
-      fmt.Println(res)
-    }
-  }
-}
-
-```
-
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|string|Filter by market ID|Yes|
-
-
-
-### Response Parameters
-> Streaming Response Example:
-
-``` json
-{
-"orderbook": {
-  "buys": {
-    "price": "40746400000",
-    "quantity": "0.12",
-    "timestamp": 1642587514374
-  },
-  "buys": {
-    "price": "40577600000",
-    "quantity": "0.15",
-    "timestamp": 1642519595487
-  },
-  "sells": {
-    "price": "45976700000",
-    "quantity": "0.19",
-    "timestamp": 1642754155090
-  },
-  "sells": {
-    "price": "50000000000",
-    "quantity": "0.1",
-    "timestamp": 1642754155090
-  }
-},
-"operation_type": "update",
-"timestamp": 1642754263000,
-"market_id": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-  
-}
-```
-
-|Parameter|Type|Description|
-|----|----|----|
-|operation_type|string|Order update type (Should be one of: [insert delete replace update invalidate])|
-|orderbook|DerivativeLimitOrderbook|Array of DerivativeLimitOrderbook|
-|timestamp|integer|Operation timestamp in UNIX millis|
-
-**DerivativeLimitOrderbook**
-
-|Parameter|Type|Description|
-|----|----|----|
-|buys|PriceLevel|Array of PriceLevel|
-|sells|PriceLevel|Array of PriceLevel|
-
-**PriceLevel**
-
-|Parameter|Type|Description|
-|----|----|----|
-|quantity|string|Quantity of the price level|
-|timestamp|integer|Price level last updated timestamp in UNIX millis|
-|price|string|Price number of the price level|
-
 ## StreamOrderbooks
 
 Stream orderbook updates for an array of derivative markets.
@@ -1783,6 +1943,34 @@ func main() {
   }
 }
 ```
+
+```typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketIds = ["0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"];
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
+    network.exchangeApi
+  );
+
+  await exchangeClient.derivativesStream.streamDerivativeOrderbook(
+    {
+      marketIds,
+      callback: (streamDerivativeOrderbook) => {
+        console.log(protoObjectToJson(streamDerivativeOrderbook, {}));
+      },
+      onEndCallback: (status) => {
+        console.log("Stream has ended with status: " + status);
+      },
+    });
+})();
+
+```
+
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
@@ -1909,6 +2097,31 @@ func main() {
 
 ```
 
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
+  const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce";
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const subaccountOrders = await exchangeClient.derivativesApi.fetchDerivativeSubaccountOrdersList(
+    {
+      subaccountId: subaccountId,
+      marketId: marketId,
+    }
+  );
+
+  console.log(protoObjectToJson(subaccountOrders, {}));
+})();
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |subaccount_id|string|Filter by subaccount ID|Yes|
@@ -2023,6 +2236,34 @@ func main() {
   fmt.Println(res)
 }
 
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, TradeDirection, TradeExecutionType, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
+  const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce";
+  const direction = TradeDirection.Buy;
+  const executionType = TradeExecutionType.Market;
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const subaccountTrades = await exchangeClient.derivativesApi.fetchDerivativeSubaccountTradesList(
+    {
+      subaccountId: subaccountId,
+      marketId: marketId,
+      direction: direction,
+      executionType: executionType,
+    }
+  );
+
+  console.log(protoObjectToJson(subaccountTrades, {}));
+})();
 ```
 
 |Parameter|Type|Description|Required|
@@ -2162,6 +2403,38 @@ func main() {
 
 ```
 
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
+  const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce";
+  const skip = 0;
+  const limit = 10;
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const fundingPayments = await exchangeClient.derivativesApi.fetchDerivativeFundingPayments(
+    {
+      marketId: marketId,
+      subaccountId: subaccountId,
+      pagination: {
+        skip: skip,
+        limit: limit,
+        key: ""
+      }
+    }
+  );
+
+  console.log(protoObjectToJson(fundingPayments, {}));
+})();
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |subaccount_id|string|Filter by subaccount ID|Yes|
@@ -2256,6 +2529,36 @@ func main() {
   fmt.Println(res)
 }
 
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce";
+  const skip = 0;
+  const limit = 10;
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+
+  const fundingRates = await exchangeClient.derivativesApi.fetchDerivativeFundingRates(
+    {
+      marketId,
+      pagination: {
+        skip: skip,
+        limit: limit,
+        key: "" }
+    }
+    );
+
+  console.log(protoObjectToJson(fundingRates, {}));
+})();
 ```
 
 |Parameter|Type|Description|Required|

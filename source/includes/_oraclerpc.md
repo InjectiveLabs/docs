@@ -51,6 +51,25 @@ func main() {
 
 ```
 
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const oracleList = await exchangeClient.oracleApi.fetchOracleList(
+  );
+
+  console.log(protoObjectToJson(oracleList, {}));
+})();
+
+```
+
 
 ### Response Parameters
 > Response Example:
@@ -146,6 +165,35 @@ func main() {
 
 ```
 
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+
+  const baseSymbol = "BTC";
+  const quoteSymbol = "USDT";
+  const oracleType = "bandibc";
+  const oracleScaleFactor = 6;
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+    network.exchangeApi
+  );
+  const oraclePrice = await exchangeClient.oracleApi.fetchOraclePrice(
+    {
+      baseSymbol,
+      quoteSymbol,
+      oracleType,
+      oracleScaleFactor
+    }
+  );
+
+  console.log(protoObjectToJson(oraclePrice, {}));
+})();
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |base_symbol|string|Oracle base currency|Yes|
@@ -237,6 +285,36 @@ func main() {
         }
     }
 }
+
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+
+(async () => {
+  const network = getNetworkInfo(Network.Testnet);
+  const baseSymbol = "BTC";
+  const quoteSymbol = "USDT";
+  const oracleType = "bandibc";
+
+  const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
+    network.exchangeApi
+  );
+
+  await exchangeClient.oracleStream.streamOraclePrices(
+    {
+    oracleType,
+    baseSymbol,
+    quoteSymbol,
+    callback: (streamPrices) => {
+      console.log(protoObjectToJson(streamPrices, {}));
+    },
+    onEndCallback: (status) => {
+      console.log("Stream has ended with status: " + status);
+    },
+  });
+})();
 
 ```
 
