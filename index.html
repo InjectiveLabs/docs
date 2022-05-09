@@ -503,9 +503,6 @@
                     <a href="#injectivespotexchangerpc-orderbooks" class="toc-h2 toc-link" data-title="Orderbooks">Orderbooks</a>
                   </li>
                   <li>
-                    <a href="#injectivespotexchangerpc-streamorderbook" class="toc-h2 toc-link" data-title="StreamOrderbook">StreamOrderbook</a>
-                  </li>
-                  <li>
                     <a href="#injectivespotexchangerpc-streamorderbooks" class="toc-h2 toc-link" data-title="StreamOrderbooks">StreamOrderbooks</a>
                   </li>
                   <li>
@@ -551,9 +548,6 @@
                   </li>
                   <li>
                     <a href="#injectivederivativeexchangerpc-orderbooks" class="toc-h2 toc-link" data-title="Orderbooks">Orderbooks</a>
-                  </li>
-                  <li>
-                    <a href="#injectivederivativeexchangerpc-streamorderbook" class="toc-h2 toc-link" data-title="StreamOrderbook">StreamOrderbook</a>
                   </li>
                   <li>
                     <a href="#injectivederivativeexchangerpc-streamorderbooks" class="toc-h2 toc-link" data-title="StreamOrderbooks">StreamOrderbooks</a>
@@ -1700,6 +1694,22 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">accountAddress</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">subaccountLists</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">accountApi</span><span class="p">.</span><span class="nx">fetchSubaccountsList</span><span class="p">(</span>
+    <span class="nx">accountAddress</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">subaccountLists</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -1797,6 +1807,26 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span>
+    <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">denom</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">inj</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">transferTypes</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">deposit</span><span class="dl">"</span><span class="p">];</span>
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">subaccountHistory</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">accountApi</span><span class="p">.</span><span class="nx">fetchSubaccountHistory</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="nx">subaccountId</span><span class="p">,</span>
+      <span class="nx">denom</span><span class="p">,</span>
+      <span class="nx">transferTypes</span> <span class="p">});</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">subaccountHistory</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -1971,9 +2001,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="p">}</span>
 
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
 
-<span class="cm">/** Fetching subaccount balance for a particular denom */</span>
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
   <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span>
@@ -1983,13 +2012,14 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
   <span class="p">);</span>
-  <span class="kd">const</span> <span class="nx">subaccountBalance</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">accountApi</span><span class="p">.</span><span class="nx">subaccountBalance</span><span class="p">(</span>
+  <span class="kd">const</span> <span class="nx">subaccountBalance</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">accountApi</span><span class="p">.</span><span class="nx">fetchSubaccountBalance</span><span class="p">(</span>
     <span class="nx">subaccountId</span><span class="p">,</span>
     <span class="nx">denom</span>
   <span class="p">);</span>
 
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">subaccountBalance</span><span class="p">.</span><span class="nx">toObject</span><span class="p">());</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">subaccountBalance</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -2137,6 +2167,21 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">subaccountBalancesList</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">accountApi</span><span class="p">.</span><span class="nx">fetchSubaccountBalancesList</span><span class="p">(</span>
+    <span class="nx">subaccountId</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">subaccountBalancesList</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -2311,6 +2356,29 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"derivative orders:"</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">DerivativeOrdersTotal</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">orderDirection</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">subaccountOrderSummary</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">accountApi</span><span class="p">.</span><span class="nx">fetchSubaccountOrderSummary</span><span class="p">(</span>
+    <span class="p">{</span>
+    <span class="nx">subaccountId</span><span class="p">,</span>
+    <span class="nx">marketId</span><span class="p">,</span>
+    <span class="nx">orderDirection</span>
+  <span class="p">}</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">subaccountOrderSummary</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -2423,6 +2491,29 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span>
+    <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">accountStream</span><span class="p">.</span><span class="nx">streamSubaccountBalance</span><span class="p">({</span>
+    <span class="nx">subaccountId</span><span class="p">,</span>
+    <span class="na">callback</span><span class="p">:</span> <span class="p">(</span><span class="nx">subaccountBalance</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">subaccountBalance</span><span class="p">,</span> <span class="p">{}));</span>
+    <span class="p">},</span>
+    <span class="na">onEndCallback</span><span class="p">:</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Stream has ended with status: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">status</span><span class="p">);</span>
+    <span class="p">},</span>
+  <span class="p">});</span>
+<span class="p">})();</span>
 
 </code></pre></div>
 <table><thead>
@@ -2578,6 +2669,27 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">spotOrderHashes</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0xbae2927fbc4fd12c70eb7f41fb69b28eeceabbad68fecf4547df7c9dba5eb816</span><span class="dl">"</span><span class="p">]</span>
+  <span class="kd">const</span> <span class="nx">derivativeOrderHashes</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50</span><span class="dl">"</span><span class="p">]</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">orderStates</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">accountApi</span><span class="p">.</span><span class="nx">fetchOrderStates</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="nx">spotOrderHashes</span><span class="p">,</span>
+      <span class="nx">derivativeOrderHashes</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">orderStates</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 
 </code></pre></div>
 <table><thead>
@@ -2840,6 +2952,23 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">accountAddress</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="dl">"</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">portfolio</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">accountApi</span><span class="p">.</span><span class="nx">fetchPortfolio</span><span class="p">(</span>
+      <span class="nx">accountAddress</span>
+    <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">portfolio</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -2961,6 +3090,27 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">address</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">epoch</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">rewards</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">accountApi</span><span class="p">.</span><span class="nx">fetchRewards</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="na">address</span><span class="p">:</span> <span class="nx">address</span><span class="p">,</span>
+      <span class="na">epoch</span><span class="p">:</span> <span class="nx">epoch</span>
+    <span class="p">}</span>
+    <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">rewards</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -3073,6 +3223,22 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">market</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spotApi</span><span class="p">.</span><span class="nx">fetchSpotMarket</span><span class="p">(</span><span class="nx">marketId</span><span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -3304,6 +3470,28 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketStatus</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">active</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">quoteDenom</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">markets</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spotApi</span><span class="p">.</span><span class="nx">fetchSpotMarkets</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="nx">marketStatus</span><span class="p">,</span>
+      <span class="nx">quoteDenom</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">markets</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -3549,6 +3737,28 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">]</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spotStream</span><span class="p">.</span><span class="nx">streamSpotMarket</span><span class="p">({</span>
+    <span class="nx">marketIds</span><span class="p">,</span>
+      <span class="na">callback</span><span class="p">:</span> <span class="p">(</span><span class="nx">streamSpotMarket</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">streamSpotMarket</span><span class="p">,</span> <span class="p">{}));</span>
+      <span class="p">},</span>
+      <span class="na">onEndCallback</span><span class="p">:</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Stream has ended with status: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">status</span><span class="p">);</span>
+      <span class="p">},</span>
+    <span class="p">});</span>
+<span class="p">})();</span>
+
 </code></pre></div><h3 id='injectivespotexchangerpc-streammarkets-response-parameters'>Response Parameters</h3>
 <blockquote>
 <p>Streaming Response Example:</p>
@@ -3773,6 +3983,29 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">SpotOrderSide</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">orderSide</span> <span class="o">=</span> <span class="nx">SpotOrderSide</span><span class="p">.</span><span class="nx">Buy</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">market</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spotApi</span><span class="p">.</span><span class="nx">fetchSpotOrders</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
+      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
+      <span class="na">orderSide</span><span class="p">:</span> <span class="nx">orderSide</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -3981,6 +4214,33 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">SpotOrderSide</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">orderSide</span> <span class="o">=</span> <span class="nx">SpotOrderSide</span><span class="p">.</span><span class="nx">Buy</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spotStream</span><span class="p">.</span><span class="nx">streamSpotOrders</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="nx">marketId</span><span class="p">,</span>
+      <span class="nx">orderSide</span><span class="p">,</span>
+      <span class="nx">subaccountId</span><span class="p">,</span>
+      <span class="na">callback</span><span class="p">:</span> <span class="p">(</span><span class="nx">streamSpotOrders</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">streamSpotOrders</span><span class="p">,</span> <span class="p">{}));</span>
+      <span class="p">},</span>
+      <span class="na">onEndCallback</span><span class="p">:</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Stream has ended with status: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">status</span><span class="p">);</span>
+      <span class="p">},</span>
+    <span class="p">});</span>
+<span class="p">})();</span>
 
 </code></pre></div>
 <table><thead>
@@ -4204,6 +4464,30 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">TradeExecutionSide</span><span class="p">,</span> <span class="nx">TradeDirection</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">direction</span> <span class="o">=</span> <span class="nx">TradeDirection</span><span class="p">.</span><span class="nx">Buy</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">executionSide</span> <span class="o">=</span> <span class="nx">TradeExecutionSide</span><span class="p">.</span><span class="nx">Maker</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">market</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spotApi</span><span class="p">.</span><span class="nx">fetchSpotTrades</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
+      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
+      <span class="na">direction</span><span class="p">:</span> <span class="nx">direction</span><span class="p">,</span>
+      <span class="na">executionSide</span><span class="p">:</span> <span class="nx">executionSide</span>
+  <span class="p">});</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -4458,6 +4742,39 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">TradeExecutionSide</span><span class="p">,</span> <span class="nx">TradeDirection</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">direction</span> <span class="o">=</span> <span class="nx">TradeDirection</span><span class="p">.</span><span class="nx">Buy</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">executionSide</span> <span class="o">=</span> <span class="nx">TradeExecutionSide</span><span class="p">.</span><span class="nx">Maker</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">limit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">skip</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spotStream</span><span class="p">.</span><span class="nx">streamSpotTrades</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
+      <span class="na">direction</span><span class="p">:</span> <span class="nx">direction</span><span class="p">,</span>
+      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
+      <span class="na">skip</span><span class="p">:</span> <span class="nx">skip</span><span class="p">,</span>
+      <span class="na">limit</span><span class="p">:</span> <span class="nx">limit</span><span class="p">,</span>
+      <span class="na">executionSide</span><span class="p">:</span> <span class="nx">executionSide</span><span class="p">,</span>
+      <span class="na">callback</span><span class="p">:</span> <span class="p">(</span><span class="nx">streamSpotTrades</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">streamSpotTrades</span><span class="p">,</span> <span class="p">{}));</span>
+      <span class="p">},</span>
+      <span class="na">onEndCallback</span><span class="p">:</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Stream has ended with status: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">status</span><span class="p">);</span>
+      <span class="p">},</span>
+    <span class="p">});</span>
+<span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -4689,6 +5006,22 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">market</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spotApi</span><span class="p">.</span><span class="nx">fetchSpotOrderbook</span><span class="p">(</span><span class="nx">marketId</span><span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -4848,6 +5181,22 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span><span class="p">]</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">market</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spotApi</span><span class="p">.</span><span class="nx">fetchSpotOrderbooks</span><span class="p">({</span><span class="nx">marketIds</span><span class="p">});</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -4966,181 +5315,6 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Price level last updated timestamp in UNIX millis</td>
 </tr>
 </tbody></table>
-<h2 id='injectivespotexchangerpc-streamorderbook'>StreamOrderbook</h2>
-<p>Stream the orderbook of a spot market.</p>
-<h3 id='injectivespotexchangerpc-streamorderbook-request-parameters'>Request Parameters</h3>
-<blockquote>
-<p>Request Example:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
-<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
-
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-    <span class="c1"># select network: local, testnet, mainnet
-</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
-    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span>
-    <span class="n">orderbook</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">stream_spot_orderbook</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">)</span>
-    <span class="k">async</span> <span class="k">for</span> <span class="n">orders</span> <span class="ow">in</span> <span class="n">orderbook</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">orders</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
-
-<span class="k">import</span> <span class="p">(</span>
-  <span class="s">"context"</span>
-  <span class="s">"fmt"</span>
-
-  <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
-  <span class="n">exchangeclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/exchange"</span>
-<span class="p">)</span>
-
-<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c">//network := common.LoadNetwork("mainnet", "k8s")</span>
-  <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
-  <span class="n">exchangeClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeclient</span><span class="o">.</span><span class="n">NewExchangeClient</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeGrpcEndpoint</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeTlsCert</span><span class="p">))</span>
-  <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-  <span class="p">}</span>
-
-  <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
-  <span class="n">marketIds</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span><span class="p">}</span>
-  <span class="n">stream</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">StreamSpotOrderbook</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">marketIds</span><span class="p">)</span>
-  <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-  <span class="p">}</span>
-
-  <span class="k">for</span> <span class="p">{</span>
-    <span class="k">select</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="o">&lt;-</span><span class="n">ctx</span><span class="o">.</span><span class="n">Done</span><span class="p">()</span><span class="o">:</span>
-      <span class="k">return</span>
-    <span class="k">default</span><span class="o">:</span>
-      <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">stream</span><span class="o">.</span><span class="n">Recv</span><span class="p">()</span>
-      <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-        <span class="k">return</span>
-      <span class="p">}</span>
-      <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>market_id</td>
-<td>string</td>
-<td>Filter by market ID</td>
-<td>Yes</td>
-</tr>
-</tbody></table>
-<h3 id='injectivespotexchangerpc-streamorderbook-response-parameters'>Response Parameters</h3>
-<blockquote>
-<p>Streaming Response Example:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"orderbook"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000005616"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"32000000000000000000"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1642702243902</span><span class="p">,</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00000000000561"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"36000000000000000000"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1642585507231</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"sells"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000006069"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"46000000000000000000"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1642753915151</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"sells"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000006089"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"46000000000000000000"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1642753915151</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nl">"operation_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"update"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1642755027000</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"market_id"</span><span class="p">:</span><span class="s2">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>operation_type</td>
-<td>string</td>
-<td>Order update type (Should be one of: [insert replace update invalidate])</td>
-</tr>
-<tr>
-<td>orderbook</td>
-<td>SpotLimitOrderbook</td>
-<td>Array of SpotLimitOrderbook</td>
-</tr>
-<tr>
-<td>timestamp</td>
-<td>integer</td>
-<td>Operation timestamp in UNIX millis</td>
-</tr>
-</tbody></table>
-
-<p><strong>SpotLimitOrderbook</strong></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>buys</td>
-<td>PriceLevel</td>
-<td>Array of PriceLevel</td>
-</tr>
-<tr>
-<td>sells</td>
-<td>PriceLevel</td>
-<td>Array of PriceLevel</td>
-</tr>
-</tbody></table>
-
-<p><strong>PriceLevel</strong></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>price</td>
-<td>string</td>
-<td>Number of the price level</td>
-</tr>
-<tr>
-<td>quantity</td>
-<td>string</td>
-<td>Quantity of the price level</td>
-</tr>
-<tr>
-<td>timestamp</td>
-<td>integer</td>
-<td>Price level last updated timestamp in UNIX millis</td>
-</tr>
-</tbody></table>
 <h2 id='injectivespotexchangerpc-streamorderbooks'>StreamOrderbooks</h2>
 <p>Stream orderbook updates for an array of spot markets.</p>
 <h3 id='injectivespotexchangerpc-streamorderbooks-request-parameters'>Request Parameters</h3>
@@ -5196,6 +5370,29 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span><span class="p">];</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spotStream</span><span class="p">.</span><span class="nx">streamSpotOrderbook</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="nx">marketIds</span><span class="p">,</span>
+      <span class="na">callback</span><span class="p">:</span> <span class="p">(</span><span class="nx">streamSpotOrderbook</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">streamSpotOrderbook</span><span class="p">,</span> <span class="p">{}));</span>
+      <span class="p">},</span>
+      <span class="na">onEndCallback</span><span class="p">:</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Stream has ended with status: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">status</span><span class="p">);</span>
+      <span class="p">},</span>
+    <span class="p">});</span>
+<span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -5372,6 +5569,28 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">market</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spotApi</span><span class="p">.</span><span class="nx">fetchSpotSubaccountOrdersList</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
+      <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -5562,6 +5781,32 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">TradeExecutionType</span><span class="p">,</span> <span class="nx">TradeDirection</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">direction</span> <span class="o">=</span> <span class="nx">TradeDirection</span><span class="p">.</span><span class="nx">Buy</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">executionType</span> <span class="o">=</span> <span class="nx">TradeExecutionType</span><span class="p">.</span><span class="nx">Market</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">market</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spotApi</span><span class="p">.</span><span class="nx">fetchSpotSubaccountTradesList</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
+      <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
+      <span class="na">direction</span><span class="p">:</span> <span class="nx">direction</span><span class="p">,</span>
+      <span class="na">executionType</span><span class="p">:</span> <span class="nx">executionType</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -5774,6 +6019,22 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">market</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesApi</span><span class="p">.</span><span class="nx">fetchDerivativeMarket</span><span class="p">(</span><span class="nx">marketId</span><span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -6070,7 +6331,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
     <span class="n">market_status</span> <span class="o">=</span> <span class="s">"active"</span> <span class="c1"># active, paused, suspended, demolished or expired
-</span>    <span class="n">quote_denom</span> <span class="o">=</span> <span class="s">"peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08"</span>
+</span>    <span class="n">quote_denom</span> <span class="o">=</span> <span class="s">"peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"</span>
     <span class="n">market</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_derivative_markets</span><span class="p">(</span><span class="n">market_status</span><span class="o">=</span><span class="n">market_status</span><span class="p">,</span> <span class="n">quote_denom</span><span class="o">=</span><span class="n">quote_denom</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">market</span><span class="p">)</span>
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
@@ -6109,6 +6370,28 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketStatus</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">active</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">quoteDenom</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">markets</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesApi</span><span class="p">.</span><span class="nx">fetchDerivativeMarkets</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="na">marketStatus</span><span class="p">:</span> <span class="nx">marketStatus</span><span class="p">,</span>
+      <span class="na">quoteDenom</span><span class="p">:</span> <span class="nx">quoteDenom</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">markets</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -6453,6 +6736,29 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">]</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesStream</span><span class="p">.</span><span class="nx">streamDerivativeMarket</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="nx">marketIds</span><span class="p">,</span>
+      <span class="na">callback</span><span class="p">:</span> <span class="p">(</span><span class="nx">streamDerivativeMarket</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">streamDerivativeMarket</span><span class="p">,</span> <span class="p">{}));</span>
+      <span class="p">},</span>
+      <span class="na">onEndCallback</span><span class="p">:</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Stream has ended with status: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">status</span><span class="p">);</span>
+      <span class="p">},</span>
+    <span class="p">});</span>
+<span class="p">})();</span>
 </code></pre></div><h3 id='injectivederivativeexchangerpc-streammarket-response-parameters'>Response Parameters</h3>
 <blockquote>
 <p>Streaming Response Example:</p>
@@ -6771,6 +7077,28 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span><span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span><span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span><span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">DerivativeOrderSide</span><span class="p">,</span> <span class="nx">ExchangeClient</span><span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">orderSide</span> <span class="o">=</span> <span class="nx">DerivativeOrderSide</span><span class="p">.</span><span class="nx">Buy</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">orders</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesApi</span><span class="p">.</span><span class="nx">fetchDerivativeOrders</span><span class="p">({</span>
+    <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
+    <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
+    <span class="na">orderSide</span><span class="p">:</span> <span class="nx">orderSide</span>
+  <span class="p">});</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">orders</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -6997,6 +7325,33 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">DerivativeOrderSide</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">orderSide</span> <span class="o">=</span> <span class="nx">DerivativeOrderSide</span><span class="p">.</span><span class="nx">Buy</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesStream</span><span class="p">.</span><span class="nx">streamDerivativeOrders</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
+      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
+      <span class="na">orderSide</span><span class="p">:</span> <span class="nx">orderSide</span><span class="p">,</span>
+      <span class="na">callback</span><span class="p">:</span> <span class="p">(</span><span class="nx">streamDerivativeOrders</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">streamDerivativeOrders</span><span class="p">,</span> <span class="p">{}));</span>
+      <span class="p">},</span>
+      <span class="na">onEndCallback</span><span class="p">:</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Stream has ended with status: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">status</span><span class="p">);</span>
+      <span class="p">},</span>
+    <span class="p">});</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7232,6 +7587,36 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">TradeExecutionSide</span><span class="p">,</span> <span class="nx">TradeDirection</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">executionSide</span> <span class="o">=</span> <span class="nx">TradeExecutionSide</span><span class="p">.</span><span class="nx">Maker</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">direction</span> <span class="o">=</span> <span class="nx">TradeDirection</span><span class="p">.</span><span class="nx">Buy</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">skip</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">limit</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">trades</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesApi</span><span class="p">.</span><span class="nx">fetchDerivativeTrades</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
+      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
+      <span class="na">executionSide</span><span class="p">:</span> <span class="nx">executionSide</span><span class="p">,</span>
+      <span class="na">direction</span><span class="p">:</span> <span class="nx">direction</span><span class="p">,</span>
+      <span class="na">skip</span><span class="p">:</span> <span class="nx">skip</span><span class="p">,</span>
+      <span class="na">limit</span><span class="p">:</span> <span class="nx">limit</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">trades</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7495,6 +7880,40 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span><span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span><span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span><span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span><span class="p">,</span> <span class="nx">TradeDirection</span><span class="p">,</span> <span class="nx">TradeExecutionSide</span><span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">];</span>
+  <span class="kd">const</span> <span class="nx">subaccountIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">];</span>
+  <span class="kd">const</span> <span class="nx">executionSide</span> <span class="o">=</span> <span class="nx">TradeExecutionSide</span><span class="p">.</span><span class="nx">Maker</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">direction</span> <span class="o">=</span> <span class="nx">TradeDirection</span><span class="p">.</span><span class="nx">Buy</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">skip</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">limit</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesStream</span><span class="p">.</span><span class="nx">streamDerivativeTrades</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="na">marketIds</span><span class="p">:</span> <span class="nx">marketIds</span><span class="p">,</span>
+      <span class="na">subaccountIds</span><span class="p">:</span> <span class="nx">subaccountIds</span><span class="p">,</span>
+      <span class="na">executionSide</span><span class="p">:</span> <span class="nx">executionSide</span><span class="p">,</span>
+      <span class="na">direction</span><span class="p">:</span> <span class="nx">direction</span><span class="p">,</span>
+      <span class="na">skip</span><span class="p">:</span> <span class="nx">skip</span><span class="p">,</span>
+      <span class="na">limit</span><span class="p">:</span> <span class="nx">limit</span><span class="p">,</span>
+      <span class="na">callback</span><span class="p">:</span> <span class="p">(</span><span class="nx">streamDerivativeTrades</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">streamDerivativeTrades</span><span class="p">,</span> <span class="p">{}));</span>
+      <span class="p">},</span>
+      <span class="na">onEndCallback</span><span class="p">:</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Stream has ended with status: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">status</span><span class="p">);</span>
+      <span class="p">},</span>
+    <span class="p">});</span>
+<span class="p">})();</span>
 
 </code></pre></div>
 <table><thead>
@@ -7767,6 +8186,27 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">positions</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesApi</span><span class="p">.</span><span class="nx">fetchDerivativePositions</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
+      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span>
+  <span class="p">});</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">positions</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7960,6 +8400,32 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesStream</span><span class="p">.</span><span class="nx">streamDerivativePositions</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="nx">marketId</span><span class="p">,</span>
+      <span class="nx">subaccountId</span><span class="p">,</span>
+      <span class="na">callback</span><span class="p">:</span> <span class="p">(</span><span class="nx">streamDerivativePositions</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">streamDerivativePositions</span><span class="p">,</span> <span class="p">{}));</span>
+      <span class="p">},</span>
+      <span class="na">onEndCallback</span><span class="p">:</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Stream has ended with status: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">status</span><span class="p">);</span>
+      <span class="p">},</span>
+    <span class="p">});</span>
+<span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -8146,6 +8612,22 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">orderbook</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesApi</span><span class="p">.</span><span class="nx">fetchDerivativeOrderbook</span><span class="p">(</span><span class="nx">marketId</span><span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">orderbook</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -8302,6 +8784,22 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">];</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">market</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesApi</span><span class="p">.</span><span class="nx">fetchDerivativeOrderbooks</span><span class="p">({</span><span class="nx">marketIds</span><span class="p">});</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -8420,182 +8918,6 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Price number of the price level</td>
 </tr>
 </tbody></table>
-<h2 id='injectivederivativeexchangerpc-streamorderbook'>StreamOrderbook</h2>
-<p>Stream orderbook updates for a derivative market.</p>
-<h3 id='injectivederivativeexchangerpc-streamorderbook-request-parameters'>Request Parameters</h3>
-<blockquote>
-<p>Request Example:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
-<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
-
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-    <span class="c1"># select network: local, testnet, mainnet
-</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
-    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
-    <span class="n">orderbooks</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">stream_derivative_orderbook</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">)</span>
-    <span class="k">async</span> <span class="k">for</span> <span class="n">orderbook</span> <span class="ow">in</span> <span class="n">orderbooks</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">orderbook</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
-
-<span class="k">import</span> <span class="p">(</span>
-  <span class="s">"context"</span>
-  <span class="s">"fmt"</span>
-
-  <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
-  <span class="n">exchangeclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/exchange"</span>
-<span class="p">)</span>
-
-<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c">//network := common.LoadNetwork("mainnet", "k8s")</span>
-  <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
-  <span class="n">exchangeClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeclient</span><span class="o">.</span><span class="n">NewExchangeClient</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeGrpcEndpoint</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeTlsCert</span><span class="p">))</span>
-  <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-    <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-  <span class="p">}</span>
-
-  <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
-  <span class="n">marketIds</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span><span class="p">}</span>
-  <span class="n">stream</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">StreamDerivativeOrderbook</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">marketIds</span><span class="p">)</span>
-  <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-    <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-  <span class="p">}</span>
-
-  <span class="k">for</span> <span class="p">{</span>
-    <span class="k">select</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="o">&lt;-</span><span class="n">ctx</span><span class="o">.</span><span class="n">Done</span><span class="p">()</span><span class="o">:</span>
-      <span class="k">return</span>
-    <span class="k">default</span><span class="o">:</span>
-      <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">stream</span><span class="o">.</span><span class="n">Recv</span><span class="p">()</span>
-      <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-        <span class="k">return</span>
-      <span class="p">}</span>
-      <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>market_id</td>
-<td>string</td>
-<td>Filter by market ID</td>
-<td>Yes</td>
-</tr>
-</tbody></table>
-<h3 id='injectivederivativeexchangerpc-streamorderbook-response-parameters'>Response Parameters</h3>
-<blockquote>
-<p>Streaming Response Example:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-</span><span class="nl">"orderbook"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40746400000"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.12"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1642587514374</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nl">"buys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40577600000"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.15"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1642519595487</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nl">"sells"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"45976700000"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.19"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1642754155090</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nl">"sells"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50000000000"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.1"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1642754155090</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">},</span><span class="w">
-</span><span class="nl">"operation_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"update"</span><span class="p">,</span><span class="w">
-</span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1642754263000</span><span class="p">,</span><span class="w">
-</span><span class="nl">"market_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span><span class="w">
-
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>operation_type</td>
-<td>string</td>
-<td>Order update type (Should be one of: [insert delete replace update invalidate])</td>
-</tr>
-<tr>
-<td>orderbook</td>
-<td>DerivativeLimitOrderbook</td>
-<td>Array of DerivativeLimitOrderbook</td>
-</tr>
-<tr>
-<td>timestamp</td>
-<td>integer</td>
-<td>Operation timestamp in UNIX millis</td>
-</tr>
-</tbody></table>
-
-<p><strong>DerivativeLimitOrderbook</strong></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>buys</td>
-<td>PriceLevel</td>
-<td>Array of PriceLevel</td>
-</tr>
-<tr>
-<td>sells</td>
-<td>PriceLevel</td>
-<td>Array of PriceLevel</td>
-</tr>
-</tbody></table>
-
-<p><strong>PriceLevel</strong></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>quantity</td>
-<td>string</td>
-<td>Quantity of the price level</td>
-</tr>
-<tr>
-<td>timestamp</td>
-<td>integer</td>
-<td>Price level last updated timestamp in UNIX millis</td>
-</tr>
-<tr>
-<td>price</td>
-<td>string</td>
-<td>Price number of the price level</td>
-</tr>
-</tbody></table>
 <h2 id='injectivederivativeexchangerpc-streamorderbooks'>StreamOrderbooks</h2>
 <p>Stream orderbook updates for an array of derivative markets.</p>
 <h3 id='injectivederivativeexchangerpc-streamorderbooks-request-parameters'>Request Parameters</h3>
@@ -8651,6 +8973,30 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">];</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesStream</span><span class="p">.</span><span class="nx">streamDerivativeOrderbook</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="nx">marketIds</span><span class="p">,</span>
+      <span class="na">callback</span><span class="p">:</span> <span class="p">(</span><span class="nx">streamDerivativeOrderbook</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">streamDerivativeOrderbook</span><span class="p">,</span> <span class="p">{}));</span>
+      <span class="p">},</span>
+      <span class="na">onEndCallback</span><span class="p">:</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Stream has ended with status: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">status</span><span class="p">);</span>
+      <span class="p">},</span>
+    <span class="p">});</span>
+<span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -8829,6 +9175,28 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">subaccountOrders</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesApi</span><span class="p">.</span><span class="nx">fetchDerivativeSubaccountOrdersList</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
+      <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">subaccountOrders</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -9023,6 +9391,31 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">TradeDirection</span><span class="p">,</span> <span class="nx">TradeExecutionType</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">direction</span> <span class="o">=</span> <span class="nx">TradeDirection</span><span class="p">.</span><span class="nx">Buy</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">executionType</span> <span class="o">=</span> <span class="nx">TradeExecutionType</span><span class="p">.</span><span class="nx">Market</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">subaccountTrades</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesApi</span><span class="p">.</span><span class="nx">fetchDerivativeSubaccountTradesList</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
+      <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
+      <span class="na">direction</span><span class="p">:</span> <span class="nx">direction</span><span class="p">,</span>
+      <span class="na">executionType</span><span class="p">:</span> <span class="nx">executionType</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">subaccountTrades</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -9254,6 +9647,35 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">skip</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">limit</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">fundingPayments</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesApi</span><span class="p">.</span><span class="nx">fetchDerivativeFundingPayments</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
+      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
+      <span class="na">pagination</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">skip</span><span class="p">:</span> <span class="nx">skip</span><span class="p">,</span>
+        <span class="na">limit</span><span class="p">:</span> <span class="nx">limit</span><span class="p">,</span>
+        <span class="na">key</span><span class="p">:</span> <span class="dl">""</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">fundingPayments</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -9385,6 +9807,33 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">skip</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">limit</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">fundingRates</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesApi</span><span class="p">.</span><span class="nx">fetchDerivativeFundingRates</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="nx">marketId</span><span class="p">,</span>
+      <span class="na">pagination</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">skip</span><span class="p">:</span> <span class="nx">skip</span><span class="p">,</span>
+        <span class="na">limit</span><span class="p">:</span> <span class="nx">limit</span><span class="p">,</span>
+        <span class="na">key</span><span class="p">:</span> <span class="dl">""</span> <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">fundingRates</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -9498,6 +9947,22 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">oracleList</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">oracleApi</span><span class="p">.</span><span class="nx">fetchOracleList</span><span class="p">(</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">oracleList</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
+
 </code></pre></div><h3 id='injectiveoraclerpc-oraclelist-response-parameters'>Response Parameters</h3>
 <blockquote>
 <p>Response Example:</p>
@@ -9610,6 +10075,32 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">baseSymbol</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">BTC</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">quoteSymbol</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">oracleType</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">oracleScaleFactor</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">oraclePrice</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">oracleApi</span><span class="p">.</span><span class="nx">fetchOraclePrice</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="nx">baseSymbol</span><span class="p">,</span>
+      <span class="nx">quoteSymbol</span><span class="p">,</span>
+      <span class="nx">oracleType</span><span class="p">,</span>
+      <span class="nx">oracleScaleFactor</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">oraclePrice</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -9730,6 +10221,33 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="p">}</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">baseSymbol</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">BTC</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">quoteSymbol</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">oracleType</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">oracleStream</span><span class="p">.</span><span class="nx">streamOraclePrices</span><span class="p">(</span>
+    <span class="p">{</span>
+    <span class="nx">oracleType</span><span class="p">,</span>
+    <span class="nx">baseSymbol</span><span class="p">,</span>
+    <span class="nx">quoteSymbol</span><span class="p">,</span>
+    <span class="na">callback</span><span class="p">:</span> <span class="p">(</span><span class="nx">streamPrices</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">streamPrices</span><span class="p">,</span> <span class="p">{}));</span>
+    <span class="p">},</span>
+    <span class="na">onEndCallback</span><span class="p">:</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Stream has ended with status: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">status</span><span class="p">);</span>
+    <span class="p">},</span>
+  <span class="p">});</span>
+<span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -9831,6 +10349,21 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">insuranceFunds</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">insuranceFundApi</span><span class="p">.</span><span class="nx">fetchInsuranceFunds</span><span class="p">(</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">insuranceFunds</span><span class="p">,</span> <span class="p">{}))</span>
+<span class="p">})();</span>
 
 </code></pre></div><h3 id='injectiveinsurancerpc-insurancefunds-response-parameters'>Response Parameters</h3>
 <blockquote>
@@ -9985,6 +10518,31 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">denom</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">share2</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">address</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">inj1gxqdj76ul07w4ujsl8403nhhzyvug2h66qk057</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">status</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">disbursed</span><span class="dl">"</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">redemptions</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">insuranceFundApi</span><span class="p">.</span><span class="nx">fetchRedemptions</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="nx">denom</span><span class="p">,</span>
+      <span class="nx">address</span><span class="p">,</span>
+      <span class="nx">status</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">redemptions</span><span class="p">,</span> <span class="p">{}))</span>
+<span class="p">})();</span>
 
 </code></pre></div>
 <table><thead>
@@ -10644,6 +11202,22 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">tx_hash</span> <span class="o">=</span>
+    <span class="dl">"</span><span class="s2">d7a1c7ee985f807bf6bc06de728810fd52d85141549af0540486faf5e7de0d1d</span><span class="dl">"</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">tx</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">explorerApi</span><span class="p">.</span><span class="nx">fetchTxByHash</span><span class="p">(</span><span class="nx">tx_hash</span><span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">tx</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -10799,6 +11373,21 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">ping</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">metaApi</span><span class="p">.</span><span class="nx">fetchPing</span><span class="p">(</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">ping</span><span class="p">,</span> <span class="p">{}))</span>
+<span class="p">})();</span>
+
 </code></pre></div>
 <blockquote>
 <p>Response Example:</p>
@@ -10852,6 +11441,21 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">version</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">metaApi</span><span class="p">.</span><span class="nx">fetchVersion</span><span class="p">(</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">version</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 
 </code></pre></div>
 <blockquote>
@@ -10929,6 +11533,22 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">ExchangeClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
+    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">info</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">metaApi</span><span class="p">.</span><span class="nx">fetchInfo</span><span class="p">(</span>
+  <span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">info</span><span class="p">,</span> <span class="p">{}));</span>
+<span class="p">})();</span>
 
 </code></pre></div>
 <blockquote>
