@@ -189,6 +189,8 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 |subaccount_id|string|Filter by subaccount ID|Yes|
 |denom|string|Filter by denom|No|
 |transfer_types|array|Filter by transfer types|No|
+|skip|int|Skip the last transfers, you can use this to fetch all transfers since the API caps at 100|No|
+|limit|int|Limit the transfers returned|No|
 
 
 ### Response Parameters
