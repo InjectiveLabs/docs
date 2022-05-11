@@ -569,6 +569,8 @@ import { protoObjectToJson, SpotOrderSide, ExchangeClient } from "@injectivelabs
 |market_id|string|Filter by market ID|Yes|
 |order_side|string|Filter by order side (Should be one of: [buy sell])|No|
 |subaccount_id|string|Filter by subaccount ID|No|
+|skip|int|Skip the last orders, you can use this to fetch all orders since the API caps at 100|No|
+|limit|int|Limit the orders returned|No|
 
 
 
@@ -1676,6 +1678,8 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 |----|----|----|----|
 |subaccount_id|string|Filter by subaccount ID|Yes|
 |market_id|string|Filter by market ID|No|
+|skip|int|Skip the last orders, you can use this to fetch all orders since the API caps at 100|No|
+|limit|int|Limit the orders returned|No|
 
 
 ### Response Parameters
@@ -1832,6 +1836,8 @@ import { protoObjectToJson, TradeExecutionType, TradeDirection, ExchangeClient }
 |market_id|string|Filter by market ID|No|
 |direction|string|Filter by the direction of the trades (Should be one of: [buy sell])|No|
 |execution_type|string|Filter by the execution type of the trades (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder])|No|
+|skip|int|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
+|limit|int|Limit the trades returned|No|
 
 ### Response Parameters
 > Response Example:
