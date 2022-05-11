@@ -14,7 +14,7 @@ from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
-from pyinjective.wallet import PrivateKey, PublicKey, Address
+from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
@@ -27,7 +27,7 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
     address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
 
@@ -70,9 +70,13 @@ async def main() -> None:
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.send_tx_block_mode(tx_raw_bytes)
-    print("tx response")
+    res = await client.send_tx_sync_mode(tx_raw_bytes)
     print(res)
+    print("gas wanted: {}".format(gas_limit))
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -157,83 +161,10 @@ func main() {
 > Response Example:
 
 ``` python
-tx response
-height: 4149181
-txhash: "F35A8EC74D8083428EA697FC5C36E9F1A07AEE8DE3EB87F1FE278FED2B6DE4A7"
-data: "0A390A372F636F736D6F732E646973747269627574696F6E2E763162657461312E4D7367576974686472617744656C656761746F72526577617264"
-raw_log: "[{\"events\":[{\"type\":\"coin_received\",\"attributes\":[{\"key\":\"receiver\",\"value\":\"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku\"},{\"key\":\"amount\",\"value\":\"312609221171966805inj\"}]},{\"type\":\"coin_spent\",\"attributes\":[{\"key\":\"spender\",\"value\":\"inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8\"},{\"key\":\"amount\",\"value\":\"312609221171966805inj\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward\"},{\"key\":\"sender\",\"value\":\"inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8\"},{\"key\":\"module\",\"value\":\"distribution\"},{\"key\":\"sender\",\"value\":\"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku\"},{\"key\":\"sender\",\"value\":\"inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8\"},{\"key\":\"amount\",\"value\":\"312609221171966805inj\"}]},{\"type\":\"withdraw_rewards\",\"attributes\":[{\"key\":\"amount\",\"value\":\"312609221171966805inj\"},{\"key\":\"validator\",\"value\":\"injvaloper1ultw9r29l8nxy5u6thcgusjn95vsy2caw722q5\"}]}]}]"
-logs {
-  events {
-    type: "coin_received"
-    attributes {
-      key: "receiver"
-      value: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-    }
-    attributes {
-      key: "amount"
-      value: "312609221171966805inj"
-    }
-  }
-  events {
-    type: "coin_spent"
-    attributes {
-      key: "spender"
-      value: "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
-    }
-    attributes {
-      key: "amount"
-      value: "312609221171966805inj"
-    }
-  }
-  events {
-    type: "message"
-    attributes {
-      key: "action"
-      value: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward"
-    }
-    attributes {
-      key: "sender"
-      value: "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
-    }
-    attributes {
-      key: "module"
-      value: "distribution"
-    }
-    attributes {
-      key: "sender"
-      value: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-    }
-  }
-  events {
-    type: "transfer"
-    attributes {
-      key: "recipient"
-      value: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-    }
-    attributes {
-      key: "sender"
-      value: "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
-    }
-    attributes {
-      key: "amount"
-      value: "312609221171966805inj"
-    }
-  }
-  events {
-    type: "withdraw_rewards"
-    attributes {
-      key: "amount"
-      value: "312609221171966805inj"
-    }
-    attributes {
-      key: "validator"
-      value: "injvaloper1ultw9r29l8nxy5u6thcgusjn95vsy2caw722q5"
-    }
-  }
-}
-gas_wanted: 147782
-gas_used: 141371
+txhash: "01FE09A8AA7696FA4D28EE95BC5548893F31D3E57B1E639316CB901BC68CFDC7"
+raw_log: "[]"
 
+gas wanted: 147902
 ```
 
 ```go
@@ -256,7 +187,7 @@ from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
-from pyinjective.wallet import PrivateKey, PublicKey, Address
+from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
@@ -269,13 +200,13 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
     address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
 
     # prepare tx msg
     validator_address = "injvaloper1ultw9r29l8nxy5u6thcgusjn95vsy2caw722q5"
-    amount = 1
+    amount = 100
 
     msg = composer.MsgDelegate(
         delegator_address=address.to_acc_bech32(),
@@ -314,10 +245,13 @@ async def main() -> None:
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.send_tx_block_mode(tx_raw_bytes)
-    print("tx response")
+    res = await client.send_tx_sync_mode(tx_raw_bytes)
     print(res)
+    print("gas wanted: {}".format(gas_limit))
 
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -407,67 +341,10 @@ func main() {
 > Response Example:
 
 ``` python
-tx response
-height: 4149131
-txhash: "28AF4AFDAA75E82742CB86882EFACD0955EA7590E05DC0B000C293C59D760610"
-data: "0A250A232F636F736D6F732E7374616B696E672E763162657461312E4D736744656C6567617465"
-raw_log: "[{\"events\":[{\"type\":\"coin_received\",\"attributes\":[{\"key\":\"receiver\",\"value\":\"inj1fl48vsnmsdzcv85q5d2q4z5ajdha8yu3lj7tt0\"},{\"key\":\"amount\",\"value\":\"1000000000000000000inj\"}]},{\"type\":\"coin_spent\",\"attributes\":[{\"key\":\"spender\",\"value\":\"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku\"},{\"key\":\"amount\",\"value\":\"1000000000000000000inj\"}]},{\"type\":\"delegate\",\"attributes\":[{\"key\":\"validator\",\"value\":\"injvaloper1ultw9r29l8nxy5u6thcgusjn95vsy2caw722q5\"},{\"key\":\"amount\",\"value\":\"1000000000000000000inj\"},{\"key\":\"new_shares\",\"value\":\"1001001001001001001.001001001001001001\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.staking.v1beta1.MsgDelegate\"},{\"key\":\"module\",\"value\":\"staking\"},{\"key\":\"sender\",\"value\":\"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku\"}]}]}]"
-logs {
-  events {
-    type: "coin_received"
-    attributes {
-      key: "receiver"
-      value: "inj1fl48vsnmsdzcv85q5d2q4z5ajdha8yu3lj7tt0"
-    }
-    attributes {
-      key: "amount"
-      value: "1000000000000000000inj"
-    }
-  }
-  events {
-    type: "coin_spent"
-    attributes {
-      key: "spender"
-      value: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-    }
-    attributes {
-      key: "amount"
-      value: "1000000000000000000inj"
-    }
-  }
-  events {
-    type: "delegate"
-    attributes {
-      key: "validator"
-      value: "injvaloper1ultw9r29l8nxy5u6thcgusjn95vsy2caw722q5"
-    }
-    attributes {
-      key: "amount"
-      value: "1000000000000000000inj"
-    }
-    attributes {
-      key: "new_shares"
-      value: "1001001001001001001.001001001001001001"
-    }
-  }
-  events {
-    type: "message"
-    attributes {
-      key: "action"
-      value: "/cosmos.staking.v1beta1.MsgDelegate"
-    }
-    attributes {
-      key: "module"
-      value: "staking"
-    }
-    attributes {
-      key: "sender"
-      value: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-    }
-  }
-}
-gas_wanted: 156807
-gas_used: 150396
+txhash: "1C9B6FEC8ED69CA545D6F3DB0DC8E554A02B37E97952466E7C37F67EA0B228ED"
+raw_log: "[]"
+
+gas wanted: 191366
 ```
 
 ```go

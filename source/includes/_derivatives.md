@@ -7,11 +7,15 @@ Includes all messages related to derivative markets.
 > Request Example:
 
 ``` python
+import asyncio
+import logging
+
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
-from pyinjective.wallet import PrivateKey, PublicKey, Address
+from pyinjective.wallet import PrivateKey
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -23,8 +27,8 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
-    pub_key =  priv_key.to_public_key()
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
+    pub_key = priv_key.to_public_key()
     address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
     subaccount_id = address.get_subaccount_id(index=0)
 
@@ -62,30 +66,30 @@ async def main() -> None:
         print(sim_res)
         return
 
-    sim_res_msg = ProtoMsgComposer.MsgResponses(simRes.result.data, simulation=True)
+    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res.result.data, simulation=True)
     print("simulation msg response")
     print(sim_res_msg)
 
     # build tx
     gas_price = 500000000
-    gas_limit = simRes.gas_info.gas_used + 20000 # add 20k for gas, fee computation
+    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    
     tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.send_tx_block_mode(tx_raw_bytes)
-    res_msg = ProtoMsgComposer.MsgResponses(res.data)
-    print("tx response")
+    res = await client.send_tx_sync_mode(tx_raw_bytes)
     print(res)
-    print("tx msg response")
-    print(res_msg)
+    print("gas wanted: {}".format(gas_limit))
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -207,13 +211,13 @@ func main() {
 > Response Example:
 
 ``` python
-"simulation msg response"
-"order_hash": "0x6cc1c3d7653a1b526a332024b12b5e09d0ff306ce842d1ebb3599faff23b06fd",
-"tx response"
-"txhash": "E1C0F4B6C2F0AF2C256373AB648F58E3F63DEA1BCD2EB5AD323002E99DF83B4D",
+simulation msg response
+[order_hash: "0xe79e9c76074df3320c46f50cc7e1d9b3e56ff88718c036b46556b0daeabb29ff"
+]
+txhash: "DE3F8A9D0A6A0D920338F471DAECCC646A483C173967F51E97A498D8D85CE2BB"
+raw_log: "[]"
 
-"tx msg response":
-"[]"
+gas wanted: 110870
 ```
 
 ```go
@@ -228,11 +232,15 @@ DEBU[0003] nonce incremented to 3001                     fn=func1 src="client/ch
 > Request Example:
 
 ``` python
+import asyncio
+import logging
+
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
-from pyinjective.wallet import PrivateKey, PublicKey, Address
+from pyinjective.wallet import PrivateKey
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -244,26 +252,25 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
-    pub_key =  priv_key.to_public_key()
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
+    pub_key = priv_key.to_public_key()
     address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
     subaccount_id = address.get_subaccount_id(index=0)
-    
+
     # prepare trade info
-    market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"
+    market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-    
+
     # prepare tx msg
     msg = composer.MsgCreateDerivativeLimitOrder(
         sender=address.to_acc_bech32(),
         market_id=market_id,
         subaccount_id=subaccount_id,
         fee_recipient=fee_recipient,
-        price=44054.48,
-        quantity=0.01,
-        leverage=0.7,
-        is_buy=True,
-        is_po=True,
+        price=50000,
+        quantity=0.1,
+        leverage=1,
+        is_buy=False,
         is_reduce_only=False
     )
 
@@ -291,24 +298,24 @@ async def main() -> None:
 
     # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 20000 # add 20k for gas, fee computation
+    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    
     tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.send_tx_block_mode(tx_raw_bytes)
-    res_msg = ProtoMsgComposer.MsgResponses(res.data)
-    print("tx response")
+    res = await client.send_tx_sync_mode(tx_raw_bytes)
     print(res)
-    print("tx msg response")
-    print(res_msg)
+    print("gas wanted: {}".format(gas_limit))
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -430,13 +437,13 @@ func main() {
 > Response Example:
 
 ``` python
-"simulation msg response"
-"order_hash": "0x0531e3c17cbdc5c535a0a0cfa20d354187ee1256236c3a7d47db227b107aa6dd",
-"tx response"
-"txhash": "95AE4D127F8F6FB4C2ACA0D5063624B124B938B298E4661FB3C5FE1F53A2A90F",
+simulation msg response
+[order_hash: "0x667ee6f37f6d06bf473f4e1434e92ac98ff43c785405e2a511a0843daeca2de9"
+]
+txhash: "4EE6F6467442E2542F8807B6D1CB18A729B57AC2649AABBDC82FF17D2A41DE22"
+raw_log: "[]"
 
-"tx msg response":
-"[]"
+gas wanted: 124314
 ```
 
 ``` go
@@ -451,11 +458,15 @@ DEBU[0003] nonce incremented to 3001                     fn=func1 src="client/ch
 > Request Example:
 
 ``` python
+import asyncio
+import logging
+
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
-from pyinjective.wallet import PrivateKey, PublicKey, Address
+from pyinjective.wallet import PrivateKey
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -467,14 +478,14 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
-    pub_key =  priv_key.to_public_key()
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
+    pub_key = priv_key.to_public_key()
     address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
     subaccount_id = address.get_subaccount_id(index=0)
-    
+
     # prepare trade info
-    market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"
-    order_hash = "0x7d0b95cfc0fb5901ba4d686060074107eaff6bbcc9eba25823d16fa21508bfeb"
+    market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+    order_hash = "0x667ee6f37f6d06bf473f4e1434e92ac98ff43c785405e2a511a0843daeca2de9"
 
     # prepare tx msg
     msg = composer.MsgCancelDerivativeOrder(
@@ -504,24 +515,24 @@ async def main() -> None:
 
     # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 20000 # add 20k for gas, fee computation
+    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    
     tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.send_tx_block_mode(tx_raw_bytes)
-    res_msg = ProtoMsgComposer.MsgResponses(res.data)
-    print("tx response")
+    res = await client.send_tx_sync_mode(tx_raw_bytes)
     print(res)
-    print("tx msg response")
-    print(res_msg)
+    print("gas wanted: {}".format(gas_limit))
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -613,10 +624,10 @@ func main() {
 > Response Example:
 
 ``` python
+txhash: "A7A17036829DC4E953A6DC47CBF86486D6F0B8236C8FA4758352AACF105A3EB6"
+raw_log: "[]"
 
-"tx response"
-"txhash": "20A3DC0B931D54DC20991FE2727249DBB2CFB00364C03DAAD4099263871F5D0D"
-
+gas wanted: 113832
 ```
 
 ``` go
@@ -639,7 +650,7 @@ from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
-from pyinjective.wallet import PrivateKey, PublicKey, Address
+from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
@@ -670,7 +681,8 @@ async def main() -> None:
             quantity=0.01,
             leverage=0.7,
             is_buy=True,
-            is_po=True
+            is_po=False
+
         ),
         composer.DerivativeOrder(
             market_id=market_id,
@@ -678,8 +690,9 @@ async def main() -> None:
             fee_recipient=fee_recipient,
             price=62140,
             quantity=0.01,
+            leverage=0.7,
             is_buy=False,
-            is_reduce_only=True
+            is_reduce_only=False
         ),
     ]
 
@@ -724,12 +737,13 @@ async def main() -> None:
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.send_tx_block_mode(tx_raw_bytes)
-    res_msg = ProtoMsgComposer.MsgResponses(res.data)
-    print("tx response")
+    res = await client.send_tx_sync_mode(tx_raw_bytes)
     print(res)
-    print("tx msg response")
-    print(res_msg)
+    print("gas wanted: {}".format(gas_limit))
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -859,13 +873,14 @@ func main() {
 > Response Example:
 
 ``` python
-"The order hashes:  ['0xac3c9bae97a9c3ce57c2f2487be919daa331c29c5017e74df787da0d49a04999', '0x25de3e25526da06014ad81c0bdbba2bff4f0307330c221d9be98e1276aa5b5ff', '0xe24842add4f298ed55def0e07bf448535e3f75efe787b629e7d01e592c53d29a', '0x2c79b71391dceaff5d492577410f20ecf6b7dfccca22aaf25cf978e8551a66cc']"
-"simulation msg response":
-["order_hashes:" "0xac3c9bae97a9c3ce57c2f2487be919daa331c29c5017e74df787da0d49a04999",
-"order_hashes:" "0x25de3e25526da06014ad81c0bdbba2bff4f0307330c221d9be98e1276aa5b5ff",
-"order_hashes:" "0xe24842add4f298ed55def0e07bf448535e3f75efe787b629e7d01e592c53d29a",
-"order_hashes:" "0x2c79b71391dceaff5d492577410f20ecf6b7dfccca22aaf25cf978e8551a66cc"
+simulation msg response
+[order_hashes: "0x8414662a70678cc8dd12656002f1abd4bf8a5c2f8215aa39960923d3861d8965"
+order_hashes: "0x8a8d864b661d546ff42b13531e32a1f60f2d9e673d0bebd608be54c3a6399c8c"
 ]
+txhash: "3584C4A2E710B55BD91BA1748390DD6D5F0AF574FAFAE60B8F162B387CCEE036"
+raw_log: "[]"
+
+gas wanted: 164607
 ```
 
 ```go
@@ -883,11 +898,15 @@ DEBU[0003] nonce incremented to 3002                     fn=func1 src="client/ch
 > Request Example:
 
 ``` python
+import asyncio
+import logging
+
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
-from pyinjective.wallet import PrivateKey, PublicKey, Address
+from pyinjective.wallet import PrivateKey
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -899,23 +918,23 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
-    pub_key =  priv_key.to_public_key()
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
+    pub_key = priv_key.to_public_key()
     address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
     subaccount_id = address.get_subaccount_id(index=0)
-    
+
     # prepare trade info
-    market_id = "0xd0f46edfba58827fe692aab7c8d46395d1696239fdf6aeddfa668b73ca82ea30"
+    market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     orders = [
         composer.OrderData(
             market_id=market_id,
             subaccount_id=subaccount_id,
-            order_hash="0xfcbedb1f8135204e7d8b8e6e683042e61834435fb7841b9ef243ef7196ec6938"
+            order_hash="0x1d3b3562af4ea7f972b77261aa956d0741d2aef1c7d54b258cb95bfbbdce5c00"
         ),
         composer.OrderData(
             market_id=market_id,
             subaccount_id=subaccount_id,
-            order_hash="0x0d19f6a10ad017abeac1b14070fec5d044128e40902085654f4da4055a8f6510"
+            order_hash="0x9c552c62970061a5cf16fd6de4bb5defc023f8fe5692628588fef7b6519eedf6"
         )
     ]
 
@@ -949,24 +968,24 @@ async def main() -> None:
 
     # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 20000 # add 20k for gas, fee computation
+    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    
     tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.send_tx_block_mode(tx_raw_bytes)
-    res_msg = ProtoMsgComposer.MsgResponses(res.data)
-    print("tx response")
+    res = await client.send_tx_sync_mode(tx_raw_bytes)
     print(res)
-    print("tx msg response")
-    print(res_msg)
+    print("gas wanted: {}".format(gas_limit))
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -1073,14 +1092,14 @@ func main() {
 > Response Example:
 
 ``` python
-"simulation msg response"
-"success": "true",
-"success": "true",
-"tx response"
-"txhash": "03F2EE49F66731C8DA70958093F0EDF24D046EF31AED3A0C79D639D67F7A1ADB",
+simulation msg response
+[success: true
+success: false
+]
+txhash: "5DDC58EB100E54A28D999B879EB54E594D910423EDFC9A8E7FB126BC7EFF7512"
+raw_log: "[]"
 
-"tx msg response":
-"[]"
+gas wanted: 118779
 ```
 
 ```go
@@ -1102,11 +1121,15 @@ Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll o
 > Request Example:
 
 ``` python
+import asyncio
+import logging
+
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
-from pyinjective.wallet import PrivateKey, PublicKey, Address
+from pyinjective.wallet import PrivateKey
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -1118,15 +1141,15 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
-    pub_key =  priv_key.to_public_key()
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
+    pub_key = priv_key.to_public_key()
     address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
     subaccount_id = address.get_subaccount_id(index=0)
-    
+
     # prepare trade info
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
-    derivative_market_id_create = "0x7cc8b10d7deb61e744ef83bdec2bbcf4a056867e89b062c6a453020ca82bd4e4"
+    derivative_market_id_create = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     spot_market_id_create = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
 
     derivative_market_id_cancel = "0x1f73e21972972c69c03fb105a5864592ac2b47996ffea3c500d1ea2d20138717"
@@ -1141,7 +1164,7 @@ async def main() -> None:
         composer.OrderData(
             market_id=derivative_market_id_cancel,
             subaccount_id=subaccount_id,
-            order_hash="0xd6edebb7ea4ce617c2ab30b42c8793260d4d28e1966403b5aca986d7c0349be1"
+            order_hash="0x48690013c382d5dbaff9989db04629a16a5818d7524e027d517ccc89fd068103"
         ),
         composer.OrderData(
             market_id=derivative_market_id_cancel_2,
@@ -1168,18 +1191,18 @@ async def main() -> None:
             market_id=derivative_market_id_create,
             subaccount_id=subaccount_id,
             fee_recipient=fee_recipient,
-            price=3,
-            quantity=35,
+            price=25000,
+            quantity=0.1,
             leverage=1,
             is_buy=True,
-            is_po=True
+            is_po=False
         ),
         composer.DerivativeOrder(
             market_id=derivative_market_id_create,
             subaccount_id=subaccount_id,
             fee_recipient=fee_recipient,
-            price=300,
-            quantity=55,
+            price=50000,
+            quantity=0.01,
             leverage=1,
             is_buy=False,
             is_po=False
@@ -1192,16 +1215,16 @@ async def main() -> None:
             subaccount_id=subaccount_id,
             fee_recipient=fee_recipient,
             price=3,
-            quantity=62,
+            quantity=55,
             is_buy=True,
-            is_po=True
+            is_po=False
         ),
         composer.SpotOrder(
             market_id=spot_market_id_create,
             subaccount_id=subaccount_id,
             fee_recipient=fee_recipient,
             price=300,
-            quantity=32,
+            quantity=55,
             is_buy=False,
             is_po=False
         ),
@@ -1248,19 +1271,19 @@ async def main() -> None:
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    
     tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.send_tx_block_mode(tx_raw_bytes)
-    res_msg = ProtoMsgComposer.MsgResponses(res.data)
-    print("tx response")
+    res = await client.send_tx_sync_mode(tx_raw_bytes)
     print(res)
-    print("tx msg response")
-    print(res_msg)
+    print("gas wanted: {}".format(gas_limit))
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -1437,72 +1460,20 @@ func main() {
 > Response Example:
 
 ``` python
+simulation msg response
+[spot_cancel_success: false
+spot_cancel_success: false
+derivative_cancel_success: false
+derivative_cancel_success: false
+spot_order_hashes: "0x6f09908c9182b5aaef4a8074f9538270fb509f6320ad9946ee112f4437226f6f"
+spot_order_hashes: "0xb03291b78dd7f34711c453d3709efffd74ac228e73bb44498d5670d99e6468b9"
+derivative_order_hashes: "0x690864eaedf9aae908f0636357aa2de6fc3d95386b0fad38410496ce4325a882"
+derivative_order_hashes: "0x1faa22366dd9535399bfb4be173dafeb57b2c0922d708d6bc1cb7438fffe3d11"
+]
+txhash: "208D5E1A02BA5A142CB60B2523B4054AEDE7ED5BE859AC52AFEE1617F9325FC7"
+raw_log: "[]"
 
-"simulation msg response"
-"spot_cancel_success": true,
-"spot_cancel_success": false,
-"derivative_cancel_success": true,
-"derivative_cancel_success": false,
-"spot_order_hashes": "0x7af962ba1880edc4d45fa66b64f169f9f654df0d54fd10a5bd9da0510f4a7727",
-"spot_order_hashes": "0x1c400acc9ca1a3f2cb2a98d35bc252753e5931f762b337410750be327189922f",
-"derivative_order_hashes": "0x11f3c2aed7ed892a1cbf280534b7b2eaafe0bc7f8078b79e7d2c331b49547d99",
-"derivative_order_hashes": "",
-"tx response"
-"height": 64004,
-"txhash": "B8BF33A8E62F4F1C3FA6FA9E84F35CCED44D5D7CF004C058AA2E7FC3F1A9E50A",
-"data": "0A8B020A302F696E6A6563746976652E65786368616E67652E763162657461312E4D736742617463685570646174654F726465727312D6010A020100120201001A423078376166393632626131383830656463346434356661363662363466313639663966363534646630643534666431306135626439646130353130663461373732371A4230783163343030616363396361316133663263623261393864333562633235323735336535393331663736326233333734313037353062653332373138393932326622423078313166336332616564376564383932613163626632383035333462376232656161666530626337663830373862373965376432633333316234393534376439392200",
-"raw_log": "[{\"events\":[{\"type\":\"injective.exchange.v1beta1.EventCancelDerivativeOrder\",\"attributes\":[{\"key\":\"market_id\",\"value\":\"\\\"0x1f73e21972972c69c03fb105a5864592ac2b47996ffea3c500d1ea2d20138717\\\"\"},{\"key\":\"isLimitCancel\",\"value\":\"true\"},{\"key\":\"limit_order\",\"value\":\"{\\\"order_info\\\":{\\\"subaccount_id\\\":\\\"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000\\\",\\\"fee_recipient\\\":\\\"inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8\\\",\\\"price\\\":\\\"20000000.000000000000000000\\\",\\\"quantity\\\":\\\"5.000000000000000000\\\"},\\\"order_type\\\":\\\"BUY\\\",\\\"margin\\\":\\\"75000000.000000000000000000\\\",\\\"fillable\\\":\\\"5.000000000000000000\\\",\\\"trigger_price\\\":\\\"0.000000000000000000\\\",\\\"order_hash\\\":\\\"cm93WUZipQ+wguDgqjE/3z8WQ4u60rDnMVXHzgtwRoU=\\\"}\"},{\"key\":\"market_order_cancel\",\"value\":\"null\"}]},{\"type\":\"injective.exchange.v1beta1.EventCancelSpotOrder\",\"attributes\":[{\"key\":\"market_id\",\"value\":\"\\\"0x74b17b0d6855feba39f1f7ab1e8bad0363bd510ee1dcc74e40c2adfe1502f781\\\"\"},{\"key\":\"order\",\"value\":\"{\\\"order_info\\\":{\\\"subaccount_id\\\":\\\"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000\\\",\\\"fee_recipient\\\":\\\"inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8\\\",\\\"price\\\":\\\"0.000000000300000000\\\",\\\"quantity\\\":\\\"5000000000000000000.000000000000000000\\\"},\\\"order_type\\\":\\\"BUY\\\",\\\"fillable\\\":\\\"5000000000000000000.000000000000000000\\\",\\\"trigger_price\\\":\\\"0.000000000000000000\\\",\\\"order_hash\\\":\\\"OxnZVKa7v3wjPKVUVSUHG1CrJFGqJU6HBa9sjf3VdyI=\\\"}\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/injective.exchange.v1beta1.MsgBatchUpdateOrders\"}]}]}]",
-"logs": {
-  "events": {
-    "type": "injective.exchange.v1beta1.EventCancelDerivativeOrder",
-    "attributes": {
-      "key": "market_id",
-      "value": "\"0x1f73e21972972c69c03fb105a5864592ac2b47996ffea3c500d1ea2d20138717\""
-    },
-    "attributes": {
-      "key": "isLimitCancel",
-      "value": "true"
-    },
-    "attributes": {
-      "key": "limit_order",
-      "value": "{\"order_info\":{\"subaccount_id\":\"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000\",\"fee_recipient\":\"inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8\",\"price\":\"20000000.000000000000000000\",\"quantity\":\"5.000000000000000000\"},\"order_type\":\"BUY\",\"margin\":\"75000000.000000000000000000\",\"fillable\":\"5.000000000000000000\",\"trigger_price\":\"0.000000000000000000\",\"order_hash\":\"cm93WUZipQ+wguDgqjE/3z8WQ4u60rDnMVXHzgtwRoU=\"}"
-    },
-    "attributes": {
-      "key": "market_order_cancel",
-      "value": "null"
-    }
-  },
-  "events": {
-    "type": "injective.exchange.v1beta1.EventCancelSpotOrder",
-    "attributes": {
-      "key": "market_id",
-      "value": "\"0x74b17b0d6855feba39f1f7ab1e8bad0363bd510ee1dcc74e40c2adfe1502f781\""
-    },
-    "attributes": {
-      "key": "order",
-      "value": "{\"order_info\":{\"subaccount_id\":\"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000\",\"fee_recipient\":\"inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8\",\"price\":\"0.000000000300000000\",\"quantity\":\"5000000000000000000.000000000000000000\"},\"order_type\":\"BUY\",\"fillable\":\"5000000000000000000.000000000000000000\",\"trigger_price\":\"0.000000000000000000\",\"order_hash\":\"OxnZVKa7v3wjPKVUVSUHG1CrJFGqJU6HBa9sjf3VdyI=\"}"
-    }
-  },
-  "events": {
-    "type": "message",
-    "attributes": {
-      "key": "action",
-      "value": "/injective.exchange.v1beta1.MsgBatchUpdateOrders"
-    }
-  }
-},
-"gas_wanted": 202244,
-"gas_used": 199321,
-
-"tx msg response"
-"spot_cancel_success": true,
-"spot_cancel_success": false,
-"derivative_cancel_success": true,
-"derivative_cancel_success": false,
-"spot_order_hashes": "0x7af962ba1880edc4d45fa66b64f169f9f654df0d54fd10a5bd9da0510f4a7727",
-"spot_order_hashes": "0x1c400acc9ca1a3f2cb2a98d35bc252753e5931f762b337410750be327189922f",
-"derivative_order_hashes": "0x11f3c2aed7ed892a1cbf280534b7b2eaafe0bc7f8078b79e7d2c331b49547d99",
-"derivative_order_hashes": ""
+gas wanted: 271144
 ```
 
 ```go
@@ -1518,11 +1489,15 @@ DEBU[0003] nonce incremented to 3002                     fn=func1 src="client/ch
 > Request Example:
 
 ``` python
+import asyncio
+import logging
+
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
-from pyinjective.wallet import PrivateKey, PublicKey, Address
+from pyinjective.wallet import PrivateKey
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -1534,13 +1509,13 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
-    pub_key =  priv_key.to_public_key()
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
+    pub_key = priv_key.to_public_key()
     address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
     subaccount_id = address.get_subaccount_id(index=0)
-    
+
     # prepare trade info
-    market_id = "0x0f4209dbe160ce7b09559c69012d2f5fd73070f8552699a9b77aebda16ccdeb1"
+    market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
 
     # prepare tx msg
     msg = composer.MsgIncreasePositionMargin(
@@ -1571,24 +1546,24 @@ async def main() -> None:
 
     # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 20000 # add 20k for gas, fee computation
+    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    
     tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.send_tx_block_mode(tx_raw_bytes)
-    res_msg = ProtoMsgComposer.MsgResponses(res.data)
-    print("tx response")
+    res = await client.send_tx_sync_mode(tx_raw_bytes)
     print(res)
-    print("tx msg response")
-    print(res_msg)
+    print("gas wanted: {}".format(gas_limit))
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -1683,21 +1658,10 @@ func main() {
 > Response Example:
 
 ``` python
-"height": "8735988",
-"txhash": "54AA465B6FEABE1A08BDD0AD156D5FE9E4AE43AF453CE6E5B6449D233BAEA05F",
-"data": "0A370A352F696E6A6563746976652E65786368616E67652E763162657461312E4D7367496E637265617365506F736974696F6E4D617267696E",
-"raw_log": "[{\"events\":[{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/injective.exchange.v1beta1.MsgIncreasePositionMargin\"}]}]}]",
-"logs": {
-  "events": {
-    "type": "message",
-    "attributes": {
-      "key": "action",
-      "value": "/injective.exchange.v1beta1.MsgIncreasePositionMargin"
-    }
-  }
-},
-"gas_wanted": "200000",
-"gas_used": "91580"
+txhash: "72E3189EA77F87DACA2AA57B5CDA6577AD080C8D21F566B23EBA6FEE96A7A2B3"
+raw_log: "[]"
+
+gas wanted: 106585
 ```
 
 ```go
@@ -1725,7 +1689,7 @@ from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
-from pyinjective.wallet import PrivateKey, PublicKey, Address
+from pyinjective.wallet import PrivateKey
 from pyinjective.orderhash import compute_order_hashes
 
 
@@ -1830,7 +1794,7 @@ async def main() -> None:
 
     # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 20000  # add 15k for gas, fee computation
+    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
@@ -1842,11 +1806,12 @@ async def main() -> None:
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = await client.send_tx_sync_mode(tx_raw_bytes)
-    res_msg = ProtoMsgComposer.MsgResponses(res.data)
-    print("tx response")
     print(res)
-    print("tx msg response")
-    print(res_msg)
+    print("gas wanted: {}".format(gas_limit))
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -1995,14 +1960,12 @@ func main() {
 > Response Example:
 
 ``` python
-computed spot order hashes ['0x2d6b636de9dd3c1ed2e94765df558bd87d9b431ae669e248d3e2df607f069fb9', '0xe48258021f295ec61e6d94aeb87615a33221f007555cea29ab64f6be90531878']
-computed derivative order hashes ['0xb09b98289cec971c7a544c083d5b0aec7ea0c40a09dea330c3dca1ef9edd6a84', '0x76752ee736b60e64ba2bbfb5050ea94988cfd90cf13e1680345c57ac2033967d']
-tx response
-txhash: "577887F6C88F40145F6C443920BA774A8040CF91FCFBC9F7CA836142358289CF"
+computed spot order hashes ['0x0948a926858d164c617ec37364520f066c78e8d062762800f9dba19ddc47306c', '0x0842d977a939e9e51c972239c04e1f7a9a304f795bf49b20f124e270579821d6']
+computed derivative order hashes ['0xc7443c51d66c71e4dbe1c8eac1cfd0df1969cf92e0e74d693f0a8a41677cd436', '0x44b4c1bdb0e907fbf75999f393c9e38f6620945c60737c16822de43e68c9d194']
+txhash: "D1F6AAB5675974B54EFE0A99A75B1EAFB2DC20DB20E8AA8EB9A7E718749FEDA4"
 raw_log: "[]"
 
-tx msg response
-[]
+gas wanted: 227264
 ```
 
 ```go
