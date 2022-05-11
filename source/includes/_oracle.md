@@ -7,11 +7,15 @@ Includes the message to relay a price feed.
 > Request Example:
 
 ``` python
+import asyncio
+import logging
+
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
-from pyinjective.wallet import PrivateKey, PublicKey, Address
+from pyinjective.wallet import PrivateKey
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -23,19 +27,22 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
-    pub_key =  priv_key.to_public_key()
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
+    pub_key = priv_key.to_public_key()
     address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
-    
-    price = 100
+
     quote_decimals = 18
+    price = 100
+    price_to_send = [str(int(price * 10 ** quote_decimals))]
+    base = ["BAYC"]
+    quote = ["WETH"]
 
     # prepare tx msg
     msg = composer.MsgRelayPriceFeedPrice(
         sender=address.to_acc_bech32(),
-        price=[str(int(price * pow(10, quote_decimals)))],
-        base=["BAYC"],
-        quote=["WETH"]
+        price=price_to_send,
+        base=base,
+        quote=quote
     )
 
     # build sim tx
@@ -63,16 +70,19 @@ async def main() -> None:
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
     )]
-    
     tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.send_tx_block_mode(tx_raw_bytes)
-    res_msg = ProtoMsgComposer.MsgResponses(res.data)
+    res = await client.send_tx_sync_mode(tx_raw_bytes)
     print(res)
+    print("gas wanted: {}".format(gas_limit))
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -169,40 +179,10 @@ func main() {
 > Response Example:
 
 ``` python
-"height": 1433865,
-"txhash": "1248012FD21D87752212389CA5F715566578A0ACB58D77ADB25806018B24216F",
-"data": "0A320A302F696E6A6563746976652E6F7261636C652E763162657461312E4D736752656C61795072696365466565645072696365",
-"raw_log": "[{\"events\":[{\"type\":\"injective.oracle.v1beta1.SetPriceFeedPriceEvent\",\"attributes\":[{\"key\":\"relayer\",\"value\":\"\\\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\\\"\"},{\"key\":\"base\",\"value\":\"\\\"BAYC\\\"\"},{\"key\":\"quote\",\"value\":\"\\\"WETH\\\"\"},{\"key\":\"price\",\"value\":\"\\\"100.000000000000000000\\\"\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/injective.oracle.v1beta1.MsgRelayPriceFeedPrice\"}]}]}]",
-"logs": {
-  "events": {
-    "type": "injective.oracle.v1beta1.SetPriceFeedPriceEvent",
-    "attributes": {
-      "key": "relayer",
-      "value": "\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\""
-    },
-    "attributes": {
-      "key": "base",
-      "value": "\"BAYC\""
-    },
-    "attributes": {
-      "key": "quote",
-      "value": "\"WETH\""
-    },
-    "attributes": {
-      "key": "price",
-      "value": "\"100.000000000000000000\""
-    }
-  },
-  "events": {
-    "type": "message",
-    "attributes": {
-      "key": "action",
-      "value": "/injective.oracle.v1beta1.MsgRelayPriceFeedPrice"
-    }
-  }
-},
-"gas_wanted": 89097,
-"gas_used": 84566
+txhash: "EBBFBF7C9FC3EEB10DD57D854D504248727CA209E7B4FD8754D030AB6A0CF098"
+raw_log: "[]"
+
+gas wanted: 93450
 ```
 
 ```go
