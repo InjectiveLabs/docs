@@ -60,7 +60,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 (async () => {
   const network = getNetworkInfo(Network.Testnet);
 
-  const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+  const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce";
 
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
@@ -69,6 +69,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
   console.log(protoObjectToJson(market, {}));
 })();
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -267,6 +268,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
   console.log(protoObjectToJson(markets, {}));
 })();
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -453,7 +455,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 (async () => {
   const network = getNetworkInfo(Network.Testnet);
 
-  const marketIds = ["0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"]
+  const marketIds = ["0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"];
 
   const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
     network.exchangeApi
@@ -470,6 +472,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
       },
     });
 })();
+
 ```
 
 ### Response Parameters
@@ -648,7 +651,12 @@ import {protoObjectToJson, DerivativeOrderSide, ExchangeClient} from "@injective
 
   const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce";
   const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000";
-  const orderSide = DerivativeOrderSide.Buy
+  const orderSide = DerivativeOrderSide.Buy;
+  const pagination = {
+    skip: 0,
+    limit: 10,
+    key: ""
+  };
 
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
@@ -656,7 +664,8 @@ import {protoObjectToJson, DerivativeOrderSide, ExchangeClient} from "@injective
   const orders = await exchangeClient.derivativesApi.fetchDerivativeOrders({
     marketId: marketId,
     subaccountId: subaccountId,
-    orderSide: orderSide
+    orderSide: orderSide,
+    pagination: pagination,
   });
 
   console.log(protoObjectToJson(orders, {}));
@@ -837,6 +846,7 @@ import { protoObjectToJson, DerivativeOrderSide, ExchangeClient } from "@injecti
       },
     });
 })();
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -995,8 +1005,11 @@ import { protoObjectToJson, TradeExecutionSide, TradeDirection, ExchangeClient }
   const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000";
   const executionSide = TradeExecutionSide.Maker;
   const direction = TradeDirection.Buy;
-  const skip = 0;
-  const limit = 10;
+  const pagination = {
+    skip: 0,
+    limit: 10,
+    key: ""
+  };
 
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
@@ -1007,13 +1020,13 @@ import { protoObjectToJson, TradeExecutionSide, TradeDirection, ExchangeClient }
       subaccountId: subaccountId,
       executionSide: executionSide,
       direction: direction,
-      skip: skip,
-      limit: limit,
+      pagination: pagination,
     }
   );
 
   console.log(protoObjectToJson(trades, {}));
 })();
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -1188,8 +1201,11 @@ import {protoObjectToJson, ExchangeClient, TradeDirection, TradeExecutionSide} f
   const subaccountIds = ["0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"];
   const executionSide = TradeExecutionSide.Maker;
   const direction = TradeDirection.Buy;
-  const skip = 0;
-  const limit = 10;
+  const pagination = {
+    skip: 0,
+    limit: 10,
+    key: ""
+  };
 
   const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
     network.exchangeApi
@@ -1201,8 +1217,7 @@ import {protoObjectToJson, ExchangeClient, TradeDirection, TradeExecutionSide} f
       subaccountIds: subaccountIds,
       executionSide: executionSide,
       direction: direction,
-      skip: skip,
-      limit: limit,
+      pagination: pagination,
       callback: (streamDerivativeTrades) => {
         console.log(protoObjectToJson(streamDerivativeTrades, {}));
       },
@@ -1211,6 +1226,7 @@ import {protoObjectToJson, ExchangeClient, TradeDirection, TradeExecutionSide} f
       },
     });
 })();
+
 
 ```
 
@@ -1375,6 +1391,11 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
   const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce";
   const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000";
+  const pagination = {
+    skip: 0,
+    limit: 10,
+    key: ""
+  };
 
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
@@ -1382,11 +1403,13 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
   const positions = await exchangeClient.derivativesApi.fetchDerivativePositions(
     {
       marketId: marketId,
-      subaccountId: subaccountId
+      subaccountId: subaccountId,
+      pagination: pagination,
   });
 
   console.log(protoObjectToJson(positions, {}));
 })();
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -1685,6 +1708,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
   console.log(protoObjectToJson(orderbook, {}));
 })();
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -1814,10 +1838,11 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
   );
-  const market = await exchangeClient.derivativesApi.fetchDerivativeOrderbooks({marketIds});
+  const market = await exchangeClient.derivativesApi.fetchDerivativeOrderbooks(marketIds);
 
   console.log(protoObjectToJson(market, {}));
 })();
+
 ```
 
 |Parameter|Type|Description|Required|
