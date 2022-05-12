@@ -61,7 +61,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 (async () => {
   const network = getNetworkInfo(Network.Testnet);
-  const accountAddress = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+  const accountAddress = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku";
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
   );
@@ -170,17 +170,26 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
     "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
   const denom = "inj";
   const transferTypes = ["deposit"];
+  const pagination = {
+    skip: 0,
+    limit: 10,
+    key: ""
+  };
+
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
   );
   const subaccountHistory = await exchangeClient.accountApi.fetchSubaccountHistory(
     {
-      subaccountId,
-      denom,
-      transferTypes });
+      subaccountId: subaccountId,
+      denom: denom,
+      transferTypes: transferTypes,
+      pagination: pagination,
+    });
 
   console.log(protoObjectToJson(subaccountHistory, {}));
 })();
+
 ```
 
 
@@ -425,16 +434,17 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 (async () => {
   const network = getNetworkInfo(Network.Testnet);
-  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+  const accountAddress = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku";
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
   );
-  const subaccountBalancesList = await exchangeClient.accountApi.fetchSubaccountBalancesList(
-    subaccountId
+  const subaccountLists = await exchangeClient.accountApi.fetchSubaccountsList(
+    accountAddress
   );
 
-  console.log(protoObjectToJson(subaccountBalancesList, {}));
+  console.log(protoObjectToJson(subaccountLists, {}));
 })();
+
 ```
 
 
@@ -572,9 +582,9 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 (async () => {
   const network = getNetworkInfo(Network.Testnet);
-  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  const orderDirection = "buy"
+  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
+  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
+  const orderDirection = "buy";
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
   );
@@ -588,6 +598,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
   console.log(protoObjectToJson(subaccountOrderSummary, {}));
 })();
+
 
 ````
 
@@ -818,8 +829,8 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 (async () => {
   const network = getNetworkInfo(Network.Testnet);
-  const spotOrderHashes = ["0xbae2927fbc4fd12c70eb7f41fb69b28eeceabbad68fecf4547df7c9dba5eb816"]
-  const derivativeOrderHashes = ["0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50"]
+  const spotOrderHashes = ["0xbae2927fbc4fd12c70eb7f41fb69b28eeceabbad68fecf4547df7c9dba5eb816"];
+  const derivativeOrderHashes = ["0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50"];
 
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
@@ -992,7 +1003,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 (async () => {
   const network = getNetworkInfo(Network.Testnet);
-  const accountAddress = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+  const accountAddress = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku";
 
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
@@ -1107,7 +1118,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 (async () => {
   const network = getNetworkInfo(Network.Testnet);
-  const address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+  const address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku";
   const epoch = -1;
 
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(

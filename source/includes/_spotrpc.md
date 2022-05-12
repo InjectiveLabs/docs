@@ -62,7 +62,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 (async () => {
   const network = getNetworkInfo(Network.Testnet);
 
-  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
 
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
@@ -71,6 +71,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
   console.log(protoObjectToJson(market, {}));
 })();
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -220,20 +221,19 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
   const network = getNetworkInfo(Network.Testnet);
 
   const marketStatus = "active";
-  const quoteDenom = "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+  const quoteDenom = "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7";
 
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
   );
-  const markets = await exchangeClient.spotApi.fetchSpotMarkets(
-    {
-      marketStatus,
-      quoteDenom
-    }
-  );
+  const markets = await exchangeClient.spotApi.fetchSpotMarkets({
+    marketStatus: marketStatus,
+    quoteDenom: quoteDenom,
+  })
 
   console.log(protoObjectToJson(markets, {}));
 })();
+
 ```
 
 
@@ -385,7 +385,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 (async () => {
   const network = getNetworkInfo(Network.Testnet);
-  const marketIds = ["0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"]
+  const marketIds = ["0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"];
 
   const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
     network.exchangeApi
@@ -545,9 +545,14 @@ import { protoObjectToJson, SpotOrderSide, ExchangeClient } from "@injectivelabs
 (async () => {
   const network = getNetworkInfo(Network.Testnet);
 
-  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  const orderSide = SpotOrderSide.Buy
+  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
+  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
+  const orderSide = SpotOrderSide.Buy;
+  const pagination = {
+    skip: 0,
+    limit: 10,
+    key: ""
+  };
 
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
@@ -557,11 +562,13 @@ import { protoObjectToJson, SpotOrderSide, ExchangeClient } from "@injectivelabs
       marketId: marketId,
       subaccountId: subaccountId,
       orderSide: orderSide,
+      pagination: pagination,
     }
   );
 
   console.log(protoObjectToJson(market, {}));
 })();
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -899,11 +906,12 @@ import { protoObjectToJson, TradeExecutionSide, TradeDirection, ExchangeClient }
       marketId: marketId,
       subaccountId: subaccountId,
       direction: direction,
-      executionSide: executionSide
+      executionSide: executionSide,
   });
 
   console.log(protoObjectToJson(market, {}));
 })();
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -1074,8 +1082,11 @@ import { protoObjectToJson, TradeExecutionSide, TradeDirection, ExchangeClient }
   const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000";
   const direction = TradeDirection.Buy;
   const executionSide = TradeExecutionSide.Maker;
-  const limit = 0;
-  const skip = 0;
+  const pagination = {
+    skip: 0,
+    limit: 10,
+    key: ""
+  };
 
   const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
     network.exchangeApi
@@ -1086,8 +1097,7 @@ import { protoObjectToJson, TradeExecutionSide, TradeDirection, ExchangeClient }
       marketId: marketId,
       direction: direction,
       subaccountId: subaccountId,
-      skip: skip,
-      limit: limit,
+      pagination: pagination,
       executionSide: executionSide,
       callback: (streamSpotTrades) => {
         console.log(protoObjectToJson(streamSpotTrades, {}));
@@ -1226,7 +1236,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 (async () => {
   const network = getNetworkInfo(Network.Testnet);
 
-  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
 
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
@@ -1235,6 +1245,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
   console.log(protoObjectToJson(market, {}));
 })();
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -1362,15 +1373,16 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 (async () => {
   const network = getNetworkInfo(Network.Testnet);
 
-  const marketIds = ["0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"]
+  const marketIds = ["0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"];
 
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
   );
-  const market = await exchangeClient.spotApi.fetchSpotOrderbooks({marketIds});
+  const market = await exchangeClient.spotApi.fetchSpotOrderbooks(marketIds);
 
   console.log(protoObjectToJson(market, {}));
 })();
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -1657,21 +1669,27 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 (async () => {
   const network = getNetworkInfo(Network.Testnet);
 
-  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-
+  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
+  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
+  const pagination = {
+    skip: 0,
+    limit: 10,
+    key: ""
+  };
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
   );
   const market = await exchangeClient.spotApi.fetchSpotSubaccountOrdersList(
     {
       subaccountId: subaccountId,
-      marketId: marketId
+      marketId: marketId,
+      pagination: pagination,
     }
   );
 
   console.log(protoObjectToJson(market, {}));
 })();
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -1813,6 +1831,11 @@ import { protoObjectToJson, TradeExecutionType, TradeDirection, ExchangeClient }
   const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
   const direction = TradeDirection.Buy;
   const executionType = TradeExecutionType.Market;
+  const pagination = {
+    skip: 0,
+    limit: 10,
+    key: ""
+  };
 
   const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
     network.exchangeApi
@@ -1822,12 +1845,14 @@ import { protoObjectToJson, TradeExecutionType, TradeDirection, ExchangeClient }
       subaccountId: subaccountId,
       marketId: marketId,
       direction: direction,
-      executionType: executionType
+      executionType: executionType,
+      pagination: pagination,
     }
   );
 
   console.log(protoObjectToJson(market, {}));
 })();
+
 ```
 
 |Parameter|Type|Description|Required|
