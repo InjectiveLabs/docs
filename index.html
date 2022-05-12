@@ -1699,7 +1699,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
-  <span class="kd">const</span> <span class="nx">accountAddress</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">accountAddress</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="dl">"</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
   <span class="p">);</span>
@@ -1816,17 +1816,26 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">denom</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">inj</span><span class="dl">"</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">transferTypes</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">deposit</span><span class="dl">"</span><span class="p">];</span>
+  <span class="kd">const</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">skip</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">limit</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="na">key</span><span class="p">:</span> <span class="dl">""</span>
+  <span class="p">};</span>
+
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
   <span class="p">);</span>
   <span class="kd">const</span> <span class="nx">subaccountHistory</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">accountApi</span><span class="p">.</span><span class="nx">fetchSubaccountHistory</span><span class="p">(</span>
     <span class="p">{</span>
-      <span class="nx">subaccountId</span><span class="p">,</span>
-      <span class="nx">denom</span><span class="p">,</span>
-      <span class="nx">transferTypes</span> <span class="p">});</span>
+      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
+      <span class="na">denom</span><span class="p">:</span> <span class="nx">denom</span><span class="p">,</span>
+      <span class="na">transferTypes</span><span class="p">:</span> <span class="nx">transferTypes</span><span class="p">,</span>
+      <span class="na">pagination</span><span class="p">:</span> <span class="nx">pagination</span><span class="p">,</span>
+    <span class="p">});</span>
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">subaccountHistory</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -2184,16 +2193,17 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
-  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">accountAddress</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="dl">"</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
   <span class="p">);</span>
-  <span class="kd">const</span> <span class="nx">subaccountBalancesList</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">accountApi</span><span class="p">.</span><span class="nx">fetchSubaccountBalancesList</span><span class="p">(</span>
-    <span class="nx">subaccountId</span>
+  <span class="kd">const</span> <span class="nx">subaccountLists</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">accountApi</span><span class="p">.</span><span class="nx">fetchSubaccountsList</span><span class="p">(</span>
+    <span class="nx">accountAddress</span>
   <span class="p">);</span>
 
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">subaccountBalancesList</span><span class="p">,</span> <span class="p">{}));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">subaccountLists</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -2374,9 +2384,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
-  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span>
-  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span>
-  <span class="kd">const</span> <span class="nx">orderDirection</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">orderDirection</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
   <span class="p">);</span>
@@ -2390,6 +2400,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">subaccountOrderSummary</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 
 </code></pre></div>
 <table><thead>
@@ -2687,8 +2698,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
-  <span class="kd">const</span> <span class="nx">spotOrderHashes</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0xbae2927fbc4fd12c70eb7f41fb69b28eeceabbad68fecf4547df7c9dba5eb816</span><span class="dl">"</span><span class="p">]</span>
-  <span class="kd">const</span> <span class="nx">derivativeOrderHashes</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50</span><span class="dl">"</span><span class="p">]</span>
+  <span class="kd">const</span> <span class="nx">spotOrderHashes</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0xbae2927fbc4fd12c70eb7f41fb69b28eeceabbad68fecf4547df7c9dba5eb816</span><span class="dl">"</span><span class="p">];</span>
+  <span class="kd">const</span> <span class="nx">derivativeOrderHashes</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50</span><span class="dl">"</span><span class="p">];</span>
 
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
@@ -2969,7 +2980,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
-  <span class="kd">const</span> <span class="nx">accountAddress</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">accountAddress</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="dl">"</span><span class="p">;</span>
 
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
@@ -3107,7 +3118,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
-  <span class="kd">const</span> <span class="nx">address</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">address</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="dl">"</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">epoch</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
 
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
@@ -3242,7 +3253,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span><span class="p">;</span>
 
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
@@ -3251,6 +3262,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -3490,20 +3502,19 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
 
   <span class="kd">const</span> <span class="nx">marketStatus</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">active</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">quoteDenom</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">quoteDenom</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">;</span>
 
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
   <span class="p">);</span>
-  <span class="kd">const</span> <span class="nx">markets</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spotApi</span><span class="p">.</span><span class="nx">fetchSpotMarkets</span><span class="p">(</span>
-    <span class="p">{</span>
-      <span class="nx">marketStatus</span><span class="p">,</span>
-      <span class="nx">quoteDenom</span>
-    <span class="p">}</span>
-  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">markets</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spotApi</span><span class="p">.</span><span class="nx">fetchSpotMarkets</span><span class="p">({</span>
+    <span class="na">marketStatus</span><span class="p">:</span> <span class="nx">marketStatus</span><span class="p">,</span>
+    <span class="na">quoteDenom</span><span class="p">:</span> <span class="nx">quoteDenom</span><span class="p">,</span>
+  <span class="p">})</span>
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">markets</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -3754,7 +3765,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
-  <span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">]</span>
+  <span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">];</span>
 
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
@@ -4001,9 +4012,14 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span>
-  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span>
-  <span class="kd">const</span> <span class="nx">orderSide</span> <span class="o">=</span> <span class="nx">SpotOrderSide</span><span class="p">.</span><span class="nx">Buy</span>
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">orderSide</span> <span class="o">=</span> <span class="nx">SpotOrderSide</span><span class="p">.</span><span class="nx">Buy</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">skip</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">limit</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="na">key</span><span class="p">:</span> <span class="dl">""</span>
+  <span class="p">};</span>
 
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
@@ -4013,11 +4029,13 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
       <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
       <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
       <span class="na">orderSide</span><span class="p">:</span> <span class="nx">orderSide</span><span class="p">,</span>
+      <span class="na">pagination</span><span class="p">:</span> <span class="nx">pagination</span><span class="p">,</span>
     <span class="p">}</span>
   <span class="p">);</span>
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -4507,11 +4525,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
       <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
       <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
       <span class="na">direction</span><span class="p">:</span> <span class="nx">direction</span><span class="p">,</span>
-      <span class="na">executionSide</span><span class="p">:</span> <span class="nx">executionSide</span>
+      <span class="na">executionSide</span><span class="p">:</span> <span class="nx">executionSide</span><span class="p">,</span>
   <span class="p">});</span>
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -4775,8 +4794,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">direction</span> <span class="o">=</span> <span class="nx">TradeDirection</span><span class="p">.</span><span class="nx">Buy</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">executionSide</span> <span class="o">=</span> <span class="nx">TradeExecutionSide</span><span class="p">.</span><span class="nx">Maker</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">limit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">skip</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">skip</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">limit</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="na">key</span><span class="p">:</span> <span class="dl">""</span>
+  <span class="p">};</span>
 
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
@@ -4787,8 +4809,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
       <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
       <span class="na">direction</span><span class="p">:</span> <span class="nx">direction</span><span class="p">,</span>
       <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
-      <span class="na">skip</span><span class="p">:</span> <span class="nx">skip</span><span class="p">,</span>
-      <span class="na">limit</span><span class="p">:</span> <span class="nx">limit</span><span class="p">,</span>
+      <span class="na">pagination</span><span class="p">:</span> <span class="nx">pagination</span><span class="p">,</span>
       <span class="na">executionSide</span><span class="p">:</span> <span class="nx">executionSide</span><span class="p">,</span>
       <span class="na">callback</span><span class="p">:</span> <span class="p">(</span><span class="nx">streamSpotTrades</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">streamSpotTrades</span><span class="p">,</span> <span class="p">{}));</span>
@@ -5037,7 +5058,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span><span class="p">;</span>
 
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
@@ -5046,6 +5067,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -5212,15 +5234,16 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span><span class="p">]</span>
+  <span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span><span class="p">];</span>
 
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
   <span class="p">);</span>
-  <span class="kd">const</span> <span class="nx">market</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spotApi</span><span class="p">.</span><span class="nx">fetchSpotOrderbooks</span><span class="p">({</span><span class="nx">marketIds</span><span class="p">});</span>
+  <span class="kd">const</span> <span class="nx">market</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spotApi</span><span class="p">.</span><span class="nx">fetchSpotOrderbooks</span><span class="p">(</span><span class="nx">marketIds</span><span class="p">);</span>
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -5600,21 +5623,27 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span>
-  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span>
-
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">skip</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">limit</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="na">key</span><span class="p">:</span> <span class="dl">""</span>
+  <span class="p">};</span>
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
   <span class="p">);</span>
   <span class="kd">const</span> <span class="nx">market</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spotApi</span><span class="p">.</span><span class="nx">fetchSpotSubaccountOrdersList</span><span class="p">(</span>
     <span class="p">{</span>
       <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
-      <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span>
+      <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
+      <span class="na">pagination</span><span class="p">:</span> <span class="nx">pagination</span><span class="p">,</span>
     <span class="p">}</span>
   <span class="p">);</span>
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -5828,6 +5857,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">direction</span> <span class="o">=</span> <span class="nx">TradeDirection</span><span class="p">.</span><span class="nx">Buy</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">executionType</span> <span class="o">=</span> <span class="nx">TradeExecutionType</span><span class="p">.</span><span class="nx">Market</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">skip</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">limit</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="na">key</span><span class="p">:</span> <span class="dl">""</span>
+  <span class="p">};</span>
 
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
@@ -5837,12 +5871,14 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
       <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
       <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
       <span class="na">direction</span><span class="p">:</span> <span class="nx">direction</span><span class="p">,</span>
-      <span class="na">executionType</span><span class="p">:</span> <span class="nx">executionType</span>
+      <span class="na">executionType</span><span class="p">:</span> <span class="nx">executionType</span><span class="p">,</span>
+      <span class="na">pagination</span><span class="p">:</span> <span class="nx">pagination</span><span class="p">,</span>
     <span class="p">}</span>
   <span class="p">);</span>
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -6074,7 +6110,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span>
+  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
 
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
@@ -6083,6 +6119,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -6440,6 +6477,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">markets</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -6790,7 +6828,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">Testnet</span><span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">]</span>
+  <span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">];</span>
 
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
@@ -6807,6 +6845,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
       <span class="p">},</span>
     <span class="p">});</span>
 <span class="p">})();</span>
+
 </code></pre></div><h3 id='injectivederivativeexchangerpc-streammarket-response-parameters'>Response Parameters</h3>
 <blockquote>
 <p>Streaming Response Example:</p>
@@ -7134,7 +7173,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
   <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">orderSide</span> <span class="o">=</span> <span class="nx">DerivativeOrderSide</span><span class="p">.</span><span class="nx">Buy</span>
+  <span class="kd">const</span> <span class="nx">orderSide</span> <span class="o">=</span> <span class="nx">DerivativeOrderSide</span><span class="p">.</span><span class="nx">Buy</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">skip</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">limit</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="na">key</span><span class="p">:</span> <span class="dl">""</span>
+  <span class="p">};</span>
 
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
@@ -7142,7 +7186,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="kd">const</span> <span class="nx">orders</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesApi</span><span class="p">.</span><span class="nx">fetchDerivativeOrders</span><span class="p">({</span>
     <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
     <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
-    <span class="na">orderSide</span><span class="p">:</span> <span class="nx">orderSide</span>
+    <span class="na">orderSide</span><span class="p">:</span> <span class="nx">orderSide</span><span class="p">,</span>
+    <span class="na">pagination</span><span class="p">:</span> <span class="nx">pagination</span><span class="p">,</span>
   <span class="p">});</span>
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">orders</span><span class="p">,</span> <span class="p">{}));</span>
@@ -7412,6 +7457,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
       <span class="p">},</span>
     <span class="p">});</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7658,8 +7704,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">executionSide</span> <span class="o">=</span> <span class="nx">TradeExecutionSide</span><span class="p">.</span><span class="nx">Maker</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">direction</span> <span class="o">=</span> <span class="nx">TradeDirection</span><span class="p">.</span><span class="nx">Buy</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">skip</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">limit</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">skip</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">limit</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="na">key</span><span class="p">:</span> <span class="dl">""</span>
+  <span class="p">};</span>
 
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
@@ -7670,13 +7719,13 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
       <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
       <span class="na">executionSide</span><span class="p">:</span> <span class="nx">executionSide</span><span class="p">,</span>
       <span class="na">direction</span><span class="p">:</span> <span class="nx">direction</span><span class="p">,</span>
-      <span class="na">skip</span><span class="p">:</span> <span class="nx">skip</span><span class="p">,</span>
-      <span class="na">limit</span><span class="p">:</span> <span class="nx">limit</span><span class="p">,</span>
+      <span class="na">pagination</span><span class="p">:</span> <span class="nx">pagination</span><span class="p">,</span>
     <span class="p">}</span>
   <span class="p">);</span>
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">trades</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -7951,8 +8000,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="kd">const</span> <span class="nx">subaccountIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">];</span>
   <span class="kd">const</span> <span class="nx">executionSide</span> <span class="o">=</span> <span class="nx">TradeExecutionSide</span><span class="p">.</span><span class="nx">Maker</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">direction</span> <span class="o">=</span> <span class="nx">TradeDirection</span><span class="p">.</span><span class="nx">Buy</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">skip</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">limit</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">skip</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">limit</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="na">key</span><span class="p">:</span> <span class="dl">""</span>
+  <span class="p">};</span>
 
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
@@ -7964,8 +8016,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
       <span class="na">subaccountIds</span><span class="p">:</span> <span class="nx">subaccountIds</span><span class="p">,</span>
       <span class="na">executionSide</span><span class="p">:</span> <span class="nx">executionSide</span><span class="p">,</span>
       <span class="na">direction</span><span class="p">:</span> <span class="nx">direction</span><span class="p">,</span>
-      <span class="na">skip</span><span class="p">:</span> <span class="nx">skip</span><span class="p">,</span>
-      <span class="na">limit</span><span class="p">:</span> <span class="nx">limit</span><span class="p">,</span>
+      <span class="na">pagination</span><span class="p">:</span> <span class="nx">pagination</span><span class="p">,</span>
       <span class="na">callback</span><span class="p">:</span> <span class="p">(</span><span class="nx">streamDerivativeTrades</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">streamDerivativeTrades</span><span class="p">,</span> <span class="p">{}));</span>
       <span class="p">},</span>
@@ -7974,6 +8025,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
       <span class="p">},</span>
     <span class="p">});</span>
 <span class="p">})();</span>
+
 
 </code></pre></div>
 <table><thead>
@@ -8255,6 +8307,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
   <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">skip</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">limit</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="na">key</span><span class="p">:</span> <span class="dl">""</span>
+  <span class="p">};</span>
 
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
@@ -8262,11 +8319,13 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="kd">const</span> <span class="nx">positions</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesApi</span><span class="p">.</span><span class="nx">fetchDerivativePositions</span><span class="p">(</span>
     <span class="p">{</span>
       <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
-      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span>
+      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
+      <span class="na">pagination</span><span class="p">:</span> <span class="nx">pagination</span><span class="p">,</span>
   <span class="p">});</span>
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">positions</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -8700,6 +8759,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">orderbook</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -8868,10 +8928,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeClient</span><span class="p">.</span><span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
     <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
   <span class="p">);</span>
-  <span class="kd">const</span> <span class="nx">market</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesApi</span><span class="p">.</span><span class="nx">fetchDerivativeOrderbooks</span><span class="p">({</span><span class="nx">marketIds</span><span class="p">});</span>
+  <span class="kd">const</span> <span class="nx">market</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivativesApi</span><span class="p">.</span><span class="nx">fetchDerivativeOrderbooks</span><span class="p">(</span><span class="nx">marketIds</span><span class="p">);</span>
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -10197,6 +10258,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">oraclePrice</span><span class="p">,</span> <span class="p">{}));</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
