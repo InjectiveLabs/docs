@@ -78,6 +78,7 @@ async def main() -> None:
     # build tx
     gas_price = 500000000
     gas_limit = sim_res.gas_info.gas_used + 20000 # add 20k for gas, fee computation
+    gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
@@ -91,6 +92,7 @@ async def main() -> None:
     res = await client.send_tx_sync_mode(tx_raw_bytes)
     print(res)
     print("gas wanted: {}".format(gas_limit))
+    print("gas fee: {} INJ".format(gas_fee))
 
 
 if __name__ == "__main__":
@@ -106,16 +108,17 @@ import (
     "os"
     "time"
 
-    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+    "github.com/InjectiveLabs/sdk-go/client/common"
 
     chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-    "github.com/InjectiveLabs/sdk-go/client/common"
+    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
 )
 
 func main() {
     // network := common.LoadNetwork("mainnet", "k8s")
     network := common.LoadNetwork("testnet", "k8s")
     tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+
     if err != nil {
         fmt.Println(err)
     }
@@ -129,6 +132,7 @@ func main() {
         "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
         false,
     )
+
     if err != nil {
         panic(err)
     }
@@ -138,9 +142,11 @@ func main() {
         senderAddress.String(),
         cosmosKeyring,
     )
+
     if err != nil {
         fmt.Println(err)
     }
+
     clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
     chainClient, err := chainclient.NewChainClient(
@@ -149,6 +155,7 @@ func main() {
         common.OptionTLSCert(network.ChainTlsCert),
         common.OptionGasPrices("500000000inj"),
     )
+
     if err != nil {
         fmt.Println(err)
     }
@@ -161,7 +168,7 @@ func main() {
     //msgtype := "/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"
     //msg := chainClient.BuildGenericAuthz(granter, grantee, msgtype, expireIn)
 
-    //TYPED AUTHZ
+    // TYPED AUTHZ
     msg := chainClient.BuildExchangeAuthz(
         granter,
         grantee,
@@ -171,13 +178,24 @@ func main() {
         expireIn,
     )
 
+    //AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
     err = chainClient.QueueBroadcastMsg(msg)
+
     if err != nil {
         fmt.Println(err)
     }
-    time.Sleep(time.Second * 5)
-}
 
+    time.Sleep(time.Second * 5)
+
+    gasFee, err := chainClient.GetGasFee()
+
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    fmt.Println("gas fee:", gasFee, "INJ")
+}
 ```
 
 |Parameter|Type|Description|Required|
@@ -214,16 +232,19 @@ func main() {
 > Response Example:
 
 ``` python
-txhash: "827CDCBB52F51CD587148EB42F57EE3F00FB479E2788FBB82A2FA1D5BAF578E3"
+txhash: "ACD8E18DF357E28821B2931C4138971F805967485AE48FED2A808112F630D7E9"
 raw_log: "[]"
 
 gas wanted: 96103
+gas fee: 0.0000480515 INJ
 ```
 
 ```go
-DEBU[0001] broadcastTx with nonce 3001                   fn=func1 src="client/chain/chain.go:482"
-DEBU[0003] msg batch committed successfully at height 3663646  fn=func1 src="client/chain/chain.go:503" txHash=F4340E4A11EFE2685C604147FBDB6703D8C704525046D651934B7C667F55A241
-DEBU[0003] nonce incremented to 3002                     fn=func1 src="client/chain/chain.go:507"
+DEBU[0001] broadcastTx with nonce 3509                   fn=func1 src="client/chain/chain.go:598"
+DEBU[0003] msg batch committed successfully at height 5214837  fn=func1 src="client/chain/chain.go:619" txHash=1F1FD519002B85C68CAE5593FDDB11FD749F918D5BBCA5F10E8AF6CFF0C5090A
+DEBU[0003] nonce incremented to 3510                     fn=func1 src="client/chain/chain.go:623"
+DEBU[0003] gas wanted:  117873                           fn=func1 src="client/chain/chain.go:624"
+gas fee: 0.0000589365 INJ
 ```
 
 ## MsgExec
@@ -298,12 +319,13 @@ async def main() -> None:
         return
 
     sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res.result.data, simulation=True)
-    print("simulation msg response")
+    print("---Simulation Response---")
     print(sim_res_msg)
 
     # build tx
     gas_price = 500000000
     gas_limit = sim_res.gas_info.gas_used + 20000 # add 20k for gas, fee computation
+    gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
@@ -315,8 +337,10 @@ async def main() -> None:
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = await client.send_tx_sync_mode(tx_raw_bytes)
+    print("---Transaction Response---")
     print(res)
     print("gas wanted: {}".format(gas_limit))
+    print("gas fee: {} INJ".format(gas_fee))
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
@@ -331,24 +355,38 @@ import (
     "os"
     "time"
 
-    codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-    cosmtypes "github.com/cosmos/cosmos-sdk/types"
-    sdk "github.com/cosmos/cosmos-sdk/types"
-    authztypes "github.com/cosmos/cosmos-sdk/x/authz"
+    "github.com/InjectiveLabs/sdk-go/client/common"
     "github.com/shopspring/decimal"
-    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
 
     exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
     chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-    "github.com/InjectiveLabs/sdk-go/client/common"
+    codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+    sdk "github.com/cosmos/cosmos-sdk/types"
+    authztypes "github.com/cosmos/cosmos-sdk/x/authz"
+    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
 )
 
 func main() {
     // network := common.LoadNetwork("mainnet", "k8s")
     network := common.LoadNetwork("testnet", "k8s")
     tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+
     if err != nil {
         fmt.Println(err)
+    }
+
+    granterAddress, _, err := chainclient.InitCosmosKeyring(
+        os.Getenv("HOME")+"/.injectived",
+        "injectived",
+        "file",
+        "inj-user",
+        "12345678",
+        "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+        false,
+    )
+
+    if err != nil {
+        panic(err)
     }
 
     senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
@@ -375,7 +413,8 @@ func main() {
         fmt.Println(err)
     }
 
-    clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
+    clientCtx.WithNodeURI(network.TmEndpoint)
+    clientCtx = clientCtx.WithClient(tmRPC)
 
     chainClient, err := chainclient.NewChainClient(
         clientCtx,
@@ -383,24 +422,24 @@ func main() {
         common.OptionTLSCert(network.ChainTlsCert),
         common.OptionGasPrices("500000000inj"),
     )
+
     if err != nil {
         fmt.Println(err)
     }
 
     // note that we use grantee keyring to send the msg on behalf of granter here
     // sender, subaccount are from granter
-    granter := "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+    granter := granterAddress.String()
     grantee := "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-    granterAcc, _ := sdk.AccAddressFromBech32(granter)
-    defaultSubaccountID := chainClient.DefaultSubaccount(granterAcc)
+    defaultSubaccountID := chainClient.DefaultSubaccount(granterAddress)
 
     marketId := "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"
+
     amount := decimal.NewFromFloat(2)
-    price := cosmtypes.MustNewDecFromStr("22")
-    orderSize := chainClient.GetSpotQuantity(amount, cosmtypes.MustNewDecFromStr("10000"), 6)
-    order := chainClient.SpotOrder(defaultSubaccountID, &chainclient.SpotOrderData{
-        OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
-        Quantity:     orderSize,
+    price := decimal.NewFromFloat(22.55)
+    order := chainClient.SpotOrder(defaultSubaccountID, network, &chainclient.SpotOrderData{
+        OrderType:    exchangetypes.OrderType_BUY,
+        Quantity:     amount,
         Price:        price,
         FeeRecipient: senderAddress.String(),
         MarketId:     marketId,
@@ -415,12 +454,12 @@ func main() {
     msg0Any := &codectypes.Any{}
     msg0Any.TypeUrl = sdk.MsgTypeURL(&msg0)
     msg0Any.Value = msg0Bytes
-
     msg := &authztypes.MsgExec{
         Grantee: grantee,
         Msgs:    []*codectypes.Any{msg0Any},
     }
 
+    //AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
     err = chainClient.QueueBroadcastMsg(msg)
 
     if err != nil {
@@ -428,8 +467,16 @@ func main() {
     }
 
     time.Sleep(time.Second * 5)
-}
 
+    gasFee, err := chainClient.GetGasFee()
+
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    fmt.Println("gas fee:", gasFee, "INJ")
+}
 ```
 
 
@@ -441,19 +488,23 @@ func main() {
 > Response Example:
 
 ``` python
-simulation msg response
-[results: "\nB0xc09394c6ba9290fdc749c690b4f6114e5fffe0f1ca8366ad6701d70eefefe9bf"
+---Simulation Response---
+[results: "\nB0x7bd1785363eb01c0c9e1642d71645f75d198e70419b303c9e48e39af3e428bcf"
 ]
-txhash: "69EAEAD18E7FE2FDFD90033DA8922E1C12D64A8D0DEA4B3D01E1090FA9604300"
+---Transaction Response---
+txhash: "D8F84A91C189430E2219DBA72BFA64FD567240EAEFFE4296202A1D31835E2EE1"
 raw_log: "[]"
 
 gas wanted: 107030
+gas fee: 0.000053515 INJ
 ```
 
 ```go
-DEBU[0001] broadcastTx with nonce 3001                   fn=func1 src="client/chain/chain.go:482"
-DEBU[0003] msg batch committed successfully at height 3663646  fn=func1 src="client/chain/chain.go:503" txHash=5C2376EF69E1CBC0E85588BDFFBEDDBC38DE4D4CB1DE87950C6D1A83E7BDA59C
-DEBU[0003] nonce incremented to 3002                     fn=func1 src="client/chain/chain.go:507"
+DEBU[0002] broadcastTx with nonce 1313                   fn=func1 src="client/chain/chain.go:598"
+DEBU[0004] msg batch committed successfully at height 5214956  fn=func1 src="client/chain/chain.go:619" txHash=6968428F68F3F1380D9A059C964F0C39C943EBBCCD758E8541270DC3B4037A02
+DEBU[0004] nonce incremented to 1314                     fn=func1 src="client/chain/chain.go:623"
+DEBU[0004] gas wanted:  133972                           fn=func1 src="client/chain/chain.go:624"
+gas fee: 0.000066986 INJ
 ```
 
 ## MsgRevoke
@@ -515,6 +566,7 @@ async def main() -> None:
     # build tx
     gas_price = 500000000
     gas_limit = sim_res.gas_info.gas_used + 20000 # add 20k for gas, fee computation
+    gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
@@ -528,6 +580,7 @@ async def main() -> None:
     res = await client.send_tx_sync_mode(tx_raw_bytes)
     print(res)
     print("gas wanted: {}".format(gas_limit))
+    print("gas fee: {} INJ".format(gas_fee))
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
@@ -542,17 +595,18 @@ import (
     "os"
     "time"
 
-    authztypes "github.com/cosmos/cosmos-sdk/x/authz"
-    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+    "github.com/InjectiveLabs/sdk-go/client/common"
 
     chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-    "github.com/InjectiveLabs/sdk-go/client/common"
+    authztypes "github.com/cosmos/cosmos-sdk/x/authz"
+    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
 )
 
 func main() {
     // network := common.LoadNetwork("mainnet", "k8s")
     network := common.LoadNetwork("testnet", "k8s")
     tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+
     if err != nil {
         fmt.Println(err)
     }
@@ -603,6 +657,7 @@ func main() {
         fmt.Println(err)
     }
 
+    //AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
     err = chainClient.QueueBroadcastMsg(msg)
 
     if err != nil {
@@ -610,8 +665,16 @@ func main() {
     }
 
     time.Sleep(time.Second * 5)
-}
 
+    gasFee, err := chainClient.GetGasFee()
+
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    fmt.Println("gas fee:", gasFee, "INJ")
+}
 ```
 
 |Parameter|Type|Description|Required|
@@ -623,16 +686,19 @@ func main() {
 > Response Example:
 
 ``` python
-txhash: "3B045D33ECD497CAB85D8AF462588B532032B7E3569B57BD3CA1BC7FD415EBEE"
+txhash: "7E89656E1ED2E2A934B0A1D4DD1D4B228C15A50FDAEA0B97A67E9E27E1B22627"
 raw_log: "[]"
 
 gas wanted: 86490
+gas fee: 0.000043245 INJ
 ```
 
 ```go
-DEBU[0001] broadcastTx with nonce 3001                   fn=func1 src="client/chain/chain.go:482"
-DEBU[0003] msg batch committed successfully at height 3663646  fn=func1 src="client/chain/chain.go:503" txHash=43C9F83AB520B3CE18D210D8D45E49AF68D6A71E7A0E3F5E273A9EA929DFE540
-DEBU[0003] nonce incremented to 3002                     fn=func1 src="client/chain/chain.go:507"
+DEBU[0001] broadcastTx with nonce 3511                   fn=func1 src="client/chain/chain.go:598"
+DEBU[0003] msg batch committed successfully at height 5214972  fn=func1 src="client/chain/chain.go:619" txHash=CB15AC2B2722E5CFAA61234B3668043BA1333DAC728B875A77946EEE11FE48C2
+DEBU[0003] nonce incremented to 3512                     fn=func1 src="client/chain/chain.go:623"
+DEBU[0003] gas wanted:  103153                           fn=func1 src="client/chain/chain.go:624"
+gas fee: 0.0000515765 INJ
 ```
 
 
