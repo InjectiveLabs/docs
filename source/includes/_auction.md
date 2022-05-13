@@ -34,7 +34,7 @@ async def main() -> None:
     # prepare tx msg
     msg = composer.MsgBid(
         sender=address.to_acc_bech32(),
-        round=16250,
+        round=16572,
         bid_amount=1
     )
 
@@ -59,6 +59,7 @@ async def main() -> None:
     # build tx
     gas_price = 500000000
     gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
+    gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
@@ -72,6 +73,7 @@ async def main() -> None:
     res = await client.send_tx_sync_mode(tx_raw_bytes)
     print(res)
     print("gas wanted: {}".format(gas_limit))
+    print("gas fee: {} INJ".format(gas_fee))
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
@@ -86,18 +88,19 @@ import (
   "os"
   "time"
 
-  sdktypes "github.com/cosmos/cosmos-sdk/types"
-  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+  "github.com/InjectiveLabs/sdk-go/client/common"
 
   auctiontypes "github.com/InjectiveLabs/sdk-go/chain/auction/types"
   chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-  "github.com/InjectiveLabs/sdk-go/client/common"
+  sdktypes "github.com/cosmos/cosmos-sdk/types"
+  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
 )
 
 func main() {
   // network := common.LoadNetwork("mainnet", "k8s")
   network := common.LoadNetwork("testnet", "k8s")
   tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+
   if err != nil {
     fmt.Println(err)
   }
@@ -128,9 +131,9 @@ func main() {
 
   clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
-  round := uint64(9355)
+  round := uint64(16572)
   bidAmount := sdktypes.Coin{
-    Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
+    Denom: "inj", Amount: sdktypes.NewInt(2000000000000000000), // 2 INJ
   }
 
   msg := &auctiontypes.MsgBid{
@@ -150,6 +153,7 @@ func main() {
     fmt.Println(err)
   }
 
+  //AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
   err = chainClient.QueueBroadcastMsg(msg)
 
   if err != nil {
@@ -157,87 +161,19 @@ func main() {
   }
 
   time.Sleep(time.Second * 5)
-}
 
+  gasFee, err := chainClient.GetGasFee()
+
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+
+  fmt.Println("gas fee:", gasFee, "INJ")
+}
 ```
 
 ```typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import {
-  AuctionCore,
-  ChainClient,
-  PrivateKey,
-  BaseAccount,
-  TxInjective,
-  TxService,
-} from "@injectivelabs/sdk-ts";
-import { BigNumberInBase } from "@injectivelabs/utils";
-
-/** MsgBid Example */
-(async () => {
-  const network = getNetworkInfo(Network.Testnet);
-  const privateKey = PrivateKey.fromPrivateKey(
-    "241824dffdda13c05f5a0de30d3ac7511849005585d89f7a045368cded0e6271"
-  );
-  const injectiveAddress = privateKey.toBech32();
-
-  /** Account Details **/
-  const accountDetails = await new ChainClient.AuthRestApi(
-    network.sentryHttpApi
-  ).account(injectiveAddress);
-  const baseAccount = BaseAccount.fromRestApi(accountDetails);
-
-  /** Prepare the Message */
-  const auctionModuleState = await new ChainClient.AuctionApi(
-    network.sentryGrpcApi
-  ).moduleState();
-  const latestRound = auctionModuleState.getState()?.getAuctionRound();
-  const round = latestRound || 1;
-  const bid = 1; /** 1 INJ */
-  const amount = {
-    amount: new BigNumberInBase(bid).toWei().toFixed(),
-    denom: "inj",
-  };
-  const msg = new AuctionCore.MsgBid({
-    round,
-    amount,
-    injectiveAddress,
-  });
-
-  /** Prepare the Transaction **/
-  const txInjective = new TxInjective({
-    baseAccount,
-    msgs: [msg],
-    chainId: network.chainId,
-    address: injectiveAddress,
-  });
-
-  /** Sign transaction */
-  const signature = await privateKey.sign(txInjective.signBytes);
-  const signedTxInjective = txInjective.withSignature(signature);
-
-  /** Calculate hash of the transaction */
-  console.log(`Transaction Hash: ${signedTxInjective.getTxHash()}`);
-
-  const txService = new TxService({
-    txInjective: signedTxInjective,
-    endpoint: network.sentryGrpcApi,
-  });
-
-  /** Simulate transaction */
-  const simulationResponse = await txService.simulate();
-  console.log(
-    `Transaction simulation response: ${JSON.stringify(
-      simulationResponse.gasInfo
-    )}`
-  );
-
-  /** Broadcast transaction */
-  const txResponse = await txService.broadcast();
-  console.log(
-    `Broadcasted transaction hash: ${JSON.stringify(txResponse.txhash)}`
-  );
-})();
 
 ```
 
@@ -250,16 +186,19 @@ import { BigNumberInBase } from "@injectivelabs/utils";
 > Response Example:
 
 ``` python
-txhash: "9C5F94755773EDF9980F9F87C80AE0E6CD5AFB21C202E218E4E1D46AF0E2069A"
+txhash: "F18B1E6E39FAEA646F487C223DAE161482B1A12FC00C20D04A43826B8DD3E40F"
 raw_log: "[]"
 
-gas wanted: 105832
+gas wanted: 105842
+gas fee: 0.000052921 INJ
 ```
 
 ```go
-DEBU[0001] broadcastTx with nonce 3001                   fn=func1 src="client/chain/chain.go:482"
-DEBU[0003] msg batch committed successfully at height 3663646  fn=func1 src="client/chain/chain.go:503" txHash=EFC7609AB31B89F90729312E41817676AC8B4657F794E4F4440CB5959FA5B1FC
-DEBU[0003] nonce incremented to 3002                     fn=func1 src="client/chain/chain.go:507"
+DEBU[0001] broadcastTx with nonce 3508                   fn=func1 src="client/chain/chain.go:598"
+DEBU[0002] msg batch committed successfully at height 5214789  fn=func1 src="client/chain/chain.go:619" txHash=BD49BD58A263A92465A93FD0E10C5076DA8334A45A60E29A66C2E5961998AB5F
+DEBU[0002] nonce incremented to 3509                     fn=func1 src="client/chain/chain.go:623"
+DEBU[0002] gas wanted:  152112                           fn=func1 src="client/chain/chain.go:624"
+gas fee: 0.000076056 INJ
 ```
 
 ```typescript

@@ -60,6 +60,7 @@ async def main() -> None:
     # build tx
     gas_price = 500000000
     gas_limit = sim_res.gas_info.gas_used + 20000 # add 20k for gas, fee computation
+    gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
@@ -73,6 +74,7 @@ async def main() -> None:
     res = await client.send_tx_sync_mode(tx_raw_bytes)
     print(res)
     print("gas wanted: {}".format(gas_limit))
+    print("gas fee: {} INJ".format(gas_fee))
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
@@ -87,17 +89,18 @@ import (
 	"os"
 	"time"
 
-	rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+	"github.com/InjectiveLabs/sdk-go/client/common"
 
 	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-	"github.com/InjectiveLabs/sdk-go/client/common"
 	distributiontypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
+	rpchttp "github.com/tendermint/tendermint/rpc/client/http"
 )
 
 func main() {
 	// network := common.LoadNetwork("mainnet", "k8s")
 	network := common.LoadNetwork("testnet", "k8s")
 	tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -108,7 +111,7 @@ func main() {
 		"file",
 		"inj-user",
 		"12345678",
-		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		"f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3", // keyring will be used if pk not provided
 		false,
 	)
 
@@ -143,13 +146,24 @@ func main() {
 	msg.DelegatorAddress = senderAddress.String()
 	msg.ValidatorAddress = "injvaloper14gy4acwjm96wd20awm9ar6j54lev5p7espy9ug"
 
+	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
+
 	if err != nil {
 		fmt.Println(err)
 	}
-	time.Sleep(time.Second * 5)
-}
 
+	time.Sleep(time.Second * 5)
+
+	gasFee, err := chainClient.GetGasFee()
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("gas fee:", gasFee, "INJ")
+}
 ```
 
 |Parameter|Type|Description|Required|
@@ -161,16 +175,19 @@ func main() {
 > Response Example:
 
 ``` python
-txhash: "01FE09A8AA7696FA4D28EE95BC5548893F31D3E57B1E639316CB901BC68CFDC7"
+txhash: "0EDB245FE6F59F9DD8B6F03D56E6F37FE0D53DD85C62476BD7A1F72486D44F8E"
 raw_log: "[]"
 
-gas wanted: 147902
+gas wanted: 191525
+gas fee: 0.0000957625 INJ
 ```
 
 ```go
-DEBU[0001] broadcastTx with nonce 3230                   fn=func1 src="client/chain/chain.go:538"
-DEBU[0004] msg batch committed successfully at height 4149284  fn=func1 src="client/chain/chain.go:559" txHash=F712F8D8094BAFBD3A3F038B288472429B5A917AB6C15821950A9AF74D8FFBDF
-DEBU[0004] nonce incremented to 3231                     fn=func1 src="client/chain/chain.go:563"
+DEBU[0001] broadcastTx with nonce 1321                   fn=func1 src="client/chain/chain.go:598"
+DEBU[0003] msg batch committed successfully at height 5215332  fn=func1 src="client/chain/chain.go:619" txHash=A4F9D6998F075E875F611ED279B617EAB4C0332EBC347468EEDAD81DD8236C48
+DEBU[0003] nonce incremented to 1322                     fn=func1 src="client/chain/chain.go:623"
+DEBU[0003] gas wanted:  195046                           fn=func1 src="client/chain/chain.go:624"
+gas fee: 0.000097523 INJ
 ```
 
 
@@ -235,6 +252,7 @@ async def main() -> None:
     # build tx
     gas_price = 500000000
     gas_limit = sim_res.gas_info.gas_used + 20000 # add 20k for gas, fee computation
+    gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
         denom=network.fee_denom,
@@ -248,6 +266,7 @@ async def main() -> None:
     res = await client.send_tx_sync_mode(tx_raw_bytes)
     print(res)
     print("gas wanted: {}".format(gas_limit))
+    print("gas fee: {} INJ".format(gas_fee))
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
@@ -262,18 +281,19 @@ import (
 	"os"
 	"time"
 
-	rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+	"github.com/InjectiveLabs/sdk-go/client/common"
 
 	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-	"github.com/InjectiveLabs/sdk-go/client/common"
 	sdktypes "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	rpchttp "github.com/tendermint/tendermint/rpc/client/http"
 )
 
 func main() {
 	// network := common.LoadNetwork("mainnet", "k8s")
 	network := common.LoadNetwork("testnet", "k8s")
 	tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -284,7 +304,7 @@ func main() {
 		"file",
 		"inj-user",
 		"12345678",
-		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		"f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3", // keyring will be used if pk not provided
 		false,
 	)
 
@@ -322,13 +342,24 @@ func main() {
 		Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
 	}
 
+	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
+
 	if err != nil {
 		fmt.Println(err)
 	}
-	time.Sleep(time.Second * 5)
-}
 
+	time.Sleep(time.Second * 5)
+
+	gasFee, err := chainClient.GetGasFee()
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("gas fee:", gasFee, "INJ")
+}
 ```
 
 |Parameter|Type|Description|Required|
@@ -341,14 +372,17 @@ func main() {
 > Response Example:
 
 ``` python
-txhash: "1C9B6FEC8ED69CA545D6F3DB0DC8E554A02B37E97952466E7C37F67EA0B228ED"
+txhash: "0EDB245FE6F59F9DD8B6F03D56E6F37FE0D53DD85C62476BD7A1F72486D44F8E"
 raw_log: "[]"
 
-gas wanted: 191366
+gas wanted: 191525
+gas fee: 0.0000957625 INJ
 ```
 
 ```go
-DEBU[0001] broadcastTx with nonce 3228                   fn=func1 src="client/chain/chain.go:538"
-DEBU[0003] msg batch committed successfully at height 4149155  fn=func1 src="client/chain/chain.go:559" txHash=FF728699A0E3A4C423891847E476CDCDC0D036F4508661B9C2E61FE706A08F4B
-DEBU[0003] nonce incremented to 3229                     fn=func1 src="client/chain/chain.go:563"
+DEBU[0001] broadcastTx with nonce 1318                   fn=func1 src="client/chain/chain.go:598"
+DEBU[0003] msg batch committed successfully at height 5215234  fn=func1 src="client/chain/chain.go:619" txHash=1714F24FB2BEE871C0A5CED998CCB0C33069FF40F744AE2AEF3720F24893D92A
+DEBU[0003] nonce incremented to 1319                     fn=func1 src="client/chain/chain.go:623"
+DEBU[0003] gas wanted:  207846                           fn=func1 src="client/chain/chain.go:624"
+gas fee: 0.000103923 INJ
 ```
