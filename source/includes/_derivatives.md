@@ -217,15 +217,15 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Market ID of the market we want to send an order|Yes|
-|sender|string|The Injective Chain address|Yes|
-|subaccount_id|string|The subaccount we want to send an order from|Yes|
-|fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
+|market_id|String|Market ID of the market we want to send an order|Yes|
+|sender|String|The Injective Chain address|Yes|
+|subaccount_id|String|The subaccount we want to send an order from|Yes|
+|fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
 |leverage|float|The leverage factor for the order|No|
-|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
-|is_reduce_only|boolean|Set to true or false for reduce-only or normal orders respectively|No|
+|is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
 
 > Response Example:
 
@@ -467,16 +467,16 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Market ID of the market we want to send an order|Yes|
-|sender|string|The Injective Chain address|Yes|
-|subaccount_id|string|The subaccount we want to send an order from|Yes|
-|fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
+|market_id|String|Market ID of the market we want to send an order|Yes|
+|sender|String|The Injective Chain address|Yes|
+|subaccount_id|String|The subaccount we want to send an order from|Yes|
+|fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
 |leverage|float|The leverage factor for the order|No|
-|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
-|is_reduce_only|boolean|Set to true or false for reduce-only or normal orders respectively|No|
-|is_po|boolean|Set to true or false for post-only or normal orders respectively|No|
+|is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
+|is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
 
 > Response Example:
 
@@ -690,10 +690,10 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Market ID of the market we want to cancel an order|Yes|
-|sender|string|The Injective Chain address|Yes|
-|subaccount_id|string|The subaccount we want to cancel an order from|Yes|
-|order_hash|string|The hash of a specific order|Yes|
+|market_id|String|Market ID of the market we want to cancel an order|Yes|
+|sender|String|The Injective Chain address|Yes|
+|subaccount_id|String|The subaccount we want to cancel an order from|Yes|
+|order_hash|String|The hash of a specific order|Yes|
 
 
 > Response Example:
@@ -954,22 +954,22 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The Injective Chain address|Yes|
+|sender|String|The Injective Chain address|Yes|
 |orders|DerivativeOrder|Array of DerivativeOrder|Yes|
 
 **DerivativeOrder**
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Market ID of the market we want to send an order|Yes|
-|subaccount_id|string|The subaccount ID we want to send an order from|Yes|
-|fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
+|market_id|String|Market ID of the market we want to send an order|Yes|
+|subaccount_id|String|The subaccount ID we want to send an order from|Yes|
+|fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
 |leverage|float|The leverage factor for the order|No|
-|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
-|is_reduce_only|boolean|Set to true or false for reduce-only or normal orders respectively|No|
-|is_po|boolean|Set to true or false for post-only or normal orders respectively|No|
+|is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
+|is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
 
 
 > Response Example:
@@ -1194,16 +1194,16 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The Injective Chain address|Yes|
+|sender|String|The Injective Chain address|Yes|
 |orders|OrderData|Array of OrderData|Yes|
 
 **OrderData**
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Market ID of the market we want to cancel an order|Yes|
-|subaccount_id|string|The subaccount we want to cancel an order from|Yes|
-|order_hash|string|The hash of a specific order|Yes|
+|market_id|String|Market ID of the market we want to cancel an order|Yes|
+|subaccount_id|String|The subaccount we want to cancel an order from|Yes|
+|order_hash|String|The hash of a specific order|Yes|
 
 
 > Response Example:
@@ -1548,50 +1548,50 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The Injective Chain address|Yes|
-|subaccount_id|string|The subaccount ID|Conditional|
+|sender|String|The Injective Chain address|Yes|
+|subaccount_id|String|The subaccount ID|Conditional|
 |derivative_orders_to_create|DerivativeOrder|DerivativeOrder object|No|
 |spot_orders_to_create|SpotOrder|SpotOrder object|No|
 |derivative_orders_to_cancel|OrderData|OrderData object to cancel|No|
 |spot_orders_to_cancel|Orderdata|OrderData object to cancel|No|
-|spot_market_ids_to_cancel_all|array|Spot Market IDs for the markets the trader wants to cancel all active orders|No|
-|derivative_market_ids_to_cancel_all|array|Derivative Market IDs for the markets the trader wants to cancel all active orders|No|
+|spot_market_ids_to_cancel_all|Array|Spot Market IDs for the markets the trader wants to cancel all active orders|No|
+|derivative_market_ids_to_cancel_all|Array|Derivative Market IDs for the markets the trader wants to cancel all active orders|No|
 
 **SpotOrder**
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Market ID of the market we want to send an order|Yes|
-|subaccount_id|string|The subaccount we want to send an order from|Yes|
-|fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
+|market_id|String|Market ID of the market we want to send an order|Yes|
+|subaccount_id|String|The subaccount we want to send an order from|Yes|
+|fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
-|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
-|is_po|boolean|Set to true or false for post-only or normal orders respectively|No|
+|is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
 
 
 **DerivativeOrder**
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Market ID of the market we want to send an order|Yes|
-|subaccount_id|string|The subaccount ID we want to send an order from|Yes|
-|fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
+|market_id|String|Market ID of the market we want to send an order|Yes|
+|subaccount_id|String|The subaccount ID we want to send an order from|Yes|
+|fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
 |leverage|float|The leverage factor for the order|No|
-|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
-|is_reduce_only|boolean|Set to true or false for reduce-only or normal orders respectively|No|
-|is_po|boolean|Set to true or false for post-only or normal orders respectively|No|
+|is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
+|is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
 
 
 **OrderData**
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Market ID of the market we want to cancel an order|Yes|
-|subaccount_id|string|The subaccount we want to cancel an order from|Yes|
-|order_hash|string|The hash of a specific order|Yes|
+|market_id|String|Market ID of the market we want to cancel an order|Yes|
+|subaccount_id|String|The subaccount we want to cancel an order from|Yes|
+|order_hash|String|The hash of a specific order|Yes|
 
 
 > Response Example:
@@ -1803,11 +1803,11 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The Injective Chain address|Yes|
-|market_id|string|Market ID of the market we want to increase the margin of the position|Yes|
-|source_subaccount_id|string|The subaccount to send funds from|Yes|
-|destination_subaccount_id|string|The subaccount to send funds to|Yes|
-|amount|string|The amount of tokens to be used as additional margin|Yes|
+|sender|String|The Injective Chain address|Yes|
+|market_id|String|Market ID of the market we want to increase the margin of the position|Yes|
+|source_subaccount_id|String|The subaccount to send funds from|Yes|
+|destination_subaccount_id|String|The subaccount to send funds to|Yes|
+|amount|String|The amount of tokens to be used as additional margin|Yes|
 
 
 > Response Example:
@@ -2099,42 +2099,42 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The Injective Chain address|Yes|
+|sender|String|The Injective Chain address|Yes|
 |orders|DerivativeOrder|Array of DerivativeOrder|Yes|
 
 **DerivativeOrder**
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Market ID of the market we want to send an order|Yes|
-|subaccount_id|string|The subaccount ID we want to send an order from|Yes|
-|fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
+|market_id|String|Market ID of the market we want to send an order|Yes|
+|subaccount_id|String|The subaccount ID we want to send an order from|Yes|
+|fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
 |leverage|float|The leverage factor for the order|No|
-|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
-|is_reduce_only|boolean|Set to true or false for reduce-only or normal orders respectively|No|
-|is_po|boolean|Set to true or false for post-only or normal orders respectively|No|
+|is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
+|is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
 
 
 **MsgBatchCreateSpotLimitOrders**
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The Injective Chain address|Yes|
+|sender|String|The Injective Chain address|Yes|
 |orders|SpotOrder|Array of SpotOrder|Yes|
 
 **SpotOrder**
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Market ID of the market we want to send an order|Yes|
-|subaccount_id|string|The subaccount we want to send an order from|Yes|
-|fee_recipient|string|The address that will receive 40% of the fees, this could be set to your own address|Yes|
+|market_id|String|Market ID of the market we want to send an order|Yes|
+|subaccount_id|String|The subaccount we want to send an order from|Yes|
+|fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|float|The price of the base asset|Yes|
 |quantity|float|The quantity of the base asset|Yes|
-|is_buy|boolean|Set to true or false for buy and sell orders respectively|Yes|
-|is_po|boolean|Set to true or false for post-only or normal orders respectively|No|
+|is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
 
 
 > Response Example:

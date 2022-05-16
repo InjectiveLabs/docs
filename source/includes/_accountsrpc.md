@@ -76,7 +76,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|account_address|string|The Injective Chain address|Yes|
+|account_address|String|The Injective Chain address|Yes|
 
 
 
@@ -95,7 +95,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|subaccounts|array||
+|subaccounts|Array||
 
 ## SubaccountHistory
 
@@ -195,11 +195,11 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|string|Filter by subaccount ID|Yes|
-|denom|string|Filter by denom|No|
-|transfer_types|array|Filter by transfer types|No|
-|skip|int|Skip the last transfers, you can use this to fetch all transfers since the API caps at 100|No|
-|limit|int|Limit the transfers returned|No|
+|subaccount_id|String|Filter by subaccount ID|Yes|
+|denom|String|Filter by denom|No|
+|transfer_types|Array|Filter by transfer types|No|
+|skip|Integer|Skip the last transfers, you can use this to fetch all transfers since the API caps at 100|No|
+|limit|Integer|Limit the transfers returned|No|
 
 
 ### Response Parameters
@@ -241,17 +241,17 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 |Parameter|Type|Description|
 |----|----|----|
 |amount|CosmosCoin|Array of CosmosCoin|
-|dst_account_address|string|Account address of the receiving side|
-|executed_at|integer|Timestamp of the transfer in UNIX millis|
-|src_subaccount_id|string|Subaccount ID of the sending side|
-|transfer_type|string|Type of the subaccount balance transfer (Should be one of: [internal external withdraw deposit]) |
+|dst_account_address|String|Account address of the receiving side|
+|executed_at|Integer|Timestamp of the transfer in UNIX millis|
+|src_subaccount_id|String|Subaccount ID of the sending side|
+|transfer_type|String|Type of the subaccount balance transfer (Should be one of: [internal external withdraw deposit]) |
 
 **CosmosCoin**
 
 |Parameter|Type|Description|
 |----|----|----|
-|amount|string|Coin amount|
-|denom|string|Coin denominator|
+|amount|String|Coin amount|
+|denom|String|Coin denominator|
 
 
 
@@ -333,8 +333,8 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|string|Filter by subaccount ID|Yes|
-|denom|string|Filter by denom|Yes|
+|subaccount_id|String|Filter by subaccount ID|Yes|
+|denom|String|Filter by denom|Yes|
 
 
 ### Response Parameters
@@ -363,17 +363,17 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|denom|string|Coin denom on the chain|
+|denom|String|Coin denom on the chain|
 |deposit|SubaccountDeposit|Array of SubaccountDeposit|
-|subaccount_id|string|Filter by subaccount ID|
-|account_address|string|The Injective Chain address|
+|subaccount_id|String|Filter by subaccount ID|
+|account_address|String|The Injective Chain address|
 
 **SubaccountDeposit**
 
 |Parameter|Type|Description|
 |----|----|----|
-|available_balance|string|The available balance for a denom|
-|total_balance|string|The total balance for a denom|
+|available_balance|String|The available balance for a denom|
+|total_balance|String|The total balance for a denom|
 
 
 ## SubaccountBalancesList
@@ -450,7 +450,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|string|Filter by subaccount ID|Yes|
+|subaccount_id|String|Filter by subaccount ID|Yes|
 
 
 
@@ -499,17 +499,17 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|account_address|string|The Injective Chain address|
-|denom|string|Coin denom on the chain|
+|account_address|String|The Injective Chain address|
+|denom|String|Coin denom on the chain|
 |deposit|SubaccountDeposit|Array of SubaccountDeposit|
-|subaccount_id|string|Filter by subaccount ID|
+|subaccount_id|String|Filter by subaccount ID|
 
 **SubaccountDeposit**
 
 |Parameter|Type|Description|
 |----|----|----|
-|available_balance|string|The available balance for a denom|
-|total_balance|string|The total balance for a denom|
+|available_balance|String|The available balance for a denom|
+|total_balance|String|The total balance for a denom|
 
 ## SubaccountOrderSummary
 
@@ -604,9 +604,9 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|string|Filter by subaccount ID|Yes|
-|market_id|string|Filter by market ID|No|
-|order_direction|string|Filter by the direction of the orders (Should be one of: [buy sell])|No|
+|subaccount_id|String|Filter by subaccount ID|Yes|
+|market_id|String|Filter by market ID|No|
+|order_direction|String|Filter by the direction of the orders (Should be one of: [buy sell])|No|
 
 
 
@@ -622,8 +622,8 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|derivative_orders_total|integer|Total count of subaccount's derivative orders in a given market|
-|spot_orders_total|integer|Total count of subaccount's spot orders in a given market|
+|derivative_orders_total|Integer|Total count of subaccount's derivative orders in a given market|
+|spot_orders_total|Integer|Total count of subaccount's spot orders in a given market|
 
 
 
@@ -720,7 +720,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|string|Filter by subaccount ID|Yes|
+|subaccount_id|String|Filter by subaccount ID|Yes|
 
 
 ### Response Parameters
@@ -744,23 +744,23 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 |Parameter|Type|Description|
 |----|----|----|
 |balance|SubaccountBalance|Array of SubaccountBalance|
-|timestamp|integer|Operation timestamp in UNIX millis|
+|timestamp|Integer|Operation timestamp in UNIX millis|
 
 **SubaccountBalance**
 
 |Parameter|Type|Description|
 |----|----|----|
-|denom|string|Coin denom on the chain|
+|denom|String|Coin denom on the chain|
 |deposit|SubaccountDeposit|Array of SubaccountDeposit|
-|subaccount_id|string|Filter by subaccount ID|
-|account_address|string|The Injective Chain address|
+|subaccount_id|String|Filter by subaccount ID|
+|account_address|String|The Injective Chain address|
 
 **SubaccountDeposit**
 
 |Parameter|Type|Description|
 |----|----|----|
-|available_balance|string|The available balance for a denom|
-|total_balance|string|The total balance for a denom|
+|available_balance|String|The available balance for a denom|
+|total_balance|String|The total balance for a denom|
 
 
 ## OrderStates
@@ -849,8 +849,8 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|spot_order_hashes|array|Array with the order hashes you want to fetch in spot markets|No|
-|derivative_order_hashes|array|Array with the order hashes you want to fetch in derivative markets|No|
+|spot_order_hashes|Array|Array with the order hashes you want to fetch in spot markets|No|
+|derivative_order_hashes|Array|Array with the order hashes you want to fetch in derivative markets|No|
 
 
 ### Response Parameters
@@ -919,31 +919,31 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|order_hash|string|The order hash|
-|subaccount_id|string|The subaccount ID that posted the order|
-|market_id|string|The market ID of the order|
-|order_type|string|The order type (Should be one of: [limit, market])|
-|order_side|string|The order side (Should be one of: [buy, sell])|
-|state|string|The order state (Should be one of: [booked, partial_filled, filled, canceled])|
-|quantity_filled|string|The quantity that has been filled for your order|
-|quantity_remaining|string|The quantity that hasn't been filled for your order|
-|created_at|string|The timestamp of your order when it was first created|
-|updated_at|string|The timestamp of your order when it was last updated|
+|order_hash|String|The order hash|
+|subaccount_id|String|The subaccount ID that posted the order|
+|market_id|String|The market ID of the order|
+|order_type|String|The order type (Should be one of: [limit, market])|
+|order_side|String|The order side (Should be one of: [buy, sell])|
+|state|String|The order state (Should be one of: [booked, partial_filled, filled, canceled])|
+|quantity_filled|String|The quantity that has been filled for your order|
+|quantity_remaining|String|The quantity that hasn't been filled for your order|
+|created_at|String|The timestamp of your order when it was first created|
+|updated_at|String|The timestamp of your order when it was last updated|
 
 **DerivativeOrderStates**
 
 |Parameter|Type|Description|
 |----|----|----|
-|order_hash|string|The order hash|
-|subaccount_id|string|The subaccount ID that posted the order|
-|market_id|string|The market ID of the order|
-|order_type|string|The order type (Should be one of: [limit, market])|
-|order_side|string|The order side (Should be one of: [buy, sell])|
-|state|string|The order state (Should be one of: [booked, partial_filled, filled, canceled])|
-|quantity_filled|string|The quantity that has been filled for your order|
-|quantity_remaining|string|The quantity that hasn't been filled for your order|
-|created_at|string|The timestamp of your order when it was first created|
-|updated_at|string|The timestamp of your order when it was last updated|
+|order_hash|String|The order hash|
+|subaccount_id|String|The subaccount ID that posted the order|
+|market_id|String|The market ID of the order|
+|order_type|String|The order type (Should be one of: [limit, market])|
+|order_side|String|The order side (Should be one of: [buy, sell])|
+|state|String|The order state (Should be one of: [booked, partial_filled, filled, canceled])|
+|quantity_filled|String|The quantity that has been filled for your order|
+|quantity_remaining|String|The quantity that hasn't been filled for your order|
+|created_at|String|The timestamp of your order when it was first created|
+|updated_at|String|The timestamp of your order when it was last updated|
 
 
 ## Portfolio
@@ -1019,7 +1019,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|account_address|string|The Injective Chain address|Yes|
+|account_address|String|The Injective Chain address|Yes|
 
 
 ### Response Parameters
@@ -1045,11 +1045,11 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|portfolio_value|string|The total value of your portfolio including bank balance, subaccounts' balance, unrealized profit & loss as well as margin in open positions|
-|available_balance|string|The total available balance in the subaccounts|
-|locked_balance|string|The amount of margin in open orders and positions|
-|unrealized_pnl|string|The approximate unrealized profit and loss across all positions (based on the mark price)|
-|subaccount_id|string|Filter balances by subaccount ID|
+|portfolio_value|String|The total value of your portfolio including bank balance, subaccounts' balance, unrealized profit & loss as well as margin in open positions|
+|available_balance|String|The total available balance in the subaccounts|
+|locked_balance|String|The amount of margin in open orders and positions|
+|unrealized_pnl|String|The approximate unrealized profit and loss across all positions (based on the mark price)|
+|subaccount_id|String|Filter balances by subaccount ID|
 
 
 ## Rewards
@@ -1138,8 +1138,8 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|account_address|string|The Injective Chain address|No|
-|epoch|integer|The epoch ID|No|
+|account_address|String|The Injective Chain address|No|
+|epoch|Integer|The epoch ID|No|
 
 
 ### Response Parameters
@@ -1161,7 +1161,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|account_address|string|The Injective Chain address|
-|denom|string|The token denom|
-|amount|string|The amount of rewards distributed|
-|distributed_at|integer|Timestamp of the transfer in UNIX millis|
+|account_address|String|The Injective Chain address|
+|denom|String|The token denom|
+|amount|String|The amount of rewards distributed|
+|distributed_at|Integer|Timestamp of the transfer in UNIX millis|

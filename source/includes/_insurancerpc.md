@@ -113,16 +113,16 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|oracle_type|string|Oracle Type|
-|pool_token_denom|string|Pool token denom|
-|total_share|string|Total share|
-|balance|string|The balance|
-|oracle_base|string|Oracle base currency|
-|market_id|string|The market ID|
-|market_ticker|string|Ticker of the derivative market|
-|oracle_quote|string|Oracle quote currency|
-|redemption_notice_period_duration|integer|Redemption notice period duration in seconds|
-|deposit_denom|string|Coin denom used to underwrite the insurance fund|
+|oracle_type|String|Oracle Type|
+|pool_token_denom|String|Pool token denom|
+|total_share|String|Total share|
+|balance|String|The balance|
+|oracle_base|String|Oracle base currency|
+|market_id|String|The market ID|
+|market_ticker|String|Ticker of the derivative market|
+|oracle_quote|String|Oracle quote currency|
+|redemption_notice_period_duration|Integer|Redemption notice period duration in seconds|
+|deposit_denom|String|Coin denom used to underwrite the insurance fund|
 
 
 ## Redemptions
@@ -210,9 +210,9 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|redeemer|string|Filter by account address|No|
-|redemption_denom|string|Filter by insurance pool denom|No|
-|status|string|Filter by redemption status (Should be one of: [disbursed pending])|No|
+|redeemer|String|Filter by account address|No|
+|redemption_denom|String|Filter by insurance pool denom|No|
+|status|String|Filter by redemption status (Should be one of: [disbursed pending])|No|
 
 
 ### Response Parameters
@@ -256,13 +256,13 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|claimable_redemption_time|integer|Claimable redemption time in seconds|
-|redeemer|string|Account address of the redemption owner|
-|redemption_denom|string|Pool token denom being redeemed|
-|requested_at|integer|Redemption request time in unix milliseconds|
-|status|string|Status of the redemption (Should be one of: [disbursed pending])|
-|redemption_amount|string|Amount of pool tokens being redeemed|
-|redemption_id|integer|Redemption ID|
-|disbursed_amount|string|Amount of quote tokens disbursed|
-|disbursed_at|integer|Redemption disbursement time in unix milliseconds|
-|disbursed_denom|string|Denom of the quote tokens disbursed|
+|claimable_redemption_time|Integer|Claimable redemption time in seconds|
+|redeemer|String|Account address of the redemption owner|
+|redemption_denom|String|Pool token denom being redeemed|
+|requested_at|Integer|Redemption request time in unix milliseconds|
+|status|String|Status of the redemption (Should be one of: [disbursed pending])|
+|redemption_amount|String|Amount of pool tokens being redeemed|
+|redemption_id|Integer|Redemption ID|
+|disbursed_amount|String|Amount of quote tokens disbursed|
+|disbursed_at|Integer|Redemption disbursement time in unix milliseconds|
+|disbursed_denom|String|Denom of the quote tokens disbursed|

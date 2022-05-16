@@ -76,7 +76,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by market ID|Yes|
+|market_id|String|Filter by market ID|Yes|
 
 
 
@@ -125,29 +125,29 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|base_denom|string|Coin denom of the base asset|
-|market_id|string|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
-|market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
-|min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
+|base_denom|String|Coin denom of the base asset|
+|market_id|String|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
+|market_status|String|The status of the market (Should be one of: [active paused suspended demolished expired]) |
+|min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
 |quote_token_meta|TokenMeta|Array of TokenMeta|
-|service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
+|service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
 |base_token_meta|TokenMeta|Array of TokenMeta|
-|maker_fee_rate|string|Defines the fee percentage makers pay when trading (in the quote asset)|
-|min_price_tick_size|string|Defines the minimum required tick size for the order's price|
-|quote_denom|string|Coin denom of the quote asset|
-|taker_fee_rate|string|Defines the fee percentage takers pay when trading (in the quote asset)|
-|ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset|
+|maker_fee_rate|String|Defines the fee percentage makers pay when trading (in the quote asset)|
+|min_price_tick_size|String|Defines the minimum required tick size for the order's price|
+|quote_denom|String|Coin denom of the quote asset|
+|taker_fee_rate|String|Defines the fee percentage takers pay when trading (in the quote asset)|
+|ticker|String|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset|
 
 **TokenMeta**
 
 |Parameter|Type|Description|
 |----|----|----|
-|address|string|Token's Ethereum contract address|
-|decimals|integer|Token decimals|
-|logo|string|URL to the logo image|
-|name|string|Token full name|
-|symbol|string|Token symbol short name|
-|updatedAt|integer|Token metadata fetched timestamp in UNIX millis|
+|address|String|Token's Ethereum contract address|
+|decimals|Integer|Token decimals|
+|logo|String|URL to the logo image|
+|name|String|Token full name|
+|symbol|String|Token symbol short name|
+|updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
 
 
 ## Markets
@@ -239,9 +239,9 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|base_denom|string|Filter by the base currency|No|
-|market_status|string|Filter by market status (Should be one of: [active paused suspended demolished expired])|No|
-|quote_denom|string|Filter by the quote currency|No|
+|base_denom|String|Filter by the base currency|No|
+|market_status|String|Filter by market status (Should be one of: [active paused suspended demolished expired])|No|
+|quote_denom|String|Filter by the quote currency|No|
 
 
 ### Response Parameters
@@ -289,29 +289,29 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|base_denom|string|Coin denom of the base asset|
-|market_id|string|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
-|market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
-|min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
+|base_denom|String|Coin denom of the base asset|
+|market_id|String|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
+|market_status|String|The status of the market (Should be one of: [active paused suspended demolished expired]) |
+|min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
 |quote_token_meta|TokenMeta|Array of TokenMeta|
-|service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
+|service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
 |base_token_meta|TokenMeta|Array of TokenMeta|
-|maker_fee_rate|string|Defines the fee percentage makers pay when trading (in the quote asset)|
-|min_price_tick_size|string|Defines the minimum required tick size for the order's price|
-|quote_denom|string|Coin denom of the quote asset|
-|taker_fee_rate|string|Defines the fee percentage takers pay when trading (in the quote asset)|
-|ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset|
+|maker_fee_rate|String|Defines the fee percentage makers pay when trading (in the quote asset)|
+|min_price_tick_size|String|Defines the minimum required tick size for the order's price|
+|quote_denom|String|Coin denom of the quote asset|
+|taker_fee_rate|String|Defines the fee percentage takers pay when trading (in the quote asset)|
+|ticker|String|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset|
 
 **TokenMeta**
 
 |Parameter|Type|Description|
 |----|----|----|
-|address|string|Token's Ethereum contract address|
-|decimals|integer|Token decimals|
-|logo|string|URL to the logo image|
-|name|string|Token full name|
-|symbol|string|Token symbol short name|
-|updatedAt|integer|Token metadata fetched timestamp in UNIX millis|
+|address|String|Token's Ethereum contract address|
+|decimals|Integer|Token decimals|
+|logo|String|URL to the logo image|
+|name|String|Token full name|
+|symbol|String|Token symbol short name|
+|updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
 
 
 
@@ -445,36 +445,36 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 |Parameter|Type|Description|
 |----|----|----|
 |market|SpotMarketInfo|Array of SpotMarketInfo|
-|operation_type|string|Update type (Should be one of: [insert replace update invalidate]) |
-|timestamp|integer|Operation timestamp in UNIX millis|
+|operation_type|String|Update type (Should be one of: [insert replace update invalidate]) |
+|timestamp|Integer|Operation timestamp in UNIX millis|
 
 **SpotMarketInfo**
 
 |Parameter|Type|Description|
 |----|----|----|
-|base_denom|string|Coin denom of the base asset|
-|market_id|string|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
-|market_status|string|The status of the market (Should be one of: [active paused suspended demolished expired]) |
-|min_quantity_tick_size|string|Defines the minimum required tick size for the order's quantity|
+|base_denom|String|Coin denom of the base asset|
+|market_id|String|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
+|market_status|String|The status of the market (Should be one of: [active paused suspended demolished expired]) |
+|min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
 |quote_token_meta|TokenMeta|Array of TokenMeta|
-|service_provider_fee|string|Percentage of the transaction fee shared with the service provider|
+|service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
 |base_token_meta|TokenMeta|Array of TokenMeta|
-|maker_fee_rate|string|Defines the fee percentage makers pay when trading (in the quote asset)|
-|min_price_tick_size|string|Defines the minimum required tick size for the order's price|
-|quote_denom|string|Coin denom of the quote asset|
-|taker_fee_rate|string|Defines the fee percentage takers pay when trading (in the quote asset)|
-|ticker|string|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset|
+|maker_fee_rate|String|Defines the fee percentage makers pay when trading (in the quote asset)|
+|min_price_tick_size|String|Defines the minimum required tick size for the order's price|
+|quote_denom|String|Coin denom of the quote asset|
+|taker_fee_rate|String|Defines the fee percentage takers pay when trading (in the quote asset)|
+|ticker|String|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset|
 
 **TokenMeta**
 
 |Parameter|Type|Description|
 |----|----|----|
-|address|string|Token's Ethereum contract address|
-|decimals|integer|Token decimals|
-|logo|string|URL to the logo image|
-|name|string|Token full name|
-|symbol|string|Token symbol short name|
-|updatedAt|integer|Token metadata fetched timestamp in UNIX millis|
+|address|String|Token's Ethereum contract address|
+|decimals|Integer|Token decimals|
+|logo|String|URL to the logo image|
+|name|String|Token full name|
+|symbol|String|Token symbol short name|
+|updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
 
 
 
@@ -573,11 +573,11 @@ import { protoObjectToJson, SpotOrderSide, ExchangeClient } from "@injectivelabs
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by market ID|Yes|
-|order_side|string|Filter by order side (Should be one of: [buy sell])|No|
-|subaccount_id|string|Filter by subaccount ID|No|
-|skip|int|Skip the last orders, you can use this to fetch all orders since the API caps at 100|No|
-|limit|int|Limit the orders returned|No|
+|market_id|String|Filter by market ID|Yes|
+|order_side|String|Filter by order side (Should be one of: [buy sell])|No|
+|subaccount_id|String|Filter by subaccount ID|No|
+|skip|Integer|Skip the last orders, you can use this to fetch all orders since the API caps at 100|No|
+|limit|Integer|Limit the orders returned|No|
 
 
 
@@ -624,17 +624,17 @@ import { protoObjectToJson, SpotOrderSide, ExchangeClient } from "@injectivelabs
 
 |Parameter|Type|Description|
 |----|----|----|
-|unfilled_quantity|string|The amount of the quantity remaining unfilled|
-|market_id|string|Spot Market ID is keccak265(baseDenom + quoteDenom)|
-|order_hash|string|Hash of the order|
-|order_side|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
-|state|string|The state of the order (Should be one of: [booked partial_filled filled canceled]) |
-|subaccount_id|string|The subaccount ID this order belongs to|
-|fee_recipient|string|The fee recipient address|
-|price|string|The price of the order|
-|quantity|string|The quantity of the order|
-|trigger_price|string|The price used by stop/take orders. This will be 0 if the trigger price is not set|
-|created_at|integer|Order committed timestamp in UNIX millis|
+|unfilled_quantity|String|The amount of the quantity remaining unfilled|
+|market_id|String|Spot Market ID is keccak265(baseDenom + quoteDenom)|
+|order_hash|String|Hash of the order|
+|order_side|String|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
+|state|String|The state of the order (Should be one of: [booked partial_filled filled canceled]) |
+|subaccount_id|String|The subaccount ID this order belongs to|
+|fee_recipient|String|The fee recipient address|
+|price|String|The price of the order|
+|quantity|String|The quantity of the order|
+|trigger_price|String|The price used by stop/take orders. This will be 0 if the trigger price is not set|
+|created_at|Integer|Order committed timestamp in UNIX millis|
 
 
 
@@ -745,9 +745,9 @@ import { protoObjectToJson, SpotOrderSide, ExchangeClient } from "@injectivelabs
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by market ID|Yes|
-|order_side|string|Filter by order side (Should be one of: [buy sell])|No|
-|subaccount_id|string|Filter by subaccount ID|No|
+|market_id|String|Filter by market ID|Yes|
+|order_side|String|Filter by order side (Should be one of: [buy sell])|No|
+|subaccount_id|String|Filter by subaccount ID|No|
 
 
 ### Response Parameters
@@ -795,24 +795,24 @@ import { protoObjectToJson, SpotOrderSide, ExchangeClient } from "@injectivelabs
 |Parameter|Type|Description|
 |----|----|----|
 |order|SpotLimitOrder|Array of SpotLimitOrder|
-|operation_type|string|Order update type (Should be one of: [insert replace update invalidate]) |
-|timestamp|integer|Operation timestamp in UNIX millis|
+|operation_type|String|Order update type (Should be one of: [insert replace update invalidate]) |
+|timestamp|Integer|Operation timestamp in UNIX millis|
 
 **SpotLimitOrder**
 
 |Parameter|Type|Description|
 |----|----|----|
-|unfilled_quantity|string|The amount of the quantity remaining unfilled|
-|market_id|string|Spot Market ID is keccak265(baseDenom + quoteDenom)|
-|order_hash|string|Hash of the order|
-|order_side|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
-|state|string|The state of the order (Should be one of: [booked partial_filled filled canceled]) |
-|subaccount_id|string|The subaccount ID this order belongs to|
-|fee_recipient|string|The fee recipient address|
-|price|string|The price of the order|
-|quantity|string|The quantity of the order|
-|trigger_price|string|The price used by stop/take orders. This will be 0 if the trigger price is not set|
-|created_at|integer|Order committed timestamp in UNIX millis|
+|unfilled_quantity|String|The amount of the quantity remaining unfilled|
+|market_id|String|Spot Market ID is keccak265(baseDenom + quoteDenom)|
+|order_hash|String|Hash of the order|
+|order_side|String|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
+|state|String|The state of the order (Should be one of: [booked partial_filled filled canceled]) |
+|subaccount_id|String|The subaccount ID this order belongs to|
+|fee_recipient|String|The fee recipient address|
+|price|String|The price of the order|
+|quantity|String|The quantity of the order|
+|trigger_price|String|The price used by stop/take orders. This will be 0 if the trigger price is not set|
+|created_at|Integer|Order committed timestamp in UNIX millis|
 
 
 ## Trades
@@ -916,12 +916,12 @@ import { protoObjectToJson, TradeExecutionSide, TradeDirection, ExchangeClient }
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by market ID|Yes|
-|subaccount_id|string|Filter by subaccount ID|No|
-|direction|string|Filter by the direction of the trade (Should be one of: [buy sell])|No|
-|execution_side|string|Filter by the execution side of the trade (Should be one of: [maker taker])|No|
-|skip|integer|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
-|limit|integer|Limit the trades returned|No|
+|market_id|String|Filter by market ID|Yes|
+|subaccount_id|String|Filter by subaccount ID|No|
+|direction|String|Filter by the direction of the trade (Should be one of: [buy sell])|No|
+|execution_side|String|Filter by the execution side of the trade (Should be one of: [maker taker])|No|
+|skip|Integer|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
+|limit|Integer|Limit the trades returned|No|
 
 
 ### Response Parameters
@@ -970,24 +970,24 @@ import { protoObjectToJson, TradeExecutionSide, TradeDirection, ExchangeClient }
 
 |Parameter|Type|Description|
 |----|----|----|
-|trade_direction|string|Filter by the trade direction(Should be one of: [buy sell]) |
-|trade_execution_type|string|Filter by the trade execution type (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
-|fee|string|The fee associated with the trade (quote asset denom)|
-|market_id|string|Filter by the market ID|
-|order_hash|string|The order hash|
+|trade_direction|String|Filter by the trade direction(Should be one of: [buy sell]) |
+|trade_execution_type|String|Filter by the trade execution type (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
+|fee|String|The fee associated with the trade (quote asset denom)|
+|market_id|String|Filter by the market ID|
+|order_hash|String|The order hash|
 |price|PriceLevel|Array of PriceLevel|
-|subaccount_id|string|Filter by the subaccount ID|
-|executed_at|integer|Timestamp of trade execution in UNIX millis|
-|fee_recipient|string|The address that received 40% of the fees|
+|subaccount_id|String|Filter by the subaccount ID|
+|executed_at|Integer|Timestamp of trade execution in UNIX millis|
+|fee_recipient|String|The address that received 40% of the fees|
 
 
 **PriceLevel**
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|string|Number of the price level|
-|quantity|string|Quantity of the price level|
-|timestamp|integer|Price level last updated timestamp in UNIX millis|
+|price|String|Number of the price level|
+|quantity|String|Quantity of the price level|
+|timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
 
 ## StreamTrades
@@ -1112,14 +1112,14 @@ import { protoObjectToJson, TradeExecutionSide, TradeDirection, ExchangeClient }
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_ids|array|Filter by an array of market IDs|Conditional|
-|market_id|string|Filter by market ID|Conditional|
-|subaccount_ids|array|Filter by an array of subaccount IDs|Conditional|
-|subaccount_id|string|Filter by subaccount ID|Conditional|
-|execution_side|string|Filter by the execution side of the trade (Should be one of: [maker taker])|No|
-|direction|string|Filter by the direction of the trade (Should be one of: [buy sell])|No|
-|skip|int|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
-|limit|int|Limit the trades returned|No|
+|market_ids|Array|Filter by an array of market IDs|Conditional|
+|market_id|String|Filter by market ID|Conditional|
+|subaccount_ids|Array|Filter by an array of subaccount IDs|Conditional|
+|subaccount_id|String|Filter by subaccount ID|Conditional|
+|execution_side|String|Filter by the execution side of the trade (Should be one of: [maker taker])|No|
+|direction|String|Filter by the direction of the trade (Should be one of: [buy sell])|No|
+|skip|Integer|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
+|limit|Integer|Limit the trades returned|No|
 
 
 ### Response Parameters
@@ -1149,32 +1149,32 @@ import { protoObjectToJson, TradeExecutionSide, TradeDirection, ExchangeClient }
 
 |Parameter|Type|Description|
 |----|----|----|
-|operation_type|string|Trade operation type (Should be one of: [insert invalidate]) |
-|timestamp|integer|Operation timestamp in UNIX millis|
+|operation_type|String|Trade operation type (Should be one of: [insert invalidate]) |
+|timestamp|Integer|Operation timestamp in UNIX millis|
 |trade|SpotTrade|Array of SpotTrade|
 
 **SpotTrade**
 
 |Parameter|Type|Description|
 |----|----|----|
-|trade_direction|string|Filter by the trade direction(Should be one of: [buy sell]) |
-|trade_execution_type|string|Filter by the trade execution type (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
-|fee|string|The fee associated with the trade (quote asset denom)|
-|market_id|string|Filter by the market ID|
-|order_hash|string|The order hash|
+|trade_direction|String|Filter by the trade direction(Should be one of: [buy sell]) |
+|trade_execution_type|String|Filter by the trade execution type (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
+|fee|String|The fee associated with the trade (quote asset denom)|
+|market_id|String|Filter by the market ID|
+|order_hash|String|The order hash|
 |price|PriceLevel|Array of PriceLevel|
-|subaccount_id|string|Filter by the subaccount ID|
-|executed_at|integer|Timestamp of trade execution in UNIX millis|
-|fee_recipient|string|The address that received 40% of the fees|
+|subaccount_id|String|Filter by the subaccount ID|
+|executed_at|Integer|Timestamp of trade execution in UNIX millis|
+|fee_recipient|String|The address that received 40% of the fees|
 
 
 **PriceLevel**
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|string|Number of the price level|
-|quantity|string|Quantity of the price level|
-|timestamp|integer|Price level last updated timestamp in UNIX millis|
+|price|String|Number of the price level|
+|quantity|String|Quantity of the price level|
+|timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
 ## Orderbook
 
@@ -1250,7 +1250,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|string|Filter by market ID|Yes|
+|market_id|String|Filter by market ID|Yes|
 
 
 ### Response Parameters
@@ -1308,9 +1308,9 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|string|Number of the price level|
-|quantity|string|Quantity of the price level|
-|timestamp|integer|Price level last updated timestamp in UNIX millis|
+|price|String|Number of the price level|
+|quantity|String|Quantity of the price level|
+|timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
 
 ## Orderbooks
@@ -1387,7 +1387,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_ids|array|Filter by an array of market IDs|Yes|
+|market_ids|Array|Filter by an array of market IDs|Yes|
 
 
 ### Response Parameters
@@ -1431,7 +1431,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 |Parameter|Type|Description|
 |----|----|----|
 |orderbook|SpotLimitOrderbook|Array of SpotLimitOrderbook|
-|market_id|string|Filter by market ID|
+|market_id|String|Filter by market ID|
 
 **SpotLimitOrderbook**
 
@@ -1444,9 +1444,9 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|string|Number of the price level|
-|quantity|string|Quantity of the price level|
-|timestamp|integer|Price level last updated timestamp in UNIX millis|
+|price|String|Number of the price level|
+|quantity|String|Quantity of the price level|
+|timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
 
 ## StreamOrderbooks
@@ -1540,7 +1540,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_ids|array|Filter by market IDs|Yes|
+|market_ids|Array|Filter by market IDs|Yes|
 
 
 
@@ -1579,10 +1579,10 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|operation_type|string|Order update type (Should be one of: [insert replace update invalidate]) |
+|operation_type|String|Order update type (Should be one of: [insert replace update invalidate]) |
 |orderbook|SpotLimitOrderbook|Array of SpotLimitOrderbook|
-|timestamp|integer|Operation timestamp in UNIX millis|
-|market_id|string|Filter by market ID|
+|timestamp|Integer|Operation timestamp in UNIX millis|
+|market_id|String|Filter by market ID|
 
 **SpotLimitOrderbook**
 
@@ -1595,9 +1595,9 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|string|Number of the price level|
-|quantity|string|Quantity of the price level|
-|timestamp|integer|Price level last updated timestamp in UNIX millis|
+|price|String|Number of the price level|
+|quantity|String|Quantity of the price level|
+|timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
 
 
@@ -1694,10 +1694,10 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|string|Filter by subaccount ID|Yes|
-|market_id|string|Filter by market ID|No|
-|skip|int|Skip the last orders, you can use this to fetch all orders since the API caps at 100|No|
-|limit|int|Limit the orders returned|No|
+|subaccount_id|String|Filter by subaccount ID|Yes|
+|market_id|String|Filter by market ID|No|
+|skip|Integer|Skip the last orders, you can use this to fetch all orders since the API caps at 100|No|
+|limit|Integer|Limit the orders returned|No|
 
 
 ### Response Parameters
@@ -1743,17 +1743,17 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|state|string|Order state (Should be one of: [booked partial_filled filled canceled])|
-|subaccount_id|string|The subaccount ID this order belongs to|
-|unfilled_quantity|string|The amount of the quantity remaining unfilled|
-|market_id|string|Spot market ID is keccak265(baseDenom + quoteDenom)|
-|order_hash|string|Hash of the order|
-|order_side|string|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
-|fee_recipient|string|The fee recipient address|
-|price|string|The price of the order|
-|quantity|string|The quantity of the order|
-|trigger_price|string|The price used by stop/take orders|
-|created_at|integer|Order committed timestamp in UNIX millis|
+|state|String|Order state (Should be one of: [booked partial_filled filled canceled])|
+|subaccount_id|String|The subaccount ID this order belongs to|
+|unfilled_quantity|String|The amount of the quantity remaining unfilled|
+|market_id|String|Spot market ID is keccak265(baseDenom + quoteDenom)|
+|order_hash|String|Hash of the order|
+|order_side|String|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
+|fee_recipient|String|The fee recipient address|
+|price|String|The price of the order|
+|quantity|String|The quantity of the order|
+|trigger_price|String|The price used by stop/take orders|
+|created_at|Integer|Order committed timestamp in UNIX millis|
 
 
 ## SubaccountTradesList
@@ -1857,12 +1857,12 @@ import { protoObjectToJson, TradeExecutionType, TradeDirection, ExchangeClient }
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|string|Filter by subaccount ID|Yes|
-|market_id|string|Filter by market ID|No|
-|direction|string|Filter by the direction of the trades (Should be one of: [buy sell])|No|
-|execution_type|string|Filter by the execution type of the trades (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder])|No|
-|skip|int|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
-|limit|int|Limit the trades returned|No|
+|subaccount_id|String|Filter by subaccount ID|Yes|
+|market_id|String|Filter by market ID|No|
+|direction|String|Filter by the direction of the trades (Should be one of: [buy sell])|No|
+|execution_type|String|Filter by the execution type of the trades (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder])|No|
+|skip|Integer|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
+|limit|Integer|Limit the trades returned|No|
 
 ### Response Parameters
 > Response Example:
@@ -1910,20 +1910,20 @@ import { protoObjectToJson, TradeExecutionType, TradeDirection, ExchangeClient }
 
 |Parameter|Type|Description|
 |----|----|----|
-|trade_direction|string|Filter by the trade direction(Should be one of: [buy sell]) |
-|trade_execution_type|string|Filter by the trade execution type (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
-|fee|string|The fee associated with the trade (quote asset denom)|
-|market_id|string|Filter by the market ID|
-|order_hash|string|The order hash|
+|trade_direction|String|Filter by the trade direction(Should be one of: [buy sell]) |
+|trade_execution_type|String|Filter by the trade execution type (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
+|fee|String|The fee associated with the trade (quote asset denom)|
+|market_id|String|Filter by the market ID|
+|order_hash|String|The order hash|
 |price|PriceLevel|Array of PriceLevel|
-|subaccount_id|string|Filter by the subaccount ID|
-|executed_at|integer|Timestamp of trade execution in UNIX millis|
-|fee_recipient|string|The address that received 40% of the fees|
+|subaccount_id|String|Filter by the subaccount ID|
+|executed_at|Integer|Timestamp of trade execution in UNIX millis|
+|fee_recipient|String|The address that received 40% of the fees|
 
 **PriceLevel**
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|string|Number of the price level|
-|quantity|string|Quantity of the price level|
-|timestamp|integer|Price level last updated timestamp in UNIX millis|
+|price|String|Number of the price level|
+|quantity|String|Quantity of the price level|
+|timestamp|Integer|Price level last updated timestamp in UNIX millis|

@@ -200,10 +200,10 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|granter|string|The INJ address authorizing a grantee|Yes|
-|grantee|string|The INJ address being authorized by the granter|Yes|
-|msg_type|string|The message type being authorized by the granter|Yes|
-|expire_in|integer|The expiration time for the authorization|Yes|
+|granter|String|The INJ address authorizing a grantee|Yes|
+|grantee|String|The INJ address being authorized by the granter|Yes|
+|msg_type|String|The message type being authorized by the granter|Yes|
+|expire_in|Integer|The expiration time for the authorization|Yes|
 
 **Typed Authorization Messages**
 
@@ -482,8 +482,8 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|grantee|string|The INJ address of the grantee|Yes|
-|msgs|array|The messages to be executed on behalf of the granter|Yes|
+|grantee|String|The INJ address of the grantee|Yes|
+|msgs|Array|The messages to be executed on behalf of the granter|Yes|
 
 > Response Example:
 
@@ -679,9 +679,9 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|granter|string|The INJ address unauthorizing a grantee|Yes|
-|grantee|string|The INJ address being unauthorized by the granter|Yes|
-|msg_type|string|The message type being unauthorized by the granter|Yes|
+|granter|String|The INJ address unauthorizing a grantee|Yes|
+|grantee|String|The INJ address being unauthorized by the granter|Yes|
+|msg_type|String|The message type being unauthorized by the granter|Yes|
 
 > Response Example:
 
@@ -729,9 +729,9 @@ async def main() -> None:
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|granter|string|The account owner|Yes|
-|grantee|string|The authorized account|Yes|
-|msg_type_url|int|The authorized message type|No|
+|granter|String|The account owner|Yes|
+|grantee|String|The authorized account|Yes|
+|msg_type_url|Integer|The authorized message type|No|
 
 
 ### Response Parameters
@@ -768,11 +768,11 @@ async def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|type_url|string|The authorization type|
-|value|string|The authorized message|
+|type_url|String|The authorization type|
+|value|String|The authorized message|
 
 **Expiration**
 
 |Parameter|Type|Description|
 |----|----|----|
-|seconds|string|The expiration time for an authorization|
+|seconds|String|The expiration time for an authorization|

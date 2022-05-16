@@ -74,7 +74,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|tx_hash|string|The transaction hash|Yes|
+|tx_hash|String|The transaction hash|Yes|
 
 
 ### Response Parameters
@@ -102,15 +102,15 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|block_number|int|The block at which the transaction was executed|
-|block_timestamp|string|The timestamp of the block|
-|hash|string|The transaction hash|
+|block_number|Integer|The block at which the transaction was executed|
+|block_timestamp|String|The timestamp of the block|
+|hash|String|The transaction hash|
 |data|bytes|The raw data in bytes|
-|gas_wanted|int|The gas wanted for this transaction|
-|gas_used|int|The actual gas paid for this transaction|
-|tx_type|string|The transaction type|
-|messages|string|The messages included in this transaction|
-|pubkey|string|The public key of the block proposer|
-|address|string|The transaction sender address|
-|sequence|int|The sequence number of the sender's address|
-|signature|string|The signature|
+|gas_wanted|Integer|The gas wanted for this transaction|
+|gas_used|Integer|The actual gas paid for this transaction|
+|tx_type|String|The transaction type|
+|messages|String|The messages included in this transaction|
+|pubkey|String|The public key of the block proposer|
+|address|String|The transaction sender address|
+|sequence|Integer|The sequence number of the sender's address|
+|signature|String|The signature|

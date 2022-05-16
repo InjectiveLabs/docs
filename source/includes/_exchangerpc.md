@@ -27,7 +27,7 @@ async def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|hash|string|Transaction hash in hex without 0x prefix (Cosmos-like).|
+|hash|String|Transaction hash in hex without 0x prefix (Cosmos-like).|
 
 
 
@@ -45,14 +45,14 @@ async def main() -> None:
 
 |Parameter|Type|Description|
 |----|----|----|
-|data|string|Result bytes, if any|
-|height|integer|The block height|
-|index|integer|Tx index in the block|
-|rawLog|string|The output of the application's logger (raw string). May be non-deterministic.|
-|timestamp|string|Time of the previous block.|
-|txHash|string|Hex-encoded Tendermint transaction hash|
-|code|integer|Response code|
-|codespace|string|Namespace for the resp code|
+|data|String|Result bytes, if any|
+|height|Integer|The block height|
+|index|Integer|Tx index in the block|
+|rawLog|String|The output of the application's logger (raw string). May be non-deterministic.|
+|timestamp|String|Time of the previous block.|
+|txHash|String|Hex-encoded Tendermint transaction hash|
+|code|Integer|Response code|
+|codespace|String|Namespace for the resp code|
 
 
 
@@ -141,7 +141,7 @@ async def main() -> None:
 |Parameter|Type|Description|
 |----|----|----|
 |metaData|object|Additional meta data.|
-|version|string|injective-exchange code version.|
+|version|String|injective-exchange code version.|
 
 
 ## InjectiveExchangeRPC.PrepareTx
@@ -158,28 +158,28 @@ PrepareTx generates a Web3-signable body for a Cosmos transaction
 
 |Parameter|Type|Description|
 |----|----|----|
-|timeoutHeight|integer|Block height until which the transaction is valid.|
-|chainID|integer|Specify chainID for the target tx|
+|timeoutHeight|Integer|Block height until which the transaction is valid.|
+|chainID|Integer|Specify chainID for the target tx|
 |fee|CosmosTxFee||
-|memo|string|Textual memo information to attach with tx|
+|memo|String|Textual memo information to attach with tx|
 |msgs|Array of string|List of Cosmos proto3-encoded Msgs to include in a single tx|
-|sequence|integer|Account sequence number (nonce) of signer|
-|signerAddress|string|Specify Ethereum address of a signer|
+|sequence|Integer|Account sequence number (nonce) of signer|
+|signerAddress|String|Specify Ethereum address of a signer|
 
 CosmosTxFee:
 
 |Parameter|Type|Description|
 |----|----|----|
-|delegateFee|boolean|Explicitly require fee delegation when set to true. Or don't care = false. Will be replaced by other flag in the next version.|
-|gas|integer|Transaction gas limit|
+|delegateFee|Boolean|Explicitly require fee delegation when set to true. Or don't care = false. Will be replaced by other flag in the next version.|
+|gas|Integer|Transaction gas limit|
 |price|Array of CosmosCoin|Transaction gas price|
 
 CosmosCoin:
 
 |Parameter|Type|Description|
 |----|----|----|
-|amount|string|Coin amount (big int)|
-|denom|string|Coin denominator|
+|amount|String|Coin amount (big int)|
+|denom|String|Coin denominator|
 
 
 
@@ -194,12 +194,12 @@ CosmosCoin:
 
 |Parameter|Type|Description|
 |----|----|----|
-|signMode|string|Sign mode for the resulting tx|
-|data|string|EIP712-compatible message suitable for signing with eth_signTypedData_v4|
-|feePayer|string|Fee payer address provided by service|
-|feePayerSig|string|Hex-encoded ethsecp256k1 signature bytes from fee payer|
-|pubKeyType|string|Specify proto-URL of a public key, which defines the signature format|
-|sequence|integer|Account tx sequence (nonce)|
+|signMode|String|Sign mode for the resulting tx|
+|data|String|EIP712-compatible message suitable for signing with eth_signTypedData_v4|
+|feePayer|String|Fee payer address provided by service|
+|feePayerSig|String|Hex-encoded ethsecp256k1 signature bytes from fee payer|
+|pubKeyType|String|Specify proto-URL of a public key, which defines the signature format|
+|sequence|Integer|Account tx sequence (nonce)|
 
 
 ## InjectiveExchangeRPC.BroadcastTx
@@ -217,19 +217,19 @@ BroadcastTx broadcasts a signed Web3 transaction
 |----|----|----|
 |msgs|Array of string|List of Cosmos proto3-encoded Msgs from tx|
 |pubKey|CosmosPubKey||
-|signature|string|Hex-encoded ethsecp256k1 signature bytes|
-|tx|string|Amino-encoded Tx JSON data (except Msgs)|
-|chainID|integer|Specify Web3 chainID (from prepateTx) for the target Tx|
-|feePayer|string|Fee payer address provided by service|
-|feePayerSig|string|Hex-encoded ethsecp256k1 signature bytes from fee payer|
-|mode|string|Broadcast mode (Should be one of: [sync async block]) |
+|signature|String|Hex-encoded ethsecp256k1 signature bytes|
+|tx|String|Amino-encoded Tx JSON data (except Msgs)|
+|chainID|Integer|Specify Web3 chainID (from prepateTx) for the target Tx|
+|feePayer|String|Fee payer address provided by service|
+|feePayerSig|String|Hex-encoded ethsecp256k1 signature bytes from fee payer|
+|mode|String|Broadcast mode (Should be one of: [sync async block]) |
 
 CosmosPubKey:
 
 |Parameter|Type|Description|
 |----|----|----|
-|type|string|Pubkey type URL|
-|key|string|Hex-encoded string of the public key|
+|type|String|Pubkey type URL|
+|key|String|Hex-encoded string of the public key|
 
 
 
@@ -243,12 +243,12 @@ CosmosPubKey:
 
 |Parameter|Type|Description|
 |----|----|----|
-|height|integer|The block height|
-|index|integer|Tx index in the block|
-|rawLog|string|The output of the application's logger (raw string). May be non-deterministic.|
-|timestamp|string|Time of the previous block.|
-|txHash|string|Hex-encoded Tendermint transaction hash|
-|code|integer|Response code|
-|codespace|string|Namespace for the resp code|
-|data|string|Result bytes, if any|
+|height|Integer|The block height|
+|index|Integer|Tx index in the block|
+|rawLog|String|The output of the application's logger (raw string). May be non-deterministic.|
+|timestamp|String|Time of the previous block.|
+|txHash|String|Hex-encoded Tendermint transaction hash|
+|code|Integer|Response code|
+|codespace|String|Namespace for the resp code|
+|data|String|Result bytes, if any|
 
