@@ -177,10 +177,10 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|from_address|string|The Injective Chain address of the sender|Yes|
-|to_address|string| The Injective Chain address of the receiver|Yes|
-|amount|int|The amount of tokens to send|Yes|
-|denom|string|The token denom|Yes|
+|from_address|String|The Injective Chain address of the sender|Yes|
+|to_address|String| The Injective Chain address of the receiver|Yes|
+|amount|Integer|The amount of tokens to send|Yes|
+|denom|String|The token denom|Yes|
 
 
 
@@ -376,10 +376,10 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The Injective Chain address|Yes|
-|subaccount_id|string|The subaccount ID to receive the funds|Yes|
-|amount|int|The amount of tokens to send|Yes|
-|denom|string|The token denom|Yes|
+|sender|String|The Injective Chain address|Yes|
+|subaccount_id|String|The subaccount ID to receive the funds|Yes|
+|amount|Integer|The amount of tokens to send|Yes|
+|denom|String|The token denom|Yes|
 
 
 
@@ -574,10 +574,10 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The Injective Chain address|Yes|
-|subaccount_id|string|The subaccount ID to withdraw the funds from|Yes|
-|amount|int|The amount of tokens to send|Yes|
-|denom|string|The token denom|Yes|
+|sender|String|The Injective Chain address|Yes|
+|subaccount_id|String|The subaccount ID to withdraw the funds from|Yes|
+|amount|Integer|The amount of tokens to send|Yes|
+|denom|String|The token denom|Yes|
 
 
 > Response Example:
@@ -776,11 +776,11 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The Injective Chain address|Yes|
-|amount|int|The amount of tokens to send|Yes|
-|denom|string|The token denom|Yes|
-|source_subaccount_id|string|The subaccount ID to send the funds|Yes|
-|destination_subaccount_id|string|The subaccount ID to receive the funds|Yes|
+|sender|String|The Injective Chain address|Yes|
+|amount|Integer|The amount of tokens to send|Yes|
+|denom|String|The token denom|Yes|
+|source_subaccount_id|String|The subaccount ID to send the funds|Yes|
+|destination_subaccount_id|String|The subaccount ID to receive the funds|Yes|
 
 
 
@@ -991,11 +991,11 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The Injective Chain address|Yes|
-|amount|int|The amount of tokens to send|Yes|
-|denom|string|The token denom|Yes|
-|eth_dest|string|The ethereum destination address|Yes|
-|bridge_fee|string|The bridge fee for the transfer|Yes|
+|sender|String|The Injective Chain address|Yes|
+|amount|Integer|The amount of tokens to send|Yes|
+|denom|String|The token denom|Yes|
+|eth_dest|String|The ethereum destination address|Yes|
+|bridge_fee|String|The bridge fee for the transfer|Yes|
 
 
 
@@ -1064,12 +1064,12 @@ if __name__ == "__main__":
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|ethereum_endpoint|string|The ethereum endpoint, you can get one from providers like Infura and Alchemy|Yes|
-|token_contract|string|The token contract, you can find the contract for the token you want to transfer on etherscan|Yes|
-|receiver|string|The Injective Chain address to receive the funds|Yes|
-|maxFeePerGas_Gwei|int|The maxFeePerGas in Gwei|Yes|
-|maxPriorityFeePerGas_Gwei|int|The maxPriorityFeePerGas in Gwei|Yes|
-|amount|int|The amount you want to transfer|Yes|
+|ethereum_endpoint|String|The ethereum endpoint, you can get one from providers like Infura and Alchemy|Yes|
+|token_contract|String|The token contract, you can find the contract for the token you want to transfer on etherscan|Yes|
+|receiver|String|The Injective Chain address to receive the funds|Yes|
+|maxFeePerGas_Gwei|Integer|The maxFeePerGas in Gwei|Yes|
+|maxPriorityFeePerGas_Gwei|Integer|The maxPriorityFeePerGas in Gwei|Yes|
+|amount|Integer|The amount you want to transfer|Yes|
 
 
 > Response Example:

@@ -182,7 +182,7 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The Injective Chain address of the sender|Yes|
+|sender|String|The Injective Chain address of the sender|Yes|
 |price|list|The price of the base asset|Yes|
 |base|list|The base denom|Yes|
 |quote|list|The quote denom|Yes|

@@ -179,9 +179,9 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|string|The Injective Chain address|Yes|
-|round|string|The auction round|Yes|
-|bid_amount|string|The bid amount in INJ|Yes|
+|sender|String|The Injective Chain address|Yes|
+|round|String|The auction round|Yes|
+|bid_amount|String|The bid amount in INJ|Yes|
 
 > Response Example:
 

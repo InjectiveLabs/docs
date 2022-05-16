@@ -104,9 +104,9 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|symbol|string|The symbol of the asset|
-|oracle_type|string|The oracle provider|
-|price|string|The price of the asset|
+|symbol|String|The symbol of the asset|
+|oracle_type|String|The oracle provider|
+|price|String|The price of the asset|
 
 
 ## Price
@@ -197,10 +197,10 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|base_symbol|string|Oracle base currency|Yes|
-|quote_symbol|string|Oracle quote currency|Yes|
-|oracle_type|string|The oracle provider|Yes|
-|oracle_scale_factor|integer|Oracle scale factor for the quote asset|Yes|
+|base_symbol|String|Oracle base currency|Yes|
+|quote_symbol|String|Oracle quote currency|Yes|
+|oracle_type|String|The oracle provider|Yes|
+|oracle_scale_factor|Integer|Oracle scale factor for the quote asset|Yes|
 
 
 ### Response Parameters
@@ -214,7 +214,7 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|string|The price of the oracle asset|
+|price|String|The price of the oracle asset|
 
 
 ## StreamPrices
@@ -321,9 +321,9 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|base_symbol|string|Oracle base currency|Yes|
-|quote_symbol|string|Oracle quote currency|Yes|
-|oracle_type|string|The oracle provider|Yes|
+|base_symbol|String|Oracle base currency|Yes|
+|quote_symbol|String|Oracle quote currency|Yes|
+|oracle_type|String|The oracle provider|Yes|
 
 
 ### Response Parameters
@@ -338,5 +338,5 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|string|The price of the oracle asset|
-|timestamp|integer|Operation timestamp in UNIX millis.|
+|price|String|The price of the oracle asset|
+|timestamp|Integer|Operation timestamp in UNIX millis.|

@@ -54,7 +54,7 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|bid_round|int|The auction round|Yes|
+|bid_round|Integer|The auction round|Yes|
 
 
 ### Response Parameters
@@ -95,28 +95,28 @@ func main() {
 
 |Parameter|Type|Description|
 |----|----|----|
-|winner|string|The Injective Chain address with the highest bid|
+|winner|String|The Injective Chain address with the highest bid|
 |basket|Basket|Array of Basket|
-|winning_bid_amount|string|The highest bid|
-|round|integer|The auction round|
-|end_timestamp|integer|The auction's ending timestamp|
-|updated_at|integer|The timestamp of the last submitted bid|
+|winning_bid_amount|String|The highest bid|
+|round|Integer|The auction round|
+|end_timestamp|Integer|The auction's ending timestamp|
+|updated_at|Integer|The timestamp of the last submitted bid|
 
 **Bids**
 
 |Parameter|Type|Description|
 |----|----|----|
-|bidder|string|The Injective Chain address|
-|amount|string|The bid amount|
-|timestamp|integer|The timestamp at which the bid was submitted|
+|bidder|String|The Injective Chain address|
+|amount|String|The bid amount|
+|timestamp|Integer|The timestamp at which the bid was submitted|
 
 
 **Basket**
 
 |Parameter|Type|Description|
 |----|----|----|
-|denom|string|Token denominator|
-|amount|string|Token quantity|
+|denom|String|Token denominator|
+|amount|String|Token quantity|
 
 
 
@@ -213,28 +213,28 @@ func main() {
 
 |Parameter|Type|Description|
 |----|----|----|
-|winner|string|The Injective Chain address with the highest bid|
+|winner|String|The Injective Chain address with the highest bid|
 |basket|Basket|Array of Basket|
-|winning_bid_amount|string|The highest bid|
-|round|integer|The auction round|
-|end_timestamp|integer|The auction's ending timestamp|
-|updated_at|integer|The timestamp of the last submitted bid|
+|winning_bid_amount|String|The highest bid|
+|round|Integer|The auction round|
+|end_timestamp|Integer|The auction's ending timestamp|
+|updated_at|Integer|The timestamp of the last submitted bid|
 
 **Bids**
 
 |Parameter|Type|Description|
 |----|----|----|
-|bidder|string|The Injective Chain address|
-|amount|string|The bid amount|
-|timestamp|integer|The timestamp at which the bid was submitted|
+|bidder|String|The Injective Chain address|
+|amount|String|The bid amount|
+|timestamp|Integer|The timestamp at which the bid was submitted|
 
 
 **Basket**
 
 |Parameter|Type|Description|
 |----|----|----|
-|denom|string|Token denominator|
-|amount|string|Token quantity|
+|denom|String|Token denominator|
+|amount|String|Token quantity|
 
 
 
@@ -320,7 +320,7 @@ func main() {
 
 |Parameter|Type|Description|
 |----|----|----|
-|bidder|string|The Injective Chain address|
-|bid_amount|string|Bid quantity|
-|round|integer|The auction round|
-|timestamp|integer|The timestamp at which the bid was submitted|
+|bidder|String|The Injective Chain address|
+|bid_amount|String|Bid quantity|
+|round|Integer|The auction round|
+|timestamp|Integer|The timestamp at which the bid was submitted|

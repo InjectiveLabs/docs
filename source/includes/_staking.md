@@ -168,8 +168,8 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|delegator_address|string|The delegator's address|Yes|
-|validator_address|string|The validator's address|Yes|
+|delegator_address|String|The delegator's address|Yes|
+|validator_address|String|The validator's address|Yes|
 
 
 > Response Example:
@@ -364,9 +364,9 @@ func main() {
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|delegator_address|string|The delegator's address|Yes|
-|validator_address|string|The validator's address|Yes|
-|amount|int|The INJ amount to delegate|Yes|
+|delegator_address|String|The delegator's address|Yes|
+|validator_address|String|The validator's address|Yes|
+|amount|Integer|The INJ amount to delegate|Yes|
 
 
 > Response Example:

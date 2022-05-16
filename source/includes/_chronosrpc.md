@@ -17,7 +17,7 @@ Get info about specific derivative market symbol by ticker.
 
 |Parameter|Type|Description|
 |----|----|----|
-|symbol|string|Specify unique ticker to search.|
+|symbol|String|Specify unique ticker to search.|
 
 
 
@@ -86,38 +86,38 @@ Get info about specific derivative market symbol by ticker.
 
 |Parameter|Type|Description|
 |----|----|----|
-|data_status|string|The status code of a series with this symbol. The status is shown in the upper right corner of a chart. (Should be one of: [streaming endofday pulsed delayed_streaming]) |
-|has_intraday|boolean|Boolean value showing whether the symbol includes intraday (minutes) historical data.|
-|has_seconds|boolean|Boolean value showing whether the symbol includes seconds in the historical data.|
-|has_weekly_and_monthly|boolean|The boolean value showing whether data feed has its own weekly and monthly resolution bars or not.|
-|name|string|Full name of a symbol. Will be displayed in the chart legend for this symbol.|
+|data_status|String|The status code of a series with this symbol. The status is shown in the upper right corner of a chart. (Should be one of: [streaming endofday pulsed delayed_streaming]) |
+|has_intraday|Boolean|Boolean value showing whether the symbol includes intraday (minutes) historical data.|
+|has_seconds|Boolean|Boolean value showing whether the symbol includes seconds in the historical data.|
+|has_weekly_and_monthly|Boolean|The boolean value showing whether data feed has its own weekly and monthly resolution bars or not.|
+|name|String|Full name of a symbol. Will be displayed in the chart legend for this symbol.|
 |seconds_multipliers|Array of string|It is an array containing resolutions that include seconds (excluding postfix) that the data feed provides.|
-|type|string|Symbol type (forex/stock, crypto etc.). (Should be one of: [stock index forex spotMarket bitcoin expression spread cfd crypto]) |
-|fractional|boolean|Boolean showing whether this symbol wants to have complex price formatting (see minmov2) or not. The default value is false.|
-|has_no_volume|boolean|Boolean showing whether the symbol includes volume data or not.|
-|s|string|Status of the response. (Should be one of: [ok error no_data]) |
-|ticker|string|It's an unique identifier for this particular symbol in your symbology. If you specify this property then its value will be used for all data requests for this symbol.|
-|description|string|Description of a symbol. Will be displayed in the chart legend for this symbol.|
-|exchange|string|Short name of exchange where this symbol is traded.|
-|force_session_rebuild|boolean|The boolean value showing whether the library should filter bars using the current trading session.|
-|listed_exchange|string|Short name of exchange where this symbol is traded.|
-|volume_precision|integer|Integer showing typical volume value decimal places for a particular symbol. 0 means volume is always an integer.|
-|expired|boolean|Boolean value showing whether this symbol is an expired spotMarket contract or not.|
-|pricescale|integer|Pricescale defines the number of decimal places. |
+|type|String|Symbol type (forex/stock, crypto etc.). (Should be one of: [stock index forex spotMarket bitcoin expression spread cfd crypto]) |
+|fractional|Boolean|Boolean showing whether this symbol wants to have complex price formatting (see minmov2) or not. The default value is false.|
+|has_no_volume|Boolean|Boolean showing whether the symbol includes volume data or not.|
+|s|String|Status of the response. (Should be one of: [ok error no_data]) |
+|ticker|String|It's an unique identifier for this particular symbol in your symbology. If you specify this property then its value will be used for all data requests for this symbol.|
+|description|String|Description of a symbol. Will be displayed in the chart legend for this symbol.|
+|exchange|String|Short name of exchange where this symbol is traded.|
+|force_session_rebuild|Boolean|The boolean value showing whether the library should filter bars using the current trading session.|
+|listed_exchange|String|Short name of exchange where this symbol is traded.|
+|volume_precision|Integer|Integer showing typical volume value decimal places for a particular symbol. 0 means volume is always an integer.|
+|expired|Boolean|Boolean value showing whether this symbol is an expired spotMarket contract or not.|
+|pricescale|Integer|Pricescale defines the number of decimal places. |
 |supported_resolutions|Array of string|An array of resolutions which should be enabled in resolutions picker for this symbol. Each item of an array is expected to be a string. The default value is an empty array.|
-|currency_code|string|The currency in which the instrument is traded. It is displayed in the Symbol Info dialog and on the price axes.|
-|has_empty_bars|boolean|The boolean value showing whether the library should generate empty bars in the session when there is no data from the data feed for this particular time.|
+|currency_code|String|The currency in which the instrument is traded. It is displayed in the Symbol Info dialog and on the price axes.|
+|has_empty_bars|Boolean|The boolean value showing whether the library should generate empty bars in the session when there is no data from the data feed for this particular time.|
 |minmov|number|Minmov is the amount of price precision steps for 1 tick.|
-|minmov2|integer||
-|sector|string|Sector for stocks to be displayed in the Symbol Info.|
-|errmsg|string|Error message.|
-|expiration_date|integer|Unix timestamp of the expiration date. One must set this value when expired = true.|
-|industry|string|Industry for stocks to be displayed in the Symbol Info.|
+|minmov2|Integer||
+|sector|String|Sector for stocks to be displayed in the Symbol Info.|
+|errmsg|String|Error message.|
+|expiration_date|Integer|Unix timestamp of the expiration date. One must set this value when expired = true.|
+|industry|String|Industry for stocks to be displayed in the Symbol Info.|
 |intraday_multipliers|Array of string|Array of resolutions (in minutes) supported directly by the data feed. The default of [] means that the data feed supports aggregating by any number of minutes.|
-|session|string|Bitcoin and other cryptocurrencies: the session string should be 24x7 (Should be one of: [24x7]) |
-|symbol|string|It's the name of the symbol. It is a string that your users will be able to see. |
-|has_daily|boolean|The boolean value showing whether data feed has its own daily resolution bars or not.|
-|timezone|string|Timezone of the exchange for this symbol. We expect to get the name of the time zone in olsondb format. (Should be one of: [Etc/UTC]) |
+|session|String|Bitcoin and other cryptocurrencies: the session string should be 24x7 (Should be one of: [24x7]) |
+|symbol|String|It's the name of the symbol. It is a string that your users will be able to see. |
+|has_daily|Boolean|The boolean value showing whether data feed has its own daily resolution bars or not.|
+|timezone|String|Timezone of the exchange for this symbol. We expect to get the name of the time zone in olsondb format. (Should be one of: [Etc/UTC]) |
 
 
 
@@ -159,10 +159,10 @@ Data feed configuration data for TradingView.
 |Parameter|Type|Description|
 |----|----|----|
 |supported_resolutions|Array of string|Supported resolutios|
-|supports_group_request|boolean|Supports group requests|
-|supports_marks|boolean|Supports marks|
-|supports_search|boolean|Supports symbol search|
-|supports_timescale_marks|boolean|Supports timescale marks|
+|supports_group_request|Boolean|Supports group requests|
+|supports_marks|Boolean|Supports marks|
+|supports_search|Boolean|Supports symbol search|
+|supports_timescale_marks|Boolean|Supports timescale marks|
 
 
 
@@ -183,8 +183,8 @@ Gets spot market summary for the latest interval (hour, day, month)
 
 |Parameter|Type|Description|
 |----|----|----|
-|marketId|string|Market ID of the spot market|
-|resolution|string|Specify the resolution (Should be one of: [hour 60m day 24h week 7days month 30days]) |
+|marketId|String|Market ID of the spot market|
+|resolution|String|Specify the resolution (Should be one of: [hour 60m day 24h week 7days month 30days]) |
 
 
 
@@ -206,7 +206,7 @@ Gets spot market summary for the latest interval (hour, day, month)
 |Parameter|Type|Description|
 |----|----|----|
 |low|number|Low price.|
-|marketId|string|Market ID of the spotMarket market|
+|marketId|String|Market ID of the spotMarket market|
 |open|number|Open price.|
 |price|number|Current price based on latest fill event.|
 |volume|number|Volume.|
@@ -231,7 +231,7 @@ Get a list of all spotMarket instruments for TradingView.
 
 |Parameter|Type|Description|
 |----|----|----|
-|group|string|ID of a symbol group. It is only required if you use groups of symbols to restrict access to instrument's data.|
+|group|String|ID of a symbol group. It is only required if you use groups of symbols to restrict access to instrument's data.|
 
 
 
@@ -366,7 +366,7 @@ Get a list of all spotMarket instruments for TradingView.
 |has-weekly-and-monthly|Array of boolean|The boolean value showing whether data feed has its own weekly and monthly resolution bars or not.|
 |minmov2|Array of integer|This is a number for complex price formatting cases. |
 |pointvalue|Array of integer|The currency value of a single whole unit price change in the instrument's currency. If the value is not provided it is assumed to be 1.|
-|s|string|Status of the response. (Should be one of: [ok error no_data]) |
+|s|String|Status of the response. (Should be one of: [ok error no_data]) |
 |session-regular|Array of string|Bitcoin and other cryptocurrencies: the session string should be 24x7|
 |currency|Array of string|Symbol currency, also named as counter currency. If a symbol is a currency pair, then the currency field has to contain the second currency of this pair. For example, USD is a currency for EURUSD ticker. Fiat currency must meet the ISO 4217 standard. The default value is null.|
 |exchange-traded|Array of string|Short name of exchange where this symbol is traded.|
@@ -380,7 +380,7 @@ Get a list of all spotMarket instruments for TradingView.
 |bar-fillgaps|Array of boolean|Is used to create the zero-volume bars in the absence of any trades|
 |pricescale|Array of integer|Indicates how many decimal points the price has. For example, if the price has 2 decimal points (ex., 300.01), then pricescale is 100. If it has 3 decimals, then pricescale is 1000 etc. If the price doesn't have decimals, set pricescale to 1|
 |expiration|Array of integer|Expiration of the spotMarket in the following format: YYYYMMDD. Required for spotMarket type symbols only. |
-|errmsg|string|Error message.|
+|errmsg|String|Error message.|
 |exchange-listed|Array of string|Short name of exchange where this symbol is listed.|
 |is-cfd|Array of boolean|Boolean value showing whether the symbol is CFD. The base instrument type is set using the type field.|
 |name|Array of string|Full name of a symbol. Will be displayed in the chart legend for this symbol.|
@@ -410,7 +410,7 @@ Gets batch summary for all active markets, for the latest interval (hour, day, m
 
 |Parameter|Type|Description|
 |----|----|----|
-|resolution|string|Specify the resolution (Should be one of: [hour 60m day 24h week 7days month 30days]) |
+|resolution|String|Specify the resolution (Should be one of: [hour 60m day 24h week 7days month 30days]) |
 
 
 
@@ -454,10 +454,10 @@ Data feed configuration data for TradingView.
 |Parameter|Type|Description|
 |----|----|----|
 |supported_resolutions|Array of string|Supported resolutios|
-|supports_group_request|boolean|Supports group requests|
-|supports_marks|boolean|Supports marks|
-|supports_search|boolean|Supports symbol search|
-|supports_timescale_marks|boolean|Supports timescale marks|
+|supports_group_request|Boolean|Supports group requests|
+|supports_marks|Boolean|Supports marks|
+|supports_search|Boolean|Supports symbol search|
+|supports_timescale_marks|Boolean|Supports timescale marks|
 
 
 
@@ -482,11 +482,11 @@ Request for history bars of derivativeMarket for TradingView.
 
 |Parameter|Type|Description|
 |----|----|----|
-|from|integer|Unix timestamp (UTC) of the leftmost required bar, including from|
-|resolution|string|Symbol resolution. Possible resolutions are daily (D or 1D, 2D ... ), weekly (1W, 2W ...), monthly (1M, 2M...) and an intra-day resolution – minutes(1, 2 ...).|
-|symbol|string|Specify unique ticker to search.|
-|to|integer|Unix timestamp (UTC) of the rightmost required bar, including to. It can be in the future. In this case, the rightmost required bar is the latest available bar.|
-|countback|integer|Number of bars (higher priority than from) starting with to. If countback is set, from should be ignored.|
+|from|Integer|Unix timestamp (UTC) of the leftmost required bar, including from|
+|resolution|String|Symbol resolution. Possible resolutions are daily (D or 1D, 2D ... ), weekly (1W, 2W ...), monthly (1M, 2M...) and an intra-day resolution – minutes(1, 2 ...).|
+|symbol|String|Specify unique ticker to search.|
+|to|Integer|Unix timestamp (UTC) of the rightmost required bar, including to. It can be in the future. In this case, the rightmost required bar is the latest available bar.|
+|countback|Integer|Number of bars (higher priority than from) starting with to. If countback is set, from should be ignored.|
 
 
 
@@ -533,11 +533,11 @@ Request for history bars of derivativeMarket for TradingView.
 
 |Parameter|Type|Description|
 |----|----|----|
-|errmsg|string|Error message.|
+|errmsg|String|Error message.|
 |h|Array of number|High price.|
 |l|Array of number|Low price.|
-|nb|integer|Unix time of the next bar if there is no data in the requested period (optional).|
-|s|string|Status of the response. (Should be one of: [ok error no_data]) |
+|nb|Integer|Unix time of the next bar if there is no data in the requested period (optional).|
+|s|String|Status of the response. (Should be one of: [ok error no_data]) |
 |t|Array of integer|Bar time, Unix timestamp (UTC). Daily bars should only have the date part, time should be 0.|
 |c|Array of number|Close price.|
 |o|Array of number|Open price.|
@@ -562,7 +562,7 @@ Get a list of all derivativeMarket instruments for TradingView.
 
 |Parameter|Type|Description|
 |----|----|----|
-|group|string|ID of a symbol group. It is only required if you use groups of symbols to restrict access to instrument's data.|
+|group|String|ID of a symbol group. It is only required if you use groups of symbols to restrict access to instrument's data.|
 
 
 
@@ -710,12 +710,12 @@ Get a list of all derivativeMarket instruments for TradingView.
 |base-currency|Array of string|For currency pairs only. This field contains the first currency of the pair. For example, base currency for EURUSD ticker is EUR. Fiat currency must meet the ISO 4217 standard.|
 |type|Array of string|Symbol type (forex/stock, crypto etc.).|
 |bar-source|Array of string|The principle of building bars. The default value is trade.|
-|s|string|Status of the response. (Should be one of: [ok error no_data]) |
+|s|String|Status of the response. (Should be one of: [ok error no_data]) |
 |symbol|Array of string|This is the name of the symbol - a string that the users will see. It should contain uppercase letters, numbers, a dot or an underscore. Also, it will be used for data requests if you are not using tickers.|
 |has-daily|Array of boolean|The boolean value showing whether data feed has its own daily resolution bars or not.|
 |has-intraday|Array of boolean|Boolean value showing whether the symbol includes intraday (minutes) historical data.|
 |minmovement|Array of number|Minimal tick change.|
-|errmsg|string|Error message.|
+|errmsg|String|Error message.|
 |expiration|Array of integer|Expiration of the spotMarket in the following format: YYYYMMDD. Required for spotMarket type symbols only. |
 |pointvalue|Array of integer|The currency value of a single whole unit price change in the instrument's currency. If the value is not provided it is assumed to be 1.|
 |pricescale|Array of integer|Indicates how many decimal points the price has. For example, if the price has 2 decimal points (ex., 300.01), then pricescale is 100. If it has 3 decimals, then pricescale is 1000 etc. If the price doesn't have decimals, set pricescale to 1|
@@ -746,8 +746,8 @@ Gets batch summary for all active markets, for the latest interval (hour, day, m
 
 |Parameter|Type|Description|
 |----|----|----|
-|indexPrice|boolean|Request the summary of index price feed|
-|resolution|string|Specify the resolution (Should be one of: [hour 60m day 24h week 7days month 30days]) |
+|indexPrice|Boolean|Request the summary of index price feed|
+|resolution|String|Specify the resolution (Should be one of: [hour 60m day 24h week 7days month 30days]) |
 
 
 
@@ -772,9 +772,9 @@ Gets derivative market summary for the latest interval (hour, day, month)
 
 |Parameter|Type|Description|
 |----|----|----|
-|resolution|string|Specify the resolution (Should be one of: [hour 60m day 24h week 7days month 30days]) |
-|indexPrice|boolean|Request the summary of index price feed|
-|marketId|string|Market ID of the derivative market|
+|resolution|String|Specify the resolution (Should be one of: [hour 60m day 24h week 7days month 30days]) |
+|indexPrice|Boolean|Request the summary of index price feed|
+|marketId|String|Market ID of the derivative market|
 
 
 
@@ -798,7 +798,7 @@ Gets derivative market summary for the latest interval (hour, day, month)
 |change|number|Change percent from opening price.|
 |high|number|High price.|
 |low|number|Low price.|
-|marketId|string|Market ID of the derivativeMarket market|
+|marketId|String|Market ID of the derivativeMarket market|
 |open|number|Open price.|
 |price|number|Current price based on latest fill event.|
 |volume|number|Volume.|
@@ -826,11 +826,11 @@ Request for history bars of spotMarket for TradingView.
 
 |Parameter|Type|Description|
 |----|----|----|
-|to|integer|Unix timestamp (UTC) of the rightmost required bar, including to. It can be in the future. In this case, the rightmost required bar is the latest available bar.|
-|countback|integer|Number of bars (higher priority than from) starting with to. If countback is set, from should be ignored.|
-|from|integer|Unix timestamp (UTC) of the leftmost required bar, including from|
-|resolution|string|Symbol resolution. Possible resolutions are daily (D or 1D, 2D ... ), weekly (1W, 2W ...), monthly (1M, 2M...) and an intra-day resolution – minutes(1, 2 ...).|
-|symbol|string|Specify unique ticker to search.|
+|to|Integer|Unix timestamp (UTC) of the rightmost required bar, including to. It can be in the future. In this case, the rightmost required bar is the latest available bar.|
+|countback|Integer|Number of bars (higher priority than from) starting with to. If countback is set, from should be ignored.|
+|from|Integer|Unix timestamp (UTC) of the leftmost required bar, including from|
+|resolution|String|Symbol resolution. Possible resolutions are daily (D or 1D, 2D ... ), weekly (1W, 2W ...), monthly (1M, 2M...) and an intra-day resolution – minutes(1, 2 ...).|
+|symbol|String|Specify unique ticker to search.|
 
 
 
@@ -877,11 +877,11 @@ Request for history bars of spotMarket for TradingView.
 
 |Parameter|Type|Description|
 |----|----|----|
-|s|string|Status of the response. (Should be one of: [ok error no_data]) |
-|errmsg|string|Error message.|
+|s|String|Status of the response. (Should be one of: [ok error no_data]) |
+|errmsg|String|Error message.|
 |h|Array of number|High price.|
 |l|Array of number|Low price.|
-|nb|integer|Unix time of the next bar if there is no data in the requested period (optional).|
+|nb|Integer|Unix time of the next bar if there is no data in the requested period (optional).|
 |c|Array of number|Close price.|
 |o|Array of number|Open price.|
 |t|Array of integer|Bar time, Unix timestamp (UTC). Daily bars should only have the date part, time should be 0.|
@@ -906,7 +906,7 @@ Get info about specific spot market symbol by ticker.
 
 |Parameter|Type|Description|
 |----|----|----|
-|symbol|string|Specify unique ticker to search.|
+|symbol|String|Specify unique ticker to search.|
 
 
 
@@ -975,36 +975,36 @@ Get info about specific spot market symbol by ticker.
 
 |Parameter|Type|Description|
 |----|----|----|
-|has_intraday|boolean|Boolean value showing whether the symbol includes intraday (minutes) historical data.|
-|pricescale|integer|Pricescale defines the number of decimal places. |
+|has_intraday|Boolean|Boolean value showing whether the symbol includes intraday (minutes) historical data.|
+|pricescale|Integer|Pricescale defines the number of decimal places. |
 |supported_resolutions|Array of string|An array of resolutions which should be enabled in resolutions picker for this symbol. Each item of an array is expected to be a string. The default value is an empty array.|
-|volume_precision|integer|Integer showing typical volume value decimal places for a particular symbol. 0 means volume is always an integer.|
-|expiration_date|integer|Unix timestamp of the expiration date. One must set this value when expired = true.|
-|expired|boolean|Boolean value showing whether this symbol is an expired spotMarket contract or not.|
-|has_no_volume|boolean|Boolean showing whether the symbol includes volume data or not.|
-|sector|string|Sector for stocks to be displayed in the Symbol Info.|
-|fractional|boolean|Boolean showing whether this symbol wants to have complex price formatting (see minmov2) or not. The default value is false.|
-|has_weekly_and_monthly|boolean|The boolean value showing whether data feed has its own weekly and monthly resolution bars or not.|
-|timezone|string|Timezone of the exchange for this symbol. We expect to get the name of the time zone in olsondb format. (Should be one of: [Etc/UTC]) |
-|data_status|string|The status code of a series with this symbol. The status is shown in the upper right corner of a chart. (Should be one of: [streaming endofday pulsed delayed_streaming]) |
-|description|string|Description of a symbol. Will be displayed in the chart legend for this symbol.|
-|has_daily|boolean|The boolean value showing whether data feed has its own daily resolution bars or not.|
-|has_empty_bars|boolean|The boolean value showing whether the library should generate empty bars in the session when there is no data from the data feed for this particular time.|
-|has_seconds|boolean|Boolean value showing whether the symbol includes seconds in the historical data.|
+|volume_precision|Integer|Integer showing typical volume value decimal places for a particular symbol. 0 means volume is always an integer.|
+|expiration_date|Integer|Unix timestamp of the expiration date. One must set this value when expired = true.|
+|expired|Boolean|Boolean value showing whether this symbol is an expired spotMarket contract or not.|
+|has_no_volume|Boolean|Boolean showing whether the symbol includes volume data or not.|
+|sector|String|Sector for stocks to be displayed in the Symbol Info.|
+|fractional|Boolean|Boolean showing whether this symbol wants to have complex price formatting (see minmov2) or not. The default value is false.|
+|has_weekly_and_monthly|Boolean|The boolean value showing whether data feed has its own weekly and monthly resolution bars or not.|
+|timezone|String|Timezone of the exchange for this symbol. We expect to get the name of the time zone in olsondb format. (Should be one of: [Etc/UTC]) |
+|data_status|String|The status code of a series with this symbol. The status is shown in the upper right corner of a chart. (Should be one of: [streaming endofday pulsed delayed_streaming]) |
+|description|String|Description of a symbol. Will be displayed in the chart legend for this symbol.|
+|has_daily|Boolean|The boolean value showing whether data feed has its own daily resolution bars or not.|
+|has_empty_bars|Boolean|The boolean value showing whether the library should generate empty bars in the session when there is no data from the data feed for this particular time.|
+|has_seconds|Boolean|Boolean value showing whether the symbol includes seconds in the historical data.|
 |minmov|number|Minmov is the amount of price precision steps for 1 tick.|
-|industry|string|Industry for stocks to be displayed in the Symbol Info.|
-|minmov2|integer||
-|name|string|Full name of a symbol. Will be displayed in the chart legend for this symbol.|
+|industry|String|Industry for stocks to be displayed in the Symbol Info.|
+|minmov2|Integer||
+|name|String|Full name of a symbol. Will be displayed in the chart legend for this symbol.|
 |intraday_multipliers|Array of string|Array of resolutions (in minutes) supported directly by the data feed. The default of [] means that the data feed supports aggregating by any number of minutes.|
-|type|string|Symbol type (forex/stock, crypto etc.). (Should be one of: [stock index forex spotMarket bitcoin expression spread cfd crypto]) |
-|exchange|string|Short name of exchange where this symbol is traded.|
-|listed_exchange|string|Short name of exchange where this symbol is traded.|
-|s|string|Status of the response. (Should be one of: [ok error no_data]) |
-|currency_code|string|The currency in which the instrument is traded. It is displayed in the Symbol Info dialog and on the price axes.|
-|errmsg|string|Error message.|
-|force_session_rebuild|boolean|The boolean value showing whether the library should filter bars using the current trading session.|
+|type|String|Symbol type (forex/stock, crypto etc.). (Should be one of: [stock index forex spotMarket bitcoin expression spread cfd crypto]) |
+|exchange|String|Short name of exchange where this symbol is traded.|
+|listed_exchange|String|Short name of exchange where this symbol is traded.|
+|s|String|Status of the response. (Should be one of: [ok error no_data]) |
+|currency_code|String|The currency in which the instrument is traded. It is displayed in the Symbol Info dialog and on the price axes.|
+|errmsg|String|Error message.|
+|force_session_rebuild|Boolean|The boolean value showing whether the library should filter bars using the current trading session.|
 |seconds_multipliers|Array of string|It is an array containing resolutions that include seconds (excluding postfix) that the data feed provides.|
-|session|string|Bitcoin and other cryptocurrencies: the session string should be 24x7 (Should be one of: [24x7]) |
-|symbol|string|It's the name of the symbol. It is a string that your users will be able to see. |
-|ticker|string|It's an unique identifier for this particular symbol in your symbology. If you specify this property then its value will be used for all data requests for this symbol.|
+|session|String|Bitcoin and other cryptocurrencies: the session string should be 24x7 (Should be one of: [24x7]) |
+|symbol|String|It's the name of the symbol. It is a string that your users will be able to see. |
+|ticker|String|It's an unique identifier for this particular symbol in your symbology. If you specify this property then its value will be used for all data requests for this symbol.|
 
