@@ -183,9 +183,9 @@ func main() {
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |sender|String|The Injective Chain address of the sender|Yes|
-|price|list|The price of the base asset|Yes|
-|base|list|The base denom|Yes|
-|quote|list|The quote denom|Yes|
+|price|Array|The price of the base asset|Yes|
+|base|Array|The base denom|Yes|
+|quote|Array|The quote denom|Yes|
 
 
 > Response Example:
