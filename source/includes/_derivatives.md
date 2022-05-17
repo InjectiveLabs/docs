@@ -221,9 +221,9 @@ func main() {
 |sender|String|The Injective Chain address|Yes|
 |subaccount_id|String|The subaccount we want to send an order from|Yes|
 |fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
-|price|float|The price of the base asset|Yes|
-|quantity|float|The quantity of the base asset|Yes|
-|leverage|float|The leverage factor for the order|No|
+|price|Float|The worst accepted price of the base asset|Yes|
+|quantity|Float|The quantity of the base asset|Yes|
+|leverage|Float|The leverage factor for the order|No|
 |is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
 
@@ -471,9 +471,9 @@ func main() {
 |sender|String|The Injective Chain address|Yes|
 |subaccount_id|String|The subaccount we want to send an order from|Yes|
 |fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
-|price|float|The price of the base asset|Yes|
-|quantity|float|The quantity of the base asset|Yes|
-|leverage|float|The leverage factor for the order|No|
+|price|Float|The price of the base asset|Yes|
+|quantity|Float|The quantity of the base asset|Yes|
+|leverage|Float|The leverage factor for the order|No|
 |is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
 |is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
@@ -964,9 +964,9 @@ func main() {
 |market_id|String|Market ID of the market we want to send an order|Yes|
 |subaccount_id|String|The subaccount ID we want to send an order from|Yes|
 |fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
-|price|float|The price of the base asset|Yes|
-|quantity|float|The quantity of the base asset|Yes|
-|leverage|float|The leverage factor for the order|No|
+|price|Float|The price of the base asset|Yes|
+|quantity|Float|The quantity of the base asset|Yes|
+|leverage|Float|The leverage factor for the order|No|
 |is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
 |is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
@@ -1564,8 +1564,8 @@ func main() {
 |market_id|String|Market ID of the market we want to send an order|Yes|
 |subaccount_id|String|The subaccount we want to send an order from|Yes|
 |fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
-|price|float|The price of the base asset|Yes|
-|quantity|float|The quantity of the base asset|Yes|
+|price|Float|The price of the base asset|Yes|
+|quantity|Float|The quantity of the base asset|Yes|
 |is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
 
@@ -1577,9 +1577,9 @@ func main() {
 |market_id|String|Market ID of the market we want to send an order|Yes|
 |subaccount_id|String|The subaccount ID we want to send an order from|Yes|
 |fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
-|price|float|The price of the base asset|Yes|
-|quantity|float|The quantity of the base asset|Yes|
-|leverage|float|The leverage factor for the order|No|
+|price|Float|The price of the base asset|Yes|
+|quantity|Float|The quantity of the base asset|Yes|
+|leverage|Float|The leverage factor for the order|No|
 |is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
 |is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
@@ -2109,9 +2109,9 @@ func main() {
 |market_id|String|Market ID of the market we want to send an order|Yes|
 |subaccount_id|String|The subaccount ID we want to send an order from|Yes|
 |fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
-|price|float|The price of the base asset|Yes|
-|quantity|float|The quantity of the base asset|Yes|
-|leverage|float|The leverage factor for the order|No|
+|price|Float|The price of the base asset|Yes|
+|quantity|Float|The quantity of the base asset|Yes|
+|leverage|Float|The leverage factor for the order|No|
 |is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
 |is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
@@ -2131,8 +2131,8 @@ func main() {
 |market_id|String|Market ID of the market we want to send an order|Yes|
 |subaccount_id|String|The subaccount we want to send an order from|Yes|
 |fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
-|price|float|The price of the base asset|Yes|
-|quantity|float|The quantity of the base asset|Yes|
+|price|Float|The price of the base asset|Yes|
+|quantity|Float|The quantity of the base asset|Yes|
 |is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
 
