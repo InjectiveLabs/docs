@@ -10,6 +10,9 @@ Get a list with oracles and feeds.
 > Request Example:
 
 ``` python
+import asyncio
+import logging
+
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
@@ -19,6 +22,10 @@ async def main() -> None:
     client = AsyncClient(network, insecure=False)
     oracle_list = await client.get_oracle_list()
     print(oracle_list)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -74,26 +81,17 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 ### Response Parameters
 > Response Example:
 
-``` json
-{
-"oracles": {
-  "symbol": "ADA",
-  "oracle_type": "bandibc",
-  "price": "2.797398",
-},
-"oracles": {
-  "symbol": "AKRO",
-  "oracle_type": "bandibc",
-  "price": "0.0333066"
-},
-"oracles": {
-  "symbol": "AMPL",
-  "oracle_type": "bandibc",
-  "price": "0.955257"
+``` python
+oracles {
+  symbol: "ANC"
+  oracle_type: "bandibc"
+  price: "2.212642692"
 }
-
+oracles {
+  symbol: "ATOM"
+  oracle_type: "bandibc"
+  price: "24.706861402"
 }
-
 ```
 
 |Parameter|Type|Description|
@@ -117,6 +115,9 @@ Get the oracle price of an asset.
 > Request Example:
 
 ``` python
+import asyncio
+import logging
+
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
@@ -126,10 +127,19 @@ async def main() -> None:
     client = AsyncClient(network, insecure=False)
     base_symbol = 'BTC'
     quote_symbol = 'USDT'
-    oracle_type = 'bandibc'
+    oracle_type = 'BandIBC'
     oracle_scale_factor = 6
-    oracle_prices = await client.get_oracle_prices(base_symbol=base_symbol, quote_symbol=quote_symbol, oracle_type=oracle_type, oracle_scale_factor=oracle_scale_factor)
+    oracle_prices = await client.get_oracle_prices(
+        base_symbol=base_symbol,
+        quote_symbol=quote_symbol,
+        oracle_type=oracle_type,
+        oracle_scale_factor=oracle_scale_factor
+    )
     print(oracle_prices)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -206,10 +216,8 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 ### Response Parameters
 > Response Example:
 
-``` json
-{
-  "price": "46361990000"
-}
+``` python
+price: "40128736026.4094317665"
 ```
 
 |Parameter|Type|Description|
@@ -225,6 +233,9 @@ Stream oracle prices for an asset.
 > Request Example:
 
 ``` python
+import asyncio
+import logging
+
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
@@ -234,7 +245,7 @@ async def main() -> None:
     client = AsyncClient(network, insecure=False)
     base_symbol = 'BTC'
     quote_symbol = 'USDT'
-    oracle_type = 'bandibc'
+    oracle_type = 'BandIBC'
     oracle_prices = await client.stream_oracle_prices(
         base_symbol=base_symbol,
         quote_symbol=quote_symbol,
@@ -242,6 +253,10 @@ async def main() -> None:
     )
     async for oracle in oracle_prices:
         print(oracle)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -329,11 +344,9 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 ### Response Parameters
 > Streaming Response Example:
 
-``` json
-{
-  "price": "14.01",
-  "timestamp": 1544614248000
-}
+``` python
+price: "40128.7360264094317665"
+timestamp: 1652808740072
 ```
 
 |Parameter|Type|Description|

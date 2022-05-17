@@ -9,9 +9,11 @@ Get the server health.
 > Request Example:
 
 ``` python
+import asyncio
+import logging
+
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
-
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -19,6 +21,10 @@ async def main() -> None:
     client = AsyncClient(network, insecure=False)
     resp = await client.ping()
     print('Health OK?', resp)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -75,10 +81,8 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 > Response Example:
 
-``` json
-{
-"Health OK?"
-}
+``` python
+Health OK? 
 ```
 
 
@@ -89,16 +93,22 @@ Get the server version.
 > Request Example:
 
 ``` python
+import asyncio
+import logging
+
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
-
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     resp = await client.version()
-    print(resp)
+    print('Version:', resp)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -156,27 +166,25 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 > Response Example:
 
-``` json
-{
-"version": "dev",
-"build": {
-  "key": "BuildDate",
-  "value": "20211106-1852",
-},
-"build": {
-  "key": "GitCommit",
-  "value": "2705336"
-},
-"build": {
-  "key": "GoArch",
-  "value": "amd64"
-},
-"build": {
-  "key": "GoVersion",
-  "value": "go1.17.2"
+``` python
+Version: version: "dev"
+build {
+  key: "BuildDate"
+  value: "20220426-0810"
+}
+build {
+  key: "GitCommit"
+  value: "4f3bc09"
+}
+build {
+  key: "GoArch"
+  value: "amd64"
+}
+build {
+  key: "GoVersion"
+  value: "go1.17.3"
 }
 
-}
 ```
 
 ## Info
@@ -186,11 +194,12 @@ Get the server information.
 > Request Example:
 
 ``` python
+import asyncio
+import logging
 import time
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
-
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -259,32 +268,29 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 > Response Example:
 
-``` json
-{
-"[!] Info": {
-"timestamp": 1636235761154,
-"server_time": 1636235762168,
-"version": "dev",
-"build": {
-  "key": "BuildDate",
-  "value": "20211106-1852"
-},
-"build": {
-  "key": "GitCommit",
-  "value": "2705336"
-},
-"build": {
-  "key": "GoArch",
-  "value": "amd64"
-},
-"build": {
-  "key": "GoVersion",
-  "value": "go1.17.2"
-},
+``` python
+[!] Info:
+timestamp: 1652794819236
+server_time: 1652794829954
+version: "dev"
+build {
+  key: "BuildDate"
+  value: "20220426-0810"
+}
+build {
+  key: "GitCommit"
+  value: "4f3bc09"
+}
+build {
+  key: "GoArch"
+  value: "amd64"
+}
+build {
+  key: "GoVersion"
+  value: "go1.17.3"
+}
 
-"Server Latency": "822ms"
-}
-}
+Server Latency: 822ms
 ```
 
 ## StreamKeepAlive
@@ -294,11 +300,11 @@ Subscribe to a stream and gracefully disconnect and connect to another sentry no
 > Request Example:
 
 ``` python
+import asyncio
+import logging
+
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
-
-import asyncio
-
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -326,10 +332,15 @@ async def get_markets(client):
 async def keepalive(client, tasks: list):
     stream = await client.stream_keepalive()
     async for announce in stream:
-        print(announce)
-        for task in tasks:
+        print('Server announce:', announce)
+        async for task in tasks:
             task.cancel()
         print('Cancelled all tasks')
+
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -377,12 +388,9 @@ func main() {
 
 > Response Example:
 
-``` json
-{
-"event": "shutdown",
-"timestamp": 1636236225847,
+``` python
+event: "shutdown",
+timestamp: 1636236225847,
 
 "Cancelled all tasks"
-
-}
 ```

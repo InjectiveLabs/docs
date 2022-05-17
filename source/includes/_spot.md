@@ -16,7 +16,6 @@ from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey
 
-
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()

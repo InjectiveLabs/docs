@@ -10,15 +10,23 @@ Get the details of a specific auction.
 > Request Example:
 
 ``` python
+import asyncio
+import logging
+
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
+    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    action_round = 12
-    auction = await client.get_auction(bid_round=action_round)
+    bid_round = 12
+    auction = await client.get_auction(bid_round=bid_round)
     print(auction)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -60,29 +68,26 @@ func main() {
 ### Response Parameters
 > Response Example:
 
-``` json
-{
-"auction": {
-  "winner": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-  "basket": {
-    "denom": "peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-    "amount": "300100663"
+``` python
+auction: {
+  winner: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+  basket: {
+    denom: "peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    amount: "300100663"
   },
-  "basket": {
-    "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "amount": "8084075059004"
+  basket: {
+    denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    amount: "8084075059004"
   },
-  "winning_bid_amount": "1000000000000000000000",
-  "round": 12,
-  "end_timestamp": 1639999020325,
-  "updated_at": 1639999022779,
+  winning_bid_amount: "1000000000000000000000",
+  round: 12,
+  end_timestamp: 1639999020325,
+  updated_at: 1639999022779,
 },
-"bids": {
-  "bidder": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-  "amount": "1000000000000000000000",
-  "timestamp": 1640000366576
-}
-
+bids: {
+  bidder: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+  amount: "1000000000000000000000",
+  timestamp: 1640000366576
 }
 ```
 
@@ -127,14 +132,22 @@ Get the details of previous auctions.
 > Request Example:
 
 ``` python
+import asyncio
+import logging
+
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
+    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     auctions = await client.get_auctions()
     print(auctions)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -170,37 +183,34 @@ func main() {
 ### Response Parameters
 > Response Example:
 
-``` json
-{
-"auctions": {
-  "winner": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-  "basket": {
-    "denom": "peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-    "amount": "300100663"
+``` python
+auctions: {
+  winner: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+  basket: {
+    denom: "peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    amount: "300100663"
   },
-  "basket": {
-    "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "amount": "8084075059004"
+  basket: {
+    denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    amount: "8084075059004"
   },
-  "winning_bid_amount": "1000000000000000000000",
-  "round": 12,
-  "end_timestamp": 1639999020325,
-  "updated_at": 1639999022779
+  winning_bid_amount: "1000000000000000000000",
+  round: 12,
+  end_timestamp: 1639999020325,
+  updated_at: 1639999022779
 },
-"auctions": {
-  "basket": {
-    "denom": "peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-    "amount": "18930656"
+auctions: {
+  basket: {
+    denom: "peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    amount: "18930656"
   },
-  "basket": {
-    "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "amount": "404428070978"
+  basket: {
+    denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    amount: "404428070978"
   },
-  "round": 13,
-  "end_timestamp": 1640000820966,
-  "updated_at": 1640000824348
-}
-
+  round: 13,
+  end_timestamp: 1640000820966,
+  updated_at: 1640000824348
 }
 ```
 
@@ -245,16 +255,23 @@ Stream live updates for auction bids.
 > Request Example:
 
 ``` python
+import asyncio
+import logging
+
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
-
 async def main() -> None:
+    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     bids = await client.stream_bids()
     async for bid in bids:
         print(bid)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -303,19 +320,16 @@ func main() {
 ### Response Parameters
 > Response Example:
 
-``` json
-{
-"bidder": "inj1pn252r3a45urd3n8v84kyey4kcv4544zj70wkp",
-"bid_amount": "1000000000000000000",
-"round": 69,
-"timestamp": 1638401749218,
+``` python
+bidder: "inj1pn252r3a45urd3n8v84kyey4kcv4544zj70wkp",
+bid_amount: "1000000000000000000",
+round: 69,
+timestamp: 1638401749218,
 
-"bidder": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-"bid_amount": "2000000000000000000",
-"round": 69,
-"timestamp": 1638401841673
-
-}
+bidder: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+bid_amount: "2000000000000000000",
+round: 69,
+timestamp: 1638401841673
 ```
 
 |Parameter|Type|Description|

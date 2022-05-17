@@ -1037,7 +1037,7 @@ import importlib.resources as pkg_resources
 import pyinjective
 
 async def main() -> None:
-    # select network: testnet, mainnet
+    # select network: local, testnet, mainnet
     network = Network.testnet()
     peggo_composer = Peggo(network=network.string())
 
