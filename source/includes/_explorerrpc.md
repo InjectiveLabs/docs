@@ -35,6 +35,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -50,15 +51,15 @@ func main() {
   }
 
   ctx := context.Background()
-  hash := "E5DCF04CC670A0567F58683409F7DAFC49754278DAAD507FE6EB40DFBFD71830"
+  hash := "0x4893b36b1b2d7a0a94973cda1a6eaabf32c43e9c51b629bbdee6a46891c8a63c"
   res, err := exchangeClient.GetTxByTxHash(ctx, hash)
   if err != nil {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
-
 ```
 
 ``` typescript
@@ -110,6 +111,37 @@ signatures {
   address: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
   sequence: 1114
   signature: "Ylj8HMq6g0iwSEtMVm8xKwP6m2p9w2H/K/AeKlIeBzltKONBP2oPkdWYcQKkGimbozlxIZm4AYi3x0JGwNps+g=="
+}
+```
+
+``` go
+{
+ "block_number": 4362066,
+ "block_timestamp": "2022-04-25 09:27:48.303 +0000 UTC",
+ "hash": "0x4893b36b1b2d7a0a94973cda1a6eaabf32c43e9c51b629bbdee6a46891c8a63c",
+ "data": "CnsKMy9pbmplY3RpdmUuZXhjaGFuZ2UudjFiZXRhMS5Nc2dDcmVhdGVTcG90TGltaXRPcmRlchJECkIweDIzNGU3YTAzMzlmOTUzZGEyNDMxMTFlOTlhNDg2NTZiOGI5ODM5NGY3ZGJiNTNkZTNlY2QwYWZmMGQ0NTI4ZmI=",
+ "gas_wanted": 121770,
+ "gas_used": 115359,
+ "gas_fee": {
+  "amount": [
+   {
+    "denom": "inj",
+    "amount": "60885000000000"
+   }
+  ],
+  "gas_limit": 121770,
+  "payer": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+ },
+ "tx_type": "injective",
+ "messages": "[{\"type\":\"/injective.exchange.v1beta1.MsgCreateSpotLimitOrder\",\"value\":{\"order\":{\"market_id\":\"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0\",\"order_info\":{\"fee_recipient\":\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\",\"price\":\"0.000000000007523000\",\"quantity\":\"10000000000000000.000000000000000000\",\"subaccount_id\":\"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000\"},\"order_type\":\"BUY_PO\",\"trigger_price\":\"0.000000000000000000\"},\"sender\":\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\"}}]",
+ "signatures": [
+  {
+   "pubkey": "injvalcons1hkhdaj2a2clmq5jq6mspsggqs32vynpkflpeux",
+   "address": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+   "sequence": 1114,
+   "signature": "Ylj8HMq6g0iwSEtMVm8xKwP6m2p9w2H/K/AeKlIeBzltKONBP2oPkdWYcQKkGimbozlxIZm4AYi3x0JGwNps+g=="
+  }
+ ]
 }
 ```
 

@@ -33,6 +33,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
   "github.com/InjectiveLabs/sdk-go/client/common"
   exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
@@ -56,9 +57,9 @@ func main() {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
-
 ```
 
 ``` typescript
@@ -97,9 +98,28 @@ funds {
 }
 ```
 
+``` go
+{
+ "funds": [
+  {
+   "market_ticker": "OSMO/UST PERP",
+   "market_id": "0x8c7fd5e6a7f49d840512a43d95389a78e60ebaf0cde1af86b26a785eb23b3be5",
+   "deposit_denom": "ibc/B448C0CA358B958301D328CCDC5D5AD642FC30A6D3AE106FF721DB315F3DDE5C",
+   "pool_token_denom": "share19",
+   "redemption_notice_period_duration": 1209600,
+   "balance": "1000000",
+   "total_share": "1000000000000000000",
+   "oracle_base": "OSMO",
+   "oracle_quote": "UST",
+   "oracle_type": "bandibc"
+  }
+ ]
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
-|funds|InsuranceFund|Array of InsuranceFund|
+|funds|InsuranceFund|InsuranceFund object|
 
 **InsuranceFund**
 
@@ -153,6 +173,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
   "github.com/InjectiveLabs/sdk-go/client/common"
   exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
@@ -176,9 +197,9 @@ func main() {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
-
 ```
 
 ``` typescript
@@ -246,9 +267,25 @@ redemption_schedules: {
 }
 ```
 
+``` go
+{
+ "redemption_schedules": [
+  {
+   "redemption_id": 1,
+   "status": "pending",
+   "redeemer": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+   "claimable_redemption_time": 1654247935923000,
+   "redemption_amount": "1000000000000000000",
+   "redemption_denom": "share19",
+   "requested_at": 1653038335923000
+  }
+ ]
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
-|redemption_schedules|RedemptionSchedule|Array of RedemptionSchedule|
+|redemption_schedules|RedemptionSchedule|RedemptionSchedule object|
 
 **RedemptionSchedule**
 

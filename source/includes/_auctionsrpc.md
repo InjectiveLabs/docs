@@ -34,6 +34,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -49,15 +50,15 @@ func main() {
   }
 
   ctx := context.Background()
-  round := int64(35)
+  round := int64(13534)
   res, err := exchangeClient.GetAuction(ctx, round)
   if err != nil {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
-
 ```
 
 |Parameter|Type|Description|Required|
@@ -91,17 +92,41 @@ bids: {
 }
 ```
 
+``` go
+{
+ "auction": {
+  "basket": [
+   {
+    "denom": "ibc/B448C0CA358B958301D328CCDC5D5AD642FC30A6D3AE106FF721DB315F3DDE5C",
+    "amount": "20541163349"
+   },
+   {
+    "denom": "peggy0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "amount": "3736040925000000"
+   },
+   {
+    "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "amount": "383119139180"
+   }
+  ],
+  "round": 13534,
+  "end_timestamp": 1650635285000,
+  "updated_at": 1650978958302
+ }
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
-|auction|Auction|Array of Auction|
-|bids|Bids|Array of Bids|
+|auction|Auction|Auction object|
+|bids|Bids|Bids object|
 
 **Auction**
 
 |Parameter|Type|Description|
 |----|----|----|
 |winner|String|The Injective Chain address with the highest bid|
-|basket|Basket|Array of Basket|
+|basket|Basket|Basket object|
 |winning_bid_amount|String|The highest bid|
 |round|Integer|The auction round|
 |end_timestamp|Integer|The auction's ending timestamp|
@@ -155,6 +180,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -175,9 +201,9 @@ func main() {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
-
 ```
 
 ### Response Parameters
@@ -214,17 +240,62 @@ auctions: {
 }
 ```
 
+``` go
+{
+ "auctions": [
+  {
+   "basket": [
+    {
+     "denom": "ibc/B448C0CA358B958301D328CCDC5D5AD642FC30A6D3AE106FF721DB315F3DDE5C",
+     "amount": "20541163349"
+    },
+    {
+     "denom": "peggy0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+     "amount": "3736040925000000"
+    },
+    {
+     "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+     "amount": "383119139180"
+    }
+   ],
+   "round": 13435,
+   "end_timestamp": 1650575885000,
+   "updated_at": 1650978931464
+  },
+  {
+   "basket": [
+    {
+     "denom": "ibc/B448C0CA358B958301D328CCDC5D5AD642FC30A6D3AE106FF721DB315F3DDE5C",
+     "amount": "20541163349"
+    },
+    {
+     "denom": "peggy0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+     "amount": "3736040925000000"
+    },
+    {
+     "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+     "amount": "383119139180"
+    }
+   ],
+   "round": 13436,
+   "end_timestamp": 1650576485000,
+   "updated_at": 1650978931847
+  }
+ ]
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
-|auction|Auction|Array of Auction|
-|bids|Bids|Array of Bids|
+|auction|Auction|Auction object|
+|bids|Bids|Bids object|
 
 **Auction**
 
 |Parameter|Type|Description|
 |----|----|----|
 |winner|String|The Injective Chain address with the highest bid|
-|basket|Basket|Array of Basket|
+|basket|Basket|Basket object|
 |winning_bid_amount|String|The highest bid|
 |round|Integer|The auction round|
 |end_timestamp|Integer|The auction's ending timestamp|
@@ -279,6 +350,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -310,11 +382,11 @@ func main() {
         fmt.Println(err)
         return
       }
-      fmt.Println(res)
+      str, _ := json.MarshalIndent(res, "", " ")
+      fmt.Print(string(str))
     }
   }
 }
-
 ```
 
 ### Response Parameters
@@ -330,6 +402,20 @@ bidder: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
 bid_amount: "2000000000000000000",
 round: 69,
 timestamp: 1638401841673
+```
+
+``` go
+{
+ "bidder": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+ "bid_amount": "1000000000000000000",
+ "round": 17539,
+ "timestamp": 1653038036697
+}{
+ "bidder": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+ "bid_amount": "2000000000000000000",
+ "round": 17539,
+ "timestamp": 1653038046359
+}
 ```
 
 |Parameter|Type|Description|

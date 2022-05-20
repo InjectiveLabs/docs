@@ -36,6 +36,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -57,7 +58,8 @@ func main() {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
 ```
 
@@ -92,6 +94,15 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 ``` python
 subaccounts: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
 subaccounts: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000001"
+```
+
+``` go
+{
+ "subaccounts": [
+  "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000001"
+ ]
+}
 ```
 
 |Parameter|Type|Description|
@@ -136,11 +147,11 @@ if __name__ == '__main__':
 ```
 
 ``` go
-
 package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -160,11 +171,15 @@ func main() {
   denom := "inj"
   subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
   transferTypes := []string{"deposit"}
+  skip := uint64(0)
+  limit := int32(10)
 
   req := accountPB.SubaccountHistoryRequest{
     Denom:         denom,
     SubaccountId:  subaccountId,
     TransferTypes: transferTypes,
+    Skip:          skip,
+    Limit:         limit,
   }
 
   res, err := exchangeClient.GetSubaccountHistory(ctx, req)
@@ -172,7 +187,8 @@ func main() {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
 ```
 
@@ -245,15 +261,42 @@ transfers {
 
 ```
 
+``` go
+{
+ "transfers": [
+  {
+   "transfer_type": "deposit",
+   "src_account_address": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+   "dst_subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "amount": {
+    "denom": "inj",
+    "amount": "50000000000000000000"
+   },
+   "executed_at": 1651492257605
+  },
+  {
+   "transfer_type": "deposit",
+   "src_account_address": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+   "dst_subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "amount": {
+    "denom": "inj",
+    "amount": "1000000000000000000"
+   },
+   "executed_at": 1652453978939
+  }
+ ]
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
-|transfers|SubaccountBalanceTransfer|Array of SubaccountBalanceTransfer|
+|transfers|SubaccountBalanceTransfer|SubaccountBalanceTransfer object|
 
 **SubaccountBalanceTransfer**
 
 |Parameter|Type|Description|
 |----|----|----|
-|amount|CosmosCoin|Array of CosmosCoin|
+|amount|CosmosCoin|CosmosCoin|
 |dst_account_address|String|Account address of the receiving side|
 |executed_at|Integer|Timestamp of the transfer in UNIX millis|
 |src_subaccount_id|String|Subaccount ID of the sending side|
@@ -304,6 +347,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -326,9 +370,9 @@ func main() {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
-
 ```
 
 ```typescript
@@ -373,20 +417,33 @@ balance {
     available_balance: "52790000010000000003"
   }
 }
+```
 
+```go
+{
+ "balance": {
+  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "account_address": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+  "denom": "inj",
+  "deposit": {
+   "total_balance": "53790000010000000003",
+   "available_balance": "52790000010000000003"
+  }
+ }
+}
 ```
 
 
 |Parameter|Type|Description|
 |----|----|----|
-|balance|SubaccountBalance|Array of SubaccountBalance|
+|balance|SubaccountBalance|SubaccountBalance object|
 
 **SubaccountBalance**
 
 |Parameter|Type|Description|
 |----|----|----|
 |denom|String|Coin denom on the chain|
-|deposit|SubaccountDeposit|Array of SubaccountDeposit|
+|deposit|SubaccountDeposit|SubaccountDeposit object|
 |subaccount_id|String|Filter by subaccount ID|
 |account_address|String|The Injective Chain address|
 
@@ -431,6 +488,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -452,9 +510,9 @@ func main() {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
-
 ```
 
 ```typescript
@@ -507,9 +565,43 @@ balances {
 }
 ```
 
+``` go
+{
+ "balances": [
+  {
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "account_address": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+   "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+   "deposit": {
+    "total_balance": "200501904612800.13082016560359584",
+    "available_balance": "200358014975479.130820165603595295"
+   }
+  },
+  {
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "account_address": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+   "denom": "inj",
+   "deposit": {
+    "total_balance": "53790000010000000003",
+    "available_balance": "52790000010000000003"
+   }
+  },
+  {
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "account_address": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+   "denom": "ibc/C4CFF46FD6DE35CA4CF4CE031E643C8FDC9BA4B99AE598E9B0ED98FE3A2319F9",
+   "deposit": {
+    "total_balance": "1000000",
+    "available_balance": "1000000"
+   }
+  }
+ ]
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
-|balances|SubaccountBalance|Array of SubaccountBalance|
+|balances|SubaccountBalance|SubaccountBalance object|
 
 **SubaccountBalance**
 
@@ -517,7 +609,7 @@ balances {
 |----|----|----|
 |account_address|String|The Injective Chain address|
 |denom|String|Coin denom on the chain|
-|deposit|SubaccountDeposit|Array of SubaccountDeposit|
+|deposit|SubaccountDeposit|SubaccountDeposit object|
 |subaccount_id|String|Filter by subaccount ID|
 
 **SubaccountDeposit**
@@ -593,7 +685,6 @@ func main() {
   fmt.Println("spot orders:", res.SpotOrdersTotal)
   fmt.Println("derivative orders:", res.DerivativeOrdersTotal)
 }
-
 ```
 
 ```typescript
@@ -639,6 +730,11 @@ spot_orders_total: 64
 derivative_orders_total: 1
 ```
 
+``` go
+spot orders: 2
+derivative orders: 0
+```
+
 |Parameter|Type|Description|
 |----|----|----|
 |derivative_orders_total|Integer|Total count of subaccount's derivative orders in a given market|
@@ -680,6 +776,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -695,7 +792,7 @@ func main() {
   }
 
   ctx := context.Background()
-  subaccountId := "0x1b99514e320ae0087be7f87b1e3057853c43b799000000000000000000000000"
+  subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
   stream, err := exchangeClient.StreamSubaccountBalance(ctx, subaccountId)
   if err != nil {
     panic(err)
@@ -711,11 +808,11 @@ func main() {
         fmt.Println(err)
         return
       }
-      fmt.Println(res)
+      str, _ := json.MarshalIndent(res, "", " ")
+      fmt.Print(string(str))
     }
   }
 }
-
 ```
 
 ``` typescript
@@ -764,9 +861,35 @@ balance {
 timestamp: 1652786118000
 ```
 
+``` go
+{
+ "balance": {
+  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "account_address": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+  "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+  "deposit": {
+   "total_balance": "200503979400874.28368413692326264",
+   "available_balance": "200360046875708.283684136923262095"
+  }
+ },
+ "timestamp": 1653037703000
+}{
+ "balance": {
+  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "account_address": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+  "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+  "deposit": {
+   "total_balance": "200503560511302.28368413692326264",
+   "available_balance": "200359627986136.283684136923262095"
+  }
+ },
+ "timestamp": 1653037744000
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
-|balance|SubaccountBalance|Array of SubaccountBalance|
+|balance|SubaccountBalance|SubaccountBalance object|
 |timestamp|Integer|Operation timestamp in UNIX millis|
 
 **SubaccountBalance**
@@ -774,7 +897,7 @@ timestamp: 1652786118000
 |Parameter|Type|Description|
 |----|----|----|
 |denom|String|Coin denom on the chain|
-|deposit|SubaccountDeposit|Array of SubaccountDeposit|
+|deposit|SubaccountDeposit|SubaccountDeposit object|
 |subaccount_id|String|Filter by subaccount ID|
 |account_address|String|The Injective Chain address|
 
@@ -929,8 +1052,8 @@ derivative_order_states {
 
 |Parameter|Type|Description|
 |----|----|----|
-|spot_order_states|SpotOrderStates|Array of SpotOrderStates|
-|derivative_order_states|DerivativeOrderStates|Array of DerivativeOrderStates|
+|spot_order_states|SpotOrderStates|SpotOrderStates object|
+|derivative_order_states|DerivativeOrderStates|DerivativeOrderStates object|
 
 **SpotOrderStates**
 

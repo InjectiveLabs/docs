@@ -915,7 +915,7 @@ func main() {
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |sender|String|The Injective Chain address|Yes|
-|orders|SpotOrder|Array of SpotOrder|Yes|
+|orders|SpotOrder|SpotOrder object|Yes|
 
 **SpotOrder**
 
@@ -1158,7 +1158,7 @@ func main() {
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |sender|String|The Injective Chain address|Yes|
-|orders|OrderData|Array of OrderData|Yes|
+|orders|OrderData|OrderData object|Yes|
 
 **OrderData**
 
@@ -1860,7 +1860,7 @@ func main() {
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |sender|String|The Injective Chain address|Yes|
-|orders|DerivativeOrder|Array of DerivativeOrder|Yes|
+|orders|DerivativeOrder|DerivativeOrder object|Yes|
 
 **DerivativeOrder**
 
@@ -1882,7 +1882,7 @@ func main() {
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |sender|String|The Injective Chain address|Yes|
-|orders|SpotOrder|Array of SpotOrder|Yes|
+|orders|SpotOrder|SpotOrder object|Yes|
 
 **SpotOrder**
 

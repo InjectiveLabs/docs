@@ -759,14 +759,14 @@ grants: {
 
 |Parameter|Type|Description|
 |----|----|----|
-|grants|Grants|Array of Grants|
+|grants|Grants|Grants object|
 
 **Grants**
 
 |Parameter|Type|Description|
 |----|----|----|
-|authorization|Authorization|Array of Authorization|
-|expiration|Expiration|Array of Expiration|
+|authorization|Authorization|Authorization object|
+|expiration|Expiration|Expiration object|
 
 **Authorization**
 

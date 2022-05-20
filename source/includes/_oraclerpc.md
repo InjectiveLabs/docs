@@ -33,6 +33,7 @@ package main
 
 import (
     "context"
+    "encoding/json"
     "fmt"
 
     "github.com/InjectiveLabs/sdk-go/client/common"
@@ -43,19 +44,21 @@ func main() {
     //network := common.LoadNetwork("mainnet", "k8s")
     network := common.LoadNetwork("testnet", "k8s")
     exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+
     if err != nil {
         fmt.Println(err)
     }
 
     ctx := context.Background()
     res, err := exchangeClient.GetOracleList(ctx)
+
     if err != nil {
         fmt.Println(err)
     }
 
-    fmt.Println(res)
+    str, _ := json.MarshalIndent(res, "", " ")
+    fmt.Print(string(str))
 }
-
 ```
 
 ``` typescript
@@ -94,9 +97,31 @@ oracles {
 }
 ```
 
+``` go
+{
+ "oracles": [
+  {
+   "symbol": "ANC",
+   "oracle_type": "bandibc",
+   "price": "2.212642692"
+  },
+  {
+   "symbol": "ATOM",
+   "oracle_type": "bandibc",
+   "price": "24.706861402"
+  },
+  {
+   "symbol": "ZRX",
+   "oracle_type": "coinbase",
+   "price": "0.9797"
+  }
+ ]
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
-|oracles|Oracle|Array of Oracle|
+|oracles|Oracle|Oracle object|
 
 **Oracle**
 
@@ -147,6 +172,7 @@ package main
 
 import (
     "context"
+    "encoding/json"
     "fmt"
     "github.com/InjectiveLabs/sdk-go/client/common"
     exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
@@ -156,6 +182,7 @@ func main() {
     //network := common.LoadNetwork("mainnet", "k8s")
     network := common.LoadNetwork("testnet", "k8s")
     exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+    
     if err != nil {
         fmt.Println(err)
     }
@@ -166,13 +193,14 @@ func main() {
     oracleType := "BandIBC"
     oracleScaleFactor := uint32(6)
     res, err := exchangeClient.GetPrice(ctx, baseSymbol, quoteSymbol, oracleType, oracleScaleFactor)
+
     if err != nil {
         fmt.Println(err)
     }
 
-    fmt.Println(res)
+    str, _ := json.MarshalIndent(res, "", " ")
+    fmt.Print(string(str))
 }
-
 ```
 
 ``` typescript
@@ -220,6 +248,12 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 price: "40128736026.4094317665"
 ```
 
+``` go
+{
+ "price": "40128736026.4094317665"
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
 |price|String|The price of the oracle asset|
@@ -264,6 +298,7 @@ package main
 
 import (
     "context"
+    "encoding/json"
     "fmt"
 
     "github.com/InjectiveLabs/sdk-go/client/common"
@@ -297,11 +332,11 @@ func main() {
                 fmt.Println(err)
                 return
             }
-            fmt.Println(res)
+            str, _ := json.MarshalIndent(res, "", " ")
+            fmt.Print(string(str))
         }
     }
 }
-
 ```
 
 ``` typescript
@@ -347,6 +382,13 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 ``` python
 price: "40128.7360264094317665"
 timestamp: 1652808740072
+```
+
+``` go
+{
+ "price": "40128.7360264094317665",
+ "timestamp": 1653038843915
+}
 ```
 
 |Parameter|Type|Description|

@@ -32,6 +32,7 @@ package main
 
 import (
     "context"
+    "encoding/json"
     "fmt"
 
     "github.com/InjectiveLabs/sdk-go/client/common"
@@ -56,9 +57,9 @@ func main() {
         fmt.Println(err)
     }
 
-    fmt.Println(res)
+    str, _ := json.MarshalIndent(res, "", " ")
+    fmt.Print("Health OK?", string(str))
 }
-
 ```
 
 ``` typescript
@@ -83,6 +84,10 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 ``` python
 Health OK? 
+```
+
+``` go
+Health OK?{}
 ```
 
 
@@ -116,6 +121,7 @@ package main
 
 import (
     "context"
+    "encoding/json"
     "fmt"
 
     "github.com/InjectiveLabs/sdk-go/client/common"
@@ -140,9 +146,9 @@ func main() {
         fmt.Println(err)
     }
 
-    fmt.Println(res)
+    str, _ := json.MarshalIndent(res, "", " ")
+    fmt.Print(string(str))
 }
-
 ```
 
 ``` typescript
@@ -184,7 +190,18 @@ build {
   key: "GoVersion"
   value: "go1.17.3"
 }
+```
 
+``` go
+{
+ "version": "dev",
+ "build": {
+  "BuildDate": "20220426-0810",
+  "GitCommit": "4f3bc09",
+  "GoArch": "amd64",
+  "GoVersion": "go1.17.3"
+ }
+}
 ```
 
 ## Info

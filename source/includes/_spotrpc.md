@@ -35,6 +35,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -56,9 +57,9 @@ func main() {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
-
 ```
 
 ``` typescript
@@ -84,7 +85,6 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|String|Filter by market ID|Yes|
-
 
 
 ### Response Parameters
@@ -113,9 +113,34 @@ market {
 }
 ```
 
+``` go
+{
+ "market": {
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "market_status": "active",
+  "ticker": "INJ/USDT",
+  "base_denom": "inj",
+  "base_token_meta": {
+   "name": "Injective Protocol",
+   "address": "0xe28b3B32B6c345A34Ff64674606124Dd5Aceca30",
+   "symbol": "INJ",
+   "logo": "https://static.alchemyapi.io/images/assets/7226.png",
+   "decimals": 18,
+   "updated_at": 1650978921934
+  },
+  "quote_denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+  "maker_fee_rate": "0.001",
+  "taker_fee_rate": "0.002",
+  "service_provider_fee": "0.4",
+  "min_price_tick_size": "0.000000000000001",
+  "min_quantity_tick_size": "1000000000000000"
+ }
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
-|market|SpotMarketInfo|Array of SpotMarketInfo|
+|market|SpotMarketInfo|SpotMarketInfo object|
 
 **SpotMarketInfo**
 
@@ -125,9 +150,9 @@ market {
 |market_id|String|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
 |market_status|String|The status of the market (Should be one of: [active paused suspended demolished expired]) |
 |min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
-|quote_token_meta|TokenMeta|Array of TokenMeta|
+|quote_token_meta|TokenMeta|TokenMeta object|
 |service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
-|base_token_meta|TokenMeta|Array of TokenMeta|
+|base_token_meta|TokenMeta|TokenMeta object|
 |maker_fee_rate|String|Defines the fee percentage makers pay when trading (in the quote asset)|
 |min_price_tick_size|String|Defines the minimum required tick size for the order's price|
 |quote_denom|String|Coin denom of the quote asset|
@@ -186,6 +211,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -215,9 +241,9 @@ func main() {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
-
 ```
 
 ``` typescript
@@ -278,9 +304,56 @@ markets {
 }
 ```
 
+``` go
+{
+ "markets": [
+  {
+   "market_id": "0x01edfab47f124748dc89998eb33144af734484ba07099014594321729a0ca16b",
+   "market_status": "active",
+   "ticker": "AAVE/USDT",
+   "base_denom": "peggy0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
+   "base_token_meta": {
+    "name": "Aave",
+    "address": "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
+    "symbol": "AAVE",
+    "logo": "https://static.alchemyapi.io/images/assets/7278.png",
+    "decimals": 18,
+    "updated_at": 1650978921846
+   },
+   "quote_denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+   "maker_fee_rate": "0.001",
+   "taker_fee_rate": "0.002",
+   "service_provider_fee": "0.4",
+   "min_price_tick_size": "0.000000000000001",
+   "min_quantity_tick_size": "1000000000000000"
+  },
+  {
+   "market_id": "0xe8bf0467208c24209c1cf0fd64833fa43eb6e8035869f9d043dbff815ab76d01",
+   "market_status": "active",
+   "ticker": "UNI/USDT",
+   "base_denom": "peggy0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+   "base_token_meta": {
+    "name": "Uniswap",
+    "address": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    "symbol": "UNI",
+    "logo": "https://static.alchemyapi.io/images/assets/7083.png",
+    "decimals": 18,
+    "updated_at": 1650978922133
+   },
+   "quote_denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+   "maker_fee_rate": "0.001",
+   "taker_fee_rate": "0.002",
+   "service_provider_fee": "0.4",
+   "min_price_tick_size": "0.000000000000001",
+   "min_quantity_tick_size": "1000000000000000"
+  }
+ ]
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
-|markets|SpotMarketInfo|Array of SpotMarketInfo|
+|markets|SpotMarketInfo|SpotMarketInfo object|
 
 **SpotMarketInfo**
 
@@ -290,9 +363,9 @@ markets {
 |market_id|String|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
 |market_status|String|The status of the market (Should be one of: [active paused suspended demolished expired]) |
 |min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
-|quote_token_meta|TokenMeta|Array of TokenMeta|
+|quote_token_meta|TokenMeta|TokenMeta object|
 |service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
-|base_token_meta|TokenMeta|Array of TokenMeta|
+|base_token_meta|TokenMeta|TokenMeta object|
 |maker_fee_rate|String|Defines the fee percentage makers pay when trading (in the quote asset)|
 |min_price_tick_size|String|Defines the minimum required tick size for the order's price|
 |quote_denom|String|Coin denom of the quote asset|
@@ -345,6 +418,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -376,11 +450,11 @@ func main() {
         fmt.Println(err)
         return
       }
-      fmt.Println(res)
+      str, _ := json.MarshalIndent(res, "", " ")
+      fmt.Print(string(str))
     }
   }
 }
-
 ```
 
 ``` typescript
@@ -405,7 +479,6 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
       },
     });
 })();
-
 ```
 
 ### Response Parameters
@@ -444,9 +517,44 @@ market: {
   timestamp: 1632535055790
 ```
 
+``` go
+{
+  "market": {
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "market_status": "active",
+  "ticker": "INJ/USDT",
+  "base_denom": "inj",
+  "base_token_meta": {
+    "name": "Injective Protocol",
+    "address": "0xe28b3B32B6c345A34Ff64674606124Dd5Aceca30",
+    "symbol": "INJ",
+    "logo": "https://static.alchemyapi.io/images/assets/7226.png",
+    "decimals": 18,
+    "updated_at": 1632535055751
+  },
+  "quote_denom": "peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+  "quote_token_meta": {
+    "name": "Tether",
+    "address": "0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+    "symbol": "USDT",
+    "logo": "https://static.alchemyapi.io/images/assets/825.png",
+    "decimals": 6,
+    "updated_at": 1632535055759
+  },
+  "maker_fee_rate": "0.001",
+  "taker_fee_rate": "0.002",
+  "service_provider_fee": "0.4",
+  "min_price_tick_size": "0.000000000000001",
+  "min_quantity_tick_size": "1000000000000000"
+},
+  "operation_type": "update",
+  "timestamp": 1632535055790
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
-|market|SpotMarketInfo|Array of SpotMarketInfo|
+|market|SpotMarketInfo|SpotMarketInfo object|
 |operation_type|String|Update type (Should be one of: [insert replace update invalidate]) |
 |timestamp|Integer|Operation timestamp in UNIX millis|
 
@@ -458,9 +566,9 @@ market: {
 |market_id|String|SpotMarket ID is keccak265(baseDenom || quoteDenom)|
 |market_status|String|The status of the market (Should be one of: [active paused suspended demolished expired]) |
 |min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
-|quote_token_meta|TokenMeta|Array of TokenMeta|
+|quote_token_meta|TokenMeta|TokenMeta object|
 |service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
-|base_token_meta|TokenMeta|Array of TokenMeta|
+|base_token_meta|TokenMeta|TokenMeta object|
 |maker_fee_rate|String|Defines the fee percentage makers pay when trading (in the quote asset)|
 |min_price_tick_size|String|Defines the minimum required tick size for the order's price|
 |quote_denom|String|Coin denom of the quote asset|
@@ -523,6 +631,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -540,9 +649,13 @@ func main() {
 
   ctx := context.Background()
   marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  skip := uint64(0)
+  limit := int32(2)
 
   req := spotExchangePB.OrdersRequest{
     MarketId: marketId,
+    Skip:     skip,
+    Limit:    limit,
   }
 
   res, err := exchangeClient.GetSpotOrders(ctx, req)
@@ -550,9 +663,9 @@ func main() {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
-
 ```
 
 ``` typescript
@@ -632,9 +745,44 @@ orders {
 }
 ```
 
+``` go
+{
+ "orders": [
+  {
+   "order_hash": "0xbf5cf18a5e73c61d465a60ca550c5fbe0ed37b9ca0a49f7bd1de012e983fe55e",
+   "order_side": "sell",
+   "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+   "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+   "price": "0.000000000002305",
+   "quantity": "30000000000000000000",
+   "unfilled_quantity": "28000000000000000000",
+   "trigger_price": "0",
+   "fee_recipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
+   "state": "partial_filled",
+   "created_at": 1652774849587,
+   "updated_at": 1652809734211
+  },
+  {
+   "order_hash": "0xd86f3a01d291b15294f25c9463fd51cf6b8883776ae7911da3fbd967faa69ea4",
+   "order_side": "buy",
+   "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+   "subaccount_id": "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000",
+   "price": "0.000000000000001",
+   "quantity": "1000000000000000",
+   "unfilled_quantity": "1000000000000000",
+   "trigger_price": "0",
+   "fee_recipient": "inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c",
+   "state": "booked",
+   "created_at": 1649838645114,
+   "updated_at": 1649838645114
+  }
+ ]
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
-|orders|SpotLimitOrder|Array of SpotLimitOrder|
+|orders|SpotLimitOrder|SpotLimitOrder object|
 
 **SpotLimitOrder**
 
@@ -693,6 +841,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -733,11 +882,11 @@ func main() {
         fmt.Println(err)
         return
       }
-      fmt.Println(res)
+      str, _ := json.MarshalIndent(res, "", " ")
+      fmt.Print(string(str))
     }
   }
 }
-
 ```
 
 ``` typescript
@@ -799,9 +948,47 @@ operation_type: "insert"
 timestamp: 1652809321000
 ```
 
+``` go
+{
+ "order": {
+  "order_hash": "0x07c8064b1d8875c75d81d9770dd5508d3d97fd2bafc67a6213448a4479753cda",
+  "order_side": "buy",
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "price": "0.0000000000015",
+  "quantity": "1000000000000000000",
+  "unfilled_quantity": "1000000000000000000",
+  "trigger_price": "0",
+  "fee_recipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+  "state": "booked",
+  "created_at": 1653041941027,
+  "updated_at": 1653041941027
+ },
+ "operation_type": "insert",
+ "timestamp": 1653041948000
+}{
+ "order": {
+  "order_hash": "0xacb6fd422effd0d9f06dfd373d742a0d24a3c862384a2e9736fc52d2221f9cc4",
+  "order_side": "buy",
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "price": "0.000000000001",
+  "quantity": "2000000000000000000",
+  "unfilled_quantity": "2000000000000000000",
+  "trigger_price": "0",
+  "fee_recipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+  "state": "booked",
+  "created_at": 1653041984130,
+  "updated_at": 1653041984130
+ },
+ "operation_type": "insert",
+ "timestamp": 1653041988000
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
-|order|SpotLimitOrder|Array of SpotLimitOrder|
+|order|SpotLimitOrder|SpotLimitOrder object|
 |operation_type|String|Order update type (Should be one of: [insert replace update invalidate]) |
 |timestamp|Integer|Operation timestamp in UNIX millis|
 
@@ -979,9 +1166,48 @@ trades {
 }
 ```
 
+``` go
+{
+ "trades": [
+  {
+   "order_hash": "0xdc7cb11c1ad1edd129848da46b3c02f3a6860bc1478b8ba0620f7c18bae0eefe",
+   "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+   "market_id": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
+   "trade_execution_type": "limitFill",
+   "position_delta": {
+    "trade_direction": "sell",
+    "execution_price": "42536400000",
+    "execution_quantity": "0.02",
+    "execution_margin": "850728000"
+   },
+   "payout": "850728000",
+   "fee": "425364",
+   "executed_at": 1652793510591,
+   "fee_recipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
+  },
+  {
+   "order_hash": "0x5e871a3dfb977acdd6727b6a4fa8156750b89078ad425406ffb2a9d06898ebf5",
+   "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+   "market_id": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
+   "trade_execution_type": "limitMatchRestingOrder",
+   "position_delta": {
+    "trade_direction": "buy",
+    "execution_price": "40128736026.409431766475",
+    "execution_quantity": "0.02",
+    "execution_margin": "833072000"
+   },
+   "payout": "0",
+   "fee": "401287.36026409431766475",
+   "executed_at": 1652775275064,
+   "fee_recipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
+  }
+ ]
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
-|trades|SpotTrade|Array of SpotTrade|
+|trades|SpotTrade|SpotTrade object|
 
 **SpotTrade**
 
@@ -992,7 +1218,7 @@ trades {
 |fee|String|The fee associated with the trade (quote asset denom)|
 |market_id|String|Filter by the market ID|
 |order_hash|String|The order hash|
-|price|PriceLevel|Array of PriceLevel|
+|price|PriceLevel|PriceLevel object|
 |subaccount_id|String|Filter by the subaccount ID|
 |executed_at|Integer|Timestamp of trade execution in UNIX millis|
 |fee_recipient|String|The address that received 40% of the fees|
@@ -1060,6 +1286,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -1077,7 +1304,7 @@ func main() {
 
   ctx := context.Background()
   marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+  subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
 
   req := spotExchangePB.StreamTradesRequest{
     MarketId:     marketId,
@@ -1098,11 +1325,11 @@ func main() {
         fmt.Println(err)
         return
       }
-      fmt.Println(res)
+      str, _ := json.MarshalIndent(res, "", " ")
+      fmt.Print(string(str))
     }
   }
 }
-
 ```
 
 ``` typescript
@@ -1178,11 +1405,51 @@ operation_type: "insert"
 timestamp: 1652809469000
 ```
 
+``` go
+{
+ "trade": {
+  "order_hash": "0x88e34872af0147f57c8c5a093c3a6a8a97358615bccf975b4a06dfb5162daeaf",
+  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "trade_execution_type": "market",
+  "trade_direction": "sell",
+  "price": {
+   "price": "0.000000000001654",
+   "quantity": "1000000000000000000",
+   "timestamp": 1653042087046
+  },
+  "fee": "3308",
+  "executed_at": 1653042087046,
+  "fee_recipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
+ },
+ "operation_type": "insert",
+ "timestamp": 1653042089000
+}{
+ "trade": {
+  "order_hash": "0xb5d651a01faa90ec53b0fa34f00f3ecdfe169f9fc35be8114ee113eea9257c30",
+  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "trade_execution_type": "market",
+  "trade_direction": "sell",
+  "price": {
+   "price": "0.000000000001654",
+   "quantity": "2000000000000000000",
+   "timestamp": 1653042093023
+  },
+  "fee": "6616",
+  "executed_at": 1653042093023,
+  "fee_recipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
+ },
+ "operation_type": "insert",
+ "timestamp": 1653042098000
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
 |operation_type|String|Trade operation type (Should be one of: [insert invalidate]) |
 |timestamp|Integer|Operation timestamp in UNIX millis|
-|trade|SpotTrade|Array of SpotTrade|
+|trade|SpotTrade|SpotTrade object|
 
 **SpotTrade**
 
@@ -1193,7 +1460,7 @@ timestamp: 1652809469000
 |fee|String|The fee associated with the trade (quote asset denom)|
 |market_id|String|Filter by the market ID|
 |order_hash|String|The order hash|
-|price|PriceLevel|Array of PriceLevel|
+|price|PriceLevel|PriceLevel object|
 |subaccount_id|String|Filter by the subaccount ID|
 |executed_at|Integer|Timestamp of trade execution in UNIX millis|
 |fee_recipient|String|The address that received 40% of the fees|
@@ -1240,6 +1507,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -1261,9 +1529,9 @@ func main() {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
-
 ```
 
 ``` typescript
@@ -1318,16 +1586,57 @@ orderbook {
   }
 ```
 
+``` go
+{
+ "orderbook": {
+  "buys": [
+   {
+    "price": "0.000000000001654",
+    "quantity": "27000000000000000000",
+    "timestamp": 1652395260912
+   },
+   {
+    "price": "0.000000000001608",
+    "quantity": "38000000000000000000",
+    "timestamp": 1652351094680
+   },
+  ],
+  "sells": [
+   {
+    "price": "0.000000000002305",
+    "quantity": "28000000000000000000",
+    "timestamp": 1652774849587
+   },
+   {
+    "price": "0.00000000000231",
+    "quantity": "10000000000000000000",
+    "timestamp": 1652774849587
+   },
+   {
+    "price": "0.000000000002313",
+    "quantity": "20000000000000000000",
+    "timestamp": 1652774849587
+   },
+   {
+    "price": "0.0000000003",
+    "quantity": "220000000000000000000",
+    "timestamp": 1652264026293
+   }
+  ]
+ }
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
-|orderbook|SpotLimitOrderbook|Array of SpotLimitOrderbook|
+|orderbook|SpotLimitOrderbook|SpotLimitOrderbook object|
 
 **SpotLimitOrderbook**
 
 |Parameter|Type|Description|
 |----|----|----|
-|buys|PriceLevel|Array of PriceLevel|
-|sells|PriceLevel|Array of PriceLevel|
+|buys|PriceLevel|PriceLevel object|
+|sells|PriceLevel|PriceLevel object|
 
 **PriceLevel**
 
@@ -1377,6 +1686,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -1392,15 +1702,15 @@ func main() {
   }
 
   ctx := context.Background()
-  marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
+  marketIds := []string{"0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31", "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
   res, err := exchangeClient.GetSpotOrderbooks(ctx, marketIds)
   if err != nil {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
-
 ```
 
 ``` typescript
@@ -1480,17 +1790,94 @@ orderbooks {
 }
 ```
 
+``` go
+{
+ "orderbooks": [
+  {
+   "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+   "orderbook": {
+    "buys": [
+     {
+      "price": "0.000000000001654",
+      "quantity": "27000000000000000000",
+      "timestamp": 1652395260912
+     },
+     {
+      "price": "0.000000000000001",
+      "quantity": "62000000000000000",
+      "timestamp": 1649838645114
+     }
+    ],
+    "sells": [
+     {
+      "price": "0.00000000002792",
+      "quantity": "30000000000000000",
+      "timestamp": 1652263504751
+     },
+     {
+      "price": "0.0000000003",
+      "quantity": "220000000000000000000",
+      "timestamp": 1652264026293
+     }
+    ]
+   }
+  },
+  {
+   "market_id": "0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31",
+   "orderbook": {
+    "buys": [
+     {
+      "price": "0.000000000006057",
+      "quantity": "38000000000000000000",
+      "timestamp": 1652395483345
+     },
+     {
+      "price": "0.000000000005643",
+      "quantity": "8000000000000000000",
+      "timestamp": 1652340012497
+     },
+     {
+      "price": "0.000000000005374",
+      "quantity": "46000000000000000000",
+      "timestamp": 1652340012497
+     }
+    ],
+    "sells": [
+     {
+      "price": "0.000000000014033",
+      "quantity": "48000000000000000000",
+      "timestamp": 1650976706210
+     },
+     {
+      "price": "0.000000000014036",
+      "quantity": "48000000000000000000",
+      "timestamp": 1650974855789
+     },
+     {
+      "price": "0.000000000014094",
+      "quantity": "44000000000000000000",
+      "timestamp": 1650976917202
+     }
+    ]
+   }
+  }
+ ]
+}
+```
+
+
+
 |Parameter|Type|Description|
 |----|----|----|
-|orderbook|SpotLimitOrderbook|Array of SpotLimitOrderbook|
+|orderbook|SpotLimitOrderbook|SpotLimitOrderbook object|
 |market_id|String|Filter by market ID|
 
 **SpotLimitOrderbook**
 
 |Parameter|Type|Description|
 |----|----|----|
-|buys|PriceLevel|Array of PriceLevel|
-|sells|PriceLevel|Array of PriceLevel|
+|buys|PriceLevel|PriceLevel object|
+|sells|PriceLevel|PriceLevel object|
 
 **PriceLevel**
 
@@ -1648,7 +2035,7 @@ market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
 |Parameter|Type|Description|
 |----|----|----|
 |operation_type|String|Order update type (Should be one of: [insert replace update invalidate]) |
-|orderbook|SpotLimitOrderbook|Array of SpotLimitOrderbook|
+|orderbook|SpotLimitOrderbook|SpotLimitOrderbook object|
 |timestamp|Integer|Operation timestamp in UNIX millis|
 |market_id|String|Filter by market ID|
 
@@ -1656,8 +2043,8 @@ market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
 
 |Parameter|Type|Description|
 |----|----|----|
-|buys|PriceLevel|Array of PriceLevel|
-|sells|PriceLevel|Array of PriceLevel|
+|buys|PriceLevel|PriceLevel object|
+|sells|PriceLevel|PriceLevel object|
 
 **PriceLevel**
 
@@ -1709,6 +2096,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -1726,11 +2114,15 @@ func main() {
 
   ctx := context.Background()
   marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  subaccountId := "0x7453466968297ccaf24f78deb674ad54f9b86697000000000000000000000000"
+  subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+  skip := uint64(0)
+  limit := int32(2)
 
   req := spotExchangePB.SubaccountOrdersListRequest{
     MarketId:     marketId,
     SubaccountId: subaccountId,
+    Skip:         skip,
+    Limit:        limit,
   }
 
   res, err := exchangeClient.GetSubaccountSpotOrdersList(ctx, req)
@@ -1738,9 +2130,9 @@ func main() {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
-
 ```
 
 ``` typescript
@@ -1801,20 +2193,6 @@ orders {
   updated_at: 1652809317404
 }
 orders {
-  order_hash: "0xbad0d22c46e76a8569092617bae2e5d95a2a086b2a70e270c6f16fd8e025d83e"
-  order_side: "buy"
-  market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  price: "0.0000000000012"
-  quantity: "3000000000000000000"
-  unfilled_quantity: "3000000000000000000"
-  trigger_price: "0"
-  fee_recipient: "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
-  state: "booked"
-  created_at: 1652809260554
-  updated_at: 1652809260554
-}
-orders {
   order_hash: "0x318418b546563a75c11dc656ee0fb41608e2893b0de859cf2b9e2d65996b6f9c"
   order_side: "buy"
   market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
@@ -1830,9 +2208,44 @@ orders {
 }
 ```
 
+``` go
+{
+ "orders": [
+  {
+   "order_hash": "0x5e970df47eb5a65a5f907e3a2912067dde416eca8609c838e08c0dbebfbefaa5",
+   "order_side": "sell",
+   "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "price": "0.000000000005",
+   "quantity": "1000000000000000000",
+   "unfilled_quantity": "1000000000000000000",
+   "trigger_price": "0",
+   "fee_recipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+   "state": "booked",
+   "created_at": 1652809317404,
+   "updated_at": 1652809317404
+  },
+  {
+   "order_hash": "0x318418b546563a75c11dc656ee0fb41608e2893b0de859cf2b9e2d65996b6f9c",
+   "order_side": "buy",
+   "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "price": "0.000000000001",
+   "quantity": "1000000000000000000",
+   "unfilled_quantity": "1000000000000000000",
+   "trigger_price": "0",
+   "fee_recipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+   "state": "booked",
+   "created_at": 1652809253308,
+   "updated_at": 1652809253308
+  }
+ ]
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
-|orders|SpotLimitOrder|Array of SpotLimitOrder|
+|orders|SpotLimitOrder|SpotLimitOrder object|
 
 **SpotLimitOrder**
 
@@ -1903,6 +2316,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -1921,10 +2335,14 @@ func main() {
   ctx := context.Background()
   marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
   subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+  skip := uint64(0)
+  limit := int32(2)
 
   req := spotExchangePB.SubaccountTradesListRequest{
     MarketId:     marketId,
     SubaccountId: subaccountId,
+    Skip:         skip,
+    Limit:        limit,
   }
 
   res, err := exchangeClient.GetSubaccountSpotTradesList(ctx, req)
@@ -1932,9 +2350,9 @@ func main() {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
-
 ```
 
 ``` typescript
@@ -2018,9 +2436,47 @@ trades {
 }
 ```
 
+``` go
+{
+ "trades": [
+  {
+   "order_hash": "0xbf5cf18a5e73c61d465a60ca550c5fbe0ed37b9ca0a49f7bd1de012e983fe55e",
+   "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+   "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+   "trade_execution_type": "limitFill",
+   "trade_direction": "sell",
+   "price": {
+    "price": "0.000000000002305",
+    "quantity": "1000000000000000000",
+    "timestamp": 1652809734211
+   },
+   "fee": "2305",
+   "executed_at": 1652809734211,
+   "fee_recipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
+  },
+  {
+   "order_hash": "0xfd474dc696dc291bca8ca1b371653994fd846a303c08d26ccc17a7b60939d256",
+   "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+   "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+   "trade_execution_type": "limitFill",
+   "trade_direction": "sell",
+   "price": {
+    "price": "0.000000000002318",
+    "quantity": "4000000000000000000",
+    "timestamp": 1652773190338
+   },
+   "fee": "9272",
+   "executed_at": 1652773190338,
+   "fee_recipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
+  }
+ ]
+}
+
+```
+
 |Parameter|Type|Description|
 |----|----|----|
-|trades|SpotTrade|Array of SpotTrade|
+|trades|SpotTrade|SpotTrade object|
 
 **SpotTrade**
 
@@ -2031,7 +2487,7 @@ trades {
 |fee|String|The fee associated with the trade (quote asset denom)|
 |market_id|String|Filter by the market ID|
 |order_hash|String|The order hash|
-|price|PriceLevel|Array of PriceLevel|
+|price|PriceLevel|PriceLevel object|
 |subaccount_id|String|Filter by the subaccount ID|
 |executed_at|Integer|Timestamp of trade execution in UNIX millis|
 |fee_recipient|String|The address that received 40% of the fees|
