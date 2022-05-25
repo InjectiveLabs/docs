@@ -14017,8 +14017,6 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000066807</span> <span class="n">INJ</span>
 </code></pre></div><h2 id='derivatives-localorderhashcomputation'>LocalOrderHashComputation</h2>
 <p>This function computes order hashes locally for SpotOrder and DerivativeOrder. Note that the subaccount nonce is used as one of the primary parameters to the calculation and is fetched every time from the Chain Node when you call the function. Thus, to use the function properly you must provide all the orders you&#39;ll send in a given block and call it only once per block.</p>
-
-<p>Also note that if any of the orders does not get submitted on-chain either because of low account balance, incorrect order details or any other reason then the subsequent order hashes will be incorrect. That&#39;s because when you post the actual transactions and one of them fails the subaccount nonce won&#39;t be increased so the subsequent order hashes derived from the local calculation will be incorrect.</p>
 <h3 id='derivatives-localorderhashcomputation-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -16356,8 +16354,6 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000329546</span> <span class="n">INJ</span>
 </code></pre></div><h2 id='spot-localorderhashcomputation'>LocalOrderHashComputation</h2>
 <p>This function computes order hashes locally for SpotOrder and DerivativeOrder. Note that the subaccount nonce is used as one of the primary parameters to the calculation and is fetched every time from the Chain Node when you call the function. Thus, to use the function properly you must provide all the orders you&#39;ll send in a given block and call it only once per block.</p>
-
-<p>Also note that if any of the orders does not get submitted on-chain either because of low account balance, incorrect order details or any other reason then the subsequent order hashes will be incorrect. That&#39;s because when you post the actual transactions and one of them fails the subaccount nonce won&#39;t be increased so the subsequent order hashes derived from the local calculation will be incorrect.</p>
 <h3 id='spot-localorderhashcomputation-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
