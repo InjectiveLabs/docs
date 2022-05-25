@@ -1833,8 +1833,6 @@ gas fee: 0.000066807 INJ
 
 This function computes order hashes locally for SpotOrder and DerivativeOrder. Note that the subaccount nonce is used as one of the primary parameters to the calculation and is fetched every time from the Chain Node when you call the function. Thus, to use the function properly you must provide all the orders you'll send in a given block and call it only once per block.
 
-Also note that if any of the orders does not get submitted on-chain either because of low account balance, incorrect order details or any other reason then the subsequent order hashes will be incorrect. That's because when you post the actual transactions and one of them fails the subaccount nonce won't be increased so the subsequent order hashes derived from the local calculation will be incorrect.
-
 ### Request Parameters
 > Request Example:
 
