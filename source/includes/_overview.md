@@ -8,7 +8,7 @@ By providing the unrestricted and unprecedented ability to express diverse views
 
 ## Architecture Overview
 
-Injective Protocol enables traders to create and trade on arbitrary spot and derivative markets. The entire process includes on-chain limit orderbook management, on-chain trade execution, on-chain order matching, on-chain transaction settlement, and on-chain trading incentive distribution through the logic codified by the Injective Chain's [exchange module](https://chain.injective.network/modules/exchange/).
+Injective enables traders to create and trade on arbitrary spot and derivative markets. The entire process includes on-chain limit orderbook management, on-chain trade execution, on-chain order matching, on-chain transaction settlement, and on-chain trading incentive distribution through the logic codified by the Injective Chain's [exchange module](https://chain.injective.network/modules/exchange/).
 
 Architecturally there are two main services that traders should concern themselves with:
 
