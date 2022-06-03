@@ -64,20 +64,21 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const insuranceFunds = await exchangeClient.insuranceFundApi.fetchInsuranceFunds(
+
+  const insuranceFunds = await exchangeClient.insuranceFund.fetchInsuranceFunds(
   );
 
-  console.log(protoObjectToJson(insuranceFunds, {}))
+  console.log(protoObjectToJson(insuranceFunds))
 })();
-
 ```
 
 ### Response Parameters
@@ -114,6 +115,117 @@ funds {
    "oracle_type": "bandibc"
   }
  ]
+}
+```
+
+``` typescript
+{
+  "fundsList": [
+    {
+      "marketTicker": "OSMO/UST PERP",
+      "marketId": "0x8c7fd5e6a7f49d840512a43d95389a78e60ebaf0cde1af86b26a785eb23b3be5",
+      "depositDenom": "ibc/B448C0CA358B958301D328CCDC5D5AD642FC30A6D3AE106FF721DB315F3DDE5C",
+      "poolTokenDenom": "share19",
+      "redemptionNoticePeriodDuration": 1209600,
+      "balance": "6000000",
+      "totalShare": "6000000000000000000",
+      "oracleBase": "OSMO",
+      "oracleQuote": "UST",
+      "oracleType": "bandibc",
+      "expiry": 0
+    },
+    {
+      "marketTicker": "Frontrunner Futures: Expires 5.21.2022",
+      "marketId": "0xeb0964ef12b4bde6febd99a44b562e4f4301ec69a4052e63b6aac73fa6e5e1d0",
+      "depositDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "poolTokenDenom": "share20",
+      "redemptionNoticePeriodDuration": 1209600,
+      "balance": "10000000",
+      "totalShare": "1000000000000000000",
+      "oracleBase": "FRNT",
+      "oracleQuote": "USDT",
+      "oracleType": "pricefeed",
+      "expiry": 1653147605
+    },
+    {
+      "marketTicker": "Frontrunner Futures: Expires 5.21.2023",
+      "marketId": "0x00030df39180df04a873cb4aadc50d4135640af5c858ab637dbd4d31b147478c",
+      "depositDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "poolTokenDenom": "share21",
+      "redemptionNoticePeriodDuration": 1209600,
+      "balance": "10000000",
+      "totalShare": "1000000000000000000",
+      "oracleBase": "FRNT",
+      "oracleQuote": "USDT",
+      "oracleType": "pricefeed",
+      "expiry": 1684600043
+    },
+    {
+      "marketTicker": "BTC/USDT PERP",
+      "marketId": "0x784cf40cff2d3cc60ee12fd707af460e49e2a5f8d1b4b8097395deb7d60d39f3",
+      "depositDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "poolTokenDenom": "share22",
+      "redemptionNoticePeriodDuration": 1209600,
+      "balance": "20000000000",
+      "totalShare": "1000000000000000000",
+      "oracleBase": "BTC",
+      "oracleQuote": "USDT",
+      "oracleType": "bandibc",
+      "expiry": 0
+    },
+    {
+      "marketTicker": "ETH/USDT PERP",
+      "marketId": "0x54d4505adef6a5cef26bc403a33d595620ded4e15b9e2bc3dd489b714813366a",
+      "depositDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "poolTokenDenom": "share23",
+      "redemptionNoticePeriodDuration": 1209600,
+      "balance": "20000000000",
+      "totalShare": "1000000000000000000",
+      "oracleBase": "ETH",
+      "oracleQuote": "USDT",
+      "oracleType": "bandibc",
+      "expiry": 0
+    },
+    {
+      "marketTicker": "BNB/USDT PERP",
+      "marketId": "0x1c79dac019f73e4060494ab1b4fcba734350656d6fc4d474f6a238c13c6f9ced",
+      "depositDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "poolTokenDenom": "share24",
+      "redemptionNoticePeriodDuration": 1209600,
+      "balance": "20000000000",
+      "totalShare": "1000000000000000000",
+      "oracleBase": "BNB",
+      "oracleQuote": "USDT",
+      "oracleType": "bandibc",
+      "expiry": 0
+    },
+    {
+      "marketTicker": "INJ/USDT PERP",
+      "marketId": "0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963",
+      "depositDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "poolTokenDenom": "share25",
+      "redemptionNoticePeriodDuration": 1209600,
+      "balance": "20000000000",
+      "totalShare": "1000000000000000000",
+      "oracleBase": "INJ",
+      "oracleQuote": "USDT",
+      "oracleType": "bandibc",
+      "expiry": 0
+    },
+    {
+      "marketTicker": "LUNA/UST PERP",
+      "marketId": "0x8158e603fb80c4e417696b0e98765b4ca89dcf886d3b9b2b90dc15bfb1aebd51",
+      "depositDenom": "ibc/B448C0CA358B958301D328CCDC5D5AD642FC30A6D3AE106FF721DB315F3DDE5C",
+      "poolTokenDenom": "share26",
+      "redemptionNoticePeriodDuration": 1209600,
+      "balance": "20000000000",
+      "totalShare": "1000000000000000000",
+      "oracleBase": "LUNA",
+      "oracleQuote": "UST",
+      "oracleType": "bandibc",
+      "expiry": 0
+    }
+  ]
 }
 ```
 
@@ -204,20 +316,21 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
 
-  const denom = "share2";
-  const address = "inj1gxqdj76ul07w4ujsl8403nhhzyvug2h66qk057";
-  const status = "disbursed";
+  const denom = "share25";
+  const address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku";
+  const status = "pending";
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
 
-  const redemptions = await exchangeClient.insuranceFundApi.fetchRedemptions(
+  const redemptions = await exchangeClient.insuranceFund.fetchRedemptions(
     {
       denom,
       address,
@@ -225,9 +338,8 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
     }
   );
 
-  console.log(protoObjectToJson(redemptions, {}))
+  console.log(protoObjectToJson(redemptions))
 })();
-
 ```
 
 |Parameter|Type|Description|Required|
@@ -280,6 +392,25 @@ redemption_schedules: {
    "requested_at": 1653038335923000
   }
  ]
+}
+```
+
+``` typescript
+{
+  "redemptionSchedulesList": [
+    {
+      "redemptionId": 2,
+      "status": "pending",
+      "redeemer": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+      "claimableRedemptionTime": 1655446154111000,
+      "redemptionAmount": "100000000000000000",
+      "redemptionDenom": "share25",
+      "requestedAt": 1654236554111000,
+      "disbursedAmount": "",
+      "disbursedDenom": "",
+      "disbursedAt": 0
+    }
+  ]
 }
 ```
 

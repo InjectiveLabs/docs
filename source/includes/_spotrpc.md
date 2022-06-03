@@ -64,22 +64,23 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
 
   const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const market = await exchangeClient.spotApi.fetchSpotMarket(marketId);
 
-  console.log(protoObjectToJson(market, {}));
+  const market = await exchangeClient.spot.fetchMarket(marketId);
+
+  console.log(protoObjectToJson(market));
 })();
-
 ```
 
 |Parameter|Type|Description|Required|
@@ -135,6 +136,31 @@ market {
   "min_price_tick_size": "0.000000000000001",
   "min_quantity_tick_size": "1000000000000000"
  }
+}
+```
+
+``` typescript
+{
+  "market": {
+    "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+    "marketStatus": "active",
+    "ticker": "INJ/USDT",
+    "baseDenom": "inj",
+    "baseTokenMeta": {
+      "name": "Injective Protocol",
+      "address": "0xe28b3B32B6c345A34Ff64674606124Dd5Aceca30",
+      "symbol": "INJ",
+      "logo": "https://static.alchemyapi.io/images/assets/7226.png",
+      "decimals": 18,
+      "updatedAt": 1650978921934
+    },
+    "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "makerFeeRate": "0.001",
+    "takerFeeRate": "0.002",
+    "serviceProviderFee": "0.4",
+    "minPriceTickSize": "0.000000000000001",
+    "minQuantityTickSize": "1000000000000000"
+  }
 }
 ```
 
@@ -248,26 +274,26 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
-
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
 
   const marketStatus = "active";
   const quoteDenom = "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7";
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const markets = await exchangeClient.spotApi.fetchSpotMarkets({
+
+  const markets = await exchangeClient.spot.fetchMarkets({
     marketStatus: marketStatus,
     quoteDenom: quoteDenom,
   })
 
-  console.log(protoObjectToJson(markets, {}));
+  console.log(protoObjectToJson(markets));
 })();
-
 ```
 
 
@@ -348,6 +374,73 @@ markets {
    "min_quantity_tick_size": "1000000000000000"
   }
  ]
+}
+```
+
+``` typescript
+{
+  "marketsList": [
+    {
+      "marketId": "0x01edfab47f124748dc89998eb33144af734484ba07099014594321729a0ca16b",
+      "marketStatus": "active",
+      "ticker": "AAVE/USDT",
+      "baseDenom": "peggy0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
+      "baseTokenMeta": {
+        "name": "Aave",
+        "address": "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
+        "symbol": "AAVE",
+        "logo": "https://static.alchemyapi.io/images/assets/7278.png",
+        "decimals": 18,
+        "updatedAt": 1650978921846
+      },
+      "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "makerFeeRate": "0.001",
+      "takerFeeRate": "0.002",
+      "serviceProviderFee": "0.4",
+      "minPriceTickSize": "0.000000000000001",
+      "minQuantityTickSize": "1000000000000000"
+    },
+    {
+      "marketId": "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa",
+      "marketStatus": "active",
+      "ticker": "ATOM/USDT",
+      "baseDenom": "ibc/C4CFF46FD6DE35CA4CF4CE031E643C8FDC9BA4B99AE598E9B0ED98FE3A2319F9",
+      "baseTokenMeta": {
+        "name": "Cosmos",
+        "address": "0x8D983cb9388EaC77af0474fA441C4815500Cb7BB",
+        "symbol": "ATOM",
+        "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/3794.png",
+        "decimals": 6,
+        "updatedAt": 1650978921848
+      },
+      "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "makerFeeRate": "0.001",
+      "takerFeeRate": "0.001",
+      "serviceProviderFee": "0.4",
+      "minPriceTickSize": "0.01",
+      "minQuantityTickSize": "10000"
+    },
+    {
+      "marketId": "0xe8bf0467208c24209c1cf0fd64833fa43eb6e8035869f9d043dbff815ab76d01",
+      "marketStatus": "active",
+      "ticker": "UNI/USDT",
+      "baseDenom": "peggy0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+      "baseTokenMeta": {
+        "name": "Uniswap",
+        "address": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+        "symbol": "UNI",
+        "logo": "https://static.alchemyapi.io/images/assets/7083.png",
+        "decimals": 18,
+        "updatedAt": 1650978922133
+      },
+      "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "makerFeeRate": "0.001",
+      "takerFeeRate": "0.002",
+      "serviceProviderFee": "0.4",
+      "minPriceTickSize": "0.000000000000001",
+      "minQuantityTickSize": "1000000000000000"
+    }
+  ]
 }
 ```
 
@@ -459,20 +552,21 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/exchange-grpc-stream-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
   const marketIds = ["0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"];
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
+  const exchangeClient = new ExchangeGrpcStreamClient(
     network.exchangeApi
   );
 
-  await exchangeClient.spotStream.streamSpotMarket({
+  await exchangeClient.spot.streamSpotMarket({
     marketIds,
       callback: (streamSpotMarket) => {
-        console.log(protoObjectToJson(streamSpotMarket, {}));
+        console.log(protoObjectToJson(streamSpotMarket));
       },
       onEndCallback: (status) => {
         console.log("Stream has ended with status: " + status);
@@ -548,6 +642,41 @@ market: {
   "min_quantity_tick_size": "1000000000000000"
 },
   "operation_type": "update",
+  "timestamp": 1632535055790
+}
+```
+
+``` typescript
+{
+  "market": {
+  "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "marketStatus": "active",
+  "ticker": "INJ/USDT",
+  "baseDenom": "inj",
+  "baseTokenMeta": {
+    "name": "Injective Protocol",
+    "address": "0xe28b3B32B6c345A34Ff64674606124Dd5Aceca30",
+    "symbol": "INJ",
+    "logo": "https://static.alchemyapi.io/images/assets/7226.png",
+    "decimals": 18,
+    "updatedAt": 1632535055751
+  },
+  "quoteDenom": "peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+  "quoteTokenMeta": {
+    "name": "Tether",
+    "address": "0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+    "symbol": "USDT",
+    "logo": "https://static.alchemyapi.io/images/assets/825.png",
+    "decimals": 6,
+    "updatedAt": 1632535055759
+  },
+  "makerFeeRate": "0.001",
+  "takerFeeRate": "0.002",
+  "serviceProviderRate": "0.4",
+  "minPriceTickSize": "0.000000000000001",
+  "minQuantityTickSize": "1000000000000000"
+},
+  "operationType": "update",
   "timestamp": 1632535055790
 }
 ```
@@ -670,10 +799,11 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, SpotOrderSide, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson, SpotOrderSide } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
 
   const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
   const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
@@ -684,10 +814,11 @@ import { protoObjectToJson, SpotOrderSide, ExchangeClient } from "@injectivelabs
     key: ""
   };
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const market = await exchangeClient.spotApi.fetchSpotOrders(
+
+  const market = await exchangeClient.spot.fetchOrders(
     {
       marketId: marketId,
       subaccountId: subaccountId,
@@ -696,9 +827,8 @@ import { protoObjectToJson, SpotOrderSide, ExchangeClient } from "@injectivelabs
     }
   );
 
-  console.log(protoObjectToJson(market, {}));
+  console.log(protoObjectToJson(market));
 })();
-
 ```
 
 |Parameter|Type|Description|Required|
@@ -777,6 +907,27 @@ orders {
    "updated_at": 1649838645114
   }
  ]
+}
+```
+
+``` typescript
+{
+  "ordersList": [
+    {
+      "orderHash": "0xd3f1e94393fc026a6a5b709b52b5ad0057e771b2b2768f4d7aebd03c5dfa383f",
+      "orderSide": "buy",
+      "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "price": "0.000000000002",
+      "quantity": "1000000000000000000",
+      "unfilledQuantity": "1000000000000000000",
+      "triggerPrice": "0",
+      "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+      "state": "booked",
+      "createdAt": 1654079259156,
+      "updatedAt": 1654079259156
+    }
+  ]
 }
 ```
 
@@ -891,32 +1042,33 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, SpotOrderSide, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson, SpotOrderSide } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/exchange-grpc-stream-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
+
   const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
-  const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000";
+  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
   const orderSide = SpotOrderSide.Buy;
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
+  const exchangeClient = new ExchangeGrpcStreamClient(
     network.exchangeApi
   );
 
-  await exchangeClient.spotStream.streamSpotOrders(
+  await exchangeClient.spot.streamSpotOrders(
     {
       marketId,
       orderSide,
       subaccountId,
       callback: (streamSpotOrders) => {
-        console.log(protoObjectToJson(streamSpotOrders, {}));
+        console.log(protoObjectToJson(streamSpotOrders));
       },
       onEndCallback: (status) => {
         console.log("Stream has ended with status: " + status);
       },
     });
 })();
-
 ```
 
 |Parameter|Type|Description|Required|
@@ -983,6 +1135,45 @@ timestamp: 1652809321000
  },
  "operation_type": "insert",
  "timestamp": 1653041988000
+}
+```
+
+``` typescript
+{
+  "order": {
+    "orderHash": "0x9bfdda8da0008059844bff8e2cfa0399d5a71abaadc2a3b659c4c2c0db654fb6",
+    "orderSide": "buy",
+    "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    "price": "0.000000000001",
+    "quantity": "2000000000000000000",
+    "unfilledQuantity": "2000000000000000000",
+    "triggerPrice": "0",
+    "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+    "state": "booked",
+    "createdAt": 1654079382459,
+    "updatedAt": 1654079382459
+  },
+  "operationType": "insert",
+  "timestamp": 1654079385000
+}
+{
+  "order": {
+    "orderHash": "0xb5b7f863c0f94f31668670d9ac74df6c31dc37b5d3b73e7ac43a200da58fbaeb",
+    "orderSide": "buy",
+    "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    "price": "0.000000000001",
+    "quantity": "1500000000000000000",
+    "unfilledQuantity": "1500000000000000000",
+    "triggerPrice": "0",
+    "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+    "state": "booked",
+    "createdAt": 1654079407709,
+    "updatedAt": 1654079407709
+  },
+  "operationType": "insert",
+  "timestamp": 1654079412000
 }
 ```
 
@@ -1094,20 +1285,22 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, TradeExecutionSide, TradeDirection, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson, TradeExecutionSide, TradeDirection } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
 
   const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
   const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000";
   const direction = TradeDirection.Buy;
   const executionSide = TradeExecutionSide.Maker;
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const market = await exchangeClient.spotApi.fetchSpotTrades(
+
+  const market = await exchangeClient.spot.fetchTrades(
     {
       marketId: marketId,
       subaccountId: subaccountId,
@@ -1115,9 +1308,8 @@ import { protoObjectToJson, TradeExecutionSide, TradeDirection, ExchangeClient }
       executionSide: executionSide,
   });
 
-  console.log(protoObjectToJson(market, {}));
+  console.log(protoObjectToJson(market));
 })();
-
 ```
 
 |Parameter|Type|Description|Required|
@@ -1202,6 +1394,43 @@ trades {
    "fee_recipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
   }
  ]
+}
+```
+
+``` typescript
+{
+  "tradesList": [
+    {
+      "orderHash": "0xf7b0741b6e6ca6121f7747f662348674efc12e544746caf2d6cd045d6782dcb9",
+      "subaccountId": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+      "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+      "tradeExecutionType": "limitMatchRestingOrder",
+      "tradeDirection": "buy",
+      "price": {
+        "price": "0.000000000001880078",
+        "quantity": "32000000000000000000",
+        "timestamp": 1653642433329
+      },
+      "fee": "60162.496",
+      "executedAt": 1653642433329,
+      "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
+    },
+   {
+      "orderHash": "0x6f0be3232ffd084c0377302177c9fcf5caafea412c6c8d2daa352c91bd3c1c3c",
+      "subaccountId": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+      "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+      "tradeExecutionType": "limitMatchRestingOrder",
+      "tradeDirection": "buy",
+      "price": {
+        "price": "0.0000000000018405",
+        "quantity": "26000000000000000000",
+        "timestamp": 1653631819163
+      },
+      "fee": "47853",
+      "executedAt": 1653631819163,
+      "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
+    }
+  ]
 }
 ```
 
@@ -1334,25 +1563,27 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, TradeExecutionSide, TradeDirection, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson, TradeExecutionSide, TradeDirection } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/exchange-grpc-stream-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
+
   const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
-  const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000";
-  const direction = TradeDirection.Buy;
-  const executionSide = TradeExecutionSide.Maker;
+  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
+  const direction = TradeDirection.Sell;
+  const executionSide = TradeExecutionSide.Taker;
   const pagination = {
     skip: 0,
     limit: 10,
     key: ""
   };
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
+  const exchangeClient = new ExchangeGrpcStreamClient(
     network.exchangeApi
   );
 
-  await exchangeClient.spotStream.streamSpotTrades(
+  await exchangeClient.spot.streamSpotTrades(
     {
       marketId: marketId,
       direction: direction,
@@ -1360,14 +1591,13 @@ import { protoObjectToJson, TradeExecutionSide, TradeDirection, ExchangeClient }
       pagination: pagination,
       executionSide: executionSide,
       callback: (streamSpotTrades) => {
-        console.log(protoObjectToJson(streamSpotTrades, {}));
+        console.log(protoObjectToJson(streamSpotTrades));
       },
       onEndCallback: (status) => {
         console.log("Stream has ended with status: " + status);
       },
     });
 })();
-
 ```
 
 |Parameter|Type|Description|Required|
@@ -1445,6 +1675,47 @@ timestamp: 1652809469000
 }
 ```
 
+``` typescript
+{
+  "trade": {
+    "orderHash": "0xedf6203fce7e3391052ddd8244385b267ddbe81aebd90724cde09c0c1b4af73b",
+    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+    "tradeExecutionType": "market",
+    "tradeDirection": "sell",
+    "price": {
+      "price": "0.000000000003",
+      "quantity": "1000000000000000000",
+      "timestamp": 1654080019844
+    },
+    "fee": "6000",
+    "executedAt": 1654080019844,
+    "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
+  },
+  "operationType": "insert",
+  "timestamp": 1654080026000
+}
+{
+  "trade": {
+    "orderHash": "0xac596cc795ba91dc8f10b6d251e211679f908be04f8becca566210fab20bfd2f",
+    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+    "tradeExecutionType": "market",
+    "tradeDirection": "sell",
+    "price": {
+      "price": "0.000000000003",
+      "quantity": "49000000000000000000",
+      "timestamp": 1654080025588
+    },
+    "fee": "294000",
+    "executedAt": 1654080025588,
+    "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
+  },
+  "operationType": "insert",
+  "timestamp": 1654080028000
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
 |operation_type|String|Trade operation type (Should be one of: [insert invalidate]) |
@@ -1464,7 +1735,6 @@ timestamp: 1652809469000
 |subaccount_id|String|Filter by the subaccount ID|
 |executed_at|Integer|Timestamp of trade execution in UNIX millis|
 |fee_recipient|String|The address that received 40% of the fees|
-
 
 **PriceLevel**
 
@@ -1627,6 +1897,42 @@ orderbook {
 }
 ```
 
+``` typescript
+{
+  "orderbook": {
+    "buysList": [
+      {
+        "price": "0.000000000002375",
+        "quantity": "4000000000000000000",
+        "timestamp": 1653968629289
+      },
+      {
+        "price": "0.000000000002349",
+        "quantity": "14000000000000000000",
+        "timestamp": 1653968629289
+      },
+      {
+        "price": "0.000000000002336",
+        "quantity": "34000000000000000000",
+        "timestamp": 1653968629289
+      },
+      {
+        "price": "0.000000000001",
+        "quantity": "4000000000000000000",
+        "timestamp": 1653930539754
+      }
+    ],
+    "sellsList": [
+      {
+        "price": "0.0000000000025",
+        "quantity": "1000000000000000000",
+        "timestamp": 1654080089976
+      }
+    ]
+  }
+}
+```
+
 |Parameter|Type|Description|
 |----|----|----|
 |orderbook|SpotLimitOrderbook|SpotLimitOrderbook object|
@@ -1715,22 +2021,22 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
-
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
 
-  const marketIds = ["0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"];
+  const marketIds = ["0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0", "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"];
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const market = await exchangeClient.spotApi.fetchSpotOrderbooks(marketIds);
 
-  console.log(protoObjectToJson(market, {}));
+  const market = await exchangeClient.spot.fetchOrderbooks(marketIds);
+
+  console.log(protoObjectToJson(market));
 })();
-
 ```
 
 |Parameter|Type|Description|Required|
@@ -1865,6 +2171,67 @@ orderbooks {
 }
 ```
 
+``` typescript
+{
+  "orderbooksList": [
+    {
+      "marketId": "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa",
+      "orderbook": {
+        "buysList": [
+          {
+            "price": "22",
+            "quantity": "1000000",
+            "timestamp": 1654080262300
+          }
+        ],
+        "sellsList": [
+          {
+            "price": "23",
+            "quantity": "10000",
+            "timestamp": 1654080273783
+          }
+        ]
+      }
+    },
+    {
+      "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+      "orderbook": {
+        "buysList": [
+          {
+            "price": "0.000000000002375",
+            "quantity": "4000000000000000000",
+            "timestamp": 1653968629289
+          },
+          {
+            "price": "0.000000000002349",
+            "quantity": "14000000000000000000",
+            "timestamp": 1653968629289
+          },
+          {
+            "price": "0.000000000002336",
+            "quantity": "34000000000000000000",
+            "timestamp": 1653968629289
+          },
+          {
+            "price": "0.000000000001",
+            "quantity": "4000000000000000000",
+            "timestamp": 1653930539754
+          }
+        ],
+        "sellsList": [
+          {
+            "price": "0.0000000000025",
+            "quantity": "1000000000000000000",
+            "timestamp": 1654080089976
+          }
+        ]
+      }
+    }
+  ]
+}
+
+```
+
 
 
 |Parameter|Type|Description|
@@ -1922,6 +2289,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -1953,7 +2321,8 @@ func main() {
         fmt.Println(err)
         return
       }
-      fmt.Println(res)
+      str, _ := json.MarshalIndent(res, "", " ")
+      fmt.Print(string(str))
     }
   }
 }
@@ -1961,28 +2330,29 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/exchange-grpc-stream-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
+
   const marketIds = ["0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"];
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
+  const exchangeClient = new ExchangeGrpcStreamClient(
     network.exchangeApi
   );
 
-  await exchangeClient.spotStream.streamSpotOrderbook(
+  await exchangeClient.spot.streamSpotOrderbook(
     {
       marketIds,
       callback: (streamSpotOrderbook) => {
-        console.log(protoObjectToJson(streamSpotOrderbook, {}));
+        console.log(protoObjectToJson(streamSpotOrderbook));
       },
       onEndCallback: (status) => {
         console.log("Stream has ended with status: " + status);
       },
     });
 })();
-
 ```
 
 |Parameter|Type|Description|Required|
@@ -2030,6 +2400,73 @@ orderbook {
 operation_type: "update"
 timestamp: 1652809737000
 market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+```
+
+``` go
+{
+ "orderbook": {
+  "buys": [
+   {
+    "price": "0.000000000002349",
+    "quantity": "14000000000000000000",
+    "timestamp": 1653968629289
+   },
+   {
+    "price": "0.000000000002336",
+    "quantity": "34000000000000000000",
+    "timestamp": 1653968629289
+   },
+   {
+    "price": "0.000000000002328",
+    "quantity": "12000000000000000000",
+    "timestamp": 1653968629289
+   },
+   {
+    "price": "0.000000000001",
+    "quantity": "4000000000000000000",
+    "timestamp": 1653930539754
+   }
+  ],
+  "sells": [
+   {
+    "price": "0.000000000003",
+    "quantity": "1000000000000000000",
+    "timestamp": 1654080771385
+   }
+  ]
+ },
+ "operation_type": "update",
+ "timestamp": 1654080908000,
+ "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+}
+```
+
+``` typescript
+{
+  "orderbook": {
+    "buysList": [
+      {
+        "price": "0.000000000002375",
+        "quantity": "4000000000000000000",
+        "timestamp": 1653968629289
+      },
+      {
+        "price": "0.0000000000015",
+        "quantity": "46000000000000000000",
+        "timestamp": 1652340323984
+      },
+      {
+        "price": "0.000000000001",
+        "quantity": "4000000000000000000",
+        "timestamp": 1653930539754
+      }
+    ],
+    "sellsList": []
+  },
+  "operationType": "update",
+  "timestamp": 1654080598000,
+  "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+}
 ```
 
 |Parameter|Type|Description|
@@ -2137,11 +2574,12 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
 
   const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
   const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
@@ -2150,10 +2588,12 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
     limit: 10,
     key: ""
   };
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const market = await exchangeClient.spotApi.fetchSpotSubaccountOrdersList(
+
+  const market = await exchangeClient.spot.fetchSubaccountOrdersList(
     {
       subaccountId: subaccountId,
       marketId: marketId,
@@ -2161,9 +2601,8 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
     }
   );
 
-  console.log(protoObjectToJson(market, {}));
+  console.log(protoObjectToJson(market));
 })();
-
 ```
 
 |Parameter|Type|Description|Required|
@@ -2240,6 +2679,83 @@ orders {
    "updated_at": 1652809253308
   }
  ]
+}
+```
+
+``` typescript
+{
+  "ordersList": [
+    {
+      "orderHash": "0x2f63441ddea8003bb29c28949d4a3f3b1e40fb423154164a7b579fbefa2e4f8d",
+      "orderSide": "sell",
+      "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "price": "0.000000000003",
+      "quantity": "1000000000000000000",
+      "unfilledQuantity": "1000000000000000000",
+      "triggerPrice": "0",
+      "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+      "state": "booked",
+      "createdAt": 1654080771385,
+      "updatedAt": 1654080771385
+    },
+    {
+      "orderHash": "0xb5b7f863c0f94f31668670d9ac74df6c31dc37b5d3b73e7ac43a200da58fbaeb",
+      "orderSide": "buy",
+      "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "price": "0.000000000001",
+      "quantity": "1500000000000000000",
+      "unfilledQuantity": "1500000000000000000",
+      "triggerPrice": "0",
+      "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+      "state": "booked",
+      "createdAt": 1654079407709,
+      "updatedAt": 1654079407709
+    },
+    {
+      "orderHash": "0x9bfdda8da0008059844bff8e2cfa0399d5a71abaadc2a3b659c4c2c0db654fb6",
+      "orderSide": "buy",
+      "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "price": "0.000000000001",
+      "quantity": "2000000000000000000",
+      "unfilledQuantity": "2000000000000000000",
+      "triggerPrice": "0",
+      "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+      "state": "booked",
+      "createdAt": 1654079382459,
+      "updatedAt": 1654079382459
+    },
+    {
+      "orderHash": "0xc2d56db71c54e5d0814746ebb966d63bb6c0b5f3462e97b2d607028881144b3b",
+      "orderSide": "buy",
+      "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "price": "0.000000000002",
+      "quantity": "2000000000000000000",
+      "unfilledQuantity": "2000000000000000000",
+      "triggerPrice": "0",
+      "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+      "state": "booked",
+      "createdAt": 1654079341993,
+      "updatedAt": 1654079341993
+    },
+    {
+      "orderHash": "0xd3f1e94393fc026a6a5b709b52b5ad0057e771b2b2768f4d7aebd03c5dfa383f",
+      "orderSide": "buy",
+      "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "price": "0.000000000002",
+      "quantity": "1000000000000000000",
+      "unfilledQuantity": "1000000000000000000",
+      "triggerPrice": "0",
+      "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+      "state": "booked",
+      "createdAt": 1654079259156,
+      "updatedAt": 1654079259156
+    }
+  ]
 }
 ```
 
@@ -2357,11 +2873,12 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, TradeExecutionType, TradeDirection, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson, TradeExecutionType, TradeDirection } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
 
   const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
   const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
@@ -2373,10 +2890,11 @@ import { protoObjectToJson, TradeExecutionType, TradeDirection, ExchangeClient }
     key: ""
   };
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const market = await exchangeClient.spotApi.fetchSpotSubaccountTradesList(
+
+  const market = await exchangeClient.spot.fetchSubaccountTradesList(
     {
       subaccountId: subaccountId,
       marketId: marketId,
@@ -2386,9 +2904,8 @@ import { protoObjectToJson, TradeExecutionType, TradeDirection, ExchangeClient }
     }
   );
 
-  console.log(protoObjectToJson(market, {}));
+  console.log(protoObjectToJson(market));
 })();
-
 ```
 
 |Parameter|Type|Description|Required|
@@ -2472,6 +2989,58 @@ trades {
  ]
 }
 
+```
+
+``` typescript
+{
+  "tradesList": [
+    {
+      "orderHash": "0xa6e42876bc57db846a06e1efbf481c99696fc8e50797d6535dde70545240839c",
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+      "tradeExecutionType": "market",
+      "tradeDirection": "buy",
+      "price": {
+        "price": "0.0000000000025",
+        "quantity": "1000000000000000000",
+        "timestamp": 1654080596036
+      },
+      "fee": "5000",
+      "executedAt": 1654080596036,
+      "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
+    },
+    {
+      "orderHash": "0x78b04557c96b82cfb49bb31955c4f990e4cf1bd2a976d683defdf676d427632f",
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+      "tradeExecutionType": "market",
+      "tradeDirection": "buy",
+      "price": {
+        "price": "0.0000000003",
+        "quantity": "55000000000000000000",
+        "timestamp": 1653935308434
+      },
+      "fee": "33000000",
+      "executedAt": 1653935308434,
+      "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
+    },
+    {
+      "orderHash": "0x6ad25de6dac78159fe66a02bded6bc9609ad67a3ad7b50c9809ce22c5855d571",
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+      "tradeExecutionType": "limitMatchNewOrder",
+      "tradeDirection": "buy",
+      "price": {
+        "price": "0.0000000000054255",
+        "quantity": "10000000000000000",
+        "timestamp": 1652097626589
+      },
+      "fee": "108.51",
+      "executedAt": 1652097626589,
+      "feeRecipient": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+    }
+  ]
+}
 ```
 
 |Parameter|Type|Description|

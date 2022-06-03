@@ -63,21 +63,21 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
-
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const oracleList = await exchangeClient.oracleApi.fetchOracleList(
+
+  const oracleList = await exchangeClient.oracle.fetchOracleList(
   );
 
-  console.log(protoObjectToJson(oracleList, {}));
+  console.log(protoObjectToJson(oracleList));
 })();
-
 ```
 
 
@@ -116,6 +116,34 @@ oracles {
    "price": "0.9797"
   }
  ]
+}
+```
+
+``` typescript
+{
+  "oraclesList": [
+    {
+      "symbol": "ANC",
+      "baseSymbol": "",
+      "quoteSymbol": "",
+      "oracleType": "bandibc",
+      "price": "2.212642692"
+    },
+    {
+      "symbol": "ATOM",
+      "baseSymbol": "",
+      "quoteSymbol": "",
+      "oracleType": "bandibc",
+      "price": "24.706861402"
+    },
+    {
+      "symbol": "ZRX",
+      "baseSymbol": "",
+      "quoteSymbol": "",
+      "oracleType": "coinbase",
+      "price": "0.398902"
+    }
+  ]
 }
 ```
 
@@ -205,21 +233,22 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
-
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
 
   const baseSymbol = "BTC";
   const quoteSymbol = "USDT";
   const oracleType = "bandibc";
   const oracleScaleFactor = 6;
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const oraclePrice = await exchangeClient.oracleApi.fetchOraclePrice(
+
+  const oraclePrice = await exchangeClient.oracle.fetchOraclePrice(
     {
       baseSymbol,
       quoteSymbol,
@@ -228,9 +257,8 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
     }
   );
 
-  console.log(protoObjectToJson(oraclePrice, {}));
+  console.log(protoObjectToJson(oraclePrice));
 })();
-
 ```
 
 |Parameter|Type|Description|Required|
@@ -251,6 +279,12 @@ price: "40128736026.4094317665"
 ``` go
 {
  "price": "40128736026.4094317665"
+}
+```
+
+``` typescript
+{
+  "price": "40128736026.4094317665"
 }
 ```
 
@@ -341,32 +375,33 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/exchange-grpc-stream-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
+
   const baseSymbol = "BTC";
   const quoteSymbol = "USDT";
   const oracleType = "bandibc";
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
+  const exchangeClient = new ExchangeGrpcStreamClient(
     network.exchangeApi
   );
 
-  await exchangeClient.oracleStream.streamOraclePrices(
+  await exchangeClient.oracle.streamOraclePrices(
     {
     oracleType,
     baseSymbol,
     quoteSymbol,
     callback: (streamPrices) => {
-      console.log(protoObjectToJson(streamPrices, {}));
+      console.log(protoObjectToJson(streamPrices));
     },
     onEndCallback: (status) => {
       console.log("Stream has ended with status: " + status);
     },
   });
 })();
-
 ```
 
 |Parameter|Type|Description|Required|
@@ -388,6 +423,13 @@ timestamp: 1652808740072
 {
  "price": "40128.7360264094317665",
  "timestamp": 1653038843915
+}
+```
+
+``` typescript
+{
+  "price": "40128.7360264094317665",
+  "timestamp": 1654180847704
 }
 ```
 

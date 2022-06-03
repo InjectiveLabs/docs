@@ -30,7 +30,6 @@ if __name__ == '__main__':
     asyncio.get_event_loop().run_until_complete(main())
 ```
 
-
 ``` go
 package main
 
@@ -65,27 +64,28 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
+
   const accountAddress = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku";
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const subaccountLists = await exchangeClient.accountApi.fetchSubaccountsList(
+
+  const subaccountLists = await exchangeClient.account.fetchSubaccountsList(
     accountAddress
   );
 
-  console.log(protoObjectToJson(subaccountLists, {}));
+  console.log(protoObjectToJson(subaccountLists));
 })();
-
 ````
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |account_address|String|The Injective Chain address|Yes|
-
 
 
 ### Response Parameters
@@ -102,6 +102,15 @@ subaccounts: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000001
   "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
   "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000001"
  ]
+}
+```
+
+``` typescript
+{
+  "subaccountsList": [
+    "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000001"
+  ]
 }
 ```
 
@@ -194,10 +203,12 @@ func main() {
 
 ```typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
+
   const subaccountId =
     "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
   const denom = "inj";
@@ -208,10 +219,11 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
     key: ""
   };
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const subaccountHistory = await exchangeClient.accountApi.fetchSubaccountHistory(
+
+  const subaccountHistory = await exchangeClient.account.fetchSubaccountHistory(
     {
       subaccountId: subaccountId,
       denom: denom,
@@ -219,9 +231,8 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
       pagination: pagination,
     });
 
-  console.log(protoObjectToJson(subaccountHistory, {}));
+  console.log(protoObjectToJson(subaccountHistory));
 })();
-
 ```
 
 
@@ -285,6 +296,49 @@ transfers {
    "executed_at": 1652453978939
   }
  ]
+}
+```
+
+``` typescript
+{
+  "transfersList": [
+    {
+      "transferType": "deposit",
+      "srcSubaccountId": "",
+      "srcAccountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+      "dstSubaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "dstAccountAddress": "",
+      "amount": {
+        "denom": "inj",
+        "amount": "50000000000000000000"
+      },
+      "executedAt": 1651492257605
+    },
+    {
+      "transferType": "deposit",
+      "srcSubaccountId": "",
+      "srcAccountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+      "dstSubaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "dstAccountAddress": "",
+      "amount": {
+        "denom": "inj",
+        "amount": "1000000000000000000"
+      },
+      "executedAt": 1652453978939
+    },
+    {
+      "transferType": "deposit",
+      "srcSubaccountId": "",
+      "srcAccountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+      "dstSubaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "dstAccountAddress": "",
+      "amount": {
+        "denom": "inj",
+        "amount": "1000000000000000000"
+      },
+      "executedAt": 1653010969661
+    }
+  ]
 }
 ```
 
@@ -377,25 +431,27 @@ func main() {
 
 ```typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
+
   const subaccountId =
     "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
   const denom = "inj";
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const subaccountBalance = await exchangeClient.accountApi.fetchSubaccountBalance(
+
+  const subaccountBalance = await exchangeClient.account.fetchSubaccountBalance(
     subaccountId,
     denom
   );
 
-  console.log(protoObjectToJson(subaccountBalance, {}));
+  console.log(protoObjectToJson(subaccountBalance));
 })();
-
 ```
 
 |Parameter|Type|Description|Required|
@@ -419,7 +475,7 @@ balance {
 }
 ```
 
-```go
+``` go
 {
  "balance": {
   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
@@ -430,6 +486,20 @@ balance {
    "available_balance": "52790000010000000003"
   }
  }
+}
+```
+
+``` typescript
+{
+  "balance": {
+    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    "accountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+    "denom": "inj",
+    "deposit": {
+      "totalBalance": "50790000010000000003",
+      "availableBalance": "50790000010000000003"
+    }
+  }
 }
 ```
 
@@ -517,21 +587,23 @@ func main() {
 
 ```typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
-  const accountAddress = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku";
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const network = getNetworkInfo(Network.TestnetK8s);
+
+  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const subaccountLists = await exchangeClient.accountApi.fetchSubaccountsList(
-    accountAddress
+
+  const subaccountBalancesList = await exchangeClient.account.fetchSubaccountBalancesList(
+    subaccountId
   );
 
-  console.log(protoObjectToJson(subaccountLists, {}));
+  console.log(protoObjectToJson(subaccountBalancesList));
 })();
-
 ```
 
 
@@ -596,6 +668,40 @@ balances {
    }
   }
  ]
+}
+```
+
+``` typescript
+{
+  "balancesList": [
+    {
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "accountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+      "denom": "ibc/C4CFF46FD6DE35CA4CF4CE031E643C8FDC9BA4B99AE598E9B0ED98FE3A2319F9",
+      "deposit": {
+        "totalBalance": "1000000",
+        "availableBalance": "990000"
+      }
+    },
+    {
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "accountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+      "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "deposit": {
+        "totalBalance": "200493880101034.695319283887814576",
+        "availableBalance": "200493854575534.695319283887814031"
+      }
+    },
+    {
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "accountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+      "denom": "inj",
+      "deposit": {
+        "totalBalance": "50790000010000000003",
+        "availableBalance": "50790000010000000003"
+      }
+    }
+  ]
 }
 ```
 
@@ -689,18 +795,21 @@ func main() {
 
 ```typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
-
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
+
   const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
   const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
   const orderDirection = "buy";
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const subaccountOrderSummary = await exchangeClient.accountApi.fetchSubaccountOrderSummary(
+
+  const subaccountOrderSummary = await exchangeClient.account.fetchSubaccountOrderSummary(
     {
     subaccountId,
     marketId,
@@ -708,10 +817,8 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
   }
   );
 
-  console.log(protoObjectToJson(subaccountOrderSummary, {}));
+  console.log(protoObjectToJson(subaccountOrderSummary));
 })();
-
-
 ````
 
 |Parameter|Type|Description|Required|
@@ -733,6 +840,13 @@ derivative_orders_total: 1
 ``` go
 spot orders: 2
 derivative orders: 0
+```
+
+``` typescript
+{
+  "spotOrdersTotal": 2,
+  "derivativeOrdersTotal": 0
+}
 ```
 
 |Parameter|Type|Description|
@@ -817,28 +931,29 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/exchange-grpc-stream-client"
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
+
   const subaccountId =
     "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcStreamClient(
+  const exchangeClient = new ExchangeGrpcStreamClient(
     network.exchangeApi
   );
 
-  await exchangeClient.accountStream.streamSubaccountBalance({
+  await exchangeClient.account.streamSubaccountBalance({
     subaccountId,
     callback: (subaccountBalance) => {
-      console.log(protoObjectToJson(subaccountBalance, {}));
+      console.log(protoObjectToJson(subaccountBalance));
     },
     onEndCallback: (status) => {
       console.log("Stream has ended with status: " + status);
     },
   });
 })();
-
 ```
 
 |Parameter|Type|Description|Required|
@@ -884,6 +999,33 @@ timestamp: 1652786118000
   }
  },
  "timestamp": 1653037744000
+}
+```
+
+``` typescript
+{
+  "balance": {
+    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    "accountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+    "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "deposit": {
+      "totalBalance": "200493439765890.695319283887814576",
+      "availableBalance": "200493414240390.695319283887814031"
+    }
+  },
+  "timestamp": 1654234765000
+}
+{
+  "balance": {
+    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    "accountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+    "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "deposit": {
+      "totalBalance": "200493847328858.695319283887814576",
+      "availableBalance": "200493821803358.695319283887814031"
+    }
+  },
+  "timestamp": 1654234804000
 }
 ```
 
@@ -944,6 +1086,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -960,8 +1103,8 @@ func main() {
   }
 
   ctx := context.Background()
-  spotOrderHashes := []string{"0x0b156df549747187210ca5381f0291f179d76d613d0bae1a3c4fd2e3c0504b7c"}
-  derivativeOrderHashes := []string{"0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50"}
+  spotOrderHashes := []string{"0xb7b556d6eab10c4c185a660be44757a8a6715fb16db39708f2f76d9ce5ae8617"}
+  derivativeOrderHashes := []string{"0x4228f9a56a5bb50de4ceadc64df694c77e7752d58b71a7c557a27ec10e1a094e"}
 
   req := accountPB.OrderStatesRequest{
     SpotOrderHashes:       spotOrderHashes,
@@ -973,33 +1116,35 @@ func main() {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
-
 ```
 
 ```typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
-  const spotOrderHashes = ["0xbae2927fbc4fd12c70eb7f41fb69b28eeceabbad68fecf4547df7c9dba5eb816"];
-  const derivativeOrderHashes = ["0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50"];
+  const network = getNetworkInfo(Network.TestnetK8s);
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const spotOrderHashes = ["0xb7b556d6eab10c4c185a660be44757a8a6715fb16db39708f2f76d9ce5ae8617"];
+  const derivativeOrderHashes = ["0x4228f9a56a5bb50de4ceadc64df694c77e7752d58b71a7c557a27ec10e1a094e"];
+
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const orderStates = await exchangeClient.accountApi.fetchOrderStates(
+
+  const orderStates = await exchangeClient.account.fetchOrderStates(
     {
       spotOrderHashes,
       derivativeOrderHashes
     }
   );
 
-  console.log(protoObjectToJson(orderStates, {}));
+  console.log(protoObjectToJson(orderStates));
 })();
-
 ```
 
 |Parameter|Type|Description|Required|
@@ -1047,6 +1192,72 @@ derivative_order_states {
   quantity_remaining: "1"
   created_at: 1652786114544
   updated_at: 1652786114544
+}
+```
+
+``` go
+{
+ "spot_order_states": [
+  {
+   "order_hash": "0xb7b556d6eab10c4c185a660be44757a8a6715fb16db39708f2f76d9ce5ae8617",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "market_id": "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa",
+   "order_type": "limit",
+   "order_side": "buy",
+   "state": "booked",
+   "quantity_filled": "0",
+   "quantity_remaining": "1000000",
+   "created_at": 1654080262300,
+   "updated_at": 1654080262300
+  }
+ ],
+ "derivative_order_states": [
+  {
+   "order_hash": "0x4228f9a56a5bb50de4ceadc64df694c77e7752d58b71a7c557a27ec10e1a094e",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "market_id": "0x1c79dac019f73e4060494ab1b4fcba734350656d6fc4d474f6a238c13c6f9ced",
+   "order_type": "limit",
+   "order_side": "buy",
+   "state": "booked",
+   "quantity_filled": "0",
+   "quantity_remaining": "1",
+   "created_at": 1654235059957,
+   "updated_at": 1654235059957
+  }
+ ]
+}
+```
+
+``` typescript
+{
+  "spotOrderStatesList": [
+    {
+      "orderHash": "0xb7b556d6eab10c4c185a660be44757a8a6715fb16db39708f2f76d9ce5ae8617",
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "marketId": "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa",
+      "orderType": "limit",
+      "orderSide": "buy",
+      "state": "booked",
+      "quantityFilled": "0",
+      "quantityRemaining": "1000000",
+      "createdAt": 1654080262300,
+      "updatedAt": 1654080262300
+    }
+  ],
+  "derivativeOrderStatesList": [
+    {
+      "orderHash": "0x4228f9a56a5bb50de4ceadc64df694c77e7752d58b71a7c557a27ec10e1a094e",
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "marketId": "0x1c79dac019f73e4060494ab1b4fcba734350656d6fc4d474f6a238c13c6f9ced",
+      "orderType": "limit",
+      "orderSide": "buy",
+      "state": "booked",
+      "quantityFilled": "0",
+      "quantityRemaining": "1",
+      "createdAt": 1654235059957,
+      "updatedAt": 1654235059957
+    }
+  ]
 }
 ```
 
@@ -1102,10 +1313,9 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+    account_address = "inj10y4mpwgqr4c63m7t8spxhf8rgcy2dz5vt3mvk9"
     portfolio = await client.get_portfolio(account_address=account_address)
     print(portfolio)
 
@@ -1119,6 +1329,7 @@ package main
 
 import (
   "context"
+  "encoding/json"
   "fmt"
 
   "github.com/InjectiveLabs/sdk-go/client/common"
@@ -1134,35 +1345,37 @@ func main() {
   }
 
   ctx := context.Background()
-  accountAddress := "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+  accountAddress := "inj10y4mpwgqr4c63m7t8spxhf8rgcy2dz5vt3mvk9"
   res, err := exchangeClient.GetPortfolio(ctx, accountAddress)
   if err != nil {
     fmt.Println(err)
   }
 
-  fmt.Println(res)
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
 }
-
 ```
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
-  const accountAddress = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku";
+  const network = getNetworkInfo(Network.TestnetK8s);
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const accountAddress = "inj10y4mpwgqr4c63m7t8spxhf8rgcy2dz5vt3mvk9";
+
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const portfolio = await exchangeClient.accountApi.fetchPortfolio(
+
+  const portfolio = await exchangeClient.account.fetchPortfolio(
       accountAddress
     );
 
-  console.log(protoObjectToJson(portfolio, {}));
+  console.log(protoObjectToJson(portfolio));
 })();
-
 ```
 
 |Parameter|Type|Description|Required|
@@ -1175,22 +1388,52 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 ``` python
 portfolio {
-  portfolio_value: "0"
-  available_balance: "0"
-  locked_balance: "0"
-  unrealized_pnl: "0"
+  portfolio_value: "16951.32520096332191347385"
+  available_balance: "10127.3078647233442029"
+  locked_balance: "8193.1269388867038576"
+  unrealized_pnl: "-1369.10960264672614702615"
   subaccounts {
-    subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-    available_balance: "0"
-    locked_balance: "0"
-    unrealized_pnl: "0"
+    subaccount_id: "0x792bb0b9001d71a8efcb3c026ba4e34608a68a8c000000000000000000000000"
+    available_balance: "10127.3078647233442029"
+    locked_balance: "8193.1269388867038576"
+    unrealized_pnl: "-1369.10960264672614702615"
   }
-  subaccounts {
-    subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000001"
-    available_balance: "0"
-    locked_balance: "0"
-    unrealized_pnl: "0"
-  }
+}
+```
+
+``` go
+{
+ "portfolio": {
+  "portfolio_value": "16961.63886335580191347385",
+  "available_balance": "10127.8309908372442029",
+  "locked_balance": "8192.6038127728038576",
+  "unrealized_pnl": "-1358.79594025424614702615",
+  "subaccounts": [
+   {
+    "subaccount_id": "0x792bb0b9001d71a8efcb3c026ba4e34608a68a8c000000000000000000000000",
+    "available_balance": "10127.8309908372442029",
+    "locked_balance": "8192.6038127728038576",
+    "unrealized_pnl": "-1358.79594025424614702615"
+   }
+  ]
+ }
+}
+```
+
+``` typescript
+{
+  "portfolioValue": "18140.93939739028541677385",
+  "availableBalance": "10100.5755146800551762",
+  "lockedBalance": "8190.6761262577118576",
+  "unrealizedPnl": "-150.31224354748161702615",
+  "subaccountsList": [
+    {
+      "subaccountId": "0x792bb0b9001d71a8efcb3c026ba4e34608a68a8c000000000000000000000000",
+      "availableBalance": "10100.5755146800551762",
+      "lockedBalance": "8190.6761262577118576",
+      "unrealizedPnl": "-150.31224354748161702615"
+    }
+  ]
 }
 ```
 
@@ -1254,7 +1497,7 @@ func main() {
 
   ctx := context.Background()
   accountAddress := "inj1rwv4zn3jptsqs7l8lpa3uvzhs57y8duemete9e"
-  epoch := int64(1)
+  epoch := int64(2)
 
   req := accountPB.RewardsRequest{
     Epoch:          epoch,
@@ -1273,26 +1516,28 @@ func main() {
 
 ```typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
-  const address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku";
-  const epoch = -1;
+  const network = getNetworkInfo(Network.TestnetK8s);
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const address = "inj1rwv4zn3jptsqs7l8lpa3uvzhs57y8duemete9e";
+  const epoch = 2;
+
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const rewards = await exchangeClient.accountApi.fetchRewards(
+
+  const rewards = await exchangeClient.account.fetchRewards(
     {
       address: address,
       epoch: epoch
     }
     );
 
-  console.log(protoObjectToJson(rewards, {}));
+  console.log(protoObjectToJson(rewards));
 })();
-
 ````
 
 |Parameter|Type|Description|Required|
@@ -1312,6 +1557,40 @@ rewards {
     amount: "15586502225212"
   }
   distributed_at: 1652259600148
+}
+```
+
+``` go
+{
+ "rewards": [
+  {
+   "account_address": "inj1rwv4zn3jptsqs7l8lpa3uvzhs57y8duemete9e",
+   "rewards": [
+    {
+     "denom": "inj",
+     "amount": "755104058929571177652"
+    }
+   ],
+   "distributed_at": 1642582800716
+  }
+ ]
+}
+```
+
+``` typescript
+{
+  "rewardsList": [
+    {
+      "accountAddress": "inj1rwv4zn3jptsqs7l8lpa3uvzhs57y8duemete9e",
+      "rewardsList": [
+        {
+          "denom": "inj",
+          "amount": "755104058929571177652"
+        }
+      ],
+      "distributedAt": 1642582800716
+    }
+  ]
 }
 ```
 

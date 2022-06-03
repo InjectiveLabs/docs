@@ -64,20 +64,21 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const ping = await exchangeClient.metaApi.fetchPing(
+
+  const ping = await exchangeClient.meta.fetchPing(
   );
 
-  console.log(protoObjectToJson(ping, {}))
+  console.log("Health OK?", protoObjectToJson(ping))
 })();
-
 ```
 
 > Response Example:
@@ -88,6 +89,10 @@ Health OK?
 
 ``` go
 Health OK?{}
+```
+
+``` typescript
+Health OK? {}
 ```
 
 
@@ -153,20 +158,21 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const version = await exchangeClient.metaApi.fetchVersion(
+
+  const version = await exchangeClient.meta.fetchVersion(
   );
 
-  console.log(protoObjectToJson(version, {}));
+  console.log(protoObjectToJson(version));
 })();
-
 ```
 
 
@@ -201,6 +207,30 @@ build {
   "GoArch": "amd64",
   "GoVersion": "go1.17.3"
  }
+}
+```
+
+``` typescript
+{
+  "version": "dev",
+  "buildMap": [
+    [
+      "BuildDate",
+      "20220519-1436"
+    ],
+    [
+      "GitCommit",
+      "464c6c8"
+    ],
+    [
+      "GoArch",
+      "amd64"
+    ],
+    [
+      "GoVersion",
+      "go1.17.3"
+    ]
+  ]
 }
 ```
 
@@ -266,21 +296,22 @@ func main() {
 
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 
 (async () => {
-  const network = getNetworkInfo(Network.Testnet);
+  const network = getNetworkInfo(Network.TestnetK8s);
 
-  const exchangeClient = new ExchangeClient.ExchangeGrpcClient(
+  const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
-  const info = await exchangeClient.metaApi.fetchInfo(
+
+  const info = await exchangeClient.meta.fetchInfo(
   );
 
-  console.log(protoObjectToJson(info, {}));
+  console.log(protoObjectToJson(info));
 })();
-
 ```
 
 > Response Example:
