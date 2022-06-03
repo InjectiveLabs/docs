@@ -19,7 +19,7 @@ from pyinjective.wallet import PrivateKey
 
 async def main() -> None:
     # select network: local, testnet, mainnet
-    network = Network.testnet()
+	network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
@@ -209,7 +209,7 @@ from pyinjective.wallet import PrivateKey
 
 async def main() -> None:
     # select network: local, testnet, mainnet
-    network = Network.testnet()
+	network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client

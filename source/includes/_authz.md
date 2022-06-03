@@ -710,17 +710,25 @@ Get the details of an authorization between a granter and a grantee.
 > Request Example:
 
 ``` python
+import asyncio
+import logging
+
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
+    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     granter = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
     grantee = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-    msg_type_url = "/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"
-    authorizations = client.get_grants(granter=granter, grantee=grantee, msg_type_url=msg_type_url)
+    msg_type_url = "/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder"
+    authorizations = await client.get_grants(granter=granter, grantee=grantee, msg_type_url=msg_type_url)
     print(authorizations)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -737,32 +745,28 @@ async def main() -> None:
 ### Response Parameters
 > Response Example:
 
-``` json
-{
-
-"grants": {
-  "authorization": {
-    "type_url": "/cosmos.authz.v1beta1.GenericAuthorization",
-    "value": "\n3/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"
+``` python
+grants: {
+  authorization: {
+    type_url: "/cosmos.authz.v1beta1.GenericAuthorization",
+    value: "\n3/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"
   },
-  "expiration": {
-    "seconds": 1673468820
+  expiration: {
+    seconds: 1673468820
   }
-}
-
 }
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
-|grants|Grants|Array of Grants|
+|grants|Grants|Grants object|
 
 **Grants**
 
 |Parameter|Type|Description|
 |----|----|----|
-|authorization|Authorization|Array of Authorization|
-|expiration|Expiration|Array of Expiration|
+|authorization|Authorization|Authorization object|
+|expiration|Expiration|Expiration object|
 
 **Authorization**
 
