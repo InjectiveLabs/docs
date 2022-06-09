@@ -15969,21 +15969,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 </thead><tbody>
 <tr>
-<td>before</td>
-<td>Integer</td>
-<td>Filter transactions before a given block height</td>
-<td>No</td>
-</tr>
-<tr>
-<td>after</td>
-<td>Integer</td>
-<td>Filter transactions after a given block height</td>
-<td>No</td>
-</tr>
-<tr>
-<td>limit</td>
-<td>Integer</td>
-<td>Limit the returned transactions</td>
+<td>block_height</td>
+<td>String</td>
+<td>Filter transactions for a specific block</td>
 <td>No</td>
 </tr>
 </tbody></table>
@@ -26186,16 +26174,14 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
 
     <span class="n">address</span> <span class="o">:=</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span>
-    <span class="n">denom</span> <span class="o">:=</span> <span class="s">"inj"</span>
 
-    <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">GetBankBalance</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">denom</span><span class="p">)</span>
+    <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">GetBankBalances</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
         <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
     <span class="p">}</span>
 
     <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
     <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
-
 <span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
 </code></pre></div>
@@ -26238,38 +26224,6 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">{</span>
    <span class="s">"denom"</span><span class="o">:</span> <span class="s">"peggy0x36B3D7ACe7201E28040eFf30e815290D7b37ffaD"</span><span class="p">,</span>
    <span class="s">"amount"</span><span class="o">:</span> <span class="s">"4000000000000000000"</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"</span><span class="p">,</span>
-   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"14247806364334"</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"peggy0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"</span><span class="p">,</span>
-   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"68801614623999999999999"</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"</span><span class="p">,</span>
-   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"9785864355109"</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"share19"</span><span class="p">,</span>
-   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"4000000000000000000"</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"share22"</span><span class="p">,</span>
-   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"1000000000000000000"</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"share23"</span><span class="p">,</span>
-   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"1000000000000000000"</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"share24"</span><span class="p">,</span>
-   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"1000000000000000000"</span>
-  <span class="p">},</span>
-  <span class="p">{</span>
-   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"share25"</span><span class="p">,</span>
-   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"900000000000000000"</span>
   <span class="p">},</span>
   <span class="p">{</span>
    <span class="s">"denom"</span><span class="o">:</span> <span class="s">"share26"</span><span class="p">,</span>
