@@ -1759,3 +1759,313 @@ timestamp: "2022-05-31 13:56:58.233 +0000 UTC"
 |parent_hash|String|The parent hash|
 |num_txs|Integer|The number of transactions in the block|
 |timestamp|String|The block's timestamp|
+
+
+## PeggyDeposits
+
+Get the peggy deposits.
+
+
+### Request Parameters
+> Request Example:
+
+``` python
+import asyncio
+import logging
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.constant import Network
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network, insecure=False)
+    receiver = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+    peggy_deposits = await client.get_peggy_deposits(receiver=receiver)
+    print(peggy_deposits)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
+```
+
+``` go
+
+```
+
+``` typescript
+
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|sender|String|Filter transfers based on sender address|Conditional|
+|receiver|String|Filter transfers based on receiver address|Conditional|
+|limit|Integer|Limit the returned transfers|No|
+|skip|Integer|Skip the returned transfers|No|
+
+
+### Response Parameters
+> Response Example:
+
+``` python
+field {
+  sender: "0xbdAEdEc95d563Fb05240d6e01821008454c24C36"
+  receiver: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+  event_nonce: 145
+  event_height: 29668045
+  amount: "2000000000000000000"
+  denom: "0x36B3D7ACe7201E28040eFf30e815290D7b37ffaD"
+  orchestrator_address: "inj1hs9q5xuvzunl77uv0mf0amsfa79uzhsrzak00a"
+  state: "InjectiveConfirming"
+  tx_hashes: "0x3a4e623199a21ef5a1554e6d2c751923204c1d2860ccbcc1e8ef56e1571c3a4c"
+  created_at: "2022-06-01 06:52:44.907 +0000 UTC"
+  updated_at: "0001-01-01 00:00:00 +0000 UTC"
+}
+field {
+  sender: "0xbdAEdEc95d563Fb05240d6e01821008454c24C36"
+  receiver: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+  event_nonce: 144
+  event_height: 29667840
+  amount: "2000000000000000000"
+  denom: "0x36B3D7ACe7201E28040eFf30e815290D7b37ffaD"
+  orchestrator_address: "inj1hs9q5xuvzunl77uv0mf0amsfa79uzhsrzak00a"
+  state: "InjectiveConfirming"
+  tx_hashes: "0x12409d12d8e9247ff22651873b8385fd3a91fe405f89a72147f6bee7f8da836c"
+  created_at: "2022-06-01 06:52:41.096 +0000 UTC"
+  updated_at: "0001-01-01 00:00:00 +0000 UTC"
+}
+```
+
+``` go
+
+```
+
+``` typescript
+
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|sender|String|The sender address|
+|receiver|String|The receiver address|
+|event_nonce|Integer|The event nonce|
+|event_height|Integer|The event height|
+|amount|String|The transferred amount|
+|denom|Integer|The token denom|
+|orchestrator_address|String|The orchestrator address|
+|state|String|Transaction state|
+|tx_hashes|String|The transaction hashes|
+|created_at|Integer|The timestamp of the tx creation|
+|updated_at|String|The timestamp of the tx update|
+
+
+## PeggyWithdrawals
+
+Get the peggy withdrawals.
+
+
+### Request Parameters
+> Request Example:
+
+``` python
+import asyncio
+import logging
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.constant import Network
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network, insecure=False)
+    sender = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+    peggy_deposits = await client.get_peggy_withdrawals(sender=sender)
+    print(peggy_deposits)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
+```
+
+``` go
+
+```
+
+``` typescript
+
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|sender|String|Filter transfers based on sender address|Conditional|
+|receiver|String|Filter transfers based on receiver address|Conditional|
+|limit|Integer|Limit the returned transfers|No|
+|skip|Integer|Skip the returned transfers|No|
+
+
+### Response Parameters
+> Response Example:
+
+``` python
+field {
+  sender: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+  receiver: "0xAF79152AC5dF276D9A8e1E2E22822f9713474902"
+  amount: "5000000000000000000"
+  denom: "inj"
+  bridge_fee: "2000000000000000000"
+  outgoing_tx_id: 113
+  state: "InjectiveConfirming"
+  tx_hashes: "0x391ab87558318bd7ff2ccb9d68ed309ad073fa64c8395a493d6c347ff572af38"
+  created_at: "2022-05-13 16:14:16.912 +0000 UTC"
+  updated_at: "0001-01-01 00:00:00 +0000 UTC"
+}
+field {
+  sender: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+  receiver: "0xAF79152AC5dF276D9A8e1E2E22822f9713474902"
+  amount: "23000000000000000000"
+  denom: "inj"
+  bridge_fee: "4651162790697674752"
+  outgoing_tx_id: 112
+  state: "InjectiveConfirming"
+  tx_hashes: "0x5529016817553230024b45b44abeb0538dc0af9eee0dead467b91c85bcccac87"
+  created_at: "2022-05-13 16:13:19.176 +0000 UTC"
+  updated_at: "0001-01-01 00:00:00 +0000 UTC"
+}
+```
+
+``` go
+
+```
+
+``` typescript
+
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|sender|String|The sender address|
+|receiver|String|The receiver address|
+|amount|String|The transferred amount|
+|denom|Integer|The token denom|
+|bridge_fee|String|The bridge fee|
+|outgoing_tx_id|Integer|The tx nonce|
+|state|String|Transaction state|
+|tx_hashes|String|The transaction hashes|
+|created_at|Integer|The timestamp of the tx creation|
+|updated_at|String|The timestamp of the tx update|
+
+
+## IBCTransfers
+
+Get the IBC transfers.
+
+
+### Request Parameters
+> Request Example:
+
+``` python
+import asyncio
+import logging
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.constant import Network
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network, insecure=False)
+    receiver = "inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh"
+    ibc_transfers = await client.get_ibc_transfers(receiver=receiver)
+    print(ibc_transfers)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
+```
+
+``` go
+
+```
+
+``` typescript
+
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|sender|String|Filter transfers based on sender address|Conditional|
+|receiver|String|Filter transfers based on receiver address|Conditional|
+|src_channel|String|Filter transfers based on source channel|No|
+|src_port|String|Filter transfers based on source port|No|
+|dest_channel|String|Filter transfers based on destination channel|No|
+|dest_port|String|Filter transfers based on destination port|No|
+|limit|Integer|Limit the returned transfers|No|
+|skip|Integer|Skip the returned transfers|No|
+
+
+### Response Parameters
+> Response Example:
+
+``` python
+field {
+  sender: "terra1nrgj0e5l98y07zuenvnpa76x8e5dmm4cdkppws"
+  receiver: "inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh"
+  source_port: "transfer"
+  source_channel: "channel-17"
+  destination_port: "transfer"
+  destination_channel: "channel-4"
+  amount: "10000000000"
+  denom: "uusd"
+  timeout_height: "5-7072846"
+  timeout_timestamp: 1648784773000000000
+  packet_sequence: 1892
+  data_hex: "7b22616d6f756e74223a223130303030303030303030222c2264656e6f6d223a2275757364222c227265636569766572223a22696e6a3164646370356674716d6e7475646e346d36686567326164756436686e353875726e776c6d6b68222c2273656e646572223a227465727261316e72676a3065356c39387930377a75656e766e7061373678386535646d6d3463646b70707773227d"
+  state: "Completed"
+  tx_hashes: "0xf52d55dd6b68d78d137d4e5526a450d74689d3cba7f69640acd41b68ee26cd15"
+  created_at: "2022-04-01 03:45:39.338 +0000 UTC"
+  updated_at: "2022-04-01 03:45:39.338 +0000 UTC"
+}
+field {
+  sender: "cosmos1tpvtf9camsumce6kkgvmqjvqaaw69xr9766q55"
+  receiver: "inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh"
+  source_port: "transfer"
+  source_channel: "channel-220"
+  destination_port: "transfer"
+  destination_channel: "channel-1"
+  amount: "394900000"
+  denom: "uatom"
+  timeout_height: "0-0"
+  timeout_timestamp: 1646666048000000000
+  packet_sequence: 1941
+  data_hex: "7b22616d6f756e74223a22333934393030303030222c2264656e6f6d223a227561746f6d222c227265636569766572223a22696e6a3164646370356674716d6e7475646e346d36686567326164756436686e353875726e776c6d6b68222c2273656e646572223a22636f736d6f733174707674663963616d73756d6365366b6b67766d716a76716161773639787239373636713535227d"
+  state: "Completed"
+  tx_hashes: "0x9679b3bca6c96f9bf89bc048fd106ce9b526966ac4169abe581109d45060bcfa"
+  created_at: "2022-03-07 15:13:48.525 +0000 UTC"
+  updated_at: "2022-03-07 15:13:48.525 +0000 UTC"
+}
+```
+
+``` go
+
+```
+
+``` typescript
+
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|sender|String|Sender address|
+|receiver|String|Receiver address|
+|source_channel|String|Source channel|
+|source_port|String|Source port|
+|destination_channel|String|Destination channel|
+|destination_port|String|Destination port|
+|amount|String|Amount|
+|denom|String|Token denom|
+|timeout_height|Integer|Timeout height|
+|timeout_timestamp|Integer|Timeout timestamp|
+|packet_sequence|String|Packet Sequence|
+|data_hex|String|Data in hex format|
+|state|String|Transaction state|
+|tx_hashes|String|Transaction hashes|
+|created_at|Integer|The timestamp of the tx creation|
+|updated_at|String|The timestamp of the tx update|
