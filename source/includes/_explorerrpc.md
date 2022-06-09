@@ -901,9 +901,7 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|before|Integer|Filter transactions before a given block height|No|
-|after|Integer|Filter transactions after a given block height|No|
-|limit|Integer|Limit the returned transactions|No|
+|block_height|String|Filter transactions for a specific block|No|
 
 
 ### Response Parameters

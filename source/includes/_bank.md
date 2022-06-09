@@ -92,16 +92,14 @@ func main() {
     ctx := context.Background()
 
     address := "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-    denom := "inj"
 
-    res, err := chainClient.GetBankBalance(ctx, address, denom)
+    res, err := chainClient.GetBankBalances(ctx, address)
     if err != nil {
         fmt.Println(err)
     }
 
     str, _ := json.MarshalIndent(res, "", " ")
     fmt.Print(string(str))
-
 }
 ```
 
@@ -141,38 +139,6 @@ pagination {
   {
    "denom": "peggy0x36B3D7ACe7201E28040eFf30e815290D7b37ffaD",
    "amount": "4000000000000000000"
-  },
-  {
-   "denom": "peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-   "amount": "14247806364334"
-  },
-  {
-   "denom": "peggy0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-   "amount": "68801614623999999999999"
-  },
-  {
-   "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-   "amount": "9785864355109"
-  },
-  {
-   "denom": "share19",
-   "amount": "4000000000000000000"
-  },
-  {
-   "denom": "share22",
-   "amount": "1000000000000000000"
-  },
-  {
-   "denom": "share23",
-   "amount": "1000000000000000000"
-  },
-  {
-   "denom": "share24",
-   "amount": "1000000000000000000"
-  },
-  {
-   "denom": "share25",
-   "amount": "900000000000000000"
   },
   {
    "denom": "share26",
