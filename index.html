@@ -17142,7 +17142,42 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
     <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+  <span class="s">"context"</span>
+  <span class="s">"encoding/json"</span>
+  <span class="s">"fmt"</span>
+  <span class="n">explorerPB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"</span>
+
+  <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+  <span class="n">exchangeclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/exchange"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c">//network := common.LoadNetwork("mainnet", "k8s")</span>
+  <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
+  <span class="n">exchangeClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeclient</span><span class="o">.</span><span class="n">NewExchangeClient</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeGrpcEndpoint</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeTlsCert</span><span class="p">))</span>
+  <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+
+  <span class="n">receiver</span> <span class="o">:=</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span>
+
+  <span class="n">req</span> <span class="o">:=</span> <span class="n">explorerPB</span><span class="o">.</span><span class="n">GetPeggyDepositTxsRequest</span><span class="p">{</span>
+    <span class="n">Receiver</span><span class="o">:</span> <span class="n">receiver</span><span class="p">,</span>
+  <span class="p">}</span>
+
+  <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">GetPeggyDeposits</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+  <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+<span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
 </code></pre></div>
 <table><thead>
@@ -17208,7 +17243,57 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">created_at</span><span class="p">:</span> <span class="s">"2022-06-01 06:52:41.096 +0000 UTC"</span>
   <span class="n">updated_at</span><span class="p">:</span> <span class="s">"0001-01-01 00:00:00 +0000 UTC"</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
+ <span class="s">"field"</span><span class="o">:</span> <span class="p">[</span>
+  <span class="p">{</span>
+   <span class="s">"sender"</span><span class="o">:</span> <span class="s">"0xbdAEdEc95d563Fb05240d6e01821008454c24C36"</span><span class="p">,</span>
+   <span class="s">"receiver"</span><span class="o">:</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span><span class="p">,</span>
+   <span class="s">"event_nonce"</span><span class="o">:</span> <span class="m">201</span><span class="p">,</span>
+   <span class="s">"event_height"</span><span class="o">:</span> <span class="m">31544480</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"1000000000000000000"</span><span class="p">,</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"0x36B3D7ACe7201E28040eFf30e815290D7b37ffaD"</span><span class="p">,</span>
+   <span class="s">"orchestrator_address"</span><span class="o">:</span> <span class="s">"inj1ultw9r29l8nxy5u6thcgusjn95vsy2caecl0ps"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"Completed"</span><span class="p">,</span>
+   <span class="s">"claim_type"</span><span class="o">:</span> <span class="m">1</span><span class="p">,</span>
+   <span class="s">"tx_hashes"</span><span class="o">:</span> <span class="p">[</span>
+    <span class="s">"0x8de1bf0f32966d2edf09378bc0e1d292f8ae34c45ae0b37a847867753a4b37a6"</span>
+   <span class="p">],</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="s">"2022-06-01 07:25:47.077 +0000 UTC"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="s">"2022-06-01 07:32:01.671 +0000 UTC"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"sender"</span><span class="o">:</span> <span class="s">"0xbdAEdEc95d563Fb05240d6e01821008454c24C36"</span><span class="p">,</span>
+   <span class="s">"receiver"</span><span class="o">:</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span><span class="p">,</span>
+   <span class="s">"event_nonce"</span><span class="o">:</span> <span class="m">200</span><span class="p">,</span>
+   <span class="s">"event_height"</span><span class="o">:</span> <span class="m">31396037</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"1000000000000000000"</span><span class="p">,</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"0x36B3D7ACe7201E28040eFf30e815290D7b37ffaD"</span><span class="p">,</span>
+   <span class="s">"orchestrator_address"</span><span class="o">:</span> <span class="s">"inj1ultw9r29l8nxy5u6thcgusjn95vsy2caecl0ps"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"Completed"</span><span class="p">,</span>
+   <span class="s">"claim_type"</span><span class="o">:</span> <span class="m">1</span><span class="p">,</span>
+   <span class="s">"tx_hashes"</span><span class="o">:</span> <span class="p">[</span>
+    <span class="s">"0x377c52c94f8cab6e91d4b56a5e65710c1452acc4b10bc26d111ceeab9e30a67f"</span>
+   <span class="p">],</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="s">"2022-06-01 07:17:52.285 +0000 UTC"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="s">"2022-06-01 07:31:57.848 +0000 UTC"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"sender"</span><span class="o">:</span> <span class="s">"0xAF79152AC5dF276D9A8e1E2E22822f9713474902"</span><span class="p">,</span>
+   <span class="s">"receiver"</span><span class="o">:</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span><span class="p">,</span>
+   <span class="s">"event_nonce"</span><span class="o">:</span> <span class="m">2</span><span class="p">,</span>
+   <span class="s">"event_height"</span><span class="o">:</span> <span class="m">29335363</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"50000000000000000000"</span><span class="p">,</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"0xA3a9029B8120e2F09B194Df4A249A24dB461E573"</span><span class="p">,</span>
+   <span class="s">"orchestrator_address"</span><span class="o">:</span> <span class="s">"inj1hs9q5xuvzunl77uv0mf0amsfa79uzhsrzak00a"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"InjectiveConfirming"</span><span class="p">,</span>
+   <span class="s">"tx_hashes"</span><span class="o">:</span> <span class="p">[</span>
+    <span class="s">"0x97d223982ffef0a0550d75c8dfdb8fd661b8be28744d3f5b23cb8c1b328d1b3b"</span>
+   <span class="p">],</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="s">"2022-05-18 21:03:34.991 +0000 UTC"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="s">"0001-01-01 00:00:00 +0000 UTC"</span>
+  <span class="p">}</span>
+ <span class="p">]</span>
+<span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
 </code></pre></div>
 <table><thead>
@@ -17296,7 +17381,41 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
     <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+  <span class="s">"context"</span>
+  <span class="s">"encoding/json"</span>
+  <span class="s">"fmt"</span>
+  <span class="n">explorerPB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"</span>
+
+  <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+  <span class="n">exchangeclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/exchange"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c">//network := common.LoadNetwork("mainnet", "k8s")</span>
+  <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
+  <span class="n">exchangeClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeclient</span><span class="o">.</span><span class="n">NewExchangeClient</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeGrpcEndpoint</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeTlsCert</span><span class="p">))</span>
+  <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+  <span class="n">sender</span> <span class="o">:=</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span>
+
+  <span class="n">req</span> <span class="o">:=</span> <span class="n">explorerPB</span><span class="o">.</span><span class="n">GetPeggyWithdrawalTxsRequest</span><span class="p">{</span>
+    <span class="n">Sender</span><span class="o">:</span> <span class="n">sender</span><span class="p">,</span>
+  <span class="p">}</span>
+
+  <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">GetPeggyWithdrawals</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+  <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+<span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
 </code></pre></div>
 <table><thead>
@@ -17360,7 +17479,38 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">created_at</span><span class="p">:</span> <span class="s">"2022-05-13 16:13:19.176 +0000 UTC"</span>
   <span class="n">updated_at</span><span class="p">:</span> <span class="s">"0001-01-01 00:00:00 +0000 UTC"</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
+ <span class="s">"field"</span><span class="o">:</span> <span class="p">[</span>
+  <span class="p">{</span>
+   <span class="s">"sender"</span><span class="o">:</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span><span class="p">,</span>
+   <span class="s">"receiver"</span><span class="o">:</span> <span class="s">"0xAF79152AC5dF276D9A8e1E2E22822f9713474902"</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"5000000000000000000"</span><span class="p">,</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"inj"</span><span class="p">,</span>
+   <span class="s">"bridge_fee"</span><span class="o">:</span> <span class="s">"2000000000000000000"</span><span class="p">,</span>
+   <span class="s">"outgoing_tx_id"</span><span class="o">:</span> <span class="m">113</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"InjectiveConfirming"</span><span class="p">,</span>
+   <span class="s">"tx_hashes"</span><span class="o">:</span> <span class="p">[</span>
+    <span class="s">"0x391ab87558318bd7ff2ccb9d68ed309ad073fa64c8395a493d6c347ff572af38"</span>
+   <span class="p">],</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="s">"2022-05-13 16:14:16.912 +0000 UTC"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="s">"0001-01-01 00:00:00 +0000 UTC"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"sender"</span><span class="o">:</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span><span class="p">,</span>
+   <span class="s">"receiver"</span><span class="o">:</span> <span class="s">"0xAF79152AC5dF276D9A8e1E2E22822f9713474902"</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"23000000000000000000"</span><span class="p">,</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"inj"</span><span class="p">,</span>
+   <span class="s">"bridge_fee"</span><span class="o">:</span> <span class="s">"3546099290780142080"</span><span class="p">,</span>
+   <span class="s">"outgoing_tx_id"</span><span class="o">:</span> <span class="m">110</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"InjectiveConfirming"</span><span class="p">,</span>
+   <span class="s">"tx_hashes"</span><span class="o">:</span> <span class="p">[</span>
+    <span class="s">"0x088975b8a12119944a254f0e4d7659df4c2b9c85c2c110305393f83be4f7f6ed"</span>
+   <span class="p">],</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="s">"2022-05-11 10:32:20.19 +0000 UTC"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="s">"0001-01-01 00:00:00 +0000 UTC"</span>
+  <span class="p">}</span>
+ <span class="p">]</span>
+<span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
 </code></pre></div>
 <table><thead>
@@ -17443,7 +17593,41 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
     <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+  <span class="s">"context"</span>
+  <span class="s">"encoding/json"</span>
+  <span class="s">"fmt"</span>
+  <span class="n">explorerPB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"</span>
+
+  <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+  <span class="n">exchangeclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/exchange"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c">//network := common.LoadNetwork("mainnet", "k8s")</span>
+  <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
+  <span class="n">exchangeClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeclient</span><span class="o">.</span><span class="n">NewExchangeClient</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeGrpcEndpoint</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeTlsCert</span><span class="p">))</span>
+  <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+  <span class="n">receiver</span> <span class="o">:=</span> <span class="s">"inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh"</span>
+
+  <span class="n">req</span> <span class="o">:=</span> <span class="n">explorerPB</span><span class="o">.</span><span class="n">GetIBCTransferTxsRequest</span><span class="p">{</span>
+    <span class="n">Receiver</span><span class="o">:</span> <span class="n">receiver</span><span class="p">,</span>
+  <span class="p">}</span>
+
+  <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">GetIBCTransfers</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+  <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+<span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
 </code></pre></div>
 <table><thead>
@@ -17543,7 +17727,50 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">created_at</span><span class="p">:</span> <span class="s">"2022-03-07 15:13:48.525 +0000 UTC"</span>
   <span class="n">updated_at</span><span class="p">:</span> <span class="s">"2022-03-07 15:13:48.525 +0000 UTC"</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
+ <span class="s">"field"</span><span class="o">:</span> <span class="p">[</span>
+  <span class="p">{</span>
+   <span class="s">"sender"</span><span class="o">:</span> <span class="s">"terra1nrgj0e5l98y07zuenvnpa76x8e5dmm4cdkppws"</span><span class="p">,</span>
+   <span class="s">"receiver"</span><span class="o">:</span> <span class="s">"inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh"</span><span class="p">,</span>
+   <span class="s">"source_port"</span><span class="o">:</span> <span class="s">"transfer"</span><span class="p">,</span>
+   <span class="s">"source_channel"</span><span class="o">:</span> <span class="s">"channel-17"</span><span class="p">,</span>
+   <span class="s">"destination_port"</span><span class="o">:</span> <span class="s">"transfer"</span><span class="p">,</span>
+   <span class="s">"destination_channel"</span><span class="o">:</span> <span class="s">"channel-4"</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"10000000000"</span><span class="p">,</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"uusd"</span><span class="p">,</span>
+   <span class="s">"timeout_height"</span><span class="o">:</span> <span class="s">"5-7072846"</span><span class="p">,</span>
+   <span class="s">"timeout_timestamp"</span><span class="o">:</span> <span class="m">1648784773000000000</span><span class="p">,</span>
+   <span class="s">"packet_sequence"</span><span class="o">:</span> <span class="m">1892</span><span class="p">,</span>
+   <span class="s">"data_hex"</span><span class="o">:</span> <span class="s">"N2IyMjYxNmQ2Zjc1NmU3NDIyM2EyMjMxMzAzMDMwMzAzMDMwMzAzMDMwMzAyMjJjMjI2NDY1NmU2ZjZkMjIzYTIyNzU3NTczNjQyMjJjMjI3MjY1NjM2NTY5NzY2NTcyMjIzYTIyNjk2ZTZhMzE2NDY0NjM3MDM1NjY3NDcxNmQ2ZTc0NzU2NDZlMzQ2ZDM2Njg2NTY3MzI2MTY0NzU2NDM2Njg2ZTM1Mzg3NTcyNmU3NzZjNmQ2YjY4MjIyYzIyNzM2NTZlNjQ2NTcyMjIzYTIyNzQ2NTcyNzI2MTMxNmU3MjY3NmEzMDY1MzU2YzM5Mzg3OTMwMzc3YTc1NjU2ZTc2NmU3MDYxMzczNjc4Mzg2NTM1NjQ2ZDZkMzQ2MzY0NmI3MDcwNzc3MzIyN2Q="</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"Completed"</span><span class="p">,</span>
+   <span class="s">"tx_hashes"</span><span class="o">:</span> <span class="p">[</span>
+    <span class="s">"0xf52d55dd6b68d78d137d4e5526a450d74689d3cba7f69640acd41b68ee26cd15"</span>
+   <span class="p">],</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="s">"2022-04-01 03:45:39.338 +0000 UTC"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="s">"2022-04-01 03:45:39.338 +0000 UTC"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"sender"</span><span class="o">:</span> <span class="s">"terra1nrgj0e5l98y07zuenvnpa76x8e5dmm4cdkppws"</span><span class="p">,</span>
+   <span class="s">"receiver"</span><span class="o">:</span> <span class="s">"inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh"</span><span class="p">,</span>
+   <span class="s">"source_port"</span><span class="o">:</span> <span class="s">"transfer"</span><span class="p">,</span>
+   <span class="s">"source_channel"</span><span class="o">:</span> <span class="s">"channel-17"</span><span class="p">,</span>
+   <span class="s">"destination_port"</span><span class="o">:</span> <span class="s">"transfer"</span><span class="p">,</span>
+   <span class="s">"destination_channel"</span><span class="o">:</span> <span class="s">"channel-4"</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"200000000"</span><span class="p">,</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"uluna"</span><span class="p">,</span>
+   <span class="s">"timeout_height"</span><span class="o">:</span> <span class="s">"5-6753065"</span><span class="p">,</span>
+   <span class="s">"timeout_timestamp"</span><span class="o">:</span> <span class="m">1646665141000000000</span><span class="p">,</span>
+   <span class="s">"packet_sequence"</span><span class="o">:</span> <span class="m">1516</span><span class="p">,</span>
+   <span class="s">"data_hex"</span><span class="o">:</span> <span class="s">"N2IyMjYxNmQ2Zjc1NmU3NDIyM2EyMjMyMzAzMDMwMzAzMDMwMzAzMDIyMmMyMjY0NjU2ZTZmNmQyMjNhMjI3NTZjNzU2ZTYxMjIyYzIyNzI2NTYzNjU2OTc2NjU3MjIyM2EyMjY5NmU2YTMxNjQ2NDYzNzAzNTY2NzQ3MTZkNmU3NDc1NjQ2ZTM0NmQzNjY4NjU2NzMyNjE2NDc1NjQzNjY4NmUzNTM4NzU3MjZlNzc2YzZkNmI2ODIyMmMyMjczNjU2ZTY0NjU3MjIyM2EyMjc0NjU3MjcyNjEzMTZlNzI2NzZhMzA2NTM1NmMzOTM4NzkzMDM3N2E3NTY1NmU3NjZlNzA2MTM3MzY3ODM4NjUzNTY0NmQ2ZDM0NjM2NDZiNzA3MDc3NzMyMjdk"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"Completed"</span><span class="p">,</span>
+   <span class="s">"tx_hashes"</span><span class="o">:</span> <span class="p">[</span>
+    <span class="s">"0xe5782979f08f7f939b6ed6f4687b70542295ef91f3de84a3e10c4044230f8474"</span>
+   <span class="p">],</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="s">"2022-03-07 14:58:31.905 +0000 UTC"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="s">"2022-03-07 14:58:31.905 +0000 UTC"</span>
+  <span class="p">}</span>
+ <span class="p">]</span>
+<span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
 </code></pre></div>
 <table><thead>
@@ -25898,7 +26125,78 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
     <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"context"</span>
+    <span class="s">"encoding/json"</span>
+    <span class="s">"fmt"</span>
+    <span class="n">chainclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/chain"</span>
+    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+    <span class="n">rpchttp</span> <span class="s">"github.com/tendermint/tendermint/rpc/client/http"</span>
+    <span class="s">"os"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c">// network := common.LoadNetwork("mainnet", "k8s")</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
+    <span class="n">tmRPC</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">rpchttp</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">,</span> <span class="s">"/websocket"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">senderAddress</span><span class="p">,</span> <span class="n">cosmosKeyring</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">InitCosmosKeyring</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">Getenv</span><span class="p">(</span><span class="s">"HOME"</span><span class="p">)</span><span class="o">+</span><span class="s">"/.injectived"</span><span class="p">,</span>
+        <span class="s">"injectived"</span><span class="p">,</span>
+        <span class="s">"file"</span><span class="p">,</span>
+        <span class="s">"inj-user"</span><span class="p">,</span>
+        <span class="s">"12345678"</span><span class="p">,</span>
+        <span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">,</span> <span class="c">// keyring will be used if pk not provided</span>
+        <span class="no">false</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">clientCtx</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">NewClientContext</span><span class="p">(</span>
+        <span class="n">network</span><span class="o">.</span><span class="n">ChainId</span><span class="p">,</span>
+        <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span>
+        <span class="n">cosmosKeyring</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">clientCtx</span><span class="o">.</span><span class="n">WithNodeURI</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">)</span>
+    <span class="n">clientCtx</span> <span class="o">=</span> <span class="n">clientCtx</span><span class="o">.</span><span class="n">WithClient</span><span class="p">(</span><span class="n">tmRPC</span><span class="p">)</span>
+
+    <span class="n">chainClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">NewChainClient</span><span class="p">(</span>
+        <span class="n">clientCtx</span><span class="p">,</span>
+        <span class="n">network</span><span class="o">.</span><span class="n">ChainGrpcEndpoint</span><span class="p">,</span>
+        <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ChainTlsCert</span><span class="p">),</span>
+        <span class="n">common</span><span class="o">.</span><span class="n">OptionGasPrices</span><span class="p">(</span><span class="s">"500000000inj"</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+
+    <span class="n">address</span> <span class="o">:=</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span>
+    <span class="n">denom</span> <span class="o">:=</span> <span class="s">"inj"</span>
+
+    <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">GetBankBalance</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">denom</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+
+<span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
 </code></pre></div>
 <table><thead>
@@ -25927,7 +26225,61 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="n">pagination</span> <span class="p">{</span>
   <span class="n">total</span><span class="p">:</span> <span class="mi">1</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
+ <span class="s">"balances"</span><span class="o">:</span> <span class="p">[</span>
+  <span class="p">{</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"ibc/B448C0CA358B958301D328CCDC5D5AD642FC30A6D3AE106FF721DB315F3DDE5C"</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"829149863837"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"inj"</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"51142210518226357537"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"peggy0x36B3D7ACe7201E28040eFf30e815290D7b37ffaD"</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"4000000000000000000"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"14247806364334"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"peggy0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"68801614623999999999999"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"9785864355109"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"share19"</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"4000000000000000000"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"share22"</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"1000000000000000000"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"share23"</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"1000000000000000000"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"share24"</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"1000000000000000000"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"share25"</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"900000000000000000"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"denom"</span><span class="o">:</span> <span class="s">"share26"</span><span class="p">,</span>
+   <span class="s">"amount"</span><span class="o">:</span> <span class="s">"1000000000000000000"</span>
+  <span class="p">}</span>
+ <span class="p">],</span>
+ <span class="s">"pagination"</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s">"total"</span><span class="o">:</span> <span class="m">12</span>
+ <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
 </code></pre></div>
 <table><thead>
@@ -26008,7 +26360,78 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
     <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"context"</span>
+    <span class="s">"encoding/json"</span>
+    <span class="s">"fmt"</span>
+    <span class="n">chainclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/chain"</span>
+    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+    <span class="n">rpchttp</span> <span class="s">"github.com/tendermint/tendermint/rpc/client/http"</span>
+    <span class="s">"os"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c">// network := common.LoadNetwork("mainnet", "k8s")</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
+    <span class="n">tmRPC</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">rpchttp</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">,</span> <span class="s">"/websocket"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">senderAddress</span><span class="p">,</span> <span class="n">cosmosKeyring</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">InitCosmosKeyring</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">Getenv</span><span class="p">(</span><span class="s">"HOME"</span><span class="p">)</span><span class="o">+</span><span class="s">"/.injectived"</span><span class="p">,</span>
+        <span class="s">"injectived"</span><span class="p">,</span>
+        <span class="s">"file"</span><span class="p">,</span>
+        <span class="s">"inj-user"</span><span class="p">,</span>
+        <span class="s">"12345678"</span><span class="p">,</span>
+        <span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">,</span> <span class="c">// keyring will be used if pk not provided</span>
+        <span class="no">false</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">clientCtx</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">NewClientContext</span><span class="p">(</span>
+        <span class="n">network</span><span class="o">.</span><span class="n">ChainId</span><span class="p">,</span>
+        <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span>
+        <span class="n">cosmosKeyring</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">clientCtx</span><span class="o">.</span><span class="n">WithNodeURI</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">)</span>
+    <span class="n">clientCtx</span> <span class="o">=</span> <span class="n">clientCtx</span><span class="o">.</span><span class="n">WithClient</span><span class="p">(</span><span class="n">tmRPC</span><span class="p">)</span>
+
+    <span class="n">chainClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">NewChainClient</span><span class="p">(</span>
+        <span class="n">clientCtx</span><span class="p">,</span>
+        <span class="n">network</span><span class="o">.</span><span class="n">ChainGrpcEndpoint</span><span class="p">,</span>
+        <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ChainTlsCert</span><span class="p">),</span>
+        <span class="n">common</span><span class="o">.</span><span class="n">OptionGasPrices</span><span class="p">(</span><span class="s">"500000000inj"</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+
+    <span class="n">address</span> <span class="o">:=</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span>
+    <span class="n">denom</span> <span class="o">:=</span> <span class="s">"inj"</span>
+
+    <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">GetBankBalance</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">denom</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+
+<span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
 </code></pre></div>
 <table><thead>
@@ -26040,7 +26463,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">denom</span><span class="p">:</span> <span class="s">"inj"</span>
   <span class="n">amount</span><span class="p">:</span> <span class="s">"225839507773500000000"</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
+ <span class="s">"balance"</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s">"denom"</span><span class="o">:</span> <span class="s">"inj"</span><span class="p">,</span>
+  <span class="s">"amount"</span><span class="o">:</span> <span class="s">"51142210518226357537"</span>
+ <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
 </code></pre></div>
 <table><thead>
