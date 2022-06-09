@@ -629,6 +629,15 @@
                   <li>
                     <a href="#injectiveexplorerrpc-streamblocks" class="toc-h2 toc-link" data-title="StreamBlocks">StreamBlocks</a>
                   </li>
+                  <li>
+                    <a href="#injectiveexplorerrpc-peggydeposits" class="toc-h2 toc-link" data-title="PeggyDeposits">PeggyDeposits</a>
+                  </li>
+                  <li>
+                    <a href="#injectiveexplorerrpc-peggywithdrawals" class="toc-h2 toc-link" data-title="PeggyWithdrawals">PeggyWithdrawals</a>
+                  </li>
+                  <li>
+                    <a href="#injectiveexplorerrpc-ibctransfers" class="toc-h2 toc-link" data-title="IBCTransfers">IBCTransfers</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -770,6 +779,17 @@
                   </li>
                   <li>
                     <a href="#staking-msgdelegate" class="toc-h2 toc-link" data-title="MsgDelegate">MsgDelegate</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#bank" class="toc-h1 toc-link" data-title="- Bank">- Bank</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#bank-queryallbalances" class="toc-h2 toc-link" data-title="QueryAllBalances">QueryAllBalances</a>
+                  </li>
+                  <li>
+                    <a href="#bank-querybalance" class="toc-h2 toc-link" data-title="QueryBalance">QueryBalance</a>
                   </li>
               </ul>
           </li>
@@ -17100,6 +17120,520 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>The block&#39;s timestamp</td>
 </tr>
 </tbody></table>
+<h2 id='injectiveexplorerrpc-peggydeposits'>PeggyDeposits</h2>
+<p>Get the peggy deposits.</p>
+<h3 id='injectiveexplorerrpc-peggydeposits-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">receiver</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
+    <span class="n">peggy_deposits</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_peggy_deposits</span><span class="p">(</span><span class="n">receiver</span><span class="o">=</span><span class="n">receiver</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">peggy_deposits</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>sender</td>
+<td>String</td>
+<td>Filter transfers based on sender address</td>
+<td>Conditional</td>
+</tr>
+<tr>
+<td>receiver</td>
+<td>String</td>
+<td>Filter transfers based on receiver address</td>
+<td>Conditional</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>Integer</td>
+<td>Limit the returned transfers</td>
+<td>No</td>
+</tr>
+<tr>
+<td>skip</td>
+<td>Integer</td>
+<td>Skip the returned transfers</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<h3 id='injectiveexplorerrpc-peggydeposits-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">field</span> <span class="p">{</span>
+  <span class="n">sender</span><span class="p">:</span> <span class="s">"0xbdAEdEc95d563Fb05240d6e01821008454c24C36"</span>
+  <span class="n">receiver</span><span class="p">:</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
+  <span class="n">event_nonce</span><span class="p">:</span> <span class="mi">145</span>
+  <span class="n">event_height</span><span class="p">:</span> <span class="mi">29668045</span>
+  <span class="n">amount</span><span class="p">:</span> <span class="s">"2000000000000000000"</span>
+  <span class="n">denom</span><span class="p">:</span> <span class="s">"0x36B3D7ACe7201E28040eFf30e815290D7b37ffaD"</span>
+  <span class="n">orchestrator_address</span><span class="p">:</span> <span class="s">"inj1hs9q5xuvzunl77uv0mf0amsfa79uzhsrzak00a"</span>
+  <span class="n">state</span><span class="p">:</span> <span class="s">"InjectiveConfirming"</span>
+  <span class="n">tx_hashes</span><span class="p">:</span> <span class="s">"0x3a4e623199a21ef5a1554e6d2c751923204c1d2860ccbcc1e8ef56e1571c3a4c"</span>
+  <span class="n">created_at</span><span class="p">:</span> <span class="s">"2022-06-01 06:52:44.907 +0000 UTC"</span>
+  <span class="n">updated_at</span><span class="p">:</span> <span class="s">"0001-01-01 00:00:00 +0000 UTC"</span>
+<span class="p">}</span>
+<span class="n">field</span> <span class="p">{</span>
+  <span class="n">sender</span><span class="p">:</span> <span class="s">"0xbdAEdEc95d563Fb05240d6e01821008454c24C36"</span>
+  <span class="n">receiver</span><span class="p">:</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
+  <span class="n">event_nonce</span><span class="p">:</span> <span class="mi">144</span>
+  <span class="n">event_height</span><span class="p">:</span> <span class="mi">29667840</span>
+  <span class="n">amount</span><span class="p">:</span> <span class="s">"2000000000000000000"</span>
+  <span class="n">denom</span><span class="p">:</span> <span class="s">"0x36B3D7ACe7201E28040eFf30e815290D7b37ffaD"</span>
+  <span class="n">orchestrator_address</span><span class="p">:</span> <span class="s">"inj1hs9q5xuvzunl77uv0mf0amsfa79uzhsrzak00a"</span>
+  <span class="n">state</span><span class="p">:</span> <span class="s">"InjectiveConfirming"</span>
+  <span class="n">tx_hashes</span><span class="p">:</span> <span class="s">"0x12409d12d8e9247ff22651873b8385fd3a91fe405f89a72147f6bee7f8da836c"</span>
+  <span class="n">created_at</span><span class="p">:</span> <span class="s">"2022-06-01 06:52:41.096 +0000 UTC"</span>
+  <span class="n">updated_at</span><span class="p">:</span> <span class="s">"0001-01-01 00:00:00 +0000 UTC"</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>sender</td>
+<td>String</td>
+<td>The sender address</td>
+</tr>
+<tr>
+<td>receiver</td>
+<td>String</td>
+<td>The receiver address</td>
+</tr>
+<tr>
+<td>event_nonce</td>
+<td>Integer</td>
+<td>The event nonce</td>
+</tr>
+<tr>
+<td>event_height</td>
+<td>Integer</td>
+<td>The event height</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>String</td>
+<td>The transferred amount</td>
+</tr>
+<tr>
+<td>denom</td>
+<td>Integer</td>
+<td>The token denom</td>
+</tr>
+<tr>
+<td>orchestrator_address</td>
+<td>String</td>
+<td>The orchestrator address</td>
+</tr>
+<tr>
+<td>state</td>
+<td>String</td>
+<td>Transaction state</td>
+</tr>
+<tr>
+<td>tx_hashes</td>
+<td>String</td>
+<td>The transaction hashes</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>Integer</td>
+<td>The timestamp of the tx creation</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>String</td>
+<td>The timestamp of the tx update</td>
+</tr>
+</tbody></table>
+<h2 id='injectiveexplorerrpc-peggywithdrawals'>PeggyWithdrawals</h2>
+<p>Get the peggy withdrawals.</p>
+<h3 id='injectiveexplorerrpc-peggywithdrawals-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">sender</span> <span class="o">=</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span>
+    <span class="n">peggy_deposits</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_peggy_withdrawals</span><span class="p">(</span><span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">peggy_deposits</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>sender</td>
+<td>String</td>
+<td>Filter transfers based on sender address</td>
+<td>Conditional</td>
+</tr>
+<tr>
+<td>receiver</td>
+<td>String</td>
+<td>Filter transfers based on receiver address</td>
+<td>Conditional</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>Integer</td>
+<td>Limit the returned transfers</td>
+<td>No</td>
+</tr>
+<tr>
+<td>skip</td>
+<td>Integer</td>
+<td>Skip the returned transfers</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<h3 id='injectiveexplorerrpc-peggywithdrawals-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">field</span> <span class="p">{</span>
+  <span class="n">sender</span><span class="p">:</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span>
+  <span class="n">receiver</span><span class="p">:</span> <span class="s">"0xAF79152AC5dF276D9A8e1E2E22822f9713474902"</span>
+  <span class="n">amount</span><span class="p">:</span> <span class="s">"5000000000000000000"</span>
+  <span class="n">denom</span><span class="p">:</span> <span class="s">"inj"</span>
+  <span class="n">bridge_fee</span><span class="p">:</span> <span class="s">"2000000000000000000"</span>
+  <span class="n">outgoing_tx_id</span><span class="p">:</span> <span class="mi">113</span>
+  <span class="n">state</span><span class="p">:</span> <span class="s">"InjectiveConfirming"</span>
+  <span class="n">tx_hashes</span><span class="p">:</span> <span class="s">"0x391ab87558318bd7ff2ccb9d68ed309ad073fa64c8395a493d6c347ff572af38"</span>
+  <span class="n">created_at</span><span class="p">:</span> <span class="s">"2022-05-13 16:14:16.912 +0000 UTC"</span>
+  <span class="n">updated_at</span><span class="p">:</span> <span class="s">"0001-01-01 00:00:00 +0000 UTC"</span>
+<span class="p">}</span>
+<span class="n">field</span> <span class="p">{</span>
+  <span class="n">sender</span><span class="p">:</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span>
+  <span class="n">receiver</span><span class="p">:</span> <span class="s">"0xAF79152AC5dF276D9A8e1E2E22822f9713474902"</span>
+  <span class="n">amount</span><span class="p">:</span> <span class="s">"23000000000000000000"</span>
+  <span class="n">denom</span><span class="p">:</span> <span class="s">"inj"</span>
+  <span class="n">bridge_fee</span><span class="p">:</span> <span class="s">"4651162790697674752"</span>
+  <span class="n">outgoing_tx_id</span><span class="p">:</span> <span class="mi">112</span>
+  <span class="n">state</span><span class="p">:</span> <span class="s">"InjectiveConfirming"</span>
+  <span class="n">tx_hashes</span><span class="p">:</span> <span class="s">"0x5529016817553230024b45b44abeb0538dc0af9eee0dead467b91c85bcccac87"</span>
+  <span class="n">created_at</span><span class="p">:</span> <span class="s">"2022-05-13 16:13:19.176 +0000 UTC"</span>
+  <span class="n">updated_at</span><span class="p">:</span> <span class="s">"0001-01-01 00:00:00 +0000 UTC"</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>sender</td>
+<td>String</td>
+<td>The sender address</td>
+</tr>
+<tr>
+<td>receiver</td>
+<td>String</td>
+<td>The receiver address</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>String</td>
+<td>The transferred amount</td>
+</tr>
+<tr>
+<td>denom</td>
+<td>Integer</td>
+<td>The token denom</td>
+</tr>
+<tr>
+<td>bridge_fee</td>
+<td>String</td>
+<td>The bridge fee</td>
+</tr>
+<tr>
+<td>outgoing_tx_id</td>
+<td>Integer</td>
+<td>The tx nonce</td>
+</tr>
+<tr>
+<td>state</td>
+<td>String</td>
+<td>Transaction state</td>
+</tr>
+<tr>
+<td>tx_hashes</td>
+<td>String</td>
+<td>The transaction hashes</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>Integer</td>
+<td>The timestamp of the tx creation</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>String</td>
+<td>The timestamp of the tx update</td>
+</tr>
+</tbody></table>
+<h2 id='injectiveexplorerrpc-ibctransfers'>IBCTransfers</h2>
+<p>Get the IBC transfers.</p>
+<h3 id='injectiveexplorerrpc-ibctransfers-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">receiver</span> <span class="o">=</span> <span class="s">"inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh"</span>
+    <span class="n">ibc_transfers</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_ibc_transfers</span><span class="p">(</span><span class="n">receiver</span><span class="o">=</span><span class="n">receiver</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">ibc_transfers</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>sender</td>
+<td>String</td>
+<td>Filter transfers based on sender address</td>
+<td>Conditional</td>
+</tr>
+<tr>
+<td>receiver</td>
+<td>String</td>
+<td>Filter transfers based on receiver address</td>
+<td>Conditional</td>
+</tr>
+<tr>
+<td>src_channel</td>
+<td>String</td>
+<td>Filter transfers based on source channel</td>
+<td>No</td>
+</tr>
+<tr>
+<td>src_port</td>
+<td>String</td>
+<td>Filter transfers based on source port</td>
+<td>No</td>
+</tr>
+<tr>
+<td>dest_channel</td>
+<td>String</td>
+<td>Filter transfers based on destination channel</td>
+<td>No</td>
+</tr>
+<tr>
+<td>dest_port</td>
+<td>String</td>
+<td>Filter transfers based on destination port</td>
+<td>No</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>Integer</td>
+<td>Limit the returned transfers</td>
+<td>No</td>
+</tr>
+<tr>
+<td>skip</td>
+<td>Integer</td>
+<td>Skip the returned transfers</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<h3 id='injectiveexplorerrpc-ibctransfers-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">field</span> <span class="p">{</span>
+  <span class="n">sender</span><span class="p">:</span> <span class="s">"terra1nrgj0e5l98y07zuenvnpa76x8e5dmm4cdkppws"</span>
+  <span class="n">receiver</span><span class="p">:</span> <span class="s">"inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh"</span>
+  <span class="n">source_port</span><span class="p">:</span> <span class="s">"transfer"</span>
+  <span class="n">source_channel</span><span class="p">:</span> <span class="s">"channel-17"</span>
+  <span class="n">destination_port</span><span class="p">:</span> <span class="s">"transfer"</span>
+  <span class="n">destination_channel</span><span class="p">:</span> <span class="s">"channel-4"</span>
+  <span class="n">amount</span><span class="p">:</span> <span class="s">"10000000000"</span>
+  <span class="n">denom</span><span class="p">:</span> <span class="s">"uusd"</span>
+  <span class="n">timeout_height</span><span class="p">:</span> <span class="s">"5-7072846"</span>
+  <span class="n">timeout_timestamp</span><span class="p">:</span> <span class="mi">1648784773000000000</span>
+  <span class="n">packet_sequence</span><span class="p">:</span> <span class="mi">1892</span>
+  <span class="n">data_hex</span><span class="p">:</span> <span class="s">"7b22616d6f756e74223a223130303030303030303030222c2264656e6f6d223a2275757364222c227265636569766572223a22696e6a3164646370356674716d6e7475646e346d36686567326164756436686e353875726e776c6d6b68222c2273656e646572223a227465727261316e72676a3065356c39387930377a75656e766e7061373678386535646d6d3463646b70707773227d"</span>
+  <span class="n">state</span><span class="p">:</span> <span class="s">"Completed"</span>
+  <span class="n">tx_hashes</span><span class="p">:</span> <span class="s">"0xf52d55dd6b68d78d137d4e5526a450d74689d3cba7f69640acd41b68ee26cd15"</span>
+  <span class="n">created_at</span><span class="p">:</span> <span class="s">"2022-04-01 03:45:39.338 +0000 UTC"</span>
+  <span class="n">updated_at</span><span class="p">:</span> <span class="s">"2022-04-01 03:45:39.338 +0000 UTC"</span>
+<span class="p">}</span>
+<span class="n">field</span> <span class="p">{</span>
+  <span class="n">sender</span><span class="p">:</span> <span class="s">"cosmos1tpvtf9camsumce6kkgvmqjvqaaw69xr9766q55"</span>
+  <span class="n">receiver</span><span class="p">:</span> <span class="s">"inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh"</span>
+  <span class="n">source_port</span><span class="p">:</span> <span class="s">"transfer"</span>
+  <span class="n">source_channel</span><span class="p">:</span> <span class="s">"channel-220"</span>
+  <span class="n">destination_port</span><span class="p">:</span> <span class="s">"transfer"</span>
+  <span class="n">destination_channel</span><span class="p">:</span> <span class="s">"channel-1"</span>
+  <span class="n">amount</span><span class="p">:</span> <span class="s">"394900000"</span>
+  <span class="n">denom</span><span class="p">:</span> <span class="s">"uatom"</span>
+  <span class="n">timeout_height</span><span class="p">:</span> <span class="s">"0-0"</span>
+  <span class="n">timeout_timestamp</span><span class="p">:</span> <span class="mi">1646666048000000000</span>
+  <span class="n">packet_sequence</span><span class="p">:</span> <span class="mi">1941</span>
+  <span class="n">data_hex</span><span class="p">:</span> <span class="s">"7b22616d6f756e74223a22333934393030303030222c2264656e6f6d223a227561746f6d222c227265636569766572223a22696e6a3164646370356674716d6e7475646e346d36686567326164756436686e353875726e776c6d6b68222c2273656e646572223a22636f736d6f733174707674663963616d73756d6365366b6b67766d716a76716161773639787239373636713535227d"</span>
+  <span class="n">state</span><span class="p">:</span> <span class="s">"Completed"</span>
+  <span class="n">tx_hashes</span><span class="p">:</span> <span class="s">"0x9679b3bca6c96f9bf89bc048fd106ce9b526966ac4169abe581109d45060bcfa"</span>
+  <span class="n">created_at</span><span class="p">:</span> <span class="s">"2022-03-07 15:13:48.525 +0000 UTC"</span>
+  <span class="n">updated_at</span><span class="p">:</span> <span class="s">"2022-03-07 15:13:48.525 +0000 UTC"</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>sender</td>
+<td>String</td>
+<td>Sender address</td>
+</tr>
+<tr>
+<td>receiver</td>
+<td>String</td>
+<td>Receiver address</td>
+</tr>
+<tr>
+<td>source_channel</td>
+<td>String</td>
+<td>Source channel</td>
+</tr>
+<tr>
+<td>source_port</td>
+<td>String</td>
+<td>Source port</td>
+</tr>
+<tr>
+<td>destination_channel</td>
+<td>String</td>
+<td>Destination channel</td>
+</tr>
+<tr>
+<td>destination_port</td>
+<td>String</td>
+<td>Destination port</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>String</td>
+<td>Amount</td>
+</tr>
+<tr>
+<td>denom</td>
+<td>String</td>
+<td>Token denom</td>
+</tr>
+<tr>
+<td>timeout_height</td>
+<td>Integer</td>
+<td>Timeout height</td>
+</tr>
+<tr>
+<td>timeout_timestamp</td>
+<td>Integer</td>
+<td>Timeout timestamp</td>
+</tr>
+<tr>
+<td>packet_sequence</td>
+<td>String</td>
+<td>Packet Sequence</td>
+</tr>
+<tr>
+<td>data_hex</td>
+<td>String</td>
+<td>Data in hex format</td>
+</tr>
+<tr>
+<td>state</td>
+<td>String</td>
+<td>Transaction state</td>
+</tr>
+<tr>
+<td>tx_hashes</td>
+<td>String</td>
+<td>Transaction hashes</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>Integer</td>
+<td>The timestamp of the tx creation</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>String</td>
+<td>The timestamp of the tx update</td>
+</tr>
+</tbody></table>
 <h1 id='injectivemetarpc'>- InjectiveMetaRPC</h1>
 <p>InjectiveMetaRPC defines the gRPC API of the Exchange Meta provider.</p>
 <h2 id='injectivemetarpc-ping'>Ping</h2>
@@ -25340,7 +25874,210 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">1319</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">207846</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000103923</span> <span class="n">INJ</span>
-</code></pre></div><h1 id='glossary'>Glossary</h1><h2 id='glossary-injective-chain'>Injective Chain</h2>
+</code></pre></div><h1 id='bank'>- Bank</h1>
+<p>Bank module.</p>
+<h2 id='bank-queryallbalances'>QueryAllBalances</h2>
+<p>Get the bank balance for all denoms.</p>
+<h3 id='bank-queryallbalances-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="s">"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"</span>
+    <span class="n">all_bank_balances</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_bank_balances</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">address</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">all_bank_balances</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>The Injective Chain address</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+<h3 id='bank-queryallbalances-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">balances</span> <span class="p">{</span>
+  <span class="n">denom</span><span class="p">:</span> <span class="s">"inj"</span>
+  <span class="n">amount</span><span class="p">:</span> <span class="s">"225858203095000000000"</span>
+<span class="p">}</span>
+<span class="n">pagination</span> <span class="p">{</span>
+  <span class="n">total</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>balances</td>
+<td>Balances</td>
+<td>Balances object</td>
+</tr>
+<tr>
+<td>pagination</td>
+<td>Pagination</td>
+<td>Pagination object</td>
+</tr>
+</tbody></table>
+
+<p><strong>Balances</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>denom</td>
+<td>String</td>
+<td>Token denom</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>String</td>
+<td>Token amount</td>
+</tr>
+</tbody></table>
+
+<p><strong>Pagination</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>total</td>
+<td>Integer</td>
+<td>Total pages</td>
+</tr>
+</tbody></table>
+<h2 id='bank-querybalance'>QueryBalance</h2>
+<p>Get the bank balance for a specific denom.</p>
+<h3 id='bank-querybalance-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="s">"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"</span>
+    <span class="n">denom</span> <span class="o">=</span> <span class="s">"inj"</span>
+    <span class="n">bank_balance</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_bank_balance</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">address</span><span class="p">,</span> <span class="n">denom</span><span class="o">=</span><span class="n">denom</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">bank_balance</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>The Injective Chain address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>denom</td>
+<td>String</td>
+<td>The token denom</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+<h3 id='bank-querybalance-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">balance</span> <span class="p">{</span>
+  <span class="n">denom</span><span class="p">:</span> <span class="s">"inj"</span>
+  <span class="n">amount</span><span class="p">:</span> <span class="s">"225839507773500000000"</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>balance</td>
+<td>Balance</td>
+<td>Balance object</td>
+</tr>
+</tbody></table>
+
+<p><strong>Balance</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>denom</td>
+<td>String</td>
+<td>Token denom</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>String</td>
+<td>Token amount</td>
+</tr>
+</tbody></table>
+<h1 id='glossary'>Glossary</h1><h2 id='glossary-injective-chain'>Injective Chain</h2>
 <p>The Injective Chain refers to the blockchain running the Injective Protocol. It is is the fundamental piece of infrastructure and ultimate source of truth for any trades happening on the network.</p>
 <h2 id='glossary-validator-injective-node'>Validator / Injective Node</h2>
 <p>A validator is a node for the Injective Chain. The term node itself refers to a host computer in a network. In the context of blockchains, nodes are the computers participating in producing new blocks and validating new transactions in a peer-to-peer fashion. All on-chain code for Injective is executed on the hardware of every validator, in contrast to a CEX where code is executed on a central server.</p>
