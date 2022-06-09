@@ -30,6 +30,7 @@ includes:
   - authz
   - oracle
   - staking
+  - bank
   - glossary
   - faq
   # - exchangerpc
