@@ -63,7 +63,7 @@ func main() {
 ```typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
 
 (async () => {
   const network = getNetworkInfo(Network.TestnetK8s);
@@ -350,7 +350,7 @@ func main() {
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
 
 (async () => {
   const network = getNetworkInfo(Network.TestnetK8s);
@@ -748,7 +748,7 @@ func main() {
 ```typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/exchange-grpc-stream-client";
+import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";;
 
 (async () => {
   const network = getNetworkInfo(Network.TestnetK8s);
@@ -1049,7 +1049,7 @@ func main() {
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { protoObjectToJson, DerivativeOrderSide } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
 
 (async () => {
   const network = getNetworkInfo(Network.TestnetK8s);
@@ -1332,7 +1332,7 @@ func main() {
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { protoObjectToJson, DerivativeOrderSide } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/exchange-grpc-stream-client";
+import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";;
 
 (async () => {
   const network = getNetworkInfo(Network.TestnetK8s);
@@ -1561,7 +1561,7 @@ func main() {
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { protoObjectToJson, TradeExecutionSide, TradeDirection } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
 
 (async () => {
   const network = getNetworkInfo(Network.TestnetK8s);
@@ -1889,7 +1889,7 @@ func main() {
 ``` typescript
 import {getNetworkInfo, Network} from "@injectivelabs/networks";
 import {protoObjectToJson, TradeDirection, TradeExecutionSide} from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/exchange-grpc-stream-client";
+import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";;
 
 (async () => {
   const network = getNetworkInfo(Network.TestnetK8s);
@@ -2178,7 +2178,7 @@ func main() {
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
 
 
 (async () => {
@@ -2389,7 +2389,7 @@ func main() {
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/exchange-grpc-stream-client";
+import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";;
 
 (async () => {
   const network = getNetworkInfo(Network.TestnetK8s);
@@ -2603,7 +2603,7 @@ func main() {
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
 
 (async () => {
   const network = getNetworkInfo(Network.TestnetK8s);
@@ -2829,7 +2829,7 @@ func main() {
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
 
 (async () => {
   const network = getNetworkInfo(Network.TestnetK8s);
@@ -3081,7 +3081,7 @@ func main() {
 ```typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/exchange-grpc-stream-client";
+import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";;
 
 (async () => {
   const network = getNetworkInfo(Network.TestnetK8s);
@@ -3387,7 +3387,7 @@ func main() {
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
 
 
 (async () => {
@@ -3638,7 +3638,7 @@ func main() {
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { protoObjectToJson, TradeDirection, TradeExecutionType } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
 
 (async () => {
   const network = getNetworkInfo(Network.TestnetK8s);
@@ -3924,7 +3924,7 @@ func main() {
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
 
 
 (async () => {
@@ -4121,7 +4121,7 @@ func main() {
 ``` typescript
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/exchange-grpc-client";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
 
 
 (async () => {
