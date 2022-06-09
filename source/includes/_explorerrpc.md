@@ -1789,7 +1789,42 @@ if __name__ == '__main__':
 ```
 
 ``` go
+package main
 
+import (
+  "context"
+  "encoding/json"
+  "fmt"
+  explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+
+  receiver := "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+
+  req := explorerPB.GetPeggyDepositTxsRequest{
+    Receiver: receiver,
+  }
+
+  res, err := exchangeClient.GetPeggyDeposits(ctx, req)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
+}
 ```
 
 ``` typescript
@@ -1837,7 +1872,57 @@ field {
 ```
 
 ``` go
-
+{
+ "field": [
+  {
+   "sender": "0xbdAEdEc95d563Fb05240d6e01821008454c24C36",
+   "receiver": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+   "event_nonce": 201,
+   "event_height": 31544480,
+   "amount": "1000000000000000000",
+   "denom": "0x36B3D7ACe7201E28040eFf30e815290D7b37ffaD",
+   "orchestrator_address": "inj1ultw9r29l8nxy5u6thcgusjn95vsy2caecl0ps",
+   "state": "Completed",
+   "claim_type": 1,
+   "tx_hashes": [
+    "0x8de1bf0f32966d2edf09378bc0e1d292f8ae34c45ae0b37a847867753a4b37a6"
+   ],
+   "created_at": "2022-06-01 07:25:47.077 +0000 UTC",
+   "updated_at": "2022-06-01 07:32:01.671 +0000 UTC"
+  },
+  {
+   "sender": "0xbdAEdEc95d563Fb05240d6e01821008454c24C36",
+   "receiver": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+   "event_nonce": 200,
+   "event_height": 31396037,
+   "amount": "1000000000000000000",
+   "denom": "0x36B3D7ACe7201E28040eFf30e815290D7b37ffaD",
+   "orchestrator_address": "inj1ultw9r29l8nxy5u6thcgusjn95vsy2caecl0ps",
+   "state": "Completed",
+   "claim_type": 1,
+   "tx_hashes": [
+    "0x377c52c94f8cab6e91d4b56a5e65710c1452acc4b10bc26d111ceeab9e30a67f"
+   ],
+   "created_at": "2022-06-01 07:17:52.285 +0000 UTC",
+   "updated_at": "2022-06-01 07:31:57.848 +0000 UTC"
+  },
+  {
+   "sender": "0xAF79152AC5dF276D9A8e1E2E22822f9713474902",
+   "receiver": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+   "event_nonce": 2,
+   "event_height": 29335363,
+   "amount": "50000000000000000000",
+   "denom": "0xA3a9029B8120e2F09B194Df4A249A24dB461E573",
+   "orchestrator_address": "inj1hs9q5xuvzunl77uv0mf0amsfa79uzhsrzak00a",
+   "state": "InjectiveConfirming",
+   "tx_hashes": [
+    "0x97d223982ffef0a0550d75c8dfdb8fd661b8be28744d3f5b23cb8c1b328d1b3b"
+   ],
+   "created_at": "2022-05-18 21:03:34.991 +0000 UTC",
+   "updated_at": "0001-01-01 00:00:00 +0000 UTC"
+  }
+ ]
+}
 ```
 
 ``` typescript
@@ -1887,7 +1972,41 @@ if __name__ == '__main__':
 ```
 
 ``` go
+package main
 
+import (
+  "context"
+  "encoding/json"
+  "fmt"
+  explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  sender := "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+
+  req := explorerPB.GetPeggyWithdrawalTxsRequest{
+    Sender: sender,
+  }
+
+  res, err := exchangeClient.GetPeggyWithdrawals(ctx, req)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
+}
 ```
 
 ``` typescript
@@ -1933,7 +2052,38 @@ field {
 ```
 
 ``` go
-
+{
+ "field": [
+  {
+   "sender": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+   "receiver": "0xAF79152AC5dF276D9A8e1E2E22822f9713474902",
+   "amount": "5000000000000000000",
+   "denom": "inj",
+   "bridge_fee": "2000000000000000000",
+   "outgoing_tx_id": 113,
+   "state": "InjectiveConfirming",
+   "tx_hashes": [
+    "0x391ab87558318bd7ff2ccb9d68ed309ad073fa64c8395a493d6c347ff572af38"
+   ],
+   "created_at": "2022-05-13 16:14:16.912 +0000 UTC",
+   "updated_at": "0001-01-01 00:00:00 +0000 UTC"
+  },
+  {
+   "sender": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+   "receiver": "0xAF79152AC5dF276D9A8e1E2E22822f9713474902",
+   "amount": "23000000000000000000",
+   "denom": "inj",
+   "bridge_fee": "3546099290780142080",
+   "outgoing_tx_id": 110,
+   "state": "InjectiveConfirming",
+   "tx_hashes": [
+    "0x088975b8a12119944a254f0e4d7659df4c2b9c85c2c110305393f83be4f7f6ed"
+   ],
+   "created_at": "2022-05-11 10:32:20.19 +0000 UTC",
+   "updated_at": "0001-01-01 00:00:00 +0000 UTC"
+  }
+ ]
+}
 ```
 
 ``` typescript
@@ -1982,7 +2132,41 @@ if __name__ == '__main__':
 ```
 
 ``` go
+package main
 
+import (
+  "context"
+  "encoding/json"
+  "fmt"
+  explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  receiver := "inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh"
+
+  req := explorerPB.GetIBCTransferTxsRequest{
+    Receiver: receiver,
+  }
+
+  res, err := exchangeClient.GetIBCTransfers(ctx, req)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
+}
 ```
 
 ``` typescript
@@ -2044,7 +2228,50 @@ field {
 ```
 
 ``` go
-
+{
+ "field": [
+  {
+   "sender": "terra1nrgj0e5l98y07zuenvnpa76x8e5dmm4cdkppws",
+   "receiver": "inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh",
+   "source_port": "transfer",
+   "source_channel": "channel-17",
+   "destination_port": "transfer",
+   "destination_channel": "channel-4",
+   "amount": "10000000000",
+   "denom": "uusd",
+   "timeout_height": "5-7072846",
+   "timeout_timestamp": 1648784773000000000,
+   "packet_sequence": 1892,
+   "data_hex": "N2IyMjYxNmQ2Zjc1NmU3NDIyM2EyMjMxMzAzMDMwMzAzMDMwMzAzMDMwMzAyMjJjMjI2NDY1NmU2ZjZkMjIzYTIyNzU3NTczNjQyMjJjMjI3MjY1NjM2NTY5NzY2NTcyMjIzYTIyNjk2ZTZhMzE2NDY0NjM3MDM1NjY3NDcxNmQ2ZTc0NzU2NDZlMzQ2ZDM2Njg2NTY3MzI2MTY0NzU2NDM2Njg2ZTM1Mzg3NTcyNmU3NzZjNmQ2YjY4MjIyYzIyNzM2NTZlNjQ2NTcyMjIzYTIyNzQ2NTcyNzI2MTMxNmU3MjY3NmEzMDY1MzU2YzM5Mzg3OTMwMzc3YTc1NjU2ZTc2NmU3MDYxMzczNjc4Mzg2NTM1NjQ2ZDZkMzQ2MzY0NmI3MDcwNzc3MzIyN2Q=",
+   "state": "Completed",
+   "tx_hashes": [
+    "0xf52d55dd6b68d78d137d4e5526a450d74689d3cba7f69640acd41b68ee26cd15"
+   ],
+   "created_at": "2022-04-01 03:45:39.338 +0000 UTC",
+   "updated_at": "2022-04-01 03:45:39.338 +0000 UTC"
+  },
+  {
+   "sender": "terra1nrgj0e5l98y07zuenvnpa76x8e5dmm4cdkppws",
+   "receiver": "inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh",
+   "source_port": "transfer",
+   "source_channel": "channel-17",
+   "destination_port": "transfer",
+   "destination_channel": "channel-4",
+   "amount": "200000000",
+   "denom": "uluna",
+   "timeout_height": "5-6753065",
+   "timeout_timestamp": 1646665141000000000,
+   "packet_sequence": 1516,
+   "data_hex": "N2IyMjYxNmQ2Zjc1NmU3NDIyM2EyMjMyMzAzMDMwMzAzMDMwMzAzMDIyMmMyMjY0NjU2ZTZmNmQyMjNhMjI3NTZjNzU2ZTYxMjIyYzIyNzI2NTYzNjU2OTc2NjU3MjIyM2EyMjY5NmU2YTMxNjQ2NDYzNzAzNTY2NzQ3MTZkNmU3NDc1NjQ2ZTM0NmQzNjY4NjU2NzMyNjE2NDc1NjQzNjY4NmUzNTM4NzU3MjZlNzc2YzZkNmI2ODIyMmMyMjczNjU2ZTY0NjU3MjIyM2EyMjc0NjU3MjcyNjEzMTZlNzI2NzZhMzA2NTM1NmMzOTM4NzkzMDM3N2E3NTY1NmU3NjZlNzA2MTM3MzY3ODM4NjUzNTY0NmQ2ZDM0NjM2NDZiNzA3MDc3NzMyMjdk",
+   "state": "Completed",
+   "tx_hashes": [
+    "0xe5782979f08f7f939b6ed6f4687b70542295ef91f3de84a3e10c4044230f8474"
+   ],
+   "created_at": "2022-03-07 14:58:31.905 +0000 UTC",
+   "updated_at": "2022-03-07 14:58:31.905 +0000 UTC"
+  }
+ ]
+}
 ```
 
 ``` typescript
