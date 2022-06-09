@@ -146,7 +146,7 @@ pagination {
   }
  ],
  "pagination": {
-  "total": 12
+  "total": 4
  }
 }
 ```
@@ -171,7 +171,7 @@ pagination {
 
 |Parameter|Type|Description|
 |----|----|----|
-|total|Integer|Total pages|
+|total|Integer|Total denoms|
 
 
 
