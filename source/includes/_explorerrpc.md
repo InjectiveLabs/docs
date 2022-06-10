@@ -1826,7 +1826,25 @@ func main() {
 ```
 
 ``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
 
+(async () => {
+  const network = getNetworkInfo(Network.TestnetK8s);
+
+  const receiver = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+
+  const exchangeClient = new ExchangeGrpcClient(
+    network.exchangeApi
+  );
+
+  const tx = await exchangeClient.explorer.fetchPeggyDepositTxs({
+    receiver: receiver,
+  });
+
+  console.log(protoObjectToJson(tx));
+})();
 ```
 
 |Parameter|Type|Description|Required|
@@ -1924,6 +1942,40 @@ field {
 ```
 
 ``` typescript
+[
+  {
+    "sender": "0xbdAEdEc95d563Fb05240d6e01821008454c24C36",
+    "receiver": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+    "eventNonce": 145,
+    "eventHeight": 29668045,
+    "amount": "2000000000000000000",
+    "denom": "0x36B3D7ACe7201E28040eFf30e815290D7b37ffaD",
+    "orchestratorAddress": "inj1hs9q5xuvzunl77uv0mf0amsfa79uzhsrzak00a",
+    "state": "InjectiveConfirming",
+    "claimType": 0,
+    "txHashesList": [
+      "0x3a4e623199a21ef5a1554e6d2c751923204c1d2860ccbcc1e8ef56e1571c3a4c"
+    ],
+    "createdAt": "2022-06-01 06:52:44.907 +0000 UTC",
+    "updatedAt": "0001-01-01 00:00:00 +0000 UTC"
+  },
+  {
+    "sender": "0xbdAEdEc95d563Fb05240d6e01821008454c24C36",
+    "receiver": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+    "eventNonce": 26,
+    "eventHeight": 29461788,
+    "amount": "27000000000000000000",
+    "denom": "0xA3a9029B8120e2F09B194Df4A249A24dB461E573",
+    "orchestratorAddress": "inj1hs9q5xuvzunl77uv0mf0amsfa79uzhsrzak00a",
+    "state": "InjectiveConfirming",
+    "claimType": 0,
+    "txHashesList": [
+      "0x7fefb53b1c1c3f66ade4a7796a69d6d87509500003e0e0b9f83a829ca9c75576"
+    ],
+    "createdAt": "2022-05-25 08:33:40.586 +0000 UTC",
+    "updatedAt": "0001-01-01 00:00:00 +0000 UTC"
+  }
+]
 
 ```
 
@@ -2008,7 +2060,25 @@ func main() {
 ```
 
 ``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
 
+(async () => {
+  const network = getNetworkInfo(Network.TestnetK8s);
+
+  const sender = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+
+  const exchangeClient = new ExchangeGrpcClient(
+    network.exchangeApi
+  );
+
+  const tx = await exchangeClient.explorer.fetchPeggyWithdrawalTxs({
+    sender: sender,
+  });
+
+  console.log(protoObjectToJson(tx));
+})();
 ```
 
 |Parameter|Type|Description|Required|
@@ -2085,6 +2155,48 @@ field {
 ```
 
 ``` typescript
+[
+  {
+    "sender": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+    "receiver": "0xAF79152AC5dF276D9A8e1E2E22822f9713474902",
+    "amount": "5000000000000000000",
+    "denom": "inj",
+    "bridgeFee": "2000000000000000000",
+    "outgoingTxId": 113,
+    "batchTimeout": 0,
+    "batchNonce": 0,
+    "orchestratorAddress": "",
+    "eventNonce": 0,
+    "eventHeight": 0,
+    "state": "InjectiveConfirming",
+    "claimType": 0,
+    "txHashesList": [
+      "0x391ab87558318bd7ff2ccb9d68ed309ad073fa64c8395a493d6c347ff572af38"
+    ],
+    "createdAt": "2022-05-13 16:14:16.912 +0000 UTC",
+    "updatedAt": "0001-01-01 00:00:00 +0000 UTC"
+  },
+  {
+    "sender": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+    "receiver": "0xAF79152AC5dF276D9A8e1E2E22822f9713474902",
+    "amount": "23000000000000000000",
+    "denom": "inj",
+    "bridgeFee": "3546099290780142080",
+    "outgoingTxId": 110,
+    "batchTimeout": 0,
+    "batchNonce": 0,
+    "orchestratorAddress": "",
+    "eventNonce": 0,
+    "eventHeight": 0,
+    "state": "InjectiveConfirming",
+    "claimType": 0,
+    "txHashesList": [
+      "0x088975b8a12119944a254f0e4d7659df4c2b9c85c2c110305393f83be4f7f6ed"
+    ],
+    "createdAt": "2022-05-11 10:32:20.19 +0000 UTC",
+    "updatedAt": "0001-01-01 00:00:00 +0000 UTC"
+  }
+]
 
 ```
 
@@ -2168,7 +2280,25 @@ func main() {
 ```
 
 ``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
 
+(async () => {
+  const network = getNetworkInfo(Network.TestnetK8s);
+
+  const receiver = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+
+  const exchangeClient = new ExchangeGrpcClient(
+    network.exchangeApi
+  );
+
+  const tx = await exchangeClient.explorer.fetchIBCTransferTxs({
+    receiver: receiver,
+  });
+
+  console.log(protoObjectToJson(tx));
+})();
 ```
 
 |Parameter|Type|Description|Required|
@@ -2273,7 +2403,58 @@ field {
 ```
 
 ``` typescript
-
+[
+  {
+    "sender": "terra1nrgj0e5l98y07zuenvnpa76x8e5dmm4cdkppws",
+    "receiver": "inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh",
+    "sourcePort": "transfer",
+    "sourceChannel": "channel-17",
+    "destinationPort": "transfer",
+    "destinationChannel": "channel-4",
+    "amount": "10000000000",
+    "denom": "uusd",
+    "timeoutHeight": "5-7072846",
+    "timeoutTimestamp": 1648784773000000000,
+    "packetSequence": 1892,
+    "dataHex": {
+      "0": 55,
+      "1": 98,
+      "2": 50,
+      "3": 50,
+      "4": 54
+    },
+    "state": "Completed",
+    "txHashesList": [
+      "0xf52d55dd6b68d78d137d4e5526a450d74689d3cba7f69640acd41b68ee26cd15"
+    ],
+    "createdAt": "2022-04-01 03:45:39.338 +0000 UTC",
+    "updatedAt": "2022-04-01 03:45:39.338 +0000 UTC"
+  },
+  {
+    "sender": "terra1nrgj0e5l98y07zuenvnpa76x8e5dmm4cdkppws",
+    "receiver": "inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh",
+    "sourcePort": "transfer",
+    "sourceChannel": "channel-17",
+    "destinationPort": "transfer",
+    "destinationChannel": "channel-4",
+    "amount": "200000000",
+    "denom": "uluna",
+    "timeoutHeight": "5-6753065",
+    "timeoutTimestamp": 1646665141000000000,
+    "packetSequence": 1516,
+    "dataHex": {
+      "0": 55,
+      "1": 98,
+      "2": 50,
+    },
+    "state": "Completed",
+    "txHashesList": [
+      "0xe5782979f08f7f939b6ed6f4687b70542295ef91f3de84a3e10c4044230f8474"
+    ],
+    "createdAt": "2022-03-07 14:58:31.905 +0000 UTC",
+    "updatedAt": "2022-03-07 14:58:31.905 +0000 UTC"
+  }
+]
 ```
 
 |Parameter|Type|Description|
