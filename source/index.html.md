@@ -92,10 +92,10 @@ module foo
 go 1.18
 
 require (
-  github.com/InjectiveLabs/sdk-go v1.38.1
+  github.com/InjectiveLabs/sdk-go v1.39.4
 )
 
-*Consult the sdk-go repository to find the latest release and replace the version in your go.mod file. Version v1.38.1 is only an example and must be replaced with the newest release*
+*Consult the sdk-go repository to find the latest release and replace the version in your go.mod file. Version v1.39.4 is only an example and must be replaced with the newest release*
 
 ### 3. Download the package
 
