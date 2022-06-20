@@ -95,6 +95,8 @@ require (
   github.com/InjectiveLabs/sdk-go v1.38.1
 )
 
+*Consult the sdk-go repository to find the latest release and replace the version in your go.mod file. Version v1.38.1 is only an example and must be replaced with the newest release*
+
 ### 3. Download the package
 
 Download the package using `go mod download`
@@ -106,8 +108,6 @@ go mod download github.com/InjectiveLabs/sdk-go
 **Reference**
 
 [InjectiveLabs/sdk-go](https://github.com/InjectiveLabs/sdk-go).
-
-*Consult the sdk-go repository to find the latest release and replace the version in your go.mod file*
 
 ## Typescript Client
 
