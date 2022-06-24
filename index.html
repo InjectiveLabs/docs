@@ -16073,6 +16073,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="s">"context"</span>
   <span class="s">"encoding/json"</span>
   <span class="s">"fmt"</span>
+  <span class="n">explorerPB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"</span>
 
   <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
   <span class="n">exchangeclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/exchange"</span>
@@ -16087,7 +16088,14 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
 
   <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
-  <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">GetTxs</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
+
+  <span class="n">before</span> <span class="o">:=</span> <span class="kt">uint64</span><span class="p">(</span><span class="m">7158400</span><span class="p">)</span>
+
+  <span class="n">req</span> <span class="o">:=</span> <span class="n">explorerPB</span><span class="o">.</span><span class="n">GetTxsRequest</span><span class="p">{</span>
+    <span class="n">Before</span><span class="o">:</span> <span class="n">before</span><span class="p">,</span>
+  <span class="p">}</span>
+
+  <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">GetTxs</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
   <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
     <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
   <span class="p">}</span>
