@@ -25,6 +25,7 @@ includes:
   - chainapi
   - derivatives
   - spot
+  - binaryoptions
   - account
   - auction
   - authz

@@ -1272,14 +1272,17 @@ async def main() -> None:
 
     derivative_market_id_create = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
     spot_market_id_create = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    binary_options_market_id_create = "0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169"
 
     derivative_market_id_cancel = "0x1f73e21972972c69c03fb105a5864592ac2b47996ffea3c500d1ea2d20138717"
     derivative_market_id_cancel_2 = "0x8158e603fb80c4e417696b0e98765b4ca89dcf886d3b9b2b90dc15bfb1aebd51"
     spot_market_id_cancel = "0x74b17b0d6855feba39f1f7ab1e8bad0363bd510ee1dcc74e40c2adfe1502f781"
     spot_market_id_cancel_2 = "0x01edfab47f124748dc89998eb33144af734484ba07099014594321729a0ca16b"
+    binary_options_market_id_cancel = "0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169"
 
     spot_market_ids_to_cancel_all =['0x28f3c9897e23750bf653889224f93390c467b83c86d736af79431958fff833d1', '0xe8bf0467208c24209c1cf0fd64833fa43eb6e8035869f9d043dbff815ab76d01']
     derivative_market_ids_to_cancel_all = ['0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce', '0x979731deaaf17d26b2e256ad18fecd0ac742b3746b9ea5382bac9bd0b5e58f74']
+    binary_options_market_ids_to_cancel_all = ['0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169']
 
     derivative_orders_to_cancel = [
         composer.OrderData(
@@ -1305,6 +1308,19 @@ async def main() -> None:
             subaccount_id=subaccount_id,
             order_hash="0x222daa22f60fe9f075ed0ca583459e121c23e64431c3fbffdedda04598ede0d2"
         )
+    ]
+
+    binary_options_orders_to_cancel = [
+        composer.OrderData(
+            market_id=binary_options_market_id_cancel,
+            subaccount_id=subaccount_id,
+            order_hash="0xd2eb6020a8ef8937f4ccd9f848a302b6bffd11360950c01383c021fb7cf07b07"
+        ),
+        composer.OrderData(
+            market_id=binary_options_market_id_cancel,
+            subaccount_id=subaccount_id,
+            order_hash="0x3cba9fb432baf6c26a37acf194d4662a2cd141622de09e2677af8e59b8263419"
+        ),
     ]
 
     derivative_orders_to_create = [
@@ -1351,16 +1367,42 @@ async def main() -> None:
         ),
     ]
 
+    binary_options_orders_to_create = [
+        composer.BinaryOptionsOrder(
+            sender=address.to_acc_bech32(),
+            market_id=binary_options_market_id_create,
+            subaccount_id=subaccount_id,
+            fee_recipient=fee_recipient,
+            price=0.5,
+            quantity=1,
+            is_buy=True,
+            is_reduce_only=False
+        ),
+        composer.BinaryOptionsOrder(
+            sender=address.to_acc_bech32(),
+            market_id=binary_options_market_id_create,
+            subaccount_id=subaccount_id,
+            fee_recipient=fee_recipient,
+            price=0.5,
+            quantity=1,
+            is_buy=True,
+            is_reduce_only=False
+        ),
+    ]
+
     # prepare tx msg
     msg = composer.MsgBatchUpdateOrders(
         sender=address.to_acc_bech32(),
         subaccount_id=subaccount_id,
         derivative_orders_to_create=derivative_orders_to_create,
         spot_orders_to_create=spot_orders_to_create,
+        binary_options_orders_to_create=binary_options_orders_to_create,
         derivative_orders_to_cancel=derivative_orders_to_cancel,
         spot_orders_to_cancel=spot_orders_to_cancel,
+        binary_options_orders_to_cancel=binary_options_orders_to_cancel,
         spot_market_ids_to_cancel_all=spot_market_ids_to_cancel_all,
         derivative_market_ids_to_cancel_all=derivative_market_ids_to_cancel_all,
+        binary_options_market_ids_to_cancel_all=binary_options_market_ids_to_cancel_all
     )
 
     # build sim tx
@@ -1546,16 +1588,20 @@ func main() {
 }
 ```
 
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |sender|String|The Injective Chain address|Yes|
 |subaccount_id|String|The subaccount ID|Conditional|
 |derivative_orders_to_create|DerivativeOrder|DerivativeOrder object|No|
+|binary_options_orders_to_create|BinaryOptionsOrder|BinaryOptionsOrder object|No|
 |spot_orders_to_create|SpotOrder|SpotOrder object|No|
 |derivative_orders_to_cancel|OrderData|OrderData object to cancel|No|
+|binary_options_orders_to_cancel|OrderData|OrderData object to cancel|No|
 |spot_orders_to_cancel|Orderdata|OrderData object to cancel|No|
-|spot_market_ids_to_cancel_all|Array|Spot Market IDs for the markets the trader wants to cancel all active orders|No|
-|derivative_market_ids_to_cancel_all|Array|Derivative Market IDs for the markets the trader wants to cancel all active orders|No|
+|spot_market_ids_to_cancel_all|List|Spot Market IDs for the markets the trader wants to cancel all active orders|No|
+|derivative_market_ids_to_cancel_all|List|Derivative Market IDs for the markets the trader wants to cancel all active orders|No|
+|binary_options_market_ids_to_cancel_all|List|Binary Options Market IDs for the markets the trader wants to cancel all active orders|No|
 
 **SpotOrder**
 
@@ -1571,6 +1617,20 @@ func main() {
 
 
 **DerivativeOrder**
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|String|Market ID of the market we want to send an order|Yes|
+|subaccount_id|String|The subaccount ID we want to send an order from|Yes|
+|fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
+|price|Float|The price of the base asset|Yes|
+|quantity|Float|The quantity of the base asset|Yes|
+|leverage|Float|The leverage factor for the order|No|
+|is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
+|is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
+|is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
+
+**BinaryOptionsOrder**
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
