@@ -716,6 +716,32 @@
               </ul>
           </li>
           <li>
+            <a href="#binary-options" class="toc-h1 toc-link" data-title="- Binary Options">- Binary Options</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#binary-options-msgcreatebinaryoptionslimitorder" class="toc-h2 toc-link" data-title="MsgCreateBinaryOptionsLimitOrder">MsgCreateBinaryOptionsLimitOrder</a>
+                  </li>
+                  <li>
+                    <a href="#binary-options-msgcreatebinaryoptionsmarketorder" class="toc-h2 toc-link" data-title="MsgCreateBinaryOptionsMarketOrder">MsgCreateBinaryOptionsMarketOrder</a>
+                  </li>
+                  <li>
+                    <a href="#binary-options-msgcancelbinaryoptionsorder" class="toc-h2 toc-link" data-title="MsgCancelBinaryOptionsOrder">MsgCancelBinaryOptionsOrder</a>
+                  </li>
+                  <li>
+                    <a href="#binary-options-msgadminupdatebinaryoptionsmarket" class="toc-h2 toc-link" data-title="MsgAdminUpdateBinaryOptionsMarket">MsgAdminUpdateBinaryOptionsMarket</a>
+                  </li>
+                  <li>
+                    <a href="#binary-options-msginstantbinaryoptionsmarketlaunch" class="toc-h2 toc-link" data-title="MsgInstantBinaryOptionsMarketLaunch">MsgInstantBinaryOptionsMarketLaunch</a>
+                  </li>
+                  <li>
+                    <a href="#binary-options-msgrelayproviderprices" class="toc-h2 toc-link" data-title="MsgRelayProviderPrices">MsgRelayProviderPrices</a>
+                  </li>
+                  <li>
+                    <a href="#binary-options-msgbatchupdateorders" class="toc-h2 toc-link" data-title="MsgBatchUpdateOrders">MsgBatchUpdateOrders</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#account" class="toc-h1 toc-link" data-title="- Account">- Account</a>
               <ul class="toc-list-h2">
                   <li>
@@ -19892,14 +19918,17 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="n">derivative_market_id_create</span> <span class="o">=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
     <span class="n">spot_market_id_create</span> <span class="o">=</span> <span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span>
+    <span class="n">binary_options_market_id_create</span> <span class="o">=</span> <span class="s">"0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169"</span>
 
     <span class="n">derivative_market_id_cancel</span> <span class="o">=</span> <span class="s">"0x1f73e21972972c69c03fb105a5864592ac2b47996ffea3c500d1ea2d20138717"</span>
     <span class="n">derivative_market_id_cancel_2</span> <span class="o">=</span> <span class="s">"0x8158e603fb80c4e417696b0e98765b4ca89dcf886d3b9b2b90dc15bfb1aebd51"</span>
     <span class="n">spot_market_id_cancel</span> <span class="o">=</span> <span class="s">"0x74b17b0d6855feba39f1f7ab1e8bad0363bd510ee1dcc74e40c2adfe1502f781"</span>
     <span class="n">spot_market_id_cancel_2</span> <span class="o">=</span> <span class="s">"0x01edfab47f124748dc89998eb33144af734484ba07099014594321729a0ca16b"</span>
+    <span class="n">binary_options_market_id_cancel</span> <span class="o">=</span> <span class="s">"0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169"</span>
 
     <span class="n">spot_market_ids_to_cancel_all</span> <span class="o">=</span><span class="p">[</span><span class="s">'0x28f3c9897e23750bf653889224f93390c467b83c86d736af79431958fff833d1'</span><span class="p">,</span> <span class="s">'0xe8bf0467208c24209c1cf0fd64833fa43eb6e8035869f9d043dbff815ab76d01'</span><span class="p">]</span>
     <span class="n">derivative_market_ids_to_cancel_all</span> <span class="o">=</span> <span class="p">[</span><span class="s">'0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce'</span><span class="p">,</span> <span class="s">'0x979731deaaf17d26b2e256ad18fecd0ac742b3746b9ea5382bac9bd0b5e58f74'</span><span class="p">]</span>
+    <span class="n">binary_options_market_ids_to_cancel_all</span> <span class="o">=</span> <span class="p">[</span><span class="s">'0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169'</span><span class="p">]</span>
 
     <span class="n">derivative_orders_to_cancel</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
@@ -19925,6 +19954,19 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
             <span class="n">order_hash</span><span class="o">=</span><span class="s">"0x222daa22f60fe9f075ed0ca583459e121c23e64431c3fbffdedda04598ede0d2"</span>
         <span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="n">binary_options_orders_to_cancel</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">binary_options_market_id_cancel</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0xd2eb6020a8ef8937f4ccd9f848a302b6bffd11360950c01383c021fb7cf07b07"</span>
+        <span class="p">),</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">binary_options_market_id_cancel</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0x3cba9fb432baf6c26a37acf194d4662a2cd141622de09e2677af8e59b8263419"</span>
+        <span class="p">),</span>
     <span class="p">]</span>
 
     <span class="n">derivative_orders_to_create</span> <span class="o">=</span> <span class="p">[</span>
@@ -19971,16 +20013,42 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="p">),</span>
     <span class="p">]</span>
 
+    <span class="n">binary_options_orders_to_create</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">BinaryOptionsOrder</span><span class="p">(</span>
+            <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">binary_options_market_id_create</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+            <span class="n">price</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">quantity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
+        <span class="p">),</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">BinaryOptionsOrder</span><span class="p">(</span>
+            <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">binary_options_market_id_create</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+            <span class="n">price</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">quantity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
+        <span class="p">),</span>
+    <span class="p">]</span>
+
     <span class="c1"># prepare tx msg
 </span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgBatchUpdateOrders</span><span class="p">(</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
         <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
         <span class="n">derivative_orders_to_create</span><span class="o">=</span><span class="n">derivative_orders_to_create</span><span class="p">,</span>
         <span class="n">spot_orders_to_create</span><span class="o">=</span><span class="n">spot_orders_to_create</span><span class="p">,</span>
+        <span class="n">binary_options_orders_to_create</span><span class="o">=</span><span class="n">binary_options_orders_to_create</span><span class="p">,</span>
         <span class="n">derivative_orders_to_cancel</span><span class="o">=</span><span class="n">derivative_orders_to_cancel</span><span class="p">,</span>
         <span class="n">spot_orders_to_cancel</span><span class="o">=</span><span class="n">spot_orders_to_cancel</span><span class="p">,</span>
+        <span class="n">binary_options_orders_to_cancel</span><span class="o">=</span><span class="n">binary_options_orders_to_cancel</span><span class="p">,</span>
         <span class="n">spot_market_ids_to_cancel_all</span><span class="o">=</span><span class="n">spot_market_ids_to_cancel_all</span><span class="p">,</span>
         <span class="n">derivative_market_ids_to_cancel_all</span><span class="o">=</span><span class="n">derivative_market_ids_to_cancel_all</span><span class="p">,</span>
+        <span class="n">binary_options_market_ids_to_cancel_all</span><span class="o">=</span><span class="n">binary_options_market_ids_to_cancel_all</span>
     <span class="p">)</span>
 
     <span class="c1"># build sim tx
@@ -20189,6 +20257,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>No</td>
 </tr>
 <tr>
+<td>binary_options_orders_to_create</td>
+<td>BinaryOptionsOrder</td>
+<td>BinaryOptionsOrder object</td>
+<td>No</td>
+</tr>
+<tr>
 <td>spot_orders_to_create</td>
 <td>SpotOrder</td>
 <td>SpotOrder object</td>
@@ -20201,6 +20275,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>No</td>
 </tr>
 <tr>
+<td>binary_options_orders_to_cancel</td>
+<td>OrderData</td>
+<td>OrderData object to cancel</td>
+<td>No</td>
+</tr>
+<tr>
 <td>spot_orders_to_cancel</td>
 <td>Orderdata</td>
 <td>OrderData object to cancel</td>
@@ -20208,14 +20288,20 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 <tr>
 <td>spot_market_ids_to_cancel_all</td>
-<td>Array</td>
+<td>List</td>
 <td>Spot Market IDs for the markets the trader wants to cancel all active orders</td>
 <td>No</td>
 </tr>
 <tr>
 <td>derivative_market_ids_to_cancel_all</td>
-<td>Array</td>
+<td>List</td>
 <td>Derivative Market IDs for the markets the trader wants to cancel all active orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>binary_options_market_ids_to_cancel_all</td>
+<td>List</td>
+<td>Binary Options Market IDs for the markets the trader wants to cancel all active orders</td>
 <td>No</td>
 </tr>
 </tbody></table>
@@ -20275,6 +20361,72 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tbody></table>
 
 <p><strong>DerivativeOrder</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Market ID of the market we want to send an order</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>The subaccount ID we want to send an order from</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>fee_recipient</td>
+<td>String</td>
+<td>The address that will receive 40% of the fees, this could be set to your own address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>price</td>
+<td>Float</td>
+<td>The price of the base asset</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>Float</td>
+<td>The quantity of the base asset</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>leverage</td>
+<td>Float</td>
+<td>The leverage factor for the order</td>
+<td>No</td>
+</tr>
+<tr>
+<td>is_buy</td>
+<td>Boolean</td>
+<td>Set to true or false for buy and sell orders respectively</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>is_reduce_only</td>
+<td>Boolean</td>
+<td>Set to true or false for reduce-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+<tr>
+<td>is_po</td>
+<td>Boolean</td>
+<td>Set to true or false for post-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+</tbody></table>
+
+<p><strong>BinaryOptionsOrder</strong></p>
 
 <table><thead>
 <tr>
@@ -22450,14 +22602,17 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="n">derivative_market_id_create</span> <span class="o">=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
     <span class="n">spot_market_id_create</span> <span class="o">=</span> <span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span>
+    <span class="n">binary_options_market_id_create</span> <span class="o">=</span> <span class="s">"0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169"</span>
 
     <span class="n">derivative_market_id_cancel</span> <span class="o">=</span> <span class="s">"0x1f73e21972972c69c03fb105a5864592ac2b47996ffea3c500d1ea2d20138717"</span>
     <span class="n">derivative_market_id_cancel_2</span> <span class="o">=</span> <span class="s">"0x8158e603fb80c4e417696b0e98765b4ca89dcf886d3b9b2b90dc15bfb1aebd51"</span>
     <span class="n">spot_market_id_cancel</span> <span class="o">=</span> <span class="s">"0x74b17b0d6855feba39f1f7ab1e8bad0363bd510ee1dcc74e40c2adfe1502f781"</span>
     <span class="n">spot_market_id_cancel_2</span> <span class="o">=</span> <span class="s">"0x01edfab47f124748dc89998eb33144af734484ba07099014594321729a0ca16b"</span>
+    <span class="n">binary_options_market_id_cancel</span> <span class="o">=</span> <span class="s">"0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169"</span>
 
     <span class="n">spot_market_ids_to_cancel_all</span> <span class="o">=</span><span class="p">[</span><span class="s">'0x28f3c9897e23750bf653889224f93390c467b83c86d736af79431958fff833d1'</span><span class="p">,</span> <span class="s">'0xe8bf0467208c24209c1cf0fd64833fa43eb6e8035869f9d043dbff815ab76d01'</span><span class="p">]</span>
     <span class="n">derivative_market_ids_to_cancel_all</span> <span class="o">=</span> <span class="p">[</span><span class="s">'0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce'</span><span class="p">,</span> <span class="s">'0x979731deaaf17d26b2e256ad18fecd0ac742b3746b9ea5382bac9bd0b5e58f74'</span><span class="p">]</span>
+    <span class="n">binary_options_market_ids_to_cancel_all</span> <span class="o">=</span> <span class="p">[</span><span class="s">'0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169'</span><span class="p">]</span>
 
     <span class="n">derivative_orders_to_cancel</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
@@ -22483,6 +22638,19 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
             <span class="n">order_hash</span><span class="o">=</span><span class="s">"0x222daa22f60fe9f075ed0ca583459e121c23e64431c3fbffdedda04598ede0d2"</span>
         <span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="n">binary_options_orders_to_cancel</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">binary_options_market_id_cancel</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0xd2eb6020a8ef8937f4ccd9f848a302b6bffd11360950c01383c021fb7cf07b07"</span>
+        <span class="p">),</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">binary_options_market_id_cancel</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0x3cba9fb432baf6c26a37acf194d4662a2cd141622de09e2677af8e59b8263419"</span>
+        <span class="p">),</span>
     <span class="p">]</span>
 
     <span class="n">derivative_orders_to_create</span> <span class="o">=</span> <span class="p">[</span>
@@ -22529,16 +22697,42 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="p">),</span>
     <span class="p">]</span>
 
+    <span class="n">binary_options_orders_to_create</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">BinaryOptionsOrder</span><span class="p">(</span>
+            <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">binary_options_market_id_create</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+            <span class="n">price</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">quantity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
+        <span class="p">),</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">BinaryOptionsOrder</span><span class="p">(</span>
+            <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">binary_options_market_id_create</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+            <span class="n">price</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">quantity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
+        <span class="p">),</span>
+    <span class="p">]</span>
+
     <span class="c1"># prepare tx msg
 </span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgBatchUpdateOrders</span><span class="p">(</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
         <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
         <span class="n">derivative_orders_to_create</span><span class="o">=</span><span class="n">derivative_orders_to_create</span><span class="p">,</span>
         <span class="n">spot_orders_to_create</span><span class="o">=</span><span class="n">spot_orders_to_create</span><span class="p">,</span>
+        <span class="n">binary_options_orders_to_create</span><span class="o">=</span><span class="n">binary_options_orders_to_create</span><span class="p">,</span>
         <span class="n">derivative_orders_to_cancel</span><span class="o">=</span><span class="n">derivative_orders_to_cancel</span><span class="p">,</span>
         <span class="n">spot_orders_to_cancel</span><span class="o">=</span><span class="n">spot_orders_to_cancel</span><span class="p">,</span>
+        <span class="n">binary_options_orders_to_cancel</span><span class="o">=</span><span class="n">binary_options_orders_to_cancel</span><span class="p">,</span>
         <span class="n">spot_market_ids_to_cancel_all</span><span class="o">=</span><span class="n">spot_market_ids_to_cancel_all</span><span class="p">,</span>
         <span class="n">derivative_market_ids_to_cancel_all</span><span class="o">=</span><span class="n">derivative_market_ids_to_cancel_all</span><span class="p">,</span>
+        <span class="n">binary_options_market_ids_to_cancel_all</span><span class="o">=</span><span class="n">binary_options_market_ids_to_cancel_all</span>
     <span class="p">)</span>
 
     <span class="c1"># build sim tx
@@ -22747,6 +22941,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>No</td>
 </tr>
 <tr>
+<td>binary_options_orders_to_create</td>
+<td>BinaryOptionsOrder</td>
+<td>BinaryOptionsOrder object</td>
+<td>No</td>
+</tr>
+<tr>
 <td>spot_orders_to_create</td>
 <td>SpotOrder</td>
 <td>SpotOrder object</td>
@@ -22759,6 +22959,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>No</td>
 </tr>
 <tr>
+<td>binary_options_orders_to_cancel</td>
+<td>OrderData</td>
+<td>OrderData object to cancel</td>
+<td>No</td>
+</tr>
+<tr>
 <td>spot_orders_to_cancel</td>
 <td>Orderdata</td>
 <td>OrderData object to cancel</td>
@@ -22766,14 +22972,20 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 <tr>
 <td>spot_market_ids_to_cancel_all</td>
-<td>Array</td>
+<td>List</td>
 <td>Spot Market IDs for the markets the trader wants to cancel all active orders</td>
 <td>No</td>
 </tr>
 <tr>
 <td>derivative_market_ids_to_cancel_all</td>
-<td>Array</td>
+<td>List</td>
 <td>Derivative Market IDs for the markets the trader wants to cancel all active orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>binary_options_market_ids_to_cancel_all</td>
+<td>List</td>
+<td>Binary Options Market IDs for the markets the trader wants to cancel all active orders</td>
 <td>No</td>
 </tr>
 </tbody></table>
@@ -22833,6 +23045,72 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tbody></table>
 
 <p><strong>DerivativeOrder</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Market ID of the market we want to send an order</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>The subaccount ID we want to send an order from</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>fee_recipient</td>
+<td>String</td>
+<td>The address that will receive 40% of the fees, this could be set to your own address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>price</td>
+<td>Float</td>
+<td>The price of the base asset</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>Float</td>
+<td>The quantity of the base asset</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>leverage</td>
+<td>Float</td>
+<td>The leverage factor for the order</td>
+<td>No</td>
+</tr>
+<tr>
+<td>is_buy</td>
+<td>Boolean</td>
+<td>Set to true or false for buy and sell orders respectively</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>is_reduce_only</td>
+<td>Boolean</td>
+<td>Set to true or false for reduce-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+<tr>
+<td>is_po</td>
+<td>Boolean</td>
+<td>Set to true or false for post-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+</tbody></table>
+
+<p><strong>BinaryOptionsOrder</strong></p>
 
 <table><thead>
 <tr>
@@ -23396,6 +23674,1594 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3489</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">271044</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000135522</span> <span class="n">INJ</span>
+</code></pre></div><h1 id='binary-options'>- Binary Options</h1>
+<p>Includes all messages related to binary options.</p>
+<h2 id='binary-options-msgcreatebinaryoptionslimitorder'>MsgCreateBinaryOptionsLimitOrder</h2><h3 id='binary-options-msgcreatebinaryoptionslimitorder-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span> <span class="k">as</span> <span class="n">ProtoMsgComposer</span>
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.transaction</span> <span class="kn">import</span> <span class="n">Transaction</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span> <span class="nn">pyinjective.wallet</span> <span class="kn">import</span> <span class="n">PrivateKey</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># select network: local, testnet, mainnet
+</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">composer</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
+
+    <span class="c1"># initialize grpc client
+</span>    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">sync_timeout_height</span><span class="p">()</span>
+
+    <span class="c1"># load account
+</span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">)</span>
+    <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="k">await</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">().</span><span class="n">async_init_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
+    <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># prepare trade info
+</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x12731f85346fc902b7ef7256f91ef7e2aca4b121299d0d0aa6b1cb544c9d67e4"</span>
+    <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
+
+    <span class="c1"># prepare tx msg
+</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgCreateBinaryOptionsLimitOrder</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+        <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
+        <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+        <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+        <span class="n">price</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">quantity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
+    <span class="p">)</span>
+    <span class="c1"># build sim tx
+</span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Transaction</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">with_sequence</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_sequence</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
+    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
+
+    <span class="c1"># build tx
+</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+</span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
+    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
+        <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
+    <span class="p">)]</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">''</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">timeout_height</span><span class="p">)</span>
+    <span class="n">sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+    <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
+</span>    <span class="n">res</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_sync_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"---Transaction Response---"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"gas wanted: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"gas fee: {} INJ"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_fee</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Market ID of the market we want to send an order</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>sender</td>
+<td>String</td>
+<td>The Injective Chain address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>The subaccount we want to send an order from</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>fee_recipient</td>
+<td>String</td>
+<td>The address that will receive 40% of the fees, this could be set to your own address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>price</td>
+<td>Float</td>
+<td>The price of the base asset</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>Float</td>
+<td>The quantity of the base asset</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>is_buy</td>
+<td>Boolean</td>
+<td>Set to true or false for buy and sell orders respectively</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>is_reduce_only</td>
+<td>Boolean</td>
+<td>Set to true or false for reduce-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+<tr>
+<td>is_po</td>
+<td>Boolean</td>
+<td>Set to true or false for post-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="o">---</span><span class="n">Simulation</span> <span class="n">Response</span><span class="o">---</span>
+<span class="p">[</span><span class="n">order_hash</span><span class="p">:</span> <span class="s">"0xc1e1a8e81659360c3092043a000786f23fce5f3b8a355da32227c3e8eafb1fde"</span>
+<span class="p">]</span>
+<span class="o">---</span><span class="n">Transaction</span> <span class="n">Response</span><span class="o">---</span>
+<span class="n">txhash</span><span class="p">:</span> <span class="s">"7955AE8D7EA90E85F07E776372369E92952A0A86DC9BCBDBA3132447DB738282"</span>
+<span class="n">raw_log</span><span class="p">:</span> <span class="s">"[]"</span>
+
+<span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">121249</span>
+<span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.0000606245</span> <span class="n">INJ</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><h2 id='binary-options-msgcreatebinaryoptionsmarketorder'>MsgCreateBinaryOptionsMarketOrder</h2><h3 id='binary-options-msgcreatebinaryoptionsmarketorder-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span> <span class="k">as</span> <span class="n">ProtoMsgComposer</span>
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.transaction</span> <span class="kn">import</span> <span class="n">Transaction</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span> <span class="nn">pyinjective.wallet</span> <span class="kn">import</span> <span class="n">PrivateKey</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># select network: local, testnet, mainnet
+</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">composer</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
+
+    <span class="c1"># initialize grpc client
+</span>    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">sync_timeout_height</span><span class="p">()</span>
+
+    <span class="c1"># load account
+</span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">)</span>
+    <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="k">await</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">().</span><span class="n">async_init_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
+    <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># prepare trade info
+</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x12731f85346fc902b7ef7256f91ef7e2aca4b121299d0d0aa6b1cb544c9d67e4"</span>
+    <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
+
+    <span class="c1"># prepare tx msg
+</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgCreateBinaryOptionsMarketOrder</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+        <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
+        <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+        <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+        <span class="n">price</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">quantity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
+    <span class="p">)</span>
+    <span class="c1"># build sim tx
+</span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Transaction</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">with_sequence</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_sequence</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
+    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
+
+    <span class="c1"># build tx
+</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+</span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
+    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
+        <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
+    <span class="p">)]</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">''</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">timeout_height</span><span class="p">)</span>
+    <span class="n">sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+    <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
+</span>    <span class="n">res</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_sync_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"---Transaction Response---"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"gas wanted: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"gas fee: {} INJ"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_fee</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Market ID of the market we want to send an order</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>sender</td>
+<td>String</td>
+<td>The Injective Chain address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>The subaccount we want to send an order from</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>fee_recipient</td>
+<td>String</td>
+<td>The address that will receive 40% of the fees, this could be set to your own address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>price</td>
+<td>Float</td>
+<td>The price of the base asset</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>Float</td>
+<td>The quantity of the base asset</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>is_buy</td>
+<td>Boolean</td>
+<td>Set to true or false for buy and sell orders respectively</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>is_reduce_only</td>
+<td>Boolean</td>
+<td>Set to true or false for reduce-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="o">---</span><span class="n">Simulation</span> <span class="n">Response</span><span class="o">---</span>
+<span class="p">[</span><span class="n">order_hash</span><span class="p">:</span> <span class="s">"0x1d4ebeaa75bb6a5232ef20cf9ff10eedc470be8f716fb4b3a57780fb1247b4dc"</span>
+<span class="p">]</span>
+<span class="o">---</span><span class="n">Transaction</span> <span class="n">Response</span><span class="o">---</span>
+<span class="n">txhash</span><span class="p">:</span> <span class="s">"FE91A0828F1900FB9FD202BF872B66580A89E663062B3DF13874328A7F6CF797"</span>
+<span class="n">raw_log</span><span class="p">:</span> <span class="s">"[]"</span>
+
+<span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">107903</span>
+<span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.0000539515</span> <span class="n">INJ</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><h2 id='binary-options-msgcancelbinaryoptionsorder'>MsgCancelBinaryOptionsOrder</h2><h3 id='binary-options-msgcancelbinaryoptionsorder-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span> <span class="k">as</span> <span class="n">ProtoMsgComposer</span>
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.transaction</span> <span class="kn">import</span> <span class="n">Transaction</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span> <span class="nn">pyinjective.wallet</span> <span class="kn">import</span> <span class="n">PrivateKey</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># select network: local, testnet, mainnet
+</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">composer</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
+
+    <span class="c1"># initialize grpc client
+</span>    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">sync_timeout_height</span><span class="p">()</span>
+
+    <span class="c1"># load account
+</span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">)</span>
+    <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="k">await</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">().</span><span class="n">async_init_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
+    <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># prepare trade info
+</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x12731f85346fc902b7ef7256f91ef7e2aca4b121299d0d0aa6b1cb544c9d67e4"</span>
+    <span class="n">order_hash</span> <span class="o">=</span> <span class="s">"0x20ae2402e1561593d147458a3dff28a38f391adb61ab0599251296da5b11fec8"</span>
+
+    <span class="c1"># prepare tx msg
+</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgCancelBinaryOptionsOrder</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+        <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
+        <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+        <span class="n">order_hash</span><span class="o">=</span><span class="n">order_hash</span>
+    <span class="p">)</span>
+    <span class="c1"># build sim tx
+</span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Transaction</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">with_sequence</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_sequence</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
+    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># build tx
+</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+</span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
+    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
+        <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
+    <span class="p">)]</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">''</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">timeout_height</span><span class="p">)</span>
+    <span class="n">sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+    <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
+</span>    <span class="n">res</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_sync_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"---Transaction Response---"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"gas wanted: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"gas fee: {} INJ"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_fee</span><span class="p">))</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Market ID of the market we want to cancel an order</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>sender</td>
+<td>String</td>
+<td>The Injective Chain address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>The subaccount we want to cancel an order from</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>order_hash</td>
+<td>String</td>
+<td>The hash of a specific order</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="o">---</span><span class="n">Transaction</span> <span class="n">Response</span><span class="o">---</span>
+<span class="n">txhash</span><span class="p">:</span> <span class="s">"4B85368A96A67BB9B6DABB8B730A824051E0E4C9243F5970DF1512B98FCF2D67"</span>
+<span class="n">raw_log</span><span class="p">:</span> <span class="s">"[]"</span>
+
+<span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">111303</span>
+<span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.0000556515</span> <span class="n">INJ</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><h2 id='binary-options-msgadminupdatebinaryoptionsmarket'>MsgAdminUpdateBinaryOptionsMarket</h2><h3 id='binary-options-msgadminupdatebinaryoptionsmarket-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span> <span class="k">as</span> <span class="n">ProtoMsgComposer</span>
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.transaction</span> <span class="kn">import</span> <span class="n">Transaction</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span> <span class="nn">pyinjective.wallet</span> <span class="kn">import</span> <span class="n">PrivateKey</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># select network: local, testnet, mainnet
+</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">composer</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
+
+    <span class="c1"># initialize grpc client
+</span>    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">sync_timeout_height</span><span class="p">()</span>
+
+    <span class="c1"># load account
+</span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">)</span>
+    <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="k">await</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">().</span><span class="n">async_init_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
+
+    <span class="c1"># prepare trade info
+</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x12731f85346fc902b7ef7256f91ef7e2aca4b121299d0d0aa6b1cb544c9d67e4"</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="s">"Demolished"</span>
+    <span class="n">settlement_price</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">expiration_timestamp</span> <span class="o">=</span> <span class="mi">1685460582</span>
+    <span class="n">settlement_timestamp</span> <span class="o">=</span> <span class="mi">1690730982</span>
+
+    <span class="c1"># prepare tx msg
+</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgAdminUpdateBinaryOptionsMarket</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+        <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
+        <span class="n">settlement_price</span><span class="o">=</span><span class="n">settlement_price</span><span class="p">,</span>
+        <span class="c1"># expiration_timestamp=expiration_timestamp,
+</span>        <span class="c1"># settlement_timestamp=settlement_timestamp,
+</span>        <span class="n">status</span><span class="o">=</span><span class="n">status</span>
+    <span class="p">)</span>
+
+    <span class="c1"># build sim tx
+</span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Transaction</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">with_sequence</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_sequence</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
+    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># build tx
+</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+</span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
+    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
+        <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
+    <span class="p">)]</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">''</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">timeout_height</span><span class="p">)</span>
+    <span class="n">sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+    <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
+</span>    <span class="n">res</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_sync_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"---Transaction Response---"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"gas wanted: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"gas fee: {} INJ"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_fee</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Market ID of the market we want to settle</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>sender</td>
+<td>String</td>
+<td>The Injective Chain address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>status</td>
+<td>String</td>
+<td>The market status (Should be one of: [Unspecified, Demolished]</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>settlement_price</td>
+<td>Integer</td>
+<td>The settlement price (must be in the 0-1 range)</td>
+<td>Conditional</td>
+</tr>
+<tr>
+<td>expiration_timestamp</td>
+<td>Integer</td>
+<td>The expiration timestamp (trading halts, orders are cancelled and traders await settlement)</td>
+<td>Conditional</td>
+</tr>
+<tr>
+<td>settlement_timestamp</td>
+<td>Integer</td>
+<td>The settlement timestamp</td>
+<td>Conditional</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="o">---</span><span class="n">Transaction</span> <span class="n">Response</span><span class="o">---</span>
+<span class="n">txhash</span><span class="p">:</span> <span class="s">"4B85368A96A67BB9B6DABB8B730A824051E0E4C9243F5970DF1512B98FCF2D67"</span>
+<span class="n">raw_log</span><span class="p">:</span> <span class="s">"[]"</span>
+
+<span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">111303</span>
+<span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.0000556515</span> <span class="n">INJ</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><h2 id='binary-options-msginstantbinaryoptionsmarketlaunch'>MsgInstantBinaryOptionsMarketLaunch</h2><h3 id='binary-options-msginstantbinaryoptionsmarketlaunch-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span> <span class="k">as</span> <span class="n">ProtoMsgComposer</span>
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.transaction</span> <span class="kn">import</span> <span class="n">Transaction</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span> <span class="nn">pyinjective.wallet</span> <span class="kn">import</span> <span class="n">PrivateKey</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># select network: local, testnet, mainnet
+</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">composer</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
+
+    <span class="c1"># initialize grpc client
+</span>    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">sync_timeout_height</span><span class="p">()</span>
+
+    <span class="c1"># load account
+</span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">)</span>
+    <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="k">await</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">().</span><span class="n">async_init_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
+
+    <span class="c1"># prepare tx msg
+</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgInstantBinaryOptionsMarketLaunch</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+        <span class="n">admin</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+        <span class="n">ticker</span><span class="o">=</span><span class="s">"UFC-KHABIB-TKO-05/30/2022"</span><span class="p">,</span>
+        <span class="n">oracle_symbol</span><span class="o">=</span><span class="s">"UFC-KHABIB-TKO-05/30/2022"</span><span class="p">,</span>
+        <span class="n">oracle_provider</span><span class="o">=</span><span class="s">"ufc"</span><span class="p">,</span>
+        <span class="n">oracle_type</span><span class="o">=</span><span class="s">"Provider"</span><span class="p">,</span>
+        <span class="n">quote_denom</span><span class="o">=</span><span class="s">"peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"</span><span class="p">,</span>
+        <span class="n">oracle_scale_factor</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+        <span class="n">maker_fee_rate</span><span class="o">=</span><span class="mf">0.0005</span><span class="p">,</span> <span class="c1"># 0.005%
+</span>        <span class="n">taker_fee_rate</span><span class="o">=</span><span class="mf">0.0010</span><span class="p">,</span> <span class="c1"># 0.10%
+</span>        <span class="n">expiration_timestamp</span><span class="o">=</span><span class="mi">1680730982</span><span class="p">,</span>
+        <span class="n">settlement_timestamp</span><span class="o">=</span><span class="mi">1690730982</span><span class="p">,</span>
+        <span class="n">min_price_tick_size</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+        <span class="n">min_quantity_tick_size</span><span class="o">=</span><span class="mf">0.01</span>
+    <span class="p">)</span>
+
+    <span class="c1"># build sim tx
+</span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Transaction</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">with_sequence</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_sequence</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
+    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># build tx
+</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+</span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
+    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
+        <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
+    <span class="p">)]</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">''</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">timeout_height</span><span class="p">)</span>
+    <span class="n">sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+    <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
+</span>    <span class="n">res</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_sync_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"---Transaction Response---"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"gas wanted: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"gas fee: {} INJ"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_fee</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Market ID of the market we want to settle</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>sender</td>
+<td>String</td>
+<td>The Injective Chain address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>ticker</td>
+<td>String</td>
+<td>The market ticker</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>oracle_symbol</td>
+<td>String</td>
+<td>The oracle symbol</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>oracle_provider</td>
+<td>String</td>
+<td>The oracle provider</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>oracle_type</td>
+<td>String</td>
+<td>The oracle type</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>quote_denom</td>
+<td>String</td>
+<td>The quote denom</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>oracle_scale_factor</td>
+<td>Integer</td>
+<td>The oracle scale factor (6 for USDT)</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>maker_fee_rate</td>
+<td>Integer</td>
+<td>The fee rate for maker orders</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>taker_fee_rate</td>
+<td>Integer</td>
+<td>The fee rate for taker orders</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>min_price_tick_size</td>
+<td>Integer</td>
+<td>The minimum price tick size</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>min_quantity_tick_size</td>
+<td>Integer</td>
+<td>The minimum quantity tick size</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>expiration_timestamp</td>
+<td>Integer</td>
+<td>The expiration timestamp (trading halts, orders are cancelled and traders await settlement)</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>settlement_timestamp</td>
+<td>Integer</td>
+<td>The settlement timestamp</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="o">---</span><span class="n">Transaction</span> <span class="n">Response</span><span class="o">---</span>
+<span class="n">txhash</span><span class="p">:</span> <span class="s">"784728B42AD56D0241B166A531815FC82511432FF636E2AD22CBA856123F4AB1"</span>
+<span class="n">raw_log</span><span class="p">:</span> <span class="s">"[]"</span>
+
+<span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">172751</span>
+<span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.0000863755</span> <span class="n">INJ</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><h2 id='binary-options-msgrelayproviderprices'>MsgRelayProviderPrices</h2><h3 id='binary-options-msgrelayproviderprices-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span> <span class="k">as</span> <span class="n">ProtoMsgComposer</span>
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.transaction</span> <span class="kn">import</span> <span class="n">Transaction</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span> <span class="nn">pyinjective.wallet</span> <span class="kn">import</span> <span class="n">PrivateKey</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># select network: local, testnet, mainnet
+</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">composer</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
+
+    <span class="c1"># initialize grpc client
+</span>    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">sync_timeout_height</span><span class="p">()</span>
+
+    <span class="c1"># load account
+</span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"</span><span class="p">)</span>
+    <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="k">await</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">().</span><span class="n">async_init_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
+
+    <span class="n">provider</span> <span class="o">=</span> <span class="s">"ufc"</span>
+    <span class="n">symbols</span> <span class="o">=</span> <span class="p">[</span><span class="s">"0x7ba77b6c69c15270bd9235f11a0068f3080017116aa3c57e17c16f49ea13f57f"</span><span class="p">,</span> <span class="s">"0x7ba77b6c69c15270bd9235f11a0068f3080017116aa3c57e17c16f49ea13f57f"</span><span class="p">]</span>
+    <span class="n">prices</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]</span>
+
+    <span class="c1"># prepare tx msg
+</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgRelayProviderPrices</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+        <span class="n">provider</span><span class="o">=</span><span class="n">provider</span><span class="p">,</span>
+        <span class="n">symbols</span><span class="o">=</span><span class="n">symbols</span><span class="p">,</span>
+        <span class="n">prices</span><span class="o">=</span><span class="n">prices</span>
+    <span class="p">)</span>
+
+    <span class="c1"># build sim tx
+</span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Transaction</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">with_sequence</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_sequence</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
+    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># build tx
+</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+</span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
+    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
+        <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
+    <span class="p">)]</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">''</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">timeout_height</span><span class="p">)</span>
+    <span class="n">sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+    <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
+</span>    <span class="n">res</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_sync_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"---Transaction Response---"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"gas wanted: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"gas fee: {} INJ"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_fee</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>sender</td>
+<td>String</td>
+<td>The Injective Chain address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>provider</td>
+<td>String</td>
+<td>The provider name</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>symbols</td>
+<td>List</td>
+<td>The symbols we want to relay a price for</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>prices</td>
+<td>List</td>
+<td>The prices for the respective symbols</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="o">---</span><span class="n">Transaction</span> <span class="n">Response</span><span class="o">---</span>
+<span class="n">txhash</span><span class="p">:</span> <span class="s">"784728B42AD56D0241B166A531815FC82511432FF636E2AD22CBA856123F4AB1"</span>
+<span class="n">raw_log</span><span class="p">:</span> <span class="s">"[]"</span>
+
+<span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">172751</span>
+<span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.0000863755</span> <span class="n">INJ</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><h2 id='binary-options-msgbatchupdateorders'>MsgBatchUpdateOrders</h2>
+<p>MsgBatchUpdateOrders allows for the atomic cancellation and creation of spot and derivative limit orders, along with a new order cancellation mode. Upon execution, order cancellations (if any) occur first, followed by order creations (if any).</p>
+
+<p>Users can cancel all limit orders in a given spot or derivative market for a given subaccountID by specifying the associated marketID in the SpotMarketIdsToCancelAll and DerivativeMarketIdsToCancelAll. Users can also cancel individual limit orders in SpotOrdersToCancel or DerivativeOrdersToCancel, but must ensure that marketIDs in these individual order cancellations are not already provided in the SpotMarketIdsToCancelAll or DerivativeMarketIdsToCancelAll.</p>
+
+<p>Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll or DerivativeMarketIdsToCancelAll, then the SubaccountID in the Msg should be left empty.</p>
+<h3 id='binary-options-msgbatchupdateorders-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span> <span class="k">as</span> <span class="n">ProtoMsgComposer</span>
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.transaction</span> <span class="kn">import</span> <span class="n">Transaction</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span> <span class="nn">pyinjective.wallet</span> <span class="kn">import</span> <span class="n">PrivateKey</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># select network: local, testnet, mainnet
+</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">composer</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
+
+    <span class="c1"># initialize grpc client
+</span>    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">sync_timeout_height</span><span class="p">()</span>
+
+    <span class="c1"># load account
+</span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"</span><span class="p">)</span>
+    <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="k">await</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">().</span><span class="n">async_init_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
+    <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># prepare trade info
+</span>    <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
+
+    <span class="n">derivative_market_id_create</span> <span class="o">=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+    <span class="n">spot_market_id_create</span> <span class="o">=</span> <span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span>
+    <span class="n">binary_options_market_id_create</span> <span class="o">=</span> <span class="s">"0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169"</span>
+
+    <span class="n">derivative_market_id_cancel</span> <span class="o">=</span> <span class="s">"0x1f73e21972972c69c03fb105a5864592ac2b47996ffea3c500d1ea2d20138717"</span>
+    <span class="n">derivative_market_id_cancel_2</span> <span class="o">=</span> <span class="s">"0x8158e603fb80c4e417696b0e98765b4ca89dcf886d3b9b2b90dc15bfb1aebd51"</span>
+    <span class="n">spot_market_id_cancel</span> <span class="o">=</span> <span class="s">"0x74b17b0d6855feba39f1f7ab1e8bad0363bd510ee1dcc74e40c2adfe1502f781"</span>
+    <span class="n">spot_market_id_cancel_2</span> <span class="o">=</span> <span class="s">"0x01edfab47f124748dc89998eb33144af734484ba07099014594321729a0ca16b"</span>
+    <span class="n">binary_options_market_id_cancel</span> <span class="o">=</span> <span class="s">"0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169"</span>
+
+    <span class="n">spot_market_ids_to_cancel_all</span> <span class="o">=</span><span class="p">[</span><span class="s">'0x28f3c9897e23750bf653889224f93390c467b83c86d736af79431958fff833d1'</span><span class="p">,</span> <span class="s">'0xe8bf0467208c24209c1cf0fd64833fa43eb6e8035869f9d043dbff815ab76d01'</span><span class="p">]</span>
+    <span class="n">derivative_market_ids_to_cancel_all</span> <span class="o">=</span> <span class="p">[</span><span class="s">'0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce'</span><span class="p">,</span> <span class="s">'0x979731deaaf17d26b2e256ad18fecd0ac742b3746b9ea5382bac9bd0b5e58f74'</span><span class="p">]</span>
+    <span class="n">binary_options_market_ids_to_cancel_all</span> <span class="o">=</span> <span class="p">[</span><span class="s">'0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169'</span><span class="p">]</span>
+
+    <span class="n">derivative_orders_to_cancel</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">derivative_market_id_cancel</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0x48690013c382d5dbaff9989db04629a16a5818d7524e027d517ccc89fd068103"</span>
+        <span class="p">),</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">derivative_market_id_cancel_2</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0x7ee76255d7ca763c56b0eab9828fca89fdd3739645501c8a80f58b62b4f76da5"</span>
+        <span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="n">spot_orders_to_cancel</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">spot_market_id_cancel</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0x3870fbdd91f07d54425147b1bb96404f4f043ba6335b422a6d494d285b387f2d"</span>
+        <span class="p">),</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">spot_market_id_cancel_2</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0x222daa22f60fe9f075ed0ca583459e121c23e64431c3fbffdedda04598ede0d2"</span>
+        <span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="n">binary_options_orders_to_cancel</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">binary_options_market_id_cancel</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0xd2eb6020a8ef8937f4ccd9f848a302b6bffd11360950c01383c021fb7cf07b07"</span>
+        <span class="p">),</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">binary_options_market_id_cancel</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0x3cba9fb432baf6c26a37acf194d4662a2cd141622de09e2677af8e59b8263419"</span>
+        <span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="n">derivative_orders_to_create</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">DerivativeOrder</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">derivative_market_id_create</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+            <span class="n">price</span><span class="o">=</span><span class="mi">25000</span><span class="p">,</span>
+            <span class="n">quantity</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+            <span class="n">leverage</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span>
+        <span class="p">),</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">DerivativeOrder</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">derivative_market_id_create</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+            <span class="n">price</span><span class="o">=</span><span class="mi">50000</span><span class="p">,</span>
+            <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+            <span class="n">leverage</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span>
+        <span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="n">spot_orders_to_create</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">SpotOrder</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">spot_market_id_create</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+            <span class="n">price</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">quantity</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span>
+        <span class="p">),</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">SpotOrder</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">spot_market_id_create</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+            <span class="n">price</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+            <span class="n">quantity</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span>
+        <span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="n">binary_options_orders_to_create</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">BinaryOptionsOrder</span><span class="p">(</span>
+            <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">binary_options_market_id_create</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+            <span class="n">price</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">quantity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
+        <span class="p">),</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">BinaryOptionsOrder</span><span class="p">(</span>
+            <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">binary_options_market_id_create</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+            <span class="n">price</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">quantity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
+        <span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="c1"># prepare tx msg
+</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgBatchUpdateOrders</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+        <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+        <span class="n">derivative_orders_to_create</span><span class="o">=</span><span class="n">derivative_orders_to_create</span><span class="p">,</span>
+        <span class="n">spot_orders_to_create</span><span class="o">=</span><span class="n">spot_orders_to_create</span><span class="p">,</span>
+        <span class="n">binary_options_orders_to_create</span><span class="o">=</span><span class="n">binary_options_orders_to_create</span><span class="p">,</span>
+        <span class="n">derivative_orders_to_cancel</span><span class="o">=</span><span class="n">derivative_orders_to_cancel</span><span class="p">,</span>
+        <span class="n">spot_orders_to_cancel</span><span class="o">=</span><span class="n">spot_orders_to_cancel</span><span class="p">,</span>
+        <span class="n">binary_options_orders_to_cancel</span><span class="o">=</span><span class="n">binary_options_orders_to_cancel</span><span class="p">,</span>
+        <span class="n">spot_market_ids_to_cancel_all</span><span class="o">=</span><span class="n">spot_market_ids_to_cancel_all</span><span class="p">,</span>
+        <span class="n">derivative_market_ids_to_cancel_all</span><span class="o">=</span><span class="n">derivative_market_ids_to_cancel_all</span><span class="p">,</span>
+        <span class="n">binary_options_market_ids_to_cancel_all</span><span class="o">=</span><span class="n">binary_options_market_ids_to_cancel_all</span>
+    <span class="p">)</span>
+
+    <span class="c1"># build sim tx
+</span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Transaction</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">with_sequence</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_sequence</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
+    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
+
+    <span class="c1"># build tx
+</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span> <span class="c1"># add 20k for gas, fee computation
+</span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
+    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
+        <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
+    <span class="p">)]</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">''</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">timeout_height</span><span class="p">)</span>
+    <span class="n">sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+    <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
+</span>    <span class="n">res</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_sync_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"---Transaction Response---"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"gas wanted: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"gas fee: {} INJ"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_fee</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"fmt"</span>
+    <span class="s">"os"</span>
+    <span class="s">"time"</span>
+
+    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+    <span class="s">"github.com/shopspring/decimal"</span>
+
+    <span class="n">exchangetypes</span> <span class="s">"github.com/InjectiveLabs/sdk-go/chain/exchange/types"</span>
+    <span class="n">chainclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/chain"</span>
+    <span class="n">cosmtypes</span> <span class="s">"github.com/cosmos/cosmos-sdk/types"</span>
+    <span class="n">rpchttp</span> <span class="s">"github.com/tendermint/tendermint/rpc/client/http"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c">// network := common.LoadNetwork("mainnet", "k8s")</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
+    <span class="n">tmRPC</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">rpchttp</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">,</span> <span class="s">"/websocket"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">senderAddress</span><span class="p">,</span> <span class="n">cosmosKeyring</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">InitCosmosKeyring</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">Getenv</span><span class="p">(</span><span class="s">"HOME"</span><span class="p">)</span><span class="o">+</span><span class="s">"/.injectived"</span><span class="p">,</span>
+        <span class="s">"injectived"</span><span class="p">,</span>
+        <span class="s">"file"</span><span class="p">,</span>
+        <span class="s">"inj-user"</span><span class="p">,</span>
+        <span class="s">"12345678"</span><span class="p">,</span>
+        <span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">,</span> <span class="c">// keyring will be used if pk not provided</span>
+        <span class="no">false</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">clientCtx</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">NewClientContext</span><span class="p">(</span>
+        <span class="n">network</span><span class="o">.</span><span class="n">ChainId</span><span class="p">,</span>
+        <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span>
+        <span class="n">cosmosKeyring</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">clientCtx</span> <span class="o">=</span> <span class="n">clientCtx</span><span class="o">.</span><span class="n">WithNodeURI</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">)</span><span class="o">.</span><span class="n">WithClient</span><span class="p">(</span><span class="n">tmRPC</span><span class="p">)</span>
+
+    <span class="n">chainClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">NewChainClient</span><span class="p">(</span>
+        <span class="n">clientCtx</span><span class="p">,</span>
+        <span class="n">network</span><span class="o">.</span><span class="n">ChainGrpcEndpoint</span><span class="p">,</span>
+        <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ChainTlsCert</span><span class="p">),</span>
+        <span class="n">common</span><span class="o">.</span><span class="n">OptionGasPrices</span><span class="p">(</span><span class="s">"500000000inj"</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">defaultSubaccountID</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">DefaultSubaccount</span><span class="p">(</span><span class="n">senderAddress</span><span class="p">)</span>
+
+    <span class="n">smarketId</span> <span class="o">:=</span> <span class="s">"0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"</span>
+    <span class="n">samount</span> <span class="o">:=</span> <span class="n">decimal</span><span class="o">.</span><span class="n">NewFromFloat</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
+    <span class="n">sprice</span> <span class="o">:=</span> <span class="n">decimal</span><span class="o">.</span><span class="n">NewFromFloat</span><span class="p">(</span><span class="m">22.5</span><span class="p">)</span>
+    <span class="n">smarketIds</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span><span class="p">}</span>
+
+    <span class="n">spot_order</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">SpotOrder</span><span class="p">(</span><span class="n">defaultSubaccountID</span><span class="p">,</span> <span class="n">network</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">chainclient</span><span class="o">.</span><span class="n">SpotOrderData</span><span class="p">{</span>
+        <span class="n">OrderType</span><span class="o">:</span>    <span class="n">exchangetypes</span><span class="o">.</span><span class="n">OrderType_BUY</span><span class="p">,</span> <span class="c">//BUY SELL BUY_PO SELL_PO</span>
+        <span class="n">Quantity</span><span class="o">:</span>     <span class="n">samount</span><span class="p">,</span>
+        <span class="n">Price</span><span class="o">:</span>        <span class="n">sprice</span><span class="p">,</span>
+        <span class="n">FeeRecipient</span><span class="o">:</span> <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span>
+        <span class="n">MarketId</span><span class="o">:</span>     <span class="n">smarketId</span><span class="p">,</span>
+    <span class="p">})</span>
+
+    <span class="n">dmarketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+    <span class="n">damount</span> <span class="o">:=</span> <span class="n">decimal</span><span class="o">.</span><span class="n">NewFromFloat</span><span class="p">(</span><span class="m">0.01</span><span class="p">)</span>
+    <span class="n">dprice</span> <span class="o">:=</span> <span class="n">cosmtypes</span><span class="o">.</span><span class="n">MustNewDecFromStr</span><span class="p">(</span><span class="s">"31000000000"</span><span class="p">)</span> <span class="c">//31,000</span>
+    <span class="n">dleverage</span> <span class="o">:=</span> <span class="n">cosmtypes</span><span class="o">.</span><span class="n">MustNewDecFromStr</span><span class="p">(</span><span class="s">"2"</span><span class="p">)</span>
+    <span class="n">dmarketIds</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span><span class="p">}</span>
+
+    <span class="n">derivative_order</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">DerivativeOrder</span><span class="p">(</span><span class="n">defaultSubaccountID</span><span class="p">,</span> <span class="n">network</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">chainclient</span><span class="o">.</span><span class="n">DerivativeOrderData</span><span class="p">{</span>
+        <span class="n">OrderType</span><span class="o">:</span>    <span class="n">exchangetypes</span><span class="o">.</span><span class="n">OrderType_BUY</span><span class="p">,</span> <span class="c">//BUY SELL BUY_PO SELL_PO</span>
+        <span class="n">Quantity</span><span class="o">:</span>     <span class="n">damount</span><span class="p">,</span>
+        <span class="n">Price</span><span class="o">:</span>        <span class="n">dprice</span><span class="p">,</span>
+        <span class="n">Leverage</span><span class="o">:</span>     <span class="n">dleverage</span><span class="p">,</span>
+        <span class="n">FeeRecipient</span><span class="o">:</span> <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span>
+        <span class="n">MarketId</span><span class="o">:</span>     <span class="n">dmarketId</span><span class="p">,</span>
+        <span class="n">IsReduceOnly</span><span class="o">:</span> <span class="no">false</span><span class="p">,</span>
+    <span class="p">})</span>
+
+    <span class="n">msg</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="n">exchangetypes</span><span class="o">.</span><span class="n">MsgBatchUpdateOrders</span><span class="p">)</span>
+    <span class="n">msg</span><span class="o">.</span><span class="n">Sender</span> <span class="o">=</span> <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">()</span>
+    <span class="n">msg</span><span class="o">.</span><span class="n">SubaccountId</span> <span class="o">=</span> <span class="n">defaultSubaccountID</span><span class="o">.</span><span class="n">Hex</span><span class="p">()</span>
+    <span class="n">msg</span><span class="o">.</span><span class="n">SpotOrdersToCreate</span> <span class="o">=</span> <span class="p">[]</span><span class="o">*</span><span class="n">exchangetypes</span><span class="o">.</span><span class="n">SpotOrder</span><span class="p">{</span><span class="n">spot_order</span><span class="p">}</span>
+    <span class="n">msg</span><span class="o">.</span><span class="n">DerivativeOrdersToCreate</span> <span class="o">=</span> <span class="p">[]</span><span class="o">*</span><span class="n">exchangetypes</span><span class="o">.</span><span class="n">DerivativeOrder</span><span class="p">{</span><span class="n">derivative_order</span><span class="p">}</span>
+    <span class="n">msg</span><span class="o">.</span><span class="n">SpotMarketIdsToCancelAll</span> <span class="o">=</span> <span class="n">smarketIds</span>
+    <span class="n">msg</span><span class="o">.</span><span class="n">DerivativeMarketIdsToCancelAll</span> <span class="o">=</span> <span class="n">dmarketIds</span>
+
+    <span class="n">simRes</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">SimulateMsg</span><span class="p">(</span><span class="n">clientCtx</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">simResMsgs</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">MsgResponse</span><span class="p">(</span><span class="n">simRes</span><span class="o">.</span><span class="n">Result</span><span class="o">.</span><span class="n">Data</span><span class="p">)</span>
+    <span class="n">MsgBatchUpdateOrdersResponse</span> <span class="o">:=</span> <span class="n">exchangetypes</span><span class="o">.</span><span class="n">MsgBatchUpdateOrdersResponse</span><span class="p">{}</span>
+    <span class="n">MsgBatchUpdateOrdersResponse</span><span class="o">.</span><span class="n">Unmarshal</span><span class="p">(</span><span class="n">simResMsgs</span><span class="p">[</span><span class="m">0</span><span class="p">]</span><span class="o">.</span><span class="n">Data</span><span class="p">)</span>
+
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"simulated spot order hashes"</span><span class="p">,</span> <span class="n">MsgBatchUpdateOrdersResponse</span><span class="o">.</span><span class="n">SpotOrderHashes</span><span class="p">)</span>
+
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"simulated derivative order hashes"</span><span class="p">,</span> <span class="n">MsgBatchUpdateOrdersResponse</span><span class="o">.</span><span class="n">DerivativeOrderHashes</span><span class="p">)</span>
+
+    <span class="c">//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">QueueBroadcastMsg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">Sleep</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">Second</span> <span class="o">*</span> <span class="m">5</span><span class="p">)</span>
+
+    <span class="n">gasFee</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">GetGasFee</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"gas fee:"</span><span class="p">,</span> <span class="n">gasFee</span><span class="p">,</span> <span class="s">"INJ"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>sender</td>
+<td>String</td>
+<td>The Injective Chain address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>The subaccount ID</td>
+<td>Conditional</td>
+</tr>
+<tr>
+<td>derivative_orders_to_create</td>
+<td>DerivativeOrder</td>
+<td>DerivativeOrder object</td>
+<td>No</td>
+</tr>
+<tr>
+<td>binary_options_orders_to_create</td>
+<td>BinaryOptionsOrder</td>
+<td>BinaryOptionsOrder object</td>
+<td>No</td>
+</tr>
+<tr>
+<td>spot_orders_to_create</td>
+<td>SpotOrder</td>
+<td>SpotOrder object</td>
+<td>No</td>
+</tr>
+<tr>
+<td>derivative_orders_to_cancel</td>
+<td>OrderData</td>
+<td>OrderData object to cancel</td>
+<td>No</td>
+</tr>
+<tr>
+<td>binary_options_orders_to_cancel</td>
+<td>OrderData</td>
+<td>OrderData object to cancel</td>
+<td>No</td>
+</tr>
+<tr>
+<td>spot_orders_to_cancel</td>
+<td>Orderdata</td>
+<td>OrderData object to cancel</td>
+<td>No</td>
+</tr>
+<tr>
+<td>spot_market_ids_to_cancel_all</td>
+<td>List</td>
+<td>Spot Market IDs for the markets the trader wants to cancel all active orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>derivative_market_ids_to_cancel_all</td>
+<td>List</td>
+<td>Derivative Market IDs for the markets the trader wants to cancel all active orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>binary_options_market_ids_to_cancel_all</td>
+<td>List</td>
+<td>Binary Options Market IDs for the markets the trader wants to cancel all active orders</td>
+<td>No</td>
+</tr>
+</tbody></table>
+
+<p><strong>SpotOrder</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Market ID of the market we want to send an order</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>The subaccount we want to send an order from</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>fee_recipient</td>
+<td>String</td>
+<td>The address that will receive 40% of the fees, this could be set to your own address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>price</td>
+<td>Float</td>
+<td>The price of the base asset</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>Float</td>
+<td>The quantity of the base asset</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>is_buy</td>
+<td>Boolean</td>
+<td>Set to true or false for buy and sell orders respectively</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>is_po</td>
+<td>Boolean</td>
+<td>Set to true or false for post-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+</tbody></table>
+
+<p><strong>DerivativeOrder</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Market ID of the market we want to send an order</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>The subaccount ID we want to send an order from</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>fee_recipient</td>
+<td>String</td>
+<td>The address that will receive 40% of the fees, this could be set to your own address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>price</td>
+<td>Float</td>
+<td>The price of the base asset</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>Float</td>
+<td>The quantity of the base asset</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>leverage</td>
+<td>Float</td>
+<td>The leverage factor for the order</td>
+<td>No</td>
+</tr>
+<tr>
+<td>is_buy</td>
+<td>Boolean</td>
+<td>Set to true or false for buy and sell orders respectively</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>is_reduce_only</td>
+<td>Boolean</td>
+<td>Set to true or false for reduce-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+<tr>
+<td>is_po</td>
+<td>Boolean</td>
+<td>Set to true or false for post-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+</tbody></table>
+
+<p><strong>BinaryOptionsOrder</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Market ID of the market we want to send an order</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>The subaccount ID we want to send an order from</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>fee_recipient</td>
+<td>String</td>
+<td>The address that will receive 40% of the fees, this could be set to your own address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>price</td>
+<td>Float</td>
+<td>The price of the base asset</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>Float</td>
+<td>The quantity of the base asset</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>leverage</td>
+<td>Float</td>
+<td>The leverage factor for the order</td>
+<td>No</td>
+</tr>
+<tr>
+<td>is_buy</td>
+<td>Boolean</td>
+<td>Set to true or false for buy and sell orders respectively</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>is_reduce_only</td>
+<td>Boolean</td>
+<td>Set to true or false for reduce-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+<tr>
+<td>is_po</td>
+<td>Boolean</td>
+<td>Set to true or false for post-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+</tbody></table>
+
+<p><strong>OrderData</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Market ID of the market we want to cancel an order</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>The subaccount we want to cancel an order from</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>order_hash</td>
+<td>String</td>
+<td>The hash of a specific order</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="o">---</span><span class="n">Simulation</span> <span class="n">Response</span><span class="o">---</span>
+<span class="p">[</span><span class="n">spot_cancel_success</span><span class="p">:</span> <span class="n">false</span>
+<span class="n">spot_cancel_success</span><span class="p">:</span> <span class="n">false</span>
+<span class="n">derivative_cancel_success</span><span class="p">:</span> <span class="n">false</span>
+<span class="n">derivative_cancel_success</span><span class="p">:</span> <span class="n">false</span>
+<span class="n">spot_order_hashes</span><span class="p">:</span> <span class="s">"0x3f5b5de6ec72b250c58e0a83408dbc1990cee369999036e3469e19b80fa9002e"</span>
+<span class="n">spot_order_hashes</span><span class="p">:</span> <span class="s">"0x7d8580354e120b038967a180f73bc3aba0f49db9b6d2cb5c4cec85e8cab3e218"</span>
+<span class="n">derivative_order_hashes</span><span class="p">:</span> <span class="s">"0x920a4ea4144c46d1e1084ca5807e4f5608639ce00f97139d5b44e628d487e15e"</span>
+<span class="n">derivative_order_hashes</span><span class="p">:</span> <span class="s">"0x11d75d0c2ce8a07f352523be2e3456212c623397d0fc1a2f688b97a15c04372c"</span>
+<span class="p">]</span>
+<span class="o">---</span><span class="n">Transaction</span> <span class="n">Response</span><span class="o">---</span>
+<span class="n">txhash</span><span class="p">:</span> <span class="s">"4E29226884DCA22E127471588F39E0BB03D314E1AA27ECD810D24C4078D52DED"</span>
+<span class="n">raw_log</span><span class="p">:</span> <span class="s">"[]"</span>
+
+<span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">271213</span>
+<span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.0001356065</span> <span class="n">INJ</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="n">simulated</span> <span class="n">spot</span> <span class="n">order</span> <span class="n">hashes</span> <span class="p">[</span><span class="m">0xd9f30c7e700202615c2775d630b9fb276572d883fa480b6394abbddcb79c8109</span><span class="p">]</span>
+<span class="n">simulated</span> <span class="n">derivative</span> <span class="n">order</span> <span class="n">hashes</span> <span class="p">[</span><span class="m">0xb2bea3b15c204699a9ee945ca49650001560518d1e54266adac580aa061fedd4</span><span class="p">]</span>
+<span class="n">DEBU</span><span class="p">[</span><span class="m">0001</span><span class="p">]</span> <span class="n">broadcastTx</span> <span class="n">with</span> <span class="n">nonce</span> <span class="m">3507</span>                   <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:598"</span>
+<span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">msg</span> <span class="n">batch</span> <span class="n">committed</span> <span class="n">successfully</span> <span class="n">at</span> <span class="n">height</span> <span class="m">5214679</span>  <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:619"</span> <span class="n">txHash</span><span class="o">=</span><span class="n">CF53E0B31B9E28E0D6D8F763ECEC2D91E38481321EA24AC86F6A8774C658AF44</span>
+<span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3508</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
+<span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">659092</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
+<span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000329546</span> <span class="n">INJ</span>
 </code></pre></div><h1 id='account'>- Account</h1>
 <p>Includes all messages related to accounts and transfers.</p>
 <h2 id='account-msgsend'>MsgSend</h2><h3 id='account-msgsend-request-parameters'>Request Parameters</h3>
