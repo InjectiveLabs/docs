@@ -10,9 +10,8 @@
 <span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span> <span class="k">as</span> <span class="n">ProtoMsgComposer</span>
 <span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
 <span class="kn">from</span> <span class="nn">pyinjective.transaction</span> <span class="kn">import</span> <span class="n">Transaction</span>
-<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span><span class="p">,</span> <span class="n">Denom</span>
 <span class="kn">from</span> <span class="nn">pyinjective.wallet</span> <span class="kn">import</span> <span class="n">PrivateKey</span>
-
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
@@ -24,14 +23,18 @@
     <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">sync_timeout_height</span><span class="p">()</span>
 
     <span class="c1"># load account
-</span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">)</span>
+</span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"</span><span class="p">)</span>
     <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
     <span class="n">address</span> <span class="o">=</span> <span class="k">await</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">().</span><span class="n">async_init_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># prepare trade info
-</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x12731f85346fc902b7ef7256f91ef7e2aca4b121299d0d0aa6b1cb544c9d67e4"</span>
+</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x767e1542fbc111e88901e223e625a4a8eb6d630c96884bbde672e8bc874075bb"</span>
     <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
+
+    <span class="c1"># set custom denom to bypass ini file load (optional)
+</span>    <span class="n">denom</span> <span class="o">=</span> <span class="n">Denom</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s">"desc"</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">quote</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                  <span class="n">min_price_tick_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">min_quantity_tick_size</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
 
     <span class="c1"># prepare tx msg
 </span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgCreateBinaryOptionsLimitOrder</span><span class="p">(</span>
@@ -41,9 +44,11 @@
         <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
         <span class="n">price</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
         <span class="n">quantity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
+        <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">denom</span><span class="o">=</span><span class="n">denom</span>
     <span class="p">)</span>
+
     <span class="c1"># build sim tx
 </span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Transaction</span><span class="p">()</span>
