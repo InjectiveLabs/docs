@@ -1392,13 +1392,6 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|before|Integer|Filter transactions before a given block height|No|
-|after|Integer|Filter transactions after a given block height|No|
-|limit|Integer|Limit the returned transactions|No|
-
-
 ### Response Parameters
 > Response Example:
 
