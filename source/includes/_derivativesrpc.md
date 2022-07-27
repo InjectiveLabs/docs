@@ -1589,8 +1589,10 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|String|Filter by market ID|Yes|
+|market_id|String|Filter by market ID|Conditional|
+|market_ids|String|Filter by market IDs|Conditional|
 |subaccount_id|String|Filter by subaccount ID|No|
+|subaccount_ids|String|Filter by subaccount IDs|No|
 |execution_side|String|Filter by the execution side of the trade (Should be one of: [maker taker])|No|
 |direction|String|Filter by the direction of the trade (Should be one of: [buy sell])|No|
 |skip|Integer|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
