@@ -203,6 +203,274 @@ gas fee: 0.0000599355 INJ
 ```
 
 
+## MsgMultiSend
+
+### Request Parameters
+> Request Example:
+
+``` python
+
+```
+
+``` go
+package main
+
+import (
+  "fmt"
+  "os"
+  "time"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+
+  chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+  sdktypes "github.com/cosmos/cosmos-sdk/types"
+  banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+)
+
+func main() {
+  // network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+    os.Getenv("HOME")+"/.injectived",
+    "injectived",
+    "file",
+    "inj-user",
+    "12345678",
+    "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+    false,
+  )
+
+  if err != nil {
+    panic(err)
+  }
+
+  // initialize grpc client
+
+  clientCtx, err := chainclient.NewClientContext(
+    network.ChainId,
+    senderAddress.String(),
+    cosmosKeyring,
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
+
+  // prepare tx msg
+
+  msg := &banktypes.MsgMultiSend{
+    Inputs: []banktypes.Input{
+      {
+        Address: senderAddress.String(),
+        Coins: []sdktypes.Coin{{
+          Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000)}, // 1 INJ
+        },
+      },
+      {
+        Address: senderAddress.String(),
+        Coins: []sdktypes.Coin{{
+          Denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5", Amount: sdktypes.NewInt(1000000)}, // 1 USDT
+        },
+      },
+    },
+    Outputs: []banktypes.Output{
+      {
+        Address: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+        Coins: []sdktypes.Coin{{
+          Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000)}, // 1 INJ
+        },
+      },
+      {
+        Address: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+        Coins: []sdktypes.Coin{{
+          Denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5", Amount: sdktypes.NewInt(1000000)}, // 1 USDT
+        },
+      },
+    },
+  }
+
+  chainClient, err := chainclient.NewChainClient(
+    clientCtx,
+    network.ChainGrpcEndpoint,
+    common.OptionTLSCert(network.ChainTlsCert),
+    common.OptionGasPrices("500000000inj"),
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  //AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+  err = chainClient.QueueBroadcastMsg(msg)
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  time.Sleep(time.Second * 5)
+
+  gasFee, err := chainClient.GetGasFee()
+
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+
+  fmt.Println("gas fee:", gasFee, "INJ")
+}
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|Inputs|Input|Inputs|Yes|
+|Outputs|Output|Outputs|Yes|
+
+***Input***
+|address|String|The Injective Chain address of the sender|Yes|
+|amount|Integer|The amount of tokens to send|Yes|
+|denom|String|The token denom|Yes|
+
+***Output***
+|address|String|The Injective Chain address of the receiver|Yes|
+|amount|Integer|The amount of tokens to send|Yes|
+|denom|String|The token denom|Yes|
+
+
+
+> Response Example:
+
+``` python
+
+```
+
+
+```go
+package main
+
+import (
+  "fmt"
+  "os"
+  "time"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+
+  chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+  sdktypes "github.com/cosmos/cosmos-sdk/types"
+  banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+)
+
+func main() {
+  // network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+    os.Getenv("HOME")+"/.injectived",
+    "injectived",
+    "file",
+    "inj-user",
+    "12345678",
+    "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+    false,
+  )
+
+  if err != nil {
+    panic(err)
+  }
+
+  // initialize grpc client
+
+  clientCtx, err := chainclient.NewClientContext(
+    network.ChainId,
+    senderAddress.String(),
+    cosmosKeyring,
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
+
+  // prepare tx msg
+
+  msg := &banktypes.MsgMultiSend{
+    Inputs: []banktypes.Input{
+      {
+        Address: senderAddress.String(),
+        Coins: []sdktypes.Coin{{
+          Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000)}, // 1 INJ
+        },
+      },
+      {
+        Address: senderAddress.String(),
+        Coins: []sdktypes.Coin{{
+          Denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5", Amount: sdktypes.NewInt(1000000)}, // 1 USDT
+        },
+      },
+    },
+    Outputs: []banktypes.Output{
+      {
+        Address: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+        Coins: []sdktypes.Coin{{
+          Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000)}, // 1 INJ
+        },
+      },
+      {
+        Address: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+        Coins: []sdktypes.Coin{{
+          Denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5", Amount: sdktypes.NewInt(1000000)}, // 1 USDT
+        },
+      },
+    },
+  }
+
+  chainClient, err := chainclient.NewChainClient(
+    clientCtx,
+    network.ChainGrpcEndpoint,
+    common.OptionTLSCert(network.ChainTlsCert),
+    common.OptionGasPrices("500000000inj"),
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  //AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+  err = chainClient.QueueBroadcastMsg(msg)
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  time.Sleep(time.Second * 5)
+
+  gasFee, err := chainClient.GetGasFee()
+
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+
+  fmt.Println("gas fee:", gasFee, "INJ")
+}
+```
+
+
 ## MsgDeposit
 
 ### Request Parameters
