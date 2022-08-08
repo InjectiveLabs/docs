@@ -336,12 +336,16 @@ func main() {
 
 ***Input***
 
+|Parameter|Type|Description|Required|
+|----|----|----|----|
 |address|String|The Injective Chain address of the sender|Yes|
 |amount|Integer|The amount of tokens to send|Yes|
 |denom|String|The token denom|Yes|
 
 ***Output***
 
+|Parameter|Type|Description|Required|
+|----|----|----|----|
 |address|String|The Injective Chain address of the receiver|Yes|
 |amount|Integer|The amount of tokens to send|Yes|
 |denom|String|The token denom|Yes|
