@@ -488,6 +488,9 @@
                     <a href="#injectivespotexchangerpc-orders" class="toc-h2 toc-link" data-title="Orders">Orders</a>
                   </li>
                   <li>
+                    <a href="#injectivespotexchangerpc-ordershistory" class="toc-h2 toc-link" data-title="OrdersHistory">OrdersHistory</a>
+                  </li>
+                  <li>
                     <a href="#injectivespotexchangerpc-streamorders" class="toc-h2 toc-link" data-title="StreamOrders">StreamOrders</a>
                   </li>
                   <li>
@@ -527,6 +530,9 @@
                   </li>
                   <li>
                     <a href="#injectivederivativeexchangerpc-orders" class="toc-h2 toc-link" data-title="Orders">Orders</a>
+                  </li>
+                  <li>
+                    <a href="#injectivederivativeexchangerpc-ordershistory" class="toc-h2 toc-link" data-title="OrdersHistory">OrdersHistory</a>
                   </li>
                   <li>
                     <a href="#injectivederivativeexchangerpc-streamorders" class="toc-h2 toc-link" data-title="StreamOrders">StreamOrders</a>
@@ -4932,6 +4938,223 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>created_at</td>
 <td>Integer</td>
 <td>Order committed timestamp in UNIX millis</td>
+</tr>
+</tbody></table>
+<h2 id='injectivespotexchangerpc-ordershistory'>OrdersHistory</h2>
+<p>Get orders of a derivative market in all states.</p>
+<h3 id='injectivespotexchangerpc-ordershistory-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span>
+    <span class="n">subaccount_id</span> <span class="o">=</span> <span class="s">"0xed8c4C43E03E24b7F12975472da771Ce2f8b857c000000000000000000000000"</span>
+    <span class="n">skip</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">limit</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">orders</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_historical_spot_orders</span><span class="p">(</span>
+        <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
+        <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+        <span class="n">skip</span><span class="o">=</span><span class="n">skip</span><span class="p">,</span>
+        <span class="n">limit</span><span class="o">=</span><span class="n">limit</span>
+    <span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">orders</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Filter by market ID</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>Filter by subaccount ID</td>
+<td>No</td>
+</tr>
+<tr>
+<td>skip</td>
+<td>Integer</td>
+<td>Skip the last orders, you can use this to fetch all orders since the API caps at 100</td>
+<td>No</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>Integer</td>
+<td>Limit the orders returned</td>
+<td>No</td>
+</tr>
+<tr>
+<td>order_type</td>
+<td>String</td>
+<td>Filter by order type</td>
+<td>No</td>
+</tr>
+<tr>
+<td>direction</td>
+<td>String</td>
+<td>Filter by direction</td>
+<td>No</td>
+</tr>
+<tr>
+<td>start_time</td>
+<td>Integer</td>
+<td>Search for orders createdAt &gt;= startTime, time in millisecond</td>
+<td>No</td>
+</tr>
+<tr>
+<td>end_time</td>
+<td>Integer</td>
+<td>Search for orders createdAt &lt;= startTime, time in millisecond</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<h3 id='injectivespotexchangerpc-ordershistory-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">orders</span> <span class="p">{</span>
+  <span class="n">order_hash</span><span class="p">:</span> <span class="s">"0x5978bcee7098a4dcf0199c69e96127e1946d8345b7a30a60ee11dfa651f04ef9"</span>
+  <span class="n">market_id</span><span class="p">:</span> <span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span>
+  <span class="n">subaccount_id</span><span class="p">:</span> <span class="s">"0xed8c4c43e03e24b7f12975472da771ce2f8b857c000000000000000000000000"</span>
+  <span class="n">execution_type</span><span class="p">:</span> <span class="s">"limit"</span>
+  <span class="n">order_type</span><span class="p">:</span> <span class="s">"sell"</span>
+  <span class="n">price</span><span class="p">:</span> <span class="s">"0.000000000002128"</span>
+  <span class="n">trigger_price</span><span class="p">:</span> <span class="s">"0"</span>
+  <span class="n">quantity</span><span class="p">:</span> <span class="s">"51761000000000000000"</span>
+  <span class="n">filled_quantity</span><span class="p">:</span> <span class="s">"0"</span>
+  <span class="n">state</span><span class="p">:</span> <span class="s">"canceled"</span>
+  <span class="n">created_at</span><span class="p">:</span> <span class="mi">1660246239165</span>
+  <span class="n">updated_at</span><span class="p">:</span> <span class="mi">1660246243667</span>
+  <span class="n">direction</span><span class="p">:</span> <span class="s">"sell"</span>
+<span class="p">}</span>
+<span class="n">orders</span> <span class="p">{</span>
+  <span class="n">order_hash</span><span class="p">:</span> <span class="s">"0x75a1153a1eaf1e929007fd12fcc388d328f9abcbb9425687c835011575d90dab"</span>
+  <span class="n">market_id</span><span class="p">:</span> <span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span>
+  <span class="n">subaccount_id</span><span class="p">:</span> <span class="s">"0xed8c4c43e03e24b7f12975472da771ce2f8b857c000000000000000000000000"</span>
+  <span class="n">execution_type</span><span class="p">:</span> <span class="s">"limit"</span>
+  <span class="n">order_type</span><span class="p">:</span> <span class="s">"sell"</span>
+  <span class="n">price</span><span class="p">:</span> <span class="s">"0.000000000002128"</span>
+  <span class="n">trigger_price</span><span class="p">:</span> <span class="s">"0"</span>
+  <span class="n">quantity</span><span class="p">:</span> <span class="s">"258806000000000000000"</span>
+  <span class="n">filled_quantity</span><span class="p">:</span> <span class="s">"0"</span>
+  <span class="n">state</span><span class="p">:</span> <span class="s">"canceled"</span>
+  <span class="n">created_at</span><span class="p">:</span> <span class="mi">1660246239165</span>
+  <span class="n">updated_at</span><span class="p">:</span> <span class="mi">1660246243667</span>
+  <span class="n">direction</span><span class="p">:</span> <span class="s">"sell"</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>orders</td>
+<td>Order</td>
+<td>Order object</td>
+</tr>
+</tbody></table>
+
+<p><strong><em>Order</em></strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>order_hash</td>
+<td>String</td>
+<td>Hash of the order</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>String</td>
+<td>Quantity of the order</td>
+</tr>
+<tr>
+<td>state</td>
+<td>String</td>
+<td>Order state (Should be one of: [booked partial_filled filled canceled])</td>
+</tr>
+<tr>
+<td>trigger_price</td>
+<td>String</td>
+<td>Trigger price is the trigger price used by stop/take orders</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Derivative Market ID</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>Integer</td>
+<td>Order committed timestamp in UNIX millis</td>
+</tr>
+<tr>
+<td>price</td>
+<td>String</td>
+<td>Price of the order</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>The subaccountId that this order belongs to</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>Integer</td>
+<td>Order updated timestamp in UNIX millis.</td>
+</tr>
+<tr>
+<td>order_type</td>
+<td>String</td>
+<td>Order type (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell buy_po sell_po])</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>String</td>
+<td>The type of the order (Should be one of: [limit market])</td>
+</tr>
+<tr>
+<td>filled_quantity</td>
+<td>String</td>
+<td>The amount of the quantity filled</td>
+</tr>
+<tr>
+<td>direction</td>
+<td>String</td>
+<td>The direction of the order (Should be one of: [buy sell])</td>
 </tr>
 </tbody></table>
 <h2 id='injectivespotexchangerpc-streamorders'>StreamOrders</h2>
@@ -9359,6 +9582,223 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>unfilled_quantity</td>
 <td>String</td>
 <td>The amount of the quantity remaining unfilled</td>
+</tr>
+</tbody></table>
+<h2 id='injectivederivativeexchangerpc-ordershistory'>OrdersHistory</h2>
+<p>Get orders of a derivative market in all states.</p>
+<h3 id='injectivederivativeexchangerpc-ordershistory-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x54d4505adef6a5cef26bc403a33d595620ded4e15b9e2bc3dd489b714813366a"</span>
+    <span class="n">subaccount_id</span> <span class="o">=</span> <span class="s">"0x1b99514e320ae0087be7f87b1e3057853c43b799000000000000000000000000"</span>
+    <span class="n">skip</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">limit</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">orders</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_historical_derivative_orders</span><span class="p">(</span>
+        <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
+        <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+        <span class="n">skip</span><span class="o">=</span><span class="n">skip</span><span class="p">,</span>
+        <span class="n">limit</span><span class="o">=</span><span class="n">limit</span>
+    <span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">orders</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Filter by market ID</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>Filter by subaccount ID</td>
+<td>No</td>
+</tr>
+<tr>
+<td>skip</td>
+<td>Integer</td>
+<td>Skip the last orders, you can use this to fetch all orders since the API caps at 100</td>
+<td>No</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>Integer</td>
+<td>Limit the orders returned</td>
+<td>No</td>
+</tr>
+<tr>
+<td>order_type</td>
+<td>String</td>
+<td>Filter by order type</td>
+<td>No</td>
+</tr>
+<tr>
+<td>direction</td>
+<td>String</td>
+<td>Filter by direction</td>
+<td>No</td>
+</tr>
+<tr>
+<td>start_time</td>
+<td>Integer</td>
+<td>Search for orders createdAt &gt;= startTime, time in millisecond</td>
+<td>No</td>
+</tr>
+<tr>
+<td>end_time</td>
+<td>Integer</td>
+<td>Search for orders createdAt &lt;= startTime, time in millisecond</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<h3 id='injectivederivativeexchangerpc-ordershistory-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">orders</span> <span class="p">{</span>
+  <span class="n">order_hash</span><span class="p">:</span> <span class="s">"0x0f62edfb64644762c20490d9573034c2f319e87e857401c41eea1fe373045dd7"</span>
+  <span class="n">market_id</span><span class="p">:</span> <span class="s">"0x54d4505adef6a5cef26bc403a33d595620ded4e15b9e2bc3dd489b714813366a"</span>
+  <span class="n">subaccount_id</span><span class="p">:</span> <span class="s">"0x1b99514e320ae0087be7f87b1e3057853c43b799000000000000000000000000"</span>
+  <span class="n">execution_type</span><span class="p">:</span> <span class="s">"limit"</span>
+  <span class="n">order_type</span><span class="p">:</span> <span class="s">"sell_po"</span>
+  <span class="n">price</span><span class="p">:</span> <span class="s">"1887550000"</span>
+  <span class="n">trigger_price</span><span class="p">:</span> <span class="s">"0"</span>
+  <span class="n">quantity</span><span class="p">:</span> <span class="s">"14.66"</span>
+  <span class="n">filled_quantity</span><span class="p">:</span> <span class="s">"0"</span>
+  <span class="n">state</span><span class="p">:</span> <span class="s">"canceled"</span>
+  <span class="n">created_at</span><span class="p">:</span> <span class="mi">1660245368028</span>
+  <span class="n">updated_at</span><span class="p">:</span> <span class="mi">1660245374789</span>
+  <span class="n">direction</span><span class="p">:</span> <span class="s">"sell"</span>
+<span class="p">}</span>
+<span class="n">orders</span> <span class="p">{</span>
+  <span class="n">order_hash</span><span class="p">:</span> <span class="s">"0x82bb34aa9779c784f541269d3048b038a8c0100e17ef09b1367f44d8e2f6b052"</span>
+  <span class="n">market_id</span><span class="p">:</span> <span class="s">"0x54d4505adef6a5cef26bc403a33d595620ded4e15b9e2bc3dd489b714813366a"</span>
+  <span class="n">subaccount_id</span><span class="p">:</span> <span class="s">"0x1b99514e320ae0087be7f87b1e3057853c43b799000000000000000000000000"</span>
+  <span class="n">execution_type</span><span class="p">:</span> <span class="s">"limit"</span>
+  <span class="n">order_type</span><span class="p">:</span> <span class="s">"buy_po"</span>
+  <span class="n">price</span><span class="p">:</span> <span class="s">"1854460000"</span>
+  <span class="n">trigger_price</span><span class="p">:</span> <span class="s">"0"</span>
+  <span class="n">quantity</span><span class="p">:</span> <span class="s">"16.01"</span>
+  <span class="n">filled_quantity</span><span class="p">:</span> <span class="s">"0"</span>
+  <span class="n">state</span><span class="p">:</span> <span class="s">"canceled"</span>
+  <span class="n">created_at</span><span class="p">:</span> <span class="mi">1660245184145</span>
+  <span class="n">updated_at</span><span class="p">:</span> <span class="mi">1660245368028</span>
+  <span class="n">direction</span><span class="p">:</span> <span class="s">"buy"</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>orders</td>
+<td>Order</td>
+<td>Order object</td>
+</tr>
+</tbody></table>
+
+<p><strong><em>Order</em></strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>order_hash</td>
+<td>String</td>
+<td>Hash of the order</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>String</td>
+<td>Quantity of the order</td>
+</tr>
+<tr>
+<td>state</td>
+<td>String</td>
+<td>Order state (Should be one of: [booked partial_filled filled canceled])</td>
+</tr>
+<tr>
+<td>trigger_price</td>
+<td>String</td>
+<td>Trigger price is the trigger price used by stop/take orders</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Derivative Market ID</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>Integer</td>
+<td>Order committed timestamp in UNIX millis</td>
+</tr>
+<tr>
+<td>price</td>
+<td>String</td>
+<td>Price of the order</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>The subaccountId that this order belongs to</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>Integer</td>
+<td>Order updated timestamp in UNIX millis.</td>
+</tr>
+<tr>
+<td>order_type</td>
+<td>String</td>
+<td>Order type (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell buy_po sell_po])</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>String</td>
+<td>The type of the order (Should be one of: [limit market])</td>
+</tr>
+<tr>
+<td>filled_quantity</td>
+<td>String</td>
+<td>The amount of the quantity filled</td>
+</tr>
+<tr>
+<td>direction</td>
+<td>String</td>
+<td>The direction of the order (Should be one of: [buy sell])</td>
 </tr>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-streamorders'>StreamOrders</h2>
@@ -25615,15 +26055,63 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <p><strong><em>Input</em></strong></p>
 
-<p>|address|String|The Injective Chain address of the sender|Yes|
-|amount|Integer|The amount of tokens to send|Yes|
-|denom|String|The token denom|Yes|</p>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>The Injective Chain address of the sender</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>Integer</td>
+<td>The amount of tokens to send</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>denom</td>
+<td>String</td>
+<td>The token denom</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
 
 <p><strong><em>Output</em></strong></p>
 
-<p>|address|String|The Injective Chain address of the receiver|Yes|
-|amount|Integer|The amount of tokens to send|Yes|
-|denom|String|The token denom|Yes|</p>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>The Injective Chain address of the receiver</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>Integer</td>
+<td>The amount of tokens to send</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>denom</td>
+<td>String</td>
+<td>The token denom</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
 
 <blockquote>
 <p>Response Example:</p>
