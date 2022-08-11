@@ -952,6 +952,129 @@ orders {
 |created_at|Integer|Order committed timestamp in UNIX millis|
 
 
+## OrdersHistory
+
+Get orders of a derivative market in all states.
+
+
+### Request Parameters
+> Request Example:
+
+``` python
+import asyncio
+import logging
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.constant import Network
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network, insecure=False)
+    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    subaccount_id = "0xed8c4C43E03E24b7F12975472da771Ce2f8b857c000000000000000000000000"
+    skip = 10
+    limit = 2
+    orders = await client.get_historical_spot_orders(
+        market_id=market_id,
+        subaccount_id=subaccount_id,
+        skip=skip,
+        limit=limit
+    )
+    print(orders)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
+```
+
+``` go
+
+```
+
+``` typescript
+
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|String|Filter by market ID|Yes|
+|subaccount_id|String|Filter by subaccount ID|No|
+|skip|Integer|Skip the last orders, you can use this to fetch all orders since the API caps at 100|No|
+|limit|Integer|Limit the orders returned|No|
+|order_type|String|Filter by order type|No|
+|direction|String|Filter by direction|No|
+|start_time|Integer|Search for orders createdAt >= startTime, time in millisecond|No|
+|end_time|Integer|Search for orders createdAt <= startTime, time in millisecond|No|
+
+
+### Response Parameters
+> Response Example:
+
+``` python
+orders {
+  order_hash: "0x5978bcee7098a4dcf0199c69e96127e1946d8345b7a30a60ee11dfa651f04ef9"
+  market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  subaccount_id: "0xed8c4c43e03e24b7f12975472da771ce2f8b857c000000000000000000000000"
+  execution_type: "limit"
+  order_type: "sell"
+  price: "0.000000000002128"
+  trigger_price: "0"
+  quantity: "51761000000000000000"
+  filled_quantity: "0"
+  state: "canceled"
+  created_at: 1660246239165
+  updated_at: 1660246243667
+  direction: "sell"
+}
+orders {
+  order_hash: "0x75a1153a1eaf1e929007fd12fcc388d328f9abcbb9425687c835011575d90dab"
+  market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  subaccount_id: "0xed8c4c43e03e24b7f12975472da771ce2f8b857c000000000000000000000000"
+  execution_type: "limit"
+  order_type: "sell"
+  price: "0.000000000002128"
+  trigger_price: "0"
+  quantity: "258806000000000000000"
+  filled_quantity: "0"
+  state: "canceled"
+  created_at: 1660246239165
+  updated_at: 1660246243667
+  direction: "sell"
+}
+```
+
+``` go
+
+```
+
+``` typescript
+
+
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|orders|Order|Order object|
+
+***Order***
+
+|Parameter|Type|Description|
+|----|----|----|
+|order_hash|String|Hash of the order|
+|quantity|String|Quantity of the order|
+|state|String|Order state (Should be one of: [booked partial_filled filled canceled]) |
+|trigger_price|String|Trigger price is the trigger price used by stop/take orders|
+|market_id|String|Derivative Market ID|
+|created_at|Integer|Order committed timestamp in UNIX millis|
+|price|String|Price of the order|
+|subaccount_id|String|The subaccountId that this order belongs to|
+|updated_at|Integer|Order updated timestamp in UNIX millis.|
+|order_type|String|Order type (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell buy_po sell_po]) |
+|execution_type|String|The type of the order (Should be one of: [limit market]) |
+|filled_quantity|String|The amount of the quantity filled|
+|direction|String|The direction of the order (Should be one of: [buy sell])|
+
+
 
 ## StreamOrders
 
