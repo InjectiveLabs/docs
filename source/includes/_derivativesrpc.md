@@ -1260,11 +1260,11 @@ from pyinjective.constant import Network
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-    subaccount_id = "0xed8c4C43E03E24b7F12975472da771Ce2f8b857c000000000000000000000000"
+    market_id = "0x54d4505adef6a5cef26bc403a33d595620ded4e15b9e2bc3dd489b714813366a"
+    subaccount_id = "0x1b99514e320ae0087be7f87b1e3057853c43b799000000000000000000000000"
     skip = 10
     limit = 2
-    orders = await client.get_historical_spot_orders(
+    orders = await client.get_historical_derivative_orders(
         market_id=market_id,
         subaccount_id=subaccount_id,
         skip=skip,
