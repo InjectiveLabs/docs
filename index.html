@@ -15594,6 +15594,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="s">"context"</span>
   <span class="s">"encoding/json"</span>
   <span class="s">"fmt"</span>
+  <span class="n">explorerPB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"</span>
 
   <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
   <span class="n">exchangeclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/exchange"</span>
@@ -15607,9 +15608,16 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
   <span class="p">}</span>
 
+  <span class="n">address</span> <span class="o">:=</span> <span class="s">"inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq"</span>
+  <span class="n">after</span> <span class="o">:=</span> <span class="kt">uint64</span><span class="p">(</span><span class="m">14112176</span><span class="p">)</span>
+
+  <span class="n">req</span> <span class="o">:=</span> <span class="n">explorerPB</span><span class="o">.</span><span class="n">GetAccountTxsRequest</span><span class="p">{</span>
+    <span class="n">After</span><span class="o">:</span>   <span class="n">after</span><span class="p">,</span>
+    <span class="n">Address</span><span class="o">:</span> <span class="n">address</span><span class="p">,</span>
+  <span class="p">}</span>
+
   <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
-  <span class="n">address</span> <span class="o">:=</span> <span class="s">"inj1q4j3pkrl8jy07uf84t3l2srt345fppeeyagscf"</span>
-  <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">GetAccountTxs</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span>
+  <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">GetAccountTxs</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
   <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
     <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
   <span class="p">}</span>
