@@ -5020,13 +5020,13 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>start_time</td>
 <td>Integer</td>
-<td>Search for orders createdAt &gt;= startTime, time in millisecond</td>
+<td>Search for orders createdAt &gt;= startTime, time in milliseconds</td>
 <td>No</td>
 </tr>
 <tr>
 <td>end_time</td>
 <td>Integer</td>
-<td>Search for orders createdAt &lt;= startTime, time in millisecond</td>
+<td>Search for orders createdAt &lt;= startTime, time in milliseconds</td>
 <td>No</td>
 </tr>
 </tbody></table>
@@ -5619,6 +5619,18 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>limit</td>
 <td>Integer</td>
 <td>Limit the trades returned</td>
+<td>No</td>
+</tr>
+<tr>
+<td>start_time</td>
+<td>Integer</td>
+<td>startTime &lt;= x.executedAt &lt;= endTime</td>
+<td>No</td>
+</tr>
+<tr>
+<td>end_time</td>
+<td>Integer</td>
+<td>endTime &gt;= x.executedAt &lt;= startTime</td>
 <td>No</td>
 </tr>
 </tbody></table>
@@ -9664,13 +9676,13 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>start_time</td>
 <td>Integer</td>
-<td>Search for orders createdAt &gt;= startTime, time in millisecond</td>
+<td>Search for orders createdAt &gt;= startTime, time in milliseconds</td>
 <td>No</td>
 </tr>
 <tr>
 <td>end_time</td>
 <td>Integer</td>
-<td>Search for orders createdAt &lt;= startTime, time in millisecond</td>
+<td>Search for orders createdAt &lt;= startTime, time in milliseconds</td>
 <td>No</td>
 </tr>
 </tbody></table>
@@ -10274,6 +10286,18 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>limit</td>
 <td>Integer</td>
 <td>Limit the trades returned</td>
+<td>No</td>
+</tr>
+<tr>
+<td>start_time</td>
+<td>Integer</td>
+<td>startTime &lt;= x.executedAt &lt;= endTime</td>
+<td>No</td>
+</tr>
+<tr>
+<td>end_time</td>
+<td>Integer</td>
+<td>endTime &gt;= x.executedAt &lt;= startTime</td>
 <td>No</td>
 </tr>
 </tbody></table>
