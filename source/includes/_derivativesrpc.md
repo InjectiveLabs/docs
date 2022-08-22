@@ -1293,8 +1293,8 @@ if __name__ == '__main__':
 |limit|Integer|Limit the orders returned|No|
 |order_type|String|Filter by order type|No|
 |direction|String|Filter by direction|No|
-|start_time|Integer|Search for orders createdAt >= startTime, time in millisecond|No|
-|end_time|Integer|Search for orders createdAt <= startTime, time in millisecond|No|
+|start_time|Integer|Search for orders createdAt >= startTime, time in milliseconds|No|
+|end_time|Integer|Search for orders createdAt <= startTime, time in milliseconds|No|
 
 
 ### Response Parameters
@@ -1720,6 +1720,9 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 |direction|String|Filter by the direction of the trade (Should be one of: [buy sell])|No|
 |skip|Integer|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
 |limit|Integer|Limit the trades returned|No|
+|start_time|Integer|startTime <= x.executedAt <= endTime|No|
+|end_time|Integer|endTime >= x.executedAt <= startTime|No|
+
 
 
 ### Response Parameters
