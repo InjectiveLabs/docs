@@ -227,6 +227,7 @@ func main() {
 |is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
 
+
 > Response Example:
 
 ``` python
@@ -477,6 +478,11 @@ func main() {
 |is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
 |is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
+|trigger_price|Boolean|Set the trigger price for conditional orders|No|
+|stop_buy|Boolean|Set to true for conditional stop_buy orders|No|
+|stop_sell|Boolean|Set to true for conditional stop_sell orders|No|
+|take_buy|Boolean|Set to true for conditional take_buy orders|No|
+|take_sell|Boolean|Set to true for conditional take_sell|No|
 
 > Response Example:
 
@@ -694,6 +700,12 @@ func main() {
 |sender|String|The Injective Chain address|Yes|
 |subaccount_id|String|The subaccount we want to cancel an order from|Yes|
 |order_hash|String|The hash of a specific order|Yes|
+|is_conditional|Boolean|Set to true or false for conditional and regular orders respectively. Setting this value will incur less gas for the order cancellation and faster execution|No|
+|order_direction|Boolean|The direction of the order (Should be one of: [buy sell]). Setting this value will incur less gas for the order cancellation and faster execution|No|
+|order_type|Boolean|The type of the order (Should be one of: [market limit]). Setting this value will incur less gas for the order cancellation and faster execution|No|
+
+
+The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell])
 
 
 > Response Example:
@@ -718,517 +730,6 @@ DEBU[0003] nonce incremented to 3498                     fn=func1 src="client/ch
 DEBU[0003] gas wanted:  141373                           fn=func1 src="client/chain/chain.go:624"
 gas fee: 0.0000706865 INJ
 ```
-
-
-## MsgBatchCreateDerivativeLimitOrders
-
-### Request Parameters
-> Request Example:
-
-``` python
-import asyncio
-import logging
-
-from pyinjective.composer import Composer as ProtoMsgComposer
-from pyinjective.async_client import AsyncClient
-from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
-from pyinjective.wallet import PrivateKey
-
-
-async def main() -> None:
-    # select network: local, testnet, mainnet
-    network = Network.testnet()
-    composer = ProtoMsgComposer(network=network.string())
-
-    # initialize grpc client
-    client = AsyncClient(network, insecure=False)
-    await client.sync_timeout_height()
-
-    # load account
-    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
-    pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
-    subaccount_id = address.get_subaccount_id(index=0)
-
-    # prepare trade info
-    market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-    fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-
-    orders = [
-        composer.DerivativeOrder(
-            market_id=market_id,
-            subaccount_id=subaccount_id,
-            fee_recipient=fee_recipient,
-            price=41027,
-            quantity=0.01,
-            leverage=0.7,
-            is_buy=True,
-            is_po=False
-
-        ),
-        composer.DerivativeOrder(
-            market_id=market_id,
-            subaccount_id=subaccount_id,
-            fee_recipient=fee_recipient,
-            price=62140,
-            quantity=0.01,
-            leverage=0.7,
-            is_buy=False,
-            is_reduce_only=False
-        ),
-    ]
-
-    # prepare tx msg
-    msg = composer.MsgBatchCreateDerivativeLimitOrders(
-        sender=address.to_acc_bech32(),
-        orders=orders
-    )
-
-    # build sim tx
-    tx = (
-        Transaction()
-        .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
-        .with_chain_id(network.chain_id)
-    )
-    sim_sign_doc = tx.get_sign_doc(pub_key)
-    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
-    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
-
-    # simulate tx
-    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
-    if not success:
-        print(sim_res)
-        return
-
-    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res.result.data, simulation=True)
-    print("---Simulation Response---")
-    print(sim_res_msg)
-
-    # build tx
-    gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
-    gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
-    fee = [composer.Coin(
-        amount=gas_price * gas_limit,
-        denom=network.fee_denom,
-    )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
-    sign_doc = tx.get_sign_doc(pub_key)
-    sig = priv_key.sign(sign_doc.SerializeToString())
-    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
-
-    # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.send_tx_sync_mode(tx_raw_bytes)
-    print("---Transaction Response---")
-    print(res)
-    print("gas wanted: {}".format(gas_limit))
-    print("gas fee: {} INJ".format(gas_fee))
-
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    asyncio.get_event_loop().run_until_complete(main())
-```
-
-``` go
-package main
-
-import (
-    "fmt"
-    "os"
-    "time"
-
-    "github.com/InjectiveLabs/sdk-go/client/common"
-    "github.com/shopspring/decimal"
-
-    exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
-    chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-    cosmtypes "github.com/cosmos/cosmos-sdk/types"
-    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
-)
-
-func main() {
-    // network := common.LoadNetwork("mainnet", "k8s")
-    network := common.LoadNetwork("testnet", "k8s")
-    tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
-
-    if err != nil {
-        fmt.Println(err)
-    }
-
-    senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-        os.Getenv("HOME")+"/.injectived",
-        "injectived",
-        "file",
-        "inj-user",
-        "12345678",
-        "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-        false,
-    )
-
-    if err != nil {
-        panic(err)
-    }
-
-    clientCtx, err := chainclient.NewClientContext(
-        network.ChainId,
-        senderAddress.String(),
-        cosmosKeyring,
-    )
-
-    if err != nil {
-        fmt.Println(err)
-    }
-
-    clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
-
-    chainClient, err := chainclient.NewChainClient(
-        clientCtx,
-        network.ChainGrpcEndpoint,
-        common.OptionTLSCert(network.ChainTlsCert),
-        common.OptionGasPrices("500000000inj"),
-    )
-
-    if err != nil {
-        fmt.Println(err)
-    }
-
-    defaultSubaccountID := chainClient.DefaultSubaccount(senderAddress)
-
-    marketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-    amount := decimal.NewFromFloat(2)
-    price := cosmtypes.MustNewDecFromStr("31000000000") //31,000
-    leverage := cosmtypes.MustNewDecFromStr("2.5")
-
-    order := chainClient.DerivativeOrder(defaultSubaccountID, network, &chainclient.DerivativeOrderData{
-        OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
-        Quantity:     amount,
-        Price:        price,
-        Leverage:     leverage,
-        FeeRecipient: senderAddress.String(),
-        MarketId:     marketId,
-        IsReduceOnly: false,
-    })
-
-    msg := new(exchangetypes.MsgBatchCreateDerivativeLimitOrders)
-    msg.Sender = senderAddress.String()
-    msg.Orders = []exchangetypes.DerivativeOrder{*order}
-
-    simRes, err := chainClient.SimulateMsg(clientCtx, msg)
-
-    if err != nil {
-        fmt.Println(err)
-    }
-
-    simResMsgs := common.MsgResponse(simRes.Result.Data)
-    msgBatchCreateDerivativeLimitOrdersResponse := exchangetypes.MsgBatchCreateDerivativeLimitOrdersResponse{}
-    msgBatchCreateDerivativeLimitOrdersResponse.Unmarshal(simResMsgs[0].Data)
-
-    if err != nil {
-        fmt.Println(err)
-    }
-
-    fmt.Println("simulated order hashes", msgBatchCreateDerivativeLimitOrdersResponse.OrderHashes)
-
-    //AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
-    err = chainClient.QueueBroadcastMsg(msg)
-
-    if err != nil {
-        fmt.Println(err)
-    }
-
-    time.Sleep(time.Second * 5)
-
-    gasFee, err := chainClient.GetGasFee()
-
-    if err != nil {
-        fmt.Println(err)
-        return
-    }
-
-    fmt.Println("gas fee:", gasFee, "INJ")
-}
-```
-
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|sender|String|The Injective Chain address|Yes|
-|orders|DerivativeOrder|DerivativeOrder object|Yes|
-
-**DerivativeOrder**
-
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Market ID of the market we want to send an order|Yes|
-|subaccount_id|String|The subaccount ID we want to send an order from|Yes|
-|fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
-|price|Float|The price of the base asset|Yes|
-|quantity|Float|The quantity of the base asset|Yes|
-|leverage|Float|The leverage factor for the order|No|
-|is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
-|is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
-|is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
-
-
-> Response Example:
-
-``` python
----Simulation Response---
-[order_hashes: "0x8b59dad73b75545c763898c2c03cd69cbf1e351e6cef2414d0714a151a4aada2"
-order_hashes: "0x59d814e060c862f5e90bcd25542d48fcd903f51df36d7383bde7ac41691b0c68"
-]
----Transaction Response---
-txhash: "D17DCBC552D19D858B5C022A894DEC6DC13EDF45B3225F0B2512D181100C047B"
-raw_log: "[]"
-
-gas wanted: 163908
-gas fee: 0.000081954 INJ
-```
-
-```go
-simulated order hashes [0xc86f24dd1ce271aafd8be77a72420497a6956d15cad4a400a0a0823476333b4b]
-DEBU[0001] broadcastTx with nonce 3502                   fn=func1 src="client/chain/chain.go:598"
-DEBU[0002] msg batch committed successfully at height 5214382  fn=func1 src="client/chain/chain.go:619" txHash=8A7506B32E923F918DE839A4C849B22CE26ACC3E063F871CF4E68B02F764B507
-DEBU[0002] nonce incremented to 3503                     fn=func1 src="client/chain/chain.go:623"
-DEBU[0002] gas wanted:  171795                           fn=func1 src="client/chain/chain.go:624"
-gas fee: 0.0000858975 INJ
-```
-
-## MsgBatchCancelDerivativeOrders
-
-### Request Parameters
-> Request Example:
-
-``` python
-import asyncio
-import logging
-
-from pyinjective.composer import Composer as ProtoMsgComposer
-from pyinjective.async_client import AsyncClient
-from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
-from pyinjective.wallet import PrivateKey
-
-
-async def main() -> None:
-    # select network: local, testnet, mainnet
-    network = Network.testnet()
-    composer = ProtoMsgComposer(network=network.string())
-
-    # initialize grpc client
-    client = AsyncClient(network, insecure=False)
-    await client.sync_timeout_height()
-
-    # load account
-    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
-    pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
-    subaccount_id = address.get_subaccount_id(index=0)
-
-    # prepare trade info
-    market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-    orders = [
-        composer.OrderData(
-            market_id=market_id,
-            subaccount_id=subaccount_id,
-            order_hash="0x920a4ea4144c46d1e1084ca5807e4f5608639ce00f97139d5b44e628d487e15e"
-        ),
-        composer.OrderData(
-            market_id=market_id,
-            subaccount_id=subaccount_id,
-            order_hash="0x9c552c62970061a5cf16fd6de4bb5defc023f8fe5692628588fef7b6519eedf6"
-        )
-    ]
-
-    # prepare tx msg
-    msg = composer.MsgBatchCancelDerivativeOrders(
-        sender=address.to_acc_bech32(),
-        data=orders
-    )
-
-    # build sim tx
-    tx = (
-        Transaction()
-        .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
-        .with_chain_id(network.chain_id)
-    )
-    sim_sign_doc = tx.get_sign_doc(pub_key)
-    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
-    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
-
-    # simulate tx
-    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
-    if not success:
-        print(sim_res)
-        return
-
-    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res.result.data, simulation=True)
-    print("---Simulation Response---")
-    print(sim_res_msg)
-
-    # build tx
-    gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
-    gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
-    fee = [composer.Coin(
-        amount=gas_price * gas_limit,
-        denom=network.fee_denom,
-    )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
-    sign_doc = tx.get_sign_doc(pub_key)
-    sig = priv_key.sign(sign_doc.SerializeToString())
-    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
-
-    # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.send_tx_sync_mode(tx_raw_bytes)
-    print("---Transaction Response---")
-    print(res)
-    print("gas wanted: {}".format(gas_limit))
-    print("gas fee: {} INJ".format(gas_fee))
-
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    asyncio.get_event_loop().run_until_complete(main())
-```
-
-``` go
-package main
-
-import (
-    "fmt"
-    "os"
-    "time"
-
-    "github.com/InjectiveLabs/sdk-go/client/common"
-
-    exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
-    chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-    cosmtypes "github.com/cosmos/cosmos-sdk/types"
-    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
-)
-
-func main() {
-    // network := common.LoadNetwork("mainnet", "k8s")
-    network := common.LoadNetwork("testnet", "k8s")
-    tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
-
-    if err != nil {
-        fmt.Println(err)
-    }
-
-    senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-        os.Getenv("HOME")+"/.injectived",
-        "injectived",
-        "file",
-        "inj-user",
-        "12345678",
-        "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-        false,
-    )
-
-    if err != nil {
-        panic(err)
-    }
-
-    clientCtx, err := chainclient.NewClientContext(
-        network.ChainId,
-        senderAddress.String(),
-        cosmosKeyring,
-    )
-
-    if err != nil {
-        fmt.Println(err)
-    }
-
-    clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
-
-    chainClient, err := chainclient.NewChainClient(
-        clientCtx,
-        network.ChainGrpcEndpoint,
-        common.OptionTLSCert(network.ChainTlsCert),
-        common.OptionGasPrices("500000000inj"),
-    )
-
-    if err != nil {
-        fmt.Println(err)
-    }
-
-    defaultSubaccountID := chainClient.DefaultSubaccount(senderAddress)
-
-    marketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-    orderHash := "0xb2bea3b15c204699a9ee945ca49650001560518d1e54266adac580aa061fedd4"
-
-    order := chainClient.OrderCancel(defaultSubaccountID, &chainclient.OrderCancelData{
-        MarketId:  marketId,
-        OrderHash: orderHash,
-    })
-
-    msg := new(exchangetypes.MsgBatchCancelDerivativeOrders)
-    msg.Sender = senderAddress.String()
-    msg.Data = []exchangetypes.OrderData{*order}
-    CosMsgs := []cosmtypes.Msg{msg}
-
-    // AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
-    err = chainClient.QueueBroadcastMsg(CosMsgs...)
-
-    if err != nil {
-        fmt.Println(err)
-    }
-
-    time.Sleep(time.Second * 5)
-
-    gasFee, err := chainClient.GetGasFee()
-
-    if err != nil {
-        fmt.Println(err)
-        return
-    }
-
-    fmt.Println("gas fee:", gasFee, "INJ")
-}
-```
-
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|sender|String|The Injective Chain address|Yes|
-|orders|OrderData|OrderData object|Yes|
-
-**OrderData**
-
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Market ID of the market we want to cancel an order|Yes|
-|subaccount_id|String|The subaccount we want to cancel an order from|Yes|
-|order_hash|String|The hash of a specific order|Yes|
-
-
-> Response Example:
-
-``` python
----Simulation Response---
-[success: true
-success: false
-]
----Transaction Response---
-txhash: "6928C4FBEC47FB63D3EBC813576834CE7B6A34628BEDCA6DE8B7854355F823AC"
-raw_log: "[]"
-
-gas wanted: 118158
-gas fee: 0.000059079 INJ
-```
-
-```go
-DEBU[0001] broadcastTx with nonce 3516                   fn=func1 src="client/chain/chain.go:598"
-DEBU[0004] msg batch committed successfully at height 5215877  fn=func1 src="client/chain/chain.go:619" txHash=448729DE967243C10C11787AA6488FAA1B1EDD6E32D3710862FCF92A09E4E8D0
-DEBU[0004] nonce incremented to 3517                     fn=func1 src="client/chain/chain.go:623"
-DEBU[0004] gas wanted:  140577                           fn=func1 src="client/chain/chain.go:624"
-gas fee: 0.0000702885 INJ
-```
-
 
 ## MsgBatchUpdateOrders
 
@@ -1629,6 +1130,11 @@ func main() {
 |is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
 |is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
+|trigger_price|Boolean|Set the trigger price for conditional orders|No|
+|stop_buy|Boolean|Set to true for conditional stop_buy orders|No|
+|stop_sell|Boolean|Set to true for conditional stop_sell orders|No|
+|take_buy|Boolean|Set to true for conditional take_buy orders|No|
+|take_sell|Boolean|Set to true for conditional take_sell|No|
 
 **BinaryOptionsOrder**
 
@@ -1652,6 +1158,9 @@ func main() {
 |market_id|String|Market ID of the market we want to cancel an order|Yes|
 |subaccount_id|String|The subaccount we want to cancel an order from|Yes|
 |order_hash|String|The hash of a specific order|Yes|
+|is_conditional|Boolean|Set to true or false for conditional and regular orders respectively. Setting this value will incur less gas for the order cancellation and faster execution|No|
+|order_direction|Boolean|The direction of the order (Should be one of: [buy sell]). Setting this value will incur less gas for the order cancellation and faster execution|No|
+|order_type|Boolean|The type of the order (Should be one of: [market limit]). Setting this value will incur less gas for the order cancellation and faster execution|No|
 
 
 > Response Example:
@@ -1882,7 +1391,8 @@ gas fee: 0.0000532925 INJ
 
 ```go
 DEBU[0001] broadcastTx with nonce 3503                   fn=func1 src="client/chain/chain.go:598"
-DEBU[0002] msg batch committed successfully at height 5214406  fn=func1 src="client/chain/chain.go:619" txHash=31FDA89C3122322C0559B5766CDF892FD0AA12469017CF8BF88B53441464ECC4
+DEBU[0002] msg batch committed successfully at height 5214406  fn=func1 src="client/chain/chain.go:619"
+txHash=31FDA89C3122322C0559B5766CDF892FD0AA12469017CF8BF88B53441464ECC4
 DEBU[0002] nonce incremented to 3504                     fn=func1 src="client/chain/chain.go:623"
 DEBU[0002] gas wanted:  133614                           fn=func1 src="client/chain/chain.go:624"
 gas fee: 0.000066807 INJ
@@ -2173,6 +1683,11 @@ func main() {
 |is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
 |is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
+|trigger_price|Boolean|Set the trigger price for conditional orders|No|
+|stop_buy|Boolean|Set to true for conditional stop_buy orders|No|
+|stop_sell|Boolean|Set to true for conditional stop_sell orders|No|
+|take_buy|Boolean|Set to true for conditional take_buy orders|No|
+|take_sell|Boolean|Set to true for conditional take_sell|No|
 
 
 **MsgBatchCreateSpotLimitOrders**
