@@ -705,9 +705,6 @@ func main() {
 |order_type|Boolean|The type of the order (Should be one of: [market limit]). Setting this value will incur less gas for the order cancellation and faster execution|No|
 
 
-The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell])
-
-
 > Response Example:
 
 ``` python
