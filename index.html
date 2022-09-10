@@ -679,12 +679,6 @@
                     <a href="#derivatives-msgcancelderivativeorder" class="toc-h2 toc-link" data-title="MsgCancelDerivativeOrder">MsgCancelDerivativeOrder</a>
                   </li>
                   <li>
-                    <a href="#derivatives-msgbatchcreatederivativelimitorders" class="toc-h2 toc-link" data-title="MsgBatchCreateDerivativeLimitOrders">MsgBatchCreateDerivativeLimitOrders</a>
-                  </li>
-                  <li>
-                    <a href="#derivatives-msgbatchcancelderivativeorders" class="toc-h2 toc-link" data-title="MsgBatchCancelDerivativeOrders">MsgBatchCancelDerivativeOrders</a>
-                  </li>
-                  <li>
                     <a href="#derivatives-msgbatchupdateorders" class="toc-h2 toc-link" data-title="MsgBatchUpdateOrders">MsgBatchUpdateOrders</a>
                   </li>
                   <li>
@@ -706,12 +700,6 @@
                   </li>
                   <li>
                     <a href="#spot-msgcancelspotorder" class="toc-h2 toc-link" data-title="MsgCancelSpotOrder">MsgCancelSpotOrder</a>
-                  </li>
-                  <li>
-                    <a href="#spot-msgbatchcreatespotlimitorders" class="toc-h2 toc-link" data-title="MsgBatchCreateSpotLimitOrders">MsgBatchCreateSpotLimitOrders</a>
-                  </li>
-                  <li>
-                    <a href="#spot-msgbatchcancelspotorders" class="toc-h2 toc-link" data-title="MsgBatchCancelSpotOrders">MsgBatchCancelSpotOrders</a>
                   </li>
                   <li>
                     <a href="#spot-msgbatchupdateorders" class="toc-h2 toc-link" data-title="MsgBatchUpdateOrders">MsgBatchUpdateOrders</a>
@@ -19491,6 +19479,36 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Set to true or false for post-only or normal orders respectively</td>
 <td>No</td>
 </tr>
+<tr>
+<td>trigger_price</td>
+<td>Boolean</td>
+<td>Set the trigger price for conditional orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>stop_buy</td>
+<td>Boolean</td>
+<td>Set to true for conditional stop_buy orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>stop_sell</td>
+<td>Boolean</td>
+<td>Set to true for conditional stop_sell orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>take_buy</td>
+<td>Boolean</td>
+<td>Set to true for conditional take_buy orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>take_sell</td>
+<td>Boolean</td>
+<td>Set to true for conditional take_sell</td>
+<td>No</td>
+</tr>
 </tbody></table>
 
 <blockquote>
@@ -19724,7 +19742,27 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>The hash of a specific order</td>
 <td>Yes</td>
 </tr>
+<tr>
+<td>is_conditional</td>
+<td>Boolean</td>
+<td>Set to true or false for conditional and regular orders respectively. Setting this value will incur less gas for the order cancellation and faster execution</td>
+<td>No</td>
+</tr>
+<tr>
+<td>order_direction</td>
+<td>Boolean</td>
+<td>The direction of the order (Should be one of: [buy sell]). Setting this value will incur less gas for the order cancellation and faster execution</td>
+<td>No</td>
+</tr>
+<tr>
+<td>order_type</td>
+<td>Boolean</td>
+<td>The type of the order (Should be one of: [market limit]). Setting this value will incur less gas for the order cancellation and faster execution</td>
+<td>No</td>
+</tr>
 </tbody></table>
+
+<p>The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell])</p>
 
 <blockquote>
 <p>Response Example:</p>
@@ -19744,599 +19782,6 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3498</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">141373</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.0000706865</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='derivatives-msgbatchcreatederivativelimitorders'>MsgBatchCreateDerivativeLimitOrders</h2><h3 id='derivatives-msgbatchcreatederivativelimitorders-request-parameters'>Request Parameters</h3>
-<blockquote>
-<p>Request Example:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span> <span class="k">as</span> <span class="n">ProtoMsgComposer</span>
-<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
-<span class="kn">from</span> <span class="nn">pyinjective.transaction</span> <span class="kn">import</span> <span class="n">Transaction</span>
-<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
-<span class="kn">from</span> <span class="nn">pyinjective.wallet</span> <span class="kn">import</span> <span class="n">PrivateKey</span>
-
-
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-    <span class="c1"># select network: local, testnet, mainnet
-</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
-    <span class="n">composer</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
-
-    <span class="c1"># initialize grpc client
-</span>    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">sync_timeout_height</span><span class="p">()</span>
-
-    <span class="c1"># load account
-</span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"</span><span class="p">)</span>
-    <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
-    <span class="n">address</span> <span class="o">=</span> <span class="k">await</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">().</span><span class="n">async_init_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
-    <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="c1"># prepare trade info
-</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
-    <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
-
-    <span class="n">orders</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">composer</span><span class="p">.</span><span class="n">DerivativeOrder</span><span class="p">(</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
-            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
-            <span class="n">price</span><span class="o">=</span><span class="mi">41027</span><span class="p">,</span>
-            <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-            <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-            <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span>
-
-        <span class="p">),</span>
-        <span class="n">composer</span><span class="p">.</span><span class="n">DerivativeOrder</span><span class="p">(</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
-            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
-            <span class="n">price</span><span class="o">=</span><span class="mi">62140</span><span class="p">,</span>
-            <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-            <span class="n">leverage</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-            <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
-        <span class="p">),</span>
-    <span class="p">]</span>
-
-    <span class="c1"># prepare tx msg
-</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgBatchCreateDerivativeLimitOrders</span><span class="p">(</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
-        <span class="n">orders</span><span class="o">=</span><span class="n">orders</span>
-    <span class="p">)</span>
-
-    <span class="c1"># build sim tx
-</span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">Transaction</span><span class="p">()</span>
-        <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">with_sequence</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_sequence</span><span class="p">())</span>
-        <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
-        <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
-    <span class="p">)</span>
-    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
-    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
-    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
-
-    <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
-        <span class="k">return</span>
-
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
-
-    <span class="c1"># build tx
-</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
-</span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
-    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
-        <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
-    <span class="p">)]</span>
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">''</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">timeout_height</span><span class="p">)</span>
-    <span class="n">sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
-    <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
-    <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
-
-    <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-</span>    <span class="n">res</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_sync_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"---Transaction Response---"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"gas wanted: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">))</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"gas fee: {} INJ"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_fee</span><span class="p">))</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
-    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
-
-<span class="k">import</span> <span class="p">(</span>
-    <span class="s">"fmt"</span>
-    <span class="s">"os"</span>
-    <span class="s">"time"</span>
-
-    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
-    <span class="s">"github.com/shopspring/decimal"</span>
-
-    <span class="n">exchangetypes</span> <span class="s">"github.com/InjectiveLabs/sdk-go/chain/exchange/types"</span>
-    <span class="n">chainclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/chain"</span>
-    <span class="n">cosmtypes</span> <span class="s">"github.com/cosmos/cosmos-sdk/types"</span>
-    <span class="n">rpchttp</span> <span class="s">"github.com/tendermint/tendermint/rpc/client/http"</span>
-<span class="p">)</span>
-
-<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c">// network := common.LoadNetwork("mainnet", "k8s")</span>
-    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
-    <span class="n">tmRPC</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">rpchttp</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">,</span> <span class="s">"/websocket"</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">senderAddress</span><span class="p">,</span> <span class="n">cosmosKeyring</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">InitCosmosKeyring</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">Getenv</span><span class="p">(</span><span class="s">"HOME"</span><span class="p">)</span><span class="o">+</span><span class="s">"/.injectived"</span><span class="p">,</span>
-        <span class="s">"injectived"</span><span class="p">,</span>
-        <span class="s">"file"</span><span class="p">,</span>
-        <span class="s">"inj-user"</span><span class="p">,</span>
-        <span class="s">"12345678"</span><span class="p">,</span>
-        <span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">,</span> <span class="c">// keyring will be used if pk not provided</span>
-        <span class="no">false</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">clientCtx</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">NewClientContext</span><span class="p">(</span>
-        <span class="n">network</span><span class="o">.</span><span class="n">ChainId</span><span class="p">,</span>
-        <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span>
-        <span class="n">cosmosKeyring</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">clientCtx</span> <span class="o">=</span> <span class="n">clientCtx</span><span class="o">.</span><span class="n">WithNodeURI</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">)</span><span class="o">.</span><span class="n">WithClient</span><span class="p">(</span><span class="n">tmRPC</span><span class="p">)</span>
-
-    <span class="n">chainClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">NewChainClient</span><span class="p">(</span>
-        <span class="n">clientCtx</span><span class="p">,</span>
-        <span class="n">network</span><span class="o">.</span><span class="n">ChainGrpcEndpoint</span><span class="p">,</span>
-        <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ChainTlsCert</span><span class="p">),</span>
-        <span class="n">common</span><span class="o">.</span><span class="n">OptionGasPrices</span><span class="p">(</span><span class="s">"500000000inj"</span><span class="p">),</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">defaultSubaccountID</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">DefaultSubaccount</span><span class="p">(</span><span class="n">senderAddress</span><span class="p">)</span>
-
-    <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
-    <span class="n">amount</span> <span class="o">:=</span> <span class="n">decimal</span><span class="o">.</span><span class="n">NewFromFloat</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
-    <span class="n">price</span> <span class="o">:=</span> <span class="n">cosmtypes</span><span class="o">.</span><span class="n">MustNewDecFromStr</span><span class="p">(</span><span class="s">"31000000000"</span><span class="p">)</span> <span class="c">//31,000</span>
-    <span class="n">leverage</span> <span class="o">:=</span> <span class="n">cosmtypes</span><span class="o">.</span><span class="n">MustNewDecFromStr</span><span class="p">(</span><span class="s">"2.5"</span><span class="p">)</span>
-
-    <span class="n">order</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">DerivativeOrder</span><span class="p">(</span><span class="n">defaultSubaccountID</span><span class="p">,</span> <span class="n">network</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">chainclient</span><span class="o">.</span><span class="n">DerivativeOrderData</span><span class="p">{</span>
-        <span class="n">OrderType</span><span class="o">:</span>    <span class="n">exchangetypes</span><span class="o">.</span><span class="n">OrderType_BUY</span><span class="p">,</span> <span class="c">//BUY SELL BUY_PO SELL_PO</span>
-        <span class="n">Quantity</span><span class="o">:</span>     <span class="n">amount</span><span class="p">,</span>
-        <span class="n">Price</span><span class="o">:</span>        <span class="n">price</span><span class="p">,</span>
-        <span class="n">Leverage</span><span class="o">:</span>     <span class="n">leverage</span><span class="p">,</span>
-        <span class="n">FeeRecipient</span><span class="o">:</span> <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span>
-        <span class="n">MarketId</span><span class="o">:</span>     <span class="n">marketId</span><span class="p">,</span>
-        <span class="n">IsReduceOnly</span><span class="o">:</span> <span class="no">false</span><span class="p">,</span>
-    <span class="p">})</span>
-
-    <span class="n">msg</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="n">exchangetypes</span><span class="o">.</span><span class="n">MsgBatchCreateDerivativeLimitOrders</span><span class="p">)</span>
-    <span class="n">msg</span><span class="o">.</span><span class="n">Sender</span> <span class="o">=</span> <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">()</span>
-    <span class="n">msg</span><span class="o">.</span><span class="n">Orders</span> <span class="o">=</span> <span class="p">[]</span><span class="n">exchangetypes</span><span class="o">.</span><span class="n">DerivativeOrder</span><span class="p">{</span><span class="o">*</span><span class="n">order</span><span class="p">}</span>
-
-    <span class="n">simRes</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">SimulateMsg</span><span class="p">(</span><span class="n">clientCtx</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">simResMsgs</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">MsgResponse</span><span class="p">(</span><span class="n">simRes</span><span class="o">.</span><span class="n">Result</span><span class="o">.</span><span class="n">Data</span><span class="p">)</span>
-    <span class="n">msgBatchCreateDerivativeLimitOrdersResponse</span> <span class="o">:=</span> <span class="n">exchangetypes</span><span class="o">.</span><span class="n">MsgBatchCreateDerivativeLimitOrdersResponse</span><span class="p">{}</span>
-    <span class="n">msgBatchCreateDerivativeLimitOrdersResponse</span><span class="o">.</span><span class="n">Unmarshal</span><span class="p">(</span><span class="n">simResMsgs</span><span class="p">[</span><span class="m">0</span><span class="p">]</span><span class="o">.</span><span class="n">Data</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"simulated order hashes"</span><span class="p">,</span> <span class="n">msgBatchCreateDerivativeLimitOrdersResponse</span><span class="o">.</span><span class="n">OrderHashes</span><span class="p">)</span>
-
-    <span class="c">//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg</span>
-    <span class="n">err</span> <span class="o">=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">QueueBroadcastMsg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">time</span><span class="o">.</span><span class="n">Sleep</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">Second</span> <span class="o">*</span> <span class="m">5</span><span class="p">)</span>
-
-    <span class="n">gasFee</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">GetGasFee</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-        <span class="k">return</span>
-    <span class="p">}</span>
-
-    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"gas fee:"</span><span class="p">,</span> <span class="n">gasFee</span><span class="p">,</span> <span class="s">"INJ"</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>sender</td>
-<td>String</td>
-<td>The Injective Chain address</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>orders</td>
-<td>DerivativeOrder</td>
-<td>DerivativeOrder object</td>
-<td>Yes</td>
-</tr>
-</tbody></table>
-
-<p><strong>DerivativeOrder</strong></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>market_id</td>
-<td>String</td>
-<td>Market ID of the market we want to send an order</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>subaccount_id</td>
-<td>String</td>
-<td>The subaccount ID we want to send an order from</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>fee_recipient</td>
-<td>String</td>
-<td>The address that will receive 40% of the fees, this could be set to your own address</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>price</td>
-<td>Float</td>
-<td>The price of the base asset</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>quantity</td>
-<td>Float</td>
-<td>The quantity of the base asset</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>leverage</td>
-<td>Float</td>
-<td>The leverage factor for the order</td>
-<td>No</td>
-</tr>
-<tr>
-<td>is_buy</td>
-<td>Boolean</td>
-<td>Set to true or false for buy and sell orders respectively</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>is_reduce_only</td>
-<td>Boolean</td>
-<td>Set to true or false for reduce-only or normal orders respectively</td>
-<td>No</td>
-</tr>
-<tr>
-<td>is_po</td>
-<td>Boolean</td>
-<td>Set to true or false for post-only or normal orders respectively</td>
-<td>No</td>
-</tr>
-</tbody></table>
-
-<blockquote>
-<p>Response Example:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="o">---</span><span class="n">Simulation</span> <span class="n">Response</span><span class="o">---</span>
-<span class="p">[</span><span class="n">order_hashes</span><span class="p">:</span> <span class="s">"0x8b59dad73b75545c763898c2c03cd69cbf1e351e6cef2414d0714a151a4aada2"</span>
-<span class="n">order_hashes</span><span class="p">:</span> <span class="s">"0x59d814e060c862f5e90bcd25542d48fcd903f51df36d7383bde7ac41691b0c68"</span>
-<span class="p">]</span>
-<span class="o">---</span><span class="n">Transaction</span> <span class="n">Response</span><span class="o">---</span>
-<span class="n">txhash</span><span class="p">:</span> <span class="s">"D17DCBC552D19D858B5C022A894DEC6DC13EDF45B3225F0B2512D181100C047B"</span>
-<span class="n">raw_log</span><span class="p">:</span> <span class="s">"[]"</span>
-
-<span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">163908</span>
-<span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.000081954</span> <span class="n">INJ</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="n">simulated</span> <span class="n">order</span> <span class="n">hashes</span> <span class="p">[</span><span class="m">0xc86f24dd1ce271aafd8be77a72420497a6956d15cad4a400a0a0823476333b4b</span><span class="p">]</span>
-<span class="n">DEBU</span><span class="p">[</span><span class="m">0001</span><span class="p">]</span> <span class="n">broadcastTx</span> <span class="n">with</span> <span class="n">nonce</span> <span class="m">3502</span>                   <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:598"</span>
-<span class="n">DEBU</span><span class="p">[</span><span class="m">0002</span><span class="p">]</span> <span class="n">msg</span> <span class="n">batch</span> <span class="n">committed</span> <span class="n">successfully</span> <span class="n">at</span> <span class="n">height</span> <span class="m">5214382</span>  <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:619"</span> <span class="n">txHash</span><span class="o">=</span><span class="m">8</span><span class="n">A7506B32E923F918DE839A4C849B22CE26ACC3E063F871CF4E68B02F764B507</span>
-<span class="n">DEBU</span><span class="p">[</span><span class="m">0002</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3503</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
-<span class="n">DEBU</span><span class="p">[</span><span class="m">0002</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">171795</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
-<span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.0000858975</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='derivatives-msgbatchcancelderivativeorders'>MsgBatchCancelDerivativeOrders</h2><h3 id='derivatives-msgbatchcancelderivativeorders-request-parameters'>Request Parameters</h3>
-<blockquote>
-<p>Request Example:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span> <span class="k">as</span> <span class="n">ProtoMsgComposer</span>
-<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
-<span class="kn">from</span> <span class="nn">pyinjective.transaction</span> <span class="kn">import</span> <span class="n">Transaction</span>
-<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
-<span class="kn">from</span> <span class="nn">pyinjective.wallet</span> <span class="kn">import</span> <span class="n">PrivateKey</span>
-
-
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-    <span class="c1"># select network: local, testnet, mainnet
-</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
-    <span class="n">composer</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
-
-    <span class="c1"># initialize grpc client
-</span>    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">sync_timeout_height</span><span class="p">()</span>
-
-    <span class="c1"># load account
-</span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"</span><span class="p">)</span>
-    <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
-    <span class="n">address</span> <span class="o">=</span> <span class="k">await</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">().</span><span class="n">async_init_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
-    <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="c1"># prepare trade info
-</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
-    <span class="n">orders</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
-            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0x920a4ea4144c46d1e1084ca5807e4f5608639ce00f97139d5b44e628d487e15e"</span>
-        <span class="p">),</span>
-        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
-            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0x9c552c62970061a5cf16fd6de4bb5defc023f8fe5692628588fef7b6519eedf6"</span>
-        <span class="p">)</span>
-    <span class="p">]</span>
-
-    <span class="c1"># prepare tx msg
-</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgBatchCancelDerivativeOrders</span><span class="p">(</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">orders</span>
-    <span class="p">)</span>
-
-    <span class="c1"># build sim tx
-</span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">Transaction</span><span class="p">()</span>
-        <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">with_sequence</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_sequence</span><span class="p">())</span>
-        <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
-        <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
-    <span class="p">)</span>
-    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
-    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
-    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
-
-    <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
-        <span class="k">return</span>
-
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
-
-    <span class="c1"># build tx
-</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
-</span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
-    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
-        <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
-    <span class="p">)]</span>
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">''</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">timeout_height</span><span class="p">)</span>
-    <span class="n">sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
-    <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
-    <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
-
-    <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-</span>    <span class="n">res</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_sync_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"---Transaction Response---"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"gas wanted: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">))</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"gas fee: {} INJ"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_fee</span><span class="p">))</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
-    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
-
-<span class="k">import</span> <span class="p">(</span>
-    <span class="s">"fmt"</span>
-    <span class="s">"os"</span>
-    <span class="s">"time"</span>
-
-    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
-
-    <span class="n">exchangetypes</span> <span class="s">"github.com/InjectiveLabs/sdk-go/chain/exchange/types"</span>
-    <span class="n">chainclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/chain"</span>
-    <span class="n">cosmtypes</span> <span class="s">"github.com/cosmos/cosmos-sdk/types"</span>
-    <span class="n">rpchttp</span> <span class="s">"github.com/tendermint/tendermint/rpc/client/http"</span>
-<span class="p">)</span>
-
-<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c">// network := common.LoadNetwork("mainnet", "k8s")</span>
-    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
-    <span class="n">tmRPC</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">rpchttp</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">,</span> <span class="s">"/websocket"</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">senderAddress</span><span class="p">,</span> <span class="n">cosmosKeyring</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">InitCosmosKeyring</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">Getenv</span><span class="p">(</span><span class="s">"HOME"</span><span class="p">)</span><span class="o">+</span><span class="s">"/.injectived"</span><span class="p">,</span>
-        <span class="s">"injectived"</span><span class="p">,</span>
-        <span class="s">"file"</span><span class="p">,</span>
-        <span class="s">"inj-user"</span><span class="p">,</span>
-        <span class="s">"12345678"</span><span class="p">,</span>
-        <span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">,</span> <span class="c">// keyring will be used if pk not provided</span>
-        <span class="no">false</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">clientCtx</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">NewClientContext</span><span class="p">(</span>
-        <span class="n">network</span><span class="o">.</span><span class="n">ChainId</span><span class="p">,</span>
-        <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span>
-        <span class="n">cosmosKeyring</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">clientCtx</span> <span class="o">=</span> <span class="n">clientCtx</span><span class="o">.</span><span class="n">WithNodeURI</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">)</span><span class="o">.</span><span class="n">WithClient</span><span class="p">(</span><span class="n">tmRPC</span><span class="p">)</span>
-
-    <span class="n">chainClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">NewChainClient</span><span class="p">(</span>
-        <span class="n">clientCtx</span><span class="p">,</span>
-        <span class="n">network</span><span class="o">.</span><span class="n">ChainGrpcEndpoint</span><span class="p">,</span>
-        <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ChainTlsCert</span><span class="p">),</span>
-        <span class="n">common</span><span class="o">.</span><span class="n">OptionGasPrices</span><span class="p">(</span><span class="s">"500000000inj"</span><span class="p">),</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">defaultSubaccountID</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">DefaultSubaccount</span><span class="p">(</span><span class="n">senderAddress</span><span class="p">)</span>
-
-    <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
-    <span class="n">orderHash</span> <span class="o">:=</span> <span class="s">"0xb2bea3b15c204699a9ee945ca49650001560518d1e54266adac580aa061fedd4"</span>
-
-    <span class="n">order</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">OrderCancel</span><span class="p">(</span><span class="n">defaultSubaccountID</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">chainclient</span><span class="o">.</span><span class="n">OrderCancelData</span><span class="p">{</span>
-        <span class="n">MarketId</span><span class="o">:</span>  <span class="n">marketId</span><span class="p">,</span>
-        <span class="n">OrderHash</span><span class="o">:</span> <span class="n">orderHash</span><span class="p">,</span>
-    <span class="p">})</span>
-
-    <span class="n">msg</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="n">exchangetypes</span><span class="o">.</span><span class="n">MsgBatchCancelDerivativeOrders</span><span class="p">)</span>
-    <span class="n">msg</span><span class="o">.</span><span class="n">Sender</span> <span class="o">=</span> <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">()</span>
-    <span class="n">msg</span><span class="o">.</span><span class="n">Data</span> <span class="o">=</span> <span class="p">[]</span><span class="n">exchangetypes</span><span class="o">.</span><span class="n">OrderData</span><span class="p">{</span><span class="o">*</span><span class="n">order</span><span class="p">}</span>
-    <span class="n">CosMsgs</span> <span class="o">:=</span> <span class="p">[]</span><span class="n">cosmtypes</span><span class="o">.</span><span class="n">Msg</span><span class="p">{</span><span class="n">msg</span><span class="p">}</span>
-
-    <span class="c">// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg</span>
-    <span class="n">err</span> <span class="o">=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">QueueBroadcastMsg</span><span class="p">(</span><span class="n">CosMsgs</span><span class="o">...</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">time</span><span class="o">.</span><span class="n">Sleep</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">Second</span> <span class="o">*</span> <span class="m">5</span><span class="p">)</span>
-
-    <span class="n">gasFee</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">GetGasFee</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-        <span class="k">return</span>
-    <span class="p">}</span>
-
-    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"gas fee:"</span><span class="p">,</span> <span class="n">gasFee</span><span class="p">,</span> <span class="s">"INJ"</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>sender</td>
-<td>String</td>
-<td>The Injective Chain address</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>orders</td>
-<td>OrderData</td>
-<td>OrderData object</td>
-<td>Yes</td>
-</tr>
-</tbody></table>
-
-<p><strong>OrderData</strong></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>market_id</td>
-<td>String</td>
-<td>Market ID of the market we want to cancel an order</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>subaccount_id</td>
-<td>String</td>
-<td>The subaccount we want to cancel an order from</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>order_hash</td>
-<td>String</td>
-<td>The hash of a specific order</td>
-<td>Yes</td>
-</tr>
-</tbody></table>
-
-<blockquote>
-<p>Response Example:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="o">---</span><span class="n">Simulation</span> <span class="n">Response</span><span class="o">---</span>
-<span class="p">[</span><span class="n">success</span><span class="p">:</span> <span class="n">true</span>
-<span class="n">success</span><span class="p">:</span> <span class="n">false</span>
-<span class="p">]</span>
-<span class="o">---</span><span class="n">Transaction</span> <span class="n">Response</span><span class="o">---</span>
-<span class="n">txhash</span><span class="p">:</span> <span class="s">"6928C4FBEC47FB63D3EBC813576834CE7B6A34628BEDCA6DE8B7854355F823AC"</span>
-<span class="n">raw_log</span><span class="p">:</span> <span class="s">"[]"</span>
-
-<span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">118158</span>
-<span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.000059079</span> <span class="n">INJ</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="n">DEBU</span><span class="p">[</span><span class="m">0001</span><span class="p">]</span> <span class="n">broadcastTx</span> <span class="n">with</span> <span class="n">nonce</span> <span class="m">3516</span>                   <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:598"</span>
-<span class="n">DEBU</span><span class="p">[</span><span class="m">0004</span><span class="p">]</span> <span class="n">msg</span> <span class="n">batch</span> <span class="n">committed</span> <span class="n">successfully</span> <span class="n">at</span> <span class="n">height</span> <span class="m">5215877</span>  <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:619"</span> <span class="n">txHash</span><span class="o">=</span><span class="m">448729</span><span class="n">DE967243C10C11787AA6488FAA1B1EDD6E32D3710862FCF92A09E4E8D0</span>
-<span class="n">DEBU</span><span class="p">[</span><span class="m">0004</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3517</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
-<span class="n">DEBU</span><span class="p">[</span><span class="m">0004</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">140577</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
-<span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.0000702885</span> <span class="n">INJ</span>
 </code></pre></div><h2 id='derivatives-msgbatchupdateorders'>MsgBatchUpdateOrders</h2>
 <p>MsgBatchUpdateOrders allows for the atomic cancellation and creation of spot and derivative limit orders, along with a new order cancellation mode. Upon execution, order cancellations (if any) occur first, followed by order creations (if any).</p>
 
@@ -20883,6 +20328,36 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Set to true or false for post-only or normal orders respectively</td>
 <td>No</td>
 </tr>
+<tr>
+<td>trigger_price</td>
+<td>Boolean</td>
+<td>Set the trigger price for conditional orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>stop_buy</td>
+<td>Boolean</td>
+<td>Set to true for conditional stop_buy orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>stop_sell</td>
+<td>Boolean</td>
+<td>Set to true for conditional stop_sell orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>take_buy</td>
+<td>Boolean</td>
+<td>Set to true for conditional take_buy orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>take_sell</td>
+<td>Boolean</td>
+<td>Set to true for conditional take_sell</td>
+<td>No</td>
+</tr>
 </tbody></table>
 
 <p><strong>BinaryOptionsOrder</strong></p>
@@ -20978,6 +20453,24 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>String</td>
 <td>The hash of a specific order</td>
 <td>Yes</td>
+</tr>
+<tr>
+<td>is_conditional</td>
+<td>Boolean</td>
+<td>Set to true or false for conditional and regular orders respectively. Setting this value will incur less gas for the order cancellation and faster execution</td>
+<td>No</td>
+</tr>
+<tr>
+<td>order_direction</td>
+<td>Boolean</td>
+<td>The direction of the order (Should be one of: [buy sell]). Setting this value will incur less gas for the order cancellation and faster execution</td>
+<td>No</td>
+</tr>
+<tr>
+<td>order_type</td>
+<td>Boolean</td>
+<td>The type of the order (Should be one of: [market limit]). Setting this value will incur less gas for the order cancellation and faster execution</td>
+<td>No</td>
 </tr>
 </tbody></table>
 
@@ -21225,7 +20718,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">106585</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.0000532925</span> <span class="n">INJ</span>
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="n">DEBU</span><span class="p">[</span><span class="m">0001</span><span class="p">]</span> <span class="n">broadcastTx</span> <span class="n">with</span> <span class="n">nonce</span> <span class="m">3503</span>                   <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:598"</span>
-<span class="n">DEBU</span><span class="p">[</span><span class="m">0002</span><span class="p">]</span> <span class="n">msg</span> <span class="n">batch</span> <span class="n">committed</span> <span class="n">successfully</span> <span class="n">at</span> <span class="n">height</span> <span class="m">5214406</span>  <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:619"</span> <span class="n">txHash</span><span class="o">=</span><span class="m">31</span><span class="n">FDA89C3122322C0559B5766CDF892FD0AA12469017CF8BF88B53441464ECC4</span>
+<span class="n">DEBU</span><span class="p">[</span><span class="m">0002</span><span class="p">]</span> <span class="n">msg</span> <span class="n">batch</span> <span class="n">committed</span> <span class="n">successfully</span> <span class="n">at</span> <span class="n">height</span> <span class="m">5214406</span>  <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:619"</span>
+<span class="n">txHash</span><span class="o">=</span><span class="m">31</span><span class="n">FDA89C3122322C0559B5766CDF892FD0AA12469017CF8BF88B53441464ECC4</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0002</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3504</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0002</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">133614</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000066807</span> <span class="n">INJ</span>
@@ -21572,6 +21066,36 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>is_po</td>
 <td>Boolean</td>
 <td>Set to true or false for post-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+<tr>
+<td>trigger_price</td>
+<td>Boolean</td>
+<td>Set the trigger price for conditional orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>stop_buy</td>
+<td>Boolean</td>
+<td>Set to true for conditional stop_buy orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>stop_sell</td>
+<td>Boolean</td>
+<td>Set to true for conditional stop_sell orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>take_buy</td>
+<td>Boolean</td>
+<td>Set to true for conditional take_buy orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>take_sell</td>
+<td>Boolean</td>
+<td>Set to true for conditional take_sell</td>
 <td>No</td>
 </tr>
 </tbody></table>
@@ -22440,587 +21964,6 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0002</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3495</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0002</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">127363</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.0000636815</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='spot-msgbatchcreatespotlimitorders'>MsgBatchCreateSpotLimitOrders</h2><h3 id='spot-msgbatchcreatespotlimitorders-request-parameters'>Request Parameters</h3>
-<blockquote>
-<p>Request Example:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span> <span class="k">as</span> <span class="n">ProtoMsgComposer</span>
-<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
-<span class="kn">from</span> <span class="nn">pyinjective.transaction</span> <span class="kn">import</span> <span class="n">Transaction</span>
-<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
-<span class="kn">from</span> <span class="nn">pyinjective.wallet</span> <span class="kn">import</span> <span class="n">PrivateKey</span>
-
-
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-    <span class="c1"># select network: local, testnet, mainnet
-</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
-    <span class="n">composer</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
-
-    <span class="c1"># initialize grpc client
-</span>    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">sync_timeout_height</span><span class="p">()</span>
-
-    <span class="c1"># load account
-</span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"</span><span class="p">)</span>
-    <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
-    <span class="n">address</span> <span class="o">=</span> <span class="k">await</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">().</span><span class="n">async_init_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
-    <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="c1"># prepare trade info
-</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span>
-    <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
-
-    <span class="n">orders</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">composer</span><span class="p">.</span><span class="n">SpotOrder</span><span class="p">(</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
-            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
-            <span class="n">price</span><span class="o">=</span><span class="mf">7.523</span><span class="p">,</span>
-            <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-            <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span>
-        <span class="p">),</span>
-        <span class="n">composer</span><span class="p">.</span><span class="n">SpotOrder</span><span class="p">(</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
-            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
-            <span class="n">price</span><span class="o">=</span><span class="mf">27.92</span><span class="p">,</span>
-            <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-            <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span>
-        <span class="p">),</span>
-    <span class="p">]</span>
-
-    <span class="c1"># prepare tx msg
-</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgBatchCreateSpotLimitOrders</span><span class="p">(</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
-        <span class="n">orders</span><span class="o">=</span><span class="n">orders</span>
-    <span class="p">)</span>
-
-    <span class="c1"># build sim tx
-</span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">Transaction</span><span class="p">()</span>
-        <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">with_sequence</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_sequence</span><span class="p">())</span>
-        <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
-        <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
-    <span class="p">)</span>
-    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
-    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
-    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
-
-    <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
-        <span class="k">return</span>
-
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
-
-    <span class="c1"># build tx
-</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
-</span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
-    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
-        <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
-    <span class="p">)]</span>
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">''</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">timeout_height</span><span class="p">)</span>
-    <span class="n">sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
-    <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
-    <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
-
-    <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-</span>    <span class="n">res</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_sync_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"---Transaction Response---"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"gas wanted: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">))</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"gas fee: {} INJ"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_fee</span><span class="p">))</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
-    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
-
-<span class="k">import</span> <span class="p">(</span>
-    <span class="s">"fmt"</span>
-    <span class="s">"os"</span>
-    <span class="s">"time"</span>
-
-    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
-    <span class="s">"github.com/shopspring/decimal"</span>
-
-    <span class="n">exchangetypes</span> <span class="s">"github.com/InjectiveLabs/sdk-go/chain/exchange/types"</span>
-    <span class="n">chainclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/chain"</span>
-    <span class="n">rpchttp</span> <span class="s">"github.com/tendermint/tendermint/rpc/client/http"</span>
-<span class="p">)</span>
-
-<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c">// network := common.LoadNetwork("mainnet", "k8s")</span>
-    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
-    <span class="n">tmRPC</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">rpchttp</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">,</span> <span class="s">"/websocket"</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">senderAddress</span><span class="p">,</span> <span class="n">cosmosKeyring</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">InitCosmosKeyring</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">Getenv</span><span class="p">(</span><span class="s">"HOME"</span><span class="p">)</span><span class="o">+</span><span class="s">"/.injectived"</span><span class="p">,</span>
-        <span class="s">"injectived"</span><span class="p">,</span>
-        <span class="s">"file"</span><span class="p">,</span>
-        <span class="s">"inj-user"</span><span class="p">,</span>
-        <span class="s">"12345678"</span><span class="p">,</span>
-        <span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">,</span> <span class="c">// keyring will be used if pk not provided</span>
-        <span class="no">false</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">clientCtx</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">NewClientContext</span><span class="p">(</span>
-        <span class="n">network</span><span class="o">.</span><span class="n">ChainId</span><span class="p">,</span>
-        <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span>
-        <span class="n">cosmosKeyring</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">clientCtx</span> <span class="o">=</span> <span class="n">clientCtx</span><span class="o">.</span><span class="n">WithNodeURI</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">)</span><span class="o">.</span><span class="n">WithClient</span><span class="p">(</span><span class="n">tmRPC</span><span class="p">)</span>
-
-    <span class="n">chainClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">NewChainClient</span><span class="p">(</span>
-        <span class="n">clientCtx</span><span class="p">,</span>
-        <span class="n">network</span><span class="o">.</span><span class="n">ChainGrpcEndpoint</span><span class="p">,</span>
-        <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ChainTlsCert</span><span class="p">),</span>
-        <span class="n">common</span><span class="o">.</span><span class="n">OptionGasPrices</span><span class="p">(</span><span class="s">"500000000inj"</span><span class="p">),</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">defaultSubaccountID</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">DefaultSubaccount</span><span class="p">(</span><span class="n">senderAddress</span><span class="p">)</span>
-
-    <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"</span>
-    <span class="n">amount</span> <span class="o">:=</span> <span class="n">decimal</span><span class="o">.</span><span class="n">NewFromFloat</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
-    <span class="n">price</span> <span class="o">:=</span> <span class="n">decimal</span><span class="o">.</span><span class="n">NewFromFloat</span><span class="p">(</span><span class="m">22.5</span><span class="p">)</span>
-
-    <span class="n">order</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">SpotOrder</span><span class="p">(</span><span class="n">defaultSubaccountID</span><span class="p">,</span> <span class="n">network</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">chainclient</span><span class="o">.</span><span class="n">SpotOrderData</span><span class="p">{</span>
-        <span class="n">OrderType</span><span class="o">:</span>    <span class="n">exchangetypes</span><span class="o">.</span><span class="n">OrderType_BUY</span><span class="p">,</span> <span class="c">//BUY SELL BUY_PO SELL_PO</span>
-        <span class="n">Quantity</span><span class="o">:</span>     <span class="n">amount</span><span class="p">,</span>
-        <span class="n">Price</span><span class="o">:</span>        <span class="n">price</span><span class="p">,</span>
-        <span class="n">FeeRecipient</span><span class="o">:</span> <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span>
-        <span class="n">MarketId</span><span class="o">:</span>     <span class="n">marketId</span><span class="p">,</span>
-    <span class="p">})</span>
-    <span class="n">msg</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="n">exchangetypes</span><span class="o">.</span><span class="n">MsgBatchCreateSpotLimitOrders</span><span class="p">)</span>
-    <span class="n">msg</span><span class="o">.</span><span class="n">Sender</span> <span class="o">=</span> <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">()</span>
-    <span class="n">msg</span><span class="o">.</span><span class="n">Orders</span> <span class="o">=</span> <span class="p">[]</span><span class="n">exchangetypes</span><span class="o">.</span><span class="n">SpotOrder</span><span class="p">{</span><span class="o">*</span><span class="n">order</span><span class="p">}</span>
-
-    <span class="n">simRes</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">SimulateMsg</span><span class="p">(</span><span class="n">clientCtx</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">simResMsgs</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">MsgResponse</span><span class="p">(</span><span class="n">simRes</span><span class="o">.</span><span class="n">Result</span><span class="o">.</span><span class="n">Data</span><span class="p">)</span>
-    <span class="n">msgBatchCreateSpotLimitOrdersResponse</span> <span class="o">:=</span> <span class="n">exchangetypes</span><span class="o">.</span><span class="n">MsgBatchCreateSpotLimitOrdersResponse</span><span class="p">{}</span>
-    <span class="n">msgBatchCreateSpotLimitOrdersResponse</span><span class="o">.</span><span class="n">Unmarshal</span><span class="p">(</span><span class="n">simResMsgs</span><span class="p">[</span><span class="m">0</span><span class="p">]</span><span class="o">.</span><span class="n">Data</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"simulated order hashes"</span><span class="p">,</span> <span class="n">msgBatchCreateSpotLimitOrdersResponse</span><span class="o">.</span><span class="n">OrderHashes</span><span class="p">)</span>
-
-    <span class="c">//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg</span>
-    <span class="n">err</span> <span class="o">=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">QueueBroadcastMsg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">time</span><span class="o">.</span><span class="n">Sleep</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">Second</span> <span class="o">*</span> <span class="m">5</span><span class="p">)</span>
-
-    <span class="n">gasFee</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">GetGasFee</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-        <span class="k">return</span>
-    <span class="p">}</span>
-
-    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"gas fee:"</span><span class="p">,</span> <span class="n">gasFee</span><span class="p">,</span> <span class="s">"INJ"</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>sender</td>
-<td>String</td>
-<td>The Injective Chain address</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>orders</td>
-<td>SpotOrder</td>
-<td>SpotOrder object</td>
-<td>Yes</td>
-</tr>
-</tbody></table>
-
-<p><strong>SpotOrder</strong></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>market_id</td>
-<td>String</td>
-<td>Market ID of the market we want to send an order</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>subaccount_id</td>
-<td>String</td>
-<td>The subaccount we want to send an order from</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>fee_recipient</td>
-<td>String</td>
-<td>The address that will receive 40% of the fees, this could be set to your own address</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>price</td>
-<td>Float</td>
-<td>The price of the base asset</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>quantity</td>
-<td>Float</td>
-<td>The quantity of the base asset</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>is_buy</td>
-<td>Boolean</td>
-<td>Set to true or false for buy and sell orders respectively</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>is_po</td>
-<td>Boolean</td>
-<td>Set to true or false for post-only or normal orders respectively</td>
-<td>No</td>
-</tr>
-</tbody></table>
-
-<blockquote>
-<p>Response Example:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="o">---</span><span class="n">Simulation</span> <span class="n">Response</span><span class="o">---</span>
-<span class="p">[</span><span class="n">order_hashes</span><span class="p">:</span> <span class="s">"0xcb958b950806310c91cb36f34d276875d1348abebe9036bef46f9c69a2bbc4c1"</span>
-<span class="n">order_hashes</span><span class="p">:</span> <span class="s">"0x87a738ddc1f559cc25216df0b48fb1d715c6cab2d52a51f78b2d26f34f2b7298"</span>
-<span class="p">]</span>
-<span class="o">---</span><span class="n">Transaction</span> <span class="n">Response</span><span class="o">---</span>
-<span class="n">txhash</span><span class="p">:</span> <span class="s">"2C1A2D2582C1A9FC5745D63E3154B63D6CE76F4436C0939291261D3B7CE0ED23"</span>
-<span class="n">raw_log</span><span class="p">:</span> <span class="s">"[]"</span>
-
-<span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">122497</span>
-<span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.0000612485</span> <span class="n">INJ</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="n">simulated</span> <span class="n">order</span> <span class="n">hashes</span> <span class="p">[</span><span class="m">0x5e2834f8b8af252a269a4d21c03bbef7c02a545444e1cbc32664996d468b473b</span><span class="p">]</span>
-<span class="n">DEBU</span><span class="p">[</span><span class="m">0001</span><span class="p">]</span> <span class="n">broadcastTx</span> <span class="n">with</span> <span class="n">nonce</span> <span class="m">3500</span>                   <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:598"</span>
-<span class="n">DEBU</span><span class="p">[</span><span class="m">0002</span><span class="p">]</span> <span class="n">msg</span> <span class="n">batch</span> <span class="n">committed</span> <span class="n">successfully</span> <span class="n">at</span> <span class="n">height</span> <span class="m">5214175</span>  <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:619"</span> <span class="n">txHash</span><span class="o">=</span><span class="m">39</span><span class="n">DB9302A9B3C8DCBDC7BA205C960791CD745D2A4C46C8E4215FE1E5DC3E7131</span>
-<span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3501</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
-<span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">130002</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
-<span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000065001</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='spot-msgbatchcancelspotorders'>MsgBatchCancelSpotOrders</h2><h3 id='spot-msgbatchcancelspotorders-request-parameters'>Request Parameters</h3>
-<blockquote>
-<p>Request Example:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-
-<span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span> <span class="k">as</span> <span class="n">ProtoMsgComposer</span>
-<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
-<span class="kn">from</span> <span class="nn">pyinjective.transaction</span> <span class="kn">import</span> <span class="n">Transaction</span>
-<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
-<span class="kn">from</span> <span class="nn">pyinjective.wallet</span> <span class="kn">import</span> <span class="n">PrivateKey</span>
-
-
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-    <span class="c1"># select network: local, testnet, mainnet
-</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
-    <span class="n">composer</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
-
-    <span class="c1"># initialize grpc client
-</span>    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">sync_timeout_height</span><span class="p">()</span>
-
-    <span class="c1"># load account
-</span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"</span><span class="p">)</span>
-    <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
-    <span class="n">address</span> <span class="o">=</span> <span class="k">await</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">().</span><span class="n">async_init_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
-    <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="c1"># prepare trade info
-</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span>
-    <span class="n">orders</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
-            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0xe20de707caef6f8f0908ee9c155244812ea707642997e736d28b34919d4b18ff"</span>
-        <span class="p">),</span>
-        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
-            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0xb4a41df088f0d54ab44f998dde205062c0fd0f2db165d9f7e5302e0d7ff4f2ab"</span>
-        <span class="p">),</span>
-        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
-            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0x8d4e111127f91011bf77dea8b625948a14c1ae55d8c5d3f5af3dadbd6bec591d"</span>
-        <span class="p">)</span>
-    <span class="p">]</span>
-
-    <span class="c1"># prepare tx msg
-</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgBatchCancelSpotOrders</span><span class="p">(</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">orders</span>
-    <span class="p">)</span>
-
-    <span class="c1"># build sim tx
-</span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">Transaction</span><span class="p">()</span>
-        <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">with_sequence</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_sequence</span><span class="p">())</span>
-        <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
-        <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
-    <span class="p">)</span>
-    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
-    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
-    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
-
-    <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
-        <span class="k">return</span>
-
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
-
-    <span class="c1"># build tx
-</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
-</span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
-    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
-        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
-        <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
-    <span class="p">)]</span>
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">''</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">timeout_height</span><span class="p">)</span>
-    <span class="n">sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
-    <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
-    <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
-
-    <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-</span>    <span class="n">res</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_sync_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"---Transaction Response---"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"gas wanted: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">))</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"gas fee: {} INJ"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_fee</span><span class="p">))</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
-    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
-
-<span class="k">import</span> <span class="p">(</span>
-    <span class="s">"fmt"</span>
-    <span class="s">"os"</span>
-    <span class="s">"time"</span>
-
-    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
-
-    <span class="n">exchangetypes</span> <span class="s">"github.com/InjectiveLabs/sdk-go/chain/exchange/types"</span>
-    <span class="n">chainclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/chain"</span>
-    <span class="n">cosmtypes</span> <span class="s">"github.com/cosmos/cosmos-sdk/types"</span>
-    <span class="n">rpchttp</span> <span class="s">"github.com/tendermint/tendermint/rpc/client/http"</span>
-<span class="p">)</span>
-
-<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c">// network := common.LoadNetwork("mainnet", "k8s")</span>
-    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
-    <span class="n">tmRPC</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">rpchttp</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">,</span> <span class="s">"/websocket"</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">senderAddress</span><span class="p">,</span> <span class="n">cosmosKeyring</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">InitCosmosKeyring</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">Getenv</span><span class="p">(</span><span class="s">"HOME"</span><span class="p">)</span><span class="o">+</span><span class="s">"/.injectived"</span><span class="p">,</span>
-        <span class="s">"injectived"</span><span class="p">,</span>
-        <span class="s">"file"</span><span class="p">,</span>
-        <span class="s">"inj-user"</span><span class="p">,</span>
-        <span class="s">"12345678"</span><span class="p">,</span>
-        <span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">,</span> <span class="c">// keyring will be used if pk not provided</span>
-        <span class="no">false</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">clientCtx</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">NewClientContext</span><span class="p">(</span>
-        <span class="n">network</span><span class="o">.</span><span class="n">ChainId</span><span class="p">,</span>
-        <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span>
-        <span class="n">cosmosKeyring</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">clientCtx</span> <span class="o">=</span> <span class="n">clientCtx</span><span class="o">.</span><span class="n">WithNodeURI</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">)</span><span class="o">.</span><span class="n">WithClient</span><span class="p">(</span><span class="n">tmRPC</span><span class="p">)</span>
-
-    <span class="n">chainClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">NewChainClient</span><span class="p">(</span>
-        <span class="n">clientCtx</span><span class="p">,</span>
-        <span class="n">network</span><span class="o">.</span><span class="n">ChainGrpcEndpoint</span><span class="p">,</span>
-        <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ChainTlsCert</span><span class="p">),</span>
-        <span class="n">common</span><span class="o">.</span><span class="n">OptionGasPrices</span><span class="p">(</span><span class="s">"500000000inj"</span><span class="p">),</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">defaultSubaccountID</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">DefaultSubaccount</span><span class="p">(</span><span class="n">senderAddress</span><span class="p">)</span>
-
-    <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span>
-    <span class="n">orderHash</span> <span class="o">:=</span> <span class="s">"0x6b214cd83406569a0ac595d1129474d2f5a01e8e78deda58fdc101e62f7103de"</span>
-
-    <span class="n">order</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">OrderCancel</span><span class="p">(</span><span class="n">defaultSubaccountID</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">chainclient</span><span class="o">.</span><span class="n">OrderCancelData</span><span class="p">{</span>
-        <span class="n">MarketId</span><span class="o">:</span>  <span class="n">marketId</span><span class="p">,</span>
-        <span class="n">OrderHash</span><span class="o">:</span> <span class="n">orderHash</span><span class="p">,</span>
-    <span class="p">})</span>
-
-    <span class="n">msg</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="n">exchangetypes</span><span class="o">.</span><span class="n">MsgBatchCancelSpotOrders</span><span class="p">)</span>
-    <span class="n">msg</span><span class="o">.</span><span class="n">Sender</span> <span class="o">=</span> <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">()</span>
-    <span class="n">msg</span><span class="o">.</span><span class="n">Data</span> <span class="o">=</span> <span class="p">[]</span><span class="n">exchangetypes</span><span class="o">.</span><span class="n">OrderData</span><span class="p">{</span><span class="o">*</span><span class="n">order</span><span class="p">}</span>
-    <span class="n">CosMsgs</span> <span class="o">:=</span> <span class="p">[]</span><span class="n">cosmtypes</span><span class="o">.</span><span class="n">Msg</span><span class="p">{</span><span class="n">msg</span><span class="p">}</span>
-
-    <span class="c">// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg</span>
-    <span class="n">err</span> <span class="o">=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">QueueBroadcastMsg</span><span class="p">(</span><span class="n">CosMsgs</span><span class="o">...</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">time</span><span class="o">.</span><span class="n">Sleep</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">Second</span> <span class="o">*</span> <span class="m">5</span><span class="p">)</span>
-
-    <span class="n">gasFee</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">GetGasFee</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-        <span class="k">return</span>
-    <span class="p">}</span>
-
-    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"gas fee:"</span><span class="p">,</span> <span class="n">gasFee</span><span class="p">,</span> <span class="s">"INJ"</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>sender</td>
-<td>String</td>
-<td>The Injective Chain address</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>orders</td>
-<td>OrderData</td>
-<td>OrderData object</td>
-<td>Yes</td>
-</tr>
-</tbody></table>
-
-<p><strong>OrderData</strong></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>market_id</td>
-<td>String</td>
-<td>Market ID of the market we want to cancel an order</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>subaccount_id</td>
-<td>String</td>
-<td>The subaccount we want to cancel an order from</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>order_hash</td>
-<td>String</td>
-<td>The hash of a specific order</td>
-<td>Yes</td>
-</tr>
-</tbody></table>
-
-<blockquote>
-<p>Response Example:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="o">---</span><span class="n">Simulation</span> <span class="n">Response</span><span class="o">---</span>
-<span class="p">[</span><span class="n">success</span><span class="p">:</span> <span class="n">true</span>
-<span class="n">success</span><span class="p">:</span> <span class="n">false</span>
-<span class="n">success</span><span class="p">:</span> <span class="n">false</span>
-<span class="p">]</span>
-<span class="o">---</span><span class="n">Transaction</span> <span class="n">Response</span><span class="o">---</span>
-<span class="n">txhash</span><span class="p">:</span> <span class="s">"386BFD74F117C5B339AEFAA815693D364092D54B29C45B2F30D93DD57565C342"</span>
-<span class="n">raw_log</span><span class="p">:</span> <span class="s">"[]"</span>
-
-<span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">116125</span>
-<span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.0000580625</span> <span class="n">INJ</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="n">INFO</span><span class="p">[</span><span class="m">0000</span><span class="p">]</span> <span class="n">succesfully</span> <span class="n">load</span> <span class="n">server</span> <span class="n">TLS</span> <span class="n">cert</span>             
-<span class="n">INFO</span><span class="p">[</span><span class="m">0001</span><span class="p">]</span> <span class="n">chain</span> <span class="n">session</span> <span class="n">cookie</span> <span class="n">loaded</span> <span class="n">from</span> <span class="n">disk</span>         <span class="n">module</span><span class="o">=</span><span class="n">sdk</span><span class="o">-</span><span class="k">go</span> <span class="n">svc</span><span class="o">=</span><span class="n">chainClient</span>
-<span class="n">DEBU</span><span class="p">[</span><span class="m">0001</span><span class="p">]</span> <span class="n">broadcastTx</span> <span class="n">with</span> <span class="n">nonce</span> <span class="m">3499</span>                   <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:598"</span>
-<span class="n">DEBU</span><span class="p">[</span><span class="m">0004</span><span class="p">]</span> <span class="n">msg</span> <span class="n">batch</span> <span class="n">committed</span> <span class="n">successfully</span> <span class="n">at</span> <span class="n">height</span> <span class="m">5213601</span>  <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:619"</span> <span class="n">txHash</span><span class="o">=</span><span class="m">5903</span><span class="n">B30F580ED7944EC4D81110E502EA9D6A57AB409EDEAB237F56216E69C1AE</span>
-<span class="n">DEBU</span><span class="p">[</span><span class="m">0004</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3500</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
-<span class="n">DEBU</span><span class="p">[</span><span class="m">0004</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">127407</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
-<span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.0000637035</span> <span class="n">INJ</span>
 </code></pre></div><h2 id='spot-msgbatchupdateorders'>MsgBatchUpdateOrders</h2>
 <p>MsgBatchUpdateOrders allows for the atomic cancellation and creation of spot and derivative limit orders, along with a new order cancellation mode. Upon execution, order cancellations (if any) occur first, followed by order creations (if any).</p>
 
