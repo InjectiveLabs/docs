@@ -1115,6 +1115,9 @@ func main() {
 |market_id|String|Market ID of the market we want to cancel an order|Yes|
 |subaccount_id|String|The subaccount we want to cancel an order from|Yes|
 |order_hash|String|The hash of a specific order|Yes|
+|is_conditional|Boolean|Set to true or false for conditional and regular orders respectively. Setting this value will incur less gas for the order cancellation and faster execution|No|
+|order_direction|Boolean|The direction of the order (Should be one of: [buy sell]). Setting this value will incur less gas for the order cancellation and faster execution|No|
+|order_type|Boolean|The type of the order (Should be one of: [market limit]). Setting this value will incur less gas for the order cancellation and faster execution|No|
 
 
 > Response Example:
