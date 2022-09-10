@@ -36,7 +36,7 @@ includes:
   - faq
   # - exchangerpc
   # - chronosrpc
-  # - errors
+  - errors
 search: true
 
 code_clipboard: true
