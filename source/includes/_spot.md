@@ -1086,6 +1086,12 @@ func main() {
 |is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
 |is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
+|trigger_price|Boolean|Set the trigger price for conditional orders|No|
+|stop_buy|Boolean|Set to true for conditional stop_buy orders|No|
+|stop_sell|Boolean|Set to true for conditional stop_sell orders|No|
+|take_buy|Boolean|Set to true for conditional take_buy orders|No|
+|take_sell|Boolean|Set to true for conditional take_sell|No|
+
 
 **BinaryOptionsOrder**
 
