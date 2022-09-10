@@ -913,6 +913,9 @@
                   </li>
               </ul>
           </li>
+          <li>
+            <a href="#error-codes" class="toc-h1 toc-link" data-title="Error Codes">Error Codes</a>
+          </li>
       </ul>
     </div>
     <div class="page-wrapper">
@@ -28510,6 +28513,102 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <p>6) Exchange API will query MongoDB to fetch you the data</p>
 
 <p>7) Geolocation between client-sentry will determine the latency until the data is served on the client</p>
+<h1 id='error-codes'>Error Codes</h1>
+<table><thead>
+<tr>
+<th>Error</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>2</td>
+<td>Spot market was not found or is no longer active</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Invalid market ID</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Subaccount has insufficient deposits</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Invalid order type, sender or fee_recipient address</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Position quantity is insufficient for the order (i.e. an RO order cannot be placed if a better order, that would flip the position exists</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Invalid order hash</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Subaccount ID is invalid or does not correspond to the sender&#39;s address</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Invalid price (i.e. the order price is nil, negative or has wrong tick sizes)</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Invalid quantity (i.e. the order quantity is nil, negative or has wrong tick sizes)</td>
+</tr>
+<tr>
+<td>26</td>
+<td>Order has insufficient margin (i.e. if the margin is less than the initial margin ratio)</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Derivative market was not found or is no longer active</td>
+</tr>
+<tr>
+<td>28</td>
+<td>Position not found (i.e. when placing RO order with no position open)</td>
+</tr>
+<tr>
+<td>29</td>
+<td>Position direction does not oppose the RO order (i.e. when trying to place a sell RO with a short position)</td>
+</tr>
+<tr>
+<td>30</td>
+<td>Price surpasses bankruptcy price (i.e. when trying to place an order that would close the position below the bankruptcy price)</td>
+</tr>
+<tr>
+<td>32</td>
+<td>Invalid trigger price</td>
+</tr>
+<tr>
+<td>36</td>
+<td>Invalid minimum order margin (margin is not a multiple of the tick size)</td>
+</tr>
+<tr>
+<td>37</td>
+<td>Exceeds the order side count in derivatives (per market, per subaccount &amp; per side)</td>
+</tr>
+<tr>
+<td>39</td>
+<td>Cannot place a conditional market order when a conditional market order in the same relative direction already exists</td>
+</tr>
+<tr>
+<td>58</td>
+<td>Message contains cancel all MarketIDs but no SubaccountID or duplicate values</td>
+</tr>
+<tr>
+<td>59</td>
+<td>Post-only order exceeds top of book price</td>
+</tr>
+<tr>
+<td>60</td>
+<td>Limit order cannot be atomic</td>
+</tr>
+<tr>
+<td>81</td>
+<td>No margin locked in the subaccount (when placing RO conditional order with no position or vanilla order)</td>
+</tr>
+</tbody></table>
 
       </div>
       <div class="dark-box">
