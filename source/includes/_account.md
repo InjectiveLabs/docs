@@ -1446,3 +1446,232 @@ Transferred 1 0x36b3d7ace7201e28040eff30e815290d7b37ffad from 0xbdAEdEc95d563Fb0
 
 Transaction hash: 0xb538abc7c2f893a2fe24c7a8ea606ff48d980a754499f1bec89b862c2bcb9ea7
 ```
+
+
+
+## GetTx
+
+### Request Parameters
+> Request Example:
+
+``` python
+import asyncio
+import logging
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.constant import Network
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network, insecure=False)
+    tx_hash = "68B21A7CB5E27FFA62917E6B3D5B600FD0CE34D65EE26EAEB1633A4E2718F3EB"
+    tx_logs = await client.get_tx(tx_hash=tx_hash)
+    print(tx_logs)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|tx_hash|String|The transaction hash|Yes|
+
+
+> Response Example:
+
+``` python
+tx {
+  body {
+    messages {
+      type_url: "/injective.exchange.v1beta1.MsgCreateBinaryOptionsLimitOrder"
+      value: "\n*inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr\022\211\002\nB0xabc3d9ba7b826dd08af1bdc96cad66e8d5205aed0c534d80ac9b884406b98af8\022\241\001\nB0xb4efdbe3240d3d2a1bc6be8a1f717944e734a0dd000000000000000000000000\022*inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr\032\030610000000000000000000000\"\025100000000000000000000\030\001\"\03261000000000000000000000000*\0010"
+    }
+    timeout_height: 3085449
+  }
+  auth_info {
+    signer_infos {
+      public_key {
+        type_url: "/injective.crypto.v1beta1.ethsecp256k1.PubKey"
+        value: "\n!\002\200T< /\340\341IC\260n\372\373\314&\3751A\034HfMk\255[ai\334\3303t\375"
+      }
+      mode_info {
+        single {
+          mode: SIGN_MODE_DIRECT
+        }
+      }
+      sequence: 84001
+    }
+    fee {
+      amount {
+        denom: "inj"
+        amount: "61392500000000"
+      }
+      gas_limit: 122785
+    }
+  }
+  signatures: "\267k\031\273\205\031\307\037\344\244\311\275\256o\226V\331\315\304-\000\2146\243C\241\345\272\302\217\313\223#\t\370\357d\276o\355\3029\221\321\252\311\225%\325\300]\211>\361\001\323\336\200\372\252\234$\013\177"
+}
+tx_response {
+  height: 3085400
+  txhash: "68B21A7CB5E27FFA62917E6B3D5B600FD0CE34D65EE26EAEB1633A4E2718F3EB"
+  data: "0A84010A3C2F696E6A6563746976652E65786368616E67652E763162657461312E4D736743726561746542696E6172794F7074696F6E734C696D69744F7264657212440A42307831353464626137633762316461623165396436646339303936306263666239653661343039386237313063343961623131333535616130636137356633626530"
+  raw_log: "[{\"events\":[{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/injective.exchange.v1beta1.MsgCreateBinaryOptionsLimitOrder\"}]}]}]"
+  logs {
+    events {
+      type: "message"
+      attributes {
+        key: "action"
+        value: "/injective.exchange.v1beta1.MsgCreateBinaryOptionsLimitOrder"
+      }
+    }
+  }
+  gas_wanted: 122785
+  gas_used: 119932
+  tx {
+    type_url: "/cosmos.tx.v1beta1.Tx"
+    value: "\n\201\003\n\371\002\n</injective.exchange.v1beta1.MsgCreateBinaryOptionsLimitOrder\022\270\002\n*inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr\022\211\002\nB0xabc3d9ba7b826dd08af1bdc96cad66e8d5205aed0c534d80ac9b884406b98af8\022\241\001\nB0xb4efdbe3240d3d2a1bc6be8a1f717944e734a0dd000000000000000000000000\022*inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr\032\030610000000000000000000000\"\025100000000000000000000\030\001\"\03261000000000000000000000000*\0010\030\211\251\274\001\022\177\n`\nT\n-/injective.crypto.v1beta1.ethsecp256k1.PubKey\022#\n!\002\200T< /\340\341IC\260n\372\373\314&\3751A\034HfMk\255[ai\334\3303t\375\022\004\n\002\010\001\030\241\220\005\022\033\n\025\n\003inj\022\01661392500000000\020\241\277\007\032@\267k\031\273\205\031\307\037\344\244\311\275\256o\226V\331\315\304-\000\2146\243C\241\345\272\302\217\313\223#\t\370\357d\276o\355\3029\221\321\252\311\225%\325\300]\211>\361\001\323\336\200\372\252\234$\013\177"
+  }
+  timestamp: "2022-09-17T12:17:08Z"
+  events {
+    type: "tx"
+    attributes {
+      key: "acc_seq"
+      value: "inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr/84001"
+      index: true
+    }
+  }
+  events {
+    type: "tx"
+    attributes {
+      key: "signature"
+      value: "t2sZu4UZxx/kpMm9rm+WVtnNxC0AjDajQ6HlusKPy5MjCfjvZL5v7cI5kdGqyZUl1cBdiT7xAdPegPqqnCQLfw=="
+      index: true
+    }
+  }
+  events {
+    type: "coin_spent"
+    attributes {
+      key: "spender"
+      value: "inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr"
+      index: true
+    }
+    attributes {
+      key: "amount"
+      value: "61392500000000inj"
+      index: true
+    }
+  }
+  events {
+    type: "coin_received"
+    attributes {
+      key: "receiver"
+      value: "inj17xpfvakm2amg962yls6f84z3kell8c5l6s5ye9"
+      index: true
+    }
+    attributes {
+      key: "amount"
+      value: "61392500000000inj"
+      index: true
+    }
+  }
+  events {
+    type: "transfer"
+    attributes {
+      key: "recipient"
+      value: "inj17xpfvakm2amg962yls6f84z3kell8c5l6s5ye9"
+      index: true
+    }
+    attributes {
+      key: "sender"
+      value: "inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr"
+      index: true
+    }
+    attributes {
+      key: "amount"
+      value: "61392500000000inj"
+      index: true
+    }
+  }
+  events {
+    type: "message"
+    attributes {
+      key: "sender"
+      value: "inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr"
+      index: true
+    }
+  }
+  events {
+    type: "tx"
+    attributes {
+      key: "fee"
+      value: "61392500000000inj"
+      index: true
+    }
+  }
+  events {
+    type: "message"
+    attributes {
+      key: "action"
+      value: "/injective.exchange.v1beta1.MsgCreateBinaryOptionsLimitOrder"
+      index: true
+    }
+  }
+}
+```
+
+
+## StreamEventOrderFail
+
+> Request Example:
+
+``` python
+import asyncio
+import logging
+import json
+import websockets
+import base64
+
+from pyinjective.constant import Network
+
+async def main() -> None:
+    network = Network.testnet()
+    event_filter = "tm.event='Tx' AND message.sender='inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr' AND message.action='/injective.exchange.v1beta1.MsgBatchUpdateOrders' AND injective.exchange.v1beta1.EventOrderFail.flags EXISTS"
+    query = json.dumps({
+        "jsonrpc": "2.0",
+        "method": "subscribe",
+        "id": "0",
+        "params": {
+            "query": event_filter
+        },
+    })
+
+    async with websockets.connect(network.tm_websocket_endpoint) as ws:
+        await ws.send(query)
+        while True:
+            res = await ws.recv()
+            res = json.loads(res)
+            result = res["result"]
+            if result == {}:
+                continue
+
+            failed_order_hashes = result["events"]["injective.exchange.v1beta1.EventOrderFail.hashes"]
+            failed_order_codes = json.loads(result["events"]["injective.exchange.v1beta1.EventOrderFail.flags"][0])
+
+            dict = {}
+            for i, order_hash in enumerate(failed_order_hashes):
+                hash = "0x" + base64.b64decode(order_hash).hex()
+                dict[hash] = failed_order_codes[i]
+
+            print(dict)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
+```
+
+> Response Example:
+
+``` python
+{'0x7d6d0d2118488dcaccd57193372e536881f34132241f01c1721ed6aedffec419': 36}
+```
