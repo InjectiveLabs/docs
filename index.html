@@ -762,6 +762,12 @@
                   <li>
                     <a href="#account-sendtoinjective" class="toc-h2 toc-link" data-title="SendToInjective">SendToInjective</a>
                   </li>
+                  <li>
+                    <a href="#account-gettx" class="toc-h2 toc-link" data-title="GetTx">GetTx</a>
+                  </li>
+                  <li>
+                    <a href="#account-streameventorderfail" class="toc-h2 toc-link" data-title="StreamEventOrderFail">StreamEventOrderFail</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -26340,6 +26346,234 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="n">Transferred</span> <span class="mi">1</span> <span class="mh">0x36b3d7ace7201e28040eff30e815290d7b37ffad</span> <span class="k">from</span> <span class="mh">0xbdAEdEc95d563Fb05240d6e01821008454c24C36</span> <span class="n">to</span> <span class="n">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span>
 
 <span class="n">Transaction</span> <span class="nb">hash</span><span class="p">:</span> <span class="mh">0xb538abc7c2f893a2fe24c7a8ea606ff48d980a754499f1bec89b862c2bcb9ea7</span>
+</code></pre></div><h2 id='account-gettx'>GetTx</h2><h3 id='account-gettx-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">tx_hash</span> <span class="o">=</span> <span class="s">"68B21A7CB5E27FFA62917E6B3D5B600FD0CE34D65EE26EAEB1633A4E2718F3EB"</span>
+    <span class="n">tx_logs</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_tx</span><span class="p">(</span><span class="n">tx_hash</span><span class="o">=</span><span class="n">tx_hash</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">tx_logs</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tx_hash</td>
+<td>String</td>
+<td>The transaction hash</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">tx</span> <span class="p">{</span>
+  <span class="n">body</span> <span class="p">{</span>
+    <span class="n">messages</span> <span class="p">{</span>
+      <span class="n">type_url</span><span class="p">:</span> <span class="s">"/injective.exchange.v1beta1.MsgCreateBinaryOptionsLimitOrder"</span>
+      <span class="n">value</span><span class="p">:</span> <span class="s">"</span><span class="se">\n</span><span class="s">*inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr</span><span class="se">\022\211\002\n</span><span class="s">B0xabc3d9ba7b826dd08af1bdc96cad66e8d5205aed0c534d80ac9b884406b98af8</span><span class="se">\022\241\001\n</span><span class="s">B0xb4efdbe3240d3d2a1bc6be8a1f717944e734a0dd000000000000000000000000</span><span class="se">\022</span><span class="s">*inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr</span><span class="se">\032\030</span><span class="s">610000000000000000000000</span><span class="se">\"\025</span><span class="s">100000000000000000000</span><span class="se">\030\001\"\032</span><span class="s">61000000000000000000000000*</span><span class="se">\001</span><span class="s">0"</span>
+    <span class="p">}</span>
+    <span class="n">timeout_height</span><span class="p">:</span> <span class="mi">3085449</span>
+  <span class="p">}</span>
+  <span class="n">auth_info</span> <span class="p">{</span>
+    <span class="n">signer_infos</span> <span class="p">{</span>
+      <span class="n">public_key</span> <span class="p">{</span>
+        <span class="n">type_url</span><span class="p">:</span> <span class="s">"/injective.crypto.v1beta1.ethsecp256k1.PubKey"</span>
+        <span class="n">value</span><span class="p">:</span> <span class="s">"</span><span class="se">\n</span><span class="s">!</span><span class="se">\002\200</span><span class="s">T&lt; /</span><span class="se">\340\341</span><span class="s">IC</span><span class="se">\260</span><span class="s">n</span><span class="se">\372\373\314</span><span class="s">&amp;</span><span class="se">\375</span><span class="s">1A</span><span class="se">\034</span><span class="s">HfMk</span><span class="se">\255</span><span class="s">[ai</span><span class="se">\334\330</span><span class="s">3t</span><span class="se">\375</span><span class="s">"</span>
+      <span class="p">}</span>
+      <span class="n">mode_info</span> <span class="p">{</span>
+        <span class="n">single</span> <span class="p">{</span>
+          <span class="n">mode</span><span class="p">:</span> <span class="n">SIGN_MODE_DIRECT</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+      <span class="n">sequence</span><span class="p">:</span> <span class="mi">84001</span>
+    <span class="p">}</span>
+    <span class="n">fee</span> <span class="p">{</span>
+      <span class="n">amount</span> <span class="p">{</span>
+        <span class="n">denom</span><span class="p">:</span> <span class="s">"inj"</span>
+        <span class="n">amount</span><span class="p">:</span> <span class="s">"61392500000000"</span>
+      <span class="p">}</span>
+      <span class="n">gas_limit</span><span class="p">:</span> <span class="mi">122785</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">signatures</span><span class="p">:</span> <span class="s">"</span><span class="se">\267</span><span class="s">k</span><span class="se">\031\273\205\031\307\037\344\244\311\275\256</span><span class="s">o</span><span class="se">\226</span><span class="s">V</span><span class="se">\331\315\304</span><span class="s">-</span><span class="se">\000\214</span><span class="s">6</span><span class="se">\243</span><span class="s">C</span><span class="se">\241\345\272\302\217\313\223</span><span class="s">#</span><span class="se">\t\370\357</span><span class="s">d</span><span class="se">\276</span><span class="s">o</span><span class="se">\355\302</span><span class="s">9</span><span class="se">\221\321\252\311\225</span><span class="s">%</span><span class="se">\325\300</span><span class="s">]</span><span class="se">\211</span><span class="s">&gt;</span><span class="se">\361\001\323\336\200\372\252\234</span><span class="s">$</span><span class="se">\013\177</span><span class="s">"</span>
+<span class="p">}</span>
+<span class="n">tx_response</span> <span class="p">{</span>
+  <span class="n">height</span><span class="p">:</span> <span class="mi">3085400</span>
+  <span class="n">txhash</span><span class="p">:</span> <span class="s">"68B21A7CB5E27FFA62917E6B3D5B600FD0CE34D65EE26EAEB1633A4E2718F3EB"</span>
+  <span class="n">data</span><span class="p">:</span> <span class="s">"0A84010A3C2F696E6A6563746976652E65786368616E67652E763162657461312E4D736743726561746542696E6172794F7074696F6E734C696D69744F7264657212440A42307831353464626137633762316461623165396436646339303936306263666239653661343039386237313063343961623131333535616130636137356633626530"</span>
+  <span class="n">raw_log</span><span class="p">:</span> <span class="s">"[{</span><span class="se">\"</span><span class="s">events</span><span class="se">\"</span><span class="s">:[{</span><span class="se">\"</span><span class="s">type</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">message</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">attributes</span><span class="se">\"</span><span class="s">:[{</span><span class="se">\"</span><span class="s">key</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">action</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">value</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">/injective.exchange.v1beta1.MsgCreateBinaryOptionsLimitOrder</span><span class="se">\"</span><span class="s">}]}]}]"</span>
+  <span class="n">logs</span> <span class="p">{</span>
+    <span class="n">events</span> <span class="p">{</span>
+      <span class="nb">type</span><span class="p">:</span> <span class="s">"message"</span>
+      <span class="n">attributes</span> <span class="p">{</span>
+        <span class="n">key</span><span class="p">:</span> <span class="s">"action"</span>
+        <span class="n">value</span><span class="p">:</span> <span class="s">"/injective.exchange.v1beta1.MsgCreateBinaryOptionsLimitOrder"</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">gas_wanted</span><span class="p">:</span> <span class="mi">122785</span>
+  <span class="n">gas_used</span><span class="p">:</span> <span class="mi">119932</span>
+  <span class="n">tx</span> <span class="p">{</span>
+    <span class="n">type_url</span><span class="p">:</span> <span class="s">"/cosmos.tx.v1beta1.Tx"</span>
+    <span class="n">value</span><span class="p">:</span> <span class="s">"</span><span class="se">\n\201\003\n\371\002\n</span><span class="s">&lt;/injective.exchange.v1beta1.MsgCreateBinaryOptionsLimitOrder</span><span class="se">\022\270\002\n</span><span class="s">*inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr</span><span class="se">\022\211\002\n</span><span class="s">B0xabc3d9ba7b826dd08af1bdc96cad66e8d5205aed0c534d80ac9b884406b98af8</span><span class="se">\022\241\001\n</span><span class="s">B0xb4efdbe3240d3d2a1bc6be8a1f717944e734a0dd000000000000000000000000</span><span class="se">\022</span><span class="s">*inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr</span><span class="se">\032\030</span><span class="s">610000000000000000000000</span><span class="se">\"\025</span><span class="s">100000000000000000000</span><span class="se">\030\001\"\032</span><span class="s">61000000000000000000000000*</span><span class="se">\001</span><span class="s">0</span><span class="se">\030\211\251\274\001\022\177\n</span><span class="s">`</span><span class="se">\n</span><span class="s">T</span><span class="se">\n</span><span class="s">-/injective.crypto.v1beta1.ethsecp256k1.PubKey</span><span class="se">\022</span><span class="s">#</span><span class="se">\n</span><span class="s">!</span><span class="se">\002\200</span><span class="s">T&lt; /</span><span class="se">\340\341</span><span class="s">IC</span><span class="se">\260</span><span class="s">n</span><span class="se">\372\373\314</span><span class="s">&amp;</span><span class="se">\375</span><span class="s">1A</span><span class="se">\034</span><span class="s">HfMk</span><span class="se">\255</span><span class="s">[ai</span><span class="se">\334\330</span><span class="s">3t</span><span class="se">\375\022\004\n\002\010\001\030\241\220\005\022\033\n\025\n\003</span><span class="s">inj</span><span class="se">\022\016</span><span class="s">61392500000000</span><span class="se">\020\241\277\007\032</span><span class="s">@</span><span class="se">\267</span><span class="s">k</span><span class="se">\031\273\205\031\307\037\344\244\311\275\256</span><span class="s">o</span><span class="se">\226</span><span class="s">V</span><span class="se">\331\315\304</span><span class="s">-</span><span class="se">\000\214</span><span class="s">6</span><span class="se">\243</span><span class="s">C</span><span class="se">\241\345\272\302\217\313\223</span><span class="s">#</span><span class="se">\t\370\357</span><span class="s">d</span><span class="se">\276</span><span class="s">o</span><span class="se">\355\302</span><span class="s">9</span><span class="se">\221\321\252\311\225</span><span class="s">%</span><span class="se">\325\300</span><span class="s">]</span><span class="se">\211</span><span class="s">&gt;</span><span class="se">\361\001\323\336\200\372\252\234</span><span class="s">$</span><span class="se">\013\177</span><span class="s">"</span>
+  <span class="p">}</span>
+  <span class="n">timestamp</span><span class="p">:</span> <span class="s">"2022-09-17T12:17:08Z"</span>
+  <span class="n">events</span> <span class="p">{</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="s">"tx"</span>
+    <span class="n">attributes</span> <span class="p">{</span>
+      <span class="n">key</span><span class="p">:</span> <span class="s">"acc_seq"</span>
+      <span class="n">value</span><span class="p">:</span> <span class="s">"inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr/84001"</span>
+      <span class="n">index</span><span class="p">:</span> <span class="n">true</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">events</span> <span class="p">{</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="s">"tx"</span>
+    <span class="n">attributes</span> <span class="p">{</span>
+      <span class="n">key</span><span class="p">:</span> <span class="s">"signature"</span>
+      <span class="n">value</span><span class="p">:</span> <span class="s">"t2sZu4UZxx/kpMm9rm+WVtnNxC0AjDajQ6HlusKPy5MjCfjvZL5v7cI5kdGqyZUl1cBdiT7xAdPegPqqnCQLfw=="</span>
+      <span class="n">index</span><span class="p">:</span> <span class="n">true</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">events</span> <span class="p">{</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="s">"coin_spent"</span>
+    <span class="n">attributes</span> <span class="p">{</span>
+      <span class="n">key</span><span class="p">:</span> <span class="s">"spender"</span>
+      <span class="n">value</span><span class="p">:</span> <span class="s">"inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr"</span>
+      <span class="n">index</span><span class="p">:</span> <span class="n">true</span>
+    <span class="p">}</span>
+    <span class="n">attributes</span> <span class="p">{</span>
+      <span class="n">key</span><span class="p">:</span> <span class="s">"amount"</span>
+      <span class="n">value</span><span class="p">:</span> <span class="s">"61392500000000inj"</span>
+      <span class="n">index</span><span class="p">:</span> <span class="n">true</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">events</span> <span class="p">{</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="s">"coin_received"</span>
+    <span class="n">attributes</span> <span class="p">{</span>
+      <span class="n">key</span><span class="p">:</span> <span class="s">"receiver"</span>
+      <span class="n">value</span><span class="p">:</span> <span class="s">"inj17xpfvakm2amg962yls6f84z3kell8c5l6s5ye9"</span>
+      <span class="n">index</span><span class="p">:</span> <span class="n">true</span>
+    <span class="p">}</span>
+    <span class="n">attributes</span> <span class="p">{</span>
+      <span class="n">key</span><span class="p">:</span> <span class="s">"amount"</span>
+      <span class="n">value</span><span class="p">:</span> <span class="s">"61392500000000inj"</span>
+      <span class="n">index</span><span class="p">:</span> <span class="n">true</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">events</span> <span class="p">{</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="s">"transfer"</span>
+    <span class="n">attributes</span> <span class="p">{</span>
+      <span class="n">key</span><span class="p">:</span> <span class="s">"recipient"</span>
+      <span class="n">value</span><span class="p">:</span> <span class="s">"inj17xpfvakm2amg962yls6f84z3kell8c5l6s5ye9"</span>
+      <span class="n">index</span><span class="p">:</span> <span class="n">true</span>
+    <span class="p">}</span>
+    <span class="n">attributes</span> <span class="p">{</span>
+      <span class="n">key</span><span class="p">:</span> <span class="s">"sender"</span>
+      <span class="n">value</span><span class="p">:</span> <span class="s">"inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr"</span>
+      <span class="n">index</span><span class="p">:</span> <span class="n">true</span>
+    <span class="p">}</span>
+    <span class="n">attributes</span> <span class="p">{</span>
+      <span class="n">key</span><span class="p">:</span> <span class="s">"amount"</span>
+      <span class="n">value</span><span class="p">:</span> <span class="s">"61392500000000inj"</span>
+      <span class="n">index</span><span class="p">:</span> <span class="n">true</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">events</span> <span class="p">{</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="s">"message"</span>
+    <span class="n">attributes</span> <span class="p">{</span>
+      <span class="n">key</span><span class="p">:</span> <span class="s">"sender"</span>
+      <span class="n">value</span><span class="p">:</span> <span class="s">"inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr"</span>
+      <span class="n">index</span><span class="p">:</span> <span class="n">true</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">events</span> <span class="p">{</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="s">"tx"</span>
+    <span class="n">attributes</span> <span class="p">{</span>
+      <span class="n">key</span><span class="p">:</span> <span class="s">"fee"</span>
+      <span class="n">value</span><span class="p">:</span> <span class="s">"61392500000000inj"</span>
+      <span class="n">index</span><span class="p">:</span> <span class="n">true</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">events</span> <span class="p">{</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="s">"message"</span>
+    <span class="n">attributes</span> <span class="p">{</span>
+      <span class="n">key</span><span class="p">:</span> <span class="s">"action"</span>
+      <span class="n">value</span><span class="p">:</span> <span class="s">"/injective.exchange.v1beta1.MsgCreateBinaryOptionsLimitOrder"</span>
+      <span class="n">index</span><span class="p">:</span> <span class="n">true</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><h2 id='account-streameventorderfail'>StreamEventOrderFail</h2>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">websockets</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">event_filter</span> <span class="o">=</span> <span class="s">"tm.event='Tx' AND message.sender='inj1knhahceyp57j5x7xh69p7utegnnnfgxavmahjr' AND message.action='/injective.exchange.v1beta1.MsgBatchUpdateOrders' AND injective.exchange.v1beta1.EventOrderFail.flags EXISTS"</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">({</span>
+        <span class="s">"jsonrpc"</span><span class="p">:</span> <span class="s">"2.0"</span><span class="p">,</span>
+        <span class="s">"method"</span><span class="p">:</span> <span class="s">"subscribe"</span><span class="p">,</span>
+        <span class="s">"id"</span><span class="p">:</span> <span class="s">"0"</span><span class="p">,</span>
+        <span class="s">"params"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">"query"</span><span class="p">:</span> <span class="n">event_filter</span>
+        <span class="p">},</span>
+    <span class="p">})</span>
+
+    <span class="k">async</span> <span class="k">with</span> <span class="n">websockets</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">tm_websocket_endpoint</span><span class="p">)</span> <span class="k">as</span> <span class="n">ws</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">ws</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ws</span><span class="p">.</span><span class="n">recv</span><span class="p">()</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s">"result"</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="p">{}:</span>
+                <span class="k">continue</span>
+
+            <span class="n">failed_order_hashes</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s">"events"</span><span class="p">][</span><span class="s">"injective.exchange.v1beta1.EventOrderFail.hashes"</span><span class="p">]</span>
+            <span class="n">failed_order_codes</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">"events"</span><span class="p">][</span><span class="s">"injective.exchange.v1beta1.EventOrderFail.flags"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">order_hash</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">failed_order_hashes</span><span class="p">):</span>
+                <span class="nb">hash</span> <span class="o">=</span> <span class="s">"0x"</span> <span class="o">+</span> <span class="n">base64</span><span class="p">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">order_hash</span><span class="p">).</span><span class="nb">hex</span><span class="p">()</span>
+                <span class="nb">dict</span><span class="p">[</span><span class="nb">hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">failed_order_codes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="k">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="p">{</span><span class="s">'0x7d6d0d2118488dcaccd57193372e536881f34132241f01c1721ed6aedffec419'</span><span class="p">:</span> <span class="mi">36</span><span class="p">}</span>
 </code></pre></div><h1 id='auction'>- Auction</h1>
 <p>Includes the message for placing bids in auctions.</p>
 <h2 id='auction-msgbid'>MsgBid</h2><h3 id='auction-msgbid-request-parameters'>Request Parameters</h3>
