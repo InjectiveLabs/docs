@@ -26556,7 +26556,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
             <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="p">{}:</span>
                 <span class="k">continue</span>
 
-            <span class="n">failed_order_hashes</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s">"events"</span><span class="p">][</span><span class="s">"injective.exchange.v1beta1.EventOrderFail.hashes"</span><span class="p">]</span>
+            <span class="n">failed_order_hashes</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">"events"</span><span class="p">][</span><span class="s">"injective.exchange.v1beta1.EventOrderFail.hashes"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
             <span class="n">failed_order_codes</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">"events"</span><span class="p">][</span><span class="s">"injective.exchange.v1beta1.EventOrderFail.flags"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
 
             <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
