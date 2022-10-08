@@ -1001,10 +1001,10 @@ if __name__ == '__main__':
 |subaccount_id|String|Filter by subaccount ID|No|
 |skip|Integer|Skip the last orders, you can use this to fetch all orders since the API caps at 100|No|
 |limit|Integer|Limit the orders returned|No|
-|order_type|String|Filter by order type|No|
 |direction|String|Filter by direction|No|
 |start_time|Integer|Search for orders createdAt >= startTime, time in milliseconds|No|
 |end_time|Integer|Search for orders createdAt <= startTime, time in milliseconds|No|
+|order_types|List|Filter by order type (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell buy_po sell_po])|No|
 
 
 ### Response Parameters
