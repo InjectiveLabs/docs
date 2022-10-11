@@ -716,245 +716,9 @@ market: {
 |updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
 
 
-
-## Orders
-
-Get orders of a spot market.
-
-
-### Request Parameters
-> Request Example:
-
-``` python
-import asyncio
-import logging
-
-from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
-
-async def main() -> None:
-    # select network: local, testnet, mainnet
-    network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
-    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-    order_side = "buy" # buy or sell
-    subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-    skip = 10
-    limit = 2
-    orders = await client.get_spot_orders(
-        market_id=market_id,
-        order_side=order_side,
-        subaccount_id=subaccount_id,
-        skip=skip,
-        limit=limit
-    )
-    print(orders)
-
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
-    asyncio.get_event_loop().run_until_complete(main())
-```
-
-``` go
-package main
-
-import (
-  "context"
-  "encoding/json"
-  "fmt"
-
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-  spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
-)
-
-func main() {
-  //network := common.LoadNetwork("mainnet", "k8s")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  ctx := context.Background()
-  marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  skip := uint64(0)
-  limit := int32(2)
-
-  req := spotExchangePB.OrdersRequest{
-    MarketId: marketId,
-    Skip:     skip,
-    Limit:    limit,
-  }
-
-  res, err := exchangeClient.GetSpotOrders(ctx, req)
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
-}
-```
-
-``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, SpotOrderSide } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
-  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
-  const orderSide = SpotOrderSide.Buy;
-  const pagination = {
-    skip: 0,
-    limit: 10,
-    key: ""
-  };
-
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
-
-  const market = await exchangeClient.spot.fetchOrders(
-    {
-      marketId: marketId,
-      subaccountId: subaccountId,
-      orderSide: orderSide,
-      pagination: pagination,
-    }
-  );
-
-  console.log(protoObjectToJson(market));
-})();
-```
-
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Filter by market ID|Yes|
-|order_side|String|Filter by order side (Should be one of: [buy sell])|No|
-|subaccount_id|String|Filter by subaccount ID|No|
-|skip|Integer|Skip the last orders, you can use this to fetch all orders since the API caps at 100|No|
-|limit|Integer|Limit the orders returned|No|
-
-
-
-### Response Parameters
-> Response Example:
-
-``` python
-orders {
-  order_hash: "0xbad0d22c46e76a8569092617bae2e5d95a2a086b2a70e270c6f16fd8e025d83e"
-  order_side: "buy"
-  market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  price: "0.0000000000012"
-  quantity: "3000000000000000000"
-  unfilled_quantity: "3000000000000000000"
-  trigger_price: "0"
-  fee_recipient: "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
-  state: "booked"
-  created_at: 1652809260554
-  updated_at: 1652809260554
-}
-orders {
-  order_hash: "0x318418b546563a75c11dc656ee0fb41608e2893b0de859cf2b9e2d65996b6f9c"
-  order_side: "buy"
-  market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  price: "0.000000000001"
-  quantity: "1000000000000000000"
-  unfilled_quantity: "1000000000000000000"
-  trigger_price: "0"
-  fee_recipient: "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
-  state: "booked"
-  created_at: 1652809253308
-  updated_at: 1652809253308
-}
-```
-
-``` go
-{
- "orders": [
-  {
-   "order_hash": "0xbf5cf18a5e73c61d465a60ca550c5fbe0ed37b9ca0a49f7bd1de012e983fe55e",
-   "order_side": "sell",
-   "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
-   "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
-   "price": "0.000000000002305",
-   "quantity": "30000000000000000000",
-   "unfilled_quantity": "28000000000000000000",
-   "trigger_price": "0",
-   "fee_recipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-   "state": "partial_filled",
-   "created_at": 1652774849587,
-   "updated_at": 1652809734211
-  },
-  {
-   "order_hash": "0xd86f3a01d291b15294f25c9463fd51cf6b8883776ae7911da3fbd967faa69ea4",
-   "order_side": "buy",
-   "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
-   "subaccount_id": "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000",
-   "price": "0.000000000000001",
-   "quantity": "1000000000000000",
-   "unfilled_quantity": "1000000000000000",
-   "trigger_price": "0",
-   "fee_recipient": "inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c",
-   "state": "booked",
-   "created_at": 1649838645114,
-   "updated_at": 1649838645114
-  }
- ]
-}
-```
-
-``` typescript
-{
-  "ordersList": [
-    {
-      "orderHash": "0xd3f1e94393fc026a6a5b709b52b5ad0057e771b2b2768f4d7aebd03c5dfa383f",
-      "orderSide": "buy",
-      "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
-      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-      "price": "0.000000000002",
-      "quantity": "1000000000000000000",
-      "unfilledQuantity": "1000000000000000000",
-      "triggerPrice": "0",
-      "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
-      "state": "booked",
-      "createdAt": 1654079259156,
-      "updatedAt": 1654079259156
-    }
-  ]
-}
-```
-
-|Parameter|Type|Description|
-|----|----|----|
-|orders|SpotLimitOrder|SpotLimitOrder object|
-
-**SpotLimitOrder**
-
-|Parameter|Type|Description|
-|----|----|----|
-|unfilled_quantity|String|The amount of the quantity remaining unfilled|
-|market_id|String|Spot Market ID is keccak265(baseDenom + quoteDenom)|
-|order_hash|String|Hash of the order|
-|order_side|String|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
-|state|String|The state of the order (Should be one of: [booked partial_filled filled canceled]) |
-|subaccount_id|String|The subaccount ID this order belongs to|
-|fee_recipient|String|The fee recipient address|
-|price|String|The price of the order|
-|quantity|String|The quantity of the order|
-|trigger_price|String|The price used by stop/take orders. This will be 0 if the trigger price is not set|
-|created_at|Integer|Order committed timestamp in UNIX millis|
-
-
 ## OrdersHistory
 
-Get orders of a derivative market in all states.
+Get orders of a spot market in all states.
 
 
 ### Request Parameters
@@ -971,7 +735,7 @@ async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-    subaccount_id = "0xed8c4C43E03E24b7F12975472da771Ce2f8b857c000000000000000000000000"
+    subaccount_id = "0x1b99514e320ae0087be7f87b1e3057853c43b799000000000000000000000000"
     skip = 10
     limit = 2
     orders = await client.get_historical_spot_orders(
@@ -1004,7 +768,9 @@ if __name__ == '__main__':
 |direction|String|Filter by direction|No|
 |start_time|Integer|Search for orders createdAt >= startTime, time in milliseconds|No|
 |end_time|Integer|Search for orders createdAt <= startTime, time in milliseconds|No|
-|order_types|List|Filter by order type (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell buy_po sell_po])|No|
+|state|String|The order state (Should be one of: [booked, partial_filled, filled, canceled])|No|
+|execution_types|List|The execution of the order (Should be one of: [limit market])|No|
+|order_types|List|The order type (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell buy_po sell_po])|No|
 
 
 ### Response Parameters
@@ -1012,35 +778,39 @@ if __name__ == '__main__':
 
 ``` python
 orders {
-  order_hash: "0x5978bcee7098a4dcf0199c69e96127e1946d8345b7a30a60ee11dfa651f04ef9"
+  order_hash: "0x0f62edfb64644762c20490d9573034c2f319e87e857401c41eea1fe373045dd7"
   market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  subaccount_id: "0xed8c4c43e03e24b7f12975472da771ce2f8b857c000000000000000000000000"
+  subaccount_id: "0x1b99514e320ae0087be7f87b1e3057853c43b799000000000000000000000000"
   execution_type: "limit"
-  order_type: "sell"
-  price: "0.000000000002128"
+  order_type: "sell_po"
+  price: "1887550000"
   trigger_price: "0"
-  quantity: "51761000000000000000"
+  quantity: "14.66"
   filled_quantity: "0"
   state: "canceled"
-  created_at: 1660246239165
-  updated_at: 1660246243667
+  created_at: 1660245368028
+  updated_at: 1660245374789
   direction: "sell"
 }
 orders {
-  order_hash: "0x75a1153a1eaf1e929007fd12fcc388d328f9abcbb9425687c835011575d90dab"
+  order_hash: "0x82bb34aa9779c784f541269d3048b038a8c0100e17ef09b1367f44d8e2f6b052"
   market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  subaccount_id: "0xed8c4c43e03e24b7f12975472da771ce2f8b857c000000000000000000000000"
+  subaccount_id: "0x1b99514e320ae0087be7f87b1e3057853c43b799000000000000000000000000"
   execution_type: "limit"
-  order_type: "sell"
-  price: "0.000000000002128"
+  order_type: "buy_po"
+  price: "1854460000"
   trigger_price: "0"
-  quantity: "258806000000000000000"
+  quantity: "16.01"
   filled_quantity: "0"
   state: "canceled"
-  created_at: 1660246239165
-  updated_at: 1660246243667
-  direction: "sell"
+  created_at: 1660245184145
+  updated_at: 1660245368028
+  direction: "buy"
 }
+paging {
+  total: 1000
+}
+
 ```
 
 ``` go
@@ -1054,29 +824,29 @@ orders {
 
 |Parameter|Type|Description|
 |----|----|----|
-|orders|Order|Order object|
+|orders|SpotOrderHistory|SpotOrderHistory object|
 
-***Order***
+***SpotOrderHistory***
 
 |Parameter|Type|Description|
 |----|----|----|
 |order_hash|String|Hash of the order|
 |quantity|String|Quantity of the order|
-|state|String|Order state (Should be one of: [booked partial_filled filled canceled]) |
+|is_active|Boolean|Indicates if the order is active|
+|state|String|Order state (Should be one of: [booked partial_filled filled canceled])|
 |trigger_price|String|Trigger price is the trigger price used by stop/take orders|
 |market_id|String|Derivative Market ID|
 |created_at|Integer|Order committed timestamp in UNIX millis|
+|updated_at|Integer|Order updated timestamp in UNIX millis.|
 |price|String|Price of the order|
 |subaccount_id|String|The subaccountId that this order belongs to|
-|updated_at|Integer|Order updated timestamp in UNIX millis.|
 |order_type|String|Order type (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell buy_po sell_po]) |
 |execution_type|String|The type of the order (Should be one of: [limit market]) |
 |filled_quantity|String|The amount of the quantity filled|
 |direction|String|The direction of the order (Should be one of: [buy sell])|
 
 
-
-## StreamOrders
+## StreamOrdersHistory
 
 Stream order updates of a spot market.
 
@@ -1091,16 +861,13 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
     order_side = "sell"  # sell or buy
-    subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-    orders = await client.stream_spot_orders(
-        market_id=market_id,
-        order_side=order_side,
-        subaccount_id=subaccount_id
+    subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+    orders = await client.stream_historical_spot_orders(
+        market_id=market_id
     )
     async for order in orders:
         print(order)
@@ -1111,94 +878,21 @@ if __name__ == '__main__':
 ```
 
 ``` go
-package main
 
-import (
-  "context"
-  "encoding/json"
-  "fmt"
-
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-  spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
-)
-
-func main() {
-  //network := common.LoadNetwork("mainnet", "k8s")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  ctx := context.Background()
-  marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  orderSide := "buy"
-
-  req := spotExchangePB.StreamOrdersRequest{
-    MarketId:     marketId,
-    SubaccountId: subaccountId,
-    OrderSide:    orderSide,
-  }
-  stream, err := exchangeClient.StreamSpotOrders(ctx, req)
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  for {
-    select {
-    case <-ctx.Done():
-      return
-    default:
-      res, err := stream.Recv()
-      if err != nil {
-        fmt.Println(err)
-        return
-      }
-      str, _ := json.MarshalIndent(res, "", " ")
-      fmt.Print(string(str))
-    }
-  }
-}
 ```
 
 ``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson, SpotOrderSide } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";;
 
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
-  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
-  const orderSide = SpotOrderSide.Buy;
-
-  const exchangeClient = new ExchangeGrpcStreamClient(
-    network.exchangeApi
-  );
-
-  await exchangeClient.spot.streamSpotOrders(
-    {
-      marketId,
-      orderSide,
-      subaccountId,
-      callback: (streamSpotOrders) => {
-        console.log(protoObjectToJson(streamSpotOrders));
-      },
-      onEndCallback: (status) => {
-        console.log("Stream has ended with status: " + status);
-      },
-    });
-})();
 ```
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|String|Filter by market ID|Yes|
-|order_side|String|Filter by order side (Should be one of: [buy sell])|No|
 |subaccount_id|String|Filter by subaccount ID|No|
+|direction|String|Filter by direction (Should be one of: [buy sell])|No|
+|state|String|Filter by state (Should be one of: [booked partial_filled filled canceled])|No|
+|order_types|List|Filter by order type (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell buy_po sell_po])|No|
+|execution_types|List|Filter by execution type (Should be one of: [limit market])|No|
 
 
 ### Response Parameters
@@ -1206,121 +900,57 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 
 ``` python
 order {
-  order_hash: "0x5e970df47eb5a65a5f907e3a2912067dde416eca8609c838e08c0dbebfbefaa5"
-  order_side: "sell"
+  order_hash: "0xe34ada890ab627fb904d8dd50411a4ca64d1f6cb56c7305a2833772b36ae5660"
   market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  price: "0.000000000005"
-  quantity: "1000000000000000000"
-  unfilled_quantity: "1000000000000000000"
+  is_active: true
+  subaccount_id: "0xed8c4c43e03e24b7f12975472da771ce2f8b857c000000000000000000000000"
+  execution_type: "limit"
+  order_type: "buy_po"
+  price: "0.000000000001849"
   trigger_price: "0"
-  fee_recipient: "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
+  quantity: "10817000000000000000"
+  filled_quantity: "0"
   state: "booked"
-  created_at: 1652809317404
-  updated_at: 1652809317404
+  created_at: 1665486460484
+  updated_at: 1665486460484
+  direction: "buy"
 }
 operation_type: "insert"
-timestamp: 1652809321000
+timestamp: 1665486462000
 ```
 
 ``` go
-{
- "order": {
-  "order_hash": "0x07c8064b1d8875c75d81d9770dd5508d3d97fd2bafc67a6213448a4479753cda",
-  "order_side": "buy",
-  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
-  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-  "price": "0.0000000000015",
-  "quantity": "1000000000000000000",
-  "unfilled_quantity": "1000000000000000000",
-  "trigger_price": "0",
-  "fee_recipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
-  "state": "booked",
-  "created_at": 1653041941027,
-  "updated_at": 1653041941027
- },
- "operation_type": "insert",
- "timestamp": 1653041948000
-}{
- "order": {
-  "order_hash": "0xacb6fd422effd0d9f06dfd373d742a0d24a3c862384a2e9736fc52d2221f9cc4",
-  "order_side": "buy",
-  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
-  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-  "price": "0.000000000001",
-  "quantity": "2000000000000000000",
-  "unfilled_quantity": "2000000000000000000",
-  "trigger_price": "0",
-  "fee_recipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
-  "state": "booked",
-  "created_at": 1653041984130,
-  "updated_at": 1653041984130
- },
- "operation_type": "insert",
- "timestamp": 1653041988000
-}
+
 ```
 
 ``` typescript
-{
-  "order": {
-    "orderHash": "0x9bfdda8da0008059844bff8e2cfa0399d5a71abaadc2a3b659c4c2c0db654fb6",
-    "orderSide": "buy",
-    "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
-    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-    "price": "0.000000000001",
-    "quantity": "2000000000000000000",
-    "unfilledQuantity": "2000000000000000000",
-    "triggerPrice": "0",
-    "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
-    "state": "booked",
-    "createdAt": 1654079382459,
-    "updatedAt": 1654079382459
-  },
-  "operationType": "insert",
-  "timestamp": 1654079385000
-}
-{
-  "order": {
-    "orderHash": "0xb5b7f863c0f94f31668670d9ac74df6c31dc37b5d3b73e7ac43a200da58fbaeb",
-    "orderSide": "buy",
-    "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
-    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-    "price": "0.000000000001",
-    "quantity": "1500000000000000000",
-    "unfilledQuantity": "1500000000000000000",
-    "triggerPrice": "0",
-    "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
-    "state": "booked",
-    "createdAt": 1654079407709,
-    "updatedAt": 1654079407709
-  },
-  "operationType": "insert",
-  "timestamp": 1654079412000
-}
+
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
-|order|SpotLimitOrder|SpotLimitOrder object|
+|order|SpotOrderHistory|SpotOrderHistory object|
 |operation_type|String|Order update type (Should be one of: [insert replace update invalidate]) |
 |timestamp|Integer|Operation timestamp in UNIX millis|
 
-**SpotLimitOrder**
+**SpotOrderHistory**
 
 |Parameter|Type|Description|
 |----|----|----|
-|unfilled_quantity|String|The amount of the quantity remaining unfilled|
-|market_id|String|Spot Market ID is keccak265(baseDenom + quoteDenom)|
 |order_hash|String|Hash of the order|
-|order_side|String|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
-|state|String|The state of the order (Should be one of: [booked partial_filled filled canceled]) |
-|subaccount_id|String|The subaccount ID this order belongs to|
-|fee_recipient|String|The fee recipient address|
-|price|String|The price of the order|
-|quantity|String|The quantity of the order|
-|trigger_price|String|The price used by stop/take orders. This will be 0 if the trigger price is not set|
+|quantity|String|Quantity of the order|
+|is_active|Boolean|Indicates if the order is active|
+|state|String|Order state (Should be one of: [booked partial_filled filled canceled])|
+|trigger_price|String|Trigger price is the trigger price used by stop/take orders|
+|market_id|String|Derivative Market ID|
 |created_at|Integer|Order committed timestamp in UNIX millis|
+|updated_at|Integer|Order updated timestamp in UNIX millis.|
+|price|String|Price of the order|
+|subaccount_id|String|The subaccountId that this order belongs to|
+|order_type|String|Order type (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell buy_po sell_po]) |
+|execution_type|String|The type of the order (Should be one of: [limit market]) |
+|filled_quantity|String|The amount of the quantity filled|
+|direction|String|The direction of the order (Should be one of: [buy sell])|
 
 
 ## Trades
