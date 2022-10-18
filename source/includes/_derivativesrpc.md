@@ -1950,7 +1950,7 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|String|Filter by market ID|Yes|
+|market_id|String|Filter by market ID|No|
 |subaccount_id|String|Filter by subaccount ID|No|
 |skip|Integer|Skip the last positions, you can use this to fetch all positions since the API caps at 100|No|
 |limit|Integer|Limit the positions returned|No|
