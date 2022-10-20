@@ -1670,8 +1670,70 @@ if __name__ == '__main__':
     asyncio.get_event_loop().run_until_complete(main())
 ```
 
+
+``` go
+package main
+
+import (
+  "context"
+  "encoding/base64"
+  "encoding/hex"
+  "encoding/json"
+  "fmt"
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+)
+
+func main() {
+  network := common.LoadNetwork("mainnet", "k8s")
+  tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+  if err != nil {
+    panic(err)
+  }
+
+  defer tmRPC.WSEvents.Stop()
+  tmRPC.WSEvents.Start()
+
+  eventFilter := "tm.event='Tx' AND message.sender='inj1rwv4zn3jptsqs7l8lpa3uvzhs57y8duemete9e' AND message.action='/injective.exchange.v1beta1.MsgBatchUpdateOrders' AND injective.exchange.v1beta1.EventOrderFail.flags EXISTS"
+  eventCh, err := tmRPC.WSEvents.Subscribe(context.Background(), "OrderFail", eventFilter, 100)
+  if err != nil {
+    panic(err)
+  }
+
+  for {
+    e := <-eventCh
+
+    var failedOrderHashes []string
+    err = json.Unmarshal([]byte(e.Events["injective.exchange.v1beta1.EventOrderFail.hashes"][0]), &failedOrderHashes)
+    if err != nil {
+      panic(err)
+    }
+
+    var failedOrderCodes []uint
+    err = json.Unmarshal([]byte(e.Events["injective.exchange.v1beta1.EventOrderFail.flags"][0]), &failedOrderCodes)
+    if err != nil {
+      panic(err)
+    }
+
+    results := map[string]uint{}
+    for i, hash := range failedOrderHashes {
+      orderHashBytes, _ := base64.StdEncoding.DecodeString(hash)
+      orderHash := "0x" + hex.EncodeToString(orderHashBytes)
+      results[orderHash] = failedOrderCodes[i]
+    }
+
+    fmt.Println(results)
+  }
+
+}
+```
+
 > Response Example:
 
 ``` python
 {'0x7d6d0d2118488dcaccd57193372e536881f34132241f01c1721ed6aedffec419': 36}
+```
+
+``` go
+map[0x9db0f6e90d63b151ab0d64f0c6d83f747969f353d8c39a68cca65d046907e92a:59 0xdf7e05e66ab7a47e7a8a1751d4b9360fd80058cd5186162cee6fe124c57ece82:36]
 ```
