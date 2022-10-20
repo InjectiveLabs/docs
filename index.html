@@ -429,7 +429,7 @@
               </ul>
           </li>
           <li>
-            <a href="#swagger" class="toc-h1 toc-link" data-title="Swagger">Swagger</a>
+            <a href="#resources" class="toc-h1 toc-link" data-title="Resources">Resources</a>
           </li>
           <li>
             <a href="#explorer" class="toc-h1 toc-link" data-title="Explorer">Explorer</a>
@@ -1695,12 +1695,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </ul>
 
 <p>for a total quantity of 0.5 BTC. In edge cases where this clearing price violates any order price, it is instead calculated as the average of the last matched order on buy and sell side.</p>
-<h1 id='swagger'>Swagger</h1>
-<p><strong>A REST interface for state queries, legacy transactions</strong></p>
-
-<p><a href="https://lcd.injective.network/swagger/#/">Swagger Mainnet</a></p>
-
-<p><a href="https://testnet.lcd.injective.dev/swagger/#/">Swagger Testnet</a></p>
+<h1 id='resources'>Resources</h1>
+<p><a href="https://lcd.injective.network/swagger/#/">Here</a> you can find a comprehensive overview of the exchange ecosystem on Injective, guides and general resources for developers and API traders.</p>
 <h1 id='explorer'>Explorer</h1>
 <p><strong>A Web interface that allows you to search for information on the Injective Chain</strong></p>
 
@@ -25772,11 +25768,66 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
     <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+  <span class="s">"context"</span>
+  <span class="s">"encoding/base64"</span>
+  <span class="s">"encoding/hex"</span>
+  <span class="s">"encoding/json"</span>
+  <span class="s">"fmt"</span>
+  <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+  <span class="n">rpchttp</span> <span class="s">"github.com/tendermint/tendermint/rpc/client/http"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"mainnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
+  <span class="n">tmRPC</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">rpchttp</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">,</span> <span class="s">"/websocket"</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+    <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="k">defer</span> <span class="n">tmRPC</span><span class="o">.</span><span class="n">WSEvents</span><span class="o">.</span><span class="n">Stop</span><span class="p">()</span>
+  <span class="n">tmRPC</span><span class="o">.</span><span class="n">WSEvents</span><span class="o">.</span><span class="n">Start</span><span class="p">()</span>
+
+  <span class="n">eventFilter</span> <span class="o">:=</span> <span class="s">"tm.event='Tx' AND message.sender='inj1rwv4zn3jptsqs7l8lpa3uvzhs57y8duemete9e' AND message.action='/injective.exchange.v1beta1.MsgBatchUpdateOrders' AND injective.exchange.v1beta1.EventOrderFail.flags EXISTS"</span>
+  <span class="n">eventCh</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">tmRPC</span><span class="o">.</span><span class="n">WSEvents</span><span class="o">.</span><span class="n">Subscribe</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">(),</span> <span class="s">"OrderFail"</span><span class="p">,</span> <span class="n">eventFilter</span><span class="p">,</span> <span class="m">100</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+    <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="k">for</span> <span class="p">{</span>
+    <span class="n">e</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="n">eventCh</span>
+
+    <span class="k">var</span> <span class="n">failedOrderHashes</span> <span class="p">[]</span><span class="kt">string</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">Unmarshal</span><span class="p">([]</span><span class="kt">byte</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">Events</span><span class="p">[</span><span class="s">"injective.exchange.v1beta1.EventOrderFail.hashes"</span><span class="p">][</span><span class="m">0</span><span class="p">]),</span> <span class="o">&amp;</span><span class="n">failedOrderHashes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+      <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">var</span> <span class="n">failedOrderCodes</span> <span class="p">[]</span><span class="kt">uint</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">Unmarshal</span><span class="p">([]</span><span class="kt">byte</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">Events</span><span class="p">[</span><span class="s">"injective.exchange.v1beta1.EventOrderFail.flags"</span><span class="p">][</span><span class="m">0</span><span class="p">]),</span> <span class="o">&amp;</span><span class="n">failedOrderCodes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+      <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">results</span> <span class="o">:=</span> <span class="k">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">uint</span><span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">hash</span> <span class="o">:=</span> <span class="k">range</span> <span class="n">failedOrderHashes</span> <span class="p">{</span>
+      <span class="n">orderHashBytes</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">base64</span><span class="o">.</span><span class="n">StdEncoding</span><span class="o">.</span><span class="n">DecodeString</span><span class="p">(</span><span class="n">hash</span><span class="p">)</span>
+      <span class="n">orderHash</span> <span class="o">:=</span> <span class="s">"0x"</span> <span class="o">+</span> <span class="n">hex</span><span class="o">.</span><span class="n">EncodeToString</span><span class="p">(</span><span class="n">orderHashBytes</span><span class="p">)</span>
+      <span class="n">results</span><span class="p">[</span><span class="n">orderHash</span><span class="p">]</span> <span class="o">=</span> <span class="n">failedOrderCodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="p">}</span>
+
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
 </code></pre></div>
 <blockquote>
 <p>Response Example:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="p">{</span><span class="s">'0x7d6d0d2118488dcaccd57193372e536881f34132241f01c1721ed6aedffec419'</span><span class="p">:</span> <span class="mi">36</span><span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">map</span><span class="p">[</span><span class="m">0x9db0f6e90d63b151ab0d64f0c6d83f747969f353d8c39a68cca65d046907e92a</span><span class="o">:</span><span class="m">59</span> <span class="m">0xdf7e05e66ab7a47e7a8a1751d4b9360fd80058cd5186162cee6fe124c57ece82</span><span class="o">:</span><span class="m">36</span><span class="p">]</span>
 </code></pre></div><h1 id='auction'>- Auction</h1>
 <p>Includes the message for placing bids in auctions.</p>
 <h2 id='auction-msgbid'>MsgBid</h2><h3 id='auction-msgbid-request-parameters'>Request Parameters</h3>
