@@ -438,7 +438,7 @@
             <a href="#faucet" class="toc-h1 toc-link" data-title="Faucet">Faucet</a>
           </li>
           <li>
-            <a href="#exchange-api" class="toc-h1 toc-link" data-title="Exchange API">Exchange API</a>
+            <a href="#indexer-api" class="toc-h1 toc-link" data-title="Indexer API">Indexer API</a>
           </li>
           <li>
             <a href="#injectiveaccountsrpc" class="toc-h1 toc-link" data-title="- InjectiveAccountsRPC">- InjectiveAccountsRPC</a>
@@ -1707,10 +1707,10 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <p><strong>A web-based service that provides free tokens to users on testnet and allows them to experiment on the Injective Chain.</strong></p>
 
 <p><a href="https://faucet.injective.network/">Faucet</a></p>
-<h1 id='exchange-api'>Exchange API</h1>
-<p>The Exchange API is read-only whereas the Chain API is write and also includes a limited set of API requests to read data. The Chain API reads query the blockchain state from the node directly as opposed to the Exchange API which reconstructs state from events emitted by chain.</p>
+<h1 id='indexer-api'>Indexer API</h1>
+<p>The Indexer API is read-only whereas the Chain API is write and also includes a limited set of API requests to read data. The Chain API reads query the blockchain state from the node directly as opposed to the Indexer API which reconstructs state from events emitted by chain.</p>
 
-<p>On a high-level the end-user trading applications and Injective Products use the Exchange API to read data and the Chain API to write data to the blockchain. Even though it’s possible to develop trading applications using the Chain API only, the Exchange API includes more methods, streaming support, gRPC and also allows you to fetch historical data as the Chain API queries the blockchain state which doesn’t include historical records.</p>
+<p>On a high-level the end-user trading applications and Injective Products use the Indexer API to read data and the Chain API to write data to the blockchain. Even though it’s possible to develop trading applications using the Chain API only, the Indexer API includes more methods, streaming support, gRPC and also allows you to fetch historical data as the Chain API queries the blockchain state which doesn’t include historical records.</p>
 <h1 id='injectiveaccountsrpc'>- InjectiveAccountsRPC</h1>
 <p>InjectiveAccountsRPC defines the gRPC API of the Exchange Accounts provider.</p>
 <h2 id='injectiveaccountsrpc-subaccountslist'>SubaccountsList</h2>
@@ -18115,9 +18115,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <span class="s">"Cancelled all tasks"</span>
 </code></pre></div><h1 id='chain-api'>Chain API</h1>
-<p>The Exchange API is read-only whereas the Chain API is write and also includes a limited set of API requests to read data. The Chain API reads query the blockchain state from the node directly as opposed to the Exchange API which reconstructs state from events emitted by chain.</p>
+<p>The Indexer API is read-only whereas the Chain API is write and also includes a limited set of API requests to read data. The Chain API reads query the blockchain state from the node directly as opposed to the Indexer API which reconstructs state from events emitted by chain.</p>
 
-<p>On a high-level the end-user trading applications and Injective Products use the Exchange API to read data and the Chain API to write data to the blockchain. Even though it’s possible to develop trading applications using the Chain API only, the Exchange API includes more methods, streaming support, gRPC and also allows you to fetch historical data as the Chain API queries the blockchain state which doesn’t include historical records.</p>
+<p>On a high-level the end-user trading applications and Injective Products use the Indexer API to read data and the Chain API to write data to the blockchain. Even though it’s possible to develop trading applications using the Chain API only, the Indexer API includes more methods, streaming support, gRPC and also allows you to fetch historical data as the Chain API queries the blockchain state which doesn’t include historical records.</p>
 <h1 id='derivatives'>- Derivatives</h1>
 <p>Includes all messages related to derivative markets.</p>
 <h2 id='derivatives-msgcreatederivativemarketorder'>MsgCreateDerivativeMarketOrder</h2><h3 id='derivatives-msgcreatederivativemarketorder-request-parameters'>Request Parameters</h3>
