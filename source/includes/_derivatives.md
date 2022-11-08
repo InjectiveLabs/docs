@@ -1412,7 +1412,7 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey
-from pyinjective.orderhash import compute_order_hashes
+from pyinjective.orderhash import OrderHashManager
 
 
 async def main() -> None:
@@ -1429,10 +1429,17 @@ async def main() -> None:
     pub_key = priv_key.to_public_key()
     address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
     subaccount_id = address.get_subaccount_id(index=0)
+    subaccount_id_2 = address.get_subaccount_id(index=1)
+
+    order_hash_manager = OrderHashManager(
+        address=address,
+        network=network,
+        subaccount_indexes=[0,1,2,7]
+    )
 
     # prepare trade info
-    spot_market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-    deriv_market_id = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+    spot_market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+    deriv_market_id = "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
     spot_orders = [
@@ -1491,7 +1498,7 @@ async def main() -> None:
     )
 
     # compute order hashes
-    order_hashes = compute_order_hashes(network, spot_orders=spot_orders, derivative_orders=derivative_orders)
+    order_hashes = order_hash_manager.compute_order_hashes(spot_orders=spot_orders, derivative_orders=derivative_orders, subaccount_index=0)
 
     print("computed spot order hashes", order_hashes.spot)
     print("computed derivative order hashes", order_hashes.derivative)
