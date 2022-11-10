@@ -235,8 +235,8 @@ from pyinjective.constant import Network
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    address = "inj1q4j3pkrl8jy07uf84t3l2srt345fppeeyagscf"
-    type = "injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder"
+    address = "inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex"
+    type = "cosmos.bank.v1beta1.MsgSend"
     account = await client.get_account_txs(address=address, type=type)
     print(account)
 
