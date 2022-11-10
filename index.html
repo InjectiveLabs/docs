@@ -14800,8 +14800,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">address</span> <span class="o">=</span> <span class="s">"inj1q4j3pkrl8jy07uf84t3l2srt345fppeeyagscf"</span>
-    <span class="nb">type</span> <span class="o">=</span> <span class="s">"injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder"</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="s">"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex"</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="s">"cosmos.bank.v1beta1.MsgSend"</span>
     <span class="n">account</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_account_txs</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">address</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">type</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
 
