@@ -138,7 +138,7 @@ async def main() -> None:
     client = AsyncClient(network, insecure=False)
     subaccount = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     denom = "inj"
-    transfer_types = ["withdraw", "deposit"] # Enum with values "withdraw", "deposit", "internal", "external"
+    transfer_types = ["withdraw", "deposit"]
     skip = 10
     limit = 10
     subacc_history = await client.get_subaccount_history(
@@ -1465,7 +1465,7 @@ async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    account_address = "inj1uzg3kpezm8ju70qd0twr8eh20zph2jt8dh0p6a"
+    account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
     epoch = -1
     rewards = await client.get_rewards(account_address=account_address, epoch=epoch)
     print(rewards)

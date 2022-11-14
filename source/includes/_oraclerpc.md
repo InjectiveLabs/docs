@@ -180,7 +180,7 @@ async def main() -> None:
     client = AsyncClient(network, insecure=False)
     base_symbol = 'BTC'
     quote_symbol = 'USDT'
-    oracle_type = 'BandIBC'
+    oracle_type = 'bandibc'
     oracle_scale_factor = 6
     oracle_prices = await client.get_oracle_prices(
         base_symbol=base_symbol,
@@ -313,7 +313,7 @@ async def main() -> None:
     client = AsyncClient(network, insecure=False)
     base_symbol = 'BTC'
     quote_symbol = 'USDT'
-    oracle_type = 'BandIBC'
+    oracle_type = 'bandibc'
     oracle_prices = await client.stream_oracle_prices(
         base_symbol=base_symbol,
         quote_symbol=quote_symbol,
