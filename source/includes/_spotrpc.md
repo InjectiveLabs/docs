@@ -21,7 +21,7 @@ async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    market_id = "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"
+    market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     market = await client.get_spot_market(market_id=market_id)
     print(market)
 
@@ -216,9 +216,9 @@ async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    market_status = "active"  # active, paused, suspended, demolished or expired
+    market_status = "active"
     base_denom = "inj"
-    quote_denom = "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+    quote_denom = "peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08"
     market = await client.get_spot_markets(
         market_status=market_status,
         base_denom=base_denom,
@@ -734,10 +734,11 @@ from pyinjective.constant import Network
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-    subaccount_id = "0x1b99514e320ae0087be7f87b1e3057853c43b799000000000000000000000000"
+    market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+    subaccount_id = "0xed8c4C43E03E24b7F12975472da771Ce2f8b857c000000000000000000000000"
     skip = 10
-    limit = 2
+    limit = 10
+    order_types = ["buy_po"]
     orders = await client.get_historical_spot_orders(
         market_id=market_id,
         subaccount_id=subaccount_id,
@@ -863,11 +864,10 @@ from pyinjective.constant import Network
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-    order_side = "sell"  # sell or buy
+    market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
     orders = await client.stream_historical_spot_orders(
-        market_id=market_id
+        market_id=market_id,
     )
     async for order in orders:
         print(order)
@@ -981,9 +981,9 @@ async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-    execution_side = "taker" # taker or maker
-    direction = "buy" # buy or sell
-    subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+    execution_side = "taker"
+    direction = "buy"
+    subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
     orders = await client.get_spot_trades(
         market_id=market_id,
         execution_side=execution_side,
@@ -1244,12 +1244,12 @@ async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     market_ids = [
-        "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
-        "0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31"
+        "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+        "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     ]
-    execution_side = "taker"  # maker or taker
-    direction = "sell"  # sell or buy
-    subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+    execution_side = "maker"
+    direction = "sell"
+    subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
     trades = await client.stream_spot_trades(
         market_id=market_ids[0],
         execution_side=execution_side,
@@ -1518,7 +1518,7 @@ async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     orderbook = await client.get_spot_orderbook(market_id=market_id)
     print(orderbook)
 
@@ -1729,13 +1729,11 @@ async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     market_ids = [
-        "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
-        "0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31"
+        "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+        "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"
     ]
-
     markets = await client.get_spot_orderbooks(market_ids=market_ids)
     print(markets)
-
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
@@ -2029,8 +2027,8 @@ async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-    orderbook = await client.stream_spot_orderbook(market_id=market_id)
+    market_ids = ["0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe", "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"]
+    orderbook = await client.stream_spot_orderbooks(market_ids=market_ids)
     async for orders in orderbook:
         print(orders)
 
@@ -2267,9 +2265,9 @@ async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     skip = 10
-    limit = 2
+    limit = 10
     orders = await client.get_spot_subaccount_orders(
         subaccount_id=subaccount_id,
         market_id=market_id,
@@ -2562,11 +2560,11 @@ async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-    execution_type = "market"  # market, limitFill, limitMatchRestingOrder or limitMatchNewOrder
-    direction = "buy"  # buy or sell
+    market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+    execution_type = "market"
+    direction = "buy"
     skip = 10
-    limit = 2
+    limit = 10
     trades = await client.get_spot_subaccount_trades(
         subaccount_id=subaccount_id,
         market_id=market_id,

@@ -16,6 +16,7 @@ from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey
 
+
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
@@ -28,11 +29,12 @@ async def main() -> None:
     # load account
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare trade info
-    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
     # prepare tx msg
@@ -50,8 +52,8 @@ async def main() -> None:
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -271,11 +273,12 @@ async def main() -> None:
     # load account
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare trade info
-    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+    market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
     # prepare tx msg
@@ -294,8 +297,8 @@ async def main() -> None:
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -503,7 +506,6 @@ from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey
 
-
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
@@ -516,12 +518,13 @@ async def main() -> None:
     # load account
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare trade info
-    market_id = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-    order_hash = "0xb03291b78dd7f34711c453d3709efffd74ac228e73bb44498d5670d99e6468b9"
+    market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+    order_hash = "0x52888d397d5ae821869c8acde5823dfd8018802d2ef642d3aa639e5308173fcf"
 
     # prepare tx msg
     msg = composer.MsgCancelSpotOrder(
@@ -535,8 +538,8 @@ async def main() -> None:
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -721,25 +724,20 @@ async def main() -> None:
     # load account
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare trade info
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
-    derivative_market_id_create = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-    spot_market_id_create = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-    binary_options_market_id_create = "0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169"
+    derivative_market_id_create = "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+    spot_market_id_create = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 
-    derivative_market_id_cancel = "0x1f73e21972972c69c03fb105a5864592ac2b47996ffea3c500d1ea2d20138717"
-    derivative_market_id_cancel_2 = "0x8158e603fb80c4e417696b0e98765b4ca89dcf886d3b9b2b90dc15bfb1aebd51"
-    spot_market_id_cancel = "0x74b17b0d6855feba39f1f7ab1e8bad0363bd510ee1dcc74e40c2adfe1502f781"
-    spot_market_id_cancel_2 = "0x01edfab47f124748dc89998eb33144af734484ba07099014594321729a0ca16b"
-    binary_options_market_id_cancel = "0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169"
-
-    spot_market_ids_to_cancel_all =['0x28f3c9897e23750bf653889224f93390c467b83c86d736af79431958fff833d1', '0xe8bf0467208c24209c1cf0fd64833fa43eb6e8035869f9d043dbff815ab76d01']
-    derivative_market_ids_to_cancel_all = ['0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce', '0x979731deaaf17d26b2e256ad18fecd0ac742b3746b9ea5382bac9bd0b5e58f74']
-    binary_options_market_ids_to_cancel_all = ['0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169']
+    derivative_market_id_cancel = "0xd5e4b12b19ecf176e4e14b42944731c27677819d2ed93be4104ad7025529c7ff"
+    derivative_market_id_cancel_2 = "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+    spot_market_id_cancel = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+    spot_market_id_cancel_2 = "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"
 
     derivative_orders_to_cancel = [
         composer.OrderData(
@@ -765,19 +763,6 @@ async def main() -> None:
             subaccount_id=subaccount_id,
             order_hash="0x222daa22f60fe9f075ed0ca583459e121c23e64431c3fbffdedda04598ede0d2"
         )
-    ]
-
-    binary_options_orders_to_cancel = [
-        composer.OrderData(
-            market_id=binary_options_market_id_cancel,
-            subaccount_id=subaccount_id,
-            order_hash="0xd2eb6020a8ef8937f4ccd9f848a302b6bffd11360950c01383c021fb7cf07b07"
-        ),
-        composer.OrderData(
-            market_id=binary_options_market_id_cancel,
-            subaccount_id=subaccount_id,
-            order_hash="0x3cba9fb432baf6c26a37acf194d4662a2cd141622de09e2677af8e59b8263419"
-        ),
     ]
 
     derivative_orders_to_create = [
@@ -824,50 +809,21 @@ async def main() -> None:
         ),
     ]
 
-    binary_options_orders_to_create = [
-        composer.BinaryOptionsOrder(
-            sender=address.to_acc_bech32(),
-            market_id=binary_options_market_id_create,
-            subaccount_id=subaccount_id,
-            fee_recipient=fee_recipient,
-            price=0.5,
-            quantity=1,
-            is_buy=True,
-            is_reduce_only=False
-        ),
-        composer.BinaryOptionsOrder(
-            sender=address.to_acc_bech32(),
-            market_id=binary_options_market_id_create,
-            subaccount_id=subaccount_id,
-            fee_recipient=fee_recipient,
-            price=0.5,
-            quantity=1,
-            is_buy=True,
-            is_reduce_only=False
-        ),
-    ]
-
     # prepare tx msg
     msg = composer.MsgBatchUpdateOrders(
         sender=address.to_acc_bech32(),
-        subaccount_id=subaccount_id,
         derivative_orders_to_create=derivative_orders_to_create,
         spot_orders_to_create=spot_orders_to_create,
-        binary_options_orders_to_create=binary_options_orders_to_create,
         derivative_orders_to_cancel=derivative_orders_to_cancel,
-        spot_orders_to_cancel=spot_orders_to_cancel,
-        binary_options_orders_to_cancel=binary_options_orders_to_cancel,
-        spot_market_ids_to_cancel_all=spot_market_ids_to_cancel_all,
-        derivative_market_ids_to_cancel_all=derivative_market_ids_to_cancel_all,
-        binary_options_market_ids_to_cancel_all=binary_options_market_ids_to_cancel_all
+        spot_orders_to_cancel=spot_orders_to_cancel
     )
 
     # build sim tx
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -1169,7 +1125,6 @@ from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey
 from pyinjective.orderhash import OrderHashManager
 
-
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
@@ -1180,9 +1135,10 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
     subaccount_id_2 = address.get_subaccount_id(index=1)
 
@@ -1202,10 +1158,10 @@ async def main() -> None:
             market_id=spot_market_id,
             subaccount_id=subaccount_id,
             fee_recipient=fee_recipient,
-            price=3.524,
+            price=0.524,
             quantity=0.01,
             is_buy=True,
-            is_po=True
+            is_po=False
         ),
         composer.SpotOrder(
             market_id=spot_market_id,
@@ -1223,7 +1179,7 @@ async def main() -> None:
             market_id=deriv_market_id,
             subaccount_id=subaccount_id,
             fee_recipient=fee_recipient,
-            price=25111,
+            price=10500,
             quantity=0.01,
             leverage=1.5,
             is_buy=True,
@@ -1258,12 +1214,154 @@ async def main() -> None:
     print("computed spot order hashes", order_hashes.spot)
     print("computed derivative order hashes", order_hashes.derivative)
 
-    # build sim tx
+    # build sim tx 1
     tx = (
         Transaction()
         .with_messages(spot_msg, deriv_msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
+        .with_chain_id(network.chain_id)
+    )
+    sim_sign_doc = tx.get_sign_doc(pub_key)
+    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
+    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
+
+    # simulate tx
+    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
+    if not success:
+        print(sim_res)
+        return
+
+    # build tx
+    gas_price = 500000000
+    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
+    gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
+    fee = [composer.Coin(
+        amount=gas_price * gas_limit,
+        denom=network.fee_denom,
+    )]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
+    sign_doc = tx.get_sign_doc(pub_key)
+    sig = priv_key.sign(sign_doc.SerializeToString())
+    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+
+    # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
+    res = await client.send_tx_sync_mode(tx_raw_bytes)
+    print(res)
+    print("gas wanted: {}".format(gas_limit))
+    print("gas fee: {} INJ".format(gas_fee))
+
+
+    # compute order hashes
+    order_hashes = order_hash_manager.compute_order_hashes(spot_orders=spot_orders, derivative_orders=derivative_orders, subaccount_index=0)
+
+    print("computed spot order hashes", order_hashes.spot)
+    print("computed derivative order hashes", order_hashes.derivative)
+
+    # build sim tx 2
+    tx = (
+        Transaction()
+        .with_messages(spot_msg, deriv_msg)
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
+        .with_chain_id(network.chain_id)
+    )
+    sim_sign_doc = tx.get_sign_doc(pub_key)
+    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
+    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
+
+    # simulate tx
+    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
+    if not success:
+        print(sim_res)
+        return
+
+    # build tx
+    gas_price = 500000000
+    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
+    gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
+    fee = [composer.Coin(
+        amount=gas_price * gas_limit,
+        denom=network.fee_denom,
+    )]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
+    sign_doc = tx.get_sign_doc(pub_key)
+    sig = priv_key.sign(sign_doc.SerializeToString())
+    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+
+    # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
+    res = await client.send_tx_sync_mode(tx_raw_bytes)
+    print(res)
+    print("gas wanted: {}".format(gas_limit))
+    print("gas fee: {} INJ".format(gas_fee))
+
+    spot_orders = [
+        composer.SpotOrder(
+            market_id=spot_market_id,
+            subaccount_id=subaccount_id_2,
+            fee_recipient=fee_recipient,
+            price=1.524,
+            quantity=0.01,
+            is_buy=True,
+            is_po=True
+        ),
+        composer.SpotOrder(
+            market_id=spot_market_id,
+            subaccount_id=subaccount_id_2,
+            fee_recipient=fee_recipient,
+            price=27.92,
+            quantity=0.01,
+            is_buy=False,
+            is_po=False
+        ),
+    ]
+
+    derivative_orders = [
+        composer.DerivativeOrder(
+            market_id=deriv_market_id,
+            subaccount_id=subaccount_id_2,
+            fee_recipient=fee_recipient,
+            price=25111,
+            quantity=0.01,
+            leverage=1.5,
+            is_buy=True,
+            is_po=False
+        ),
+        composer.DerivativeOrder(
+            market_id=deriv_market_id,
+            subaccount_id=subaccount_id_2,
+            fee_recipient=fee_recipient,
+            price=65111,
+            quantity=0.01,
+            leverage=2,
+            is_buy=False,
+            is_reduce_only=False
+        ),
+    ]
+
+    # prepare tx msg
+    spot_msg = composer.MsgBatchCreateSpotLimitOrders(
+        sender=address.to_acc_bech32(),
+        orders=spot_orders
+    )
+
+    deriv_msg = composer.MsgBatchCreateDerivativeLimitOrders(
+        sender=address.to_acc_bech32(),
+        orders=derivative_orders
+    )
+
+    # compute order hashes
+    order_hashes = order_hash_manager.compute_order_hashes(spot_orders=spot_orders, derivative_orders=derivative_orders, subaccount_index=1)
+
+    print("computed spot order hashes", order_hashes.spot)
+    print("computed derivative order hashes", order_hashes.derivative)
+
+    # build sim tx 3
+    tx = (
+        Transaction()
+        .with_messages(spot_msg, deriv_msg)
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)

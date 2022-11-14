@@ -19,6 +19,7 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
+    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     address = "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
@@ -174,10 +175,6 @@ pagination {
 |total|Integer|Total denoms|
 
 
-
-
-
-
 ## QueryBalance
 
 Get the bank balance for a specific denom.
@@ -194,6 +191,7 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
+    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     address = "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"

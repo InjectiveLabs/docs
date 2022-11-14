@@ -31,9 +31,10 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
     market_ids = ["0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"]
 
@@ -61,8 +62,8 @@ async def main() -> None:
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -275,11 +276,11 @@ async def main() -> None:
     # load account
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
 
     # prepare tx msg
     market_id = "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"
-
     grantee = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
     granter_inj_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
     granter_address = Address.from_acc_bech32(granter_inj_address)
@@ -304,8 +305,8 @@ async def main() -> None:
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -319,8 +320,13 @@ async def main() -> None:
         return
 
     sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res.result.data, simulation=True)
-    print("---Simulation Response---")
     print(sim_res_msg)
+    unpacked_msg_res = ProtoMsgComposer.UnpackMsgExecResponse(
+        msg_type=msg0.__class__.__name__,
+        data=sim_res_msg[0]
+    )
+    print("simulation msg response")
+    print(unpacked_msg_res)
 
     # build tx
     gas_price = 500000000
@@ -337,7 +343,6 @@ async def main() -> None:
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
     res = await client.send_tx_sync_mode(tx_raw_bytes)
-    print("---Transaction Response---")
     print(res)
     print("gas wanted: {}".format(gas_limit))
     print("gas fee: {} INJ".format(gas_fee))
@@ -533,9 +538,10 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare tx msg
@@ -549,8 +555,8 @@ async def main() -> None:
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -717,7 +723,6 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     granter = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"

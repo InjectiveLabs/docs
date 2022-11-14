@@ -28,7 +28,8 @@ async def main() -> None:
     # load account
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare trade info
@@ -56,8 +57,8 @@ async def main() -> None:
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -161,13 +162,14 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare trade info
-    market_id = "0x12731f85346fc902b7ef7256f91ef7e2aca4b121299d0d0aa6b1cb544c9d67e4"
+    market_id = "0x00617e128fdc0c0423dd18a1ff454511af14c4db6bdd98005a99cdf8fdbf74e9"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
     # prepare tx msg
@@ -178,15 +180,15 @@ async def main() -> None:
         fee_recipient=fee_recipient,
         price=0.5,
         quantity=1,
-        is_buy=False,
+        is_buy=True,
         is_reduce_only=False
     )
     # build sim tx
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -263,7 +265,6 @@ gas fee: 0.0000539515 INJ
 ```
 
 
-
 ## MsgCancelBinaryOptionsOrder
 
 ### Request Parameters
@@ -290,14 +291,15 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare trade info
-    market_id = "0x12731f85346fc902b7ef7256f91ef7e2aca4b121299d0d0aa6b1cb544c9d67e4"
-    order_hash = "0x20ae2402e1561593d147458a3dff28a38f391adb61ab0599251296da5b11fec8"
+    market_id = "0x00617e128fdc0c0423dd18a1ff454511af14c4db6bdd98005a99cdf8fdbf74e9"
+    order_hash = "a975fbd72b874bdbf5caf5e1e8e2653937f33ce6dd14d241c06c8b1f7b56be46"
 
     # prepare tx msg
     msg = composer.MsgCancelBinaryOptionsOrder(
@@ -310,8 +312,8 @@ async def main() -> None:
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -323,6 +325,10 @@ async def main() -> None:
     if not success:
         print(sim_res)
         return
+
+    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res.result.data, simulation=True)
+    print("---Simulation Response---")
+    print(sim_res_msg)
 
     # build tx
     gas_price = 500000000
@@ -343,6 +349,10 @@ async def main() -> None:
     print(res)
     print("gas wanted: {}".format(gas_limit))
     print("gas fee: {} INJ".format(gas_fee))
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -398,12 +408,13 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
 
     # prepare trade info
-    market_id = "0x12731f85346fc902b7ef7256f91ef7e2aca4b121299d0d0aa6b1cb544c9d67e4"
+    market_id = "0xfafec40a7b93331c1fc89c23f66d11fbb48f38dfdd78f7f4fc4031fad90f6896"
     status = "Demolished"
     settlement_price = 1
     expiration_timestamp = 1685460582
@@ -414,8 +425,8 @@ async def main() -> None:
         sender=address.to_acc_bech32(),
         market_id=market_id,
         settlement_price=settlement_price,
-        # expiration_timestamp=expiration_timestamp,
-        # settlement_timestamp=settlement_timestamp,
+        expiration_timestamp=expiration_timestamp,
+        settlement_timestamp=settlement_timestamp,
         status=status
     )
 
@@ -423,8 +434,8 @@ async def main() -> None:
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -436,6 +447,10 @@ async def main() -> None:
     if not success:
         print(sim_res)
         return
+
+    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res.result.data, simulation=True)
+    print("---Simulation Response---")
+    print(sim_res_msg)
 
     # build tx
     gas_price = 500000000
@@ -518,19 +533,21 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
 
     # prepare tx msg
     msg = composer.MsgInstantBinaryOptionsMarketLaunch(
         sender=address.to_acc_bech32(),
         admin=address.to_acc_bech32(),
-        ticker="UFC-KHABIB-TKO-05/30/2022",
-        oracle_symbol="UFC-KHABIB-TKO-05/30/2022",
-        oracle_provider="ufc",
+        ticker="UFC-KHABIB-TKO-05/30/2023",
+        oracle_symbol="UFC-KHABIB-TKO-05/30/2023",
+        oracle_provider="UFC",
         oracle_type="Provider",
         quote_denom="peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+        quote_decimals=6,
         oracle_scale_factor=6,
         maker_fee_rate=0.0005, # 0.05%
         taker_fee_rate=0.0010, # 0.10%
@@ -544,8 +561,8 @@ async def main() -> None:
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -557,6 +574,10 @@ async def main() -> None:
     if not success:
         print(sim_res)
         return
+
+    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res.result.data, simulation=True)
+    print("---Simulation Response---")
+    print(sim_res_msg)
 
     # build tx
     gas_price = 500000000
@@ -648,7 +669,8 @@ async def main() -> None:
     # load account
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
 
     provider = "ufc"
     symbols = ["KHABIB-TKO-05/30/2023", "KHABIB-TKO-05/26/2023"]
@@ -666,8 +688,8 @@ async def main() -> None:
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -679,6 +701,10 @@ async def main() -> None:
     if not success:
         print(sim_res)
         return
+
+    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res.result.data, simulation=True)
+    print("---Simulation Response---")
+    print(sim_res_msg)
 
     # build tx
     gas_price = 500000000

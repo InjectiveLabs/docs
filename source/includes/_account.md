@@ -23,13 +23,15 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    # set custom cookie location (optional) - defaults to current dir
+    client = AsyncClient(network, insecure=False, chain_cookie_location="/tmp/.chain_cookie")
     await client.sync_timeout_height()
 
     # load account
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
 
     # prepare tx msg
     msg = composer.MsgSend(
@@ -43,8 +45,8 @@ async def main() -> None:
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -383,7 +385,6 @@ from pyinjective.transaction import Transaction
 from pyinjective.constant import Network
 from pyinjective.wallet import PrivateKey
 
-
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
@@ -396,7 +397,8 @@ async def main() -> None:
     # load account
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare tx msg
@@ -411,8 +413,8 @@ async def main() -> None:
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -594,7 +596,8 @@ async def main() -> None:
     # load account
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare tx msg
@@ -609,8 +612,8 @@ async def main() -> None:
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -764,7 +767,6 @@ gas fee: 0.000064803 INJ
 ```
 
 
-
 ## MsgSubaccountTransfer
 
 ### Request Parameters
@@ -793,7 +795,8 @@ async def main() -> None:
     # load account
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
     dest_subaccount_id = address.get_subaccount_id(index=1)
 
@@ -810,8 +813,8 @@ async def main() -> None:
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -995,7 +998,8 @@ async def main() -> None:
     # load account
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
     dest_subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
 
@@ -1004,16 +1008,16 @@ async def main() -> None:
         sender=address.to_acc_bech32(),
         source_subaccount_id=subaccount_id,
         destination_subaccount_id=dest_subaccount_id,
-        amount=1,
-        denom="inj"
+        amount=100,
+        denom="INJ"
     )
 
     # build sim tx
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -1194,9 +1198,11 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
-    address = await pub_key.to_address().async_init_num_seq(network.lcd_endpoint)
+    address = pub_key.to_address()
+    account = await client.get_account(address.to_acc_bech32())
+    subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare msg
     asset = "injective-protocol"
@@ -1218,8 +1224,8 @@ async def main() -> None:
     tx = (
         Transaction()
         .with_messages(msg)
-        .with_sequence(address.get_sequence())
-        .with_account_num(address.get_number())
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
     sim_sign_doc = tx.get_sign_doc(pub_key)
@@ -1464,7 +1470,7 @@ from pyinjective.constant import Network
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    tx_hash = "68B21A7CB5E27FFA62917E6B3D5B600FD0CE34D65EE26EAEB1633A4E2718F3EB"
+    tx_hash = "0D2427F669F9862C0392A3D7699D678B30FD9D38861782E3FA32C7816889032E"
     tx_logs = await client.get_tx(tx_hash=tx_hash)
     print(tx_logs)
 

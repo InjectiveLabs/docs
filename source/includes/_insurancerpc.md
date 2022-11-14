@@ -267,9 +267,11 @@ async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    redemption_denom = "share1"
-    status = "disbursed"  # pending or disbursed
+    redeemer = "inj1gxqdj76ul07w4ujsl8403nhhzyvug2h66qk057"
+    redemption_denom = "share2"
+    status = "disbursed"
     insurance_redemptions = await client.get_redemptions(
+        redeemer=redeemer,
         redemption_denom=redemption_denom,
         status=status
     )
