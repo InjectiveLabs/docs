@@ -183,13 +183,13 @@ Would result in:
 
 | Sells                                                                                                                                                                                | Buys                                                                                                                                                                                 |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,390</td><td>0.3 BTC</td></tr><tr><td>$64,370</td><td>0.2 BTC</td></tr><tr><td>$64,360</td><td>0.5 BTC</td></tr> </table> | <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,210</td><td>0.1 BTC</td></tr><tr><td>$64,205</td><td>0.3 BTC</td></tr><tr><td>$64,200</td><td>0.2 BTC</td></tr> </table> |
+| <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,390</td><td>0.3 BTC</td></tr><tr><td>$64,370</td><td>0.2 BTC</td></tr><tr><td>$64,250</td><td>0.5 BTC</td></tr> </table> | <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,210</td><td>0.1 BTC</td></tr><tr><td>$64,205</td><td>0.3 BTC</td></tr><tr><td>$64,200</td><td>0.2 BTC</td></tr> </table> |
 
 ### New Orders
 
 | Sells                                                                                                                                       | Buys                                                                                                                                        |
 | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,200</td><td>0.1 BTC</td></tr><tr><td>$64,180</td><td>0.2 BTC</td></tr> </table> | <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,370</td><td>0.4 BTC</td></tr><tr><td>$64,360</td><td>0.2 BTC</td></tr> </table> |
+| <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,220</td><td>0.4 BTC</td></tr><tr><td>$64,180</td><td>0.2 BTC</td></tr> </table> | <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,370</td><td>0.4 BTC</td></tr><tr><td>$64,360</td><td>0.2 BTC</td></tr> </table> |
 
 ### Matching Orders
 
@@ -197,24 +197,36 @@ All new orders are incorporated into the existing orderbook. In our case this re
 
 | Sells                                                                                                                                                                                                                                                                  | Buys                                                                                                                                                                                                                                                                   |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,390</td><td>0.3 BTC</td></tr><tr><td>$64,370</td><td>0.2 BTC</td></tr><tr><td>$64,360</td><td>0.5 BTC</td></tr><tr><td>$64,200</td><td>0.1 BTC</td></tr><tr><td>$64,180</td><td>0.2 BTC</td></tr> </table> | <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,370</td><td>0.4 BTC</td></tr><tr><td>$64,360</td><td>0.1 BTC</td></tr><tr><td>$64,210</td><td>0.1 BTC</td></tr><tr><td>$64,205</td><td>0.3 BTC</td></tr><tr><td>$64,200</td><td>0.2 BTC</td></tr> </table> |
+| <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,390</td><td>0.3 BTC</td></tr><tr><td>$64,370</td><td>0.2 BTC</td></tr><tr><td>$64,250</td><td>0.5 BTC</td></tr><tr><td>$64,220</td><td>0.4 BTC</td></tr><tr><td>$64,180</td><td>0.2 BTC</td></tr> </table> | <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,370</td><td>0.4 BTC</td></tr><tr><td>$64,360</td><td>0.1 BTC</td></tr><tr><td>$64,210</td><td>0.1 BTC</td></tr><tr><td>$64,205</td><td>0.3 BTC</td></tr><tr><td>$64,200</td><td>0.2 BTC</td></tr> </table> |
 
 As long as negative spread exists, orders are matched against each other. The first buy order is fully matched:
 
-| Sells                                                                                                                                                                                | Buys                                                                                                                                                                                                                          |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,390</td><td>0.3 BTC</td></tr><tr><td>$64,370</td><td>0.2 BTC</td></tr><tr><td>$64,360</td><td>0.4 BTC</td></tr> </table> | <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,360</td><td>0.1 BTC</td></tr><tr><td>$64,210</td><td>0.1 BTC</td></tr><tr><td>$64,205</td><td>0.3 BTC</td></tr><tr><td>$64,200</td><td>0.2 BTC</td></tr> </table> |
+| Sells                                                                                                                                                                                                                         | Buys                                                                                                                                                                                                                          |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,390</td><td>0.3 BTC</td></tr><tr><td>$64,370</td><td>0.2 BTC</td></tr><tr><td>$64,250</td><td>0.4 BTC</td></tr> <tr><td>$64,220</td><td>0.2 BTC</td></tr></table> | <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,360</td><td>0.1 BTC</td></tr><tr><td>$64,210</td><td>0.1 BTC</td></tr><tr><td>$64,205</td><td>0.3 BTC</td></tr><tr><td>$64,200</td><td>0.2 BTC</td></tr> </table> |
 
 Now the second buy order can still be fully matched:
 
-| Sells                                                                                                                                                                                | Buys                                                                                                                                                                                 |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,390</td><td>0.3 BTC</td></tr><tr><td>$64,370</td><td>0.2 BTC</td></tr><tr><td>$64,360</td><td>0.3 BTC</td></tr> </table> | <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,210</td><td>0.1 BTC</td></tr><tr><td>$64,205</td><td>0.3 BTC</td></tr><tr><td>$64,200</td><td>0.2 BTC</td></tr> </table> |
+| Sells                                                                                                                                                                                                                          | Buys                                                                                                                                                                                 |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,390</td><td>0.3 BTC</td></tr><tr><td>$64,370</td><td>0.2 BTC</td></tr><tr><td>$64,250</td><td>0.4 BTC</td></tr> <tr><td>$64,220</td><td>0.1 BTC</td></tr> </table> | <table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,210</td><td>0.1 BTC</td></tr><tr><td>$64,205</td><td>0.3 BTC</td></tr><tr><td>$64,200</td><td>0.2 BTC</td></tr> </table> |
 
-This is the end of the matching, since no more negative spread exists (`64,360 > 62,210`).
+This is the end of the matching, since no more negative spread exists (`64,220 > 62,210`).
 
-All orders will be matched with a clearing price of
+All orders will be matched with a **uniform clearing price** within the range of the last sell order price and the last buy order price.
 
-- `(64,180*0.2 + 64,200*0.1 + 64,360*0.2 + 64,370*0.4 + 64,360*0.1) / (0.5*2) = 64,312`
+- Last sell order price: 64,220
+- Last buy order price: 64,360
+- 64,220 >= Clearing price >= 64,360
 
-for a total quantity of 0.5 BTC. In edge cases where this clearing price violates any order price, it is instead calculated as the average of the last matched order on buy and sell side.
+**Step 1**: Check if clearing price range is out of bounds regarding the resting orderbook mid price.
+
+- Resting orderbook mid price: (64,250+64,210)/2 = 64,230
+- Is within range of clearing price ✅ (if not, a clearing price of either last buy or last sell price would be used)
+
+**Step 2**: Check if clearing price range is out of bounds regarding the mark price.
+
+- Let's assume mark price is 64,300
+- Is within range of clearing price ✅ (if not, a clearing price of either last buy or last sell price would be used)
+
+**Step 3**: Set clearing price = mark price.
