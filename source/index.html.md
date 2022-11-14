@@ -13,6 +13,7 @@ includes:
   - resources
   - explorer
   - faucet
+  - status
   - exchangeapi
   - accountsrpc
   - spotrpc
