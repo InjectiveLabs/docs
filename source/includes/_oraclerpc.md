@@ -218,7 +218,7 @@ func main() {
     ctx := context.Background()
     baseSymbol := "BTC"
     quoteSymbol := "USDT"
-    oracleType := "BandIBC"
+    oracleType := "bandibc"
     oracleScaleFactor := uint32(6)
     res, err := exchangeClient.GetPrice(ctx, baseSymbol, quoteSymbol, oracleType, oracleScaleFactor)
 
