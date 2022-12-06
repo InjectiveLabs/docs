@@ -980,25 +980,20 @@
     <span class="c1"># load account
 </span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"</span><span class="p">)</span>
     <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
-    <span class="n">address</span> <span class="o">=</span> <span class="k">await</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">().</span><span class="n">async_init_num_seq</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">lcd_endpoint</span><span class="p">)</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">()</span>
+    <span class="n">account</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_account</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">())</span>
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># prepare trade info
 </span>    <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
 
-    <span class="n">derivative_market_id_create</span> <span class="o">=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
-    <span class="n">spot_market_id_create</span> <span class="o">=</span> <span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span>
-    <span class="n">binary_options_market_id_create</span> <span class="o">=</span> <span class="s">"0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169"</span>
+    <span class="n">derivative_market_id_create</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+    <span class="n">spot_market_id_create</span> <span class="o">=</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span>
 
-    <span class="n">derivative_market_id_cancel</span> <span class="o">=</span> <span class="s">"0x1f73e21972972c69c03fb105a5864592ac2b47996ffea3c500d1ea2d20138717"</span>
-    <span class="n">derivative_market_id_cancel_2</span> <span class="o">=</span> <span class="s">"0x8158e603fb80c4e417696b0e98765b4ca89dcf886d3b9b2b90dc15bfb1aebd51"</span>
-    <span class="n">spot_market_id_cancel</span> <span class="o">=</span> <span class="s">"0x74b17b0d6855feba39f1f7ab1e8bad0363bd510ee1dcc74e40c2adfe1502f781"</span>
-    <span class="n">spot_market_id_cancel_2</span> <span class="o">=</span> <span class="s">"0x01edfab47f124748dc89998eb33144af734484ba07099014594321729a0ca16b"</span>
-    <span class="n">binary_options_market_id_cancel</span> <span class="o">=</span> <span class="s">"0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169"</span>
-
-    <span class="n">spot_market_ids_to_cancel_all</span> <span class="o">=</span><span class="p">[</span><span class="s">'0x28f3c9897e23750bf653889224f93390c467b83c86d736af79431958fff833d1'</span><span class="p">,</span> <span class="s">'0xe8bf0467208c24209c1cf0fd64833fa43eb6e8035869f9d043dbff815ab76d01'</span><span class="p">]</span>
-    <span class="n">derivative_market_ids_to_cancel_all</span> <span class="o">=</span> <span class="p">[</span><span class="s">'0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce'</span><span class="p">,</span> <span class="s">'0x979731deaaf17d26b2e256ad18fecd0ac742b3746b9ea5382bac9bd0b5e58f74'</span><span class="p">]</span>
-    <span class="n">binary_options_market_ids_to_cancel_all</span> <span class="o">=</span> <span class="p">[</span><span class="s">'0x2f47a461721b3f3e2cd10bac46cea89b22d80fa2d049b3f7654ba9f56917c169'</span><span class="p">]</span>
+    <span class="n">derivative_market_id_cancel</span> <span class="o">=</span> <span class="s">"0xd5e4b12b19ecf176e4e14b42944731c27677819d2ed93be4104ad7025529c7ff"</span>
+    <span class="n">derivative_market_id_cancel_2</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+    <span class="n">spot_market_id_cancel</span> <span class="o">=</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span>
+    <span class="n">spot_market_id_cancel_2</span> <span class="o">=</span> <span class="s">"0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"</span>
 
     <span class="n">derivative_orders_to_cancel</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
@@ -1024,19 +1019,6 @@
             <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
             <span class="n">order_hash</span><span class="o">=</span><span class="s">"0x222daa22f60fe9f075ed0ca583459e121c23e64431c3fbffdedda04598ede0d2"</span>
         <span class="p">)</span>
-    <span class="p">]</span>
-
-    <span class="n">binary_options_orders_to_cancel</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">binary_options_market_id_cancel</span><span class="p">,</span>
-            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0xd2eb6020a8ef8937f4ccd9f848a302b6bffd11360950c01383c021fb7cf07b07"</span>
-        <span class="p">),</span>
-        <span class="n">composer</span><span class="p">.</span><span class="n">OrderData</span><span class="p">(</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">binary_options_market_id_cancel</span><span class="p">,</span>
-            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-            <span class="n">order_hash</span><span class="o">=</span><span class="s">"0x3cba9fb432baf6c26a37acf194d4662a2cd141622de09e2677af8e59b8263419"</span>
-        <span class="p">),</span>
     <span class="p">]</span>
 
     <span class="n">derivative_orders_to_create</span> <span class="o">=</span> <span class="p">[</span>
@@ -1083,50 +1065,21 @@
         <span class="p">),</span>
     <span class="p">]</span>
 
-    <span class="n">binary_options_orders_to_create</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">composer</span><span class="p">.</span><span class="n">BinaryOptionsOrder</span><span class="p">(</span>
-            <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">binary_options_market_id_create</span><span class="p">,</span>
-            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
-            <span class="n">price</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-            <span class="n">quantity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-            <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
-        <span class="p">),</span>
-        <span class="n">composer</span><span class="p">.</span><span class="n">BinaryOptionsOrder</span><span class="p">(</span>
-            <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
-            <span class="n">market_id</span><span class="o">=</span><span class="n">binary_options_market_id_create</span><span class="p">,</span>
-            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
-            <span class="n">price</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-            <span class="n">quantity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-            <span class="n">is_reduce_only</span><span class="o">=</span><span class="bp">False</span>
-        <span class="p">),</span>
-    <span class="p">]</span>
-
     <span class="c1"># prepare tx msg
 </span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgBatchUpdateOrders</span><span class="p">(</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
-        <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
         <span class="n">derivative_orders_to_create</span><span class="o">=</span><span class="n">derivative_orders_to_create</span><span class="p">,</span>
         <span class="n">spot_orders_to_create</span><span class="o">=</span><span class="n">spot_orders_to_create</span><span class="p">,</span>
-        <span class="n">binary_options_orders_to_create</span><span class="o">=</span><span class="n">binary_options_orders_to_create</span><span class="p">,</span>
         <span class="n">derivative_orders_to_cancel</span><span class="o">=</span><span class="n">derivative_orders_to_cancel</span><span class="p">,</span>
-        <span class="n">spot_orders_to_cancel</span><span class="o">=</span><span class="n">spot_orders_to_cancel</span><span class="p">,</span>
-        <span class="n">binary_options_orders_to_cancel</span><span class="o">=</span><span class="n">binary_options_orders_to_cancel</span><span class="p">,</span>
-        <span class="n">spot_market_ids_to_cancel_all</span><span class="o">=</span><span class="n">spot_market_ids_to_cancel_all</span><span class="p">,</span>
-        <span class="n">derivative_market_ids_to_cancel_all</span><span class="o">=</span><span class="n">derivative_market_ids_to_cancel_all</span><span class="p">,</span>
-        <span class="n">binary_options_market_ids_to_cancel_all</span><span class="o">=</span><span class="n">binary_options_market_ids_to_cancel_all</span>
+        <span class="n">spot_orders_to_cancel</span><span class="o">=</span><span class="n">spot_orders_to_cancel</span>
     <span class="p">)</span>
 
     <span class="c1"># build sim tx
 </span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Transaction</span><span class="p">()</span>
         <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">with_sequence</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_sequence</span><span class="p">())</span>
-        <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_sequence</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">get_sequence</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
         <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
@@ -1477,6 +1430,12 @@
 <td>No</td>
 </tr>
 <tr>
+<td>trigger_price</td>
+<td>Boolean</td>
+<td>Set the trigger price for conditional orders</td>
+<td>No</td>
+</tr>
+<tr>
 <td>is_buy</td>
 <td>Boolean</td>
 <td>Set to true or false for buy and sell orders respectively</td>
@@ -1492,6 +1451,30 @@
 <td>is_po</td>
 <td>Boolean</td>
 <td>Set to true or false for post-only or normal orders respectively</td>
+<td>No</td>
+</tr>
+<tr>
+<td>stop_buy</td>
+<td>Boolean</td>
+<td>Set to true for conditional stop_buy orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>stop_sell</td>
+<td>Boolean</td>
+<td>Set to true for conditional stop_sell orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>take_buy</td>
+<td>Boolean</td>
+<td>Set to true for conditional take_buy orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>take_sell</td>
+<td>Boolean</td>
+<td>Set to true for conditional take_sell</td>
 <td>No</td>
 </tr>
 </tbody></table>
@@ -1589,6 +1572,24 @@
 <td>String</td>
 <td>The hash of a specific order</td>
 <td>Yes</td>
+</tr>
+<tr>
+<td>is_conditional</td>
+<td>Boolean</td>
+<td>Set to true or false for conditional and regular orders respectively. Setting this value will incur less gas for the order cancellation and faster execution</td>
+<td>No</td>
+</tr>
+<tr>
+<td>order_direction</td>
+<td>Boolean</td>
+<td>The direction of the order (Should be one of: [buy sell]). Setting this value will incur less gas for the order cancellation and faster execution</td>
+<td>No</td>
+</tr>
+<tr>
+<td>order_type</td>
+<td>Boolean</td>
+<td>The type of the order (Should be one of: [market limit]). Setting this value will incur less gas for the order cancellation and faster execution</td>
+<td>No</td>
 </tr>
 </tbody></table>
 
