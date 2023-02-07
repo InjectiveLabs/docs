@@ -1,14 +1,14 @@
 # Overview
 
-Injective is a DeFi focused layer-1 blockchain built for the next generation of decentralized derivatives exchange. The Injective Chain is a Tendermint-based IBC-compatible blockchain which supports a decentralized orderbook-based DEX protocol and a trustless ERC-20 token bridge to the Ethereum blockchain.
+Injective is a DeFi focused layer-1 blockchain built for the next generation of decentralized derivatives exchanges. The Injective Chain is a Tendermint-based IBC-compatible blockchain which supports a decentralized orderbook-based DEX protocol and a trustless ERC-20 token bridge to the Ethereum blockchain.
 
-It is the first decentralized exchange focused layer-1 blockchain for decentralized perpetual swaps, futures, and spot trading that unlocks the full potential of decentralized derivatives and borderless DeFi. Every component of the protocol has been built to be fully trustless, censorship-resistant, publicly verifiable, and front-running resistant.
+It is the first decentralized exchange focused layer-1 blockchain for perpetual swaps, futures, and spot trading that unlocks the full potential of decentralized derivatives and borderless DeFi. Every component of the protocol has been built to be fully trustless, censorship-resistant, publicly verifiable, and front-running resistant.
 
-By providing the unrestricted and unprecedented ability to express diverse views in the decentralized financial markets, we are striving to empower individuals with the ability to more efficiently allocate capital in our society.
+By providing the unrestricted and unprecedented ability to express diverse views in decentralized financial markets, we strive to empower individuals with the ability to more efficiently allocate capital in our society.
 
 ## Architecture Overview
 
-Injective enables traders to create and trade on arbitrary spot and derivative markets. The entire process includes on-chain limit orderbook management, on-chain trade execution, on-chain order matching, on-chain transaction settlement, and on-chain trading incentive distribution through the logic codified by the Injective Chain's [exchange module](https://chain.injective.network/modules/exchange/).
+Injective enables traders to create and trade on arbitrary spot and derivative markets. The entire process includes on-chain limit orderbook management, on-chain trade execution, on-chain order matching, on-chain transaction settlement, and on-chain trading incentive distribution through the logic codified by the Injective Chain's [exchange module](https://docs.injective.network/develop/modules/Injective/exchange/).
 
 Architecturally there are two main services that traders should concern themselves with:
 
@@ -19,7 +19,7 @@ The trading lifecycle is as follows:
 
 1. First, traders cryptographically sign a **transaction** containing one or more order **messages** (e.g. `MsgBatchCreateDerivativeLimitOrders`, `MsgCreateSpotMarketOrder`, `MsgCancelDerivativeLimitOrder`, etc. ).
 2. Then the transaction is broadcasted to an Injective Chain node.
-3. The transaction is then added to the mempool and becomes included in a block. More details on this process can be found [here](https://docs.cosmos.network/master/basics/tx-lifecycle.html).
+3. The transaction is then added to the mempool and becomes included in a block. More details on this process can be found [here](https://docs.cosmos.network/v0.47/basics/tx-lifecycle).
 4. The handler for each respective message is run. During handler execution, order cancel and liquidation messages are processed immediately, whereas order creation messages are added to a queue.
 5. At the end of the block, the batch auction process for order matching begins.
    - First, the queued market orders are executed against the resting orderbook (which does NOT include the new orders from the current block) and are cleared at a uniform clearing price.
@@ -31,20 +31,18 @@ The trading lifecycle is as follows:
 ## Key Differences To CEX
 
 - All information is public which includes things like untriggered Stop/Take orders or pending orders in the mempool.
-- The data stored on-chain is minimal for performance reasons and reflects only the current state, relayers provide additional historical data as well as a user interface for traders through the Injective Exchange API backend.
-- Usually a DEX has front-running issues, but those are mitigated at Injective through fast block times and FBA.
+- The data stored on-chain is minimal for performance reasons and reflects only the current state; relayers provide additional historical data as well as a user interface for traders through the Injective Exchange API backend.
+- Usually a DEX has front-running issues, but those are mitigated at Injective through fast block times and FBA (Frequent Batch Auction).
 - The order of execution is different. Any new exchange action is a new transaction and is not executed immediately. Instead, it is added to a queue (mempool) and executed once the block is committed. At the time of the block commit, all included transactions happen more or less instantly. Firstly, code that is inside the handler is executed in the transaction sequence which is decided by the miner. This is not a problem since the sequence does not affect matching prices due to FBA and thus fairness is guaranteed.
 
 To summarize the sequence of state changes on the Injective Chain:
 
 1. Mempool: A queue of pending transactions.
-2. BeginBlocker: Code that is executed at the beginning of every block. We use it for certain maintenance tasks (details can be found in the [exchange module](https://chain.injective.network/modules/exchange/) documentation).
+2. BeginBlocker: Code that is executed at the beginning of every block. We use it for certain maintenance tasks (details can be found in the [exchange module](https://docs.injective.network/develop/modules/Injective/exchange/begin_block) documentation).
 3. Handler: Code that is executed when a transaction is included in a block.
-4. EndBlocker: Code that is executed at the end of every block. We use it to match orders, calculate funds changes and update the positions.
+4. EndBlocker: Code that is executed at the end of every block. We use it to match orders, calculate changes in funds, and update positions.
 
 ## Comparison to CEX
-
-When you submit an order to Injective Chain,
 
 | Centralized Exchange (CEX) |       Decentralized Exchange (DEX)        |
 | :------------------------: | :---------------------------------------: |
@@ -55,7 +53,7 @@ When you submit an order to Injective Chain,
 
 ## Frequent Batch Auction (FBA)
 
-The goal is to further prevent any [Front-Running](https://www.investopedia.com/terms/f/frontrunning.asp) in a decentralized setting. Most DEX's suffer from this as all information is public and traders can collude with miners or pay high gas fees enabling them to front-run any trades. We mitigate this by fast block times combined with a Frequent Batch Auction:
+The goal is to further prevent any [Front-Running](https://www.investopedia.com/terms/f/frontrunning.asp) in a decentralized setting. Most DEX's suffer from this as all information is public and traders can collude with miners or pay high gas fees enabling them to front-run any trades. We mitigate this by combining fast block times with a Frequent Batch Auction:
 
 In any given block:
 
@@ -123,25 +121,24 @@ Liquidator Profit = $2,100 * 0.5 = $1,050
 Insurance Fund Profit = $2,100 * 0.5 = $1,050
 ```
 
-When your position falls below the maintenance margin ratio, the position can and likely will be liquidated by anyone running the liquidator bot. You will loose your entire position and all funds remaining in the position. What happens on-chain is that automatically a reduce-only market order of the same size as the position is created. The market order will have a worst price defined as _Infinity_ or _0_, implying it will be matched at whatever prices are available in the order book.
+When your position falls below the maintenance margin ratio, the position can and likely will be liquidated by anyone running the liquidator bot. You will loose your entire position and all funds remaining in the position. On-chain, a reduce-only market order of the same size as the position is automatically created. The market order will have a worst price defined as _Infinity_ or _0_, implying it will be matched at whatever prices are available in the order book.
 
 One key difference is that the payout from executing the reduce-only market order will not go towards the position owner. Instead, half of the remaining funds are transferred to the liquidator bot and the other half is transferred to the insurance fund.
 
 If the payout in the position was negative, i.e., the position's negative PNL was greater than its margin, then the insurance fund will cover the missing funds.
 
-Also note that liquidations are executed immediately in a block before any other order matching occurs.
+Note: liquidations are executed immediately in a block before any other order matching occurs.
 
 ## Fee Discounts
 
-Fee discounts are enabled by looking at the past trailing 30 day window. So long as you meet both conditions for a tier (past fees paid **AND** staked amount), you will receive the respective discounts.
+Fee discounts are enabled by looking at the past trailing 30 day window. As long as you meet both conditions for a tier (volume traded **AND** staked amount), you will receive the respective discounts.
 
 - Note that there is a caching mechanism in place which can take up to one day to before being updated with a new tier.
 - Negative maker fee markets are not eligible for discounts.
-- If the fee discount proposal was passed less than 30 days ago, the fee paid requirement is ignored so we don't unfairly penalize people who onboard immediately.
 
 ## Funding Rate
 
-The hourly funding rate on perpetual markets determines the percentage that traders on one side have to pay to the other side each hour. If the rate is positive, longs are paying shorts. If the rate is negative shorts are paying longs. The further trade prices within that hour deviated from the mark price, the higher the funding rate will be up to a maximum of 0.0625% (1.5% per day).
+The hourly funding rate on perpetual markets determines the percentage that traders on one side have to pay to the other side each hour. If the rate is positive, longs pay shorts. If the rate is negative, shorts pay longs. The further trade prices deviate from the mark price within the hour, the higher the funding rate will be up to a maximum of 0.0625% (1.5% per day).
 
 ## Closing a Position
 
@@ -160,7 +157,7 @@ You create a new vanilla order for
 - Price = $35,000
 - Quantity = 0.75 BTC
 
-which is getting fully matched. First, the position is fully closed:
+which is fully matched. First, the position is fully closed:
 
 - OrderMarginUsedForClosing = OrderMargin * CloseQuantity / OrderQuantity
 - OrderMarginUsedForClosing = $10,000 * 0.5 / 0.75 = $6,667
@@ -182,7 +179,7 @@ There are two ways to close a position:
 
 ### Closing via Reduce-Only Order
 
-When you close a position vis a reduce-only order, no additional margin is used from the order. All reduce-only orders have a margin of zero. In addition, reduce-only orders are only used to close positions, not to open new ones.
+When you close a position via a reduce-only order, no additional margin is used from the order. All reduce-only orders have a margin of zero. In addition, reduce-only orders are only used to close positions, not to open new ones.
 
 ### Closing via Vanilla Order
 
@@ -192,7 +189,7 @@ You can also close a position via vanilla orders. When a sell vanilla order is g
 2. fully closed
 3. or fully closed with subsequent opening of a new position in the opposite direction.
 
-Note that how the margin inside the order is used depends on which of the three scenarios you are in. If you close a position via vanilla order, the margin is only used to cover PNL payouts, **not to go into the position**. If the order subsequently opens a new position in the opposite direction (scenario 3), the remaining proportional margin will go towards the new position.
+Note that how the margin inside the order is used depends on which of the three scenarios you are in. If you close a position via vanilla order, the margin is only used to cover PNL payouts, **not to go into the position**. If the order subsequently opens a new position in the opposite direction (scenario 3), the remaining proportional margin will go towards the new position.
 
 ## Trading Rewards
 
@@ -220,7 +217,8 @@ And the following **SELL** orders:
 | Buy Price | Quantity | Order Type  |
 | :-------: | :------: | :---------: |
 |  $66,500  | 0.2 BTC  |   Vanilla   |
-|  $65,500  | 0.2 BTC  | Reduce-only |
+|  $65,500  | 0.1 BTC  | Reduce-only |
+|  $65,400  | 0.1 BTC  |   Vanilla   |
 |  $64,500  | 0.3 BTC  |   Vanilla   |
 |  $63,500  | 0.1 BTC  | Reduce-only |
 
@@ -235,49 +233,53 @@ In our example, consider a new reduce-only order of `0.4 BTC` at `$64,600`.
 |  Sell Price  |  Quantity   |   Order Type    |
 | :---------:  | :---------: | :-------------: |
 |   $66,500    |   0.2 BTC   |     Vanilla     |
-|   $65,500    |   0.2 BTC   |   Reduce-only   |
+|   $65,500    |   0.1 BTC   |   Reduce-only   |
+|   $65,400    |   0.1 BTC   |     Vanilla     |
 | **$64,600**  | **0.4 BTC** | **Reduce-only** |
 |   $64,500    |   0.3 BTC   |     Vanilla     |
 |   $63,500    |   0.1 BTC   |   Reduce-only   |
 
-This is perfectly valid and no further action is required. But what if the order was for `0.5 BTC` instead?
+This is perfectly valid and no further action is required. If the buy price hit $65,500 and all limit sell orders less than or equal to that price were filled, then the long position would be closed. If the price hit $66,500 and the vanilla sell order was filled, then the trader would open a 0.2 BTC short position. But what if the reduce-only order was for `0.5 BTC` instead?
 
 |  Sell Price  |  Quantity   |   Order Type    |
 | :---------:  | :---------: | :-------------: |
 |   $66,500    |   0.2 BTC   |     Vanilla     |
-|   $65,500    |   0.2 BTC   |   Reduce-only   |
-| **$64,600**  | **0.5 BTC** | **Reduce-only** |
+|   $65,500    |   0.1 BTC   |   Reduce-only   |
+|   $65,400    |   0.1 BTC   |     Vanilla     |
+| **$64,600**  | **0.4 BTC** | **Reduce-only** |
 |   $64,500    |   0.3 BTC   |     Vanilla     |
 |   $63,500    |   0.1 BTC   |   Reduce-only   |
 
-If the orders are getting matched, once the last reduce-only of $65,500 with 0.2 BTC order is reached, the position will have been reduced to `1 BTC - 0.1 BTC - 0.3 BTC - 0.5 BTC = 0.1 BTC`. A reduce-only order of 0.2 BTC after that will thus be invalid.
+If the orders are getting matched, once the last vanilla order of 0.1 BTC at $65,400 is filled, the position will have been reduced to `1 BTC - 0.1 BTC - 0.3 BTC - 0.5 BTC - 0.1 BTC = 0 BTC`. The next reduce-only order of 0.1 BTC at $65,500 will thus be invalid.
 
-To prevent that, we simply **reject the creation of the new 0.5 BTC reduce-only order**. In other words any reduce-only order can never be larger than the expected position's quantity at the time of matching.
+To prevent that, we **automatically cancel all reduce-only orders at a price where the cumulative sum of orders up to and including the reduce-only order would add up to more than the trader’s current long amount**. Another way to think about it: we find the reduce-only order with the highest price such that **all orders** (vanilla and reduce-only) including and below that price add up in quantity to less than the long quantity. All reduce-only orders above that price will be canceled so that no reduce-only orders exist when the position is closed or short. The same concept applies to reduce-only orders on short positions, but we look for the lowest price instead of the highest on buy orders so that no reduce-only orders exist when the position is closed or long.
 
 ### Upon placing a vanilla limit order
 
-- If any reduce-only limit orders would be invalidated when all the orders up to and including the new vanilla limit order were filled.
+- We check if any reduce-only limit orders would be invalidated if all the orders up to and including the new vanilla limit order were filled.
 
 In our example, consider a new vanilla order of `0.4 BTC` at `$64,600`.
 
-|  Sell Price  |  Quantity   | Order Type  |
-| :---------:  | :---------: | :---------: |
-|   $66,500    |   0.2 BTC   |   Vanilla   |
-|   $65,500    |   0.2 BTC   | Reduce-only |
-| **$64,600**  | **0.4 BTC** | **Vanilla** |
-|   $64,500    |   0.3 BTC   |   Vanilla   |
-|   $63,500    |   0.1 BTC   | Reduce-only |
+|  Sell Price  |  Quantity   |   Order Type    |
+| :---------:  | :---------: | :-------------: |
+|   $66,500    |   0.2 BTC   |     Vanilla     |
+|   $65,500    |   0.1 BTC   |   Reduce-only   |
+|   $65,400    |   0.1 BTC   |     Vanilla     |
+| **$64,600**  | **0.4 BTC** |   **Vanilla**   |
+|   $64,500    |   0.3 BTC   |     Vanilla     |
+|   $63,500    |   0.1 BTC   |   Reduce-only   |
 
-Again this perfectly valid and no further action is required. But what if the order was for `0.5 BTC` instead?
+Again this perfectly valid and no further action is required because all order quantities up to the highest priced reduce-only order add up to ≤ the long position quantity. But what if the order was for `0.5 BTC` instead?
 
-|  Sell Price  |  Quantity   | Order Type  |
-| :---------:  | :---------: | :---------: |
-|   $66,500    |   0.2 BTC   |   Vanilla   |
-|   $65,500    |   0.2 BTC   | Reduce-only |
-| **$64,600**  | **0.5 BTC** | **Vanilla** |
-|   $64,500    |   0.3 BTC   |   Vanilla   |
-|   $63,500    |   0.1 BTC   | Reduce-only |
+|  Sell Price  |  Quantity   |   Order Type    |
+| :---------:  | :---------: | :-------------: |
+|   $66,500    |   0.2 BTC   |     Vanilla     |
+|   $65,500    |   0.1 BTC   |   Reduce-only   |
+|   $65,400    |   0.1 BTC   |     Vanilla     |
+| **$64,600**  | **0.5 BTC** |   **Vanilla**   |
+|   $64,500    |   0.3 BTC   |     Vanilla     |
+|   $63,500    |   0.1 BTC   |   Reduce-only   |
 
-If the orders are getting matched, once the last reduce-only of $65,500 with 0.2 BTC order is reached, the position will have been reduced to `1 BTC - 0.1 BTC - 0.3 BTC - 0.5 BTC = 0.1 BTC`. A reduce-only order of 0.2 BTC after that will thus be invalid.
+If the orders are getting matched, once the last reduce-only order of $65,500 is reached, the position will have been reduced to `1 BTC - 0.1 BTC - 0.3 BTC - 0.5 BTC - 0.1 BTC = 0 BTC`. A reduce-only order of 0.1 BTC after that will thus be invalid.
 
-To prevent that, we simply **cancel the existing 0.2 BTC reduce-only order**. In other words new vanilla limit orders can invalidate and auto-cancel existing reduce-only limit orders.
+To prevent this, we **automatically cancel the existing 0.1 BTC reduce-only order**. In other words, new vanilla limit orders can invalidate and auto-cancel existing reduce-only limit orders if the reduce-only order becomes invalid at its price.
