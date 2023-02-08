@@ -106,8 +106,7 @@ Long Position:
 Quantity = 1 BTC, MaintenanceMarginRatio = 0.05
 EntryPrice = $50,000, Margin = $5,000
 
-Now the MarkPrice drops down to $47,300
-which is below the liquidation price of $47,500.
+Now the MarkPrice drops down to $47,300, which is below the liquidation price of $47,368.42 (when margin = $2,368.42, maintenance ratio ≈ .04999998).
 
 The position is auto-closed via reduce-only order:
 
