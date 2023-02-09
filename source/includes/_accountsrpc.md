@@ -21,7 +21,7 @@ async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+    account_address = "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
     subacc_list = await client.get_subaccount_list(account_address)
     print(subacc_list)
 
@@ -51,7 +51,7 @@ func main() {
   }
 
   ctx := context.Background()
-  accountAddress := "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+  accountAddress := "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
   res, err := exchangeClient.GetSubaccountsList(ctx, accountAddress)
   if err != nil {
     fmt.Println(err)
@@ -70,7 +70,7 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 (async () => {
   const network = getNetworkInfo(Network.TestnetK8s);
 
-  const accountAddress = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku";
+  const accountAddress = "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt";
   const exchangeClient = new ExchangeGrpcClient(
     network.exchangeApi
   );
@@ -92,15 +92,15 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 > Response Example:
 
 ``` python
-subaccounts: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-subaccounts: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000001"
+subaccounts: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
+subaccounts: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002"
 ```
 
 ``` go
 {
  "subaccounts": [
-  "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-  "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000001"
+  "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001",
+  "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002"
  ]
 }
 ```
@@ -108,15 +108,15 @@ subaccounts: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000001
 ``` typescript
 {
   "subaccountsList": [
-    "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-    "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000001"
+    "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001",
+    "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002"
   ]
 }
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
-|subaccounts|Array||
+|subaccounts|String Array|List of subaccounts, including default and all funded accounts|
 
 ## SubaccountHistory
 
@@ -133,22 +133,27 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     subaccount = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     denom = "inj"
     transfer_types = ["withdraw", "deposit"]
-    skip = 10
-    limit = 10
+    skip = 1
+    limit = 15
+    end_time = 1665118340224
     subacc_history = await client.get_subaccount_history(
         subaccount_id=subaccount,
         denom=denom,
         transfer_types=transfer_types,
         skip=skip,
-        limit=limit
+        limit=limit,
+        end_time=end_time
     )
     print(subacc_history)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
@@ -240,9 +245,10 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 |----|----|----|----|
 |subaccount_id|String|Filter by subaccount ID|Yes|
 |denom|String|Filter by denom|No|
-|transfer_types|Array|Filter by transfer types|No|
-|skip|Integer|Skip the last transfers, you can use this to fetch all transfers since the API caps at 100|No|
-|limit|Integer|Limit the transfers returned|No|
+|transfer_types|String Array|Filter by transfer types. Valid options: [“internal”, “external”, withdraw”, “deposit”]|No|
+|skip|Integer|Skip the last _n_ transfers, you can use this to fetch all transfers since the API caps at 100. Note: The end_time filter takes precedence over skip; any skips will use the filtered results from end_time|No|
+|limit|Integer|Max number of items to be returned|No|
+|end_time|Integer|Upper bound (inclusive) of account transfer history executed_at unix timestamp|No|
 
 
 ### Response Parameters
@@ -255,9 +261,9 @@ transfers {
   dst_subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
   amount {
     denom: "inj"
-    amount: "50000000000000000000"
+    amount: "2000000000000000000"
   }
-  executed_at: 1651492257605
+  executed_at: 1665117493543
 }
 transfers {
   transfer_type: "deposit"
@@ -265,9 +271,12 @@ transfers {
   dst_subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
   amount {
     denom: "inj"
-    amount: "1000000000000000000"
+    amount: "15000000000000000000"
   }
-  executed_at: 1652453978939
+  executed_at: 1660313668990
+}
+paging {
+  total: 3
 }
 
 ```
@@ -294,6 +303,11 @@ transfers {
     "amount": "1000000000000000000"
    },
    "executed_at": 1652453978939
+  }
+ ],
+ "paging": [
+  {
+   "total": 3
   }
  ]
 }
@@ -338,13 +352,19 @@ transfers {
       },
       "executedAt": 1653010969661
     }
+  ],
+  "paging": [
+    {
+      "total": 3
+    }
   ]
 }
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
-|transfers|SubaccountBalanceTransfer|SubaccountBalanceTransfer object|
+|transfers|SubaccountBalanceTransfer|List of subaccount transfers|
+|paging|Paging|Pagination of results returned|
 
 **SubaccountBalanceTransfer**
 
@@ -354,7 +374,7 @@ transfers {
 |dst_account_address|String|Account address of the receiving side|
 |executed_at|Integer|Timestamp of the transfer in UNIX millis|
 |src_subaccount_id|String|Subaccount ID of the sending side|
-|transfer_type|String|Type of the subaccount balance transfer (Should be one of: [internal external withdraw deposit]) |
+|transfer_type|String|Type of the subaccount balance transfer. Valid options: ["internal", "external", "withdraw", "deposit"]|
 
 **CosmosCoin**
 
@@ -362,6 +382,15 @@ transfers {
 |----|----|----|
 |amount|String|Coin amount|
 |denom|String|Coin denominator|
+
+**Paging**
+
+|Parameter|Type|Description|
+|----|----|----|
+|total|Integer|Total number of txs saved in database|
+|from|Integer|Can be either block height or index num|
+|to|Integer|Can be either block height or index num|
+|count_by_subaccount|Integer|Count entries by subaccount, serving some places on helix|
 
 
 
@@ -469,8 +498,8 @@ balance {
   account_address: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
   denom: "inj"
   deposit {
-    total_balance: "52790000010000000003"
-    available_balance: "52790000010000000003"
+    total_balance: "1492235700000000000000"
+    available_balance: "1492235700000000000000"
   }
 }
 ```
@@ -482,8 +511,8 @@ balance {
   "account_address": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
   "denom": "inj",
   "deposit": {
-   "total_balance": "53790000010000000003",
-   "available_balance": "52790000010000000003"
+   "total_balance": "1492235700000000000000",
+   "available_balance": "1492235700000000000000"
   }
  }
 }
@@ -496,8 +525,8 @@ balance {
     "accountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
     "denom": "inj",
     "deposit": {
-      "totalBalance": "50790000010000000003",
-      "availableBalance": "50790000010000000003"
+      "totalBalance": "1492235700000000000000",
+      "availableBalance": "1492235700000000000000"
     }
   }
 }
@@ -514,15 +543,15 @@ balance {
 |----|----|----|
 |denom|String|Coin denom on the chain|
 |deposit|SubaccountDeposit|SubaccountDeposit object|
-|subaccount_id|String|Filter by subaccount ID|
-|account_address|String|The Injective Chain address|
+|subaccount_id|String|ID of the subaccount|
+|account_address|String|The Injective Chain address that owns the subaccount|
 
 **SubaccountDeposit**
 
 |Parameter|Type|Description|
 |----|----|----|
-|available_balance|String|The available balance for a denom|
-|total_balance|String|The total balance for a denom|
+|available_balance|String|The available balance for a denom (taking active orders into account)|
+|total_balance|String|The total balance for a denom (balance if all active orders were cancelled)|
 
 
 ## SubaccountBalancesList
@@ -541,11 +570,14 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     subaccount = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-    subacc_balances_list = await client.get_subaccount_balances_list(subaccount)
+    denoms = ["inj", "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"]
+    subacc_balances_list = await client.get_subaccount_balances_list(
+        subaccount_id=subaccount,
+        denoms=denoms
+    )
     print(subacc_balances_list)
 
 if __name__ == '__main__':
@@ -609,7 +641,8 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|String|Filter by subaccount ID|Yes|
+|subaccount_id|String|ID of subaccount to get balance info from|Yes|
+|denoms|String Array|Filter balances by denoms. If not set, the balances of all the denoms for the subaccount are provided|No|
 
 
 
@@ -620,19 +653,19 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 balances {
   subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
   account_address: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-  denom: "inj"
+  denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
   deposit {
-    total_balance: "52790000010000000003"
-    available_balance: "52790000010000000003"
+    total_balance: "115310339308.284511627876066473"
+    available_balance: "115236639078.284511627876066473"
   }
 }
 balances {
   subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
   account_address: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-  denom: "ibc/C4CFF46FD6DE35CA4CF4CE031E643C8FDC9BA4B99AE598E9B0ED98FE3A2319F9"
+  denom: "inj"
   deposit {
-    total_balance: "1000000"
-    available_balance: "1000000"
+    total_balance: "1492235700000000000000"
+    available_balance: "1492235700000000000000"
   }
 }
 ```
@@ -707,16 +740,16 @@ balances {
 
 |Parameter|Type|Description|
 |----|----|----|
-|balances|SubaccountBalance|SubaccountBalance object|
+|balances|SubaccountBalance Array|Array of SubaccountBalance objects|
 
 **SubaccountBalance**
 
 |Parameter|Type|Description|
 |----|----|----|
-|account_address|String|The Injective Chain address|
+|account_address|String|The Injective Chain address, owner of subaccount|
 |denom|String|Coin denom on the chain|
 |deposit|SubaccountDeposit|SubaccountDeposit object|
-|subaccount_id|String|Filter by subaccount ID|
+|subaccount_id|String|ID of subaccount associated with returned balances|
 
 **SubaccountDeposit**
 
@@ -727,7 +760,7 @@ balances {
 
 ## SubaccountOrderSummary
 
-Get the subaccount's orders summary.
+Get a summary of the subaccount's active/unfilled orders.
 
 ### Request Parameters
 > Request Example:
@@ -740,11 +773,16 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     subaccount = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-    subacc_order_summary = await client.get_subaccount_order_summary(subaccount_id=subaccount)
+    # order_direction = "buy"
+    # market_id = "0xe112199d9ee44ceb2697ea0edd1cd422223c105f3ed2bdf85223d3ca59f5909a"
+    subacc_order_summary = await client.get_subaccount_order_summary(
+        subaccount_id=subaccount,
+        # order_direction=order_direction,
+        # market_id=market_id
+        )
     print(subacc_order_summary)
 
 if __name__ == '__main__':
@@ -823,9 +861,9 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|subaccount_id|String|Filter by subaccount ID|Yes|
-|market_id|String|Filter by market ID|No|
-|order_direction|String|Filter by the direction of the orders (Should be one of: [buy sell])|No|
+|subaccount_id|String|ID of the subaccount we want to get the summary from|Yes|
+|market_id|String|Limit the order summary to a specific market|No|
+|order_direction|String|Filter by the direction of the orders. Valid options: "buy", "sell"|No|
 
 
 
@@ -833,26 +871,26 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 > Response Example:
 
 ``` python
-spot_orders_total: 64
-derivative_orders_total: 1
+spot_orders_total: 1
+derivative_orders_total: 7
 ```
 
 ``` go
-spot orders: 2
-derivative orders: 0
+spot orders: 1
+derivative orders: 7
 ```
 
 ``` typescript
 {
-  "spotOrdersTotal": 2,
-  "derivativeOrdersTotal": 0
+  "spotOrdersTotal": 1,
+  "derivativeOrdersTotal": 7
 }
 ```
 
 |Parameter|Type|Description|
 |----|----|----|
-|derivative_orders_total|Integer|Total count of subaccount's derivative orders in a given market|
-|spot_orders_total|Integer|Total count of subaccount's spot orders in a given market|
+|derivative_orders_total|Integer|Total count of subaccount's active derivative orders in a given market and direction|
+|spot_orders_total|Integer|Total count of subaccount's active spot orders in a given market and direction|
 
 
 
@@ -871,10 +909,10 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+    subaccount_id = "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
+    denoms = ["inj", "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"]
     subaccount = await client.stream_subaccount_balance(subaccount_id)
     async for balance in subaccount:
         print("Subaccount balance Update:\n")
@@ -959,21 +997,49 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |subaccount_id|String|Filter by subaccount ID|Yes|
+|denoms|String Array|Filter balances by denoms. If not set, the balances of all the denoms for the subaccount are provided|No|
 
 
 ### Response Parameters
 > Streaming Response Example:
 
 ``` python
+Subaccount balance Update:
+
 balance {
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  account_address: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-  denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+  subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
+  account_address: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
+  denom: "inj"
   deposit {
-    available_balance: "200439115032180.597507632843178205"
+    available_balance: "9980001000000000000"
   }
 }
-timestamp: 1652786118000
+timestamp: 1675902606000
+
+Subaccount balance Update:
+
+balance {
+  subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
+  account_address: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
+  denom: "inj"
+  deposit {
+    available_balance: "9990001000000000000"
+  }
+}
+timestamp: 1675902946000
+
+Subaccount balance Update:
+
+balance {
+  subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
+  account_address: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
+  denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+  deposit {
+    total_balance: "199999859.1576"
+    available_balance: "199989859.1576"
+  }
+}
+timestamp: 1675902946000
 ```
 
 ``` go
@@ -1040,20 +1106,20 @@ timestamp: 1652786118000
 |----|----|----|
 |denom|String|Coin denom on the chain|
 |deposit|SubaccountDeposit|SubaccountDeposit object|
-|subaccount_id|String|Filter by subaccount ID|
-|account_address|String|The Injective Chain address|
+|subaccount_id|String|ID of the subaccount to get balance from|
+|account_address|String|The Injective Chain address that owns the subaccount|
 
 **SubaccountDeposit**
 
 |Parameter|Type|Description|
 |----|----|----|
-|available_balance|String|The available balance for a denom|
-|total_balance|String|The total balance for a denom|
+|available_balance|String|The available balance for a denom (taking active orders into account)|
+|total_balance|String|The total balance for a denom (balance if all active orders were cancelled)|
 
 
 ## OrderStates
 
-Get orders with an order hash, this request will return market orders and limit orders in all states [booked, partial_filled, filled, canceled]. For filled and canceled orders, there is a TTL of 1 day. Should your order be filled or canceled you will still be able to fetch it for 3 minutes.
+Get orders with an order hash. This request will return market orders and limit orders in all states [booked, partial_filled, filled, canceled]. For filled and canceled orders, there is a TTL of 3 minutes. Should your order be filled or canceled you will still be able to fetch it for 3 minutes.
 
 
 ### Request Parameters
@@ -1067,12 +1133,10 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    spot_order_hashes = ["0xa848395a768ee06af360e2e35bac6f598fdc52e8d0c34a588d32cd9108f3571f", "0x163861fba3d911631e18354a03e7357bc6358cd2042535e8ad11dc6c29f8c558"]
-    derivative_order_hashes = ["0x962af5e492a2ce4575616dbcf687a063ef9c4b33a047a9fb86794804923337c8"]
-    
+    spot_order_hashes = ["0xce0d9b701f77cd6ddfda5dd3a4fe7b2d53ba83e5d6c054fb2e9e886200b7b7bb", "0x2e2245b5431638d76c6e0cc6268970418a1b1b7df60a8e94b8cf37eae6105542"]
+    derivative_order_hashes = ["0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50", "0xbb1f036001378cecb5fff1cc69303919985b5bf058c32f37d5aaf9b804c07a06"]
     orders = await client.get_order_states(spot_order_hashes=spot_order_hashes, derivative_order_hashes=derivative_order_hashes)
     print(orders)
 
@@ -1149,8 +1213,8 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|spot_order_hashes|Array|Array with the order hashes you want to fetch in spot markets|No|
-|derivative_order_hashes|Array|Array with the order hashes you want to fetch in derivative markets|No|
+|spot_order_hashes|String Array|Array with the order hashes you want to fetch in spot markets|No|
+|derivative_order_hashes|String Array|Array with the order hashes you want to fetch in derivative markets|No|
 
 
 ### Response Parameters
@@ -1161,7 +1225,7 @@ spot_order_states {
   order_hash: "0xa848395a768ee06af360e2e35bac6f598fdc52e8d0c34a588d32cd9108f3571f"
   subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
   market_id: "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"
-  order_type: "limit"
+  order_type: "buy"
   order_side: "buy"
   state: "booked"
   quantity_filled: "0"
@@ -1173,7 +1237,7 @@ spot_order_states {
   order_hash: "0x163861fba3d911631e18354a03e7357bc6358cd2042535e8ad11dc6c29f8c558"
   subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
   market_id: "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"
-  order_type: "limit"
+  order_type: "buy"
   order_side: "buy"
   state: "booked"
   quantity_filled: "0"
@@ -1185,11 +1249,11 @@ derivative_order_states {
   order_hash: "0x962af5e492a2ce4575616dbcf687a063ef9c4b33a047a9fb86794804923337c8"
   subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
   market_id: "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-  order_type: "limit"
-  order_side: "buy"
+  order_type: "sell"
+  order_side: "sell"
   state: "booked"
-  quantity_filled: "0"
-  quantity_remaining: "1"
+  quantity_filled: "1"
+  quantity_remaining: "0"
   created_at: 1652786114544
   updated_at: 1652786114544
 }
@@ -1263,38 +1327,38 @@ derivative_order_states {
 
 |Parameter|Type|Description|
 |----|----|----|
-|spot_order_states|SpotOrderStates|SpotOrderStates object|
-|derivative_order_states|DerivativeOrderStates|DerivativeOrderStates object|
+|spot_order_states|OrderStateRecord Array|Array of OrderStateRecord objects|
+|derivative_order_states|OrderStateRecord Array|Array of OrderStateRecord objects|
 
 **SpotOrderStates**
 
 |Parameter|Type|Description|
 |----|----|----|
-|order_hash|String|The order hash|
+|order_hash|String|Hash of the order|
 |subaccount_id|String|The subaccount ID that posted the order|
 |market_id|String|The market ID of the order|
-|order_type|String|The order type (Should be one of: [limit, market])|
-|order_side|String|The order side (Should be one of: [buy, sell])|
-|state|String|The order state (Should be one of: [booked, partial_filled, filled, canceled])|
-|quantity_filled|String|The quantity that has been filled for your order|
-|quantity_remaining|String|The quantity that hasn't been filled for your order|
-|created_at|String|The timestamp of your order when it was first created|
-|updated_at|String|The timestamp of your order when it was last updated|
+|order_type|String|The order type. Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po", "buy_atomic", "sell_atomic"]. If execution_type (market or limit) is needed, use the OrdersHistory request in Spot/DerivativeExchangeRPC instead|
+|order_side|String|The order side. Should be one of: ["buy", "sell"]|
+|state|String|The order state. Should be one of: ["booked", "partial_filled", "filled", "canceled"]|
+|quantity_filled|String|The quantity that has been filled for the order|
+|quantity_remaining|String|The quantity that hasn't been filled for the order|
+|created_at|String|The UNIX timestamp of the order when it was first created|
+|updated_at|String|The UNIX timestamp of the order when it was last updated|
 
 **DerivativeOrderStates**
 
 |Parameter|Type|Description|
 |----|----|----|
-|order_hash|String|The order hash|
+|order_hash|String|Hash of the order|
 |subaccount_id|String|The subaccount ID that posted the order|
 |market_id|String|The market ID of the order|
-|order_type|String|The order type (Should be one of: [limit, market])|
-|order_side|String|The order side (Should be one of: [buy, sell])|
-|state|String|The order state (Should be one of: [booked, partial_filled, filled, canceled])|
-|quantity_filled|String|The quantity that has been filled for your order|
-|quantity_remaining|String|The quantity that hasn't been filled for your order|
-|created_at|String|The timestamp of your order when it was first created|
-|updated_at|String|The timestamp of your order when it was last updated|
+|order_type|String|The order type. Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po", "buy_atomic", "sell_atomic"]. If execution_type (market or limit) is needed, use the OrdersHistory request in Spot/DerivativeExchangeRPC instead|
+|order_side|String|The order side. Should be one of: ["buy", "sell"]|
+|state|String|The order state. Should be one of: ["booked", "partial_filled", "filled", "canceled"]|
+|quantity_filled|String|The quantity that has been filled for the order|
+|quantity_remaining|String|The quantity that hasn't been filled for the order|
+|created_at|String|The UNIX timestamp of the order when it was first created|
+|updated_at|String|The UNIX timestamp of the order when it was last updated|
 
 
 ## Portfolio
@@ -1315,7 +1379,7 @@ from pyinjective.constant import Network
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    account_address = "inj10y4mpwgqr4c63m7t8spxhf8rgcy2dz5vt3mvk9"
+    account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
     portfolio = await client.get_portfolio(account_address=account_address)
     print(portfolio)
 
@@ -1388,15 +1452,15 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 ``` python
 portfolio {
-  portfolio_value: "16951.32520096332191347385"
-  available_balance: "10127.3078647233442029"
-  locked_balance: "8193.1269388867038576"
-  unrealized_pnl: "-1369.10960264672614702615"
+  portfolio_value: "121771.765274665073374624"
+  available_balance: "120622.8032988109636363"
+  locked_balance: "1476.0573145189379903"
+  unrealized_pnl: "-327.095338664828251976"
   subaccounts {
-    subaccount_id: "0x792bb0b9001d71a8efcb3c026ba4e34608a68a8c000000000000000000000000"
-    available_balance: "10127.3078647233442029"
-    locked_balance: "8193.1269388867038576"
-    unrealized_pnl: "-1369.10960264672614702615"
+    subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+    available_balance: "120622.8032988109636363"
+    locked_balance: "1476.0573145189379903"
+    unrealized_pnl: "-327.095338664828251976"
   }
 }
 ```
@@ -1439,12 +1503,20 @@ portfolio {
 
 |Parameter|Type|Description|
 |----|----|----|
-|portfolio_value|String|The total value of your portfolio including bank balance, subaccounts' balance, unrealized profit & loss as well as margin in open positions|
-|available_balance|String|The total available balance in the subaccounts|
-|locked_balance|String|The amount of margin in open orders and positions|
-|unrealized_pnl|String|The approximate unrealized profit and loss across all positions (based on the mark price)|
-|subaccount_id|String|Filter balances by subaccount ID|
+|portfolio_value|String|The total value (in USD) of your portfolio including bank balance, subaccounts' balance, unrealized profit & loss as well as margin in open positions|
+|available_balance|String|The total available balance (in USD) in all subaccounts|
+|locked_balance|String|The amount of margin in open orders and positions (in USD)|
+|unrealized_pnl|String|The approximate unrealized profit and loss across all positions (based on mark prices, in USD)|
+|subaccounts|SubaccountPortfolio Array|List of all subaccounts' portfolios|
 
+**SubaccountPortfolio**
+
+|Parameter|Type|Description|
+|----|----|----|
+|subaccount_id|String|The ID of this subaccount|
+|available_balance|String|The subaccount's available balance (in USD)|
+|locked_balance|String|The subaccount's locked balance (in USD)|
+|unrealized_pnl|String|The Subaccount's total unrealized PnL value (in USD)|
 
 ## Rewards
 
@@ -1462,12 +1534,13 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+    # account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
     epoch = -1
-    rewards = await client.get_rewards(account_address=account_address, epoch=epoch)
+    rewards = await client.get_rewards(
+        # account_address=account_address,
+        epoch=epoch)
     print(rewards)
 
 if __name__ == '__main__':
@@ -1542,8 +1615,8 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|account_address|String|The Injective Chain address|No|
-|epoch|Integer|The epoch ID|No|
+|account_address|String|The Injective Chain address to fetch rewards amount for|No|
+|epoch|Integer|The rewards distribution epoch number. Use -1 for the latest epoch|No|
 
 
 ### Response Parameters
@@ -1551,13 +1624,30 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 ``` python
 rewards {
-  account_address: "inj1uzg3kpezm8ju70qd0twr8eh20zph2jt8dh0p6a"
+  account_address: "inj1qra8c03h70y36j85dpvtj05juxe9z7acuvz6vg"
   rewards {
     denom: "inj"
-    amount: "15586502225212"
+    amount: "1954269574440758128"
   }
-  distributed_at: 1652259600148
+  distributed_at: 1672218001897
 }
+rewards {
+  account_address: "inj1q4sww3amkmwhym54aaey5v8wemkh9v80jp8e3z"
+  rewards {
+    denom: "inj"
+    amount: "8497057876433151133"
+  }
+  distributed_at: 1672218001897
+}
+rewards {
+  account_address: "inj1pqsujjk66dsf40v2lfrry46m2fym44thgn5qqh"
+  rewards {
+    denom: "inj"
+    amount: "41401176734199333"
+  }
+  distributed_at: 1672218001897
+}
+...
 ```
 
 ``` go
@@ -1596,7 +1686,19 @@ rewards {
 
 |Parameter|Type|Description|
 |----|----|----|
+|rewards|Reward Array|List of trading rewards|
+
+**Reward**
+
+|Parameter|Type|Description|
+|----|----|----|
 |account_address|String|The Injective Chain address|
-|denom|String|The token denom|
-|amount|String|The amount of rewards distributed|
+|rewards|Coin Array|List of rewards by denom and amount|
 |distributed_at|Integer|Timestamp of the transfer in UNIX millis|
+
+**Coin**
+
+|Parameter|Type|Description|
+|----|----|----|
+|denom|String|Denom of the reward|
+|amount|String|Amount of denom in reward|
