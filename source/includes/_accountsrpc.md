@@ -1,5 +1,5 @@
 # - InjectiveAccountsRPC
-InjectiveAccountsRPC defines the gRPC API of the Exchange Accounts provider.
+InjectiveAccountsRPC defines the gRPC API of the Exchange Accounts provider. Usage examples can be found [here](https://github.com/InjectiveLabs/sdk-python/tree/master/examples/exchange_client/accounts_rpc).
 
 ## SubaccountsList
 
@@ -364,7 +364,7 @@ paging {
 |Parameter|Type|Description|
 |----|----|----|
 |transfers|SubaccountBalanceTransfer|List of subaccount transfers|
-|paging|Paging|Pagination of results returned|
+|paging|Paging|Pagination of results|
 
 **SubaccountBalanceTransfer**
 
@@ -387,11 +387,7 @@ paging {
 
 |Parameter|Type|Description|
 |----|----|----|
-|total|Integer|Total number of txs saved in database|
-|from|Integer|Can be either block height or index num|
-|to|Integer|Can be either block height or index num|
-|count_by_subaccount|Integer|Count entries by subaccount, serving some places on helix|
-
+|total|Integer|Total number of available records|
 
 
 ## SubaccountBalance
@@ -1337,7 +1333,7 @@ derivative_order_states {
 |order_hash|String|Hash of the order|
 |subaccount_id|String|The subaccount ID that posted the order|
 |market_id|String|The market ID of the order|
-|order_type|String|The order type. Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po", "buy_atomic", "sell_atomic"]. If execution_type (market or limit) is needed, use the OrdersHistory request in Spot/DerivativeExchangeRPC instead|
+|order_type|String|The order type. Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]. If execution_type (market or limit) is needed, use the OrdersHistory request in Spot/DerivativeExchangeRPC instead|
 |order_side|String|The order side. Should be one of: ["buy", "sell"]|
 |state|String|The order state. Should be one of: ["booked", "partial_filled", "filled", "canceled"]|
 |quantity_filled|String|The quantity that has been filled for the order|
@@ -1352,7 +1348,7 @@ derivative_order_states {
 |order_hash|String|Hash of the order|
 |subaccount_id|String|The subaccount ID that posted the order|
 |market_id|String|The market ID of the order|
-|order_type|String|The order type. Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po", "buy_atomic", "sell_atomic"]. If execution_type (market or limit) is needed, use the OrdersHistory request in Spot/DerivativeExchangeRPC instead|
+|order_type|String|The order type. Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]. If execution_type (market or limit) is needed, use the OrdersHistory request in Spot/DerivativeExchangeRPC instead|
 |order_side|String|The order side. Should be one of: ["buy", "sell"]|
 |state|String|The order state. Should be one of: ["booked", "partial_filled", "filled", "canceled"]|
 |quantity_filled|String|The quantity that has been filled for the order|
