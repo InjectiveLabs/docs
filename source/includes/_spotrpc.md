@@ -783,8 +783,8 @@ if __name__ == '__main__':
 |----|----|----|----|
 |market_id|String|Filter by market ID|Yes|
 |subaccount_id|String|Filter by subaccount ID|No|
-|skip|Integer|Skip will skip the first *n* item from the results|No|
-|limit|Integer|Maximum number of items to be returned|No|
+|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100|No|
+|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
 |direction|String|Filter by order direction (Should be one of: ["buy", "sell"])|No|
 |start_time|Integer|Search for orders where createdAt >= startTime, time in milliseconds|No|
 |end_time|Integer|Search for orders where createdAt <= startTime, time in milliseconds|No|
@@ -1118,8 +1118,8 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 |direction|String|Filter by the direction of the trade (Should be one of: ["buy", "sell"])|No|
 |execution_side|String|Filter by the execution side of the trade (Should be one of: ["maker", "taker"])|No|
 |execution_types|String Array|Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|No|
-|skip|Integer|Skip the last *n* trades. You can use this to fetch all trades since the API caps at 100|No|
-|limit|Integer|Limit the number of trades returned|No|
+|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100|No|
+|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
 |start_time|Integer|startTime <= trade execution timestamp <= endTime|No|
 |end_time|Integer|startTime <= trade execution timestamp <= endTime|No|
 
@@ -1617,7 +1617,7 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
-    # select network: local, testnet, mainnet	
+    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
@@ -1828,7 +1828,7 @@ orderbook {
 
 ## Orderbooks
 
-Get the orderbook for an array of spot markets.
+Get the orderbooks for one or more spot markets.
 
 
 ### Request Parameters
@@ -1841,17 +1841,15 @@ import logging
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
-
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     market_ids = [
         "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
         "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"
     ]
-    markets = await client.get_spot_orderbooks(market_ids=market_ids)
-    print(markets)
+    orderbooks = await client.get_spot_orderbooks(market_ids=market_ids)
+    print(orderbooks)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
@@ -1912,7 +1910,7 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_ids|Array|Filter by an array of market IDs|Yes|
+|market_ids|String Array|Filter by one or more market IDs|Yes|
 
 
 ### Response Parameters
@@ -1920,7 +1918,7 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 ``` python
 orderbooks {
-  market_id: "0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31"
+  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
   orderbook {
     buys {
       price: "0.000000000006057"
@@ -1942,7 +1940,7 @@ orderbooks {
       quantity: "48000000000000000000"
       timestamp: 1652774630240
 orderbooks {
-  market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  market_id: "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"
   orderbook {
     buys {
       price: "0.000000000001654"
@@ -2107,21 +2105,28 @@ orderbooks {
 
 |Parameter|Type|Description|
 |----|----|----|
-|orderbook|SpotLimitOrderbook|SpotLimitOrderbook object|
-|market_id|String|Filter by market ID|
+|orderbooks|SingleSpotLimitOrderbook Array|List of spot market orderbooks with market IDs|
+
+**SingleSpotLimitOrderbook**
+
+|Parameter|Type|Description|
+|----|----|----|
+|market_id|String|ID of spot market|
+|orderbook|SpotLimitOrderBook|Orderbook of the market|
+
 
 **SpotLimitOrderbook**
 
 |Parameter|Type|Description|
 |----|----|----|
-|buys|PriceLevel|PriceLevel object|
-|sells|PriceLevel|PriceLevel object|
+|buys|PriceLevel Array|List of price levels for buys|
+|sells|PriceLevel Array|List of price levels for sells|
 
 **PriceLevel**
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|String|Number of the price level|
+|price|String|Price number of the price level|
 |quantity|String|Quantity of the price level|
 |timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
@@ -2145,7 +2150,10 @@ async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    market_ids = ["0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe", "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"]
+    market_ids = [
+        "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+        "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"
+    ]
     orderbook = await client.stream_spot_orderbooks(market_ids=market_ids)
     async for orders in orderbook:
         print(orders)
@@ -2228,7 +2236,7 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_ids|Array|Filter by market IDs|Yes|
+|market_ids|String Array|List of market IDs for orderbook streaming; empty means all spot markets|Yes|
 
 
 
@@ -2238,39 +2246,85 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 ``` python
 orderbook {
   buys {
-    price: "0.000000000001654"
-    quantity: "27000000000000000000"
-    timestamp: 1652395260912
+    price: "0.000000000007"
+    quantity: "1000000000000000000"
+    timestamp: 1669998494728
   }
   buys {
-    price: "0.000000000001608"
-    quantity: "38000000000000000000"
-    timestamp: 1652351094680
+    price: "0.000000000001"
+    quantity: "10000000000000000"
+    timestamp: 1675882430039
   }
   buys {
-    price: "0.000000000001573"
-    quantity: "48000000000000000000"
-    timestamp: 1652338751248
+    price: "0.000000000000001"
+    quantity: "11553000000000000000"
+    timestamp: 1675904400063
   }
   sells {
-    price: "0.000000000005246"
-    quantity: "42000000000000000000"
-    timestamp: 1651613401202
+    price: "0.000000000007523"
+    quantity: "40000000000000000"
+    timestamp: 1675904636889
   }
   sells {
-    price: "0.00000000002792"
-    quantity: "30000000000000000"
-    timestamp: 1652263504751
+    price: "0.000000000007525"
+    quantity: "10000000000000000"
+    timestamp: 1676064156831
   }
   sells {
-    price: "0.0000000003"
-    quantity: "220000000000000000000"
-    timestamp: 1652264026293
+    price: "0.000000000007526"
+    quantity: "40000000000000000"
+    timestamp: 1676015247335
+  }
+  sells {
+    price: "0.000000000008"
+    quantity: "10000000000000000"
+    timestamp: 1676015125593
   }
 }
 operation_type: "update"
-timestamp: 1652809737000
-market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+timestamp: 1676089310000
+market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+
+orderbook {
+  buys {
+    price: "0.000000000007"
+    quantity: "1000000000000000000"
+    timestamp: 1669998494728
+  }
+  buys {
+    price: "0.000000000001"
+    quantity: "10000000000000000"
+    timestamp: 1675882430039
+  }
+  buys {
+    price: "0.000000000000001"
+    quantity: "11553000000000000000"
+    timestamp: 1675904400063
+  }
+  sells {
+    price: "0.000000000007523"
+    quantity: "40000000000000000"
+    timestamp: 1675904636889
+  }
+  sells {
+    price: "0.000000000007525"
+    quantity: "10000000000000000"
+    timestamp: 1676089482358
+  }
+  sells {
+    price: "0.000000000007526"
+    quantity: "50000000000000000"
+    timestamp: 1676015247335
+  }
+  sells {
+    price: "0.000000000008"
+    quantity: "10000000000000000"
+    timestamp: 1676015125593
+  }
+}
+operation_type: "update"
+timestamp: 1676089487000
+market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 ```
 
 ``` go
@@ -2342,23 +2396,23 @@ market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
 
 |Parameter|Type|Description|
 |----|----|----|
-|operation_type|String|Order update type (Should be one of: [insert replace update invalidate]) |
-|orderbook|SpotLimitOrderbook|SpotLimitOrderbook object|
+|orderbook|SpotLimitOrderbook|Orderbook of a Spot Market|
+|operation_type|String|Order update type (Should be one of: ["insert", "replace", "update", "invalidate"])|
 |timestamp|Integer|Operation timestamp in UNIX millis|
-|market_id|String|Filter by market ID|
+|market_id|String|ID of the market the orderbook belongs to|
 
 **SpotLimitOrderbook**
 
 |Parameter|Type|Description|
 |----|----|----|
-|buys|PriceLevel|PriceLevel object|
-|sells|PriceLevel|PriceLevel object|
+|buys|PriceLevel Array|List of price levels for buys|
+|sells|PriceLevel Array|List of price levels for sells|
 
 **PriceLevel**
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|String|Number of the price level|
+|price|String|Price number of the price level|
 |quantity|String|Quantity of the price level|
 |timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
@@ -2382,7 +2436,7 @@ async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+    subaccount_id = "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
     market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     skip = 10
     limit = 10
@@ -2480,8 +2534,8 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 |----|----|----|----|
 |subaccount_id|String|Filter by subaccount ID|Yes|
 |market_id|String|Filter by market ID|No|
-|skip|Integer|Skip the last orders, you can use this to fetch all orders since the API caps at 100|No|
-|limit|Integer|Limit the orders returned|No|
+|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100|No|
+|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
 
 
 ### Response Parameters
@@ -2489,32 +2543,51 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 ``` python
 orders {
-  order_hash: "0x5e970df47eb5a65a5f907e3a2912067dde416eca8609c838e08c0dbebfbefaa5"
+  order_hash: "0x982d82c58a3e96680915636c9a5fe6b25af8581ceec19087f611a96e1d73b79e"
   order_side: "sell"
-  market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  price: "0.000000000005"
-  quantity: "1000000000000000000"
-  unfilled_quantity: "1000000000000000000"
+  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+  subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
+  price: "0.000000000008"
+  quantity: "10000000000000000"
+  unfilled_quantity: "10000000000000000"
   trigger_price: "0"
-  fee_recipient: "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
+  fee_recipient: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
   state: "booked"
-  created_at: 1652809317404
-  updated_at: 1652809317404
+  created_at: 1675904636889
+  updated_at: 1675904636889
 }
 orders {
-  order_hash: "0x318418b546563a75c11dc656ee0fb41608e2893b0de859cf2b9e2d65996b6f9c"
+  order_hash: "0x2c497f2a6e62fc4a3db39f6483d2dac797b9345d1033738ee316136611c7951c"
   order_side: "buy"
-  market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  price: "0.000000000001"
+  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+  subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
+  price: "0.000000000007"
   quantity: "1000000000000000000"
   unfilled_quantity: "1000000000000000000"
   trigger_price: "0"
-  fee_recipient: "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
+  fee_recipient: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
   state: "booked"
-  created_at: 1652809253308
-  updated_at: 1652809253308
+  created_at: 1675904400063
+  updated_at: 1675904400063
+}
+orders {
+  order_hash: "0xd567b9d5b3dde5d37980f8aa7110be94163d016978ca5614a373d0ad5326a96b"
+  order_side: "buy"
+  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+  subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
+  price: "0.000000000001"
+  quantity: "10000000000000000"
+  unfilled_quantity: "10000000000000000"
+  trigger_price: "0"
+  fee_recipient: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
+  state: "booked"
+  created_at: 1675882430039
+  updated_at: 1675882430039
+}
+paging {
+  total: 13
+  from: 11
+  to: 13
 }
 ```
 
@@ -2632,35 +2705,47 @@ orders {
 
 |Parameter|Type|Description|
 |----|----|----|
-|orders|SpotLimitOrder|SpotLimitOrder object|
+|orders|SpotLimitOrder Array|List of spot market orders|
+|paging|Paging|Pagination of results|
+
 
 **SpotLimitOrder**
 
 |Parameter|Type|Description|
 |----|----|----|
-|state|String|Order state (Should be one of: [booked partial_filled filled canceled])|
-|subaccount_id|String|The subaccount ID this order belongs to|
+|state|String|State of the order (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
+|subaccount_id|String|The subaccount ID the order belongs to|
 |unfilled_quantity|String|The amount of the quantity remaining unfilled|
-|market_id|String|Spot market ID is keccak265(baseDenom + quoteDenom)|
+|market_id|String|ID of the market the order belongs to|
 |order_hash|String|Hash of the order|
-|order_side|String|The type of the order (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell]) |
-|fee_recipient|String|The fee recipient address|
+|order_side|String|The type of the order (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell"])|
+|fee_recipient|String|The address that receives fees if the order is executed|
 |price|String|The price of the order|
 |quantity|String|The quantity of the order|
-|trigger_price|String|The price used by stop/take orders|
+|trigger_price|String|The price that triggers stop and take orders. If no price is set, the default is 0|
 |created_at|Integer|Order committed timestamp in UNIX millis|
+|updated_at|Integer|Order updated timestamp in UNIX millis|
+
+
+**Paging**
+
+|Parameter|Type|Description|
+|----|----|----|
+|total|Integer|Total number of available records|
+|from|Integer|Lower bound of indices of records returned|
+|to|integer|Upper bound of indices of records returned|
 
 
 ## SubaccountTradesList
 
 Get trades of a subaccount.
 
-**Trade execution types**
+**\*Trade execution types**
 
-1. Market for market orders
-2. limitFill for a resting limit order getting filled by a market order
-3. LimitMatchRestingOrder for a resting limit order getting matched with another new limit order
-4. LimitMatchNewOrder for the other way around (new limit order getting matched)
+1. `"market"` for market orders
+2. `"limitFill"` for a resting limit order getting filled by a market order
+3. `"limitMatchRestingOrder"` for a resting limit order getting matched with another new limit order
+4. `"limitMatchNewOrder"` for a new limit order getting matched immediately
 
 
 ### Request Parameters
@@ -2681,8 +2766,8 @@ async def main() -> None:
     market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     execution_type = "market"
     direction = "buy"
-    skip = 10
-    limit = 10
+    skip = 2
+    limit = 3
     trades = await client.get_spot_subaccount_trades(
         subaccount_id=subaccount_id,
         market_id=market_id,
@@ -2783,44 +2868,65 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 |----|----|----|----|
 |subaccount_id|String|Filter by subaccount ID|Yes|
 |market_id|String|Filter by market ID|No|
-|direction|String|Filter by the direction of the trades (Should be one of: [buy sell])|No|
-|execution_type|String|Filter by the execution type of the trades (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder])|No|
-|skip|Integer|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
-|limit|Integer|Limit the trades returned|No|
+|direction|String|Filter by the direction of the trades (Should be one of: ["buy", "sell"])|No|
+|execution_type|String|Filter by the *execution type of the trades (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|No|
+|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100|No|
+|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
 
 ### Response Parameters
 > Response Example:
 
 ``` python
 trades {
-  order_hash: "0x96453bfbda21b4bd53b3b2b85d510f2fec8a56893e9a142d9f7d32484647bccf"
+  order_hash: "0x5ff08b7fe885b62aaaadb0c8b8877d9031d39fd67a1b94bc19da34e3be48238f"
   subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
   trade_execution_type: "market"
   trade_direction: "buy"
   price {
-    price: "0.000000000002305"
-    quantity: "1000000000000000000"
-    timestamp: 1652809734211
+    price: "0.000000000055"
+    quantity: "182000000000000000"
+    timestamp: 1673343614891
   }
-  fee: "4610"
-  executed_at: 1652809734211
+  fee: "10010"
+  executed_at: 1673343614891
   fee_recipient: "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
+  trade_id: "6858954_5ff08b7fe885b62aaaadb0c8b8877d9031d39fd67a1b94bc19da34e3be48238f"
+  execution_side: "taker"
 }
 trades {
-  order_hash: "0x76b84ef27778636595e9582a0641f100a4d593e92a9dcc4fdf64c3000894988f"
+  order_hash: "0x38d614f920c8ab577eb7ab8ed1f1c452e4aeba9b69885ec1e8b308052957174d"
   subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
   trade_execution_type: "market"
   trade_direction: "buy"
   price {
-    price: "0.000000000002305"
-    quantity: "1000000000000000000"
-    timestamp: 1652809124051
+    price: "0.000000000055"
+    quantity: "1544000000000000000"
+    timestamp: 1673343521906
   }
-  fee: "4610"
-  executed_at: 1652809124051
+  fee: "84920"
+  executed_at: 1673343521906
   fee_recipient: "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
+  trade_id: "6858914_38d614f920c8ab577eb7ab8ed1f1c452e4aeba9b69885ec1e8b308052957174d"
+  execution_side: "taker"
+}
+trades {
+  order_hash: "0xfe1a82268e2147ba359092a751fd4e3ee375d1887bf1fa00de5ece88764bd7f5"
+  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+  trade_execution_type: "market"
+  trade_direction: "buy"
+  price {
+    price: "0.000000000055"
+    quantity: "1816000000000000000"
+    timestamp: 1673343487116
+  }
+  fee: "99880"
+  executed_at: 1673343487116
+  fee_recipient: "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
+  trade_id: "6858899_fe1a82268e2147ba359092a751fd4e3ee375d1887bf1fa00de5ece88764bd7f5"
+  execution_side: "taker"
 }
 ```
 
@@ -2916,26 +3022,28 @@ trades {
 
 |Parameter|Type|Description|
 |----|----|----|
-|trades|SpotTrade|SpotTrade object|
+|trades|SpotTrade Array|List of spot market trades|
 
 **SpotTrade**
 
 |Parameter|Type|Description|
 |----|----|----|
-|trade_direction|String|Filter by the trade direction(Should be one of: [buy sell]) |
-|trade_execution_type|String|Filter by the trade execution type (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
+|trade_direction|String|The direction the trade (Should be one of: ["buy", "sell"])|
+|trade_execution_type|String|The execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|
 |fee|String|The fee associated with the trade (quote asset denom)|
-|market_id|String|Filter by the market ID|
+|market_id|String|The ID of the market that this trade is in|
 |order_hash|String|The order hash|
-|price|PriceLevel|PriceLevel object|
+|price|PriceLevel|Price level at which trade has been executed|
 |subaccount_id|String|Filter by the subaccount ID|
 |executed_at|Integer|Timestamp of trade execution in UNIX millis|
-|fee_recipient|String|The address that received 40% of the fees|
+|fee_recipient|String|Address that received fees from the order|
+|trade_id|String|A unique string that helps differentiate between trades|
+|execution_side|String|Trade's execution side (Should be one of: ["maker", "taker"])|
 
 **PriceLevel**
 
 |Parameter|Type|Description|
 |----|----|----|
-|price|String|Number of the price level|
+|price|String|Price number of the price level|
 |quantity|String|Quantity of the price level|
 |timestamp|Integer|Price level last updated timestamp in UNIX millis|
