@@ -141,7 +141,7 @@ Fee discounts are enabled by looking at the past trailing 30 day window. So long
 
 ## Funding Rate
 
-The hourly funding rate on perpetual markets determines the percentage that traders on one side have to pay to the other side each hour. If the rate is positive, longs are paying shorts. If the rate is negative shorts are paying longs. The further trade prices within that hour deviated from the market price, the higher the funding rate will be up to a maximum of 0.0625% (1.5% per day).
+The hourly funding rate on perpetual markets determines the percentage that traders on one side have to pay to the other side each hour. If the rate is positive, longs are paying shorts. If the rate is negative shorts are paying longs. The further trade prices within that hour deviated from the mark price, the higher the funding rate will be up to a maximum of 0.0625% (1.5% per day).
 
 ## Closing a Position
 
