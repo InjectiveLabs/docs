@@ -1127,7 +1127,7 @@ Liquidation Payout = Position Margin + PNL = $5,000 - $2,900 = $2,100
 Liquidator Profit = $2,100 * 0.5 = $1,050
 Insurance Fund Profit = $2,100 * 0.5 = $1,050
 </code></pre></div>
-<p>When your position falls below the maintenance margin ratio, the position can and likely will be liquidated by anyone running the liquidator bot. You will loose your entire position and all funds remaining in the position. What happens on-chain is that automatically a reduce-only market order of the same size as the position is created. The market order will have a worst price defined as <em>Infinity</em> or <em>0</em>, implying it will be matched at whatever prices are available in the order book.</p>
+<p>When your position falls below the maintenance margin ratio, the position can and likely will be liquidated by anyone running the liquidator bot. You will lose your entire position and all funds remaining in the position. What happens on-chain is that automatically a reduce-only market order of the same size as the position is created. The market order will have a worst price defined as <em>Infinity</em> or <em>0</em>, implying it will be matched at whatever prices are available in the order book.</p>
 
 <p>One key difference is that the payout from executing the reduce-only market order will not go towards the position owner. Instead, half of the remaining funds are transferred to the liquidator bot and the other half is transferred to the insurance fund.</p>
 
@@ -1138,7 +1138,7 @@ Insurance Fund Profit = $2,100 * 0.5 = $1,050
 <p>Fee discounts are enabled by looking at the past trailing 30 day window. So long as you meet both conditions for a tier (past fees paid <strong>AND</strong> staked amount), you will receive the respective discounts.</p>
 
 <ul>
-<li>Note that there is a caching mechanism in place which can take up to one day to before being updated with a new tier.</li>
+<li>Note that there is a caching mechanism in place which can take up to one day before being updated with a new tier.</li>
 <li>Negative maker fee markets are not eligible for discounts.</li>
 <li>If the fee discount proposal was passed less than 30 days ago, the fee paid requirement is ignored so we don&#39;t unfairly penalize people who onboard immediately.</li>
 </ul>
@@ -1199,7 +1199,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </code></pre></div>
 <p>During a given campaign, the exchange will record each trader&#39;s cumulative trading reward points obtained from trading fees (with boosts applied, if applicable) from all eligible markets. At the end of each campaign each trader will receive a pro-rata percentage of the trading rewards pool based off their trading rewards points from that campaign epoch. Those rewards will be <strong>automatically deposited</strong> into the trader&#39;s respective wallets, it&#39;s not necessary to manually withdraw them.</p>
 <h2 id='overview-reduce-only-order-precedence'>Reduce-Only Order Precedence</h2>
-<p>Imagine a trader has a the following position:</p>
+<p>Imagine a trader has the following position:</p>
 
 <ul>
 <li><strong>LONG</strong>: <code>1 BTC</code> with EntryPrice of $59,000</li>
@@ -1358,7 +1358,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 </tbody></table>
 
-<p>Again this perfectly valid and no further action is required. But what if the order was for <code>0.5 BTC</code> instead?</p>
+<p>Again this is perfectly valid and no further action is required. But what if the order was for <code>0.5 BTC</code> instead?</p>
 
 <table><thead>
 <tr>
