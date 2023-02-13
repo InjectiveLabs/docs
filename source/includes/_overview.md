@@ -123,7 +123,7 @@ Liquidator Profit = $2,100 * 0.5 = $1,050
 Insurance Fund Profit = $2,100 * 0.5 = $1,050
 ```
 
-When your position falls below the maintenance margin ratio, the position can and likely will be liquidated by anyone running the liquidator bot. You will loose your entire position and all funds remaining in the position. What happens on-chain is that automatically a reduce-only market order of the same size as the position is created. The market order will have a worst price defined as _Infinity_ or _0_, implying it will be matched at whatever prices are available in the order book.
+When your position falls below the maintenance margin ratio, the position can and likely will be liquidated by anyone running the liquidator bot. You will lose your entire position and all funds remaining in the position. What happens on-chain is that automatically a reduce-only market order of the same size as the position is created. The market order will have a worst price defined as _Infinity_ or _0_, implying it will be matched at whatever prices are available in the order book.
 
 One key difference is that the payout from executing the reduce-only market order will not go towards the position owner. Instead, half of the remaining funds are transferred to the liquidator bot and the other half is transferred to the insurance fund.
 
@@ -135,7 +135,7 @@ Also note that liquidations are executed immediately in a block before any other
 
 Fee discounts are enabled by looking at the past trailing 30 day window. So long as you meet both conditions for a tier (past fees paid **AND** staked amount), you will receive the respective discounts.
 
-- Note that there is a caching mechanism in place which can take up to one day to before being updated with a new tier.
+- Note that there is a caching mechanism in place which can take up to one day before being updated with a new tier.
 - Negative maker fee markets are not eligible for discounts.
 - If the fee discount proposal was passed less than 30 days ago, the fee paid requirement is ignored so we don't unfairly penalize people who onboard immediately.
 
@@ -211,7 +211,7 @@ During a given campaign, the exchange will record each trader's cumulative tradi
 
 ## Reduce-Only Order Precedence
 
-Imagine a trader has a the following position:
+Imagine a trader has the following position:
 
 - **LONG**: `1 BTC` with EntryPrice of $59,000
 
@@ -268,7 +268,7 @@ In our example, consider a new vanilla order of `0.4 BTC` at `$64,600`.
 |   $64,500    |   0.3 BTC   |   Vanilla   |
 |   $63,500    |   0.1 BTC   | Reduce-only |
 
-Again this perfectly valid and no further action is required. But what if the order was for `0.5 BTC` instead?
+Again this is perfectly valid and no further action is required. But what if the order was for `0.5 BTC` instead?
 
 |  Sell Price  |  Quantity   | Order Type  |
 | :---------:  | :---------: | :---------: |
