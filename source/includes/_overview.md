@@ -132,7 +132,7 @@ Note: liquidations are executed immediately in a block before any other order ma
 
 Fee discounts are enabled by looking at the past trailing 30 day window. As long as you meet both conditions for a tier (volume traded **AND** staked amount), you will receive the respective discounts.
 
-- Note that there is a caching mechanism in place which can take up to one day to before being updated with a new tier.
+- Note that there is a caching mechanism in place which can take up to one day before being updated with a new tier.
 - Negative maker fee markets are not eligible for discounts.
 
 ## Funding Rate
@@ -207,7 +207,7 @@ During a given campaign, the exchange will record each trader's cumulative tradi
 
 ## Reduce-Only Order Precedence
 
-Imagine a trader has a the following position:
+Imagine a trader has the following position:
 
 - **LONG**: `1 BTC` with EntryPrice of $59,000
 
