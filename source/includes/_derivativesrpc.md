@@ -1,9 +1,9 @@
 # - InjectiveDerivativeExchangeRPC
-InjectiveDerivativeExchangeRPC defines the gRPC API of the Derivative Exchange provider.
+InjectiveDerivativeExchangeRPC defines the gRPC API of the Derivative Exchange provider. Usage examples can be found [here](https://github.com/InjectiveLabs/sdk-python/tree/c26c26932edfde25023d90900ec5af0950f95b4c/examples/exchange_client/derivative_exchange_rpc).
 
 ## Market
 
-Get details of a derivative market.
+Get details of a single derivative market.
 
 ### Request Parameters
 > Request Example:
@@ -82,7 +82,7 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|String|Filter by market ID|Yes|
+|market_id|String|ID of the market to fetch|Yes|
 
 
 
@@ -91,7 +91,7 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 ``` python
 market {
-  market_id: "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+  market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
   market_status: "active"
   ticker: "BTC/USDT PERP"
   oracle_base: "BTC"
@@ -100,17 +100,17 @@ market {
   oracle_scale_factor: 6
   initial_margin_ratio: "0.095"
   maintenance_margin_ratio: "0.05"
-  quote_denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+  quote_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
   quote_token_meta {
-    name: "Tether"
-    address: "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+    name: "Testnet Tether USDT"
+    address: "0x0000000000000000000000000000000000000000"
     symbol: "USDT"
     logo: "https://static.alchemyapi.io/images/assets/825.png"
     decimals: 6
-    updated_at: 1650978923435
+    updated_at: 1676338338818
   }
-  maker_fee_rate: "0.0005"
-  taker_fee_rate: "0.0012"
+  maker_fee_rate: "-0.0001"
+  taker_fee_rate: "0.001"
   service_provider_fee: "0.4"
   is_perpetual: true
   min_price_tick_size: "100000"
@@ -118,13 +118,13 @@ market {
   perpetual_market_info {
     hourly_funding_rate_cap: "0.000625"
     hourly_interest_rate: "0.00000416666"
-    next_funding_timestamp: 1652792400
+    next_funding_timestamp: 1676340000
     funding_interval: 3600
   }
   perpetual_market_funding {
-    cumulative_funding: "7234678245.415396885076050889"
-    cumulative_price: "6.214149999812187743"
-    last_timestamp: 1652775381
+    cumulative_funding: "779109108.57624692966427974"
+    cumulative_price: "295.860245725710572515"
+    last_timestamp: 1676294229
   }
 }
 ```
@@ -215,7 +215,7 @@ market {
 
 |Parameter|Type|Description|
 |----|----|----|
-|market|DerivativeMarketInfo|DerivativeMarketInfo object|
+|market|DerivativeMarketInfo|Info about a particular derivative market|
 
 **DerivativeMarketInfo**
 
@@ -225,22 +225,22 @@ market {
 |oracle_type|String|Oracle Type|
 |quote_denom|String|Coin denom used for the quote asset|
 |is_perpetual|Boolean|True if the market is a perpetual swap market|
-|maker_fee_rate|String|Defines the fee percentage makers pay when trading (in quote asset)|
+|maker_fee_rate|String|Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading|
 |min_price_tick_size|String|Defines the minimum required tick size for the order's price|
 |min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
-|oracle_scale_factor|Integer|OracleScaleFactor|
+|oracle_scale_factor|Integer|Scaling multiple to scale oracle prices to the correct number of decimals|
 |taker_fee_rate|String|Defines the fee percentage takers pay when trading (in quote asset)|
-|expiry_futures_market_info|Array|ExpiryFuturesMarketInfo object|
-|initial_margin_ratio|String|Defines the initial margin ratio of a derivative market|
-|market_status|String|The status of the market (Should be one of: [active paused suspended demolished expired]) |
+|expiry_futures_market_info|ExpiryFuturesMarketInfo|Info about expiry futures market|
+|initial_margin_ratio|String|The initial margin ratio of the derivative market|
+|market_status|String|The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|
 |service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
 |oracle_base|String|Oracle base currency|
 |perpetual_market_funding|PerpetualMarketFunding|PerpetualMarketFunding object|
-|perpetual_market_info|PerpetualMarketInfo|PerpetualMarketInfo object|
+|perpetual_market_info|PerpetualMarketInfo|Information about the perpetual market|
 |ticker|String|The name of the pair in format AAA/BBB, where AAA is the base asset and BBB is the quote asset|
-|maintenance_margin_ratio|String|Defines the maintenance margin ratio of a derivative market|
+|maintenance_margin_ratio|String|The maintenance margin ratio of the derivative market|
 |market_id|String|The market ID|
-|quoteTokenMeta|TokenMeta|TokenMeta object|
+|quoteTokenMeta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
 
 
 **PerpetualMarketFunding**
@@ -266,17 +266,17 @@ market {
 
 |Parameter|Type|Description|
 |----|----|----|
-|updated_at|Integer|Token metadata fetched timestamp in UNIX millis|
-|address|String|Token Ethereum contract address|
+|address|String|Token's Ethereum contract address|
 |decimals|Integer|Token decimals|
 |logo|String|URL to the logo image|
 |name|String|Token full name|
 |symbol|String|Token symbol short name|
+|updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
 
 
 ## Markets
 
-Get a list of derivative markets.
+Get a list of one or more derivative markets.
 
 
 ### Request Parameters
@@ -293,13 +293,12 @@ async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    market_status = "active"  # active, paused, suspended, demolished or expired
-    quote_denom = "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+    market_status = "active"
+    quote_denom = "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
     market = await client.get_derivative_markets(
         market_status=market_status,
         quote_denom=quote_denom
     )
-
     print(market)
 
 if __name__ == '__main__':
@@ -371,7 +370,7 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_status|String|Filter by market status (Should be one of: [active paused suspended demolished expired])|No|
+|market_status|String|Filter by market status (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|No|
 |quote_denom|String|Filter by the Coin denomination of the quote currency|No|
 
 
@@ -381,77 +380,72 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 ``` python
 markets {
-  market_id: "0x54d4505adef6a5cef26bc403a33d595620ded4e15b9e2bc3dd489b714813366a"
+  market_id: "0xe112199d9ee44ceb2697ea0edd1cd422223c105f3ed2bdf85223d3ca59f5909a"
   market_status: "active"
-  ticker: "ETH/USDT PERP"
-  oracle_base: "ETH"
+  ticker: "INJ/USDT PERP"
+  oracle_base: "INJ"
   oracle_quote: "USDT"
   oracle_type: "bandibc"
   oracle_scale_factor: 6
-  initial_margin_ratio: "0.195"
+  initial_margin_ratio: "0.095"
   maintenance_margin_ratio: "0.05"
-  quote_denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+  quote_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
   quote_token_meta {
-    name: "Tether"
-    address: "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+    name: "Testnet Tether USDT"
+    address: "0x0000000000000000000000000000000000000000"
     symbol: "USDT"
     logo: "https://static.alchemyapi.io/images/assets/825.png"
     decimals: 6
-    updated_at: 1650978923442
+    updated_at: 1676339989721
   }
-  maker_fee_rate: "0.0005"
-  taker_fee_rate: "0.0012"
+  maker_fee_rate: "-0.0001"
+  taker_fee_rate: "0.001"
   service_provider_fee: "0.4"
   is_perpetual: true
-  min_price_tick_size: "10000"
-  min_quantity_tick_size: "0.01"
+  min_price_tick_size: "100000"
+  min_quantity_tick_size: "0.0001"
   perpetual_market_info {
     hourly_funding_rate_cap: "0.000625"
     hourly_interest_rate: "0.00000416666"
-    next_funding_timestamp: 1652371200
+    next_funding_timestamp: 1676340000
     funding_interval: 3600
   }
   perpetual_market_funding {
-    cumulative_funding: "386580047.750314353885122297"
-    cumulative_price: "435.300710510988475128"
-    last_timestamp: 1652790383
+    cumulative_funding: "30750.538513128695953648"
+    cumulative_price: "793.433131392911165592"
+    last_timestamp: 1674712474
   }
 }
+
+...
+
 markets {
-  market_id: "0xfb5f14852bd01af901291dd2aa65e997b3a831f957124a7fe7aa40d218ff71ae"
+  market_id: "0x3bb58218cd90efcce9ea9e317d137dcd4ce8485c6be346250dbf8cd60d9c9e2d"
   market_status: "active"
-  ticker: "XAG/USDT PERP"
-  oracle_base: "XAG"
+  ticker: "Frontrunner Futures 4: Expires 7.7.2023"
+  oracle_base: "FRNT"
   oracle_quote: "USDT"
-  oracle_type: "bandibc"
+  oracle_type: "pricefeed"
   oracle_scale_factor: 6
-  initial_margin_ratio: "0.8"
-  maintenance_margin_ratio: "0.4"
-  quote_denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+  initial_margin_ratio: "0.999999999999999999"
+  maintenance_margin_ratio: "0.1"
+  quote_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
   quote_token_meta {
-    name: "Tether"
-    address: "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+    name: "Testnet Tether USDT"
+    address: "0x0000000000000000000000000000000000000000"
     symbol: "USDT"
     logo: "https://static.alchemyapi.io/images/assets/825.png"
     decimals: 6
-    updated_at: 1650978923534
+    updated_at: 1676339989721
   }
-  maker_fee_rate: "0.003"
-  taker_fee_rate: "0.005"
+  maker_fee_rate: "0.005"
+  taker_fee_rate: "0.012"
   service_provider_fee: "0.4"
-  is_perpetual: true
-  min_price_tick_size: "10000"
-  min_quantity_tick_size: "0.01"
-  perpetual_market_info {
-    hourly_funding_rate_cap: "0.000625"
-    hourly_interest_rate: "0.00000416666"
-    next_funding_timestamp: 1652792400
-    funding_interval: 3600
-  }
-  perpetual_market_funding {
-    cumulative_funding: "1099659.417190990913058692"
-    cumulative_price: "-4.427475055338306767"
-    last_timestamp: 1652775322
+  min_price_tick_size: "0.000000000000001"
+  min_quantity_tick_size: "0.0001"
+  expiry_futures_market_info {
+    expiration_timestamp: 1688747341
+    settlement_price: "0"
   }
 }
 ```
@@ -614,7 +608,7 @@ markets {
 
 |Parameter|Type|Description|
 |----|----|----|
-|markets|DerivativeMarketInfo|DerivativeMarketInfo object|
+|markets|DerivativeMarketInfo Array|List of derivative markets and associated info|
 
 **DerivativeMarketInfo**
 
@@ -624,22 +618,22 @@ markets {
 |oracle_type|String|Oracle Type|
 |quote_denom|String|Coin denom used for the quote asset|
 |is_perpetual|Boolean|True if the market is a perpetual swap market|
-|maker_fee_rate|String|Defines the fee percentage makers pay when trading (in quote asset)|
+|maker_fee_rate|String|Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading|
 |min_price_tick_size|String|Defines the minimum required tick size for the order's price|
 |min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
-|oracle_scale_factor|Integer|OracleScaleFactor|
+|oracle_scale_factor|Integer|Scaling multiple to scale oracle prices to the correct number of decimals|
 |taker_fee_rate|String|Defines the fee percentage takers pay when trading (in quote asset)|
-|expiry_futures_market_info|Array|ExpiryFuturesMarketInfo object|
-|initial_margin_ratio|String|Defines the initial margin ratio of a derivative market|
-|market_status|String|The status of the market (Should be one of: [active paused suspended demolished expired]) |
+|expiry_futures_market_info|ExpiryFuturesMarketInfo|Info about expiry futures market|
+|initial_margin_ratio|String|The initial margin ratio of the derivative market|
+|market_status|String|The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|
 |service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
 |oracle_base|String|Oracle base currency|
 |perpetual_market_funding|PerpetualMarketFunding|PerpetualMarketFunding object|
-|perpetual_market_info|PerpetualMarketInfo|PerpetualMarketInfo object|
+|perpetual_market_info|PerpetualMarketInfo|Information about the perpetual market|
 |ticker|String|The name of the pair in format AAA/BBB, where AAA is the base asset and BBB is the quote asset|
-|maintenance_margin_ratio|String|Defines the maintenance margin ratio of a derivative market|
+|maintenance_margin_ratio|String|The maintenance margin ratio of the derivative market|
 |market_id|String|The market ID|
-|quoteTokenMeta|TokenMeta|TokenMeta object|
+|quoteTokenMeta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
 
 
 **PerpetualMarketFunding**
@@ -665,12 +659,12 @@ markets {
 
 |Parameter|Type|Description|
 |----|----|----|
-|updated_at|Integer|Token metadata fetched timestamp in UNIX millis|
-|address|String|Token Ethereum contract address|
+|address|String|Token's Ethereum contract address|
 |decimals|Integer|Token decimals|
 |logo|String|URL to the logo image|
 |name|String|Token full name|
 |symbol|String|Token symbol short name|
+|updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
 
 
 ## StreamMarkets
@@ -771,6 +765,10 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
     });
 })();
 ```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_ids|String Array|List of market IDs for updates streaming, empty means 'ALL' derivative markets|No|
 
 ### Response Parameters
 > Streaming Response Example:
@@ -907,7 +905,9 @@ timestamp: 1652792406000
 
 |Parameter|Type|Description|
 |----|----|----|
-|market|DerivativeMarketInfo|DerivativeMarketInfo object|
+|market|DerivativeMarketInfo|Info about a particular derivative market|
+|operation_type|String|Update type (Should be one of: ["insert", "delete", "replace", "update", "invalidate"])|
+|timestamp|Integer|Operation timestamp in UNIX millis|
 
 **DerivativeMarketInfo**
 
@@ -917,22 +917,22 @@ timestamp: 1652792406000
 |oracle_type|String|Oracle Type|
 |quote_denom|String|Coin denom used for the quote asset|
 |is_perpetual|Boolean|True if the market is a perpetual swap market|
-|maker_fee_rate|String|Defines the fee percentage makers pay when trading (in quote asset)|
+|maker_fee_rate|String|Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading|
 |min_price_tick_size|String|Defines the minimum required tick size for the order's price|
 |min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
-|oracle_scale_factor|Integer|OracleScaleFactor|
+|oracle_scale_factor|Integer|Scaling multiple to scale oracle prices to the correct number of decimals|
 |taker_fee_rate|String|Defines the fee percentage takers pay when trading (in quote asset)|
-|expiry_futures_market_info|Array|ExpiryFuturesMarketInfo object|
-|initial_margin_ratio|String|Defines the initial margin ratio of a derivative market|
-|market_status|String|The status of the market (Should be one of: [active paused suspended demolished expired]) |
+|expiry_futures_market_info|ExpiryFuturesMarketInfo|Info about expiry futures market|
+|initial_margin_ratio|String|The initial margin ratio of the derivative market|
+|market_status|String|The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|
 |service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
 |oracle_base|String|Oracle base currency|
 |perpetual_market_funding|PerpetualMarketFunding|PerpetualMarketFunding object|
-|perpetual_market_info|PerpetualMarketInfo|PerpetualMarketInfo object|
+|perpetual_market_info|PerpetualMarketInfo|Information about the perpetual market|
 |ticker|String|The name of the pair in format AAA/BBB, where AAA is the base asset and BBB is the quote asset|
-|maintenance_margin_ratio|String|Defines the maintenance margin ratio of a derivative market|
+|maintenance_margin_ratio|String|The maintenance margin ratio of the derivative market|
 |market_id|String|The market ID|
-|quoteTokenMeta|TokenMeta|TokenMeta object|
+|quoteTokenMeta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
 
 
 **PerpetualMarketFunding**
@@ -958,18 +958,17 @@ timestamp: 1652792406000
 
 |Parameter|Type|Description|
 |----|----|----|
-|updated_at|Integer|Token metadata fetched timestamp in UNIX millis|
-|address|String|Token Ethereum contract address|
+|address|String|Token's Ethereum contract address|
 |decimals|Integer|Token decimals|
 |logo|String|URL to the logo image|
 |name|String|Token full name|
 |symbol|String|Token symbol short name|
+|updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
 
 
 ## OrdersHistory
 
-Get orders of a derivative market in all states.
-
+Lists historical orders posted from a subaccount
 
 ### Request Parameters
 > Request Example:
@@ -986,9 +985,9 @@ async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     market_id = "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
-    subaccount_id = "0x1b99514e320ae0087be7f87b1e3057853c43b799000000000000000000000000"
+    subaccount_id = "0x295639d56c987f0e24d21bb167872b3542a6e05a000000000000000000000000"
     skip = 10
-    limit = 10
+    limit = 3
     orders = await client.get_historical_derivative_orders(
         market_id=market_id,
         subaccount_id=subaccount_id,
@@ -1012,17 +1011,19 @@ if __name__ == '__main__':
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|String|Filter by market ID|Yes|
+|market_id|String|Filter by a single market ID|Yes|
+|market_ids|String Array|Filter by multiple market IDs|No|
 |subaccount_id|String|Filter by subaccount ID|No|
-|skip|Integer|Skip the last orders, you can use this to fetch all orders since the API caps at 100|No|
-|limit|Integer|Limit the orders returned|No|
-|direction|String|Filter by direction|No|
-|is_conditional|String|Search for conditional/non-conditional orders(Should be one of: [true, false])|No|
-|start_time|Integer|Search for orders createdAt >= startTime, time in milliseconds|No|
-|end_time|Integer|Search for orders createdAt <= startTime, time in milliseconds|No|
-|state|String|The order state (Should be one of: [booked, partial_filled, filled, canceled])|No|
-|execution_types|List|The execution of the order (Should be one of: [limit market])|No|
-|order_types|List|The order type (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell buy_po sell_po])|No|
+|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100|No|
+|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
+|direction|String|Filter by order direction (Should be one of: ["buy", "sell"])|No|
+|is_conditional|String|Search for conditional/non-conditional orders(Should be one of: ["true", "false"])|No|
+|start_time|Integer|Search for orders where createdAt >= startTime, time in milliseconds|No|
+|end_time|Integer|Search for orders where createdAt <= startTime, time in milliseconds|No|
+|state|String|The order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|No|
+|execution_types|String Array|The execution of the order (Should be one of: ["limit", "market"])|No|
+|order_type|String|The order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|No|
+|order_types|String Array|The order types to be included (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|No|
 
 
 ### Response Parameters
@@ -1030,39 +1031,55 @@ if __name__ == '__main__':
 
 ``` python
 orders {
-  order_hash: "0x165224339897b61dfb37b424732e4be4f78dafa7cee8204622e9683aa5fc7522"
-  market_id: "0x54d4505adef6a5cef26bc403a33d595620ded4e15b9e2bc3dd489b714813366a"
-  subaccount_id: "0x5ffab11640f42352685c1a35e12500ec983920ae000000000000000000000000"
+  order_hash: "0x06a9b81441b4fd38bc9da9b928007286b340407481f41398daab291cde2bd6dc"
+  market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+  subaccount_id: "0x295639d56c987f0e24d21bb167872b3542a6e05a000000000000000000000000"
   execution_type: "limit"
-  order_type: "buy_po"
-  price: "1281030000"
+  order_type: "sell"
+  price: "21805600000"
   trigger_price: "0"
-  quantity: "7"
-  filled_quantity: "0"
-  state: "canceled"
-  created_at: 1665484862242
-  updated_at: 1665484868636
-  direction: "buy"
-  margin: "2241800000"
+  quantity: "0.001"
+  filled_quantity: "0.001"
+  state: "filled"
+  created_at: 1676269001530
+  updated_at: 1676269001530
+  direction: "sell"
+  margin: "21800000"
 }
 orders {
-  order_hash: "0x91455da6374636567cf0793a4555c258246627453bdf48b1126e03beae5dcc7d"
-  market_id: "0x54d4505adef6a5cef26bc403a33d595620ded4e15b9e2bc3dd489b714813366a"
-  subaccount_id: "0x5ffab11640f42352685c1a35e12500ec983920ae000000000000000000000000"
+  order_hash: "0x1b4ebdd127ecda4a0b392907e872ef960c9a2e76eb4e68a0ab5c1d631f540b85"
+  market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+  subaccount_id: "0x295639d56c987f0e24d21bb167872b3542a6e05a000000000000000000000000"
   execution_type: "limit"
-  order_type: "sell_po"
-  price: "1283930000"
+  order_type: "sell"
+  price: "21805600000"
   trigger_price: "0"
-  quantity: "7"
+  quantity: "0.001"
+  filled_quantity: "0.001"
+  state: "filled"
+  created_at: 1676268938604
+  updated_at: 1676268938604
+  direction: "sell"
+  margin: "21800000"
+}
+orders {
+  order_hash: "0x10c4cd0c744c08d38920d063ad5f811b97fd9f5d59224814ad9a02bdffb4c0bd"
+  market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+  subaccount_id: "0x295639d56c987f0e24d21bb167872b3542a6e05a000000000000000000000000"
+  execution_type: "limit"
+  order_type: "sell"
+  price: "21876100000"
+  trigger_price: "0"
+  quantity: "0.001"
   filled_quantity: "0"
   state: "canceled"
-  created_at: 1665484862242
-  updated_at: 1665484868636
+  created_at: 1676268856766
+  updated_at: 1676268924613
   direction: "sell"
-  margin: "2246890000"
+  margin: "21900000"
 }
 paging {
-  total: 1000
+  total: 32
 }
 ```
 
@@ -1077,32 +1094,39 @@ paging {
 
 |Parameter|Type|Description|
 |----|----|----|
-|orders|DerivativeOrderHistory|DerivativeOrderHistory object|
+|orders|DerivativeOrderHistory Array|list of historical derivative orders|
+|paging|Paging|Pagination of results|
 
-***DerivativeOrderHistory***
+**DerivativeOrderHistory**
 
 |Parameter|Type|Description|
 |----|----|----|
 |order_hash|String|Hash of the order|
 |quantity|String|Quantity of the order|
-|is_active|Boolean|Indicates if the order is active|
-|is_reduce_only|Boolean|Indicates if the order is reduce-only|
-|is_conditional|Boolean|Indicates if the order is conditional|
-|state|String|Order state (Should be one of: [booked partial_filled filled canceled])|
-|trigger_price|String|Trigger price is the trigger price used by stop/take orders|
-|trigger_at|Integer|Trigger timestamp in UNIX millis|
-|market_id|String|Derivative Market ID|
-|created_at|Integer|Order committed timestamp in UNIX millis|
+<!-- uncomment when active -->
+<!-- |is_active|Boolean|Indicates if the order is active| -->
+<!-- |is_reduce_only|Boolean|Indicates if the order is reduce-only| -->
+<!-- |is_conditional|Boolean|Indicates if the order is conditional| -->
+|state|String|Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
+|trigger_price|String|The price that triggers stop/take orders|
+<!-- |trigger_at|Integer|Trigger timestamp in UNIX millis| -->
+|market_id|String|Derivative market ID|
+|created_at|Integer|Order created timestamp in UNIX millis|
 |updated_at|Integer|Order updated timestamp in UNIX millis|
 |price|String|Price of the order|
 |subaccount_id|String|The subaccountId that this order belongs to|
-|order_type|String|Order type (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell buy_po sell_po])|
-|execution_type|String|The type of the order (Should be one of: [limit market])|
+|order_type|String|Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|
+|execution_type|String|The type of the order (Should be one of: ["limit", "market"])|
 |filled_quantity|String|The amount of the quantity filled|
-|direction|String|The direction of the order (Should be one of: [buy sell])|
-|placed_order_hash|String|Order hash placed upon conditional order trigger|
+|direction|String|The direction of the order (Should be one of: ["buy", "sell"])|
+<!-- |placed_order_hash|String|Hash of order placed upon conditional order trigger| -->
 |margin|String|The margin of the order|
 
+**Paging**
+
+|Parameter|Type|Description|
+|----|----|----|
+|total|Integer|Total number of available records|
 
 ## StreamOrdersHistory
 
@@ -1148,10 +1172,10 @@ if __name__ == '__main__':
 |----|----|----|----|
 |market_id|String|Filter by market ID|Yes|
 |subaccount_id|String|Filter by subaccount ID|No|
-|direction|String|Filter by direction (Should be one of: [buy sell])|No|
-|state|String|Filter by state (Should be one of: [booked partial_filled filled canceled])|No|
-|order_types|List|Filter by order type (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell buy_po sell_po])|No|
-|execution_types|List|Filter by execution type (Should be one of: [limit market])|No|
+|direction|String|Filter by direction (Should be one of: ["buy", "sell"])|No|
+|state|String|Filter by state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|No|
+|order_types|String Array|Filter by order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|No|
+|execution_types|String Array|Filter by execution type (Should be one of: ["limit", "market"])|No|
 
 
 ### Response Parameters
@@ -1160,9 +1184,9 @@ if __name__ == '__main__':
 ``` python
 order {
   order_hash: "0xfb526d72b85e9ffb4426c37bf332403fb6fb48709fb5d7ca3be7b8232cd10292"
-  market_id: "0x1c79dac019f73e4060494ab1b4fcba734350656d6fc4d474f6a238c13c6f9ced"
+  market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
   is_active: true
-  subaccount_id: "0x5ffab11640f42352685c1a35e12500ec983920ae000000000000000000000000"
+  subaccount_id: "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
   execution_type: "limit"
   order_type: "sell_po"
   price: "274310000"
@@ -1189,8 +1213,8 @@ timestamp: 1665487078000
 
 |Parameter|Type|Description|
 |----|----|----|
-|order|DerivativeOrderHistory|DerivativeOrderHistory object|
-|operation_type|String|Order update type (Should be one of: [insert replace update invalidate]) |
+|order|DerivativeOrderHistory|Updated order|
+|operation_type|String|Order update type (Should be one of: ["insert", "replace", "update", "invalidate"])|
 |timestamp|Integer|Operation timestamp in UNIX millis|
 
 **DerivativeOrderHistory**
@@ -1199,22 +1223,23 @@ timestamp: 1665487078000
 |----|----|----|
 |order_hash|String|Hash of the order|
 |quantity|String|Quantity of the order|
-|is_active|Boolean|Indicates if the order is active|
-|is_reduce_only|Boolean|Indicates if the order is reduce-only|
-|is_conditional|Boolean|Indicates if the order is conditional|
-|state|String|Order state (Should be one of: [booked partial_filled filled canceled])|
-|trigger_price|String|Trigger price is the trigger price used by stop/take orders|
-|trigger_at|Integer|Trigger timestamp in UNIX millis|
-|market_id|String|Derivative Market ID|
-|created_at|Integer|Order committed timestamp in UNIX millis|
+<!-- uncomment when active -->
+<!-- |is_active|Boolean|Indicates if the order is active| -->
+<!-- |is_reduce_only|Boolean|Indicates if the order is reduce-only| -->
+<!-- |is_conditional|Boolean|Indicates if the order is conditional| -->
+|state|String|Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
+|trigger_price|String|The price that triggers stop/take orders|
+<!-- |trigger_at|Integer|Trigger timestamp in UNIX millis| -->
+|market_id|String|Derivative market ID|
+|created_at|Integer|Order created timestamp in UNIX millis|
 |updated_at|Integer|Order updated timestamp in UNIX millis|
 |price|String|Price of the order|
 |subaccount_id|String|The subaccountId that this order belongs to|
-|order_type|String|Order type (Should be one of: [buy sell stop_buy stop_sell take_buy take_sell buy_po sell_po])|
-|execution_type|String|The type of the order (Should be one of: [limit market])|
+|order_type|String|Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|
+|execution_type|String|The type of the order (Should be one of: ["limit", "market"])|
 |filled_quantity|String|The amount of the quantity filled|
-|direction|String|The direction of the order (Should be one of: [buy sell])|
-|placed_order_hash|String|Order hash placed upon conditional order trigger|
+|direction|String|The direction of the order (Should be one of: ["buy", "sell"])|
+<!-- |placed_order_hash|String|Hash of order placed upon conditional order trigger| -->
 |margin|String|The margin of the order|
 
 
@@ -1222,12 +1247,12 @@ timestamp: 1665487078000
 
 Get trades of a derivative market.
 
-**Trade execution types**
+**\*Trade execution types**
 
-1. Market for market orders
-2. limitFill for a resting limit order getting filled by a market order
-3. LimitMatchRestingOrder for a resting limit order getting matched with another new limit order
-4. LimitMatchNewOrder for the other way around (new limit order getting matched)
+1. `"market"` for market orders
+2. `"limitFill"` for a resting limit order getting filled by a market order
+3. `"limitMatchRestingOrder"` for a resting limit order getting matched with another new limit order
+4. `"limitMatchNewOrder"` for a new limit order getting matched immediately
 
 ### Request Parameters
 > Request Example:
@@ -1327,54 +1352,42 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|String|Filter by market ID|Conditional|
-|market_ids|String|Filter by market IDs|Conditional|
-|subaccount_id|String|Filter by subaccount ID|No|
-|subaccount_ids|String|Filter by subaccount IDs|No|
-|execution_side|String|Filter by the execution side of the trade (Should be one of: [maker taker])|No|
-|direction|String|Filter by the direction of the trade (Should be one of: [buy sell])|No|
-|skip|Integer|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
-|limit|Integer|Limit the trades returned|No|
-|start_time|Integer|startTime <= x.executedAt <= endTime|No|
-|end_time|Integer|endTime >= x.executedAt <= startTime|No|
-
-
+|market_id|String|Filter by a single market ID|No|
+|market_ids|String Array|Filter by multiple market IDs|No|
+|subaccount_id|String|Filter by a single subaccount ID|No|
+|subaccount_ids|String Array|Filter by multiple subaccount IDs|No|
+|direction|String|Filter by the direction of the trade (Should be one of: ["buy", "sell"])|No|
+|execution_side|String|Filter by the execution side of the trade (Should be one of: ["maker", "taker"])|No|
+|execution_types|String Array|Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|No|
+|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100|No|
+|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
+|start_time|Integer|startTime <= trade execution timestamp <= endTime|No|
+|end_time|Integer|startTime <= trade execution timestamp <= endTime|No|
 
 ### Response Parameters
 > Response Example:
 
 ``` python
 trades {
-  order_hash: "0x33cb4e0af0550b14a92615bd059f46a04d5847cd6c7efb1a604046a3b60c2d25"
+  order_hash: "0xab1d5fbc7c578d2e92f98d18fbeb7199539f84fe62dd474cce87737f0e0a8737"
   subaccount_id: "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
-  market_id: "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-  trade_execution_type: "limitMatchRestingOrder"
+  market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+  trade_execution_type: "limitMatchNewOrder"
   position_delta {
     trade_direction: "sell"
-    execution_price: "40570100000"
-    execution_quantity: "0.06"
-    execution_margin: "2333082000"
+    execution_price: "25111000000"
+    execution_quantity: "0.0001"
+    execution_margin: "2400000"
   }
-  payout: "2502714419.611037287127629754"
-  fee: "1217103"
-  executed_at: 1652775161287
-  fee_recipient: "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
+  payout: "0"
+  fee: "2511.1"
+  executed_at: 1671745977284
+  fee_recipient: "inj1cd0d4l9w9rpvugj8upwx0pt054v2fwtr563eh0"
+  trade_id: "6205591_ab1d5fbc7c578d2e92f98d18fbeb7199539f84fe62dd474cce87737f0e0a8737"
+  execution_side: "taker"
 }
-trades {
-  order_hash: "0x8f7626957f098fcdb6a610e72d85fc84e59d459ff4007018847b2ff200e97f77"
-  subaccount_id: "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
-  market_id: "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-  trade_execution_type: "limitMatchRestingOrder"
-  position_delta {
-    trade_direction: "sell"
-    execution_price: "40570100000"
-    execution_quantity: "0.05"
-    execution_margin: "1992390000"
-  }
-  payout: "2085595349.675864405939691462"
-  fee: "1014252.5"
-  executed_at: 1652775161287
-  fee_recipient: "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
+paging {
+  total: 1
 }
 ```
 
@@ -1507,22 +1520,25 @@ trades {
 
 |Parameter|Type|Description|
 |----|----|----|
-|trades|DerivativeTrade|DerivativeTrade object|
+|trades|DerivativeTrade Array|List of trades of derivative markets|
+|paging|Paging|Pagination of results|
 
 **DerivativeTrade**
 
 |Parameter|Type|Description|
 |----|----|----|
 |executed_at|Integer|Timestamp of trade execution in UNIX millis|
-|position_delta|PositionDelta|PositionDelta object|
-|subaccount_id|String|The subaccount ID that executed the trade|
-|trade_execution_type|String|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
+|position_delta|PositionDelta|Position delta from the trade|
+|subaccount_id|String|ID of subaccount that executed the trade|
+|trade_execution_type|String|Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|
 |fee|String|The fee associated with the trade|
 |is_liquidation|Boolean|True if the trade is a liquidation|
 |market_id|String|The market ID|
 |order_hash|String|The order hash|
 |payout|String|The payout associated with the trade|
 |fee_recipient|String|The address that received 40% of the fees|
+|trade_id|String|Unique identifier to differentiate between trades|
+|execution_side|String|Execution side of trade (Should be one of: ["maker", "taker"])
 
 **PositionDelta**
 
@@ -1530,8 +1546,13 @@ trades {
 |----|----|----|
 |execution_price|String|Execution price of the trade|
 |execution_quantity|String|Execution quantity of the trade|
-|trade_direction|String|The direction the trade (Should be one of: [buy sell]) |
+|trade_direction|String|The direction the trade (Should be one of: ["buy", "sell"]) |
 |execution_margin|String|Execution margin of the trade|
+
+**Paging**
+|Parameter|Type|Description|
+|----|----|----|
+|total|Integer|Total number of records available|
 
 
 ## StreamTrades
