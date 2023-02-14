@@ -186,7 +186,7 @@ market {
 |quote_token_meta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
 |service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
 |base_token_meta|TokenMeta|Token metadata for base asset, only for Ethereum-based assets|
-|maker_fee_rate|String|Defines the fee percentage makers pay (in the quote asset) when trading|
+|maker_fee_rate|String|Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading|
 |min_price_tick_size|String|Defines the minimum required tick size for the order's price|
 |quote_denom|String|Coin denom of the quote asset|
 |taker_fee_rate|String|Defines the fee percentage takers pay (in the quote asset) when trading|
@@ -473,7 +473,7 @@ markets {
 |quote_token_meta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
 |service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
 |base_token_meta|TokenMeta|Token metadata for base asset, only for Ethereum-based assets|
-|maker_fee_rate|String|Defines the fee percentage makers pay (in the quote asset) when trading|
+|maker_fee_rate|String|Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading|
 |min_price_tick_size|String|Defines the minimum required tick size for the order's price|
 |quote_denom|String|Coin denom of the quote asset|
 |taker_fee_rate|String|Defines the fee percentage takers pay (in the quote asset) when trading|
@@ -716,7 +716,7 @@ market: {
 |quote_token_meta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
 |service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
 |base_token_meta|TokenMeta|Token metadata for base asset, only for Ethereum-based assets|
-|maker_fee_rate|String|Defines the fee percentage makers pay (in the quote asset) when trading|
+|maker_fee_rate|String|Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading|
 |min_price_tick_size|String|Defines the minimum required tick size for the order's price|
 |quote_denom|String|Coin denom of the quote asset|
 |taker_fee_rate|String|Defines the fee percentage takers pay (in the quote asset) when trading|
