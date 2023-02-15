@@ -987,7 +987,7 @@ timestamp: 1665486462000
 |trigger_price|String|Trigger price used by stop/take orders|
 |market_id|String|Spot Market ID|
 |created_at|Integer|Order created timestamp in UNIX millis|
-|updated_at|Integer|Order updated timestamp in UNIX millis.|
+|updated_at|Integer|Order updated timestamp in UNIX millis|
 |price|String|Price of the order|
 |subaccount_id|String|ID of the subaccount that this order belongs to|
 |order_type|String|Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) |
@@ -2718,7 +2718,7 @@ paging {
 |unfilled_quantity|String|The amount of the quantity remaining unfilled|
 |market_id|String|ID of the market the order belongs to|
 |order_hash|String|Hash of the order|
-|order_side|String|The type of the order (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell"])|
+|order_side|String|The side of the order (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell"])|
 |fee_recipient|String|The address that receives fees if the order is executed|
 |price|String|The price of the order|
 |quantity|String|The quantity of the order|
