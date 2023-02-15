@@ -1298,7 +1298,7 @@ paging {
 
 ## StreamTrades
 
-Stream newly executed trades of spot markets. The default request streams all spot trades from all markets.
+Stream newly executed trades of spot markets. The default request streams trades from all spot markets.
 
 **\*Trade execution types**
 
