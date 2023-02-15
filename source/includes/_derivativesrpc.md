@@ -986,13 +986,15 @@ async def main() -> None:
     client = AsyncClient(network, insecure=False)
     market_id = "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
     subaccount_id = "0x295639d56c987f0e24d21bb167872b3542a6e05a000000000000000000000000"
+    is_conditional = "false"
     skip = 10
     limit = 3
     orders = await client.get_historical_derivative_orders(
         market_id=market_id,
         subaccount_id=subaccount_id,
         skip=skip,
-        limit=limit
+        limit=limit,
+        is_conditional=is_conditional,
     )
     print(orders)
 
@@ -1089,7 +1091,6 @@ paging {
 
 ``` typescript
 
-
 ```
 
 |Parameter|Type|Description|
@@ -1127,6 +1128,7 @@ paging {
 |Parameter|Type|Description|
 |----|----|----|
 |total|Integer|Total number of available records|
+
 
 ## StreamOrdersHistory
 
@@ -1557,14 +1559,14 @@ paging {
 
 ## StreamTrades
 
-Stream trades of a derivative market.
+Stream newly executed trades of a derivative market. The default request streams trades from all derivative markets.
 
-**Trade execution types**
+**\*Trade execution types**
 
-1. Market for market orders
-2. limitFill for a resting limit order getting filled by a market order
-3. LimitMatchRestingOrder for a resting limit order getting matched with another new limit order
-4. LimitMatchNewOrder for the other way around (new limit order getting matched)
+1. `"market"` for market orders
+2. `"limitFill"` for a resting limit order getting filled by a market order
+3. `"limitMatchRestingOrder"` for a resting limit order getting matched with another new limit order
+4. `"limitMatchNewOrder"` for a new limit order getting matched immediately
 
 
 ### Request Parameters
@@ -1691,36 +1693,35 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_ids|Array|Filter by an array of market IDs|Conditional|
-|market_id|String|Filter by market ID|Conditional|
-|subaccount_ids|Array|Filter by an array of subaccount IDs|Conditional|
-|subaccount_id|String|Filter by subaccount ID|Conditional|
-|execution_side|String|Filter by the execution side of the trade (Should be one of: [maker taker])|No|
-|direction|String|Filter by the direction of the trade (Should be one of: [buy sell])|No|
-|skip|Integer|Skip the last trades, you can use this to fetch all trades since the API caps at 100|No|
-|limit|Integer|Limit the trades returned|No|
-
-
+|market_id|String|Filter by a single market ID|No|
+|market_ids|String Array|Filter by multiple market IDs|No|
+|subaccount_id|String|Filter by a single subaccount ID|No|
+|subaccount_ids|String Array|Filter by multiple subaccount IDs|No|
+|direction|String|Filter by the direction of the trade (Should be one of: ["buy", "sell"])|No|
+|execution_side|String|Filter by the execution side of the trade (Should be one of: ["maker", "taker"])|No|
+|execution_types|String Array|Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|No|
 
 ### Response Parameters
 > Streaming Response Example:
 
 ``` python
 trade {
-  order_hash: "0xa4906e8dc4247c5b080714aae4cd29d20c78e09979c5f061c69f4b1cadb2e530"
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  market_id: "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-  trade_execution_type: "market"
+  order_hash: "0xab1d5fbc7c578d2e92f98d18fbeb7199539f84fe62dd474cce87737f0e0a8737"
+  subaccount_id: "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+  market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+  trade_execution_type: "limitMatchNewOrder"
   position_delta {
-    trade_direction: "buy"
-    execution_price: "42053654000"
-    execution_quantity: "1"
-    execution_margin: "6962400000"
+    trade_direction: "sell"
+    execution_price: "25111000000"
+    execution_quantity: "0.0001"
+    execution_margin: "2400000"
   }
-  payout: "35164524279.16524912591576706"
-  fee: "50464384.8"
-  executed_at: 1652793010506
-  fee_recipient: "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
+  payout: "0"
+  fee: "2511.1"
+  executed_at: 1671745977284
+  fee_recipient: "inj1cd0d4l9w9rpvugj8upwx0pt054v2fwtr563eh0"
+  trade_id: "6205591_ab1d5fbc7c578d2e92f98d18fbeb7199539f84fe62dd474cce87737f0e0a8737"
+  execution_side: "taker"
 }
 operation_type: "insert"
 timestamp: 1652793013000
@@ -1836,9 +1837,9 @@ timestamp: 1652793013000
 
 |Parameter|Type|Description|
 |----|----|----|
-|trade|DerivativeTrade|DerivativeTrade object|
-|operation_type|String|Executed trades update type (Should be one of: [insert invalidate]) |
-|timestamp|Integer|Operation timestamp in UNIX millis|
+|trade|DerivativeTrade|New derivative market trade|
+|operation_type|String|Trade operation type (Should be one of: ["insert", "invalidate"]) |
+|timestamp|Integer|Timestamp of new trade in UNIX millis|
 
 
 **DerivativeTrade**
@@ -1846,15 +1847,17 @@ timestamp: 1652793013000
 |Parameter|Type|Description|
 |----|----|----|
 |executed_at|Integer|Timestamp of trade execution in UNIX millis|
-|position_delta|PositionDelta|PositionDelta object|
-|subaccount_id|String|The subaccount ID that executed the trade|
-|trade_execution_type|String|The execution type of the trade (Should be one of: [market limitFill limitMatchRestingOrder limitMatchNewOrder]) |
+|position_delta|PositionDelta|Position delta from the trade|
+|subaccount_id|String|ID of subaccount that executed the trade|
+|trade_execution_type|String|Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|
 |fee|String|The fee associated with the trade|
 |is_liquidation|Boolean|True if the trade is a liquidation|
 |market_id|String|The market ID|
 |order_hash|String|The order hash|
 |payout|String|The payout associated with the trade|
 |fee_recipient|String|The address that received 40% of the fees|
+|trade_id|String|Unique identifier to differentiate between trades|
+|execution_side|String|Execution side of trade (Should be one of: ["maker", "taker"])
 
 **PositionDelta**
 
@@ -1862,8 +1865,9 @@ timestamp: 1652793013000
 |----|----|----|
 |execution_price|String|Execution price of the trade|
 |execution_quantity|String|Execution quantity of the trade|
-|trade_direction|String|The direction the trade (Should be one of: [buy sell]) |
+|trade_direction|String|The direction the trade (Should be one of: ["buy", "sell"]) |
 |execution_margin|String|Execution margin of the trade|
+
 
 ## Positions
 
@@ -1884,13 +1888,20 @@ async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    market_id = "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+    market_ids = [
+        "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3",
+        "0xe112199d9ee44ceb2697ea0edd1cd422223c105f3ed2bdf85223d3ca59f5909a"
+    ]
     subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
-    skip = 10
-    limit = 10
+    direction = "short"
+    subaccount_total_positions = False
+    skip = 4
+    limit = 4
     positions = await client.get_derivative_positions(
-        market_id=market_id,
-        subaccount_id=subaccount_id,
+        market_ids=market_ids,
+        # subaccount_id=subaccount_id,
+        direction=direction,
+        subaccount_total_positions=subaccount_total_positions,
         skip=skip,
         limit=limit
     )
@@ -1977,11 +1988,15 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|String|Filter by market ID|No|
+|market_id|String|Filter by a single market ID|No|
+|market_ids|String Array|Filter by multiple market IDs|No|
 |subaccount_id|String|Filter by subaccount ID|No|
-|skip|Integer|Skip the last positions, you can use this to fetch all positions since the API caps at 100|No|
-|limit|Integer|Limit the positions returned|No|
-
+|direction|String|Filter by direction of position (Should be one of: ["long", "short"])
+|subaccount_total_positions|Boolean|Choose to return subaccount total positions (Should be one of: [True, False])
+|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100|No|
+|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
+|start_time|Integer|startTime <= position timestamp <= endTime|No|
+|end_time|Integer|startTime <= position timestamp <= endTime|No|
 
 ### Response Parameters
 > Response Example:
@@ -1989,15 +2004,64 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 ``` python
 positions {
   ticker: "BTC/USDT PERP"
-  market_id: "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-  subaccount_id: "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+  market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+  subaccount_id: "0xea98e3aa091a6676194df40ac089e40ab4604bf9000000000000000000000000"
   direction: "short"
-  quantity: "0.2999"
-  entry_price: "42536400000"
-  margin: "12756666360"
-  liquidation_price: "81021714285.714285"
-  mark_price: "40128736026.4094317665"
+  quantity: "0.01"
+  entry_price: "18000000000"
+  margin: "186042357.839476"
+  liquidation_price: "34861176937.092952"
+  mark_price: "16835930000"
   aggregate_reduce_only_quantity: "0"
+  updated_at: 1676412001911
+  created_at: -62135596800000
+}
+positions {
+  ticker: "BTC/USDT PERP"
+  market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+  subaccount_id: "0xf0876e4b3afb41594c7fa7e79c37f638e9fc17bc000000000000000000000000"
+  direction: "short"
+  quantity: "0.3396"
+  entry_price: "18542170276.197423020607578062"
+  margin: "6166391787.817873"
+  liquidation_price: "34952360798.739463"
+  mark_price: "16835930000"
+  aggregate_reduce_only_quantity: "0"
+  updated_at: 1676412001911
+  created_at: -62135596800000
+}
+positions {
+  ticker: "INJ/USDT PERP"
+  market_id: "0xe112199d9ee44ceb2697ea0edd1cd422223c105f3ed2bdf85223d3ca59f5909a"
+  subaccount_id: "0x2da57011081e05273fe34560d7556ce79bc9ef2e000000000000000000000000"
+  direction: "short"
+  quantity: "2"
+  entry_price: "1000000"
+  margin: "2060353.334536"
+  liquidation_price: "1933501.587874"
+  mark_price: "1368087.992"
+  aggregate_reduce_only_quantity: "0"
+  updated_at: 1676412001911
+  created_at: -62135596800000
+}
+positions {
+  ticker: "INJ/USDT PERP"
+  market_id: "0xe112199d9ee44ceb2697ea0edd1cd422223c105f3ed2bdf85223d3ca59f5909a"
+  subaccount_id: "0x5bd0718082df50745334433ff9aff9c29d60733c000000000000000000000000"
+  direction: "short"
+  quantity: "5.8823"
+  entry_price: "1725484.929364364279278514"
+  margin: "3192502.681895"
+  liquidation_price: "2160205.018913"
+  mark_price: "1368087.992"
+  aggregate_reduce_only_quantity: "0"
+  updated_at: 1676412001911
+  created_at: -62135596800000
+}
+paging {
+  total: 13
+  from: 5
+  to: 8
 }
 ```
 
@@ -2053,14 +2117,15 @@ positions {
 
 |Parameter|Type|Description|
 |----|----|----|
-|positions|DerivativePosition|DerivativePosition object|
+|positions|DerivativePosition Array|List of derivative positions|
+|paging|Paging|Pagination of results|
 
 **DerivativePosition**
 
 |Parameter|Type|Description|
 |----|----|----|
-|direction|String|Direction of the position (Should be one of: [long short]) |
-|market_id|String|The market ID|
+|direction|String|Direction of the position (Should be one of: ["long", "short"])|
+|market_id|String|ID of the market the position is in|
 |subaccount_id|String|The subaccount ID the position belongs to|
 |ticker|String|Ticker of the derivative market|
 |aggregate_reduce_only_quantity|String|Aggregate quantity of the reduce-only orders associated with the position|
@@ -2069,7 +2134,17 @@ positions {
 |margin|String|Margin of the position|
 |mark_price|String|Oracle price of the base asset|
 |quantity|String|Quantity of the position|
+|updated_at|Integer|Position updated timestamp in UNIX millis|
+|created_at|Integer|Position created timestamp in UNIX millis. Currently not supported (value will be inaccurate).|
 
+
+**Paging**
+
+|Parameter|Type|Description|
+|----|----|----|
+|total|Integer|Total number of available records|
+|from|Integer|Lower bound of indices of records returned|
+|to|integer|Upper bound of indices of records returned|
 
 
 ## StreamPositions
@@ -2092,7 +2167,7 @@ async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     market_id = "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
-    subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+    subaccount_id = "0xea98e3aa091a6676194df40ac089e40ab4604bf9000000000000000000000000"
     positions = await client.stream_derivative_positions(
         market_id=market_id,
         subaccount_id=subaccount_id
@@ -2185,26 +2260,29 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|String|Filter by market ID|Yes|
-|subaccount_ids|Array|Filter by an array of subaccount IDs|Conditional|
-|subaccount_id|String|Filter by subaccount ID|Conditional|
+|market_id|String|ID of the market to stream position data from|No|
+|market_ids|String Array|IDs of the markets to stream position data from|No|
+|subaccount_ids|String Array|Subaccount IDs of the traders to stream positions from|No|
+|subaccount_id|String|Subaccount ID of the trader to stream positions from|No|
 
 
 ### Response Parameters
 > Streaming Response Example:
 
 ``` python
-position {
+positions {
   ticker: "BTC/USDT PERP"
-  market_id: "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+  market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+  subaccount_id: "0xea98e3aa091a6676194df40ac089e40ab4604bf9000000000000000000000000"
   direction: "short"
-  quantity: "1.0199"
-  entry_price: "38378719194.028200611794156506"
-  margin: "11988891871.766026653636863544"
-  liquidation_price: "47746368764.216275"
-  mark_price: "40128736026.4094317665"
+  quantity: "0.01"
+  entry_price: "18000000000"
+  margin: "186042357.839476"
+  liquidation_price: "34861176937.092952"
+  mark_price: "16835930000"
   aggregate_reduce_only_quantity: "0"
+  updated_at: 1676412001911
+  created_at: -62135596800000
 }
 timestamp: 1652793296000
 ```
@@ -2290,15 +2368,15 @@ timestamp: 1652793296000
 
 |Parameter|Type|Description|
 |----|----|----|
-|positions|DerivativePosition|DerivativePosition object|
-|timestamp|Integer|Operation timestamp in UNIX millis|
+|position|DerivativePosition|Updated derivative position|
+|timestamp|Integer|Timestamp of update in UNIX millis|
 
 **DerivativePosition**
 
 |Parameter|Type|Description|
 |----|----|----|
-|direction|String|Direction of the position (Should be one of: [long short]) |
-|market_id|String|The market ID|
+|direction|String|Direction of the position (Should be one of: ["long", "short"])|
+|market_id|String|ID of the market the position is in|
 |subaccount_id|String|The subaccount ID the position belongs to|
 |ticker|String|Ticker of the derivative market|
 |aggregate_reduce_only_quantity|String|Aggregate quantity of the reduce-only orders associated with the position|
@@ -2307,6 +2385,8 @@ timestamp: 1652793296000
 |margin|String|Margin of the position|
 |mark_price|String|Oracle price of the base asset|
 |quantity|String|Quantity of the position|
+|updated_at|Integer|Position updated timestamp in UNIX millis|
+|created_at|Integer|Position created timestamp in UNIX millis. Currently not supported (value will be inaccurate).|
 
 
 ## Orderbook
@@ -2390,7 +2470,7 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|String|Filter by market ID|Yes|
+|market_id|String|ID of the market to fetch orderbook from|Yes|
 
 
 
@@ -2400,29 +2480,44 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 ``` python
 orderbook {
   buys {
-    price: "37640700000"
-    quantity: "0.1399"
-    timestamp: 1650974417291
+    price: "5000000000"
+    quantity: "0.0097"
+    timestamp: 1657561054917
   }
   buys {
-    price: "30000000000"
-    quantity: "1"
-    timestamp: 1649838645114
+    price: "1000000000"
+    quantity: "0.001"
+    timestamp: 1661607737731
   }
   sells {
-    price: "42536400000"
-    quantity: "0.02"
-    timestamp: 1652668629866
-  }
-  sells {
-    price: "42737100000"
-    quantity: "0.13"
-    timestamp: 1652366712839
+    price: "21623000000"
+    quantity: "0.0027"
+    timestamp: 1676294145312
   }
   sells {
     price: "50000000000"
-    quantity: "0.01"
-    timestamp: 1652457633995
+    quantity: "0.1"
+    timestamp: 1676326399734
+  }
+  sells {
+    price: "65111000000"
+    quantity: "0.0449"
+    timestamp: 1668424687130
+  }
+  sells {
+    price: "70000000000"
+    quantity: "0.0001"
+    timestamp: 1671787246665
+  }
+  sells {
+    price: "100000000000"
+    quantity: "0.0037"
+    timestamp: 1675291786816
+  }
+  sells {
+    price: "101000000000"
+    quantity: "0.0007"
+    timestamp: 1675291761230
   }
 }
 ```
@@ -2513,14 +2608,14 @@ orderbook {
 
 |Parameter|Type|Description|
 |----|----|----|
-|orderbook|DerivativeLimitOrderbook|DerivativeLimitOrderbook object|
+|orderbook|DerivativeLimitOrderbook|Orderbook of a particular derivative market|
 
 **DerivativeLimitOrderbook**
 
 |Parameter|Type|Description|
 |----|----|----|
-|buys|PriceLevel|PriceLevel object|
-|sells|PriceLevel|PriceLevel object|
+|buys|PriceLevel Array|List of price levels for buys|
+|sells|PriceLevel Array|List of price levels for sells|
 
 **PriceLevel**
 
