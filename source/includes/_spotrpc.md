@@ -2419,7 +2419,7 @@ market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 
 ## OrderbooksV2 (Experimental)
 
-Get entire orderbooks for one or more spot markets. This API is currently experimental but offers better performance than V1.
+Get an orderbook snapshot for one or more spot markets. This API is currently experimental but offers better performance than V1.
 
 
 ### Request Parameters
@@ -2459,7 +2459,7 @@ if __name__ == '__main__':
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_ids|String Array|Filter by one or more market IDs|Yes|
+|market_ids|String Array|List of IDs of markets to get orderbook snapshots from|Yes|
 
 
 ### Response Parameters
@@ -2669,7 +2669,7 @@ market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 |----|----|----|
 |buys|PriceLevel Array|List of price levels for buys|
 |sells|PriceLevel Array|List of price levels for sells|
-|sequence|Integer|Sequence number of the orderbook; increments by 1 each update. The higher the sequence number, the more recent the data|
+|sequence|Integer|Sequence number of the orderbook; increments by 1 each update|
 
 **PriceLevel**
 
@@ -2682,7 +2682,7 @@ market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 
 ## StreamOrderbookUpdate (Experimental)
 
-Stream incremental orderbook updates for one or more spot markets. This stream should be started prior to obtaining orderbook snapshots so that no incremental updates are omitted between obtaining a snapshot and starting the update stream. This API is currently experimental but offers better performance than V1.
+Stream incremental orderbook updates for one or more spot markets. This stream should be started prior to obtaining orderbook snapshots so that no incremental updates are omitted between obtaining a snapshot and starting the update stream. This API is currently experimental.
 
 
 ### Request Parameters
@@ -2737,6 +2737,7 @@ async def load_orderbook_snapshot(async_client: AsyncClient, orderbook: Orderboo
                 timestamp=sell.timestamp,
             )
         break
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
