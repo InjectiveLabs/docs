@@ -2417,6 +2417,901 @@ market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 |timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
 
+## OrderbooksV2 (Experimental)
+
+Get entire orderbooks for one or more spot markets. This API is currently experimental but offers better performance than V1.
+
+
+### Request Parameters
+> Request Example:
+
+<!-- embedme ../../../sdk-python/examples/exchange_client/spot_exchange_rpc/16_OrderbooksV2.py -->
+``` python
+import asyncio
+import logging
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.constant import Network
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network, insecure=False)
+    market_ids = [
+        "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+        "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"
+    ]
+    orderbooks = await client.get_spot_orderbooksV2(market_ids=market_ids)
+    print(orderbooks)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
+```
+
+``` go
+package main
+
+import (
+  "context"
+  "encoding/json"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  marketIds := []string{"0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31", "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
+  res, err := exchangeClient.GetSpotOrderbooks(ctx, marketIds)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
+}
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
+
+(async () => {
+  const network = getNetworkInfo(Network.TestnetK8s);
+
+  const marketIds = ["0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0", "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"];
+
+  const exchangeClient = new ExchangeGrpcClient(
+    network.exchangeApi
+  );
+
+  const market = await exchangeClient.spot.fetchOrderbooks(marketIds);
+
+  console.log(protoObjectToJson(market));
+})();
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_ids|String Array|Filter by one or more market IDs|Yes|
+
+
+### Response Parameters
+> Response Example:
+
+``` python
+orderbooks {
+  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+  orderbook {
+    buys {
+      price: "0.000000000006057"
+      quantity: "38000000000000000000"
+      timestamp: 1652395483345
+    }
+    buys {
+      price: "0.000000000005643"
+      quantity: "8000000000000000000"
+      timestamp: 1652340918434
+    }
+   sells {
+      price: "0.000000000008102"
+      quantity: "50000000000000000000"
+      timestamp: 1652773614923
+    }
+    sells {
+      price: "0.000000000008108"
+      quantity: "48000000000000000000"
+      timestamp: 1652774630240
+    sequence: 512
+orderbooks {
+  market_id: "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"
+  orderbook {
+    buys {
+      price: "0.000000000001654"
+      quantity: "27000000000000000000"
+      timestamp: 1652395260912
+    }
+    buys {
+      price: "0.000000000001608"
+      quantity: "38000000000000000000"
+      timestamp: 1652351094680
+    sells {
+      price: "0.00000000002792"
+      quantity: "30000000000000000"
+      timestamp: 1652263504751
+    }
+    sells {
+      price: "0.0000000003"
+      quantity: "220000000000000000000"
+      timestamp: 1652264026293
+    }
+    sequence: 711
+  }
+}
+```
+
+``` go
+{
+ "orderbooks": [
+  {
+   "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+   "orderbook": {
+    "buys": [
+     {
+      "price": "0.000000000001654",
+      "quantity": "27000000000000000000",
+      "timestamp": 1652395260912
+     },
+     {
+      "price": "0.000000000000001",
+      "quantity": "62000000000000000",
+      "timestamp": 1649838645114
+     }
+    ],
+    "sells": [
+     {
+      "price": "0.00000000002792",
+      "quantity": "30000000000000000",
+      "timestamp": 1652263504751
+     },
+     {
+      "price": "0.0000000003",
+      "quantity": "220000000000000000000",
+      "timestamp": 1652264026293
+     }
+    ]
+   }
+  },
+  {
+   "market_id": "0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31",
+   "orderbook": {
+    "buys": [
+     {
+      "price": "0.000000000006057",
+      "quantity": "38000000000000000000",
+      "timestamp": 1652395483345
+     },
+     {
+      "price": "0.000000000005643",
+      "quantity": "8000000000000000000",
+      "timestamp": 1652340012497
+     },
+     {
+      "price": "0.000000000005374",
+      "quantity": "46000000000000000000",
+      "timestamp": 1652340012497
+     }
+    ],
+    "sells": [
+     {
+      "price": "0.000000000014033",
+      "quantity": "48000000000000000000",
+      "timestamp": 1650976706210
+     },
+     {
+      "price": "0.000000000014036",
+      "quantity": "48000000000000000000",
+      "timestamp": 1650974855789
+     },
+     {
+      "price": "0.000000000014094",
+      "quantity": "44000000000000000000",
+      "timestamp": 1650976917202
+     }
+    ]
+   }
+  }
+ ]
+}
+```
+
+``` typescript
+{
+  "orderbooksList": [
+    {
+      "marketId": "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa",
+      "orderbook": {
+        "buysList": [
+          {
+            "price": "22",
+            "quantity": "1000000",
+            "timestamp": 1654080262300
+          }
+        ],
+        "sellsList": [
+          {
+            "price": "23",
+            "quantity": "10000",
+            "timestamp": 1654080273783
+          }
+        ]
+      }
+    },
+    {
+      "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+      "orderbook": {
+        "buysList": [
+          {
+            "price": "0.000000000002375",
+            "quantity": "4000000000000000000",
+            "timestamp": 1653968629289
+          },
+          {
+            "price": "0.000000000002349",
+            "quantity": "14000000000000000000",
+            "timestamp": 1653968629289
+          },
+          {
+            "price": "0.000000000002336",
+            "quantity": "34000000000000000000",
+            "timestamp": 1653968629289
+          },
+          {
+            "price": "0.000000000001",
+            "quantity": "4000000000000000000",
+            "timestamp": 1653930539754
+          }
+        ],
+        "sellsList": [
+          {
+            "price": "0.0000000000025",
+            "quantity": "1000000000000000000",
+            "timestamp": 1654080089976
+          }
+        ]
+      }
+    }
+  ]
+}
+
+```
+
+
+
+|Parameter|Type|Description|
+|----|----|----|
+|orderbooks|SingleSpotLimitOrderbookV2 Array|List of spot market orderbooks with market IDs|
+
+**SingleSpotLimitOrderbookV2**
+
+|Parameter|Type|Description|
+|----|----|----|
+|market_id|String|ID of spot market|
+|orderbook|SpotLimitOrderBookV2|Orderbook of the market|
+
+
+**SpotLimitOrderbookV2**
+
+|Parameter|Type|Description|
+|----|----|----|
+|buys|PriceLevel Array|List of price levels for buys|
+|sells|PriceLevel Array|List of price levels for sells|
+|sequence|Integer|Sequence number of the orderbook; increments by 1 each update|
+
+**PriceLevel**
+
+|Parameter|Type|Description|
+|----|----|----|
+|price|String|Price number of the price level|
+|quantity|String|Quantity of the price level|
+|timestamp|Integer|Price level last updated timestamp in UNIX millis|
+
+
+## StreamOrderbooksV2 (Experimental)
+
+Stream orderbook snapshot updates for one or more spot markets. This API is currently experimental but offers better performance than V1.
+
+
+### Request Parameters
+> Request Example:
+
+<!-- embedme ../../../sdk-python/examples/exchange_client/spot_exchange_rpc/7_StreamOrderbookSnapshot.py -->
+``` python
+import asyncio
+import logging
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.constant import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network, insecure=False)
+    market_ids = ["0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"]
+    orderbooks = await client.stream_spot_orderbook_snapshot(market_ids=market_ids)
+    async for orderbook in orderbooks:
+        print(orderbook)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
+
+```
+
+``` go
+package main
+
+import (
+  "context"
+  "encoding/json"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
+  stream, err := exchangeClient.StreamSpotOrderbook(ctx, marketIds)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  for {
+    select {
+    case <-ctx.Done():
+      return
+    default:
+      res, err := stream.Recv()
+      if err != nil {
+        fmt.Println(err)
+        return
+      }
+      str, _ := json.MarshalIndent(res, "", " ")
+      fmt.Print(string(str))
+    }
+  }
+}
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";;
+
+(async () => {
+  const network = getNetworkInfo(Network.TestnetK8s);
+
+  const marketIds = ["0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"];
+
+  const exchangeClient = new ExchangeGrpcStreamClient(
+    network.exchangeApi
+  );
+
+  await exchangeClient.spot.streamSpotOrderbook(
+    {
+      marketIds,
+      callback: (streamSpotOrderbook) => {
+        console.log(protoObjectToJson(streamSpotOrderbook));
+      },
+      onEndCallback: (status) => {
+        console.log("Stream has ended with status: " + status);
+      },
+    });
+})();
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_ids|String Array|List of market IDs for orderbook streaming; empty means all spot markets|Yes|
+
+
+### Response Parameters
+> Streaming Response Example:
+
+``` python
+orderbook {
+  buys {
+    price: "0.000000000007"
+    quantity: "1000000000000000000"
+    timestamp: 1675904400063
+  }
+  buys {
+    price: "0.000000000001"
+    quantity: "10000000000000000"
+    timestamp: 1675882430039
+  }
+  buys {
+    price: "0.000000000000001"
+    quantity: "17983000000000000000"
+    timestamp: 1675880932648
+  }
+  sells {
+    price: "0.000000000007523"
+    quantity: "20000000000000000"
+    timestamp: 1676610722671
+  }
+  sells {
+    price: "0.000000000007525"
+    quantity: "10000000000000000"
+    timestamp: 1676015247335
+  }
+  sells {
+    price: "0.000000000007526"
+    quantity: "50000000000000000"
+    timestamp: 1676089482358
+  }
+  sells {
+    price: "0.000000000008"
+    quantity: "10000000000000000"
+    timestamp: 1675904636889
+  }
+  sequence: 713
+}
+operation_type: "update"
+timestamp: 1676610727000
+market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+```
+
+``` go
+{
+ "orderbook": {
+  "buys": [
+   {
+    "price": "0.000000000002349",
+    "quantity": "14000000000000000000",
+    "timestamp": 1653968629289
+   },
+   {
+    "price": "0.000000000002336",
+    "quantity": "34000000000000000000",
+    "timestamp": 1653968629289
+   },
+   {
+    "price": "0.000000000002328",
+    "quantity": "12000000000000000000",
+    "timestamp": 1653968629289
+   },
+   {
+    "price": "0.000000000001",
+    "quantity": "4000000000000000000",
+    "timestamp": 1653930539754
+   }
+  ],
+  "sells": [
+   {
+    "price": "0.000000000003",
+    "quantity": "1000000000000000000",
+    "timestamp": 1654080771385
+   }
+  ]
+ },
+ "operation_type": "update",
+ "timestamp": 1654080908000,
+ "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+}
+```
+
+``` typescript
+{
+  "orderbook": {
+    "buysList": [
+      {
+        "price": "0.000000000002375",
+        "quantity": "4000000000000000000",
+        "timestamp": 1653968629289
+      },
+      {
+        "price": "0.0000000000015",
+        "quantity": "46000000000000000000",
+        "timestamp": 1652340323984
+      },
+      {
+        "price": "0.000000000001",
+        "quantity": "4000000000000000000",
+        "timestamp": 1653930539754
+      }
+    ],
+    "sellsList": []
+  },
+  "operationType": "update",
+  "timestamp": 1654080598000,
+  "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+}
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|orderbook|SpotLimitOrderbookV2|Orderbook of a Spot Market|
+|operation_type|String|Order update type (Should be one of: ["insert", "replace", "update", "invalidate"])|
+|timestamp|Integer|Operation timestamp in UNIX millis|
+|market_id|String|ID of the market the orderbook belongs to|
+
+**SpotLimitOrderbookV2**
+
+|Parameter|Type|Description|
+|----|----|----|
+|buys|PriceLevel Array|List of price levels for buys|
+|sells|PriceLevel Array|List of price levels for sells|
+|sequence|Integer|Sequence number of the orderbook; increments by 1 each update. The higher the sequence number, the more recent the data|
+
+**PriceLevel**
+
+|Parameter|Type|Description|
+|----|----|----|
+|price|String|Price number of the price level|
+|quantity|String|Quantity of the price level|
+|timestamp|Integer|Price level last updated timestamp in UNIX millis|
+
+
+## StreamOrderbookUpdate (Experimental)
+
+Stream incremental orderbook updates for one or more spot markets. This stream should be started prior to obtaining orderbook snapshots so that no incremental updates are omitted between obtaining a snapshot and starting the update stream. This API is currently experimental but offers better performance than V1.
+
+
+### Request Parameters
+> Request Example:
+
+<!-- embedme ../../../sdk-python/examples/exchange_client/spot_exchange_rpc/8_StreamOrderbookUpdate.py -->
+``` python
+import asyncio
+import logging
+from decimal import *
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.constant import Network
+
+
+class PriceLevel:
+    def __init__(self, price: Decimal, quantity: Decimal, timestamp: int):
+        self.price = price
+        self.quantity = quantity
+        self.timestamp = timestamp
+
+    def __str__(self) -> str:
+        return "price: {} | quantity: {} | timestamp: {}".format(self.price, self.quantity, self.timestamp)
+
+
+class Orderbook:
+    def __init__(self, market_id: str):
+        self.market_id = market_id
+        self.sequence = -1
+        self.levels = {"buys": {}, "sells": {}}
+
+
+async def load_orderbook_snapshot(async_client: AsyncClient, orderbook: Orderbook):
+    # load the snapshot
+    res = await async_client.get_spot_orderbooksV2(market_ids=[orderbook.market_id])
+    for snapshot in res.orderbooks:
+        if snapshot.market_id != orderbook.market_id:
+            raise Exception("unexpected snapshot")
+
+        orderbook.sequence = int(snapshot.orderbook.sequence)
+
+        for buy in snapshot.orderbook.buys:
+            orderbook.levels["buys"][buy.price] = PriceLevel(
+                price=Decimal(buy.price),
+                quantity=Decimal(buy.quantity),
+                timestamp=buy.timestamp,
+            )
+        for sell in snapshot.orderbook.sells:
+            orderbook.levels["sells"][sell.price] = PriceLevel(
+                price=Decimal(sell.price),
+                quantity=Decimal(sell.quantity),
+                timestamp=sell.timestamp,
+            )
+        break
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    async_client = AsyncClient(network, insecure=False)
+
+    market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+    orderbook = Orderbook(market_id=market_id)
+    # start getting price levels updates
+    stream = await async_client.stream_spot_orderbook_update(market_ids=[market_id])
+    first_update = None
+    async for update in stream:
+        first_update = update.orderbook_level_updates
+        break
+    # load the snapshot once we are already receiving updates, so we don't miss any
+    await load_orderbook_snapshot(async_client=async_client, orderbook=orderbook)
+
+    # start consuming updates again to process them
+    apply_orderbook_update(orderbook, first_update)
+    async for update in stream:
+        apply_orderbook_update(orderbook, update.orderbook_level_updates)
+
+
+def apply_orderbook_update(orderbook: Orderbook, updates):
+    # discard updates older than the snapshot
+    if updates.sequence <= orderbook.sequence:
+        return
+
+    print(" * * * * * * * * * * * * * * * * * * *")
+
+    # ensure we have not missed any update
+    if updates.sequence > (orderbook.sequence + 1):
+        raise Exception("missing orderbook update events from stream, must restart: {} vs {}".format(
+            updates.sequence, (orderbook.sequence + 1)))
+
+    print("updating orderbook with updates at sequence {}".format(updates.sequence))
+
+    # update orderbook
+    orderbook.sequence = updates.sequence
+    for direction, levels in {"buys": updates.buys, "sells": updates.sells}.items():
+        for level in levels:
+            if level.is_active:
+                # upsert level
+                orderbook.levels[direction][level.price] = PriceLevel(
+                    price=Decimal(level.price),
+                    quantity=Decimal(level.quantity),
+                    timestamp=level.timestamp)
+            else:
+                if level.price in orderbook.levels[direction]:
+                    del orderbook.levels[direction][level.price]
+
+    # sort the level numerically
+    buys = sorted(orderbook.levels["buys"].values(), key=lambda x: x.price, reverse=True)
+    sells = sorted(orderbook.levels["sells"].values(), key=lambda x: x.price, reverse=True)
+
+    # lowest sell price should be higher than the highest buy price
+    if len(buys) > 0 and len(sells) > 0:
+        highest_buy = buys[0].price
+        lowest_sell = sells[-1].price
+        print("Max buy: {} - Min sell: {}".format(highest_buy, lowest_sell))
+        if highest_buy >= lowest_sell:
+            raise Exception("crossed orderbook, must restart")
+
+    # for the example, print the list of buys and sells orders.
+    print("sells")
+    for k in sells:
+        print(k)
+    print("=========")
+    print("buys")
+    for k in buys:
+        print(k)
+    print("====================================")
+
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.run(main())
+
+```
+
+``` go
+package main
+
+import (
+  "context"
+  "encoding/json"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+  //network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  ctx := context.Background()
+  marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
+  stream, err := exchangeClient.StreamSpotOrderbook(ctx, marketIds)
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  for {
+    select {
+    case <-ctx.Done():
+      return
+    default:
+      res, err := stream.Recv()
+      if err != nil {
+        fmt.Println(err)
+        return
+      }
+      str, _ := json.MarshalIndent(res, "", " ")
+      fmt.Print(string(str))
+    }
+  }
+}
+```
+
+``` typescript
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { protoObjectToJson } from "@injectivelabs/sdk-ts";
+import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";;
+
+(async () => {
+  const network = getNetworkInfo(Network.TestnetK8s);
+
+  const marketIds = ["0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"];
+
+  const exchangeClient = new ExchangeGrpcStreamClient(
+    network.exchangeApi
+  );
+
+  await exchangeClient.spot.streamSpotOrderbook(
+    {
+      marketIds,
+      callback: (streamSpotOrderbook) => {
+        console.log(protoObjectToJson(streamSpotOrderbook));
+      },
+      onEndCallback: (status) => {
+        console.log("Stream has ended with status: " + status);
+      },
+    });
+})();
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_ids|String Array|List of market IDs for orderbook streaming; empty means all spot markets|Yes|
+
+
+### Response Parameters
+> Streaming Response Example:
+
+``` python
+ * * * * * * * * * * * * * * * * * * *
+updating orderbook with updates at sequence 724
+Max buy: 7.523E-12 - Min sell: 7.525E-12
+sells
+price: 8E-12 | quantity: 10000000000000000 | timestamp: 1675904636889
+price: 7.526E-12 | quantity: 50000000000000000 | timestamp: 1676089482358
+price: 7.525E-12 | quantity: 10000000000000000 | timestamp: 1676015247335
+=========
+buys
+price: 7.523E-12 | quantity: 30000000000000000 | timestamp: 1676616192052
+price: 7E-12 | quantity: 1000000000000000000 | timestamp: 1675904400063
+price: 1E-12 | quantity: 10000000000000000 | timestamp: 1675882430039
+price: 1E-15 | quantity: 17983000000000000000 | timestamp: 1675880932648
+====================================
+ * * * * * * * * * * * * * * * * * * *
+updating orderbook with updates at sequence 725
+Max buy: 7.523E-12 - Min sell: 7.525E-12
+sells
+price: 8E-12 | quantity: 10000000000000000 | timestamp: 1675904636889
+price: 7.526E-12 | quantity: 50000000000000000 | timestamp: 1676089482358
+price: 7.525E-12 | quantity: 10000000000000000 | timestamp: 1676015247335
+=========
+buys
+price: 7.523E-12 | quantity: 40000000000000000 | timestamp: 1676616222476
+price: 7E-12 | quantity: 1000000000000000000 | timestamp: 1675904400063
+price: 1E-12 | quantity: 10000000000000000 | timestamp: 1675882430039
+price: 1E-15 | quantity: 17983000000000000000 | timestamp: 1675880932648
+====================================
+```
+
+``` go
+{
+ "orderbook": {
+  "buys": [
+   {
+    "price": "0.000000000002349",
+    "quantity": "14000000000000000000",
+    "timestamp": 1653968629289
+   },
+   {
+    "price": "0.000000000002336",
+    "quantity": "34000000000000000000",
+    "timestamp": 1653968629289
+   },
+   {
+    "price": "0.000000000002328",
+    "quantity": "12000000000000000000",
+    "timestamp": 1653968629289
+   },
+   {
+    "price": "0.000000000001",
+    "quantity": "4000000000000000000",
+    "timestamp": 1653930539754
+   }
+  ],
+  "sells": [
+   {
+    "price": "0.000000000003",
+    "quantity": "1000000000000000000",
+    "timestamp": 1654080771385
+   }
+  ]
+ },
+ "operation_type": "update",
+ "timestamp": 1654080908000,
+ "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+}
+```
+
+``` typescript
+{
+  "orderbook": {
+    "buysList": [
+      {
+        "price": "0.000000000002375",
+        "quantity": "4000000000000000000",
+        "timestamp": 1653968629289
+      },
+      {
+        "price": "0.0000000000015",
+        "quantity": "46000000000000000000",
+        "timestamp": 1652340323984
+      },
+      {
+        "price": "0.000000000001",
+        "quantity": "4000000000000000000",
+        "timestamp": 1653930539754
+      }
+    ],
+    "sellsList": []
+  },
+  "operationType": "update",
+  "timestamp": 1654080598000,
+  "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+}
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|orderbook_level_updates|OrderbookLevelUpdates|Orderbook level updates of a spot market|
+|operation_type|String|Order update type (Should be one of: ["insert", "replace", "update", "invalidate"])|
+|timestamp|Integer|Operation timestamp in UNIX millis|
+|market_id|String|ID of the market the orderbook belongs to|
+
+**OrderbookLevelUpdates**
+
+|Parameter|Type|Description|
+|----|----|----|
+|market_id|String|ID of the market the orderbook belongs to|
+|sequence|Integer|Orderbook update sequence number; increments by 1 each update|
+|buys|PriceLevelUpdate Array|List of buy level updates|
+|sells|PriceLevelUpdate Array|List of sell level updates|
+|updated_at|Integer|Timestamp of the updates in UNIX millis|
+
+**PriceLevelUpdate**
+
+|Parameter|Type|Description|
+|----|----|----|
+|price|String|Price number of the price level|
+|quantity|String|Quantity of the price level|
+|is_active|Boolean|Price level status|
+|timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
 ## SubaccountOrdersList
 
