@@ -4,11 +4,11 @@ InjectiveInsuranceRPC defines the gRPC API of the Insurance Exchange provider.
 
 ## InsuranceFunds
 
-Get all the insurance funds.
+List all the insurance funds.
 
-### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/insurance_rpc/1_InsuranceFunds.py -->
 ``` python
 import asyncio
 import logging
@@ -18,7 +18,7 @@ from pyinjective.constant import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
-    network = Network.testnet()
+    network = Network.mainnet()
     client = AsyncClient(network, insecure=False)
     insurance_funds = await client.get_insurance_funds()
     print(insurance_funds)
@@ -26,6 +26,7 @@ async def main() -> None:
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -86,16 +87,56 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 ``` python
 funds {
-  market_ticker: "OSMO/UST PERP"
-  market_id: "0x8c7fd5e6a7f49d840512a43d95389a78e60ebaf0cde1af86b26a785eb23b3be5"
-  deposit_denom: "ibc/B448C0CA358B958301D328CCDC5D5AD642FC30A6D3AE106FF721DB315F3DDE5C"
-  pool_token_denom: "share19"
+  market_ticker: "BTC/USDT PERP"
+  market_id: "0xed2e04e71398a4bdca39cd0b6a98e6c7430f1062455bac5d363d5f1bcd27d122"
+  deposit_denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+  pool_token_denom: "share1"
   redemption_notice_period_duration: 1209600
-  balance: "1000000"
-  total_share: "1000000000000000000"
-  oracle_base: "OSMO"
-  oracle_quote: "UST"
+  balance: "100000000"
+  total_share: "20000000000000000000"
+  oracle_base: "BTC"
+  oracle_quote: "USDT"
+  oracle_type: "coinbase"
+}
+funds {
+  market_ticker: "BTC/USDT PERP"
+  market_id: "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+  deposit_denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+  pool_token_denom: "share2"
+  redemption_notice_period_duration: 1209600
+  balance: "113250009813"
+  total_share: "15931085995447619092434"
+  oracle_base: "BTC"
+  oracle_quote: "USDT"
   oracle_type: "bandibc"
+}
+
+...
+
+funds {
+  market_ticker: "ETH/USDT 19SEP22"
+  market_id: "0x5e7be7948c78f0c7fb1170655b5faa0a519ee0801250dde0b50308791474e61c"
+  deposit_denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+  pool_token_denom: "share17"
+  redemption_notice_period_duration: 1209600
+  balance: "0"
+  total_share: "0"
+  oracle_base: "ETH"
+  oracle_quote: "USDT"
+  oracle_type: "bandibc"
+  expiry: 1663603200
+}
+funds {
+  market_ticker: "BONK/USDT PERP"
+  market_id: "0x3b7fb1d9351f7fa2e6e0e5a11b3639ee5e0486c33a6a74f629c3fc3c3043efd5"
+  deposit_denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+  pool_token_denom: "share18"
+  redemption_notice_period_duration: 1209600
+  balance: "500000000"
+  total_share: "5000000000000000000"
+  oracle_base: "BONK"
+  oracle_quote: "USDT"
+  oracle_type: "pricefeed"
 }
 ```
 
@@ -231,31 +272,45 @@ funds {
 
 |Parameter|Type|Description|
 |----|----|----|
-|funds|InsuranceFund|InsuranceFund object|
+|funds|InsuranceFund Array|List of all insurance funds, including default and all funded accounts|
 
 **InsuranceFund**
 
 |Parameter|Type|Description|
 |----|----|----|
-|oracle_type|String|Oracle Type|
-|pool_token_denom|String|Pool token denom|
-|total_share|String|Total share|
-|balance|String|The balance|
+|oracle_type|String|The oracle provider|
+|pool_token_denom|String|Denom of the pool token for the given fund|
+|total_share|String|Total number of shares in the fund|
+|balance|String|The total balance of the fund|
 |oracle_base|String|Oracle base currency|
-|market_id|String|The market ID|
+|market_id|String|ID of the derivative market|
 |market_ticker|String|Ticker of the derivative market|
 |oracle_quote|String|Oracle quote currency|
-|redemption_notice_period_duration|Integer|Redemption notice period duration in seconds|
-|deposit_denom|String|Coin denom used to underwrite the insurance fund|
+|redemption_notice_period_duration|Integer|The minimum notice period duration that must pass after an underwriter sends a redemption request before underwriter can claim tokens|
+|deposit_denom|String|Denom of the coin used to underwrite the insurance fund|
+|expiry|Integer|Insurance fund expiry time, if any (usually 0 for perp markets)
+|deposit_token_meta|TokenMeta|Token metadata for the deposit asset, only for Ethereum-based assets|
+
+**TokenMeta**
+
+|Parameter|Type|Description|
+|----|----|----|
+|address|String|Token's Ethereum contract address|
+|decimals|Integer|Token decimals|
+|logo|String|URL to the logo image|
+|name|String|Token full name|
+|symbol|String|Token symbol short name|
+|updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
 
 
 ## Redemptions
 
-Get the pending redemptions.
+Get a list of redemptions. If no parameters are provided, redemptions for all pools and addresses will be returned.
 
 ### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/insurance_rpc/2_Redemptions.py -->
 ``` python
 import asyncio
 import logging
@@ -267,8 +322,8 @@ async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    redeemer = "inj1gxqdj76ul07w4ujsl8403nhhzyvug2h66qk057"
-    redemption_denom = "share2"
+    redeemer = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+    redemption_denom = "share4"
     status = "disbursed"
     insurance_redemptions = await client.get_redemptions(
         redeemer=redeemer,
@@ -280,6 +335,7 @@ async def main() -> None:
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -346,38 +402,38 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|redeemer|String|Filter by account address|No|
-|redemption_denom|String|Filter by insurance pool denom|No|
-|status|String|Filter by redemption status (Should be one of: [disbursed pending])|No|
+|redeemer|String|Filter by address of the redeemer|No|
+|redemption_denom|String|Filter by denom of the insurance pool token|No|
+|status|String|Filter by redemption status (Should be one of: ["disbursed", "pending"])|No|
 
 
 ### Response Parameters
 > Response Example:
 
 ``` python
-redemption_schedules: {
-  redemption_id: 1,
-  status: "disbursed",
-  redeemer: "inj17ruhpkury0n9el2azce32cucvgql43eresspnp",
-  claimable_redemption_time: 1627450463607000,
-  redemption_amount: "10000000000000000000",
-  redemption_denom: "share1",
-  requested_at: 1626240863607000,
-  disbursed_amount: "50000000",
-  disbursed_denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-  disbursed_at: 1627450465211000
-},
-redemption_schedules: {
-  redemption_id: 2,
-  status: "disbursed",
-  redeemer: "inj1g6grlgchxw95mxc5c3949ygw75hqpghqhgkj0k",
-  claimable_redemption_time: 1628874830848000,
-  redemption_amount: "960000000000000000",
-  redemption_denom: "share1",
-  requested_at: 1627665230848000,
-  disbursed_amount: "4800000",
-  disbursed_denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-  disbursed_at: 1628874832996000
+redemption_schedules {
+  redemption_id: 1
+  status: "disbursed"
+  redeemer: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+  claimable_redemption_time: 1674798129093000
+  redemption_amount: "500000000000000000"
+  redemption_denom: "share4"
+  requested_at: 1673588529093000
+  disbursed_amount: "5000000"
+  disbursed_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+  disbursed_at: 1674798130965000
+}
+redemption_schedules {
+  redemption_id: 2
+  status: "disbursed"
+  redeemer: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+  claimable_redemption_time: 1674798342397000
+  redemption_amount: "2000000000000000000"
+  redemption_denom: "share4"
+  requested_at: 1673588742397000
+  disbursed_amount: "20000000"
+  disbursed_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+  disbursed_at: 1674798343097000
 }
 ```
 
@@ -418,19 +474,19 @@ redemption_schedules: {
 
 |Parameter|Type|Description|
 |----|----|----|
-|redemption_schedules|RedemptionSchedule|RedemptionSchedule object|
+|redemption_schedules|RedemptionSchedule Array|List of redemption schedules|
 
 **RedemptionSchedule**
 
 |Parameter|Type|Description|
 |----|----|----|
 |claimable_redemption_time|Integer|Claimable redemption time in seconds|
-|redeemer|String|Account address of the redemption owner|
+|redeemer|String|Account address of the redeemer|
 |redemption_denom|String|Pool token denom being redeemed|
 |requested_at|Integer|Redemption request time in unix milliseconds|
-|status|String|Status of the redemption (Should be one of: [disbursed pending])|
+|status|String|Status of the redemption (Should be one of: ["disbursed", "pending"])|
 |redemption_amount|String|Amount of pool tokens being redeemed|
-|redemption_id|Integer|Redemption ID|
+|redemption_id|Integer|ID of the redemption|
 |disbursed_amount|String|Amount of quote tokens disbursed|
 |disbursed_at|Integer|Redemption disbursement time in unix milliseconds|
 |disbursed_denom|String|Denom of the quote tokens disbursed|
