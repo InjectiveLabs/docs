@@ -2863,7 +2863,7 @@ orderbooks {
 **SingleDerivativeLimitOrderbook**
 
 |----|----|----|
-|market_id|String|IDs of the markets that the orderbooks belong to|
+|market_id|String|ID of the market that the orderbook belongs to|
 |orderbook|DerivativeLimitOrderbook|Orderbook of the market|
 
 **DerivativeLimitOrderbook**
@@ -3178,6 +3178,512 @@ market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
 |quantity|String|Quantity of the price level|
 |timestamp|Integer|Price level last updated timestamp in UNIX millis|
 |price|String|Price number of the price level|
+
+
+## OrderbooksV2 (Experimental)
+
+Get an orderbook snapshot for one or more derivative markets. This API is currently experimental but offers better performance than V1.
+
+### Request Parameters
+> Request Example:
+
+<!-- embedme ../../../sdk-python/examples/exchange_client/derivative_exchange_rpc/22_OrderbooksV2.py -->
+``` python
+import asyncio
+import logging
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.constant import Network
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network, insecure=False)
+    market_ids = [
+        "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3",
+        "0xd5e4b12b19ecf176e4e14b42944731c27677819d2ed93be4104ad7025529c7ff"
+    ]
+    orderbooks = await client.get_derivative_orderbooksV2(market_ids=market_ids)
+    print(orderbooks)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
+
+```
+
+``` go
+
+```
+
+``` typescript
+
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_ids|String Array|List of IDs of markets to get orderbook snapshots from|Yes|
+
+
+### Response Parameters
+> Response Example:
+
+``` python
+orderbooks {
+  market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+  orderbook {
+    buys {
+      price: "5000000000"
+      quantity: "0.0097"
+      timestamp: 1676383776468
+    }
+    buys {
+      price: "1000000000"
+      quantity: "0.001"
+      timestamp: 1661607737731
+    }
+    sells {
+      price: "50000000000"
+      quantity: "0.1"
+      timestamp: 1676326399734
+    }
+    sells {
+      price: "65111000000"
+      quantity: "0.0449"
+      timestamp: 1675291786816
+    }
+    sells {
+      price: "70000000000"
+      quantity: "0.0001"
+      timestamp: 1671787246665
+    }
+    sells {
+      price: "100000000000"
+      quantity: "0.0037"
+      timestamp: 1675291786816
+    }
+    sells {
+      price: "101000000000"
+      quantity: "0.0007"
+      timestamp: 1675291761230
+    }
+    sequence: 582
+  }
+}
+orderbooks {
+  market_id: "0xd5e4b12b19ecf176e4e14b42944731c27677819d2ed93be4104ad7025529c7ff"
+  orderbook {
+    buys {
+      price: "930000000"
+      quantity: "0.01"
+      timestamp: 1676014824244
+    }
+    buys {
+      price: "900000000"
+      quantity: "0.4999"
+      timestamp: 1670444208954
+    }
+    buys {
+      price: "10000000"
+      quantity: "2"
+      timestamp: 1670437854869
+    }
+    buys {
+      price: "1000000"
+      quantity: "1"
+      timestamp: 1667908624847
+    }
+    sequence: 148
+  }
+}
+```
+
+``` go
+
+```
+
+``` typescript
+
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|orderbooks|SingleDerivativeLimitOrderbookV2 Array|List of derivative market orderbooks|
+
+**SingleDerivativeLimitOrderbookV2**
+
+|----|----|----|
+|market_id|String|ID of the market that the orderbook belongs to|
+|orderbook|DerivativeLimitOrderbookV2|Orderbook of the market|
+
+**DerivativeLimitOrderbookV2**
+
+|Parameter|Type|Description|
+|----|----|----|
+|buys|PriceLevel Array|List of price levels for buys|
+|sells|PriceLevel Array|List of price levels for sells|
+|sequence|Integer|Sequence number of the orderbook; increments by 1 each update|
+
+**PriceLevel**
+
+|Parameter|Type|Description|
+|----|----|----|
+|quantity|String|Quantity of the price level|
+|timestamp|Integer|Price level last updated timestamp in UNIX millis|
+|price|String|Price number of the price level|
+
+
+## StreamOrderbooksV2 (Experimental)
+
+Stream orderbook snapshot updates for one or more derivative markets. This API is currently experimental but offers better performance than V1.
+
+
+### Request Parameters
+> Request Example:
+
+<!-- embedme ../../../sdk-python/examples/exchange_client/derivative_exchange_rpc/23_StreamOrderbooksV2.py -->
+``` python
+import asyncio
+import logging
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.constant import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network, insecure=False)
+    market_ids = ["0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"]
+    orderbooks = await client.stream_derivative_orderbook_snapshot(market_ids=market_ids)
+    async for orderbook in orderbooks:
+        print(orderbook)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
+
+```
+
+``` go
+
+```
+
+``` typescript
+
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_ids|String Array|List of market IDs for orderbook streaming; empty means all spot markets|Yes|
+
+
+### Response Parameters
+> Streaming Response Example:
+
+``` python
+orderbook {
+  buys {
+    price: "10000000000"
+    quantity: "0.0002"
+    timestamp: 1676621246197
+  }
+  buys {
+    price: "5000000000"
+    quantity: "0.0097"
+    timestamp: 1676383776468
+  }
+  buys {
+    price: "1000000000"
+    quantity: "0.001"
+    timestamp: 1661607737731
+  }
+  sells {
+    price: "50000000000"
+    quantity: "0.1"
+    timestamp: 1676326399734
+  }
+  sells {
+    price: "65111000000"
+    quantity: "0.0449"
+    timestamp: 1675291786816
+  }
+  sells {
+    price: "70000000000"
+    quantity: "0.0001"
+    timestamp: 1671787246665
+  }
+  sells {
+    price: "100000000000"
+    quantity: "0.0037"
+    timestamp: 1675291786816
+  }
+  sells {
+    price: "101000000000"
+    quantity: "0.0007"
+    timestamp: 1675291761230
+  }
+  sequence: 584
+}
+operation_type: "update"
+timestamp: 1676621249000
+market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+```
+
+``` go
+
+```
+
+``` typescript
+
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|orderbook|DerivativeLimitOrderbookV2|Orderbook of a Derivative Market|
+|operation_type|String|Order update type (Should be one of: ["insert", "replace", "update", "invalidate"])|
+|timestamp|Integer|Operation timestamp in UNIX millis|
+|market_id|String|ID of the market the orderbook belongs to|
+
+**DerivativeLimitOrderbookV2**
+
+|Parameter|Type|Description|
+|----|----|----|
+|buys|PriceLevel Array|List of price levels for buys|
+|sells|PriceLevel Array|List of price levels for sells|
+|sequence|Integer|Sequence number of the orderbook; increments by 1 each update|
+
+**PriceLevel**
+
+|Parameter|Type|Description|
+|----|----|----|
+|price|String|Price number of the price level|
+|quantity|String|Quantity of the price level|
+|timestamp|Integer|Price level last updated timestamp in UNIX millis|
+
+
+## StreamOrderbookUpdate (Experimental)
+
+Stream incremental orderbook updates for one or more derivative markets. This stream should be started prior to obtaining orderbook snapshots so that no incremental updates are omitted between obtaining a snapshot and starting the update stream. This API is currently experimental.
+
+
+### Request Parameters
+> Request Example:
+
+<!-- embedme ../../../sdk-python/examples/exchange_client/derivative_exchange_rpc/6_StreamOrderbookUpdate.py -->
+``` python
+import asyncio
+import logging
+from decimal import *
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.constant import Network
+
+
+class PriceLevel:
+    def __init__(self, price: Decimal, quantity: Decimal, timestamp: int):
+        self.price = price
+        self.quantity = quantity
+        self.timestamp = timestamp
+
+    def __str__(self) -> str:
+        return "price: {} | quantity: {} | timestamp: {}".format(self.price, self.quantity, self.timestamp)
+
+
+class Orderbook:
+    def __init__(self, market_id: str):
+        self.market_id = market_id
+        self.sequence = -1
+        self.levels = {"buys": {}, "sells": {}}
+
+
+async def load_orderbook_snapshot(async_client: AsyncClient, orderbook: Orderbook):
+    # load the snapshot
+    res = await async_client.get_derivative_orderbooksV2(market_ids=[orderbook.market_id])
+    for snapshot in res.orderbooks:
+        if snapshot.market_id != orderbook.market_id:
+            raise Exception("unexpected snapshot")
+
+        orderbook.sequence = int(snapshot.orderbook.sequence)
+
+        for buy in snapshot.orderbook.buys:
+            orderbook.levels["buys"][buy.price] = PriceLevel(
+                price=Decimal(buy.price),
+                quantity=Decimal(buy.quantity),
+                timestamp=buy.timestamp,
+            )
+        for sell in snapshot.orderbook.sells:
+            orderbook.levels["sells"][sell.price] = PriceLevel(
+                price=Decimal(sell.price),
+                quantity=Decimal(sell.quantity),
+                timestamp=sell.timestamp,
+            )
+        break
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    async_client = AsyncClient(network, insecure=False)
+
+    market_id = "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+    orderbook = Orderbook(market_id=market_id)
+
+    # start getting price levels updates
+    stream = await async_client.stream_derivative_orderbook_update(market_ids=[market_id])
+    first_update = None
+    async for update in stream:
+        first_update = update.orderbook_level_updates
+        break
+
+    # load the snapshot once we are already receiving updates, so we don't miss any
+    await load_orderbook_snapshot(async_client=async_client, orderbook=orderbook)
+
+    # start consuming updates again to process them
+    apply_orderbook_update(orderbook, first_update)
+    async for update in stream:
+        apply_orderbook_update(orderbook, update.orderbook_level_updates)
+
+
+def apply_orderbook_update(orderbook: Orderbook, updates):
+    # discard old updates
+    if updates.sequence <= orderbook.sequence:
+        return
+
+    print(" * * * * * * * * * * * * * * * * * * *")
+
+    # ensure we have not missed any update
+    if updates.sequence > (orderbook.sequence + 1):
+        raise Exception("missing orderbook update events from stream, must restart: {} vs {}".format(
+            updates.sequence, (orderbook.sequence + 1)))
+
+    print("updating orderbook with updates at sequence {}".format(updates.sequence))
+
+    # update orderbook
+    orderbook.sequence = updates.sequence
+    for direction, levels in {"buys": updates.buys, "sells": updates.sells}.items():
+        for level in levels:
+            if level.is_active:
+                # upsert level
+                orderbook.levels[direction][level.price] = PriceLevel(
+                    price=Decimal(level.price),
+                    quantity=Decimal(level.quantity),
+                    timestamp=level.timestamp)
+            else:
+                if level.price in orderbook.levels[direction]:
+                    del orderbook.levels[direction][level.price]
+
+    # sort the level numerically
+    buys = sorted(orderbook.levels["buys"].values(), key=lambda x: x.price, reverse=True)
+    sells = sorted(orderbook.levels["sells"].values(), key=lambda x: x.price, reverse=True)
+
+    # lowest sell price should be higher than the highest buy price
+    if len(buys) > 0 and len(sells) > 0:
+        highest_buy = buys[0].price
+        lowest_sell = sells[-1].price
+        print("Max buy: {} - Min sell: {}".format(highest_buy, lowest_sell))
+        if highest_buy >= lowest_sell:
+            raise Exception("crossed orderbook, must restart")
+
+    # for the example, print the list of buys and sells orders.
+    print("sells")
+    for k in sells:
+        print(k)
+    print("=========")
+    print("buys")
+    for k in buys:
+        print(k)
+    print("====================================")
+
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.run(main())
+
+```
+
+``` go
+
+```
+
+``` typescript
+
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_ids|String Array|List of market IDs for orderbook streaming; empty means all derivative markets|Yes|
+
+
+### Response Parameters
+> Streaming Response Example:
+
+``` python
+* * * * * * * * * * * * * * * * * * *
+updating orderbook with updates at sequence 589
+Max buy: 10000000000 - Min sell: 50000000000
+sells
+price: 101000000000 | quantity: 0.0007 | timestamp: 1675291761230
+price: 100000000000 | quantity: 0.0037 | timestamp: 1675291786816
+price: 70000000000 | quantity: 0.0001 | timestamp: 1671787246665
+price: 65111000000 | quantity: 0.0449 | timestamp: 1675291786816
+price: 50000000000 | quantity: 0.1 | timestamp: 1676326399734
+=========
+buys
+price: 10000000000 | quantity: 0.0004 | timestamp: 1676622014694
+price: 5000000000 | quantity: 0.0097 | timestamp: 1676383776468
+price: 1000000000 | quantity: 0.0013 | timestamp: 1676622213616
+====================================
+* * * * * * * * * * * * * * * * * * *
+updating orderbook with updates at sequence 590
+Max buy: 10000000000 - Min sell: 50000000000
+sells
+price: 101000000000 | quantity: 0.0007 | timestamp: 1675291761230
+price: 100000000000 | quantity: 0.0037 | timestamp: 1675291786816
+price: 70000000000 | quantity: 0.0001 | timestamp: 1671787246665
+price: 65111000000 | quantity: 0.0449 | timestamp: 1675291786816
+price: 50000000000 | quantity: 0.1 | timestamp: 1676326399734
+=========
+buys
+price: 10000000000 | quantity: 0.0004 | timestamp: 1676622014694
+price: 5000000000 | quantity: 0.0097 | timestamp: 1676383776468
+price: 1000000000 | quantity: 0.0014 | timestamp: 1676622220695
+====================================
+```
+
+``` go
+
+```
+
+``` typescript
+
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|orderbook_level_updates|OrderbookLevelUpdates|Orderbook level updates of a derivative market|
+|operation_type|String|Order update type (Should be one of: ["insert", "replace", "update", "invalidate"])|
+|timestamp|Integer|Operation timestamp in UNIX millis|
+|market_id|String|ID of the market the orderbook belongs to|
+
+**OrderbookLevelUpdates**
+
+|Parameter|Type|Description|
+|----|----|----|
+|market_id|String|ID of the market the orderbook belongs to|
+|sequence|Integer|Orderbook update sequence number; increments by 1 each update|
+|buys|PriceLevelUpdate Array|List of buy level updates|
+|sells|PriceLevelUpdate Array|List of sell level updates|
+|updated_at|Integer|Timestamp of the updates in UNIX millis|
+
+**PriceLevelUpdate**
+
+|Parameter|Type|Description|
+|----|----|----|
+|price|String|Price number of the price level|
+|quantity|String|Quantity of the price level|
+|is_active|Boolean|Price level status|
+|timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
 
 ## SubaccountOrdersList
