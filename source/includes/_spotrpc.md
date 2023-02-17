@@ -2450,55 +2450,11 @@ if __name__ == '__main__':
 ```
 
 ``` go
-package main
 
-import (
-  "context"
-  "encoding/json"
-  "fmt"
-
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-)
-
-func main() {
-  //network := common.LoadNetwork("mainnet", "k8s")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  ctx := context.Background()
-  marketIds := []string{"0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31", "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
-  res, err := exchangeClient.GetSpotOrderbooks(ctx, marketIds)
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
-}
 ```
 
 ``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
 
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const marketIds = ["0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0", "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"];
-
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
-
-  const market = await exchangeClient.spot.fetchOrderbooks(marketIds);
-
-  console.log(protoObjectToJson(market));
-})();
 ```
 
 |Parameter|Type|Description|Required|
@@ -2760,74 +2716,11 @@ if __name__ == '__main__':
 ```
 
 ``` go
-package main
 
-import (
-  "context"
-  "encoding/json"
-  "fmt"
-
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-)
-
-func main() {
-  //network := common.LoadNetwork("mainnet", "k8s")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  ctx := context.Background()
-  marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
-  stream, err := exchangeClient.StreamSpotOrderbook(ctx, marketIds)
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  for {
-    select {
-    case <-ctx.Done():
-      return
-    default:
-      res, err := stream.Recv()
-      if err != nil {
-        fmt.Println(err)
-        return
-      }
-      str, _ := json.MarshalIndent(res, "", " ")
-      fmt.Print(string(str))
-    }
-  }
-}
 ```
 
 ``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";;
 
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const marketIds = ["0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"];
-
-  const exchangeClient = new ExchangeGrpcStreamClient(
-    network.exchangeApi
-  );
-
-  await exchangeClient.spot.streamSpotOrderbook(
-    {
-      marketIds,
-      callback: (streamSpotOrderbook) => {
-        console.log(protoObjectToJson(streamSpotOrderbook));
-      },
-      onEndCallback: (status) => {
-        console.log("Stream has ended with status: " + status);
-      },
-    });
-})();
 ```
 
 |Parameter|Type|Description|Required|
@@ -3111,74 +3004,11 @@ if __name__ == '__main__':
 ```
 
 ``` go
-package main
 
-import (
-  "context"
-  "encoding/json"
-  "fmt"
-
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-)
-
-func main() {
-  //network := common.LoadNetwork("mainnet", "k8s")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  ctx := context.Background()
-  marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
-  stream, err := exchangeClient.StreamSpotOrderbook(ctx, marketIds)
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  for {
-    select {
-    case <-ctx.Done():
-      return
-    default:
-      res, err := stream.Recv()
-      if err != nil {
-        fmt.Println(err)
-        return
-      }
-      str, _ := json.MarshalIndent(res, "", " ")
-      fmt.Print(string(str))
-    }
-  }
-}
 ```
 
 ``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";;
 
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const marketIds = ["0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"];
-
-  const exchangeClient = new ExchangeGrpcStreamClient(
-    network.exchangeApi
-  );
-
-  await exchangeClient.spot.streamSpotOrderbook(
-    {
-      marketIds,
-      callback: (streamSpotOrderbook) => {
-        console.log(protoObjectToJson(streamSpotOrderbook));
-      },
-      onEndCallback: (status) => {
-        console.log("Stream has ended with status: " + status);
-      },
-    });
-})();
 ```
 
 |Parameter|Type|Description|Required|
