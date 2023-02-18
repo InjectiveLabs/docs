@@ -1,5 +1,5 @@
 # - InjectiveMetaRPC
-InjectiveMetaRPC defines the gRPC API of the Exchange Meta provider.
+InjectiveMetaRPC defines the gRPC API of the Exchange Meta provider. Usage examples can be found [here](https://github.com/InjectiveLabs/sdk-python/tree/master/examples/exchange_client/meta_rpc).
 
 ## Ping
 
@@ -8,6 +8,7 @@ Get the server health.
 
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/meta_rpc/1_Ping.py -->
 ``` python
 import asyncio
 import logging
@@ -84,7 +85,7 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 > Response Example:
 
 ``` python
-Health OK? 
+Health OK?
 ```
 
 ``` go
@@ -102,6 +103,7 @@ Get the server version.
 
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/meta_rpc/2_Version.py -->
 ``` python
 import asyncio
 import logging
@@ -175,18 +177,18 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 })();
 ```
 
-
+### Response Parameters
 > Response Example:
 
 ``` python
 Version: version: "dev"
 build {
   key: "BuildDate"
-  value: "20220426-0810"
+  value: "20230210-0651"
 }
 build {
   key: "GitCommit"
-  value: "4f3bc09"
+  value: "6b0c142"
 }
 build {
   key: "GoArch"
@@ -194,7 +196,7 @@ build {
 }
 build {
   key: "GoVersion"
-  value: "go1.17.3"
+  value: "go1.19.2"
 }
 ```
 
@@ -234,12 +236,27 @@ build {
 }
 ```
 
+|Parameter|Type|Description|
+|----|----|----|
+|version|String|injective-exchange code version|
+|build|VersionResponse.BuildEntry Array|Additional build meta info|
+
+**VersionResponse.BuildEntry**
+
+|Parameter|Type|Description|
+|----|----|----|
+|key|String|Name|
+|value|String|Description|
+
+
 ## Info
 
 Get the server information.
 
+### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/meta_rpc/3_Info.py -->
 ``` python
 import asyncio
 import logging
@@ -255,9 +272,14 @@ async def main() -> None:
     resp = await client.info()
     print('[!] Info:')
     print(resp)
-
     latency = int(round(time.time() * 1000)) - resp.timestamp
     print(f'Server Latency: {latency}ms')
+
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -314,20 +336,27 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 })();
 ```
 
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|timestamp|Integer|Your current system UNIX timestamp in millis|No, if using our async_client implementation, otherwise yes|
+
+
+### Response Parameters
 > Response Example:
 
 ``` python
+INFO:chain session cookie loaded from disk:
 [!] Info:
-timestamp: 1652794819236
-server_time: 1652794829954
+timestamp: 1676695214189
+server_time: 1676695214692
 version: "dev"
 build {
   key: "BuildDate"
-  value: "20220426-0810"
+  value: "20230210-0651"
 }
 build {
   key: "GitCommit"
-  value: "4f3bc09"
+  value: "6b0c142"
 }
 build {
   key: "GoArch"
@@ -335,11 +364,29 @@ build {
 }
 build {
   key: "GoVersion"
-  value: "go1.17.3"
+  value: "go1.19.2"
 }
 
-Server Latency: 822ms
+Server Latency: 427ms
+
+Server Latency: 375ms
 ```
+
+|Parameter|Type|Description|
+|----|----|----|
+|timestamp|Integer|The original timestamp (from your system) of the request in UNIX millis|
+|server_time|Integer|UNIX time on the server in millis|
+|version|String|injective-exchange code version|
+|build|VersionResponse.BuildEntry Array|Additional build meta info|
+<!-- |region|String|Server's location region| -->
+
+**VersionResponse.BuildEntry**
+
+|Parameter|Type|Description|
+|----|----|----|
+|key|String|Name|
+|value|String|Description|
+
 
 ## StreamKeepAlive
 
@@ -347,6 +394,7 @@ Subscribe to a stream and gracefully disconnect and connect to another sentry no
 
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/meta_rpc/4_StreamKeepAlive.py -->
 ``` python
 import asyncio
 import logging
@@ -434,6 +482,7 @@ func main() {
 
 ```
 
+### Response Parameters
 > Response Example:
 
 ``` python
@@ -442,3 +491,9 @@ timestamp: 1636236225847,
 
 "Cancelled all tasks"
 ```
+
+|Parameter|Type|Description|
+|----|----|----|
+|event|String|Server event|
+|new_endpoint|String|New connection endpoint for the gRPC API|
+|timestamp|Integer|Operation timestamp in UNIX millis|
