@@ -1,5 +1,5 @@
 # - InjectiveInsuranceRPC
-InjectiveInsuranceRPC defines the gRPC API of the Insurance Exchange provider.
+InjectiveInsuranceRPC defines the gRPC API of the Insurance Exchange provider. Usage examples can be found [here](https://github.com/InjectiveLabs/sdk-python/tree/master/examples/exchange_client/insurance_rpc).
 
 
 ## InsuranceFunds

@@ -1,5 +1,5 @@
 # - InjectiveExplorerRPC
-InjectiveExplorerRPC defines the gRPC API of the Explorer provider.
+InjectiveExplorerRPC defines the gRPC API of the Explorer provider. Usage examples can be found [here](https://github.com/InjectiveLabs/sdk-python/tree/master/examples/exchange_client/explorer_rpc).
 
 
 ## GetTxByHash
