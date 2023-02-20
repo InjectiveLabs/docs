@@ -10,6 +10,7 @@ Get the details for a specific transaction.
 ### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/1_GetTxByHash.py -->
 ``` python
 import asyncio
 import logging
@@ -91,27 +92,32 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 > Response Example:
 
 ``` python
-block_number: 4362066
-block_timestamp: "2022-04-25 09:27:48.303 +0000 UTC"
-hash: "0x4893b36b1b2d7a0a94973cda1a6eaabf32c43e9c51b629bbdee6a46891c8a63c"
-data: "\n{\n3/injective.exchange.v1beta1.MsgCreateSpotLimitOrder\022D\nB0x234e7a0339f953da243111e99a48656b8b98394f7dbb53de3ecd0aff0d4528fb"
-gas_wanted: 121770
-gas_used: 115359
-gas_fee {
-  amount {
-    denom: "inj"
-    amount: "60885000000000"
+s: "ok"
+data {
+  block_number: 5024371
+  block_timestamp: "2022-11-14 13:16:18.946 +0000 UTC"
+  hash: "0x0f3ebec1882e1eeac5b7bdd836e976250f1cd072b79485877ceaccb92acddf52"
+  data: "\n\204\001\n</injective.exchange.v1beta1.MsgCreateBinaryOptionsLimitOrder\022D\nB0xf1d91fb5b90dcb5737385e4b2d511f7afc2a40dd03bedd27cbc87772b0f6e382"
+  gas_wanted: 123364
+  gas_used: 120511
+  gas_fee {
+    amount {
+      denom: "inj"
+      amount: "61682000000000"
+    }
+    gas_limit: 123364
+    payer: "inj174mewc3hc96t7cngep545eju9ksdcfvx6d3jqq"
   }
-  gas_limit: 121770
-  payer: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-}
-tx_type: "injective"
-messages: "[{\"type\":\"/injective.exchange.v1beta1.MsgCreateSpotLimitOrder\",\"value\":{\"order\":{\"market_id\":\"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0\",\"order_info\":{\"fee_recipient\":\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\",\"price\":\"0.000000000007523000\",\"quantity\":\"10000000000000000.000000000000000000\",\"subaccount_id\":\"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000\"},\"order_type\":\"BUY_PO\",\"trigger_price\":\"0.000000000000000000\"},\"sender\":\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\"}}]"
-signatures {
-  pubkey: "injvalcons1hkhdaj2a2clmq5jq6mspsggqs32vynpkflpeux"
-  address: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-  sequence: 1114
-  signature: "Ylj8HMq6g0iwSEtMVm8xKwP6m2p9w2H/K/AeKlIeBzltKONBP2oPkdWYcQKkGimbozlxIZm4AYi3x0JGwNps+g=="
+  tx_type: "injective"
+  messages: "[{\"type\":\"/injective.exchange.v1beta1.MsgCreateBinaryOptionsLimitOrder\",\"value\":{\"order\":{\"margin\":\"99999940000.000000000000000000\",\"market_id\":\"0xc0c98581baf93740e0d57aae2e36aec262852341a68181c9388c9fbbe7567ff1\",\"order_info\":{\"fee_recipient\":\"inj174mewc3hc96t7cngep545eju9ksdcfvx6d3jqq\",\"price\":\"530000.000000000000000000\",\"quantity\":\"100000.000000000000000000\",\"subaccount_id\":\"0xf577976237c174bf6268c8695a665c2da0dc2586000000000000000000000001\"},\"order_type\":\"SELL\",\"trigger_price\":\"0.000000000000000000\"},\"sender\":\"inj174mewc3hc96t7cngep545eju9ksdcfvx6d3jqq\"}}]"
+  signatures {
+    pubkey: "injvalcons174mewc3hc96t7cngep545eju9ksdcfvxechtd9"
+    address: "inj174mewc3hc96t7cngep545eju9ksdcfvx6d3jqq"
+    sequence: 283962
+    signature: "pqXQlPRK8aMEZg2GyW0aotlYcz82iX+FDYNtgkq/9P1e59QYcdyGT/DNV4INLQVXkMwNHUcbKti0dEurzQT6Tw=="
+  }
+  tx_number: 283979
+  block_unix_timestamp: 1668431778946
 }
 ```
 
@@ -186,26 +192,41 @@ signatures {
 
 |Parameter|Type|Description|
 |----|----|----|
+|s|String|Status of the response|
+|errmsg|String|Error message, if any|
+|data|TxDetailData||
+
+**TxDetailData**
+
+|Parameter|Type|Description|
+|----|----|----|
 |block_number|Integer|The block at which the transaction was executed|
-|block_timestamp|String|The timestamp of the block|
+|block_timestamp|String|The timestamp of the block (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 |hash|String|The transaction hash|
 |data|bytes|The raw data in bytes|
 |gas_wanted|Integer|The gas wanted for this transaction|
 |gas_used|Integer|The gas used for this transaction|
-|gas_fee|GasFee|GasFee object|
+|gas_fee|GasFee|Gas fee information|
 |tx_type|String|The transaction type|
 |messages|String|The messages included in this transaction|
-|signatures|Signatures|Signatures object|
+|signatures|Signatures Array|List of signatures|
+|tx_number|Integer||
+|block_unix_timestamp|The timestamp of the block in UNIX millis|
 
 **GasFee**
 
 |Parameter|Type|Description|
 |----|----|----|
-|amount|List|List with denom and amount|
-|denom|String|The gas denom ("inj")|
-|amount|String|The gas amount in INJ denomination|
+|amount|CosmosCoin Array|List of coins with denom and amount|
 |gas_limit|Integer|The gas limit for the transaction|
 |payer|String|The Injective Chain address paying the gas fee|
+|granter|String||
+
+**CosmosCoin**
+|Parameter|Type|Description|
+|----|----|----|
+|denom|String|Coin denom|
+|amount|String|Coin amount|
 
 **Signatures**
 
@@ -225,6 +246,7 @@ Get the details for a specific transaction.
 ### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/2_AccountTxs.py -->
 ``` python
 import asyncio
 import logging
@@ -233,16 +255,19 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
+    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     address = "inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex"
     type = "cosmos.bank.v1beta1.MsgSend"
-    account = await client.get_account_txs(address=address, type=type)
+    limit = 2
+    account = await client.get_account_txs(address=address, type=type, limit=limit)
     print(account)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -317,7 +342,7 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 |before|Integer|Filter transactions before a given block height|No|
 |after|Integer|Filter transactions after a given block height|No|
 |limit|Integer|Limit the returned transactions|No|
-|skip|Integer|Skip the first N transactions|No|
+|skip|Integer|Skip the first *n* transactions. This can be used to fetch all results since the API caps at 100.|No|
 
 
 ### Response Parameters
@@ -325,57 +350,61 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 ``` python
 paging {
-  total: 100000
-  from: 5968747
-  to: 5968725
+  total: 8979
+  from: 8978
+  to: 8979
 }
 data {
-  block_number: 5968747
-  block_timestamp: "2022-05-30 16:01:23.09 +0000 UTC"
-  hash: "0x1d5e86c296c70aa2c97b0d31d83a84fb5b7296ccc2e9887868c17a0c1c7a458f"
-  data: "\n\201\001\n9/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\022D\nB0xfb1007fa6b89f9d0d828551ff98ad4d981afd5d6753c9c2e5a3b5fbf623f1280"
-  gas_wanted: 200000
-  gas_used: 122413
+  block_number: 8342050
+  block_timestamp: "2023-02-19 09:08:29.469 +0000 UTC"
+  hash: "0xf2b2140fe7162616c332fc8b2e630fd401f918788a512eab36ded6d8901dfcfd"
+  data: "\n\036\n\034/cosmos.bank.v1beta1.MsgSend\n\036\n\034/cosmos.bank.v1beta1.MsgSend\n\036\n\034/cosmos.bank.v1beta1.MsgSend\n\036\n\034/cosmos.bank.v1beta1.MsgSend\n\036\n\034/cosmos.bank.v1beta1.MsgSend\n\036\n\034/cosmos.bank.v1beta1.MsgSend\n\036\n\034/cosmos.bank.v1beta1.MsgSend\n\036\n\034/cosmos.bank.v1beta1.MsgSend"
+  gas_wanted: 400000
+  gas_used: 272532
   gas_fee {
     amount {
       denom: "inj"
-      amount: "100000000000000"
+      amount: "200000000000000"
     }
-    gas_limit: 200000
-    payer: "inj1q4j3pkrl8jy07uf84t3l2srt345fppeeyagscf"
+    gas_limit: 400000
+    payer: "inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex"
   }
   tx_type: "injective-web3"
-  messages: "[{\"type\":\"/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\",\"value\":{\"order\":{\"margin\":\"2000000.000000000000000000\",\"market_id\":\"0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963\",\"order_info\":{\"fee_recipient\":\"inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8\",\"price\":\"1000000.000000000000000000\",\"quantity\":\"2.000000000000000000\",\"subaccount_id\":\"0x056510d87f3c88ff7127aae3f5406b8d68908739000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":\"0.000000000000000000\"},\"sender\":\"inj1q4j3pkrl8jy07uf84t3l2srt345fppeeyagscf\"}}]"
+  messages: "[{\"type\":\"/cosmos.bank.v1beta1.MsgSend\",\"value\":{\"amount\":[{\"amount\":\"10000000000000000000\",\"denom\":\"inj\"}],\"from_address\":\"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex\",\"to_address\":\"inj14jk6sp8s4turp5jmdn27yrr327emdh06wdrfzv\"}},{\"type\":\"/cosmos.bank.v1beta1.MsgSend\",\"value\":{\"amount\":[{\"amount\":\"10000000000\",\"denom\":\"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5\"}],\"from_address\":\"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex\",\"to_address\":\"inj14jk6sp8s4turp5jmdn27yrr327emdh06wdrfzv\"}},{\"type\":\"/cosmos.bank.v1beta1.MsgSend\",\"value\":{\"amount\":[{\"amount\":\"10000000000\",\"denom\":\"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/usdc\"}],\"from_address\":\"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex\",\"to_address\":\"inj14jk6sp8s4turp5jmdn27yrr327emdh06wdrfzv\"}},{\"type\":\"/cosmos.bank.v1beta1.MsgSend\",\"value\":{\"amount\":[{\"amount\":\"10000000000000000000000\",\"denom\":\"peggy0x44C21afAaF20c270EBbF5914Cfc3b5022173FEB7\"}],\"from_address\":\"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex\",\"to_address\":\"inj14jk6sp8s4turp5jmdn27yrr327emdh06wdrfzv\"}},{\"type\":\"/cosmos.bank.v1beta1.MsgSend\",\"value\":{\"amount\":[{\"amount\":\"10000000000\",\"denom\":\"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/aave\"}],\"from_address\":\"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex\",\"to_address\":\"inj14jk6sp8s4turp5jmdn27yrr327emdh06wdrfzv\"}},{\"type\":\"/cosmos.bank.v1beta1.MsgSend\",\"value\":{\"amount\":[{\"amount\":\"10000000000\",\"denom\":\"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/crv\"}],\"from_address\":\"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex\",\"to_address\":\"inj14jk6sp8s4turp5jmdn27yrr327emdh06wdrfzv\"}},{\"type\":\"/cosmos.bank.v1beta1.MsgSend\",\"value\":{\"amount\":[{\"amount\":\"10000000000\",\"denom\":\"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/cvx\"}],\"from_address\":\"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex\",\"to_address\":\"inj14jk6sp8s4turp5jmdn27yrr327emdh06wdrfzv\"}},{\"type\":\"/cosmos.bank.v1beta1.MsgSend\",\"value\":{\"amount\":[{\"amount\":\"10000000000\",\"denom\":\"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/shib\"}],\"from_address\":\"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex\",\"to_address\":\"inj14jk6sp8s4turp5jmdn27yrr327emdh06wdrfzv\"}}]"
   signatures {
-    pubkey: "injvalcons1q4j3pkrl8jy07uf84t3l2srt345fppee8gwf4v"
-    address: "inj1q4j3pkrl8jy07uf84t3l2srt345fppeeyagscf"
-    sequence: 2
-    signature: "kUm97awCT/j5RrHR3pIUvU/pOp+qYC2RnYm3tyPpdLdwFIXAFHCzX94htDc0LQxFKT7by08VCOyifTpZJJ9UaRs="
+    pubkey: "injvalcons1phd706jqzd9wznkk5hgsfkrc8jqxv0kmu8f05r"
+    address: "inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex"
+    sequence: 8941
+    signature: "n1RpdAlxuULogL7NxWsGMMXE2ONnIZny9G+Cv5OIc3YabHBPCjqHdNdmuzAYIcHEOqznU70GGlPTS3dfiXPqDhw="
   }
+  tx_number: 8979
+  block_unix_timestamp: 1676797709469
 }
 data {
-  block_number: 5968725
-  block_timestamp: "2022-05-30 16:00:40.386 +0000 UTC"
-  hash: "0x8d8a0995b99c7641f8e0cc0c7e779325a4c4f5c3a738d1878ee2970c9f7e6f36"
-  data: "\n\201\001\n9/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\022D\nB0x1d18c78df0103e884fff7bde98b228144741f8095a64668fe7761106d543dab5"
-  gas_wanted: 200000
-  gas_used: 122263
+  block_number: 8341799
+  block_timestamp: "2023-02-19 08:58:47.271 +0000 UTC"
+  hash: "0xc2b2f05a66a851cb176503360ef24fd5927116dc2c33e43532865caa7d141627"
+  data: "\n\036\n\034/cosmos.bank.v1beta1.MsgSend\n\036\n\034/cosmos.bank.v1beta1.MsgSend\n\036\n\034/cosmos.bank.v1beta1.MsgSend\n\036\n\034/cosmos.bank.v1beta1.MsgSend\n\036\n\034/cosmos.bank.v1beta1.MsgSend\n\036\n\034/cosmos.bank.v1beta1.MsgSend\n\036\n\034/cosmos.bank.v1beta1.MsgSend\n\036\n\034/cosmos.bank.v1beta1.MsgSend"
+  gas_wanted: 400000
+  gas_used: 272532
   gas_fee {
     amount {
       denom: "inj"
-      amount: "100000000000000"
+      amount: "200000000000000"
     }
-    gas_limit: 200000
-    payer: "inj1q4j3pkrl8jy07uf84t3l2srt345fppeeyagscf"
+    gas_limit: 400000
+    payer: "inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex"
   }
   tx_type: "injective-web3"
-  messages: "[{\"type\":\"/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\",\"value\":{\"order\":{\"margin\":\"3000000.000000000000000000\",\"market_id\":\"0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963\",\"order_info\":{\"fee_recipient\":\"inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8\",\"price\":\"3000000.000000000000000000\",\"quantity\":\"1.000000000000000000\",\"subaccount_id\":\"0x056510d87f3c88ff7127aae3f5406b8d68908739000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":\"0.000000000000000000\"},\"sender\":\"inj1q4j3pkrl8jy07uf84t3l2srt345fppeeyagscf\"}}]"
+  messages: "[{\"type\":\"/cosmos.bank.v1beta1.MsgSend\",\"value\":{\"amount\":[{\"amount\":\"10000000000000000000\",\"denom\":\"inj\"}],\"from_address\":\"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex\",\"to_address\":\"inj1dva86cg4eqjypujethrmjdltau8eqgnsuq5eyn\"}},{\"type\":\"/cosmos.bank.v1beta1.MsgSend\",\"value\":{\"amount\":[{\"amount\":\"10000000000\",\"denom\":\"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5\"}],\"from_address\":\"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex\",\"to_address\":\"inj1dva86cg4eqjypujethrmjdltau8eqgnsuq5eyn\"}},{\"type\":\"/cosmos.bank.v1beta1.MsgSend\",\"value\":{\"amount\":[{\"amount\":\"10000000000\",\"denom\":\"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/usdc\"}],\"from_address\":\"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex\",\"to_address\":\"inj1dva86cg4eqjypujethrmjdltau8eqgnsuq5eyn\"}},{\"type\":\"/cosmos.bank.v1beta1.MsgSend\",\"value\":{\"amount\":[{\"amount\":\"10000000000000000000000\",\"denom\":\"peggy0x44C21afAaF20c270EBbF5914Cfc3b5022173FEB7\"}],\"from_address\":\"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex\",\"to_address\":\"inj1dva86cg4eqjypujethrmjdltau8eqgnsuq5eyn\"}},{\"type\":\"/cosmos.bank.v1beta1.MsgSend\",\"value\":{\"amount\":[{\"amount\":\"10000000000\",\"denom\":\"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/aave\"}],\"from_address\":\"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex\",\"to_address\":\"inj1dva86cg4eqjypujethrmjdltau8eqgnsuq5eyn\"}},{\"type\":\"/cosmos.bank.v1beta1.MsgSend\",\"value\":{\"amount\":[{\"amount\":\"10000000000\",\"denom\":\"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/crv\"}],\"from_address\":\"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex\",\"to_address\":\"inj1dva86cg4eqjypujethrmjdltau8eqgnsuq5eyn\"}},{\"type\":\"/cosmos.bank.v1beta1.MsgSend\",\"value\":{\"amount\":[{\"amount\":\"10000000000\",\"denom\":\"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/cvx\"}],\"from_address\":\"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex\",\"to_address\":\"inj1dva86cg4eqjypujethrmjdltau8eqgnsuq5eyn\"}},{\"type\":\"/cosmos.bank.v1beta1.MsgSend\",\"value\":{\"amount\":[{\"amount\":\"10000000000\",\"denom\":\"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/shib\"}],\"from_address\":\"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex\",\"to_address\":\"inj1dva86cg4eqjypujethrmjdltau8eqgnsuq5eyn\"}}]"
   signatures {
-    pubkey: "injvalcons1q4j3pkrl8jy07uf84t3l2srt345fppee8gwf4v"
-    address: "inj1q4j3pkrl8jy07uf84t3l2srt345fppeeyagscf"
-    sequence: 1
-    signature: "2iFB8tsuNHcSdvYufaL/8JJ0J0D6JOwbjzRJwJueHlpgkfRbWrXU3mBYqkP324U8scBs7jNP2Wa/90KUVi1BLRw="
+    pubkey: "injvalcons1phd706jqzd9wznkk5hgsfkrc8jqxv0kmu8f05r"
+    address: "inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex"
+    sequence: 8940
+    signature: "djY9QipW+m3tJdV8Tb/LIL4XTvy4Ev9YFLVkQy980mtuyQURyHhRaiz3GQrAAHjG54FqB8IaftIoPFaoj01qNBs="
   }
+  tx_number: 8978
+  block_unix_timestamp: 1676797127271
 }
 ```
 
@@ -586,23 +615,23 @@ data {
 
 |Parameter|Type|Description|
 |----|----|----|
-|data|Data|Data object|
-|paging|Paging|Paging object|
+|data|TxDetailData Array|TxDetailData object|
+|paging|Paging|Pagination of results|
 
 **Paging**
 
 |Parameter|Type|Description|
 |----|----|----|
-|total|Integer|Total pages|
-|from|Integer|Block height of the first transaction|
-|to|Integer|Block height of the last transaction|
+|total|Integer|Total number of available records|
+|from|Integer|Lower bound of indices of records returned|
+|to|Integer|Upper bound of indices of records returned|
 
 **Data**
 
 |Parameter|Type|Description|
 |----|----|----|
 |block_number|Integer|The block at which the transaction was executed|
-|block_timestamp|String|The timestamp of the block|
+|block_timestamp|String|The timestamp of the block (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 |hash|String|The transaction hash|
 |data|bytes|The raw data in bytes|
 |gas_wanted|Integer|The gas wanted for this transaction|
@@ -610,17 +639,24 @@ data {
 |gas_fee|GasFee|GasFee object|
 |tx_type|String|The transaction type|
 |messages|String|The messages included in this transaction|
-|signatures|Signatures|Signatures object|
+|signatures|Signatures Array|List of signatures|
+|tx_number|Integer||
+|block_unix_timestamp|The timestamp of the block in UNIX millis|
 
 **GasFee**
 
 |Parameter|Type|Description|
 |----|----|----|
-|amount|List|List with denom and amount|
-|denom|String|The gas denom ("inj")|
-|amount|String|The gas amount in INJ denomination|
+|amount|CosmosCoin Array|List of coins with denom and amount|
 |gas_limit|Integer|The gas limit for the transaction|
 |payer|String|The Injective Chain address paying the gas fee|
+|granter|String||
+
+**CosmosCoin**
+|Parameter|Type|Description|
+|----|----|----|
+|denom|String|Coin denom|
+|amount|String|Coin amount|
 
 **Signatures**
 
@@ -634,12 +670,12 @@ data {
 
 ## Blocks
 
-Get the blocks.
-
+Get data for blocks.
 
 ### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/3_Blocks.py -->
 ``` python
 import asyncio
 import logging
@@ -648,6 +684,7 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
+    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     limit = 2
@@ -657,6 +694,7 @@ async def main() -> None:
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -715,7 +753,7 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 |----|----|----|----|
 |before|Integer|Filter transactions before a given block height|No|
 |after|Integer|Filter transactions after a given block height|No|
-|limit|Integer|Limit the returned transactions|No|
+|limit|Integer|Limit the number of returned blocks|No|
 
 
 ### Response Parameters
@@ -723,24 +761,25 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 ``` python
 paging {
-  from: 6003039
-  to: 6003040
+  total: 8342596
+  from: 8342595
+  to: 8342596
 }
 data {
-  height: 6003040
-  proposer: "injvalcons1aju53n6la4xzemws8gqnvr9v8hsjdea706jq7f"
+  height: 8342596
+  proposer: "injvalcons1xml3ew93xmjtuf5zwpcl9jzznphte30hvdre9a"
   moniker: "InjectiveNode2"
-  block_hash: "0x76ceb753d1e5c5774671429982f64fa2b8fd32782cf5f3a0d0223cb4b48e94ce"
-  parent_hash: "0x73bd9ffe70a83913b885d6fe91b1a6b7bbc9d0186a2bd27e69e7eb1b6d495d71"
-  timestamp: "2022-05-31 10:33:34.848 +0000 UTC"
+  block_hash: "0x03c2dfe96211d1184291eaef12d76888c17a6abe5404b04a3905f6094d23416b"
+  parent_hash: "0x810a9dfa2a4477023570b30ac3a06d50afffe74583e9a12730adfd1334a58167"
+  timestamp: "2023-02-19 09:29:36.396 +0000 UTC"
 }
 data {
-  height: 6003039
-  proposer: "injvalcons1qmrj7lnzraref92lzuhrv6m7sxey248fzxmfnf"
-  moniker: "InjectiveNode3"
-  block_hash: "0xa94ba5a055cc6d077e4b1baa60e4fbed58d9dff6365d761fcb1c6a70c909bfa8"
-  parent_hash: "0x74c527da0782e24651aa4f9128600e6fe7bd30de6ab6a23729555974df362083"
-  timestamp: "2022-05-31 10:33:32.934 +0000 UTC"
+  height: 8342595
+  proposer: "injvalcons1xwg7xkmpqp8q804c37sa4dzyfwgnh4a74ll9pz"
+  moniker: "InjectiveNode0"
+  block_hash: "0x2a2d48d6280e60c5f1ba68051b5dac78be36ee170c1c67edbc5ecda630c3d6ed"
+  parent_hash: "0xbd5f131de1dbbb6c020fde8acdef5052c16c87466b73aff5a66de0453bb6a077"
+  timestamp: "2023-02-19 09:29:34.077 +0000 UTC"
 }
 ```
 
@@ -807,17 +846,18 @@ data {
 
 |Parameter|Type|Description|
 |----|----|----|
-|data|Data|Data object|
-|paging|Paging|Paging object|
+|data|BlockInfo|Block data|
+|paging|Paging|Pagination of results|
 
 **Paging**
 
 |Parameter|Type|Description|
 |----|----|----|
-|from|Integer|Block height of the first transaction|
-|to|Integer|Block height of the last transaction|
+|total|Integer|Total number of available records|
+|from|Integer|Lower bound of indices of records returned|
+|to|Integer|Upper bound of indices of records returned|
 
-**Data**
+**BlockInfo**
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -826,16 +866,17 @@ data {
 |moniker|String|The validator moniker|
 |block_hash|String|The hash of the block|
 |parent_hash|String|The parent hash of the block|
-|timestamp|String|The timestamp of the block|
+|timestamp|String|The timestamp of the block (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 
 ## Block
 
-Get the blocks.
+Get detailed data for a single block.
 
 
 ### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/4_Block.py -->
 ``` python
 import asyncio
 import logging
@@ -844,6 +885,7 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
+    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     block_height = "5825046"
@@ -853,6 +895,7 @@ async def main() -> None:
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -909,19 +952,37 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|block_height|String|Filter transactions for a specific block|No|
+|id|String|Block height|Yes|
 
 
 ### Response Parameters
 > Response Example:
 
 ``` python
-height: 5825046
-proposer: "injvalcons1qmrj7lnzraref92lzuhrv6m7sxey248fzxmfnf"
-moniker: "InjectiveNode3"
-block_hash: "0x06453296122c4db605b68aac9e2848ea778b8fb2cdbdeb77281515722a1457cf"
-parent_hash: "0x14cba82aa61d5ee2ddcecf8e1f0a7f0286c5ac1fe3f8c3dafa1729121152793d"
-timestamp: "2022-05-27 10:21:51.168 +0000 UTC"
+s: "ok"
+data {
+  height: 5825046
+  proposer: "injvalcons1xml3ew93xmjtuf5zwpcl9jzznphte30hvdre9a"
+  moniker: "InjectiveNode2"
+  block_hash: "0x5982527aa7bc62d663256d505ab396e699954e46ada71a11de2a75f6e514d073"
+  parent_hash: "0x439caaef7ed0c6d9c2bdd7ffcd8c7303a4eb6a7c33d7db189f85f9b3a496fbc6"
+  num_txs: 2
+  txs {
+    block_number: 5825046
+    block_timestamp: "2022-12-11 22:06:49.182 +0000 UTC"
+    hash: "0xe46713fbedc907278b6bd22165946d8673169c1a0360383e5e31abf219290c6a"
+    messages: "null"
+    tx_number: 1294976
+  }
+  txs {
+    block_number: 5825046
+    block_timestamp: "2022-12-11 22:06:49.182 +0000 UTC"
+    hash: "0xbe8c8ca9a41196adf59b88fe9efd78e7532e04169152e779be3dc14ba7c360d9"
+    messages: "null"
+    tx_number: 1294975
+  }
+  timestamp: "2022-12-11 22:06:49.182 +0000 UTC"
+}
 ```
 
 ``` go
@@ -951,12 +1012,30 @@ timestamp: "2022-05-27 10:21:51.168 +0000 UTC"
 
 |Parameter|Type|Description|
 |----|----|----|
+|s|String|Status of the response|
+|errmsg|String|Error message, if any|
+|data|BlockDetailInfo|Detailed info on the block|
+
+**BlockDetailInfo**
+|Parameter|Type|Description|
+|----|----|----|
 |height|Integer|The block height|
 |proposer|String|The block proposer|
 |moniker|String|The block proposer's moniker|
 |block_hash|String|The hash of the block|
 |parent_hash|String|The parent hash of the block|
-|timestamp|String|The timestamp of the block|
+|num_txs|Integer|Number of transactions in the block|
+|txs|TxData Array|List of transactions|
+|timestamp|String|The timestamp of the block (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
+
+**TxData**
+|Parameter|Type|Description|
+|----|----|----|
+|block_number|String|The block number|
+|block_timestamp|String|The timestamp of the block (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
+|hash|Transaction hash|
+|messages|bytes|Messages byte data of the transaction|
+|tx_number|Integer|Transaction number|
 
 
 ## Txs
@@ -967,6 +1046,7 @@ Get the transactions.
 ### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/5_TxsRequest.py -->
 ``` python
 import asyncio
 import logging
@@ -975,14 +1055,17 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
+    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    txs = await client.get_txs()
+    limit = 2
+    txs = await client.get_txs(limit=limit)
     print(txs)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -1044,9 +1127,12 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
+|type|String|Filter by message type|No|
+|module|String|Filter by module|No|
 |before|Integer|Filter transactions before a given block height|No|
 |after|Integer|Filter transactions after a given block height|No|
 |limit|Integer|Limit the returned transactions|No|
+|skip|Integer|Skip the first *n* transactions. This can be used to fetch all results since the API caps at 100.|No|
 
 
 ### Response Parameters
@@ -1054,57 +1140,23 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 ``` python
 paging {
-  total: 100000
-  from: 6007286
-  to: 6001846
+  total: 1946523
+  from: 1946522
+  to: 1946523
 }
 data {
-  block_number: 6007286
-  block_timestamp: "2022-05-31 12:51:21.46 +0000 UTC"
-  hash: "0x358b2ecaa88d8dea0eb9e39e64cc960d8d408b3460c7801ab37557a063edc83f"
-  data: "\n4\n2/injective.oracle.v1beta1.MsgRelayCoinbaseMessages"
-  gas_wanted: 718780
-  gas_used: 494446
-  gas_fee {
-    amount {
-      denom: "inj"
-      amount: "359390000000000"
-    }
-    gas_limit: 718780
-    payer: "inj128jwakuw3wrq6ye7m4p64wrzc5rfl8tvwzc6s8"
-  }
-  tx_type: "injective"
-  messages: "[{\"type\":\"/injective.oracle.v1beta1.MsgRelayCoinbaseMessages\",\"value\":{\"messages\":[\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYO+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB1sqh8gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANCVEMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYO+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHTuKIcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANFVEgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYO+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfvQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANYVFoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpX2mAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPQRQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANEQUkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYO+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAClBhgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANSRVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYO+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGZ/4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANaUlgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYOvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGG5UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANCQVQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYO+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiAtYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANLTkMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYO+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwwzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARMSU5LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYO+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPCERAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARDT01QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYO+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABXleAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANVTkkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYO+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACWooAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANHUlQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYO+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv1CQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANTTlgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\"],\"sender\":\"inj128jwakuw3wrq6ye7m4p64wrzc5rfl8tvwzc6s8\",\"signatures\":[\"AVzC6NSZbFiQqLH3yOQEShEoex0SRH+EOhjLhafr/g7i9ZKddiISs89dDnYp2ragNe4WYGgyv0wbK19j5EhDhAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAb\",\"b4ZZgrAMFDIMZQyae3eFRT5hwLxZ2D48T18+hmshrRr+WGV1yaiJCJoGOAdDT1kjeK74yvEyLnDTELExLH4XhgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAc\",\"Qu/oSyEE5nGg5uQrGcIeDFWiNcZ5JsSFME323Q2Wob99kPFpUHo727iCN6L6/3l/8FWJY+YXeqauF68t3xkapAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAb\",\"0dWYExhIsaEL2/7xD1z2tPFbmxtXE9SRnOF/FCLsvMkenMopwQxK82oe+qK2Ts2pXVE7oFO6IyMQWCLIeVIcrQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAc\",\"b17bUADLc+WKBniQx+jLdrn52kbqagxZmovztbgcbiPGHz/MzXnZQgo9uLe0Vef+palomNMjRbpMQ3CZHdV+dQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAc\",\"DQd4D7jhixdyWnGQNxLx/JpDiV6ULZRANOZ171ET/YfVpi4YKY88m5wJm/GY3XiydANcWfbcm3Mq2IwewGUJ+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAb\",\"LL3cf7PI6mMBQnzx9nzEprx6WjKTj8W6fyVdr4m7u8Hs9k9lX9bNaQiD0ZqGPSS2reHxmQ8ktq02Yuk29VRP3wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAc\",\"Z+lOn1/b3cCzVZGjcMe7dagLBP/mGcbqAXMDN+YHeF0unIHQvr8bM+EMkcMaU613QV+1bKV1BH9ux7yLY3379wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAb\",\"JwwYzygp0Ee6F/9/C81gUWojF4K/xQxfpFKD1zy1A/udJgcC2gnsVJpFW13+6H6GUJ6qJo443MR6yl+/Vue16AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAb\",\"4WYRDrHrRatlDXpJkhhHuP4lxXwjoe2oX9NNLnbw35FURsG73ozg5wRjlBVo7WpyYsS34yAFRztKyomWLYYF9AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAb\",\"93xbLFTyw0oaVYffOzIe00YpCUehNmZP/JcPoFkQgYR8EREw/FBwYYHSbPGKO/my0Xu2W1Li91W2Y4XgPxVDNQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAb\",\"PNnG/K3eBubTqPvdlkg76hs9PsKA0yXtOSiavdtF0fqafd7g1NXlJcqScJRV5kUaQXWNpTxSuXfpiaCCI1HaWgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAb\",\"2EM4V+PddvLNfVs3c58TQkwVpYWW6LaAB4lqe8lAnVHWDwAuaIqyAKpy+EKOOLJhGpuLKWjN5IYWK9atGnGvcQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAb\"]}}]"
-  signatures {
-    pubkey: "injvalcons128jwakuw3wrq6ye7m4p64wrzc5rfl8tvdh7raz"
-    address: "inj128jwakuw3wrq6ye7m4p64wrzc5rfl8tvwzc6s8"
-    sequence: 54718
-    signature: "SVDQtijGBjvDJrO6U7oQSfjo7pEgGc8N6raTQLaWOn9hdHOX+I4H3S+YcIKqs3wtHH4D6/nC0k7nuNlmuxlqOQA="
-  }
+  block_number: 8343107
+  block_timestamp: "2023-02-19 09:49:22.369 +0000 UTC"
+  hash: "0xa55865da99b4113c5ee6ed4dae89433db381c0d84040c684784e7241538e8872"
+  messages: "[{\"type\":\"/injective.exchange.v1beta1.MsgCreateBinaryOptionsMarketOrder\",\"value\":{\"order\":{\"margin\":\"20400.000000000000000000\",\"market_id\":\"0x2deca454199c275d3e8363f12f563edcc5fefe6bf0b73499eefc229f69053208\",\"order_info\":{\"fee_recipient\":\"inj1ftfn3shsk38l62eca65kxmdqs4gk70klkkrmrq\",\"price\":\"20000.000000000000000000\",\"quantity\":\"1.000000000000000000\",\"subaccount_id\":\"0x4ad338c2f0b44ffd2b38eea9636da085516f3edf000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":\"0.000000000000000000\"},\"sender\":\"inj1ftfn3shsk38l62eca65kxmdqs4gk70klkkrmrq\"}}]"
+  tx_number: 1946523
 }
 data {
-  block_number: 6007270
-  block_timestamp: "2022-05-31 12:50:50.825 +0000 UTC"
-  hash: "0x8ad4e4bb054338d8bcec84ee977f04f2c2807b5438a9511927434b71a17df6a9"
-  data: "\n4\n2/injective.oracle.v1beta1.MsgRelayCoinbaseMessages"
-  gas_wanted: 745504
-  gas_used: 512262
-  gas_fee {
-    amount {
-      denom: "inj"
-      amount: "372752000000000"
-    }
-    gas_limit: 745504
-    payer: "inj128jwakuw3wrq6ye7m4p64wrzc5rfl8tvwzc6s8"
-  }
-  tx_type: "injective"
-  messages: "[{\"type\":\"/injective.oracle.v1beta1.MsgRelayCoinbaseMessages\",\"value\":{\"messages\":[\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYOvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB1rRV8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANCVEMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYOvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHTraWgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANFVEgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYOvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfvQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANYVFoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpX2mAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPQRQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANEQUkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYOvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACk8pAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANSRVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYOvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGZ0MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANaUlgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYOvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGG5UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANCQVQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYOvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAh82gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANLTkMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYOvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwnCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARMSU5LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYOvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAsYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARDT01QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYOvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABXleAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANVTkkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYOvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACWooAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANHUlQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYpYOvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAvzkgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABnByaWNlcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANTTlgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\"],\"sender\":\"inj128jwakuw3wrq6ye7m4p64wrzc5rfl8tvwzc6s8\",\"signatures\":[\"JhmXbRzH/ycw790n+mxOUF6zNZUNnj1F2kBvVVW03vGD9pEKiggDizBrI5EIpREivey8QPbz5ufzPzB5Mbxu0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAc\",\"i9PJP6IBlT//cY//Ef0dOrQJe5LjCuJpm/xymox2MFjHf7WSurdSM2fkeWsWrwCDPk0WR0vcGkvtuojd9/EnrQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAb\",\"HifhNcmn0ugt/Sgv240IYtZXTSYDOJBkC5+9K1NWXqpTly/ByNrwx7jG8xLWSobKqS2IgvJdNjC9ypRySacStAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAb\",\"0dWYExhIsaEL2/7xD1z2tPFbmxtXE9SRnOF/FCLsvMkenMopwQxK82oe+qK2Ts2pXVE7oFO6IyMQWCLIeVIcrQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAc\",\"8xEmOLqInlC6qqUOmv1onqI1Yl7IE7QDqZmtnIzZtDlV7XpVfyw5pn6fRroiSgVNOWf6YLaVb9g+qB+0in7c+QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAc\",\"dbAqv9YbpbAeFcPMcc+ZOS60hKho7vaPMK1NOb7JfYCickQkSC4v8ab8wnSv78Ha/mpwZlmFNRESoQ5DHzvIpQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAb\",\"LL3cf7PI6mMBQnzx9nzEprx6WjKTj8W6fyVdr4m7u8Hs9k9lX9bNaQiD0ZqGPSS2reHxmQ8ktq02Yuk29VRP3wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAc\",\"rWK1tBH/e5RtI/KoO0hpUyHYkfjt4X0+kMf9DHwIeAVP/YIWSx/4L9ct0XZCKp8jKny+Dd1Nz+qLWweZzmrDygAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAb\",\"MH8INSspwmf7dpVTN0iwu/PcqZzb53Iop2h4SzCQCj9IWazz0WyIJqx/MNcH9BfITGXfLxix9Zm96meaozjvuQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAb\",\"JHBwLuIj5T3Y0IfsQnYreIh9kMwNs+I+htaw2bc1JqRVHsKXA+bhmicTdlg7rhYyX8ukZTqxReRevXc7d1Jb1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAc\",\"EeLwW4ZVo/dnujHDjYmO7tFLAX8dJ7Hg5S4GExccVAj/by4QI/pthBFALWTz1hZgyng7MkbpC1XMbiZ21mGPTwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAb\",\"v96fZdFFxWYZfVnfBP6vkCaE2MVHXVb06hnYCt0S6L8TdLVzX1xDby681ZVKqgH9gFSboiEiepUxbtPzRflSsgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAc\",\"zSKUEccpo1iZIx4e3LYUYVASZrhZeF5wredzgH2fwMw4seGrzwn0oA0uIxBzsXK9JOhMSumra/wJdCvyvksspwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAc\"]}}]"
-  signatures {
-    pubkey: "injvalcons128jwakuw3wrq6ye7m4p64wrzc5rfl8tvdh7raz"
-    address: "inj128jwakuw3wrq6ye7m4p64wrzc5rfl8tvwzc6s8"
-    sequence: 54717
-    signature: "uLSu8nUV1XksTTSMZnpD4DCpp3bXSTsHiKac1scfUfFkscn5gLT7qocTLJ7pTpwATSvoj9xjA+Z5a08sj63oNwE="
-  }
+  block_number: 8343044
+  block_timestamp: "2023-02-19 09:46:56.317 +0000 UTC"
+  hash: "0xe4a8bdad7346811a903668d0f73adb3789717f87d3bce494596302c05a4a35b6"
+  messages: "[{\"type\":\"/injective.exchange.v1beta1.MsgExternalTransfer\",\"value\":{\"amount\":{\"amount\":\"2200000000\",\"denom\":\"peggy0xf9152067989BDc8783fF586624124C05A529A5D1\"},\"destination_subaccount_id\":\"0x7801adeda27f597d615ec67c8e3de33206efcae3000000000000000000000000\",\"sender\":\"inj1ftfn3shsk38l62eca65kxmdqs4gk70klkkrmrq\",\"source_subaccount_id\":\"0x4ad338c2f0b44ffd2b38eea9636da085516f3edf000000000000000000000000\"}}]"
+  tx_number: 1946522
 }
 ```
 
@@ -1260,50 +1312,27 @@ data {
 
 |Parameter|Type|Description|
 |----|----|----|
-|data|Data|Data object|
-|paging|Paging|Paging object|
+|data|TxData Array|Transactions data|
+|paging|Paging|Pagination of results|
 
 **Paging**
 
 |Parameter|Type|Description|
 |----|----|----|
-|total|Integer|Total pages|
-|from|Integer|Block height of the first transaction|
-|to|Integer|Block height of the last transaction|
+|total|Integer|Total number of available records|
+|from|Integer|Lower bound of indices of records returned|
+|to|Integer|Upper bound of indices of records returned|
 
-**Data**
+**TxData**
 
 |Parameter|Type|Description|
 |----|----|----|
 |block_number|Integer|The block at which the transaction was executed|
-|block_timestamp|String|The timestamp of the block|
+|block_timestamp|String|The timestamp of the block (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 |hash|String|The transaction hash|
-|data|bytes|The raw data in bytes|
-|gas_wanted|Integer|The gas wanted for this transaction|
-|gas_used|Integer|The gas used for this transaction|
-|gas_fee|GasFee|GasFee object|
-|tx_type|String|The transaction type|
-|messages|String|The messages included in this transaction|
-|signatures|Signatures|Signatures object|
-
-**GasFee**
-
-|Parameter|Type|Description|
-|----|----|----|
-|amount|List|List with denom and amount|
-|denom|String|The gas denom ("inj")|
-|amount|String|The gas amount in INJ denomination|
-|gas_limit|Integer|The gas limit for the transaction|
-|payer|String|The Injective Chain address paying the gas fee|
-
-**Signatures**
-
-|Parameter|Type|Description|
-|----|----|----|
-|pubkey|String|The public key of the block proposer|
-|address|String|The transaction sender address|
-|sequence|Integer|The sequence number of the sender's address|
-|signature|String|The signature|
+|messages|bytes|The raw data in bytes|
+|tx_number|Integer|The transaction number|
+|error_log|String|Logged errors, if any|
 
 
 ## StreamTxs
@@ -1311,9 +1340,9 @@ data {
 Stream transactions.
 
 
-### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/6_StreamTxs.py -->
 ``` python
 import asyncio
 import logging
@@ -1322,15 +1351,18 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
+    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    stream_txs = await client.stream_txs()
+    stream_txs = await client.stream_txs(
+    )
     async for tx in stream_txs:
         print(tx)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -1404,28 +1436,11 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 > Response Example:
 
 ``` python
-block_number: 6129485
-block_timestamp: "2022-06-03 06:53:07.368 +0000 UTC"
-hash: "0x1c2630906958d4569000d2d7b3152ec289409fab2d9a20735cd3d6ba039f1b68"
-data: "\n|\n4/injective.exchange.v1beta1.MsgCreateSpotMarketOrder\022D\nB0x624f740943eb26d7d96d6e4c5b095b8650ca4de76c39777e961ebc121d419be1"
-gas_wanted: 130428
-gas_used: 102161
-gas_fee {
-  amount {
-    denom: "inj"
-    amount: "65214000000000"
-  }
-  gas_limit: 130428
-  payer: "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
-}
-tx_type: "injective"
-messages: "[{\"type\":\"/injective.exchange.v1beta1.MsgCreateSpotMarketOrder\",\"value\":{\"order\":{\"market_id\":\"0xe8bf0467208c24209c1cf0fd64833fa43eb6e8035869f9d043dbff815ab76d01\",\"order_info\":{\"fee_recipient\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\",\"price\":\"0.000000000005103000\",\"quantity\":\"20000000000000000000.000000000000000000\",\"subaccount_id\":\"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":null},\"sender\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\"}}]"
-signatures {
-  pubkey: "injvalcons1cml96vmptgw99syqrrz8az79xer2pcgpvgp7ex"
-  address: "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
-  sequence: 2087599
-  signature: "JsgpbTRx8aAZNkWg4FeNcL/ygBSFsbCahe3lTlTOA4wx4L93oj8caJIn0ihL0863eNozCbkFkVdZ6spVKagrFwE="
-}
+block_number: 26726157
+block_timestamp: "2023-02-19 10:20:31.019 +0000 UTC"
+hash: "0xeaa82cb1e98cb8939c8a2ff78fa48d00d7a70b748b117883dc023aa4eacedba3"
+messages: "[{\"type\":\"/injective.exchange.v1beta1.MsgBatchCancelSpotOrders\",\"value\":{\"data\":[{\"market_id\":\"0xd5f5895102b67300a2f8f2c2e4b8d7c4c820d612bc93c039ba8cb5b93ccedf22\",\"order_hash\":\"0x030d0ee550e5a0f71f632ccc09cb82c83bbe48da9e1eedb7ddcc790e91bd589d\",\"order_mask\":0,\"subaccount_id\":\"0x32b16783ea9a08602dc792f24c3d78bba6e333d3000000000000000000000000\"},{\"market_id\":\"0xd5f5895102b67300a2f8f2c2e4b8d7c4c820d612bc93c039ba8cb5b93ccedf22\",\"order_hash\":\"0x66ac4f81aa93584a998f68a5542469405c7eeb86514de3d15c6e2a4fbe946bef\",\"order_mask\":0,\"subaccount_id\":\"0x32b16783ea9a08602dc792f24c3d78bba6e333d3000000000000000000000000\"}],\"sender\":\"inj1x2ck0ql2ngyxqtw8jteyc0tchwnwxv7npaungt\"}}]"
+tx_number: 165598679
 ```
 
 ``` go
@@ -1562,34 +1577,11 @@ signatures {
 |Parameter|Type|Description|
 |----|----|----|
 |block_number|Integer|The block at which the transaction was executed|
-|block_timestamp|String|The timestamp of the block|
+|block_timestamp|String|The timestamp of the block (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 |hash|String|The transaction hash|
-|data|bytes|The raw data in bytes|
-|gas_wanted|Integer|The gas wanted for this transaction|
-|gas_used|Integer|The gas used for this transaction|
-|gas_fee|GasFee|GasFee object|
-|tx_type|String|The transaction type|
-|messages|String|The messages included in this transaction|
-|signatures|Signatures|Signatures object|
-
-**GasFee**
-
-|Parameter|Type|Description|
-|----|----|----|
-|amount|List|List with denom and amount|
-|denom|String|The gas denom ("inj")|
-|amount|String|The gas amount in INJ denomination|
-|gas_limit|Integer|The gas limit for the transaction|
-|payer|String|The Injective Chain address paying the gas fee|
-
-**Signatures**
-
-|Parameter|Type|Description|
-|----|----|----|
-|pubkey|String|The public key of the block proposer|
-|address|String|The transaction sender address|
-|sequence|Integer|The sequence number of the sender's address|
-|signature|String|The signature|
+|messages|bytes|The raw data in bytes|
+|tx_number|Integer|The transaction number|
+|error_log|String|Logged errors, if any|
 
 
 ## StreamBlocks
@@ -1597,9 +1589,9 @@ signatures {
 Stream blocks.
 
 
-### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/7_StreamBlocks.py -->
 ``` python
 import asyncio
 import logging
@@ -1608,15 +1600,18 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
+    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    stream_blocks = await client.stream_blocks()
+    stream_blocks = await client.stream_blocks(
+    )
     async for block in stream_blocks:
         print(block)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -1687,31 +1682,34 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|before|Integer|Filter transactions before a given block height|No|
-|after|Integer|Filter transactions after a given block height|No|
-|limit|Integer|Limit the returned transactions|No|
-
 
 ### Response Parameters
 > Response Example:
 
 ``` python
-height: 6009307
-proposer: "injvalcons1aju53n6la4xzemws8gqnvr9v8hsjdea706jq7f"
-moniker: "InjectiveNode2"
-block_hash: "0xbd2c32c1f46384fb8353bf11bbadf97d3a6084f34dffcef76170420f42ad6610"
-parent_hash: "0xf5907011eacb8091fae18fb578737ac7d2265fc64875d85afd9f63799e609fd9"
-timestamp: "2022-05-31 13:56:56.227 +0000 UTC"
+height: 26775925
+proposer: "injvalcons1kmxsj4ak8kmnazkqu5wdphjn4aq2c37hkz63u6"
+moniker: "Frens (\360\237\244\235,\360\237\244\235)"
+block_hash: "0xfabc0a2e783463f5beb9118f8f3ce0803b9a1df4d5f4e64914a4f3dd90c20c75"
+parent_hash: "0xe42820ae62bf5b3c3197597c0b87a02a044d36d98371efc11abc4bfc9a44137e"
+num_txs: 14
+timestamp: "2023-02-20 01:14:22.936 +0000 UTC"
 
-height: 6009308
-proposer: "injvalcons1vz7j2v74r353ne7yvhs2fug0lf86q2nkyt6ptd"
-moniker: "InjectiveNode0"
-block_hash: "0x7c04117ccac62b1da6ef274bdebfbd4db86fe590971be8e08b4d9fe98dfa20fa"
-parent_hash: "0xe20a007a9738b492c79c4afa2f1b3459f62e659013edbeb3cd123734cf2205cc"
-num_txs: 1
-timestamp: "2022-05-31 13:56:58.233 +0000 UTC"
+height: 26775926
+proposer: "injvalcons1893nm5rlsl3pdcx26q0qhcskughcn2el3w335z"
+moniker: "Binance Staking"
+block_hash: "0x24c2edfb974143296a90523c85e58f2e14e7f380f3853c2354b65b91b4e5f386"
+parent_hash: "0xd9efcbefbbd39be97363fa55ab93f43c598efe9c97542424e2e6ab8e6545e74d"
+num_txs: 10
+timestamp: "2023-02-20 01:14:24.422 +0000 UTC"
+
+height: 26775927
+proposer: "injvalcons175ctmkculqfkwzn0du09w3r56ny38p04w8fen0"
+moniker: "Everstake"
+block_hash: "0x05090b92cf5d35c9d8531988670e9ea09e7be8a9218cfa9fc670c6438e4566e8"
+parent_hash: "0x8771dd3a0747033b69dd94dcb356d309c6096519ae525d5d309985a49a843171"
+num_txs: 11
+timestamp: "2023-02-20 01:14:25.422 +0000 UTC"
 ```
 
 ``` go
@@ -1765,17 +1763,18 @@ timestamp: "2022-05-31 13:56:58.233 +0000 UTC"
 |block_hash|String|The block hash|
 |parent_hash|String|The parent hash|
 |num_txs|Integer|The number of transactions in the block|
-|timestamp|String|The block's timestamp|
+|timestamp|String|The block's timestamp (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 
 
 ## PeggyDeposits
 
-Get the peggy deposits.
+Get info on peggy deposits. By default, deposits for all senders and receivers will be fetched.
 
 
 ### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/8_GetPeggyDeposits.py -->
 ``` python
 import asyncio
 import logging
@@ -1784,15 +1783,17 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
+    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    receiver = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+    receiver = "inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex"
     peggy_deposits = await client.get_peggy_deposits(receiver=receiver)
     print(peggy_deposits)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -1858,10 +1859,10 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|String|Filter transfers based on sender address|Conditional|
-|receiver|String|Filter transfers based on receiver address|Conditional|
-|limit|Integer|Limit the returned transfers|No|
-|skip|Integer|Skip the returned transfers|No|
+|sender|String|Filter by sender address|No|
+|receiver|String|Filter by receiver address|No|
+|limit|Integer|Limit the number of returned records|No|
+|skip|Integer|Skip the first *n* records. This can be used to retrieve all records since the API caps at 100|No|
 
 
 ### Response Parameters
@@ -1869,30 +1870,32 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 ``` python
 field {
-  sender: "0xbdAEdEc95d563Fb05240d6e01821008454c24C36"
-  receiver: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-  event_nonce: 145
-  event_height: 29668045
-  amount: "2000000000000000000"
-  denom: "0x36B3D7ACe7201E28040eFf30e815290D7b37ffaD"
-  orchestrator_address: "inj1hs9q5xuvzunl77uv0mf0amsfa79uzhsrzak00a"
-  state: "InjectiveConfirming"
-  tx_hashes: "0x3a4e623199a21ef5a1554e6d2c751923204c1d2860ccbcc1e8ef56e1571c3a4c"
-  created_at: "2022-06-01 06:52:44.907 +0000 UTC"
-  updated_at: "0001-01-01 00:00:00 +0000 UTC"
+  sender: "0x0DdBE7EA40134Ae14eD6A5d104d8783c80663edB"
+  receiver: "inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex"
+  event_nonce: 12
+  event_height: 7171276
+  amount: "99999999990000000000000000"
+  denom: "0x85AbEac4F09762e28a49D7dA91260A46766F4F79"
+  orchestrator_address: "inj1c8rpu79mr70hqsgzutdd6rhvzhej9vntm6fqku"
+  state: "Completed"
+  claim_type: 1
+  tx_hashes: "0xc2a026da61473eb252041187088f47240d855662357fbd3ce8fc67e57ffc5e8d"
+  created_at: "2022-07-05 02:13:22.284 +0000 UTC"
+  updated_at: "2022-07-05 02:14:06.033 +0000 UTC"
 }
 field {
-  sender: "0xbdAEdEc95d563Fb05240d6e01821008454c24C36"
-  receiver: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-  event_nonce: 144
-  event_height: 29667840
-  amount: "2000000000000000000"
-  denom: "0x36B3D7ACe7201E28040eFf30e815290D7b37ffaD"
-  orchestrator_address: "inj1hs9q5xuvzunl77uv0mf0amsfa79uzhsrzak00a"
-  state: "InjectiveConfirming"
-  tx_hashes: "0x12409d12d8e9247ff22651873b8385fd3a91fe405f89a72147f6bee7f8da836c"
-  created_at: "2022-06-01 06:52:41.096 +0000 UTC"
-  updated_at: "0001-01-01 00:00:00 +0000 UTC"
+  sender: "0x0DdBE7EA40134Ae14eD6A5d104d8783c80663edB"
+  receiver: "inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex"
+  event_nonce: 4
+  event_height: 7167025
+  amount: "20000000000000"
+  denom: "0x85AbEac4F09762e28a49D7dA91260A46766F4F79"
+  orchestrator_address: "inj1c8rpu79mr70hqsgzutdd6rhvzhej9vntm6fqku"
+  state: "Completed"
+  claim_type: 1
+  tx_hashes: "0xcc9536b19cc1c5afdc6469a66055f2ed05b0e2084fd41ecf35eb5d668bebd066"
+  created_at: "2022-07-04 22:41:28.751 +0000 UTC"
+  updated_at: "2022-07-04 22:45:17.775 +0000 UTC"
 }
 ```
 
@@ -1990,27 +1993,35 @@ field {
 
 |Parameter|Type|Description|
 |----|----|----|
+|field|PeggyDepositTx Array|List of peggy deposits|
+
+**PeggyDepositTx**
+
+|Parameter|Type|Description|
+|----|----|----|
 |sender|String|The sender address|
 |receiver|String|The receiver address|
 |event_nonce|Integer|The event nonce|
 |event_height|Integer|The event height|
-|amount|String|The transferred amount|
+|amount|String|The deposited amount|
 |denom|Integer|The token denom|
 |orchestrator_address|String|The orchestrator address|
 |state|String|Transaction state|
-|tx_hashes|String|The transaction hashes|
-|created_at|Integer|The timestamp of the tx creation|
-|updated_at|String|The timestamp of the tx update|
+|claim_type|Integer|  |
+|tx_hashes|String Array|List of transaction hashes|
+|created_at|Integer|The timestamp of the tx creation (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
+|updated_at|String|The timestamp of the tx update (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 
 
 ## PeggyWithdrawals
 
-Get the peggy withdrawals.
+Get info on peggy withdrawals.
 
 
 ### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/9_GetPeggyWithdrawals.py -->
 ``` python
 import asyncio
 import logging
@@ -2019,15 +2030,21 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
+    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     sender = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-    peggy_deposits = await client.get_peggy_withdrawals(sender=sender)
+    limit = 2
+    peggy_deposits = await client.get_peggy_withdrawals(
+        sender=sender,
+        limit=limit
+    )
     print(peggy_deposits)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -2092,11 +2109,10 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|String|Filter transfers based on sender address|Conditional|
-|receiver|String|Filter transfers based on receiver address|Conditional|
-|limit|Integer|Limit the returned transfers|No|
-|skip|Integer|Skip the returned transfers|No|
-
+|sender|String|Filter by sender address|No|
+|receiver|String|Filter by receiver address|No|
+|limit|Integer|Limit the number of returned records|No|
+|skip|Integer|Skip the first *n* records. This can be used to retrieve all records since the API caps at 100|No|
 
 ### Response Parameters
 > Response Example:
@@ -2105,26 +2121,34 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 field {
   sender: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
   receiver: "0xAF79152AC5dF276D9A8e1E2E22822f9713474902"
-  amount: "5000000000000000000"
+  amount: "21827160493827160494"
   denom: "inj"
-  bridge_fee: "2000000000000000000"
-  outgoing_tx_id: 113
-  state: "InjectiveConfirming"
-  tx_hashes: "0x391ab87558318bd7ff2ccb9d68ed309ad073fa64c8395a493d6c347ff572af38"
-  created_at: "2022-05-13 16:14:16.912 +0000 UTC"
-  updated_at: "0001-01-01 00:00:00 +0000 UTC"
+  bridge_fee: "6172839506172839506"
+  outgoing_tx_id: 24
+  batch_timeout: 8325101
+  batch_nonce: 27
+  orchestrator_address: "inj15cmejnxc4t5x0056jlwygcdv3nykwu7yk0p9hz"
+  event_nonce: 50
+  event_height: 8322300
+  state: "Completed"
+  claim_type: 2
+  tx_hashes: "0x7cb912b0c3d546ad861afb3e8136e7204efa08703e556e9ce38426675dad7321"
+  tx_hashes: "0xd237ce1c2934ecb9777b4e0737c1b0d4eae84f3eb01d2d544d5873e5fd01f255"
+  tx_hashes: "0xd83ed042386a6aeffffff5463cec01677a8850bbad2c09d8bd7fb98adb32668b"
+  created_at: "2023-01-16 16:53:37.779 +0000 UTC"
+  updated_at: "2023-01-16 17:08:46.272 +0000 UTC"
 }
 field {
   sender: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
   receiver: "0xAF79152AC5dF276D9A8e1E2E22822f9713474902"
-  amount: "23000000000000000000"
-  denom: "inj"
-  bridge_fee: "4651162790697674752"
-  outgoing_tx_id: 112
+  amount: "490000000"
+  denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+  bridge_fee: "10000000"
+  outgoing_tx_id: 23
   state: "InjectiveConfirming"
-  tx_hashes: "0x5529016817553230024b45b44abeb0538dc0af9eee0dead467b91c85bcccac87"
-  created_at: "2022-05-13 16:13:19.176 +0000 UTC"
-  updated_at: "0001-01-01 00:00:00 +0000 UTC"
+  tx_hashes: "0x806672175a2ba47fe709e29cc6c791b2fbe40a000e64b9e68d7e6f68da20556e"
+  created_at: "2023-01-16 16:51:27.399 +0000 UTC"
+  updated_at: "2023-01-16 16:51:27.399 +0000 UTC"
 }
 ```
 
@@ -2209,28 +2233,42 @@ field {
 
 ```
 
+
+|Parameter|Type|Description|
+|----|----|----|
+|field|PeggyWithdrawalTx Array|List of peggy withdrawals|
+
+**PeggyWithdrawalTx**
+
 |Parameter|Type|Description|
 |----|----|----|
 |sender|String|The sender address|
 |receiver|String|The receiver address|
-|amount|String|The transferred amount|
+|amount|String|The amount withdrawn|
 |denom|Integer|The token denom|
 |bridge_fee|String|The bridge fee|
 |outgoing_tx_id|Integer|The tx nonce|
+|batch_timeout|Integer|   |
+|BatchNonce|Integer|An auto incremented unique ID representing the Withdrawal Batches|
+|orchestrator_address|String|Address that created batch request|
+|event_nonce|Integer|The event nonce of WithdrawalClaim event emitted by Ethereum chain upon batch withdrawal|
+|event_height|Integer|The block height of WithdrawalClaim event emitted by Ethereum chain upon batch withdrawal|
 |state|String|Transaction state|
-|tx_hashes|String|The transaction hashes|
-|created_at|Integer|The timestamp of the tx creation|
-|updated_at|String|The timestamp of the tx update|
+|claim_type|Integer|   |
+|tx_hashes|String Array|List of transaction hashes|
+|created_at|Integer|The timestamp of the tx creation (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
+|updated_at|String|The timestamp of the tx update (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 
 
 ## IBCTransfers
 
-Get the IBC transfers.
+Get data on IBC transfers.
 
 
 ### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/10_GetIBCTransfers.py -->
 ``` python
 import asyncio
 import logging
@@ -2239,15 +2277,33 @@ from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
 async def main() -> None:
+    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    receiver = "inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh"
-    ibc_transfers = await client.get_ibc_transfers(receiver=receiver)
+    sender = "inj1cll5cv3ezgal30gagkhnq2um6zf6qrmhw4r6c8"
+    receiver = "cosmos1usr9g5a4s2qrwl63sdjtrs2qd4a7huh622pg82"
+    src_channel = "channel-2"
+    src_port = "transfer"
+    destination_channel = "channel-30"
+    dest_port = "transfer"
+    limit = 1
+    skip = 10
+    ibc_transfers = await client.get_ibc_transfers(
+        sender=sender,
+        receiver=receiver,
+        src_channel=src_channel,
+        src_port=src_port,
+        destination_channel=destination_channel,
+        dest_port=dest_port,
+        # limit=limit,
+        # skip=skip
+    )
     print(ibc_transfers)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -2312,14 +2368,14 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|sender|String|Filter transfers based on sender address|Conditional|
-|receiver|String|Filter transfers based on receiver address|Conditional|
+|sender|String|Filter transfers based on sender address|No|
+|receiver|String|Filter transfers based on receiver address|No|
 |src_channel|String|Filter transfers based on source channel|No|
 |src_port|String|Filter transfers based on source port|No|
 |dest_channel|String|Filter transfers based on destination channel|No|
 |dest_port|String|Filter transfers based on destination port|No|
 |limit|Integer|Limit the returned transfers|No|
-|skip|Integer|Skip the returned transfers|No|
+|skip|Integer|Skip the last *n* transfers. This can be used to fetch all transfers since the API caps at 100|No|
 
 
 ### Response Parameters
@@ -2327,40 +2383,22 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 ``` python
 field {
-  sender: "terra1nrgj0e5l98y07zuenvnpa76x8e5dmm4cdkppws"
-  receiver: "inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh"
+  sender: "inj1cll5cv3ezgal30gagkhnq2um6zf6qrmhw4r6c8"
+  receiver: "cosmos1usr9g5a4s2qrwl63sdjtrs2qd4a7huh622pg82"
   source_port: "transfer"
-  source_channel: "channel-17"
+  source_channel: "channel-2"
   destination_port: "transfer"
-  destination_channel: "channel-4"
-  amount: "10000000000"
-  denom: "uusd"
-  timeout_height: "5-7072846"
-  timeout_timestamp: 1648784773000000000
-  packet_sequence: 1892
-  data_hex: "7b22616d6f756e74223a223130303030303030303030222c2264656e6f6d223a2275757364222c227265636569766572223a22696e6a3164646370356674716d6e7475646e346d36686567326164756436686e353875726e776c6d6b68222c2273656e646572223a227465727261316e72676a3065356c39387930377a75656e766e7061373678386535646d6d3463646b70707773227d"
-  state: "Completed"
-  tx_hashes: "0xf52d55dd6b68d78d137d4e5526a450d74689d3cba7f69640acd41b68ee26cd15"
-  created_at: "2022-04-01 03:45:39.338 +0000 UTC"
-  updated_at: "2022-04-01 03:45:39.338 +0000 UTC"
-}
-field {
-  sender: "cosmos1tpvtf9camsumce6kkgvmqjvqaaw69xr9766q55"
-  receiver: "inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh"
-  source_port: "transfer"
-  source_channel: "channel-220"
-  destination_port: "transfer"
-  destination_channel: "channel-1"
-  amount: "394900000"
-  denom: "uatom"
-  timeout_height: "0-0"
-  timeout_timestamp: 1646666048000000000
-  packet_sequence: 1941
-  data_hex: "7b22616d6f756e74223a22333934393030303030222c2264656e6f6d223a227561746f6d222c227265636569766572223a22696e6a3164646370356674716d6e7475646e346d36686567326164756436686e353875726e776c6d6b68222c2273656e646572223a22636f736d6f733174707674663963616d73756d6365366b6b67766d716a76716161773639787239373636713535227d"
-  state: "Completed"
-  tx_hashes: "0x9679b3bca6c96f9bf89bc048fd106ce9b526966ac4169abe581109d45060bcfa"
-  created_at: "2022-03-07 15:13:48.525 +0000 UTC"
-  updated_at: "2022-03-07 15:13:48.525 +0000 UTC"
+  destination_channel: "channel-30"
+  amount: "10000000"
+  denom: "inj"
+  timeout_height: "0-2318098"
+  timeout_timestamp: 1657468864213943000
+  packet_sequence: 1
+  data_hex: "7b22616d6f756e74223a223130303030303030222c2264656e6f6d223a22696e6a222c227265636569766572223a22636f736d6f7331757372396735613473327172776c363373646a74727332716434613768756836323270673832222c2273656e646572223a22696e6a31636c6c35637633657a67616c33306761676b686e7132756d367a663671726d68773472366338227d"
+  state: "Submitted"
+  tx_hashes: "0xccd0e88bc664aa4cf6e1c425a73bbca246fc8c3c409dff819c0ec925f5237ff6"
+  created_at: "2022-07-10 15:51:05.022 +0000 UTC"
+  updated_at: "2022-07-10 15:51:05.022 +0000 UTC"
 }
 ```
 
@@ -2468,19 +2506,25 @@ field {
 
 |Parameter|Type|Description|
 |----|----|----|
+|field|IBCTransferTx Array|List of IBC transfers|
+
+**IBCTransferTx**
+
+|Parameter|Type|Description|
+|----|----|----|
 |sender|String|Sender address|
 |receiver|String|Receiver address|
 |source_channel|String|Source channel|
 |source_port|String|Source port|
 |destination_channel|String|Destination channel|
 |destination_port|String|Destination port|
-|amount|String|Amount|
+|amount|String|Transfer amount|
 |denom|String|Token denom|
-|timeout_height|Integer|Timeout height|
-|timeout_timestamp|Integer|Timeout timestamp|
-|packet_sequence|String|Packet Sequence|
+|timeout_height|Integer|Timeout height relative to the current block height. Timeout disabled if set to 0|
+|timeout_timestamp|Integer|Timeout timestamp (in nanoseconds) relative to the current block timestamp|
+|packet_sequence|String|Corresponds to the order of sends and receives, where a Packet with an earlier sequence number must be sent and received before a Packet with a later sequence number|
 |data_hex|String|Data in hex format|
 |state|String|Transaction state|
-|tx_hashes|String|Transaction hashes|
-|created_at|Integer|The timestamp of the tx creation|
-|updated_at|String|The timestamp of the tx update|
+|tx_hashes|String Array|List of transaction hashes|
+|created_at|Integer|The timestamp of the tx creation (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
+|updated_at|String|The timestamp of the tx update (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
