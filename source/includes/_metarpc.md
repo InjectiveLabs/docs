@@ -1,5 +1,5 @@
 # - InjectiveMetaRPC
-InjectiveMetaRPC defines the gRPC API of the Exchange Meta provider. Usage examples can be found [here](https://github.com/InjectiveLabs/sdk-python/tree/master/examples/exchange_client/meta_rpc).
+InjectiveMetaRPC defines the gRPC API of the Exchange Meta provider.
 
 ## Ping
 

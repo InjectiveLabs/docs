@@ -1,5 +1,5 @@
 # - InjectiveSpotExchangeRPC
-InjectiveSpotExchangeRPC defines the gRPC API of the Spot Exchange provider. Usage examples can be found [here](https://github.com/InjectiveLabs/sdk-python/tree/master/examples/exchange_client/spot_exchange_rpc).
+InjectiveSpotExchangeRPC defines the gRPC API of the Spot Exchange provider.
 
 
 ## Market

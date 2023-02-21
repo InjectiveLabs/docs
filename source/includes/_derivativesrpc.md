@@ -1,5 +1,5 @@
 # - InjectiveDerivativeExchangeRPC
-InjectiveDerivativeExchangeRPC defines the gRPC API of the Derivative Exchange provider. Usage examples can be found [here](https://github.com/InjectiveLabs/sdk-python/tree/c26c26932edfde25023d90900ec5af0950f95b4c/examples/exchange_client/derivative_exchange_rpc).
+InjectiveDerivativeExchangeRPC defines the gRPC API of the Derivative Exchange provider.
 
 ## Market
 
@@ -229,7 +229,7 @@ market {
 |min_price_tick_size|String|Defines the minimum required tick size for the order's price|
 |min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
 |oracle_scale_factor|Integer|Scaling multiple to scale oracle prices to the correct number of decimals|
-|taker_fee_rate|String|Defines the fee percentage takers pay when trading (in quote asset)|
+|taker_fee_rate|String|Defines the fee percentage takers pay (in quote asset) when trading|
 |expiry_futures_market_info|ExpiryFuturesMarketInfo|Info about expiry futures market|
 |initial_margin_ratio|String|The initial margin ratio of the derivative market|
 |market_status|String|The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|
@@ -242,6 +242,12 @@ market {
 |market_id|String|The market ID|
 |quoteTokenMeta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
 
+**ExpiryFuturesMarketInfo**
+
+|Parameter|Type|Description|
+|----|----|----|
+|expiration_timestamp|Integer|Defines the expiration time for a time expiry futures market in UNIX seconds|
+|settlement_price|String|Defines the settlement price for a time expiry futures market|
 
 **PerpetualMarketFunding**
 
@@ -622,7 +628,7 @@ markets {
 |min_price_tick_size|String|Defines the minimum required tick size for the order's price|
 |min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
 |oracle_scale_factor|Integer|Scaling multiple to scale oracle prices to the correct number of decimals|
-|taker_fee_rate|String|Defines the fee percentage takers pay when trading (in quote asset)|
+|taker_fee_rate|String|Defines the fee percentage takers pay (in quote asset) when trading|
 |expiry_futures_market_info|ExpiryFuturesMarketInfo|Info about expiry futures market|
 |initial_margin_ratio|String|The initial margin ratio of the derivative market|
 |market_status|String|The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|
@@ -635,6 +641,12 @@ markets {
 |market_id|String|The market ID|
 |quoteTokenMeta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
 
+**ExpiryFuturesMarketInfo**
+
+|Parameter|Type|Description|
+|----|----|----|
+|expiration_timestamp|Integer|Defines the expiration time for a time expiry futures market in UNIX seconds|
+|settlement_price|String|Defines the settlement price for a time expiry futures market|
 
 **PerpetualMarketFunding**
 
@@ -921,7 +933,7 @@ timestamp: 1652792406000
 |min_price_tick_size|String|Defines the minimum required tick size for the order's price|
 |min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
 |oracle_scale_factor|Integer|Scaling multiple to scale oracle prices to the correct number of decimals|
-|taker_fee_rate|String|Defines the fee percentage takers pay when trading (in quote asset)|
+|taker_fee_rate|String|Defines the fee percentage takers pay (in quote asset) when trading|
 |expiry_futures_market_info|ExpiryFuturesMarketInfo|Info about expiry futures market|
 |initial_margin_ratio|String|The initial margin ratio of the derivative market|
 |market_status|String|The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|
@@ -934,6 +946,12 @@ timestamp: 1652792406000
 |market_id|String|The market ID|
 |quoteTokenMeta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
 
+**ExpiryFuturesMarketInfo**
+
+|Parameter|Type|Description|
+|----|----|----|
+|expiration_timestamp|Integer|Defines the expiration time for a time expiry futures market in UNIX seconds|
+|settlement_price|String|Defines the settlement price for a time expiry futures market|
 
 **PerpetualMarketFunding**
 
@@ -4494,6 +4512,7 @@ paging {
 |----|----|----|
 |total|Integer|Total number of records available|
 
+
 ## FundingRates
 
 Get the historical funding rates for a specific market.
@@ -4693,3 +4712,264 @@ paging {
 |Parameter|Type|Description|
 |----|----|----|
 |total|Integer|Total number of records available|
+
+
+## BinaryOptionsMarket
+
+Get details of a single binary options market.
+
+### Request Parameters
+> Request Example:
+
+<!-- embedme ../../../sdk-python/examples/exchange_client/derivative_exchange_rpc/20_Binary_Options_Market.py -->
+``` python
+import asyncio
+import logging
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.constant import Network
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network, insecure=False)
+    market_id = "0x175513943b8677368d138e57bcd6bef53170a0da192e7eaa8c2cd4509b54f8db"
+    market = await client.get_binary_options_market(market_id=market_id)
+    print(market)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
+
+```
+
+``` go
+
+```
+
+```typescript
+
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|String|ID of the binary options market to fetch|Yes|
+
+
+### Response Parameters
+> Response Example:
+
+``` python
+market {
+  market_id: "0x175513943b8677368d138e57bcd6bef53170a0da192e7eaa8c2cd4509b54f8db"
+  market_status: "active"
+  ticker: "SSS-ZHABIB-TKO-05/30/2023"
+  oracle_symbol: "SSS-ZHABIB-TKO-05/30/2023"
+  oracle_provider: "Injective"
+  oracle_type: "provider"
+  oracle_scale_factor: 6
+  expiration_timestamp: 1680730982
+  settlement_timestamp: 1690730982
+  quote_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+  maker_fee_rate: "0.0005"
+  taker_fee_rate: "0.001"
+  service_provider_fee: "0.4"
+  min_price_tick_size: "0.000000000000001"
+  min_quantity_tick_size: "0.01"
+}
+```
+
+``` go
+
+```
+
+``` typescript
+
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|market|BinaryOptionsMarketInfo|Info about a particular binary options market|
+
+**BinaryOptionsMarketInfo**
+
+|Parameter|Type|Description|
+|----|----|----|
+|market_id|String|The market ID|
+|market_status|String|The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|
+|ticker|String|The name of the binary options market|
+|oracle_symbol|String|Oracle symbol|
+|oracle_provider|String|Oracle provider|
+|oracle_type|String|Oracle Type|
+|oracle_scale_factor|Integer|Scaling multiple to scale oracle prices to the correct number of decimals|
+|expiration_timestamp|Integer|Defines the expiration time for the market in UNIX seconds|
+|settlement_timestamp|Integer|Defines the settlement time for the market in UNIX seconds|
+|quote_denom|String|Coin denom used for the quote asset|
+|quoteTokenMeta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
+|maker_fee_rate|String|Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading|
+|taker_fee_rate|String|Defines the fee percentage takers pay (in quote asset) when trading|
+|service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
+|min_price_tick_size|String|Defines the minimum required tick size for the order's price|
+|min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
+|settlement_price|String|Defines the settlement price of the market|
+
+**TokenMeta**
+
+|Parameter|Type|Description|
+|----|----|----|
+|address|String|Token's Ethereum contract address|
+|decimals|Integer|Token decimals|
+|logo|String|URL to the logo image|
+|name|String|Token full name|
+|symbol|String|Token symbol short name|
+|updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
+
+
+## BinaryOptionsMarkets
+
+Get a list of binary options markets.
+
+### Request Parameters
+> Request Example:
+
+<!-- embedme ../../../sdk-python/examples/exchange_client/derivative_exchange_rpc/19_Binary_Options_Markets.py -->
+``` python
+import asyncio
+import logging
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.constant import Network
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network, insecure=False)
+    market_status = "active"
+    quote_denom = "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+    limit = 2
+    skip = 2
+    market = await client.get_binary_options_markets(
+        market_status=market_status,
+        quote_denom=quote_denom,
+        limit=limit,
+        skip=skip
+    )
+
+    print(market)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
+
+```
+
+``` go
+
+```
+
+```typescript
+
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_status|String|Filter by the status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|No|
+|quote_denom|String|Filter by the Coin denomination of the quote currency||No|
+|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100|No|
+|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
+
+
+### Response Parameters
+> Response Example:
+
+``` python
+markets {
+  market_id: "0x5256e9d870dde51eaeb4078b8d01a155ec9ef508f9adca7751634f82c0d2f23d"
+  market_status: "active"
+  ticker: "BBB-KHABIB-TKO-05/30/2023"
+  oracle_symbol: "BBB-KHABIB-TKO-05/30/2023"
+  oracle_provider: "Injective"
+  oracle_type: "provider"
+  oracle_scale_factor: 6
+  expiration_timestamp: 1680730982
+  settlement_timestamp: 1690730982
+  quote_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+  maker_fee_rate: "0.0005"
+  taker_fee_rate: "0.001"
+  service_provider_fee: "0.4"
+  min_price_tick_size: "0.01"
+  min_quantity_tick_size: "0.01"
+}
+markets {
+  market_id: "0xc48c9b65433ca868072eb01acdfe96b5931cbdf26b0dce92a42e817f52bd3f64"
+  market_status: "active"
+  ticker: "CCC-KHABIB-TKO-05/30/2023"
+  oracle_symbol: "CCC-KHABIB-TKO-05/30/2023"
+  oracle_provider: "Injective"
+  oracle_type: "provider"
+  oracle_scale_factor: 6
+  expiration_timestamp: 1680730982
+  settlement_timestamp: 1690730982
+  quote_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+  maker_fee_rate: "0.0005"
+  taker_fee_rate: "0.001"
+  service_provider_fee: "0.4"
+  min_price_tick_size: "0.000000000000001"
+  min_quantity_tick_size: "0.01"
+}
+paging {
+  total: 12
+}
+```
+
+``` go
+
+```
+
+``` typescript
+
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|market|BinaryOptionsMarketInfo Array|List of binary options markets and associated info|
+|paging|Paging|Pagination of results|
+
+**BinaryOptionsMarketInfo**
+
+|Parameter|Type|Description|
+|----|----|----|
+|market_id|String|The market ID|
+|market_status|String|The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|
+|ticker|String|The name of the binary options market|
+|oracle_symbol|String|Oracle symbol|
+|oracle_provider|String|Oracle provider|
+|oracle_type|String|Oracle Type|
+|oracle_scale_factor|Integer|Scaling multiple to scale oracle prices to the correct number of decimals|
+|expiration_timestamp|Integer|Defines the expiration time for the market in UNIX seconds|
+|settlement_timestamp|Integer|Defines the settlement time for the market in UNIX seconds|
+|quote_denom|String|Coin denom used for the quote asset|
+|quoteTokenMeta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
+|maker_fee_rate|String|Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading|
+|taker_fee_rate|String|Defines the fee percentage takers pay (in quote asset) when trading|
+|service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
+|min_price_tick_size|String|Defines the minimum required tick size for the order's price|
+|min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
+|settlement_price|String|Defines the settlement price of the market|
+
+**TokenMeta**
+
+|Parameter|Type|Description|
+|----|----|----|
+|address|String|Token's Ethereum contract address|
+|decimals|Integer|Token decimals|
+|logo|String|URL to the logo image|
+|name|String|Token full name|
+|symbol|String|Token symbol short name|
+|updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
+
+**Paging**
+
+|Parameter|Type|Description|
+|----|----|----|
+|total|Integer|Total number of available records|
