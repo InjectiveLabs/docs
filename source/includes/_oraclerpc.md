@@ -4,11 +4,11 @@ InjectiveOracleRPC defines the gRPC API of the Exchange Oracle provider.
 
 ## OracleList
 
-Get a list with oracles and feeds.
+Get a list of all oracles.
 
-### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/oracle_rpc/3_OracleList.py -->
 ``` python
 import asyncio
 import logging
@@ -26,6 +26,7 @@ async def main() -> None:
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -86,14 +87,31 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 ``` python
 oracles {
-  symbol: "ANC"
+  symbol: "BTC"
   oracle_type: "bandibc"
-  price: "2.212642692"
+  price: "16835.93"
 }
 oracles {
-  symbol: "ATOM"
+  symbol: "ETH"
   oracle_type: "bandibc"
-  price: "24.706861402"
+  price: "1251.335"
+}
+oracles {
+  symbol: "INJ"
+  oracle_type: "bandibc"
+  price: "1.368087992"
+}
+oracles {
+  symbol: "USDT"
+  oracle_type: "bandibc"
+  price: "0.999785552"
+}
+oracles {
+  symbol: "FRNT/USDT"
+  base_symbol: "FRNT"
+  quote_symbol: "USDT"
+  oracle_type: "pricefeed"
+  price: "0.5"
 }
 ```
 
@@ -149,13 +167,15 @@ oracles {
 
 |Parameter|Type|Description|
 |----|----|----|
-|oracles|Oracle|Oracle object|
+|oracles|Oracle Array|List of oracles|
 
 **Oracle**
 
 |Parameter|Type|Description|
 |----|----|----|
-|symbol|String|The symbol of the asset|
+|symbol|String|The symbol of the oracle asset|
+|base_symbol|String|Oracle base currency|
+|quote_symbol|String|Oracle quote currency. If no quote symbol is returned, USD is the default.|
 |oracle_type|String|The oracle provider|
 |price|String|The price of the asset|
 
@@ -167,6 +187,7 @@ Get the oracle price of an asset.
 ### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/oracle_rpc/2_price.py -->
 ``` python
 import asyncio
 import logging
@@ -193,6 +214,7 @@ async def main() -> None:
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -210,7 +232,7 @@ func main() {
     //network := common.LoadNetwork("mainnet", "k8s")
     network := common.LoadNetwork("testnet", "k8s")
     exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-    
+
     if err != nil {
         fmt.Println(err)
     }
@@ -273,7 +295,7 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 > Response Example:
 
 ``` python
-price: "40128736026.4094317665"
+price: "16835930000"
 ```
 
 ``` go
@@ -295,11 +317,12 @@ price: "40128736026.4094317665"
 
 ## StreamPrices
 
-Stream oracle prices for an asset.
+Stream new price changes for a specified oracle. If no oracles are provided, all price changes are streamed.
 
 ### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/oracle_rpc/1_StreamPrices.py -->
 ``` python
 import asyncio
 import logging
@@ -325,6 +348,7 @@ async def main() -> None:
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -415,8 +439,11 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 > Streaming Response Example:
 
 ``` python
-price: "40128.7360264094317665"
-timestamp: 1652808740072
+price: "16835.93"
+timestamp: 1676539631606
+
+price: "16840.12"
+timestamp: 1676539635432
 ```
 
 ``` go

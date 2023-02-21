@@ -23,6 +23,7 @@ includes:
   - auctionsrpc
   - explorerrpc
   - metarpc
+  - portfoliorpc
   - chainapi
   - derivatives
   - spot

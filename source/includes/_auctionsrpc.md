@@ -9,6 +9,7 @@ Get the details of a specific auction.
 ### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/auctions_rpc/1_Auction.py -->
 ``` python
 import asyncio
 import logging
@@ -20,13 +21,14 @@ async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
-    bid_round = 12
+    bid_round = 31
     auction = await client.get_auction(bid_round=bid_round)
     print(auction)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -83,32 +85,43 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|bid_round|Integer|The auction round|Yes|
+|bid_round|Integer|The auction round number. -1 for latest|Yes|
 
 
 ### Response Parameters
 > Response Example:
 
 ``` python
-auction: {
-  winner: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-  basket: {
-    denom: "peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-    amount: "300100663"
-  },
-  basket: {
-    denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    amount: "8084075059004"
-  },
-  winning_bid_amount: "1000000000000000000000",
-  round: 12,
-  end_timestamp: 1639999020325,
-  updated_at: 1639999022779,
-},
-bids: {
-  bidder: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-  amount: "1000000000000000000000",
-  timestamp: 1640000366576
+auction {
+  winner: "inj1uyk56r3xdcf60jwrmn7p9rgla9dc4gam56ajrq"
+  basket {
+    denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+    amount: "2322098"
+  }
+  winning_bid_amount: "2000000000000000000"
+  round: 31
+  end_timestamp: 1676013187000
+  updated_at: 1675408390939
+}
+bids {
+  bidder: "inj1pdxq82m20fzkjn2th2mm5jp7t5ex6j6klf9cs5"
+  amount: "1000000000000000000"
+  timestamp: 1675426622603
+}
+bids {
+  bidder: "inj1tu9xwxms5dvz3782tjal0fy5rput78p3k5sfv6"
+  amount: "1010000000000000000"
+  timestamp: 1675427580363
+}
+bids {
+  bidder: "inj1sdkt803zwq2tpej0k2a0z58hwyrnerzfsxj356"
+  amount: "1030000000000000000"
+  timestamp: 1675482275821
+}
+bids {
+  bidder: "inj1uyk56r3xdcf60jwrmn7p9rgla9dc4gam56ajrq"
+  amount: "2000000000000000000"
+  timestamp: 1675595586380
 }
 ```
 
@@ -176,36 +189,35 @@ bids: {
 
 |Parameter|Type|Description|
 |----|----|----|
-|auction|Auction|Auction object|
-|bids|Bids|Bids object|
+|auction|Auction|Information about the auction|
+|bids|Bid Array|Bids submitted in the auction|
 
 **Auction**
 
 |Parameter|Type|Description|
 |----|----|----|
 |winner|String|The Injective Chain address with the highest bid|
-|basket|Basket|Basket object|
-|winning_bid_amount|String|The highest bid|
-|round|Integer|The auction round|
-|end_timestamp|Integer|The auction's ending timestamp|
-|updated_at|Integer|The timestamp of the last submitted bid|
+|basket|Coin Array|Coins in the basket|
+|winning_bid_amount|String|Amount of the highest bid (in inj)|
+|round|Integer|The auction round number|
+|end_timestamp|Integer|The auction's ending timestamp in UNIX millis|
+|updated_at|Integer|The timestamp of the last update in UNIX millis|
 
-**Bids**
+**Bid**
 
 |Parameter|Type|Description|
 |----|----|----|
-|bidder|String|The Injective Chain address|
-|amount|String|The bid amount|
+|bidder|String|The Injective Chain address of the bidder|
+|amount|String|The bid amount (in inj)|
 |timestamp|Integer|The timestamp at which the bid was submitted|
 
 
-**Basket**
+**Coin**
 
 |Parameter|Type|Description|
 |----|----|----|
-|denom|String|Token denominator|
-|amount|String|Token quantity|
-
+|denom|String|Denom of the coin|
+|amount|String|Quantity of the coin|
 
 
 ## Auctions
@@ -214,6 +226,7 @@ Get the details of previous auctions.
 
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/auctions_rpc/2_Auctions.py -->
 ``` python
 import asyncio
 import logging
@@ -286,33 +299,44 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 > Response Example:
 
 ``` python
-auctions: {
-  winner: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-  basket: {
-    denom: "peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-    amount: "300100663"
-  },
-  basket: {
-    denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    amount: "8084075059004"
-  },
-  winning_bid_amount: "1000000000000000000000",
-  round: 12,
-  end_timestamp: 1639999020325,
-  updated_at: 1639999022779
-},
-auctions: {
-  basket: {
-    denom: "peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-    amount: "18930656"
-  },
-  basket: {
-    denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    amount: "404428070978"
-  },
-  round: 13,
-  end_timestamp: 1640000820966,
-  updated_at: 1640000824348
+auctions {
+  basket {
+    denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+    amount: "188940000"
+  }
+  round: 1
+  end_timestamp: 1657869187000
+  updated_at: 1658131202118
+}
+auctions {
+  basket {
+    denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+    amount: "219025410"
+  }
+  round: 2
+  end_timestamp: 1658473987000
+  updated_at: 1658134858904
+}
+
+...
+
+auctions {
+  basket {
+    denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+    amount: "394877"
+  }
+  round: 32
+  end_timestamp: 1676617987000
+  updated_at: 1676013212591
+}
+auctions {
+  basket {
+    denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+    amount: "1563547"
+  }
+  round: 33
+  end_timestamp: 1677222787000
+  updated_at: 1676617990954
 }
 ```
 
@@ -412,35 +436,25 @@ auctions: {
 
 |Parameter|Type|Description|
 |----|----|----|
-|auction|Auction|Auction object|
-|bids|Bids|Bids object|
+|auctions|Auction Array|List of historical auctions|
 
 **Auction**
 
 |Parameter|Type|Description|
 |----|----|----|
 |winner|String|The Injective Chain address with the highest bid|
-|basket|Basket|Basket object|
-|winning_bid_amount|String|The highest bid|
-|round|Integer|The auction round|
-|end_timestamp|Integer|The auction's ending timestamp|
-|updated_at|Integer|The timestamp of the last submitted bid|
+|basket|Coin Array|Coins in the basket|
+|winning_bid_amount|String|Amount of the highest bid (in inj)|
+|round|Integer|The auction round number|
+|end_timestamp|Integer|The auction's ending timestamp in UNIX millis|
+|updated_at|Integer|The timestamp of the last update in UNIX millis|
 
-**Bids**
-
-|Parameter|Type|Description|
-|----|----|----|
-|bidder|String|The Injective Chain address|
-|amount|String|The bid amount|
-|timestamp|Integer|The timestamp at which the bid was submitted|
-
-
-**Basket**
+**Coin**
 
 |Parameter|Type|Description|
 |----|----|----|
-|denom|String|Token denominator|
-|amount|String|Token quantity|
+|denom|String|Denom of the coin|
+|amount|String|Quantity of the coin|
 
 
 ## StreamBids
@@ -449,6 +463,7 @@ Stream live updates for auction bids.
 
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/exchange_client/auctions_rpc/3_StreamBids.py -->
 ``` python
 import asyncio
 import logging
@@ -540,15 +555,15 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 > Response Example:
 
 ``` python
-bidder: "inj1pn252r3a45urd3n8v84kyey4kcv4544zj70wkp",
-bid_amount: "1000000000000000000",
-round: 69,
-timestamp: 1638401749218,
+bidder: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+bid_amount: "2100000000000000000"
+round: 33
+timestamp: 1676692477304
 
-bidder: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-bid_amount: "2000000000000000000",
-round: 69,
-timestamp: 1638401841673
+bidder: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
+bid_amount: "2200000000000000256"
+round: 33
+timestamp: 1676692509733
 ```
 
 ``` go
@@ -582,7 +597,7 @@ timestamp: 1638401841673
 
 |Parameter|Type|Description|
 |----|----|----|
-|bidder|String|The Injective Chain address|
-|bid_amount|String|Bid quantity|
-|round|Integer|The auction round|
-|timestamp|Integer|The timestamp at which the bid was submitted|
+|bidder|String|The Injective Chain address of the bidder|
+|bid_amount|String|The bid amount (in inj)|
+|round|Integer|The auction round number|
+|timestamp|Integer|The timestamp at which the bid was submitted in UNIX millis|

@@ -2,154 +2,185 @@
 
 ## Adding a Spot Market Buy Order
 
-- `Maker Fee = 0.1%`
-- `Taker Fee = 0.2%`
+- `Maker Fee = -0.01%`
+- `Taker Fee = 0.1%`
 - Market Buy Order:
 
-  - `Quantity = 1 ETH`
-  - `Worst Price = 3,000 USDT`
+    - `Quantity = 1,000 INJ`
+    - `Worst Price = 5 USDT`
 
-→ The account's available balance is decremented by `3,000 USDT + Taker Fee = 3,006 USDT`.
+→ The account's available balance is decremented by `5,000 USDT + Taker Fee = 5,005 USDT`.
 
-Upon matching with a resting sell order with price of `2,000 USDT` the new account balances are calculated as:
+Upon matching with a resting sell order with price of `4 USDT` the new account balances are calculated as:
 
-- `Trading Fee = 1 * 2,000 * 0.002 = 4 USDT`
-- `Credit Amount = 1 ETH`
-- `Debit Amount = 1 * 2,000 + 4 = 2,004 USDT`
-- `Clearing Refund = 3,006 - 2,004 = 1,002 USDT`
+- `Trading Fee = 1,000 * 4 * 0.001 = 4 USDT`
+- `Credit Amount = 1,000 INJ`
+- `Debit Amount = 1,000 * 4 + 4 = 4,004 USDT`
+- `Clearing Refund = 5,005 - 4,004 = 1,001 USDT`
 
 ## Adding a Spot Market Sell Order
 
-- `Maker Fee = 0.1%`
-- `Taker Fee = 0.2%`
+- `Maker Fee = -0.01%`
+- `Taker Fee = 0.1%`
 - Market Sell Order:
 
-  - `Quantity = 1 ETH`
-  - `Worst Price = 1,500 USDT`
+    - `Quantity = 1,000 INJ`
+    - `Worst Price = 3 USDT`
 
-→ The account's available balance is decremented by `1 ETH`.
+→ The account's available balance is decremented by `1,000 INJ`.
 
-Upon matching the with a resting sell order with price of `2,000 USDT` new account balances are calculated as:
+Upon matching with a resting sell order with price of `4 USDT` the new account balances are calculated as:
 
-- `Trading Fee = 1 * 2,000 * 0.002 = 4 USDT`
-- `Debit Amount = 1 ETH`
-- `Credit Amount = 1 * 2,000 - 4 = 1,996 USDT`
+- `Trading Fee = 1,000 * 4 * 0.001 = 4 USDT`
+- `Debit Amount = 1,000 INJ`
+- `Credit Amount = 1,000 * 4 - 4 = 3,996 USDT`
 - `Clearing Refund = 0`
 
 ## Adding a Spot Limit Buy Order
 
-- `Maker Fee = 0.1%`
-- `Taker Fee = 0.2%`
-- Market Buy Order:
+- `Maker Fee = -0.01%`
+- `Taker Fee = 0.1%`
+- We initially assume a Market Buy Order:
 
-  - `Quantity = 1 ETH`
-  - `Price = 2,000 USDT`
+    - `Quantity = 1,000 INJ`
+    - `Price = 5 USDT`
 
-→ The account's available balance is decremented by `2,000 USDT + Taker Fee = 2,004 USDT`.
+→ The account's available balance is decremented by `5,000 USDT + Taker Fee = 5,005 USDT`.
 
-After creation:
+After the order is submitted:
 
-If **Unmatched**, the order becomes a resting limit order (maker) and we refund the fee difference between maker and taker:
+- If **Matched Immediately**: the limit order is treated as a market order unless Post-Only is selected, in which case the order will not be matched and will be rejected. Assuming a clearing price of 4 USDT:
 
-- `Fee Refund = 1 * 2,000 * (0.002 - 0.001) = 2 USDT`
+    - `Trading Fee = 1,000 * 4 * 0.001 = 4 USDT`
+    - `Credit Amount = 1,000 INJ`
+    - `Debit Amount = 1,000 * 4 + 4 = 4,004 USDT`
+    - `Clearing Refund = 5,005 - 4,004 = 1,001 USDT`
+    - `Unmatched Fee Refund = 0 USDT`
 
-If **Matched Immediately**: (assuming an FBA clearing price of 1,900 USDT)
+- If **Entirely** **Unmatched**, the order becomes a resting limit order and we refund the taker fee:
 
-- `Trading Fee = 1 * 1,900 * 0.002 = 3.8 USDT`
-- `Credit Amount = 1 ETH`
-- `Debit Amount = 1 * 1,900 + 3.8 = 1,903.8 USDT`
-- `Clearing Refund = (1 + 0.002) * (2,000 - 1,900) = 100.2 USDT`
-- `Unmatched Fee Refund = 0 USDT`
+    - `Fee Refund = 1,000 * 5 * (0.001) = 5 USDT`
 
-If **Filled Later By Market Order**:
+- If **Filled Later by Market Order,** a maker fee rebate will be credited. Since the order is filled by Market Order, the clearing price will be the price set in the limit order:
 
-- `Trading Fee = 1 * 2,000 * 0.001 = 2 USDT`
-- `Credit Amount (in base asset) = 1 ETH`
-- `Debit Amount (in quote asset) = 1 * 2,000 + 2 = 2,002 USDT`
+    - `Trading Fee Rebate = 1,000 * 5 * -0.0001 = 0.5 USDT`
+    - `Credit Amount = 1,000 INJ + 0.5 USDT`
+    - `Debit Amount (in quote asset) = 1,000 * 5 = 5,000 USDT`
+
+- If **Partially Matched Immediately:** the portion of the limit order that is filled immediately is treated as a market order with the rest being treated as a limit order. Assuming half the order is matched at a clearing price of 4 USDT and half the order is filled by Market Order at 5 USDT:
+
+    - Portion Immediately Filled:
+
+        - `Taker Trading Fee = 500 * 4 * 0.001 = 2 USDT`
+        - `Credit Amount = 500 INJ`
+        - `Debit Amount (Including Fees) = 500 * 4 + 2 = 2,002 USDT`
+        - `Clearing Refund = (quantity of order filled * limit price) - (quantity of order filled * clearing price) + (proportional difference between limit fees and clearing fees)= (500 * 5) - (500 * 4) + ((500 * 5) * 0.001 - (500 * 4) * 0.001) = 500.5 USDT`
+        - `Unmatched Fee Refund = quantity of order unfilled * limit price * taker fee rate = 500 * 5 * 0.001 = 2.5 USDT`
+
+    - Rest of Order Filled Later by Market Order:
+
+        - `Maker Trading Fee Rebate = 500 * 5 * -0.0001 = 0.25 USDT`
+        - `Credit Amount = 500 INJ`
+        - `Debit Amount = 500 * 5 = 2,500 USDT`
+        - `Clearing Refund = 0 USDT`
+
+    - In Total:
+
+        - `Net Trading Fee = 2 - 0.25 = 1.75 USDT`
+        - `Credit Amount (Including Maker Fee Rebates) = 1000 INJ + 0.25 USDT`
+        - `Debit Amount (Including Taker Fees) = 4,502 USDT`
 
 ## Adding a Spot Limit Sell Order
 
-- `Maker Fee = 0.1%`
-- `Taker Fee = 0.2%`
-- Market Sell Order:
+- `Maker Fee = -0.01%`
+- `Taker Fee = 0.1%`
+- We initially assume a Market Sell Order:
 
-  - `Quantity = 1 ETH`
-  - `Price = 2,000 USDT`
+    - `Quantity = 1,000 INJ`
+    - `Price = 3 USDT`
 
-→ The account's available balance is decremented by `1 ETH`.
+→ The account's available balance is decremented by `1,000 INJ`.
 
-After creation:
+After the order is submitted:
 
-If **Unmatched**, the order becomes a resting limit order (maker) and we refund the fee difference between maker and taker:
+- If **Matched Immediately**: the limit order is treated as a market order unless Post-Only is selected, in which case the order will not be matched and will be rejected. Assuming a clearing price of 4 USDT:
 
-- `Fee Refund = 0 ETH`
+    - `Trading Fee = 1,000 * 4 * 0.001 = 4 USDT`
+    - `Credit Amount = 1,000 * 4 - 4 = 3,996 USDT`
+    - `Debit Amount = 1,000 INJ`
+    - `Clearing Refund = 0 ETH`
+    - `Fee Refund/Rebate = 0 USDT`
 
-If **Matched Immediately**: (assuming an FBA clearing price of 2,100 USDT)
+- If **Filled Later by Market Order,** a maker fee rebate will be credited. Since the order is filled by Market Order, the clearing price will be the price set in the limit order:
 
-- `Trading Fee = 1 * 2,100 * 0.002 = 4.2 USDT`
-- `Credit Amount = 1 * 2,100 * (1 - 0.002) = 2,095.8 USDT`
-- `Debit Amount = 1 ETH`
-- `Clearing Refund = 0 ETH`
-- `Fee Refund = 0 USDT`
+    - `Maker Trading Rebate = 1,000 * 3 * 0.0001 = 0.3 USDT`
+    - `Credit Amount (in quote asset) = 1,000 * 3 + 0.3 = 3,000.3 USDT`
+    - `Debit Amount (in base asset) = 1,000 INJ`
 
-If **Filled Later By Market Order**:
-
-- `Credit Amount (in quote asset) = 1 * 2,000 - 2 = 1,998 USDT`
-- `Debit Amount (in base asset) = 1 ETH`
-- `Trading Fee = 1 * 2,000 * 0.001 = 2 USDT`
+- If **Partially Matched Immediately:** the portion of the limit order that is filled immediately is treated as a market order with the rest being treated as a limit order. Similar logic to a spot limit buy order applies.
 
 ## Derivative Market Order Payouts
 
-The payouts for derivative market orders work the same way as for derivative limit orders with the one difference that they are cancelled if not immediately matched, see spot market and derivative limit orders as reference.
+The payouts for derivative market orders work the same way as for derivative limit orders, with the one difference being they are cancelled if not immediately matched. See spot market and derivative limit orders as reference.
 
 ## Adding a Derivative Limit Buy Order
 
-- `Quantity = 1`, `Price = 2,000`, `Margin = 200`
-- `TakerFeeRate = 0.002`
-- `MakerFeeRate = 0.001`
+- `Quantity = 1,000 INJ`, `Price = 5 USDT`, `Margin = 1,000 USDT`
+- `TakerFeeRate = 0.001`
+- `MakerFeeRate = -0.0001`
 
-→ The account's available balance is decremented by `Margin + Taker Fee = 200 + 2000*0.002 = 204 USDT`.
+→ The account's available balance is decremented by `Margin + Taker Fee = 1000 + 5000 * 0.001 = 1005 USDT`.
 
 After creation:
 
-If **Unmatched**, the order becomes a resting limit order (maker) and we refund the fee difference between maker and taker for vanilla orders (reduce-only orders don't pay upfront fees):
+If **Unmatched**, the order becomes a resting limit order (maker) and we refund the taker fee on  vanilla orders (reduce-only orders don't pay upfront fees):
 
-- `Fee Refund = Quantity * Price * (TakerFeeRate - MakerFeeRate) = 1 * 2,000 * (0.002 - 0.001) = 2 USDT`
-- `AvailableBalance = AvailableBalance + Fee Refund = 0 + 2 = 2`
+- `Fee Refund = 5 USDT`
 
 **If Matched:**
 
 Assuming:
 
-- an FBA clearing price of 1,990 USDT
-- an existing `SHORT` position:
+- a clearing price of 4 USDT
+- an existing `SHORT` position:
 
-  - `Position Quantity = 0.5 ETH`
-  - `Position Entry Price = 1,950 USDT`
-  - `Position Margin = 400 USDT`
+    - `Position Quantity = 600 INJ`
+    - `Position Entry Price = 4.5 USDT`
+    - `Position Margin = 400 USDT`
 
 Would result in:
 
 **1. Closing existing position with proportional order margin for closing**:
 
-- `CloseExecutionMargin = ExecutionMargin * CloseQuantity / OrderQuantity = 200 * 0.5 / 1 = 100 USDT`
-- `ClosingPayout = PNL + PositionMargin * CloseQuantity / PositionQuantity`
+- `CloseExecutionMargin = ExecutionMargin * CloseQuantity / OrderQuantity = 1000 * 600 / 1000 = 600 USDT`
 
-  - `PNL = CloseQuantity * (FillPrice - EntryPrice) = 0.5 * (1,990 - 1,950) = 20 USDT`
-  - `ClosingPayout = 20 + 400 * 0.5 / 0.5 = 420 USDT`
+    - Where `CloseExecutionMargin = Portion of margin used to close position`
+    - And `ExecutionMargin = Margin supplied in new order`
+
+- `ClosingPayout = PNL + PositionMargin * CloseQuantity / PositionQuantity + CloseExecutionMargin`
+
+    - `Short PNL = CloseQuantity * (EntryPrice - FillPrice) = 600 * (4.5 - 4) = 300 USDT`
+    - `ClosingPayout = 300 + 400 * 600 / 600 + 600 = 1300 USDT`
 
 **2. Opening new position in opposite direction**:
 
-- a new `LONG` position:
+- a new `LONG` position:
 
-  - `Position Quantity = 0.5 ETH`
-  - `Position Entry Price = 2,000 USDT`
-  - `Position Margin = 100 USDT`
+    - `Position Quantity = 400 INJ`
+    - `Position Entry Price = 4 USDT`
+    - `NewPositionMargin = ExecutionMargin - CloseExecutionMargin = 1000 - 600 = 400 USDT`
 
-**3. Refunding fee difference from order price vs. clearing price**:
+**3. Refunding margin difference from order price vs. clearing price:**
 
-- `PriceDelta = Price - ClearingPrice = 2,000 - 1,990 = 10`
-- `ClearingFeeRefund = FillQuantity * PriceDelta * TakerFeeRate = 1 * 10 * 0.002 = 0.002 USDT` (in the case of matching a sell order, this would have been a charge, not a refund)
+- Since the order was placed with 5x leverage at a price of 5 USDT, some margin is refunded with the new clearing price to maintain the 5x leverage.
+- `Margin Refund = NewPositionMargin - NewPositionMarginRequired = 400 - 400 * 4 / 5 = 80 USDT`
+
+**4. Refunding fee difference from order price vs. clearing price:**
+
+- `PriceDelta = Price - ClearingPrice = 5 - 4 = 1 USDT`
+- `ClearingFeeRefund = FillQuantity * PriceDelta * TakerFeeRate = 1000 * 1 * 0.001 = 1 USDT` 
+
+    - In the case of matching a sell order, this would have been a charge, not a refund
 
 ## Market Order Matching
 
@@ -229,4 +260,4 @@ All orders will be matched with a **uniform clearing price** within the range of
 - Let's assume mark price is 64,300
 - Is within range of clearing price ✅ (if not, a clearing price of either last buy or last sell price would be used)
 
-**Step 3**: Set clearing price = mark price.
+**Step 3**: Set clearing price = mid price or mark price for spot or perpetual markets, respectively, or in the case where these prices are out of bounds, use last buy or last sell price.
