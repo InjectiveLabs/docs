@@ -76,13 +76,13 @@ portfolio {
 |bank_balances|Coin Array|Total available bank balances of the account between all subaccounts|
 <!-- |subaccounts|SubaccountBalanceV2 Array|Balance information for subaccounts| -->
 
-<!-- **SubaccountBalanceV2**
-|Parameter|Type|Description|
-|----|----|----|
-|subaccount_id|String|ID of the subaccount|
-|available_balances|Coin Array|Available subaccount balances|
-|margin_hold|Coin Array|Margin held by open orders|
-|unrealized_pnl|Coin Array|Unrealized PNL of open positions| -->
+<!-- **SubaccountBalanceV2** -->
+<!-- |Parameter|Type|Description| -->
+<!-- |----|----|----| -->
+<!-- |subaccount_id|String|ID of the subaccount| -->
+<!-- |available_balances|Coin Array|Available subaccount balances| -->
+<!-- |margin_hold|Coin Array|Margin held by open orders| -->
+<!-- |unrealized_pnl|Coin Array|Unrealized PNL of open positions| -->
 
 **Coin**
 |Parameter|Type|Description|
