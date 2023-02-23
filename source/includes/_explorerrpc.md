@@ -2533,3 +2533,315 @@ field {
 |created_at|Integer|The timestamp of the tx creation (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 |updated_at|String|The timestamp of the tx update (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 
+## GetWasmCodes
+
+List all cosmwasm code on injective chain. Results are paginated
+
+### Request Parameters
+
+|Field|Type|Description|
+|-----|----|-----------|
+|limit|Integer||
+|from_number|Integer||
+|to_number|Integer||
+
+### Response Parameters
+
+|Field|Type|Description|
+|-----|----|-----------|
+|paging|Paging||
+|data|WasmCode Array||
+
+**Paging**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|total|Integer|total number of txs saved in database|
+|from|Integer|can be either block height or index num|
+|to|Integer|can be either block height or index num|
+
+**WasmCode**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|code_id|Uint64|ID of stored wasmcode, sorted in descending order|
+|tx_hash|String|Tx hash of store code transaction|
+|checksum|Checksum|Checksum of the cosmwasm code|
+|created_at|Uint64|Block time when the code is stored, in millisecond|
+|contract_type|String|Contract type of the wasm code|
+|version|String|version string of the wasm code|
+|permission|ContractPermission|describe instantiate permission|
+|code_schema|String|code schema preview (to be supported)|
+|code_view|String|code repo preview, may contain schema folder (to be supported)|
+|instantiates|Uint64|count number of contract instantiation from this code|
+|creator|String|creator of this code|
+|code_number|Integer|monotonic order of the code stored|
+|proposal_id|Integer|id of the proposal that store this code|
+
+**ContractPermission**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|access_type|Integer||Access type of instantiation|
+|address|Integer||Account address|
+
+**Checksum**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|algorithm|String||Algorithm of hash function|
+|hash|String||Hash if apply algorithm to the cosmwasm bytecode|
+
+## GetWasmCodeByID
+
+Get cosmwasm code by its code ID
+
+### Request Parameters
+
+|Field|Type|Description|
+|-----|----|-----------|
+|code_id|Uint64|Code ID of the code|
+
+### Response Parameters
+
+|Field|Type|Description|
+|-----|----|-----------|
+|code_id|Uint64|ID of stored wasmcode, sorted in descending order|
+|tx_hash|String|Tx hash of store code transaction|
+|checksum|Checksum|Checksum of the cosmwasm code|
+|created_at|Uint64|Block time when the code is stored, in millisecond|
+|contract_type|String|Contract type of the wasm code|
+|version|String||version string of the wasm code|
+|permission|ContractPermission||describe instantiate permission|
+|code_schema|String||code schema preview|
+|code_view|String||code repo preview, may contain schema folder|
+|instantiates|Uint64||count number of contract instantiation from this code|
+|creator|String||creator of this code|
+|code_number|Integer||monotonic order of the code stored|
+|proposal_id|Integer||id of the proposal that store this code|
+
+**ContractPermission**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|access_type|Integer||Access type of instantiation|
+|address|Integer||Account address|
+
+**Checksum**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|algorithm|String|Algorithm of hash function|
+|hash|String|
+
+
+
+
+
+
+ Hash if apply algorithm to the cosmwasm bytecode|
+
+## GetWasmContracts
+
+Get cosmwasm instantiated contracts on injective-chain. Results are paginated
+
+### Request Parameters
+
+|Field|Type|Description|
+|-----|----|-----------|
+|limit|Integer||
+|code_id|Uint64||
+|from_number|Integer||
+|to_number|Integer||
+|assets_only|Boolean||
+|skip|Integer||
+
+### Response Parameters
+
+|Field|Type|Description|
+|-----|----|-----------|
+|paging|Paging||
+|data|WasmContract Array||
+
+**Paging**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|total|Integer|total number of txs saved in database|
+|from|Integer|can be either block height or index num|
+|to|Integer|can be either block height or index num|
+
+**WasmContract**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|label|String|General name of the contract|
+|address|String|Address of the contract|
+|tx_hash|String|hash of the instantiate transaction|
+|creator|String|Address of the contract creator|
+|executes|Uint64|Number of times call to execute contract|
+|instantiated_at|Uint64|Block timestamp that contract was instantiated, in millisecond|
+|init_message|String|init message when this contract was instantiated|
+|last_executed_at|Uint64|Block timestamp that contract was called, in millisecond|
+|funds|ContractFund Array|Contract funds|
+|code_id|Uint64|Code id of the contract|
+|admin|String|Admin of the contract|
+|current_migrate_message|String|Latest migrate message of the contract|
+|contract_number|Integer|Monotonic contract number in database|
+|version|String|Contract version string|
+|type|String|Contract type|
+|cw20_metadata|Cw20Metadata||
+|proposal_id|Integer|id of the proposal that instantiate this contract|
+
+
+**ContractFund**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|denom|String|Denominator|
+|amount|String|Amount of denom|
+
+**Cw20Metadata**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|token_info|Cw20TokenInfo|
+|marketing_info|Cw20MarketingInfo|
+
+**Cw20TokenInfo**
+
+Token name, symbol, decimal 
+
+|Field|Type|Description|
+|-----|----|-----------|
+|name|String|General name of the token|
+|symbol|String|Symbol of then token|
+|decimals|Integer|Decimal places of token|
+
+**Cw20MarketingInfo**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|project|String|Project information|
+|description|String|Token&#39;s description|
+|logo|String|logo (url/embedded)|
+|marketing|Bytes Array|Address that can update the contract's marketing info|
+
+## GetWasmContractByAddress
+
+Get cosmwasm contract by its address
+
+### Request Parameters
+
+|Field|Type|Description|
+|-----|----|-----------|
+|contract_address|String|Contract address|
+
+### Response Parameters
+
+|Field|Type|Description|
+|-----|----|-----------|
+|label|String|General name of the contract|
+|address|String|Address of the contract|
+|tx_hash|String|hash of the instantiate transaction|
+|creator|String|Address of the contract creator|
+|executes|Uint64|Number of times call to execute contract|
+|instantiated_at|Uint64|Block timestamp that contract was instantiated, in millisecond|
+|init_message|String|init message when this contract was instantiated|
+|last_executed_at|Uint64|Block timestamp that contract was called, in millisecond|
+|funds|ContractFund Array|Contract funds|
+|code_id|Uint64|Code id of the contract|
+|admin|String|Admin of the contract|
+|current_migrate_message|String|Latest migrate message of the contract|
+|contract_number|Integer|Monotonic contract number in database|
+|version|String|Contract version string|
+|type|String|Contract type||
+|cw20_metadata|Cw20Metadata||
+|proposal_id|Integer|id of the proposal that instantiate this contract|
+
+**ContractFund**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|denom|String|Denominator|
+|amount|String|Amount of denom|
+
+**Cw20Metadata**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|token_info|Cw20TokenInfo||
+|marketing_info|Cw20MarketingInfo||
+
+**Cw20TokenInfo**
+
+Token name, symbol, decimal 
+
+|Field|Type|Description|
+|-----|----|-----------|
+|name|String|General name of the token|
+|symbol|String|Symbol of then token|
+|decimals|Integer|Decimal places of token|
+
+**Cw20MarketingInfo**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|project|String|Project information|
+|description|String|Token&#39;s description|
+|logo|String|logo (url/embedded)|
+|marketing|Bytes Array|Address that can update the contract's marketing info|
+
+
+## GetCw20Balance
+
+Get CW20 balances of an injective account across all instantiated CW20 contracts
+
+### Request Parameters
+
+|Field|Type|Description|
+|-----|----|-----------|
+|address|String|address to list balance of|
+|limit|Integer||
+
+### Response Parameters
+
+|Field|Type|Description|
+|-----|----|-----------|
+|field|WasmCw20Balance Array||
+
+**WasmCw20Balance**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|contract_address|String|Address of CW20 contract|
+|account|String|Account address|
+|balance|String|Account balance|
+|updated_at|Integer|update timestamp in milisecond|
+|cw20_metadata|Cw20Metadata||
+
+**Cw20Metadata**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|token_info|Cw20TokenInfo||
+|marketing_info|Cw20MarketingInfo||
+
+**Cw20TokenInfo**
+
+Token name, symbol, decimal 
+
+|Field|Type|Description|
+|-----|----|-----------|
+|name|String|General name of the token|
+|symbol|String|Symbol of then token|
+|decimals|Integer|Decimal places of token|
+
+**Cw20MarketingInfo**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|project|String|Project information|
+|description|String|Token&#39;s description|
+|logo|String|logo (url/embedded)|
+|marketing|Bytes Array|Address that can update the contract's marketing info|
