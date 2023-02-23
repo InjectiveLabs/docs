@@ -3,8 +3,9 @@ InjectivePortfolioRPC defines the gRPC API of the Exchange Portfolio provider.
 
 
 ## AccountPortfolio
+*New API. Available on testnet*
 
-Get details about an account's portfolio.
+Get details about an account's portfolio. 
 
 ### Request Parameters
 > Request Example:
@@ -72,20 +73,29 @@ portfolio {
 
 |Parameter|Type|Description|
 |----|----|----|
-|account_address|String|Address that the portfolio belongs to|
-|bank_balances|Coin Array|Total available bank balances of the account between all subaccounts|
-<!-- |subaccounts|SubaccountBalanceV2 Array|Balance information for subaccounts| -->
-
-<!-- **SubaccountBalanceV2**
-|Parameter|Type|Description|
-|----|----|----|
-|subaccount_id|String|ID of the subaccount|
-|available_balances|Coin Array|Available subaccount balances|
-|margin_hold|Coin Array|Margin held by open orders|
-|unrealized_pnl|Coin Array|Unrealized PNL of open positions| -->
+|account_address|String|The account&#39;s portfolio address|
+|bank_balances|[]Coin|Account available bank balances|
+|subaccounts|SubaccountBalanceV2|Subaccounts list|
+|positions_with_upnl|PositionsWithUPNL|All positions for all subaccounts, with unrealized PNL|
 
 **Coin**
+
 |Parameter|Type|Description|
 |----|----|----|
 |denom|String|Denom of the coin|
 |amount|String|Amount of the coin|
+
+**SubaccountBalanceV2**
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+|subaccount_id|String|Related subaccount ID|
+|denom| String|Coin denom on the chain|
+|deposit|SubaccountDeposit|Subaccount's total balanace and available balances|
+
+**SubaccountDeposit**
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| total_balance | String | All balance (in specific denom) that this subaccount has |
+| available_balance | String | Available balance (in specific denom) that is not in orders |

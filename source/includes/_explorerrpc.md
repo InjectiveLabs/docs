@@ -1017,6 +1017,7 @@ data {
 |data|BlockDetailInfo|Detailed info on the block|
 
 **BlockDetailInfo**
+
 |Parameter|Type|Description|
 |----|----|----|
 |height|Integer|The block height|
@@ -1029,6 +1030,7 @@ data {
 |timestamp|String|The timestamp of the block (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 
 **TxData**
+
 |Parameter|Type|Description|
 |----|----|----|
 |block_number|String|The block number|
