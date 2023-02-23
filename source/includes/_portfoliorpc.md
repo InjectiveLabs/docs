@@ -77,6 +77,7 @@ portfolio {
 <!-- |subaccounts|SubaccountBalanceV2 Array|Balance information for subaccounts| -->
 
 <!-- **SubaccountBalanceV2** -->
+
 <!-- |Parameter|Type|Description| -->
 <!-- |----|----|----| -->
 <!-- |subaccount_id|String|ID of the subaccount| -->
@@ -84,7 +85,9 @@ portfolio {
 <!-- |margin_hold|Coin Array|Margin held by open orders| -->
 <!-- |unrealized_pnl|Coin Array|Unrealized PNL of open positions| -->
 
+
 **Coin**
+
 |Parameter|Type|Description|
 |----|----|----|
 |denom|String|Denom of the coin|
