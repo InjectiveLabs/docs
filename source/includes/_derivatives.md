@@ -1840,8 +1840,8 @@ There are two caveats to be mindful of when taking this approach:
     class GasLimitConstant:
         base = 100e3
         extra = 20e3
-        spot_order = 45e3
-        spot_cancel = 25e3
+        derivative_order = 45e3
+        derivative_cancel = 25e3
   ```
   * Note: In cosmos-sdk v0.46, a gas refund capability has been added through the PostHandler functionality. In theory, this means that gas constants can be set much higher such that transactions never fail; however, because v0.46 was not compatible with CosmWasm during the last chain upgrade, the refund capability is not yet implemented on Injective. This will likely change in the future, but as of now, gas is paid in its entirety as set.
 
