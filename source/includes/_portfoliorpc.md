@@ -32,6 +32,35 @@ if __name__ == '__main__':
 ```
 
 ``` go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("devnet", "")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	accountAddress := "inj1pjcw9hhx8kf462qtgu37p7l7shyqgpfr82r6em"
+	res, err := exchangeClient.GetAccountPortfolio(ctx, accountAddress)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
 ```
 
 ``` typescript
@@ -39,7 +68,7 @@ if __name__ == '__main__':
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|account_address|String|Address of the account to get portfolio for|Yes|
+|account_address|string|Address of the account to get portfolio for|Yes|
 
 ### Response Parameters
 > Response Example:
@@ -64,30 +93,153 @@ portfolio {
 ``` typescript
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|portfolio|Portfolio|The portfolio of the account|
+### AccountPortfolioResponse
 
-**Portfolio**
+| Field | Type | Description                   |
+| ----- | ---- |-------------------------------|
+| portfolio | Portfolio | The portfolio of this account |
 
-|Parameter|Type|Description|
-|----|----|----|
-|account_address|String|Address that the portfolio belongs to|
-|bank_balances|Coin Array|Total available bank balances of the account between all subaccounts|
-<!-- |subaccounts|SubaccountBalanceV2 Array|Balance information for subaccounts| -->
+### Portfolio
 
-<!-- **SubaccountBalanceV2** -->
+| Field | Type | Description |
+| ----- | ---- |-------------|
+| account_address | string| The account&#39;s portfolio address |
+| bank_balances | Coin |  Account available bank balances |
+| subaccounts | SubaccountBalanceV2 | Subaccounts list |
+| positions_with_upnl | PositionsWithUPNL  | All positions for all subaccounts, with unrealized PNL |
 
-<!-- |Parameter|Type|Description| -->
-<!-- |----|----|----| -->
-<!-- |subaccount_id|String|ID of the subaccount| -->
-<!-- |available_balances|Coin Array|Available subaccount balances| -->
-<!-- |margin_hold|Coin Array|Margin held by open orders| -->
-<!-- |unrealized_pnl|Coin Array|Unrealized PNL of open positions|  -->
+### SubaccountBalanceV2
 
-**Coin**
+| Field | Type | Description |
+| ----- | ---- |  ----------- |
+| subaccount_id | string | Related subaccount ID |
+| denom | string | Coin denom on the chain. |
+| deposit | SubaccountDeposit |  |
 
-|Parameter|Type|Description|
-|----|----|----|
-|denom|String|Denom of the coin|
-|amount|String|Amount of the coin|
+### DerivativePosition
+
+| Field | Type     | Description                     |
+| ----- |----------|---------------------------------|
+| ticker | string   | Ticker of the derivative market |
+| market_id | string   | Derivative Market ID            |
+| subaccount_id | string   | The subaccountId that the position belongs to |
+| direction | string   | Direction of the position |
+| quantity | string   | Quantity of the position |
+| entry_price | string   | Price of the position |
+| margin | string  | Margin of the position |
+| liquidation_price | string  | LiquidationPrice of the position |
+| mark_price | string   | MarkPrice of the position |
+| aggregate_reduce_only_quantity | string  | Aggregate Quantity of the Reduce Only orders associated with the position |
+| updated_at | int64  | Position updated timestamp in UNIX millis. |
+| created_at | int64  | Position created timestamp in UNIX millis. |
+
+
+### PositionsWithUPNL
+
+| Field | Type | Description |
+| ----- | ---- |  ----------- |
+| position | DerivativePosition  |  |
+| unrealized_pnl | string  | Unrealized PNL |
+
+
+### Coin
+
+| Field | Type | Description       |
+| ----- | ---- | -------------------|
+| denom | string | Denom of the coin |
+| amount | string |  Amount            |
+
+
+
+## StreamAccountPortfolio
+
+Returns a stream of account portfolio updates.
+
+### Request Parameters
+> Request Example:
+
+``` python
+import asyncio
+import logging
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.constant import Network
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network, insecure=False)
+    account_address = "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
+    portfolio = await client.get_account_portfolio(
+        account_address=account_address
+    )
+    print(portfolio)
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    asyncio.get_event_loop().run_until_complete(main())
+```
+
+``` go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("devnet", "")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	ctx := context.Background()
+
+	stream, err := exchangeClient.GetStreamAccountPortfolio(ctx, "inj1pjcw9hhx8kf462qtgu37p7l7shyqgpfr82r6em", "", "")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			str, _ := json.MarshalIndent(res, "", " ")
+			fmt.Print(string(str))
+		}
+	}
+}
+```
+
+``` typescript
+```
+
+| Parameter       |Type| Description                                                   | Required |
+|-----------------|----|---------------------------------------------------------------|----------|
+| account_address |string| Address of the account to get portfolio for                   | Yes      |
+| subaccount_id   |string| SubaccountId of the account to get portfolio for              | No       |
+| type            |string| Balance type. Can be bank, available_balances, total_balances | No       |
+
+### Response Parameters
+
+| Field | Type |  Description |
+| ----- | ---- |  ----------- |
+| type | string | type of portfolio entry |
+| denom | string |  denom of portfolio entry |
+| amount | string | amount of portfolio entry |
+| subaccount_id | string | subaccount id of portfolio entry |
+
+
