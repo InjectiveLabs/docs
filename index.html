@@ -21290,6 +21290,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tbody></table>
 
 <!-- **SubaccountBalanceV2**
+
 |Parameter|Type|Description|
 |----|----|----|
 |subaccount_id|String|ID of the subaccount|
@@ -21297,11 +21298,26 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 |margin_hold|Coin Array|Margin held by open orders|
 |unrealized_pnl|Coin Array|Unrealized PNL of open positions| -->
 
-<p><strong>Coin</strong>
-|Parameter|Type|Description|
-|----|----|----|
-|denom|String|Denom of the coin|
-|amount|String|Amount of the coin|</p>
+<p><strong>Coin</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>denom</td>
+<td>String</td>
+<td>Denom of the coin</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>String</td>
+<td>Amount of the coin</td>
+</tr>
+</tbody></table>
 <h1 id='chain-api'>Chain API</h1>
 <p>The Indexer API is read-only whereas the Chain API is write and also includes a limited set of API requests to read data. The Chain API reads query the blockchain state from the node directly as opposed to the Indexer API which reconstructs state from events emitted by chain.</p>
 
