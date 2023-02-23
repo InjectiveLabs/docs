@@ -74,7 +74,7 @@ portfolio {
 |Parameter|Type|Description|
 |----|----|----|
 |account_address|String|The account&#39;s portfolio address|
-|bank_balances|[]Coin|Account available bank balances|
+|bank_balances|Coin Array|Account available bank balances|
 |subaccounts|SubaccountBalanceV2|Subaccounts list|
 |positions_with_upnl|PositionsWithUPNL|All positions for all subaccounts, with unrealized PNL|
 

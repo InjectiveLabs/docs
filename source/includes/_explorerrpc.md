@@ -194,7 +194,7 @@ data {
 |----|----|----|
 |s|String|Status of the response|
 |errmsg|String|Error message, if any|
-|data|TxDetailData||
+|data|TxDetailData|Tx detail information|
 
 **TxDetailData**
 
@@ -210,8 +210,8 @@ data {
 |tx_type|String|The transaction type|
 |messages|String|The messages included in this transaction|
 |signatures|Signatures Array|List of signatures|
-|tx_number|Integer||
-|block_unix_timestamp|The timestamp of the block in UNIX millis|
+|tx_number|Integer|Monotonic index of the tx in database|
+|block_unix_timestamp|Integer|The timestamp of the block in UNIX millis|
 
 **GasFee**
 
@@ -220,9 +220,10 @@ data {
 |amount|CosmosCoin Array|List of coins with denom and amount|
 |gas_limit|Integer|The gas limit for the transaction|
 |payer|String|The Injective Chain address paying the gas fee|
-|granter|String||
+|granter|String|Address of granter of the tx|
 
 **CosmosCoin**
+
 |Parameter|Type|Description|
 |----|----|----|
 |denom|String|Coin denom|
@@ -640,8 +641,8 @@ data {
 |tx_type|String|The transaction type|
 |messages|String|The messages included in this transaction|
 |signatures|Signatures Array|List of signatures|
-|tx_number|Integer||
-|block_unix_timestamp|The timestamp of the block in UNIX millis|
+|tx_number|Integer|Monotonic index of the tx in database|
+|block_unix_timestamp|Integer|The timestamp of the block in UNIX millis|
 
 **GasFee**
 
@@ -650,9 +651,10 @@ data {
 |amount|CosmosCoin Array|List of coins with denom and amount|
 |gas_limit|Integer|The gas limit for the transaction|
 |payer|String|The Injective Chain address paying the gas fee|
-|granter|String||
+|granter|String|Address of granter of the tx|
 
 **CosmosCoin**
+
 |Parameter|Type|Description|
 |----|----|----|
 |denom|String|Coin denom|
@@ -1035,7 +1037,7 @@ data {
 |----|----|----|
 |block_number|String|The block number|
 |block_timestamp|String|The timestamp of the block (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
-|hash|Transaction hash|
+|hash|String|Transaction hash|
 |messages|bytes|Messages byte data of the transaction|
 |tx_number|Integer|Transaction number|
 
@@ -2009,7 +2011,7 @@ field {
 |denom|Integer|The token denom|
 |orchestrator_address|String|The orchestrator address|
 |state|String|Transaction state|
-|claim_type|Integer|  |
+|claim_type|Integer|Claim type of the deposit, always equal to 1|
 |tx_hashes|String Array|List of transaction hashes|
 |created_at|Integer|The timestamp of the tx creation (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 |updated_at|String|The timestamp of the tx update (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
@@ -2250,13 +2252,13 @@ field {
 |denom|Integer|The token denom|
 |bridge_fee|String|The bridge fee|
 |outgoing_tx_id|Integer|The tx nonce|
-|batch_timeout|Integer|   |
+|batch_timeout|Integer|The timestamp after which batch request will be discarded if not processed already|
 |BatchNonce|Integer|An auto incremented unique ID representing the Withdrawal Batches|
 |orchestrator_address|String|Address that created batch request|
 |event_nonce|Integer|The event nonce of WithdrawalClaim event emitted by Ethereum chain upon batch withdrawal|
 |event_height|Integer|The block height of WithdrawalClaim event emitted by Ethereum chain upon batch withdrawal|
 |state|String|Transaction state|
-|claim_type|Integer|   |
+|claim_type|Integer|Claim type of the transaction, always equal to 2|
 |tx_hashes|String Array|List of transaction hashes|
 |created_at|Integer|The timestamp of the tx creation (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 |updated_at|String|The timestamp of the tx update (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
@@ -2525,8 +2527,9 @@ field {
 |timeout_height|Integer|Timeout height relative to the current block height. Timeout disabled if set to 0|
 |timeout_timestamp|Integer|Timeout timestamp (in nanoseconds) relative to the current block timestamp|
 |packet_sequence|String|Corresponds to the order of sends and receives, where a Packet with an earlier sequence number must be sent and received before a Packet with a later sequence number|
-|data_hex|String|Data in hex format|
+|data_hex|String|IBC request data in hex format|
 |state|String|Transaction state|
 |tx_hashes|String Array|List of transaction hashes|
 |created_at|Integer|The timestamp of the tx creation (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 |updated_at|String|The timestamp of the tx update (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
+
