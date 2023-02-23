@@ -87,15 +87,37 @@ portfolio {
 
 **SubaccountBalanceV2**
 
-| Field | Type | Description |
-| ----- | ---- | ----------- |
+|Field|Type|Description|
+|-----|----|-----------|
 |subaccount_id|String|Related subaccount ID|
-|denom| String|Coin denom on the chain|
+|denom|String|Coin denom on the chain|
 |deposit|SubaccountDeposit|Subaccount's total balanace and available balances|
 
 **SubaccountDeposit**
 
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| total_balance | String | All balance (in specific denom) that this subaccount has |
-| available_balance | String | Available balance (in specific denom) that is not in orders |
+|Field|Type|Description|
+|-----|----|-----------|
+|total_balance|String|All balance (in specific denom) that this subaccount has|
+|available_balance|String|Available balance (in specific denom) that is not in orders|
+
+## StreamAccountPortfolio
+*New API. Available on testnet*
+
+Get continuous update about account's portfolio 
+
+### Request Parameters
+
+|Field|Type|Description|Required|
+|-----|----|-----------|--------|
+|account_address|String|The account&#39;s portfolio address|Yes|
+|subaccount_id|String|Related subaccount ID|No|
+|type|String|Type of portfolio entry (either bank, total_balance, available_balance) to filter|No|
+
+### Response Parameters
+
+|Field|Type|Label|Description|
+|-----|----|-----|-----------|
+|type|String|type of portfolio entry (either bank, total_balance, available_balance)|
+|denom|String|denom of portfolio entry|
+|amount|String|amount of portfolio entry|
+|subaccount_id|String|subaccount id of portfolio entry|
