@@ -24026,7 +24026,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
       <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">get_account</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">())</span>
 </code></pre></div>
 <ul>
-<li>To refresh the cached account sequence, updated account data can be fetched using the client. For example, using the Python client:</li>
+<li>To refresh the cached account sequence, updated account data can be fetched using the client. See example on right, using the Python client:</li>
 <li>To refresh the cached subaccount nonce, the <a href="https://github.com/InjectiveLabs/sdk-python/blob/master/pyinjective/orderhash.py#L47"><code>OrderHashManager</code></a> can be reinitialized since the subaccount nonce is fetched from the chain during init.</li>
 </ul>
 <h1 id='spot'>- Spot</h1>
