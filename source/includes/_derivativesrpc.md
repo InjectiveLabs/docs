@@ -1122,13 +1122,8 @@ paging {
 |----|----|----|
 |order_hash|String|Hash of the order|
 |quantity|String|Quantity of the order|
-<!-- uncomment when active -->
-<!-- |is_active|Boolean|Indicates if the order is active| -->
-<!-- |is_reduce_only|Boolean|Indicates if the order is reduce-only| -->
-<!-- |is_conditional|Boolean|Indicates if the order is conditional| -->
 |state|String|Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
 |trigger_price|String|The price that triggers stop/take orders|
-<!-- |trigger_at|Integer|Trigger timestamp in UNIX millis| -->
 |market_id|String|Derivative market ID|
 |created_at|Integer|Order created timestamp in UNIX millis|
 |updated_at|Integer|Order updated timestamp in UNIX millis|
@@ -1138,8 +1133,16 @@ paging {
 |execution_type|String|The type of the order (Should be one of: ["limit", "market"])|
 |filled_quantity|String|The amount of the quantity filled|
 |direction|String|The direction of the order (Should be one of: ["buy", "sell"])|
-<!-- |placed_order_hash|String|Hash of order placed upon conditional order trigger| -->
 |margin|String|The margin of the order|
+<!-- uncomment when active -->
+<!-- |is_active|Boolean|Indicates if the order is active| -->
+<!-- |is_reduce_only|Boolean|Indicates if the order is reduce-only| -->
+<!-- |is_conditional|Boolean|Indicates if the order is conditional| -->
+<!-- |trigger_at|Integer|Trigger timestamp in UNIX millis| -->
+<!-- |placed_order_hash|String|Hash of order placed upon conditional order trigger| -->
+
+
+
 
 **Paging**
 
@@ -1243,13 +1246,8 @@ timestamp: 1665487078000
 |----|----|----|
 |order_hash|String|Hash of the order|
 |quantity|String|Quantity of the order|
-<!-- uncomment when active -->
-<!-- |is_active|Boolean|Indicates if the order is active| -->
-<!-- |is_reduce_only|Boolean|Indicates if the order is reduce-only| -->
-<!-- |is_conditional|Boolean|Indicates if the order is conditional| -->
 |state|String|Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
 |trigger_price|String|The price that triggers stop/take orders|
-<!-- |trigger_at|Integer|Trigger timestamp in UNIX millis| -->
 |market_id|String|Derivative market ID|
 |created_at|Integer|Order created timestamp in UNIX millis|
 |updated_at|Integer|Order updated timestamp in UNIX millis|
@@ -1259,8 +1257,14 @@ timestamp: 1665487078000
 |execution_type|String|The type of the order (Should be one of: ["limit", "market"])|
 |filled_quantity|String|The amount of the quantity filled|
 |direction|String|The direction of the order (Should be one of: ["buy", "sell"])|
-<!-- |placed_order_hash|String|Hash of order placed upon conditional order trigger| -->
 |margin|String|The margin of the order|
+<!-- uncomment when active -->
+<!-- |is_active|Boolean|Indicates if the order is active| -->
+<!-- |is_reduce_only|Boolean|Indicates if the order is reduce-only| -->
+<!-- |is_conditional|Boolean|Indicates if the order is conditional| -->
+<!-- |trigger_at|Integer|Trigger timestamp in UNIX millis| -->
+<!-- |placed_order_hash|String|Hash of order placed upon conditional order trigger| -->
+
 
 
 ## Trades
@@ -1570,6 +1574,7 @@ paging {
 |execution_margin|String|Execution margin of the trade|
 
 **Paging**
+
 |Parameter|Type|Description|
 |----|----|----|
 |total|Integer|Total number of records available|
@@ -2880,6 +2885,7 @@ orderbooks {
 
 **SingleDerivativeLimitOrderbook**
 
+|Parameter|Type|Description|
 |----|----|----|
 |market_id|String|ID of the market that the orderbook belongs to|
 |orderbook|DerivativeLimitOrderbook|Orderbook of the market|
@@ -3330,6 +3336,7 @@ orderbooks {
 
 **SingleDerivativeLimitOrderbookV2**
 
+|Parameter|Type|Description|
 |----|----|----|
 |market_id|String|ID of the market that the orderbook belongs to|
 |orderbook|DerivativeLimitOrderbookV2|Orderbook of the market|
@@ -4508,6 +4515,7 @@ paging {
 |timestamp|Integer|Operation timestamp in UNIX millis|
 
 **Paging**
+
 |Parameter|Type|Description|
 |----|----|----|
 |total|Integer|Total number of records available|
@@ -4709,6 +4717,7 @@ paging {
 |timestamp|Integer|Timestamp of funding rate in UNIX millis|
 
 **Paging**
+
 |Parameter|Type|Description|
 |----|----|----|
 |total|Integer|Total number of records available|
