@@ -1845,7 +1845,6 @@ There are two caveats to be mindful of when taking this approach:
       derivative_order = 45e3
       derivative_cancel = 55e3
 ```
-
 * An extra 20,000 buffer can be added to the gas calculation to ensure the transaction is not rejected during execution on the validator node. Transactions often require a bit more gas depending on the operations; for example, a post-only order could cross the order book and get cancelled, which would cost a different amount of gas than if that order was posted in the book as a limit order. See example on right:
 * Note: In cosmos-sdk v0.46, a gas refund capability has been added through the PostHandler functionality. In theory, this means that gas constants can be set much higher such that transactions never fail; however, because v0.46 was not compatible with CosmWasm during the last chain upgrade, the refund capability is not yet implemented on Injective. This will likely change in the future, but as of now, gas is paid in its entirety as set.
 
@@ -1858,6 +1857,5 @@ There are two caveats to be mindful of when taking this approach:
   if res.code == 32:
       await self.client.get_account(self.address.to_acc_bech32())
 ```
-
-* To refresh the cached account sequence, updated account data can be fetched using the client. For example, using the Python client:
+* To refresh the cached account sequence, updated account data can be fetched using the client. See example on right, using the Python client:
 * To refresh the cached subaccount nonce, the [`OrderHashManager`](https://github.com/InjectiveLabs/sdk-python/blob/master/pyinjective/orderhash.py#L47) can be reinitialized since the subaccount nonce is fetched from the chain during init.
