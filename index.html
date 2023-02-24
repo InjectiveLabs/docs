@@ -10401,6 +10401,66 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>String</td>
 <td>Quantity of the order</td>
 </tr>
+<tr>
+<td>state</td>
+<td>String</td>
+<td>Order state (Should be one of: [&quot;booked&quot;, &quot;partial_filled&quot;, &quot;filled&quot;, &quot;canceled&quot;])</td>
+</tr>
+<tr>
+<td>trigger_price</td>
+<td>String</td>
+<td>The price that triggers stop/take orders</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Derivative market ID</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>Integer</td>
+<td>Order created timestamp in UNIX millis</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>Integer</td>
+<td>Order updated timestamp in UNIX millis</td>
+</tr>
+<tr>
+<td>price</td>
+<td>String</td>
+<td>Price of the order</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>The subaccountId that this order belongs to</td>
+</tr>
+<tr>
+<td>order_type</td>
+<td>String</td>
+<td>Order type (Should be one of: [&quot;buy&quot;, &quot;sell&quot;, &quot;stop_buy&quot;, &quot;stop_sell&quot;, &quot;take_buy&quot;, &quot;take_sell&quot;, &quot;buy_po&quot;, &quot;sell_po&quot;])</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>String</td>
+<td>The type of the order (Should be one of: [&quot;limit&quot;, &quot;market&quot;])</td>
+</tr>
+<tr>
+<td>filled_quantity</td>
+<td>String</td>
+<td>The amount of the quantity filled</td>
+</tr>
+<tr>
+<td>direction</td>
+<td>String</td>
+<td>The direction of the order (Should be one of: [&quot;buy&quot;, &quot;sell&quot;])</td>
+</tr>
+<tr>
+<td>margin</td>
+<td>String</td>
+<td>The margin of the order</td>
+</tr>
 </tbody></table>
 
 <!-- uncomment when active -->
@@ -10411,20 +10471,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <!-- |is_conditional|Boolean|Indicates if the order is conditional| -->
 
-<p>|state|String|Order state (Should be one of: [&quot;booked&quot;, &quot;partial_filled&quot;, &quot;filled&quot;, &quot;canceled&quot;])|
-|trigger_price|String|The price that triggers stop/take orders|
-&lt;!-- |trigger_at|Integer|Trigger timestamp in UNIX millis| --&gt;
-|market_id|String|Derivative market ID|
-|created_at|Integer|Order created timestamp in UNIX millis|
-|updated_at|Integer|Order updated timestamp in UNIX millis|
-|price|String|Price of the order|
-|subaccount_id|String|The subaccountId that this order belongs to|
-|order_type|String|Order type (Should be one of: [&quot;buy&quot;, &quot;sell&quot;, &quot;stop_buy&quot;, &quot;stop_sell&quot;, &quot;take_buy&quot;, &quot;take_sell&quot;, &quot;buy_po&quot;, &quot;sell_po&quot;])|
-|execution_type|String|The type of the order (Should be one of: [&quot;limit&quot;, &quot;market&quot;])|
-|filled_quantity|String|The amount of the quantity filled|
-|direction|String|The direction of the order (Should be one of: [&quot;buy&quot;, &quot;sell&quot;])|
-&lt;!-- |placed_order_hash|String|Hash of order placed upon conditional order trigger| --&gt;
-|margin|String|The margin of the order|</p>
+<!-- |trigger_at|Integer|Trigger timestamp in UNIX millis| -->
+
+<!-- |placed_order_hash|String|Hash of order placed upon conditional order trigger| -->
 
 <p><strong>Paging</strong></p>
 
@@ -10586,6 +10635,66 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>String</td>
 <td>Quantity of the order</td>
 </tr>
+<tr>
+<td>state</td>
+<td>String</td>
+<td>Order state (Should be one of: [&quot;booked&quot;, &quot;partial_filled&quot;, &quot;filled&quot;, &quot;canceled&quot;])</td>
+</tr>
+<tr>
+<td>trigger_price</td>
+<td>String</td>
+<td>The price that triggers stop/take orders</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Derivative market ID</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>Integer</td>
+<td>Order created timestamp in UNIX millis</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>Integer</td>
+<td>Order updated timestamp in UNIX millis</td>
+</tr>
+<tr>
+<td>price</td>
+<td>String</td>
+<td>Price of the order</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>The subaccountId that this order belongs to</td>
+</tr>
+<tr>
+<td>order_type</td>
+<td>String</td>
+<td>Order type (Should be one of: [&quot;buy&quot;, &quot;sell&quot;, &quot;stop_buy&quot;, &quot;stop_sell&quot;, &quot;take_buy&quot;, &quot;take_sell&quot;, &quot;buy_po&quot;, &quot;sell_po&quot;])</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>String</td>
+<td>The type of the order (Should be one of: [&quot;limit&quot;, &quot;market&quot;])</td>
+</tr>
+<tr>
+<td>filled_quantity</td>
+<td>String</td>
+<td>The amount of the quantity filled</td>
+</tr>
+<tr>
+<td>direction</td>
+<td>String</td>
+<td>The direction of the order (Should be one of: [&quot;buy&quot;, &quot;sell&quot;])</td>
+</tr>
+<tr>
+<td>margin</td>
+<td>String</td>
+<td>The margin of the order</td>
+</tr>
 </tbody></table>
 
 <!-- uncomment when active -->
@@ -10596,20 +10705,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <!-- |is_conditional|Boolean|Indicates if the order is conditional| -->
 
-<p>|state|String|Order state (Should be one of: [&quot;booked&quot;, &quot;partial_filled&quot;, &quot;filled&quot;, &quot;canceled&quot;])|
-|trigger_price|String|The price that triggers stop/take orders|
-&lt;!-- |trigger_at|Integer|Trigger timestamp in UNIX millis| --&gt;
-|market_id|String|Derivative market ID|
-|created_at|Integer|Order created timestamp in UNIX millis|
-|updated_at|Integer|Order updated timestamp in UNIX millis|
-|price|String|Price of the order|
-|subaccount_id|String|The subaccountId that this order belongs to|
-|order_type|String|Order type (Should be one of: [&quot;buy&quot;, &quot;sell&quot;, &quot;stop_buy&quot;, &quot;stop_sell&quot;, &quot;take_buy&quot;, &quot;take_sell&quot;, &quot;buy_po&quot;, &quot;sell_po&quot;])|
-|execution_type|String|The type of the order (Should be one of: [&quot;limit&quot;, &quot;market&quot;])|
-|filled_quantity|String|The amount of the quantity filled|
-|direction|String|The direction of the order (Should be one of: [&quot;buy&quot;, &quot;sell&quot;])|
-&lt;!-- |placed_order_hash|String|Hash of order placed upon conditional order trigger| --&gt;
-|margin|String|The margin of the order|</p>
+<!-- |trigger_at|Integer|Trigger timestamp in UNIX millis| -->
+
+<!-- |placed_order_hash|String|Hash of order placed upon conditional order trigger| -->
 <h2 id='injectivederivativeexchangerpc-trades'>Trades</h2>
 <p>Get trades of a derivative market.</p>
 
@@ -11053,10 +11151,21 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 </tbody></table>
 
-<p><strong>Paging</strong>
-|Parameter|Type|Description|
-|----|----|----|
-|total|Integer|Total number of records available|</p>
+<p><strong>Paging</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>total</td>
+<td>Integer</td>
+<td>Total number of records available</td>
+</tr>
+</tbody></table>
 <h2 id='injectivederivativeexchangerpc-streamtrades'>StreamTrades</h2>
 <p>Stream newly executed trades of a derivative market. The default request streams trades from all derivative markets.</p>
 
@@ -12704,9 +12813,24 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <p><strong>SingleDerivativeLimitOrderbook</strong></p>
 
-<p>|----|----|----|
-|market_id|String|ID of the market that the orderbook belongs to|
-|orderbook|DerivativeLimitOrderbook|Orderbook of the market|</p>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>ID of the market that the orderbook belongs to</td>
+</tr>
+<tr>
+<td>orderbook</td>
+<td>DerivativeLimitOrderbook</td>
+<td>Orderbook of the market</td>
+</tr>
+</tbody></table>
 
 <p><strong>DerivativeLimitOrderbook</strong></p>
 
@@ -13232,9 +13356,24 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <p><strong>SingleDerivativeLimitOrderbookV2</strong></p>
 
-<p>|----|----|----|
-|market_id|String|ID of the market that the orderbook belongs to|
-|orderbook|DerivativeLimitOrderbookV2|Orderbook of the market|</p>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>ID of the market that the orderbook belongs to</td>
+</tr>
+<tr>
+<td>orderbook</td>
+<td>DerivativeLimitOrderbookV2</td>
+<td>Orderbook of the market</td>
+</tr>
+</tbody></table>
 
 <p><strong>DerivativeLimitOrderbookV2</strong></p>
 
@@ -14821,10 +14960,21 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 </tbody></table>
 
-<p><strong>Paging</strong>
-|Parameter|Type|Description|
-|----|----|----|
-|total|Integer|Total number of records available|</p>
+<p><strong>Paging</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>total</td>
+<td>Integer</td>
+<td>Total number of records available</td>
+</tr>
+</tbody></table>
 <h2 id='injectivederivativeexchangerpc-fundingrates'>FundingRates</h2>
 <p>Get the historical funding rates for a specific market.</p>
 <h3 id='injectivederivativeexchangerpc-fundingrates-request-parameters'>Request Parameters</h3>
@@ -15059,10 +15209,21 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 </tbody></table>
 
-<p><strong>Paging</strong>
-|Parameter|Type|Description|
-|----|----|----|
-|total|Integer|Total number of records available|</p>
+<p><strong>Paging</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>total</td>
+<td>Integer</td>
+<td>Total number of records available</td>
+</tr>
+</tbody></table>
 <h2 id='injectivederivativeexchangerpc-binaryoptionsmarket'>BinaryOptionsMarket</h2>
 <p>Get details of a single binary options market.</p>
 <h3 id='injectivederivativeexchangerpc-binaryoptionsmarket-request-parameters'>Request Parameters</h3>
