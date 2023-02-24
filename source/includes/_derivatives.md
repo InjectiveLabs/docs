@@ -1853,7 +1853,7 @@ There are two caveats to be mindful of when taking this approach:
 * To refresh the cached account sequence, updated account data can be fetched using the client. For example, using the Python client:
 ```
   res = await self.client.send_tx_sync_mode(tx_raw_bytes)
-      if res.code == 32:
+  if res.code == 32:
       await self.client.get_account(self.address.to_acc_bech32())
 ```
 * To refresh the cached subaccount nonce, the [`OrderHashManager`](https://github.com/InjectiveLabs/sdk-python/blob/master/pyinjective/orderhash.py#L47) can be reinitialized since the subaccount nonce is fetched from the chain during init.
