@@ -1838,6 +1838,7 @@ There are two caveats to be mindful of when taking this approach:
 * To calculate gas, a constant value should be set for the base transaction object. The tx object consists of a constant set of attributes such as memo, sequence, etc., so gas should be the same as long as the amount of data being transmitted remains constant (i.e. gas may change if the memo size is very large). The gas can then be increased per order creation/cancellation.
 * These constants can be found through simulating a transaction with a single order and a separate transaction with two orders, then solving the linear equations to obtain the base gas and the per-order gas amounts.
 * An extra 20,000 buffer can be added to the gas calculation to ensure the transaction is not rejected during execution on the validator node. Transactions often require a bit more gas depending on the operations; for example, a post-only order could cross the order book and get cancelled, which would cost a different amount of gas than if that order was posted in the book as a limit order. For example:
+
 ```
   class GasLimitConstant:
       base = 65e3
@@ -1845,15 +1846,18 @@ There are two caveats to be mindful of when taking this approach:
       derivative_order = 45e3
       derivative_cancel = 55e3
 ```
+
 * Note: In cosmos-sdk v0.46, a gas refund capability has been added through the PostHandler functionality. In theory, this means that gas constants can be set much higher such that transactions never fail; however, because v0.46 was not compatible with CosmWasm during the last chain upgrade, the refund capability is not yet implemented on Injective. This will likely change in the future, but as of now, gas is paid in its entirety as set.
 
 **2. In the event a transaction fails, the account sequence and subaccount nonce must both be refreshed**
 
 * If the client receives a sequence mismatch error (code 32), a refresh in sequence and subaccount nonce will likely resolve the error.
 * To refresh the cached account sequence, updated account data can be fetched using the client. For example, using the Python client:
+
 ```
   res = await self.client.send_tx_sync_mode(tx_raw_bytes)
   if res.code == 32:
       await self.client.get_account(self.address.to_acc_bech32())
 ```
+
 * To refresh the cached subaccount nonce, the [`OrderHashManager`](https://github.com/InjectiveLabs/sdk-python/blob/master/pyinjective/orderhash.py#L47) can be reinitialized since the subaccount nonce is fetched from the chain during init.
