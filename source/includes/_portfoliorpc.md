@@ -83,7 +83,8 @@ portfolio {
 <!-- |subaccount_id|String|ID of the subaccount| -->
 <!-- |available_balances|Coin Array|Available subaccount balances| -->
 <!-- |margin_hold|Coin Array|Margin held by open orders| -->
-<!-- |unrealized_pnl|Coin Array|Unrealized PNL of open positions|  -->
+<!-- |unrealized_pnl|Coin Array|Unrealized PNL of open positions| -->
+
 
 **Coin**
 
