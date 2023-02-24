@@ -668,6 +668,14 @@
               </ul>
           </li>
           <li>
+            <a href="#indexerhealthapi" class="toc-h1 toc-link" data-title="- IndexerHealthAPI">- IndexerHealthAPI</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#indexerhealthapi-getstatus" class="toc-h2 toc-link" data-title="GetStatus">GetStatus</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#injectivemetarpc" class="toc-h1 toc-link" data-title="- InjectiveMetaRPC">- InjectiveMetaRPC</a>
               <ul class="toc-list-h2">
                   <li>
@@ -716,6 +724,9 @@
                   <li>
                     <a href="#derivatives-localorderhashcomputation" class="toc-h2 toc-link" data-title="LocalOrderHashComputation">LocalOrderHashComputation</a>
                   </li>
+                  <li>
+                    <a href="#derivatives-note-on-localorderhashcomputation-for-hfts-api-traders" class="toc-h2 toc-link" data-title="Note on LocalOrderHashComputation for HFTs/API Traders">Note on LocalOrderHashComputation for HFTs/API Traders</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -735,6 +746,9 @@
                   </li>
                   <li>
                     <a href="#spot-localorderhashcomputation" class="toc-h2 toc-link" data-title="LocalOrderHashComputation">LocalOrderHashComputation</a>
+                  </li>
+                  <li>
+                    <a href="#spot-note-on-localorderhashcomputation-for-hfts-api-traders" class="toc-h2 toc-link" data-title="Note on LocalOrderHashComputation for HFTs/API Traders">Note on LocalOrderHashComputation for HFTs/API Traders</a>
                   </li>
               </ul>
           </li>
@@ -20647,6 +20661,107 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>The timestamp of the tx update (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)</td>
 </tr>
 </tbody></table>
+<h1 id='indexerhealthapi'>- IndexerHealthAPI</h1>
+<p>HealthAPI (HTTP) checks if backend data is up-to-date and reliable or not.</p>
+<h2 id='indexerhealthapi-getstatus'>GetStatus</h2>
+<p>Get current heights of the Injective Indexer and Injective Height Oracle to check backend health status. This service will return an error if the difference between the oracle height and the Indexer height is greater than 20 blocks.</p>
+
+<p><strong>Note:</strong></p>
+
+<p>During a recent upgrade, a new service has been deployed for the Indexer: the event provider. Prior to the upgrade, each Indexer within an instance would query its associated chain node (in the same instance) directly. Now, Indexers query an event provider service that consumes blocks from a K8s cluster. This frees up resources for chain nodes since they no longer serve data to the Indexers on the same instance. Before the event provider upgrade, the HealthAPI&#39;s <code>localHeight</code> essentially acted as a proxy for node height as long as the Indexer continued to ingest blocks. This meant that only <code>localHeight</code> and <code>horacleHeight</code> had to be compared to check both node health and Indexer health. However, since Indexers are no longer consuming data directly from a chain node and thus <code>localHeight</code> no longer proxies for the node&#39;s height, an additional health check must be performed to determine if the chain node itself is healthy. A health check for the Indexer is still performed to differentiate between Indexer health and node health.</p>
+
+<p>To check the health of an individual node (non K8s), the GetStatus API can be queried to obtain the Indexer height (<code>localHeight</code>) and the network height (<code>horacleHeight</code>). Next, the node height can be queried directly from the node (e.g. <code>curl --insecure http://sentry1.injective.network:26657/abci_info | grep last_block_height</code> or in Python <code>(await async_client.get_latest_block()).block.header.height</code>). Comparing <code>last_block_height</code> with <code>horacleHeight</code> gives a sense of the node&#39;s health, with a threshold of a 20 block difference being a good starting point for detecting unhealthy nodes. <code>localHeight</code> and <code>horacleHeight</code> can also be compared to check Indexer health, though an error should already be returned from the API query if the Indexer is deemed unhealthy (more than 20 block height difference).</p>
+
+<p>If K8s/LB endpoints are being used, there is no need to do these checks, as the cluster has built-in liveliness checks and excludes unhealthy nodes if any are detected.</p>
+
+<p>A recommended health check frequency of once every 20-30 seconds is recommended.</p>
+
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+
+<!-- embedme ../../../sdk-python/examples/exchange_client/health_http/1_GetStatus.py -->
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://sentry1.injective.network:4444/api/health/v1/status'</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div><h3 id='indexerhealthapi-getstatus-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="p">{</span>
+  <span class="s">"s"</span><span class="p">:</span> <span class="s">""</span><span class="p">,</span>
+  <span class="s">"data"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s">"localHeight"</span><span class="p">:</span> <span class="mi">26953309</span><span class="p">,</span>
+    <span class="s">"localTimestamp"</span><span class="p">:</span> <span class="mi">1677042872</span><span class="p">,</span>
+    <span class="s">"horacleHeight"</span><span class="p">:</span> <span class="mi">26953309</span><span class="p">,</span>
+    <span class="s">"horacleTimestamp"</span><span class="p">:</span> <span class="mi">1677042872</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>s</td>
+<td>String</td>
+<td>Status of the response</td>
+</tr>
+<tr>
+<td>errmsg</td>
+<td>String</td>
+<td>Error message, if any</td>
+</tr>
+<tr>
+<td>data</td>
+<td>HealthStatus</td>
+<td>Height and time information for checking health</td>
+</tr>
+</tbody></table>
+
+<p><strong>HealthStatus</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>localHeight</td>
+<td>Integer</td>
+<td>Injective Indexer block height</td>
+</tr>
+<tr>
+<td>localTimestamp</td>
+<td>Integer</td>
+<td>Timestamp of localHeight</td>
+</tr>
+<tr>
+<td>horacleHeight</td>
+<td>Integer</td>
+<td>Height of the network according to the Injective height oracle</td>
+</tr>
+<tr>
+<td>horacleTimestamp</td>
+<td>Integer</td>
+<td>Timestamp of horacleHeight</td>
+</tr>
+</tbody></table>
 <h1 id='injectivemetarpc'>- InjectiveMetaRPC</h1>
 <p>InjectiveMetaRPC defines the gRPC API of the Exchange Meta provider.</p>
 <h2 id='injectivemetarpc-ping'>Ping</h2>
@@ -21301,7 +21416,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <!-- |margin_hold|Coin Array|Margin held by open orders| -->
 
-<!-- |unrealized_pnl|Coin Array|Unrealized PNL of open positions|  -->
+<!-- |unrealized_pnl|Coin Array|Unrealized PNL of open positions| -->
 
 <p><strong>Coin</strong></p>
 
@@ -23702,7 +23817,39 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3489</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">271044</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000135522</span> <span class="n">INJ</span>
-</code></pre></div><h1 id='spot'>- Spot</h1>
+</code></pre></div><h2 id='derivatives-note-on-localorderhashcomputation-for-hfts-api-traders'>Note on LocalOrderHashComputation for HFTs/API Traders</h2>
+<p><code>LocalOrderHashComputation</code> returns a locally computed transaction hash for spot and derivative orders, which is useful when the user needs the transaction hash faster than orders can be streamed through <code>StreamOrdersHistory</code> (there is extra latency since the order must be included by a block, and the block must be indexed by the Indexer). While the hash can also be obtained through transaction simulation, the process adds a layer of latency and can only be used for one transaction per block (simulation relies on a nonce based on the state machine which does not change until the transaction is included in a block).</p>
+
+<p>On Injective, subaccount nonces are used to calculate order hashes. The subaccount nonce is incremented with each order so that order hashes remain unique.</p>
+
+<p>For strategies employing high frequency trading, order hashes should be calculated locally before transactions are broadcasted. This is possible as long as the subaccount nonce is cached/tracked locally instead of queried from the chain. Similarly, the account sequence (like nonce on Ethereum) should be cached if more than one transaction per block is desired. The <code>LocalOrderHashComputation</code> implementation can be found <a href="https://github.com/InjectiveLabs/sdk-python/blob/master/pyinjective/orderhash.py">here</a>. Refer to the <a href="#derivatives-localorderhashcomputation">above API example</a> for usage.</p>
+
+<p>There are two caveats to be mindful of when taking this approach:</p>
+
+<p><strong>1. Gas must be manually calculated instead of fetched from simulation</strong>
+  * To avoid latency issues from simulation, it&#39;s best to completely omit simulation for fetching gas and order hash.
+  * To calculate gas, a constant value should be set for the base transaction object. The tx object consists of a constant set of attributes such as memo, sequence, etc., so gas should be the same as long as the amount of data being transmitted remains constant (i.e. gas may change if the memo size is very large). The gas can then be increased per order creation/cancellation.
+  * These constants can be found through simulating a transaction with a single order and a separate transaction with two orders, then solving the linear equations to obtain the base gas and the per-order gas amounts.
+  * An extra 20,000 buffer can be added to the gas calculation to ensure the transaction is not rejected during execution on the validator node. Transactions often require a bit more gas depending on the operations; for example, a post-only order could cross the order book and get cancelled, which would cost a different amount of gas than if that order was posted in the book as a limit order. For example:
+  <code>
+    class GasLimitConstant:
+        base = 65e3
+        extra = 20e3
+        derivative_order = 45e3
+        derivative_cancel = 55e3
+</code>
+  * Note: In cosmos-sdk v0.46, a gas refund capability has been added through the PostHandler functionality. In theory, this means that gas constants can be set much higher such that transactions never fail; however, because v0.46 was not compatible with CosmWasm during the last chain upgrade, the refund capability is not yet implemented on Injective. This will likely change in the future, but as of now, gas is paid in its entirety as set.</p>
+
+<p><strong>2. In the event a transaction fails, the account sequence and subaccount nonce must both be refreshed</strong>
+  * If the client receives a sequence mismatch error (code 32), a refresh in sequence and subaccount nonce will likely resolve the error.
+  * To refresh the cached account sequence, updated account data can be fetched using the client. For example, using the Python client:
+  <code>
+    res = await self.client.send_tx_sync_mode(tx_raw_bytes)
+        if res.code == 32:
+        await self.client.get_account(self.address.to_acc_bech32())
+</code>
+  * To refresh the cached subaccount nonce, the <a href="https://github.com/InjectiveLabs/sdk-python/blob/master/pyinjective/orderhash.py#L47"><code>OrderHashManager</code></a> can be reinitialized since the subaccount nonce is fetched from the chain during init.</p>
+<h1 id='spot'>- Spot</h1>
 <p>Includes all messages related to spot markets.</p>
 <h2 id='spot-msgcreatespotmarketorder'>MsgCreateSpotMarketOrder</h2><h3 id='spot-msgcreatespotmarketorder-request-parameters'>Request Parameters</h3>
 <blockquote>
@@ -25736,7 +25883,39 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3489</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">271044</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000135522</span> <span class="n">INJ</span>
-</code></pre></div><h1 id='binary-options'>- Binary Options</h1>
+</code></pre></div><h2 id='spot-note-on-localorderhashcomputation-for-hfts-api-traders'>Note on LocalOrderHashComputation for HFTs/API Traders</h2>
+<p><code>LocalOrderHashComputation</code> returns a locally computed transaction hash for spot and derivative orders, which is useful when the user needs the transaction hash faster than orders can be streamed through <code>StreamOrdersHistory</code> (there is extra latency since the order must be included by a block, and the block must be indexed by the Indexer). While the hash can also be obtained through transaction simulation, the process adds a layer of latency and can only be used for one transaction per block (simulation relies on a nonce based on the state machine which does not change until the transaction is included in a block).</p>
+
+<p>On Injective, subaccount nonces are used to calculate order hashes. The subaccount nonce is incremented with each order so that order hashes remain unique.</p>
+
+<p>For strategies employing high frequency trading, order hashes should be calculated locally before transactions are broadcasted. This is possible as long as the subaccount nonce is cached/tracked locally instead of queried from the chain. Similarly, the account sequence (like nonce on Ethereum) should be cached if more than one transaction per block is desired. The <code>LocalOrderHashComputation</code> implementation can be found <a href="https://github.com/InjectiveLabs/sdk-python/blob/master/pyinjective/orderhash.py">here</a>. Refer to the <a href="#spot-localorderhashcomputation">above API example</a> for usage.</p>
+
+<p>There are two caveats to be mindful of when taking this approach:</p>
+
+<p><strong>1. Gas must be manually calculated instead of fetched from simulation</strong>
+  * To avoid latency issues from simulation, it&#39;s best to completely omit simulation for fetching gas and order hash.
+  * To calculate gas, a constant value should be set for the base transaction object. The tx object consists of a constant set of attributes such as memo, sequence, etc., so gas should be the same as long as the amount of data being transmitted remains constant (i.e. gas may change if the memo size is very large). The gas can then be increased per order creation/cancellation.
+  * These constants can be found through simulating a transaction with a single order and a separate transaction with two orders, then solving the linear equations to obtain the base gas and the per-order gas amounts.
+  * An extra 20,000 buffer can be added to the gas calculation to ensure the transaction is not rejected during execution on the validator node. Transactions often require a bit more gas depending on the operations; for example, a post-only order could cross the order book and get cancelled, which would cost a different amount of gas than if that order was posted in the book as a limit order. For example:
+  <code>
+    class GasLimitConstant:
+        base = 65e3
+        extra = 20e3
+        spot_order = 60e3
+        spot_cancel = 40e3
+</code>
+  * Note: In cosmos-sdk v0.46, a gas refund capability has been added through the PostHandler functionality. In theory, this means that gas constants can be set much higher such that transactions never fail; however, because v0.46 was not compatible with CosmWasm during the last chain upgrade, the refund capability is not yet implemented on Injective. This will likely change in the future, but as of now, gas is paid in its entirety as set.</p>
+
+<p><strong>2. In the event a transaction fails, the account sequence and subaccount nonce must both be refreshed</strong>
+  * If the client receives a sequence mismatch error (code 32), a refresh in sequence and subaccount nonce will likely resolve the error.
+  * To refresh the cached account sequence, updated account data can be fetched using the client. For example, using the Python client:
+  <code>
+    res = await self.client.send_tx_sync_mode(tx_raw_bytes)
+        if res.code == 32:
+        await self.client.get_account(self.address.to_acc_bech32())
+</code>
+  * To refresh the cached subaccount nonce, the <a href="https://github.com/InjectiveLabs/sdk-python/blob/master/pyinjective/orderhash.py#L47"><code>OrderHashManager</code></a> can be reinitialized since the subaccount nonce is fetched from the chain during init.</p>
+<h1 id='binary-options'>- Binary Options</h1>
 <p>Includes all messages related to binary options.</p>
 <h2 id='binary-options-msgcreatebinaryoptionslimitorder'>MsgCreateBinaryOptionsLimitOrder</h2><h3 id='binary-options-msgcreatebinaryoptionslimitorder-request-parameters'>Request Parameters</h3>
 <blockquote>
