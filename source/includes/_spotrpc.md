@@ -1291,6 +1291,7 @@ paging {
 |timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
 **Paging**
+
 |Parameter|Type|Description|
 |----|----|----|
 |total|Integer|Total number of records available|
