@@ -165,15 +165,17 @@ import logging
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import Network
 
+
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     account_address = "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-    portfolio = await client.get_account_portfolio(
-        account_address=account_address
-    )
-    print(portfolio)
+    updates = await client.stream_account_portfolio(account_address=account_address)
+    async for update in updates:
+        print("Account portfolio Update:\n")
+        print(update)
+
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
