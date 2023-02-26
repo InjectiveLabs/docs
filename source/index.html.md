@@ -22,6 +22,7 @@ includes:
   - insurancerpc
   - auctionsrpc
   - explorerrpc
+  - healthcheck
   - metarpc
   - portfoliorpc
   - chainapi

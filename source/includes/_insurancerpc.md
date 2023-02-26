@@ -1,5 +1,5 @@
 # - InjectiveInsuranceRPC
-InjectiveInsuranceRPC defines the gRPC API of the Insurance Exchange provider. Usage examples can be found [here](https://github.com/InjectiveLabs/sdk-python/tree/master/examples/exchange_client/insurance_rpc).
+InjectiveInsuranceRPC defines the gRPC API of the Insurance Exchange provider.
 
 
 ## InsuranceFunds
@@ -18,7 +18,7 @@ from pyinjective.constant import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
-    network = Network.mainnet()
+    network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     insurance_funds = await client.get_insurance_funds()
     print(insurance_funds)
@@ -88,55 +88,52 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 ``` python
 funds {
   market_ticker: "BTC/USDT PERP"
-  market_id: "0xed2e04e71398a4bdca39cd0b6a98e6c7430f1062455bac5d363d5f1bcd27d122"
-  deposit_denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+  market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+  deposit_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
   pool_token_denom: "share1"
   redemption_notice_period_duration: 1209600
-  balance: "100000000"
-  total_share: "20000000000000000000"
-  oracle_base: "BTC"
-  oracle_quote: "USDT"
-  oracle_type: "coinbase"
-}
-funds {
-  market_ticker: "BTC/USDT PERP"
-  market_id: "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-  deposit_denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
-  pool_token_denom: "share2"
-  redemption_notice_period_duration: 1209600
-  balance: "113250009813"
-  total_share: "15931085995447619092434"
+  balance: "100000000000"
+  total_share: "1000000000000000000"
   oracle_base: "BTC"
   oracle_quote: "USDT"
   oracle_type: "bandibc"
 }
-
-...
-
 funds {
-  market_ticker: "ETH/USDT 19SEP22"
-  market_id: "0x5e7be7948c78f0c7fb1170655b5faa0a519ee0801250dde0b50308791474e61c"
-  deposit_denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
-  pool_token_denom: "share17"
+  market_ticker: "ETH/USDT PERP"
+  market_id: "0xd5e4b12b19ecf176e4e14b42944731c27677819d2ed93be4104ad7025529c7ff"
+  deposit_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+  pool_token_denom: "share2"
   redemption_notice_period_duration: 1209600
-  balance: "0"
-  total_share: "0"
+  balance: "101101000000"
+  total_share: "1011010000000000000"
   oracle_base: "ETH"
   oracle_quote: "USDT"
   oracle_type: "bandibc"
-  expiry: 1663603200
 }
 funds {
-  market_ticker: "BONK/USDT PERP"
-  market_id: "0x3b7fb1d9351f7fa2e6e0e5a11b3639ee5e0486c33a6a74f629c3fc3c3043efd5"
-  deposit_denom: "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
-  pool_token_denom: "share18"
+  market_ticker: "INJ/USDT PERP"
+  market_id: "0xe112199d9ee44ceb2697ea0edd1cd422223c105f3ed2bdf85223d3ca59f5909a"
+  deposit_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+  pool_token_denom: "share3"
   redemption_notice_period_duration: 1209600
-  balance: "500000000"
-  total_share: "5000000000000000000"
-  oracle_base: "BONK"
+  balance: "101010000000"
+  total_share: "1010100000000000000"
+  oracle_base: "INJ"
+  oracle_quote: "USDT"
+  oracle_type: "bandibc"
+}
+funds {
+  market_ticker: "Frontrunner Futures 4: Expires 7.7.2023"
+  market_id: "0x3bb58218cd90efcce9ea9e317d137dcd4ce8485c6be346250dbf8cd60d9c9e2d"
+  deposit_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+  pool_token_denom: "share4"
+  redemption_notice_period_duration: 1209600
+  balance: "1015000000"
+  total_share: "101500000000000000000"
+  oracle_base: "FRNT"
   oracle_quote: "USDT"
   oracle_type: "pricefeed"
+  expiry: 1688747341
 }
 ```
 

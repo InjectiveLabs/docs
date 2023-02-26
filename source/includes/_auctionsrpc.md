@@ -1,5 +1,5 @@
 # - InjectiveAuctionRPC
-InjectiveAuctionRPC defines the gRPC API of the Auction provider. Usage examples can be found [here](https://github.com/InjectiveLabs/sdk-python/tree/master/examples/exchange_client/auctions_rpc).
+InjectiveAuctionRPC defines the gRPC API of the Auction provider.
 
 
 ## Auction

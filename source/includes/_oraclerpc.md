@@ -1,5 +1,5 @@
 # - InjectiveOracleRPC
-InjectiveOracleRPC defines the gRPC API of the Exchange Oracle provider. Usage examples can be found [here](https://github.com/InjectiveLabs/sdk-python/tree/master/examples/exchange_client/oracle_rpc)
+InjectiveOracleRPC defines the gRPC API of the Exchange Oracle provider.
 
 
 ## OracleList

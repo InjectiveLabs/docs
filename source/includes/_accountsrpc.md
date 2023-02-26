@@ -1,5 +1,5 @@
 # - InjectiveAccountsRPC
-InjectiveAccountsRPC defines the gRPC API of the Exchange Accounts provider. Usage examples can be found [here](https://github.com/InjectiveLabs/sdk-python/tree/master/examples/exchange_client/accounts_rpc).
+InjectiveAccountsRPC defines the gRPC API of the Exchange Accounts provider.
 
 ## SubaccountsList
 
