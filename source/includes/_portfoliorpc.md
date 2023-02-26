@@ -115,8 +115,8 @@ Get continuous update about account's portfolio
 
 ### Response Parameters
 
-|Field|Type|Label|Description|
-|-----|----|-----|-----------|
+|Field|Type|Description|
+|-----|----|-----------|
 |type|String|type of portfolio entry (either bank, total_balance, available_balance)|
 |denom|String|denom of portfolio entry|
 |amount|String|amount of portfolio entry|

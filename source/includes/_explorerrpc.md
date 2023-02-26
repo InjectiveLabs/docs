@@ -623,9 +623,7 @@ data {
 
 |Parameter|Type|Description|
 |----|----|----|
-|total|Integer|Total number of available records|
-|from|Integer|Lower bound of indices of records returned|
-|to|Integer|Upper bound of indices of records returned|
+|total|Integer|Total number of records available|
 
 **Data**
 
@@ -855,9 +853,7 @@ data {
 
 |Parameter|Type|Description|
 |----|----|----|
-|total|Integer|Total number of available records|
-|from|Integer|Lower bound of indices of records returned|
-|to|Integer|Upper bound of indices of records returned|
+|total|Integer|Total number of records available|
 
 **BlockInfo**
 
@@ -1323,9 +1319,7 @@ data {
 
 |Parameter|Type|Description|
 |----|----|----|
-|total|Integer|Total number of available records|
-|from|Integer|Lower bound of indices of records returned|
-|to|Integer|Upper bound of indices of records returned|
+|total|Integer|Total number of records available|
 
 **TxData**
 
@@ -2539,41 +2533,81 @@ List all cosmwasm code on injective chain. Results are paginated
 
 ### Request Parameters
 
-|Field|Type|Description|
-|-----|----|-----------|
-|limit|Integer||
-|from_number|Integer||
-|to_number|Integer||
+|Field|Type|Description|Required|
+|-----|----|-----------|--------|
+|limit|Integer|Limit number of codes to return|No|
+|from_number|Integer|List all codes whose number (code_id) is not lower than from_number|No|
+|to_number|Integer|List all codes whose number (code_id) is not greater than to_number|No|
 
 ### Response Parameters
 
 |Field|Type|Description|
 |-----|----|-----------|
-|paging|Paging||
-|data|WasmCode Array||
+|paging|Paging|Paging struct|
+|data|WasmCode Array|Array of WasmCode, after applying filters|
 
 **Paging**
 
-|Field|Type|Description|
-|-----|----|-----------|
-|total|Integer|total number of txs saved in database|
-|from|Integer|can be either block height or index num|
-|to|Integer|can be either block height or index num|
+|Parameter|Type|Description|
+|----|----|----|
+|total|Integer|Total number of records available|
 
 **WasmCode**
 
 |Field|Type|Description|
 |-----|----|-----------|
-|code_id|Uint64|ID of stored wasmcode, sorted in descending order|
+|code_id|Integer|ID of stored wasmcode, sorted in descending order|
 |tx_hash|String|Tx hash of store code transaction|
 |checksum|Checksum|Checksum of the cosmwasm code|
-|created_at|Uint64|Block time when the code is stored, in millisecond|
+|created_at|Integer|Block time when the code is stored, in millisecond|
 |contract_type|String|Contract type of the wasm code|
 |version|String|version string of the wasm code|
 |permission|ContractPermission|describe instantiate permission|
 |code_schema|String|code schema preview (to be supported)|
 |code_view|String|code repo preview, may contain schema folder (to be supported)|
-|instantiates|Uint64|count number of contract instantiation from this code|
+|instantiates|Integer|count number of contract instantiation from this code|
+|creator|String|creator of this code|
+|code_number|Integer|monotonic order of the code stored|
+|proposal_id|Integer|id of the proposal that store this code|
+
+**ContractPermission**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|access_type|Integer|Access type of instantiation|
+|address|Integer|Account address|
+
+**Checksum**
+
+|Field|Type|Description|
+|-----|----|-----------|
+|algorithm|String|Algorithm of hash function|
+|hash|String|Hash if apply algorithm to the cosmwasm bytecode|
+
+## GetWasmCodeByID
+
+Get cosmwasm code by its code ID
+
+### Request Parameters
+
+|Field|Type|Description|Required|
+|-----|----|-----------|--------|
+|code_id|Integer|Code ID of the code|Yes|
+
+### Response Parameters
+
+|Field|Type|Description|
+|-----|----|-----------|
+|code_id|Integer|ID of stored wasmcode, sorted in descending order|
+|tx_hash|String|Tx hash of store code transaction|
+|checksum|Checksum|Checksum of the cosmwasm code|
+|created_at|Integer|Block time when the code is stored, in millisecond|
+|contract_type|String|Contract type of the wasm code|
+|version|String|version string of the wasm code|
+|permission|ContractPermission|describe instantiate permission|
+|code_schema|String|code schema preview|
+|code_view|String|code repo preview, may contain schema folder|
+|instantiates|Integer|count number of contract instantiation from this code|
 |creator|String|creator of this code|
 |code_number|Integer|monotonic order of the code stored|
 |proposal_id|Integer|id of the proposal that store this code|
@@ -2589,57 +2623,8 @@ List all cosmwasm code on injective chain. Results are paginated
 
 |Field|Type|Description|
 |-----|----|-----------|
-|algorithm|String||Algorithm of hash function|
-|hash|String||Hash if apply algorithm to the cosmwasm bytecode|
-
-## GetWasmCodeByID
-
-Get cosmwasm code by its code ID
-
-### Request Parameters
-
-|Field|Type|Description|
-|-----|----|-----------|
-|code_id|Uint64|Code ID of the code|
-
-### Response Parameters
-
-|Field|Type|Description|
-|-----|----|-----------|
-|code_id|Uint64|ID of stored wasmcode, sorted in descending order|
-|tx_hash|String|Tx hash of store code transaction|
-|checksum|Checksum|Checksum of the cosmwasm code|
-|created_at|Uint64|Block time when the code is stored, in millisecond|
-|contract_type|String|Contract type of the wasm code|
-|version|String||version string of the wasm code|
-|permission|ContractPermission||describe instantiate permission|
-|code_schema|String||code schema preview|
-|code_view|String||code repo preview, may contain schema folder|
-|instantiates|Uint64||count number of contract instantiation from this code|
-|creator|String||creator of this code|
-|code_number|Integer||monotonic order of the code stored|
-|proposal_id|Integer||id of the proposal that store this code|
-
-**ContractPermission**
-
-|Field|Type|Description|
-|-----|----|-----------|
-|access_type|Integer||Access type of instantiation|
-|address|Integer||Account address|
-
-**Checksum**
-
-|Field|Type|Description|
-|-----|----|-----------|
-|algorithm|String|Algorithm of hash function|
-|hash|String|
-
-
-
-
-
-
- Hash if apply algorithm to the cosmwasm bytecode|
+|algorithm|String|Algorithm of hash function, usually sha256|
+|hash|String|Hash of the cosmwasm bytecode, using algorithm|
 
 ## GetWasmContracts
 
@@ -2647,29 +2632,27 @@ Get cosmwasm instantiated contracts on injective-chain. Results are paginated
 
 ### Request Parameters
 
-|Field|Type|Description|
-|-----|----|-----------|
-|limit|Integer||
-|code_id|Uint64||
-|from_number|Integer||
-|to_number|Integer||
-|assets_only|Boolean||
-|skip|Integer||
+|Field|Type|Description|Required|
+|-----|----|-----------|--------|
+|limit|Integer|Max number of items to be returned, default to 100|No|
+|code_id|Integer|Contract's code ID to be filtered|No|
+|from_number|Integer|No|
+|to_number|Integer|No|
+|assets_only|Boolean|Filter only CW20 contract|No|
+|skip|Integer|Skip the first *n* cosmwasm contracts. This can be used to fetch all results since the API caps|No|
 
 ### Response Parameters
 
 |Field|Type|Description|
 |-----|----|-----------|
-|paging|Paging||
-|data|WasmContract Array||
+|paging|Paging|Paging struct|
+|data|WasmContract Array|Array of WasmContracts after filtering|
 
 **Paging**
 
 |Field|Type|Description|
 |-----|----|-----------|
-|total|Integer|total number of txs saved in database|
-|from|Integer|can be either block height or index num|
-|to|Integer|can be either block height or index num|
+|total|Integer|Total number of txs stored in database|
 
 **WasmContract**
 
@@ -2679,12 +2662,12 @@ Get cosmwasm instantiated contracts on injective-chain. Results are paginated
 |address|String|Address of the contract|
 |tx_hash|String|hash of the instantiate transaction|
 |creator|String|Address of the contract creator|
-|executes|Uint64|Number of times call to execute contract|
-|instantiated_at|Uint64|Block timestamp that contract was instantiated, in millisecond|
+|executes|Integer|Number of times call to execute contract|
+|instantiated_at|Integer|Block timestamp that contract was instantiated, in millisecond|
 |init_message|String|init message when this contract was instantiated|
-|last_executed_at|Uint64|Block timestamp that contract was called, in millisecond|
+|last_executed_at|Integer|Block timestamp that contract was called, in millisecond|
 |funds|ContractFund Array|Contract funds|
-|code_id|Uint64|Code id of the contract|
+|code_id|Integer|Code id of the contract|
 |admin|String|Admin of the contract|
 |current_migrate_message|String|Latest migrate message of the contract|
 |contract_number|Integer|Monotonic contract number in database|
@@ -2733,9 +2716,9 @@ Get cosmwasm contract by its address
 
 ### Request Parameters
 
-|Field|Type|Description|
-|-----|----|-----------|
-|contract_address|String|Contract address|
+|Field|Type|Description|Required|
+|-----|----|-----------|--------|
+|contract_address|String|Contract address|Yes|
 
 ### Response Parameters
 
@@ -2745,12 +2728,12 @@ Get cosmwasm contract by its address
 |address|String|Address of the contract|
 |tx_hash|String|hash of the instantiate transaction|
 |creator|String|Address of the contract creator|
-|executes|Uint64|Number of times call to execute contract|
-|instantiated_at|Uint64|Block timestamp that contract was instantiated, in millisecond|
+|executes|Integer|Number of times call to execute contract|
+|instantiated_at|Integer|Block timestamp that contract was instantiated, in millisecond|
 |init_message|String|init message when this contract was instantiated|
-|last_executed_at|Uint64|Block timestamp that contract was called, in millisecond|
+|last_executed_at|Integer|Block timestamp that contract was called, in millisecond|
 |funds|ContractFund Array|Contract funds|
-|code_id|Uint64|Code id of the contract|
+|code_id|Integer|Code id of the contract|
 |admin|String|Admin of the contract|
 |current_migrate_message|String|Latest migrate message of the contract|
 |contract_number|Integer|Monotonic contract number in database|
@@ -2799,10 +2782,10 @@ Get CW20 balances of an injective account across all instantiated CW20 contracts
 
 ### Request Parameters
 
-|Field|Type|Description|
-|-----|----|-----------|
-|address|String|address to list balance of|
-|limit|Integer||
+|Field|Type|Description|Required|
+|-----|----|-----------|--------|
+|address|String|address to list balance of|Yes|
+|limit|Integer|limit number of balances to return|No|
 
 ### Response Parameters
 
@@ -2824,8 +2807,8 @@ Get CW20 balances of an injective account across all instantiated CW20 contracts
 
 |Field|Type|Description|
 |-----|----|-----------|
-|token_info|Cw20TokenInfo||
-|marketing_info|Cw20MarketingInfo||
+|token_info|Cw20TokenInfo|CW20 token info structure|
+|marketing_info|Cw20MarketingInfo|Marketing info struct|
 
 **Cw20TokenInfo**
 

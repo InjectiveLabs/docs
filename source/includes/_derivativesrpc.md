@@ -1552,6 +1552,7 @@ paging {
 |execution_margin|String|Execution margin of the trade|
 
 **Paging**
+
 |Parameter|Type|Description|
 |----|----|----|
 |total|Integer|Total number of records available|
@@ -2143,9 +2144,6 @@ paging {
 |Parameter|Type|Description|
 |----|----|----|
 |total|Integer|Total number of available records|
-|from|Integer|Lower bound of indices of records returned|
-|to|integer|Upper bound of indices of records returned|
-
 
 ## StreamPositions
 
@@ -2862,6 +2860,7 @@ orderbooks {
 
 **SingleDerivativeLimitOrderbook**
 
+|Parameter|Type|Description|
 |----|----|----|
 |market_id|String|ID of the market that the orderbook belongs to|
 |orderbook|DerivativeLimitOrderbook|Orderbook of the market|
@@ -3312,6 +3311,7 @@ orderbooks {
 
 **SingleDerivativeLimitOrderbookV2**
 
+|Parameter|Type|Description|
 |----|----|----|
 |market_id|String|ID of the market that the orderbook belongs to|
 |orderbook|DerivativeLimitOrderbookV2|Orderbook of the market|
