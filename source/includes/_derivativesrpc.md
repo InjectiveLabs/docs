@@ -4880,7 +4880,7 @@ if __name__ == '__main__':
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_status|String|Filter by the status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|No|
-|quote_denom|String|Filter by the Coin denomination of the quote currency||No|
+|quote_denom|String|Filter by the Coin denomination of the quote currency|No|
 |skip|Integer|Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100|No|
 |limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
 
