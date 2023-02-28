@@ -97,8 +97,8 @@ portfolio {
 
 |Field|Type|Description|
 |-----|----|-----------|
-|total_balance|String|All balance (in specific denom) that this subaccount has|
-|available_balance|String|Available balance (in specific denom) that is not in orders|
+|total_balance|String|All balances (in specific denom) that this subaccount has|
+|available_balance|String|Available balance (in specific denom) that is not in any orders|
 
 ## StreamAccountPortfolio
 *New API. Available on testnet*
@@ -111,13 +111,13 @@ Get continuous update about account's portfolio
 |-----|----|-----------|--------|
 |account_address|String|The account&#39;s portfolio address|Yes|
 |subaccount_id|String|Related subaccount ID|No|
-|type|String|Type of portfolio entry (either bank, total_balance, available_balance) to filter|No|
+|type|String|Type of portfolio document (should be one of ["bank", "total_balance", "available_balance"])|No|
 
 ### Response Parameters
 
 |Field|Type|Description|
 |-----|----|-----------|
-|type|String|type of portfolio entry (either bank, total_balance, available_balance)|
+|type|String|type of portfolio (should be one of ["bank", "total_balance", "available_balance"])|
 |denom|String|denom of portfolio entry|
 |amount|String|amount of portfolio entry|
 |subaccount_id|String|subaccount id of portfolio entry|

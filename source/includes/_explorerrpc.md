@@ -2543,7 +2543,7 @@ List all cosmwasm code on injective chain. Results are paginated
 
 |Field|Type|Description|
 |-----|----|-----------|
-|paging|Paging|Paging struct|
+|paging|Paging|Pagination of results|
 |data|WasmCode Array|Array of WasmCode, after applying filters|
 
 **Paging**
@@ -2568,7 +2568,7 @@ List all cosmwasm code on injective chain. Results are paginated
 |instantiates|Integer|count number of contract instantiation from this code|
 |creator|String|creator of this code|
 |code_number|Integer|monotonic order of the code stored|
-|proposal_id|Integer|id of the proposal that store this code|
+|proposal_id|Integer|ID of the proposal that store this code|
 
 **ContractPermission**
 
@@ -2610,14 +2610,14 @@ Get cosmwasm code by its code ID
 |instantiates|Integer|count number of contract instantiation from this code|
 |creator|String|creator of this code|
 |code_number|Integer|monotonic order of the code stored|
-|proposal_id|Integer|id of the proposal that store this code|
+|proposal_id|Integer|ID of the proposal that store this code|
 
 **ContractPermission**
 
 |Field|Type|Description|
 |-----|----|-----------|
-|access_type|Integer||Access type of instantiation|
-|address|Integer||Account address|
+|access_type|Integer|Access type of instantiation|
+|address|Integer|Account address|
 
 **Checksum**
 
@@ -2636,23 +2636,23 @@ Get cosmwasm instantiated contracts on injective-chain. Results are paginated
 |-----|----|-----------|--------|
 |limit|Integer|Max number of items to be returned, default to 100|No|
 |code_id|Integer|Contract's code ID to be filtered|No|
-|from_number|Integer|No|
-|to_number|Integer|No|
+|from_number|Integer|List all contracts whose number is not lower than from_number|No|
+|to_number|Integer|List all contracts whose number is not greater than to_number|No|
 |assets_only|Boolean|Filter only CW20 contract|No|
-|skip|Integer|Skip the first *n* cosmwasm contracts. This can be used to fetch all results since the API caps|No|
+|skip|Integer|Skip the first *n* cosmwasm contracts. This can be used to fetch all results since the API caps at 100|No|
 
 ### Response Parameters
 
 |Field|Type|Description|
 |-----|----|-----------|
-|paging|Paging|Paging struct|
+|paging|Paging|Pagination of results|
 |data|WasmContract Array|Array of WasmContracts after filtering|
 
 **Paging**
 
 |Field|Type|Description|
 |-----|----|-----------|
-|total|Integer|Total number of txs stored in database|
+|total|Integer|Total number of records available|
 
 **WasmContract**
 
@@ -2660,21 +2660,21 @@ Get cosmwasm instantiated contracts on injective-chain. Results are paginated
 |-----|----|-----------|
 |label|String|General name of the contract|
 |address|String|Address of the contract|
-|tx_hash|String|hash of the instantiate transaction|
+|tx_hash|String|Hash of the instantiate transaction|
 |creator|String|Address of the contract creator|
 |executes|Integer|Number of times call to execute contract|
 |instantiated_at|Integer|Block timestamp that contract was instantiated, in millisecond|
-|init_message|String|init message when this contract was instantiated|
-|last_executed_at|Integer|Block timestamp that contract was called, in millisecond|
+|init_message|String|Init message when this contract was instantiated|
+|last_executed_at|Integer|Block timestamp that contract was last called, in UNIX millisecond|
 |funds|ContractFund Array|Contract funds|
-|code_id|Integer|Code id of the contract|
+|code_id|Integer|Code ID of the contract|
 |admin|String|Admin of the contract|
 |current_migrate_message|String|Latest migrate message of the contract|
 |contract_number|Integer|Monotonic contract number in database|
-|version|String|Contract version string|
+|version|String|Contract version|
 |type|String|Contract type|
-|cw20_metadata|Cw20Metadata||
-|proposal_id|Integer|id of the proposal that instantiate this contract|
+|cw20_metadata|Cw20Metadata|Metadata of the CW20 contract|
+|proposal_id|Integer|ID of the proposal that instantiates this contract|
 
 
 **ContractFund**
@@ -2688,17 +2688,15 @@ Get cosmwasm instantiated contracts on injective-chain. Results are paginated
 
 |Field|Type|Description|
 |-----|----|-----------|
-|token_info|Cw20TokenInfo|
-|marketing_info|Cw20MarketingInfo|
+|token_info|Cw20TokenInfo|CW20 token info structure|
+|marketing_info|Cw20MarketingInfo|Marketing info structure|
 
 **Cw20TokenInfo**
-
-Token name, symbol, decimal 
 
 |Field|Type|Description|
 |-----|----|-----------|
 |name|String|General name of the token|
-|symbol|String|Symbol of then token|
+|symbol|String|Symbol of the token|
 |decimals|Integer|Decimal places of token|
 
 **Cw20MarketingInfo**
@@ -2707,7 +2705,7 @@ Token name, symbol, decimal
 |-----|----|-----------|
 |project|String|Project information|
 |description|String|Token&#39;s description|
-|logo|String|logo (url/embedded)|
+|logo|String|Logo (url/embedded)|
 |marketing|Bytes Array|Address that can update the contract's marketing info|
 
 ## GetWasmContractByAddress
@@ -2726,21 +2724,21 @@ Get cosmwasm contract by its address
 |-----|----|-----------|
 |label|String|General name of the contract|
 |address|String|Address of the contract|
-|tx_hash|String|hash of the instantiate transaction|
+|tx_hash|String|Hash of the instantiate transaction|
 |creator|String|Address of the contract creator|
 |executes|Integer|Number of times call to execute contract|
-|instantiated_at|Integer|Block timestamp that contract was instantiated, in millisecond|
-|init_message|String|init message when this contract was instantiated|
-|last_executed_at|Integer|Block timestamp that contract was called, in millisecond|
+|instantiated_at|Integer|Block timestamp that contract was instantiated at, in UNIX millisecond|
+|init_message|String|Init message when this contract was instantiated|
+|last_executed_at|Integer|Block timestamp that contract was last called, in UNIX millisecond|
 |funds|ContractFund Array|Contract funds|
-|code_id|Integer|Code id of the contract|
+|code_id|Integer|Code ID of the contract|
 |admin|String|Admin of the contract|
 |current_migrate_message|String|Latest migrate message of the contract|
 |contract_number|Integer|Monotonic contract number in database|
 |version|String|Contract version string|
-|type|String|Contract type||
-|cw20_metadata|Cw20Metadata||
-|proposal_id|Integer|id of the proposal that instantiate this contract|
+|type|String|Contract type|
+|cw20_metadata|Cw20Metadata|Metadata of the CW20 contract|
+|proposal_id|Integer|ID of the proposal that instantiates this contract|
 
 **ContractFund**
 
@@ -2753,17 +2751,15 @@ Get cosmwasm contract by its address
 
 |Field|Type|Description|
 |-----|----|-----------|
-|token_info|Cw20TokenInfo||
-|marketing_info|Cw20MarketingInfo||
+|token_info|Cw20TokenInfo|CW20 token info structure|
+|marketing_info|Cw20MarketingInfo|Marketing info structure|
 
 **Cw20TokenInfo**
-
-Token name, symbol, decimal 
 
 |Field|Type|Description|
 |-----|----|-----------|
 |name|String|General name of the token|
-|symbol|String|Symbol of then token|
+|symbol|String|Symbol of the token|
 |decimals|Integer|Decimal places of token|
 
 **Cw20MarketingInfo**
@@ -2772,7 +2768,7 @@ Token name, symbol, decimal
 |-----|----|-----------|
 |project|String|Project information|
 |description|String|Token&#39;s description|
-|logo|String|logo (url/embedded)|
+|logo|String|Logo (url/embedded)|
 |marketing|Bytes Array|Address that can update the contract's marketing info|
 
 
@@ -2784,14 +2780,15 @@ Get CW20 balances of an injective account across all instantiated CW20 contracts
 
 |Field|Type|Description|Required|
 |-----|----|-----------|--------|
-|address|String|address to list balance of|Yes|
-|limit|Integer|limit number of balances to return|No|
+|address|String|Address to list balance of|Yes|
+|limit|Integer|Limit number of balances to return|No|
+|cw20_metadata|Cw20Metadata|Metadata of the CW20 contract|
 
 ### Response Parameters
 
 |Field|Type|Description|
 |-----|----|-----------|
-|field|WasmCw20Balance Array||
+|field|WasmCw20Balance Array|CW20 balance array|
 
 **WasmCw20Balance**
 
@@ -2800,24 +2797,22 @@ Get CW20 balances of an injective account across all instantiated CW20 contracts
 |contract_address|String|Address of CW20 contract|
 |account|String|Account address|
 |balance|String|Account balance|
-|updated_at|Integer|update timestamp in milisecond|
-|cw20_metadata|Cw20Metadata||
+|updated_at|Integer|Update timestamp in milisecond|
+|cw20_metadata|Cw20Metadata|Metadata of the CW20 contract|
 
 **Cw20Metadata**
 
 |Field|Type|Description|
 |-----|----|-----------|
-|token_info|Cw20TokenInfo|CW20 token info structure|
-|marketing_info|Cw20MarketingInfo|Marketing info struct|
+|token_info|Cw20TokenInfo|CW20 token info|
+|marketing_info|Cw20MarketingInfo|Marketing info|
 
 **Cw20TokenInfo**
-
-Token name, symbol, decimal 
 
 |Field|Type|Description|
 |-----|----|-----------|
 |name|String|General name of the token|
-|symbol|String|Symbol of then token|
+|symbol|String|Symbol of the token|
 |decimals|Integer|Decimal places of token|
 
 **Cw20MarketingInfo**
@@ -2826,5 +2821,5 @@ Token name, symbol, decimal
 |-----|----|-----------|
 |project|String|Project information|
 |description|String|Token&#39;s description|
-|logo|String|logo (url/embedded)|
+|logo|String|Logo (url/embedded)|
 |marketing|Bytes Array|Address that can update the contract's marketing info|
