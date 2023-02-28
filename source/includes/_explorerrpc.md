@@ -2782,7 +2782,6 @@ Get CW20 balances of an injective account across all instantiated CW20 contracts
 |-----|----|-----------|--------|
 |address|String|Address to list balance of|Yes|
 |limit|Integer|Limit number of balances to return|No|
-|cw20_metadata|Cw20Metadata|Metadata of the CW20 contract|
 
 ### Response Parameters
 
