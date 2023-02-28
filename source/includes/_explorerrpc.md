@@ -2531,6 +2531,8 @@ field {
 
 List all cosmwasm code on injective chain. Results are paginated.
 
+> Request Example:
+
 <!-- embedme ../../../sdk-go/examples/explorer/11_GetWasmCodes/example.go -->
 
 ```go
@@ -2557,7 +2559,7 @@ func main() {
 	ctx := context.Background()
 
 	req := explorerPB.GetWasmCodesRequest{
-		Limit: 10,
+		Limit: 5,
 	}
 
 	res, err := explorerClient.GetWasmCodes(ctx, req)
@@ -2569,6 +2571,90 @@ func main() {
 	fmt.Print(string(str))
 }
 
+```
+
+> Response Example:
+
+```go
+{
+ "paging": {
+  "total": 501,
+  "from": 497,
+  "to": 501
+ },
+ "data": [
+  {
+   "code_id": 501,
+   "tx_hash": "0x6f218f72f68b3c90e578c1b1fad735f8016fc9b3618664ceb301234f2725d218",
+   "checksum": {
+    "algorithm": "sha256",
+    "hash": "0x4f6e56bbbe7ebec55f7e9d49c4a6e534f57ba3402c0282c1c3ec1aac83753ccf"
+   },
+   "created_at": 1677495117914,
+   "permission": {
+    "access_type": 3
+   },
+   "creator": "inj13dyu3ukelncq95s7dqhg6crqvjursramcazkka",
+   "code_number": 515
+  },
+  {
+   "code_id": 500,
+   "tx_hash": "0x9a8035a3cd85651b7266f813f3dd909772a7cec5ca0b4f9266832d50c85921b8",
+   "checksum": {
+    "algorithm": "sha256",
+    "hash": "0xdcaa8a03707966ebfedbb927f755fabf9e7f095663f4b9f45a5b437a8276ea0f"
+   },
+   "created_at": 1677495084552,
+   "permission": {
+    "access_type": 3
+   },
+   "creator": "inj13dyu3ukelncq95s7dqhg6crqvjursramcazkka",
+   "code_number": 514
+  },
+  {
+   "code_id": 499,
+   "tx_hash": "0x3809b1b61e218144c4f50e0a61b6ae89f8942cbe7cadfe67e23127c70949a3f1",
+   "checksum": {
+    "algorithm": "sha256",
+    "hash": "0xdbef810fdc577f4e983620b16eccafdf359e924af0752a13820bf679b260ffe1"
+   },
+   "created_at": 1677495060759,
+   "permission": {
+    "access_type": 3
+   },
+   "creator": "inj13dyu3ukelncq95s7dqhg6crqvjursramcazkka",
+   "code_number": 513
+  },
+  {
+   "code_id": 498,
+   "tx_hash": "0x9c5a44981506fe7658fa38b2bd63ddd20717842433ce75eba60cb2d7ca548b54",
+   "checksum": {
+    "algorithm": "sha256",
+    "hash": "0xe17581873943e1fe3671bfca9a3360398be10a28245fc0d5c55403f64808019c"
+   },
+   "created_at": 1677495034788,
+   "permission": {
+    "access_type": 3
+   },
+   "creator": "inj13dyu3ukelncq95s7dqhg6crqvjursramcazkka",
+   "code_number": 512
+  },
+  {
+   "code_id": 497,
+   "tx_hash": "0xeaa3d642a049d0b09920bacf7989a2371ecf43ec20bb5d6dbb3b54326cec63e7",
+   "checksum": {
+    "algorithm": "sha256",
+    "hash": "0x1a1278f43c03e9ed12ba9c1995bae8ea1554cf67a38e9eedd97e9cd61a3e411d"
+   },
+   "created_at": 1677495006505,
+   "permission": {
+    "access_type": 3
+   },
+   "creator": "inj13dyu3ukelncq95s7dqhg6crqvjursramcazkka",
+   "code_number": 511
+  }
+ ]
+}
 ```
 
 ### Request Parameters
@@ -2628,6 +2714,8 @@ func main() {
 
 Get cosmwasm code by its code ID
 
+> Request Example:
+
 <!-- embedme ../../../sdk-go/examples/explorer/12_GetWasmCodeByID/example.go -->
 
 ```go
@@ -2666,6 +2754,23 @@ func main() {
 	fmt.Print(string(str))
 }
 
+```
+
+> Response Example:
+
+```go
+{
+ "code_id": 10,
+ "tx_hash": "0x476b1988ba0ea020a337b92f46afefde8af2ac9e72934a1b9882673b3926388c",
+ "checksum": {
+  "algorithm": "sha256",
+  "hash": "0xdba30bcea6d5997c00a7922b475e42f172e72b8ef6ad522c09bc1868bc6caff4"
+ },
+ "created_at": 1658305428842,
+ "instantiates": 4,
+ "creator": "inj10hpqmlskky8azz5qca20xau2ppf3x23jsh9k8r",
+ "code_number": 10
+}
 ```
 
 ### Request Parameters
@@ -2710,6 +2815,8 @@ func main() {
 
 Get cosmwasm instantiated contracts on injective-chain. Results are paginated.
 
+> Request Example:
+
 <!-- embedme ../../../sdk-go/examples/explorer/13_GetWasmContracts/example.go -->
 
 ```go
@@ -2735,7 +2842,9 @@ func main() {
 
 	ctx := context.Background()
 
-	req := explorerPB.GetWasmContractsRequest{}
+	req := explorerPB.GetWasmContractsRequest{
+		Limit: 5,
+	}
 
 	res, err := explorerClient.GetWasmContracts(ctx, req)
 	if err != nil {
@@ -2746,6 +2855,94 @@ func main() {
 	fmt.Print(string(str))
 }
 
+```
+
+> Response Example:
+
+```go
+{
+ "paging": {
+  "total": 529,
+  "from": 1,
+  "to": 5
+ },
+ "data": [
+  {
+   "label": "Instantiation",
+   "address": "inj138nnvqqx4t49n6u8r7d8g6h2ek3kpztk3s4svy",
+   "tx_hash": "0xdc1c7dc4bb47710b22894def0c4fa12d2d86d9d3d6e3ed3a348d83e9052ea7c2",
+   "creator": "inj1rhsl5eld5qg7qe2w2nretw6s6xnwdpaju3rp5j",
+   "instantiated_at": 1677520960574,
+   "init_message": "{\"app_components\":[],\"name\":\"First Aoo\",\"primitive_contract\":\"inj1hsrl44l3gm5p52r26nx89g9tpptacuy755y6yd\"}",
+   "last_executed_at": 1677520960574,
+   "code_id": 481,
+   "admin": "inj1rhsl5eld5qg7qe2w2nretw6s6xnwdpaju3rp5j",
+   "contract_number": 529,
+   "version": "0.1.0",
+   "type": "crates.io:andromeda-app-contract"
+  },
+  {
+   "label": "CounterTestInstance",
+   "address": "inj1xd48d9fs7rmh9rhf36fj69mw8yxplnq66m3gxq",
+   "tx_hash": "0x05f44c2dd194a41a7e4606d350d85bd49cf59597dbb63681eaf97e51416a2df2",
+   "creator": "inj1kpps36y8c5qm9axr5w3v3ukqtth99pq40ga84e",
+   "executes": 1,
+   "instantiated_at": 1677252138256,
+   "init_message": "{\"count\":99}",
+   "last_executed_at": 1677255965387,
+   "code_id": 476,
+   "contract_number": 528,
+   "version": "0.1.0",
+   "type": "crates.io:cw-counter"
+  },
+  {
+   "label": "Wormhole Wrapped CW20",
+   "address": "inj1m4g54lg2mhhm7a4h3ms5xlyecafhe4macgsuen",
+   "tx_hash": "0xce9b5b713da1b1b0e48d1b5451769ba80ca905145a90c704d01221986083c2d8",
+   "creator": "inj1q0e70vhrv063eah90mu97sazhywmeegp7myvnh",
+   "instantiated_at": 1677179269211,
+   "init_message": "{\"name\":\"QAT\",\"symbol\":\"QAT\",\"asset_chain\":2,\"asset_address\":\"AAAAAAAAAAAAAAAAGQLhj+sSNNANiA8frKXI106FAek=\",\"decimals\":8,\"mint\":null,\"init_hook\":{\"msg\":\"eyJyZWdpc3Rlcl9hc3NldF9ob29rIjp7ImNoYWluIjoyLCJ0b2tlbl9hZGRyZXNzIjp7ImJ5dGVzIjpbMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMjUsMiwyMjUsMTQzLDIzNSwxOCw1MiwyMDgsMTMsMTM2LDE1LDMxLDE3MiwxNjUsMjAwLDIxNSw3OCwxMzMsMSwyMzNdfX19\",\"contract_addr\":\"inj1q0e70vhrv063eah90mu97sazhywmeegp7myvnh\"}}",
+   "last_executed_at": 1677179269211,
+   "code_id": 14,
+   "admin": "inj1q0e70vhrv063eah90mu97sazhywmeegp7myvnh",
+   "contract_number": 527,
+   "version": "0.1.0",
+   "type": "crates.io:cw20-base",
+   "cw20_metadata": {
+    "token_info": {
+     "name": "QAT (Wormhole)",
+     "symbol": "QAT",
+     "decimals": 8,
+     "total_supply": "0"
+    }
+   }
+  },
+  {
+   "label": "xAccount Registry",
+   "address": "inj1s4alfevl7u84v7c3klh2flv6fw95s3q08eje53",
+   "tx_hash": "0xad817a8a4fcef1c36f8c5535b5598a4bc2ddc069f8a60634438dae90a242efed",
+   "creator": "inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z",
+   "instantiated_at": 1677176719385,
+   "init_message": "{\"wormhole_id_here\":19,\"wormhole_core_contract\":\"inj1xx3aupmgv3ce537c0yce8zzd3sz567syuyedpg\",\"factory_code_id\":474,\"x_account_code_id\":475,\"vm_id_here\":1}",
+   "last_executed_at": 1677176719385,
+   "code_id": 473,
+   "admin": "inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z",
+   "contract_number": 526
+  },
+  {
+   "label": "xAccount Deployer",
+   "address": "inj1a0s058avjct43t7cwn7rfvmxt2p37v29xladv8",
+   "tx_hash": "0xad817a8a4fcef1c36f8c5535b5598a4bc2ddc069f8a60634438dae90a242efed",
+   "creator": "inj1s4alfevl7u84v7c3klh2flv6fw95s3q08eje53",
+   "instantiated_at": 1677176719385,
+   "init_message": "{\"x_account_registry\":\"inj1s4alfevl7u84v7c3klh2flv6fw95s3q08eje53\",\"commanders\":[{\"wormhole_id\":19,\"address_byte_length\":20,\"address\":\"AAAAAAAAAAAAAAAAQjjjD/fOAVOq8xb1O7rhomqGArc=\"}]}",
+   "last_executed_at": 1677176719385,
+   "code_id": 475,
+   "admin": "inj1gguwxrlhecq482hnzm6nhwhp5f4gvq4hmxpn7p",
+   "contract_number": 525
+  }
+ ]
+}
 ```
 
 ### Request Parameters
@@ -2827,6 +3024,10 @@ func main() {
 
 ## GetWasmContractByAddress
 
+Get cosmwasm contract by its address
+
+> Request Example:
+
 <!-- embedme ../../../sdk-go/examples/explorer/14_GetWasmContractByAddress/example.go -->
 
 ```go
@@ -2866,8 +3067,23 @@ func main() {
 
 ```
 
+> Response Example:
 
-Get cosmwasm contract by its address
+```go
+{
+ "label": "xAccount Registry",
+ "address": "inj1ru9nhdjtjtz8u8wrwxmcl9zsns4fh2838yr5ga",
+ "tx_hash": "0x7dbc4177ef6253b6cfb33c0345e023eec3a6603aa615fa836271d2f3743e33fb",
+ "creator": "inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z",
+ "executes": 6,
+ "instantiated_at": 1676450262441,
+ "init_message": "{\"wormhole_id_here\":19,\"wormhole_core_contract\":\"inj1xx3aupmgv3ce537c0yce8zzd3sz567syuyedpg\",\"factory_code_id\":422,\"x_account_code_id\":421,\"vm_id_here\":1}",
+ "last_executed_at": 1676464935254,
+ "code_id": 420,
+ "admin": "inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z",
+ "contract_number": 430
+}
+```
 
 ### Request Parameters
 
@@ -2933,6 +3149,8 @@ Get cosmwasm contract by its address
 
 Get CW20 balances of an injective account across all instantiated CW20 contracts
 
+> Request Example:
+
 <!-- embedme ../../../sdk-go/examples/explorer/15_GetCW20Balance/example.go -->
 
 ```go
@@ -2972,6 +3190,31 @@ func main() {
 
 ```
 
+> Response Example:
+
+```go
+{
+ "field": [
+  {
+   "contract_address": "inj1v6p2u2pgk9qdcf3ussudszjetqwjaj6l89ce0k",
+   "account": "inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z",
+   "balance": "10000000000000000",
+   "updated_at": 1666153787458,
+   "cw20_metadata": {
+    "token_info": {
+     "name": "test coin",
+     "symbol": "TEST",
+     "decimals": 6,
+     "total_supply": "10000000000000000"
+    },
+    "marketing_info": {
+     "marketing": "bnVsbA=="
+    }
+   }
+  }
+ ]
+}
+```
 
 ### Request Parameters
 
