@@ -194,7 +194,7 @@ data {
 |----|----|----|
 |s|String|Status of the response|
 |errmsg|String|Error message, if any|
-|data|TxDetailData||
+|data|TxDetailData|Tx detail information|
 
 **TxDetailData**
 
@@ -210,8 +210,8 @@ data {
 |tx_type|String|The transaction type|
 |messages|String|The messages included in this transaction|
 |signatures|Signatures Array|List of signatures|
-|tx_number|Integer||
-|block_unix_timestamp|The timestamp of the block in UNIX millis|
+|tx_number|Integer|Monotonic index of the tx in database|
+|block_unix_timestamp|Integer|The timestamp of the block in UNIX millis|
 
 **GasFee**
 
@@ -220,9 +220,10 @@ data {
 |amount|CosmosCoin Array|List of coins with denom and amount|
 |gas_limit|Integer|The gas limit for the transaction|
 |payer|String|The Injective Chain address paying the gas fee|
-|granter|String||
+|granter|String|Address of granter of the tx|
 
 **CosmosCoin**
+
 |Parameter|Type|Description|
 |----|----|----|
 |denom|String|Coin denom|
@@ -622,9 +623,7 @@ data {
 
 |Parameter|Type|Description|
 |----|----|----|
-|total|Integer|Total number of available records|
-|from|Integer|Lower bound of indices of records returned|
-|to|Integer|Upper bound of indices of records returned|
+|total|Integer|Total number of records available|
 
 **Data**
 
@@ -640,8 +639,8 @@ data {
 |tx_type|String|The transaction type|
 |messages|String|The messages included in this transaction|
 |signatures|Signatures Array|List of signatures|
-|tx_number|Integer||
-|block_unix_timestamp|The timestamp of the block in UNIX millis|
+|tx_number|Integer|Monotonic index of the tx in database|
+|block_unix_timestamp|Integer|The timestamp of the block in UNIX millis|
 
 **GasFee**
 
@@ -650,9 +649,10 @@ data {
 |amount|CosmosCoin Array|List of coins with denom and amount|
 |gas_limit|Integer|The gas limit for the transaction|
 |payer|String|The Injective Chain address paying the gas fee|
-|granter|String||
+|granter|String|Address of granter of the tx|
 
 **CosmosCoin**
+
 |Parameter|Type|Description|
 |----|----|----|
 |denom|String|Coin denom|
@@ -853,9 +853,7 @@ data {
 
 |Parameter|Type|Description|
 |----|----|----|
-|total|Integer|Total number of available records|
-|from|Integer|Lower bound of indices of records returned|
-|to|Integer|Upper bound of indices of records returned|
+|total|Integer|Total number of records available|
 
 **BlockInfo**
 
@@ -1017,6 +1015,7 @@ data {
 |data|BlockDetailInfo|Detailed info on the block|
 
 **BlockDetailInfo**
+
 |Parameter|Type|Description|
 |----|----|----|
 |height|Integer|The block height|
@@ -1029,11 +1028,12 @@ data {
 |timestamp|String|The timestamp of the block (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 
 **TxData**
+
 |Parameter|Type|Description|
 |----|----|----|
 |block_number|String|The block number|
 |block_timestamp|String|The timestamp of the block (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
-|hash|Transaction hash|
+|hash|String|Transaction hash|
 |messages|bytes|Messages byte data of the transaction|
 |tx_number|Integer|Transaction number|
 
@@ -1319,9 +1319,7 @@ data {
 
 |Parameter|Type|Description|
 |----|----|----|
-|total|Integer|Total number of available records|
-|from|Integer|Lower bound of indices of records returned|
-|to|Integer|Upper bound of indices of records returned|
+|total|Integer|Total number of records available|
 
 **TxData**
 
@@ -2007,7 +2005,7 @@ field {
 |denom|Integer|The token denom|
 |orchestrator_address|String|The orchestrator address|
 |state|String|Transaction state|
-|claim_type|Integer|  |
+|claim_type|Integer|Claim type of the deposit, always equal to 1|
 |tx_hashes|String Array|List of transaction hashes|
 |created_at|Integer|The timestamp of the tx creation (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 |updated_at|String|The timestamp of the tx update (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
@@ -2248,13 +2246,13 @@ field {
 |denom|Integer|The token denom|
 |bridge_fee|String|The bridge fee|
 |outgoing_tx_id|Integer|The tx nonce|
-|batch_timeout|Integer|   |
+|batch_timeout|Integer|The timestamp after which batch request will be discarded if not processed already|
 |BatchNonce|Integer|An auto incremented unique ID representing the Withdrawal Batches|
 |orchestrator_address|String|Address that created batch request|
 |event_nonce|Integer|The event nonce of WithdrawalClaim event emitted by Ethereum chain upon batch withdrawal|
 |event_height|Integer|The block height of WithdrawalClaim event emitted by Ethereum chain upon batch withdrawal|
 |state|String|Transaction state|
-|claim_type|Integer|   |
+|claim_type|Integer|Claim type of the transaction, always equal to 2|
 |tx_hashes|String Array|List of transaction hashes|
 |created_at|Integer|The timestamp of the tx creation (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 |updated_at|String|The timestamp of the tx update (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
@@ -2523,8 +2521,744 @@ field {
 |timeout_height|Integer|Timeout height relative to the current block height. Timeout disabled if set to 0|
 |timeout_timestamp|Integer|Timeout timestamp (in nanoseconds) relative to the current block timestamp|
 |packet_sequence|String|Corresponds to the order of sends and receives, where a Packet with an earlier sequence number must be sent and received before a Packet with a later sequence number|
-|data_hex|String|Data in hex format|
+|data_hex|String|IBC request data in hex format|
 |state|String|Transaction state|
 |tx_hashes|String Array|List of transaction hashes|
 |created_at|Integer|The timestamp of the tx creation (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 |updated_at|String|The timestamp of the tx update (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
+
+## GetWasmCodes
+
+List all cosmwasm code on injective chain. Results are paginated.
+
+> Request Example:
+
+<!-- embedme ../../../sdk-go/examples/explorer/11_GetWasmCodes/example.go -->
+
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	explorerclient "github.com/InjectiveLabs/sdk-go/client/explorer"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "k8s")
+	explorerClient, err := explorerclient.NewExplorerClient(network.ExplorerGrpcEndpoint, common.OptionTLSCert(network.ExplorerTlsCert))
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+
+	req := explorerPB.GetWasmCodesRequest{
+		Limit: 5,
+	}
+
+	res, err := explorerClient.GetWasmCodes(ctx, req)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+
+```
+
+> Response Example:
+
+```go
+{
+ "paging": {
+  "total": 501,
+  "from": 497,
+  "to": 501
+ },
+ "data": [
+  {
+   "code_id": 501,
+   "tx_hash": "0x6f218f72f68b3c90e578c1b1fad735f8016fc9b3618664ceb301234f2725d218",
+   "checksum": {
+    "algorithm": "sha256",
+    "hash": "0x4f6e56bbbe7ebec55f7e9d49c4a6e534f57ba3402c0282c1c3ec1aac83753ccf"
+   },
+   "created_at": 1677495117914,
+   "permission": {
+    "access_type": 3
+   },
+   "creator": "inj13dyu3ukelncq95s7dqhg6crqvjursramcazkka",
+   "code_number": 515
+  },
+  {
+   "code_id": 500,
+   "tx_hash": "0x9a8035a3cd85651b7266f813f3dd909772a7cec5ca0b4f9266832d50c85921b8",
+   "checksum": {
+    "algorithm": "sha256",
+    "hash": "0xdcaa8a03707966ebfedbb927f755fabf9e7f095663f4b9f45a5b437a8276ea0f"
+   },
+   "created_at": 1677495084552,
+   "permission": {
+    "access_type": 3
+   },
+   "creator": "inj13dyu3ukelncq95s7dqhg6crqvjursramcazkka",
+   "code_number": 514
+  },
+  {
+   "code_id": 499,
+   "tx_hash": "0x3809b1b61e218144c4f50e0a61b6ae89f8942cbe7cadfe67e23127c70949a3f1",
+   "checksum": {
+    "algorithm": "sha256",
+    "hash": "0xdbef810fdc577f4e983620b16eccafdf359e924af0752a13820bf679b260ffe1"
+   },
+   "created_at": 1677495060759,
+   "permission": {
+    "access_type": 3
+   },
+   "creator": "inj13dyu3ukelncq95s7dqhg6crqvjursramcazkka",
+   "code_number": 513
+  },
+  {
+   "code_id": 498,
+   "tx_hash": "0x9c5a44981506fe7658fa38b2bd63ddd20717842433ce75eba60cb2d7ca548b54",
+   "checksum": {
+    "algorithm": "sha256",
+    "hash": "0xe17581873943e1fe3671bfca9a3360398be10a28245fc0d5c55403f64808019c"
+   },
+   "created_at": 1677495034788,
+   "permission": {
+    "access_type": 3
+   },
+   "creator": "inj13dyu3ukelncq95s7dqhg6crqvjursramcazkka",
+   "code_number": 512
+  },
+  {
+   "code_id": 497,
+   "tx_hash": "0xeaa3d642a049d0b09920bacf7989a2371ecf43ec20bb5d6dbb3b54326cec63e7",
+   "checksum": {
+    "algorithm": "sha256",
+    "hash": "0x1a1278f43c03e9ed12ba9c1995bae8ea1554cf67a38e9eedd97e9cd61a3e411d"
+   },
+   "created_at": 1677495006505,
+   "permission": {
+    "access_type": 3
+   },
+   "creator": "inj13dyu3ukelncq95s7dqhg6crqvjursramcazkka",
+   "code_number": 511
+  }
+ ]
+}
+```
+
+### Request Parameters
+
+| Parameter   |Type|Description|Required|
+|-------------|----|-----------|--------|
+| limit       |Integer|Limit number of codes to return|No|
+| from_number |Integer|List all codes whose number (code_id) is not lower than from_number|No|
+| to_number   |Integer|List all codes whose number (code_id) is not greater than to_number|No|
+
+### Response Parameters
+
+| Parameter | Type           | Description                               |
+|-----------|----------------|-------------------------------------------|
+| paging    | Paging         | Pagination of results                     |
+| data      | WasmCode Array | List of WasmCodes, after applying filters |
+
+**Paging**
+
+|Parameter|Type|Description|
+|----|----|----|
+|total|Integer|Total number of records available|
+
+**WasmCode**
+
+| Parameter     | Type               | Description                                                    |
+|---------------|--------------------|----------------------------------------------------------------|
+| code_id       | Integer            | ID of stored wasm code, sorted in descending order             |
+| tx_hash       | String             | Tx hash of store code transaction                              |
+| checksum      | Checksum           | Checksum of the cosmwasm code                                  |
+| created_at    | Integer            | Block time when the code is stored, in millisecond             |
+| contract_type | String             | Contract type of the wasm code                                 |
+| version       | String             | Version of the wasm code                                       |
+| permission    | ContractPermission | Describes instantiation permissions                            |
+| code_schema   | String             | Code schema preview (to be supported)                          |
+| code_view     | String             | Code repo preview, may contain schema folder (to be supported) |
+| instantiates  | Integer            | Number of contract instantiations from this code               |
+| creator       | String             | Creator of this code                                           |
+| code_number   | Integer            | Monotonic order of the code stored                             |
+| proposal_id   | Integer            | ID of the proposal that store this code                        |
+
+**ContractPermission**
+
+|Parameter|Type|Description|
+|-----|----|-----------|
+|access_type|Integer|Access type of instantiation|
+|address|Integer|Account address|
+
+**Checksum**
+
+| Parameter | Type   | Description                   |
+|-----------|--------|-------------------------------|
+| algorithm | String | Hash function algorithm       |
+| hash      | String | Hash of the cosmwasm bytecode |
+
+## GetWasmCodeByID
+
+Get cosmwasm code by its code ID
+
+> Request Example:
+
+<!-- embedme ../../../sdk-go/examples/explorer/12_GetWasmCodeByID/example.go -->
+
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	explorerclient "github.com/InjectiveLabs/sdk-go/client/explorer"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "k8s")
+	explorerClient, err := explorerclient.NewExplorerClient(network.ExplorerGrpcEndpoint, common.OptionTLSCert(network.ExplorerTlsCert))
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+
+	req := explorerPB.GetWasmCodeByIDRequest{
+		CodeId: 10,
+	}
+
+	res, err := explorerClient.GetWasmCodeByID(ctx, req)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+
+```
+
+> Response Example:
+
+```go
+{
+ "code_id": 10,
+ "tx_hash": "0x476b1988ba0ea020a337b92f46afefde8af2ac9e72934a1b9882673b3926388c",
+ "checksum": {
+  "algorithm": "sha256",
+  "hash": "0xdba30bcea6d5997c00a7922b475e42f172e72b8ef6ad522c09bc1868bc6caff4"
+ },
+ "created_at": 1658305428842,
+ "instantiates": 4,
+ "creator": "inj10hpqmlskky8azz5qca20xau2ppf3x23jsh9k8r",
+ "code_number": 10
+}
+```
+
+### Request Parameters
+
+| Parameter | Type    | Description    | Required |
+|-----------|---------|----------------|----------|
+| code_id   | Integer | ID of the code | Yes      |
+
+### Response Parameters
+
+| Parameter     | Type               | Description                                                    |
+|---------------|--------------------|----------------------------------------------------------------|
+| code_id       | Integer            | ID of stored wasm code, sorted in descending order             |
+| tx_hash       | String             | Tx hash of store code transaction                              |
+| checksum      | Checksum           | Checksum of the cosmwasm code                                  |
+| created_at    | Integer            | Block time when the code is stored, in millisecond             |
+| contract_type | String             | Contract type of the wasm code                                 |
+| version       | String             | Version of the wasm code                                       |
+| permission    | ContractPermission | Describes instantiation permissions                            |
+| code_schema   | String             | Code schema preview (to be supported)                          |
+| code_view     | String             | Code repo preview, may contain schema folder (to be supported) |
+| instantiates  | Integer            | Number of contract instantiations from this code               |
+| creator       | String             | Creator of this code                                           |
+| code_number   | Integer            | Monotonic order of the code stored                             |
+| proposal_id   | Integer            | ID of the proposal that store this code                        |
+
+**ContractPermission**
+
+|Parameter|Type|Description|
+|-----|----|-----------|
+|access_type|Integer|Access type of instantiation|
+|address|Integer|Account address|
+
+**Checksum**
+
+| Parameter     | Type   | Description                   |
+|-----------|--------|-------------------------------|
+| algorithm | String | Hash function algorithm       |
+| hash      | String | Hash of the cosmwasm bytecode |
+
+## GetWasmContracts
+
+Get cosmwasm instantiated contracts on injective-chain. Results are paginated.
+
+> Request Example:
+
+<!-- embedme ../../../sdk-go/examples/explorer/13_GetWasmContracts/example.go -->
+
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	explorerclient "github.com/InjectiveLabs/sdk-go/client/explorer"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "k8s")
+	explorerClient, err := explorerclient.NewExplorerClient(network.ExplorerGrpcEndpoint, common.OptionTLSCert(network.ExplorerTlsCert))
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+
+	req := explorerPB.GetWasmContractsRequest{
+		Limit: 5,
+	}
+
+	res, err := explorerClient.GetWasmContracts(ctx, req)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+
+```
+
+> Response Example:
+
+```go
+{
+ "paging": {
+  "total": 529,
+  "from": 1,
+  "to": 5
+ },
+ "data": [
+  {
+   "label": "Instantiation",
+   "address": "inj138nnvqqx4t49n6u8r7d8g6h2ek3kpztk3s4svy",
+   "tx_hash": "0xdc1c7dc4bb47710b22894def0c4fa12d2d86d9d3d6e3ed3a348d83e9052ea7c2",
+   "creator": "inj1rhsl5eld5qg7qe2w2nretw6s6xnwdpaju3rp5j",
+   "instantiated_at": 1677520960574,
+   "init_message": "{\"app_components\":[],\"name\":\"First Aoo\",\"primitive_contract\":\"inj1hsrl44l3gm5p52r26nx89g9tpptacuy755y6yd\"}",
+   "last_executed_at": 1677520960574,
+   "code_id": 481,
+   "admin": "inj1rhsl5eld5qg7qe2w2nretw6s6xnwdpaju3rp5j",
+   "contract_number": 529,
+   "version": "0.1.0",
+   "type": "crates.io:andromeda-app-contract"
+  },
+  {
+   "label": "CounterTestInstance",
+   "address": "inj1xd48d9fs7rmh9rhf36fj69mw8yxplnq66m3gxq",
+   "tx_hash": "0x05f44c2dd194a41a7e4606d350d85bd49cf59597dbb63681eaf97e51416a2df2",
+   "creator": "inj1kpps36y8c5qm9axr5w3v3ukqtth99pq40ga84e",
+   "executes": 1,
+   "instantiated_at": 1677252138256,
+   "init_message": "{\"count\":99}",
+   "last_executed_at": 1677255965387,
+   "code_id": 476,
+   "contract_number": 528,
+   "version": "0.1.0",
+   "type": "crates.io:cw-counter"
+  },
+  {
+   "label": "Wormhole Wrapped CW20",
+   "address": "inj1m4g54lg2mhhm7a4h3ms5xlyecafhe4macgsuen",
+   "tx_hash": "0xce9b5b713da1b1b0e48d1b5451769ba80ca905145a90c704d01221986083c2d8",
+   "creator": "inj1q0e70vhrv063eah90mu97sazhywmeegp7myvnh",
+   "instantiated_at": 1677179269211,
+   "init_message": "{\"name\":\"QAT\",\"symbol\":\"QAT\",\"asset_chain\":2,\"asset_address\":\"AAAAAAAAAAAAAAAAGQLhj+sSNNANiA8frKXI106FAek=\",\"decimals\":8,\"mint\":null,\"init_hook\":{\"msg\":\"eyJyZWdpc3Rlcl9hc3NldF9ob29rIjp7ImNoYWluIjoyLCJ0b2tlbl9hZGRyZXNzIjp7ImJ5dGVzIjpbMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMjUsMiwyMjUsMTQzLDIzNSwxOCw1MiwyMDgsMTMsMTM2LDE1LDMxLDE3MiwxNjUsMjAwLDIxNSw3OCwxMzMsMSwyMzNdfX19\",\"contract_addr\":\"inj1q0e70vhrv063eah90mu97sazhywmeegp7myvnh\"}}",
+   "last_executed_at": 1677179269211,
+   "code_id": 14,
+   "admin": "inj1q0e70vhrv063eah90mu97sazhywmeegp7myvnh",
+   "contract_number": 527,
+   "version": "0.1.0",
+   "type": "crates.io:cw20-base",
+   "cw20_metadata": {
+    "token_info": {
+     "name": "QAT (Wormhole)",
+     "symbol": "QAT",
+     "decimals": 8,
+     "total_supply": "0"
+    }
+   }
+  },
+  {
+   "label": "xAccount Registry",
+   "address": "inj1s4alfevl7u84v7c3klh2flv6fw95s3q08eje53",
+   "tx_hash": "0xad817a8a4fcef1c36f8c5535b5598a4bc2ddc069f8a60634438dae90a242efed",
+   "creator": "inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z",
+   "instantiated_at": 1677176719385,
+   "init_message": "{\"wormhole_id_here\":19,\"wormhole_core_contract\":\"inj1xx3aupmgv3ce537c0yce8zzd3sz567syuyedpg\",\"factory_code_id\":474,\"x_account_code_id\":475,\"vm_id_here\":1}",
+   "last_executed_at": 1677176719385,
+   "code_id": 473,
+   "admin": "inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z",
+   "contract_number": 526
+  },
+  {
+   "label": "xAccount Deployer",
+   "address": "inj1a0s058avjct43t7cwn7rfvmxt2p37v29xladv8",
+   "tx_hash": "0xad817a8a4fcef1c36f8c5535b5598a4bc2ddc069f8a60634438dae90a242efed",
+   "creator": "inj1s4alfevl7u84v7c3klh2flv6fw95s3q08eje53",
+   "instantiated_at": 1677176719385,
+   "init_message": "{\"x_account_registry\":\"inj1s4alfevl7u84v7c3klh2flv6fw95s3q08eje53\",\"commanders\":[{\"wormhole_id\":19,\"address_byte_length\":20,\"address\":\"AAAAAAAAAAAAAAAAQjjjD/fOAVOq8xb1O7rhomqGArc=\"}]}",
+   "last_executed_at": 1677176719385,
+   "code_id": 475,
+   "admin": "inj1gguwxrlhecq482hnzm6nhwhp5f4gvq4hmxpn7p",
+   "contract_number": 525
+  }
+ ]
+}
+```
+
+### Request Parameters
+
+| Parameter       | Type    | Description                                                                                            | Required |
+|-------------|---------|--------------------------------------------------------------------------------------------------------|----------|
+| limit       | Integer | Max number of items to be returned, defaults to 100                                                    | No       |
+| code_id     | Integer | Contract's code ID to be filtered                                                                      | No       |
+| from_number | Integer | List all contracts whose number is not lower than from_number                                          | No       |
+| to_number   | Integer | List all contracts whose number is not greater than to_number                                          | No       |
+| assets_only | Boolean | Filter only CW20 contracts                                                                             | No       |
+| skip        | Integer | Skip the first *n* cosmwasm contracts. This can be used to fetch all results since the API caps at 100 | No       |
+
+### Response Parameters
+
+| Parameter  | Type               | Description                           |
+|--------|--------------------|---------------------------------------|
+| paging | Paging             | Pagination of results                 |
+| data   | WasmContract Array | List of WasmContracts after filtering |
+
+**Paging**
+
+|Parameter|Type|Description|
+|-----|----|-----------|
+|total|Integer|Total number of records available|
+
+**WasmContract**
+
+| Parameter                   | Type               | Description                                                    |
+|-------------------------|--------------------|----------------------------------------------------------------|
+| label                   | String             | General name of the contract                                   |
+| address                 | String             | Address of the contract                                        |
+| tx_hash                 | String             | Hash of the instantiate transaction                            |
+| creator                 | String             | Address of the contract creator                                |
+| executes                | Integer            | Number of times call to execute contract                       |
+| instantiated_at         | Integer            | Block timestamp that contract was instantiated, in UNIX millis |
+| init_message            | String             | Init message when this contract was instantiated               |
+| last_executed_at        | Integer            | Block timestamp that contract was last called, in UNIX millis  |
+| funds                   | ContractFund Array | List of contract funds                                         |
+| code_id                 | Integer            | Code ID of the contract                                        |
+| admin                   | String             | Admin of the contract                                          |
+| current_migrate_message | String             | Latest migrate message of the contract                         |
+| contract_number         | Integer            | Monotonic contract number in database                          |
+| version                 | String             | Contract version                                               |
+| type                    | String             | Contract type                                                  |
+| cw20_metadata           | Cw20Metadata       | Metadata of the CW20 contract                                  |
+| proposal_id             | Integer            | ID of the proposal that instantiates this contract             |
+
+**ContractFund**
+
+|Parameter|Type|Description|
+|-----|----|-----------|
+|denom|String|Denominator|
+|amount|String|Amount of denom|
+
+**Cw20Metadata**
+
+|Parameter|Type|Description|
+|-----|----|-----------|
+|token_info|Cw20TokenInfo|CW20 token info structure|
+|marketing_info|Cw20MarketingInfo|Marketing info structure|
+
+**Cw20TokenInfo**
+
+|Parameter|Type|Description|
+|-----|----|-----------|
+|name|String|General name of the token|
+|symbol|String|Symbol of the token|
+|decimals|Integer|Decimal places of token|
+
+**Cw20MarketingInfo**
+
+|Parameter|Type|Description|
+|-----|----|-----------|
+|project|String|Project information|
+|description|String|Token&#39;s description|
+|logo|String|Logo (url/embedded)|
+|marketing|Bytes Array|Address that can update the contract's marketing info|
+
+## GetWasmContractByAddress
+
+Get cosmwasm contract by its address
+
+> Request Example:
+
+<!-- embedme ../../../sdk-go/examples/explorer/14_GetWasmContractByAddress/example.go -->
+
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	explorerclient "github.com/InjectiveLabs/sdk-go/client/explorer"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "k8s")
+	explorerClient, err := explorerclient.NewExplorerClient(network.ExplorerGrpcEndpoint, common.OptionTLSCert(network.ExplorerTlsCert))
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+
+	req := explorerPB.GetWasmContractByAddressRequest{
+		ContractAddress: "inj1ru9nhdjtjtz8u8wrwxmcl9zsns4fh2838yr5ga",
+	}
+	res, err := explorerClient.GetWasmContractByAddress(ctx, req)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+
+```
+
+> Response Example:
+
+```go
+{
+ "label": "xAccount Registry",
+ "address": "inj1ru9nhdjtjtz8u8wrwxmcl9zsns4fh2838yr5ga",
+ "tx_hash": "0x7dbc4177ef6253b6cfb33c0345e023eec3a6603aa615fa836271d2f3743e33fb",
+ "creator": "inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z",
+ "executes": 6,
+ "instantiated_at": 1676450262441,
+ "init_message": "{\"wormhole_id_here\":19,\"wormhole_core_contract\":\"inj1xx3aupmgv3ce537c0yce8zzd3sz567syuyedpg\",\"factory_code_id\":422,\"x_account_code_id\":421,\"vm_id_here\":1}",
+ "last_executed_at": 1676464935254,
+ "code_id": 420,
+ "admin": "inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z",
+ "contract_number": 430
+}
+```
+
+### Request Parameters
+
+|Parameter|Type|Description|Required|
+|-----|----|-----------|--------|
+|contract_address|String|Contract address|Yes|
+
+### Response Parameters
+
+| Parameter                   | Type               | Description                                                    |
+|-------------------------|--------------------|----------------------------------------------------------------|
+| label                   | String             | General name of the contract                                   |
+| address                 | String             | Address of the contract                                        |
+| tx_hash                 | String             | Hash of the instantiate transaction                            |
+| creator                 | String             | Address of the contract creator                                |
+| executes                | Integer            | Number of times call to execute contract                       |
+| instantiated_at         | Integer            | Block timestamp that contract was instantiated, in UNIX millis |
+| init_message            | String             | Init message when this contract was instantiated               |
+| last_executed_at        | Integer            | Block timestamp that contract was last called, in UNIX millis  |
+| funds                   | ContractFund Array | List of contract funds                                         |
+| code_id                 | Integer            | Code ID of the contract                                        |
+| admin                   | String             | Admin of the contract                                          |
+| current_migrate_message | String             | Latest migrate message of the contract                         |
+| contract_number         | Integer            | Monotonic contract number in database                          |
+| version                 | String             | Contract version                                               |
+| type                    | String             | Contract type                                                  |
+| cw20_metadata           | Cw20Metadata       | Metadata of the CW20 contract                                  |
+| proposal_id             | Integer            | ID of the proposal that instantiates this contract             |
+
+**ContractFund**
+
+|Parameter|Type|Description|
+|-----|----|-----------|
+|denom|String|Denominator|
+|amount|String|Amount of denom|
+
+**Cw20Metadata**
+
+|Parameter|Type|Description|
+|-----|----|-----------|
+|token_info|Cw20TokenInfo|CW20 token info structure|
+|marketing_info|Cw20MarketingInfo|Marketing info structure|
+
+**Cw20TokenInfo**
+
+|Parameter|Type|Description|
+|-----|----|-----------|
+|name|String|General name of the token|
+|symbol|String|Symbol of the token|
+|decimals|Integer|Decimal places of token|
+
+**Cw20MarketingInfo**
+
+|Parameter|Type|Description|
+|-----|----|-----------|
+|project|String|Project information|
+|description|String|Token&#39;s description|
+|logo|String|Logo (url/embedded)|
+|marketing|Bytes Array|Address that can update the contract's marketing info|
+
+
+## GetCw20Balance
+
+Get CW20 balances of an injective account across all instantiated CW20 contracts
+
+> Request Example:
+
+<!-- embedme ../../../sdk-go/examples/explorer/15_GetCW20Balance/example.go -->
+
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	explorerclient "github.com/InjectiveLabs/sdk-go/client/explorer"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "k8s")
+	explorerClient, err := explorerclient.NewExplorerClient(network.ExplorerGrpcEndpoint, common.OptionTLSCert(network.ExplorerTlsCert))
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+
+	req := explorerPB.GetCw20BalanceRequest{
+		Address: "inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z",
+	}
+	res, err := explorerClient.GetCW20Balance(ctx, req)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+
+```
+
+> Response Example:
+
+```go
+{
+ "field": [
+  {
+   "contract_address": "inj1v6p2u2pgk9qdcf3ussudszjetqwjaj6l89ce0k",
+   "account": "inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z",
+   "balance": "10000000000000000",
+   "updated_at": 1666153787458,
+   "cw20_metadata": {
+    "token_info": {
+     "name": "test coin",
+     "symbol": "TEST",
+     "decimals": 6,
+     "total_supply": "10000000000000000"
+    },
+    "marketing_info": {
+     "marketing": "bnVsbA=="
+    }
+   }
+  }
+ ]
+}
+```
+
+### Request Parameters
+
+|Parameter|Type|Description|Required|
+|-----|----|-----------|--------|
+|address|String|Address to list balance of|Yes|
+|limit|Integer|Limit number of balances to return|No|
+
+### Response Parameters
+
+|Parameter|Type|Description|
+|-----|----|-----------|
+|Parameter|WasmCw20Balance Array|CW20 balance array|
+
+**WasmCw20Balance**
+
+| Parameter            | Type         | Description                     |
+|------------------|--------------|---------------------------------|
+| contract_address | String       | Address of CW20 contract        |
+| account          | String       | Account address                 |
+| balance          | String       | Account balance                 |
+| updated_at       | Integer      | Update timestamp in UNIX millis |
+| cw20_metadata    | Cw20Metadata | Metadata of the CW20 contract   |
+
+**Cw20Metadata**
+
+|Parameter|Type|Description|
+|-----|----|-----------|
+|token_info|Cw20TokenInfo|CW20 token info|
+|marketing_info|Cw20MarketingInfo|Marketing info|
+
+**Cw20TokenInfo**
+
+|Parameter|Type|Description|
+|-----|----|-----------|
+|name|String|General name of the token|
+|symbol|String|Symbol of the token|
+|decimals|Integer|Decimal places of token|
+
+**Cw20MarketingInfo**
+
+| Parameter       | Type        | Description                                           |
+|-------------|-------------|-------------------------------------------------------|
+| project     | String      | Project information                                   |
+| description | String      | Token&#39;s description                               |
+| logo        | String      | Logo (url/embedded)                                   |
+| marketing   | Bytes Array | Address that can update the contract's marketing info |
