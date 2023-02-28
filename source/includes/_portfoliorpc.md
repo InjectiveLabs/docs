@@ -306,7 +306,7 @@ func main() {
 ``` typescript
 ```
 
-| Parameter           | Type   | Description                                                                                  | Required |
+| Parameter       | Type   | Description                                                                                  | Required |
 |-----------------|--------|----------------------------------------------------------------------------------------------|----------|
 | account_address | String | The account&#39;s portfolio address                                                          | Yes      |
 | subaccount_id   | String | Related subaccount ID                                                                        | No       |
@@ -344,7 +344,7 @@ amount: "9689943532"
 ``` typescript
 ```
 
-| Parameter         | Type   | Description                                                                                  |
+| Parameter     | Type   | Description                                                                                  |
 |---------------|--------|----------------------------------------------------------------------------------------------|
 | type          | String | Type of portfolio document (should be one of ["bank", "total_balance", "available_balance"]) |
 | denom         | String | Denom of portfolio entry                                                                     |
