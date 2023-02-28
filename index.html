@@ -665,6 +665,21 @@
                   <li>
                     <a href="#injectiveexplorerrpc-ibctransfers" class="toc-h2 toc-link" data-title="IBCTransfers">IBCTransfers</a>
                   </li>
+                  <li>
+                    <a href="#injectiveexplorerrpc-getwasmcodes" class="toc-h2 toc-link" data-title="GetWasmCodes">GetWasmCodes</a>
+                  </li>
+                  <li>
+                    <a href="#injectiveexplorerrpc-getwasmcodebyid" class="toc-h2 toc-link" data-title="GetWasmCodeByID">GetWasmCodeByID</a>
+                  </li>
+                  <li>
+                    <a href="#injectiveexplorerrpc-getwasmcontracts" class="toc-h2 toc-link" data-title="GetWasmContracts">GetWasmContracts</a>
+                  </li>
+                  <li>
+                    <a href="#injectiveexplorerrpc-getwasmcontractbyaddress" class="toc-h2 toc-link" data-title="GetWasmContractByAddress">GetWasmContractByAddress</a>
+                  </li>
+                  <li>
+                    <a href="#injectiveexplorerrpc-getcw20balance" class="toc-h2 toc-link" data-title="GetCw20Balance">GetCw20Balance</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -697,6 +712,9 @@
               <ul class="toc-list-h2">
                   <li>
                     <a href="#injectiveportfoliorpc-accountportfolio" class="toc-h2 toc-link" data-title="AccountPortfolio">AccountPortfolio</a>
+                  </li>
+                  <li>
+                    <a href="#injectiveportfoliorpc-streamaccountportfolio" class="toc-h2 toc-link" data-title="StreamAccountPortfolio">StreamAccountPortfolio</a>
                   </li>
               </ul>
           </li>
@@ -1843,7 +1861,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <h1 id='indexer-api'>Indexer API</h1>
 <p>The Indexer API is read-only whereas the Chain API is write and also includes a limited set of API requests to read data. The Chain API reads query the blockchain state from the node directly as opposed to the Indexer API which reconstructs state from events emitted by chain.</p>
 
-<p>On a high-level the end-user trading applications and Injective Products use the Indexer API to read data and the Chain API to write data to the blockchain. Even though it’s possible to develop trading applications using the Chain API only, the Indexer API includes more methods, streaming support, gRPC and also allows you to fetch historical data as the Chain API queries the blockchain state which doesn’t include historical records.</p>
+<p>On a high-level the end-user trading applications and Injective Products use the Indexer API to read data and the Chain API to write data to the blockchain. Even though it’s possible to develop trading applications using the Chain API only, the Indexer API includes more methods, streaming support, gRPC, and also allows you to fetch historical data (the Chain API queries the blockchain state which doesn’t include historical records).</p>
 <h1 id='injectiveaccountsrpc'>- InjectiveAccountsRPC</h1>
 <p>InjectiveAccountsRPC defines the gRPC API of the Exchange Accounts provider.</p>
 <h2 id='injectiveaccountsrpc-subaccountslist'>SubaccountsList</h2>
@@ -11989,16 +12007,6 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Integer</td>
 <td>Total number of available records</td>
 </tr>
-<tr>
-<td>from</td>
-<td>Integer</td>
-<td>Lower bound of indices of records returned</td>
-</tr>
-<tr>
-<td>to</td>
-<td>integer</td>
-<td>Upper bound of indices of records returned</td>
-</tr>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-streampositions'>StreamPositions</h2>
 <p>Stream position updates for a specific market.</p>
@@ -15509,7 +15517,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>quote_denom</td>
 <td>String</td>
 <td>Filter by the Coin denomination of the quote currency</td>
-<td></td>
+<td>No</td>
 </tr>
 <tr>
 <td>skip</td>
@@ -17800,7 +17808,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>data</td>
 <td>TxDetailData</td>
-<td></td>
+<td>Tx detail information</td>
 </tr>
 </tbody></table>
 
@@ -17866,12 +17874,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>tx_number</td>
 <td>Integer</td>
-<td></td>
+<td>Monotonic index of the tx in database</td>
 </tr>
 <tr>
 <td>block_unix_timestamp</td>
+<td>Integer</td>
 <td>The timestamp of the block in UNIX millis</td>
-<td></td>
 </tr>
 </tbody></table>
 
@@ -17902,15 +17910,30 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>granter</td>
 <td>String</td>
-<td></td>
+<td>Address of granter of the tx</td>
 </tr>
 </tbody></table>
 
-<p><strong>CosmosCoin</strong>
-|Parameter|Type|Description|
-|----|----|----|
-|denom|String|Coin denom|
-|amount|String|Coin amount|</p>
+<p><strong>CosmosCoin</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>denom</td>
+<td>String</td>
+<td>Coin denom</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>String</td>
+<td>Coin amount</td>
+</tr>
+</tbody></table>
 
 <p><strong>Signatures</strong></p>
 
@@ -18372,17 +18395,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>total</td>
 <td>Integer</td>
-<td>Total number of available records</td>
-</tr>
-<tr>
-<td>from</td>
-<td>Integer</td>
-<td>Lower bound of indices of records returned</td>
-</tr>
-<tr>
-<td>to</td>
-<td>Integer</td>
-<td>Upper bound of indices of records returned</td>
+<td>Total number of records available</td>
 </tr>
 </tbody></table>
 
@@ -18448,12 +18461,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>tx_number</td>
 <td>Integer</td>
-<td></td>
+<td>Monotonic index of the tx in database</td>
 </tr>
 <tr>
 <td>block_unix_timestamp</td>
+<td>Integer</td>
 <td>The timestamp of the block in UNIX millis</td>
-<td></td>
 </tr>
 </tbody></table>
 
@@ -18484,15 +18497,30 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>granter</td>
 <td>String</td>
-<td></td>
+<td>Address of granter of the tx</td>
 </tr>
 </tbody></table>
 
-<p><strong>CosmosCoin</strong>
-|Parameter|Type|Description|
-|----|----|----|
-|denom|String|Coin denom|
-|amount|String|Coin amount|</p>
+<p><strong>CosmosCoin</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>denom</td>
+<td>String</td>
+<td>Coin denom</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>String</td>
+<td>Coin amount</td>
+</tr>
+</tbody></table>
 
 <p><strong>Signatures</strong></p>
 
@@ -18736,17 +18764,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>total</td>
 <td>Integer</td>
-<td>Total number of available records</td>
-</tr>
-<tr>
-<td>from</td>
-<td>Integer</td>
-<td>Lower bound of indices of records returned</td>
-</tr>
-<tr>
-<td>to</td>
-<td>Integer</td>
-<td>Upper bound of indices of records returned</td>
+<td>Total number of records available</td>
 </tr>
 </tbody></table>
 
@@ -18950,26 +18968,92 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 </tbody></table>
 
-<p><strong>BlockDetailInfo</strong>
-|Parameter|Type|Description|
-|----|----|----|
-|height|Integer|The block height|
-|proposer|String|The block proposer|
-|moniker|String|The block proposer&#39;s moniker|
-|block_hash|String|The hash of the block|
-|parent_hash|String|The parent hash of the block|
-|num_txs|Integer|Number of transactions in the block|
-|txs|TxData Array|List of transactions|
-|timestamp|String|The timestamp of the block (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|</p>
+<p><strong>BlockDetailInfo</strong></p>
 
-<p><strong>TxData</strong>
-|Parameter|Type|Description|
-|----|----|----|
-|block_number|String|The block number|
-|block_timestamp|String|The timestamp of the block (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
-|hash|Transaction hash|
-|messages|bytes|Messages byte data of the transaction|
-|tx_number|Integer|Transaction number|</p>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>height</td>
+<td>Integer</td>
+<td>The block height</td>
+</tr>
+<tr>
+<td>proposer</td>
+<td>String</td>
+<td>The block proposer</td>
+</tr>
+<tr>
+<td>moniker</td>
+<td>String</td>
+<td>The block proposer&#39;s moniker</td>
+</tr>
+<tr>
+<td>block_hash</td>
+<td>String</td>
+<td>The hash of the block</td>
+</tr>
+<tr>
+<td>parent_hash</td>
+<td>String</td>
+<td>The parent hash of the block</td>
+</tr>
+<tr>
+<td>num_txs</td>
+<td>Integer</td>
+<td>Number of transactions in the block</td>
+</tr>
+<tr>
+<td>txs</td>
+<td>TxData Array</td>
+<td>List of transactions</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>String</td>
+<td>The timestamp of the block (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)</td>
+</tr>
+</tbody></table>
+
+<p><strong>TxData</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>block_number</td>
+<td>String</td>
+<td>The block number</td>
+</tr>
+<tr>
+<td>block_timestamp</td>
+<td>String</td>
+<td>The timestamp of the block (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)</td>
+</tr>
+<tr>
+<td>hash</td>
+<td>String</td>
+<td>Transaction hash</td>
+</tr>
+<tr>
+<td>messages</td>
+<td>bytes</td>
+<td>Messages byte data of the transaction</td>
+</tr>
+<tr>
+<td>tx_number</td>
+<td>Integer</td>
+<td>Transaction number</td>
+</tr>
+</tbody></table>
 <h2 id='injectiveexplorerrpc-txs'>Txs</h2>
 <p>Get the transactions.</p>
 <h3 id='injectiveexplorerrpc-txs-request-parameters'>Request Parameters</h3>
@@ -19292,17 +19376,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>total</td>
 <td>Integer</td>
-<td>Total number of available records</td>
-</tr>
-<tr>
-<td>from</td>
-<td>Integer</td>
-<td>Lower bound of indices of records returned</td>
-</tr>
-<tr>
-<td>to</td>
-<td>Integer</td>
-<td>Upper bound of indices of records returned</td>
+<td>Total number of records available</td>
 </tr>
 </tbody></table>
 
@@ -20104,7 +20178,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>claim_type</td>
 <td>Integer</td>
-<td></td>
+<td>Claim type of the deposit, always equal to 1</td>
 </tr>
 <tr>
 <td>tx_hashes</td>
@@ -20408,7 +20482,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>batch_timeout</td>
 <td>Integer</td>
-<td></td>
+<td>The timestamp after which batch request will be discarded if not processed already</td>
 </tr>
 <tr>
 <td>BatchNonce</td>
@@ -20438,7 +20512,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>claim_type</td>
 <td>Integer</td>
-<td></td>
+<td>Claim type of the transaction, always equal to 2</td>
 </tr>
 <tr>
 <td>tx_hashes</td>
@@ -20810,7 +20884,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>data_hex</td>
 <td>String</td>
-<td>Data in hex format</td>
+<td>IBC request data in hex format</td>
 </tr>
 <tr>
 <td>state</td>
@@ -20831,6 +20905,1395 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>updated_at</td>
 <td>String</td>
 <td>The timestamp of the tx update (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)</td>
+</tr>
+</tbody></table>
+<h2 id='injectiveexplorerrpc-getwasmcodes'>GetWasmCodes</h2>
+<p>List all cosmwasm code on injective chain. Results are paginated.</p>
+
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+
+<!-- embedme ../../../sdk-go/examples/explorer/11_GetWasmCodes/example.go -->
+<div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"context"</span>
+    <span class="s">"encoding/json"</span>
+    <span class="s">"fmt"</span>
+
+    <span class="n">explorerPB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"</span>
+
+    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+    <span class="n">explorerclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/explorer"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
+    <span class="n">explorerClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">explorerclient</span><span class="o">.</span><span class="n">NewExplorerClient</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExplorerGrpcEndpoint</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExplorerTlsCert</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+
+    <span class="n">req</span> <span class="o">:=</span> <span class="n">explorerPB</span><span class="o">.</span><span class="n">GetWasmCodesRequest</span><span class="p">{</span>
+        <span class="n">Limit</span><span class="o">:</span> <span class="m">5</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">explorerClient</span><span class="o">.</span><span class="n">GetWasmCodes</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+<span class="p">}</span>
+
+</code></pre></div>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
+ <span class="s">"paging"</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s">"total"</span><span class="o">:</span> <span class="m">501</span><span class="p">,</span>
+  <span class="s">"from"</span><span class="o">:</span> <span class="m">497</span><span class="p">,</span>
+  <span class="s">"to"</span><span class="o">:</span> <span class="m">501</span>
+ <span class="p">},</span>
+ <span class="s">"data"</span><span class="o">:</span> <span class="p">[</span>
+  <span class="p">{</span>
+   <span class="s">"code_id"</span><span class="o">:</span> <span class="m">501</span><span class="p">,</span>
+   <span class="s">"tx_hash"</span><span class="o">:</span> <span class="s">"0x6f218f72f68b3c90e578c1b1fad735f8016fc9b3618664ceb301234f2725d218"</span><span class="p">,</span>
+   <span class="s">"checksum"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"algorithm"</span><span class="o">:</span> <span class="s">"sha256"</span><span class="p">,</span>
+    <span class="s">"hash"</span><span class="o">:</span> <span class="s">"0x4f6e56bbbe7ebec55f7e9d49c4a6e534f57ba3402c0282c1c3ec1aac83753ccf"</span>
+   <span class="p">},</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1677495117914</span><span class="p">,</span>
+   <span class="s">"permission"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"access_type"</span><span class="o">:</span> <span class="m">3</span>
+   <span class="p">},</span>
+   <span class="s">"creator"</span><span class="o">:</span> <span class="s">"inj13dyu3ukelncq95s7dqhg6crqvjursramcazkka"</span><span class="p">,</span>
+   <span class="s">"code_number"</span><span class="o">:</span> <span class="m">515</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"code_id"</span><span class="o">:</span> <span class="m">500</span><span class="p">,</span>
+   <span class="s">"tx_hash"</span><span class="o">:</span> <span class="s">"0x9a8035a3cd85651b7266f813f3dd909772a7cec5ca0b4f9266832d50c85921b8"</span><span class="p">,</span>
+   <span class="s">"checksum"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"algorithm"</span><span class="o">:</span> <span class="s">"sha256"</span><span class="p">,</span>
+    <span class="s">"hash"</span><span class="o">:</span> <span class="s">"0xdcaa8a03707966ebfedbb927f755fabf9e7f095663f4b9f45a5b437a8276ea0f"</span>
+   <span class="p">},</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1677495084552</span><span class="p">,</span>
+   <span class="s">"permission"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"access_type"</span><span class="o">:</span> <span class="m">3</span>
+   <span class="p">},</span>
+   <span class="s">"creator"</span><span class="o">:</span> <span class="s">"inj13dyu3ukelncq95s7dqhg6crqvjursramcazkka"</span><span class="p">,</span>
+   <span class="s">"code_number"</span><span class="o">:</span> <span class="m">514</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"code_id"</span><span class="o">:</span> <span class="m">499</span><span class="p">,</span>
+   <span class="s">"tx_hash"</span><span class="o">:</span> <span class="s">"0x3809b1b61e218144c4f50e0a61b6ae89f8942cbe7cadfe67e23127c70949a3f1"</span><span class="p">,</span>
+   <span class="s">"checksum"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"algorithm"</span><span class="o">:</span> <span class="s">"sha256"</span><span class="p">,</span>
+    <span class="s">"hash"</span><span class="o">:</span> <span class="s">"0xdbef810fdc577f4e983620b16eccafdf359e924af0752a13820bf679b260ffe1"</span>
+   <span class="p">},</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1677495060759</span><span class="p">,</span>
+   <span class="s">"permission"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"access_type"</span><span class="o">:</span> <span class="m">3</span>
+   <span class="p">},</span>
+   <span class="s">"creator"</span><span class="o">:</span> <span class="s">"inj13dyu3ukelncq95s7dqhg6crqvjursramcazkka"</span><span class="p">,</span>
+   <span class="s">"code_number"</span><span class="o">:</span> <span class="m">513</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"code_id"</span><span class="o">:</span> <span class="m">498</span><span class="p">,</span>
+   <span class="s">"tx_hash"</span><span class="o">:</span> <span class="s">"0x9c5a44981506fe7658fa38b2bd63ddd20717842433ce75eba60cb2d7ca548b54"</span><span class="p">,</span>
+   <span class="s">"checksum"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"algorithm"</span><span class="o">:</span> <span class="s">"sha256"</span><span class="p">,</span>
+    <span class="s">"hash"</span><span class="o">:</span> <span class="s">"0xe17581873943e1fe3671bfca9a3360398be10a28245fc0d5c55403f64808019c"</span>
+   <span class="p">},</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1677495034788</span><span class="p">,</span>
+   <span class="s">"permission"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"access_type"</span><span class="o">:</span> <span class="m">3</span>
+   <span class="p">},</span>
+   <span class="s">"creator"</span><span class="o">:</span> <span class="s">"inj13dyu3ukelncq95s7dqhg6crqvjursramcazkka"</span><span class="p">,</span>
+   <span class="s">"code_number"</span><span class="o">:</span> <span class="m">512</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"code_id"</span><span class="o">:</span> <span class="m">497</span><span class="p">,</span>
+   <span class="s">"tx_hash"</span><span class="o">:</span> <span class="s">"0xeaa3d642a049d0b09920bacf7989a2371ecf43ec20bb5d6dbb3b54326cec63e7"</span><span class="p">,</span>
+   <span class="s">"checksum"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"algorithm"</span><span class="o">:</span> <span class="s">"sha256"</span><span class="p">,</span>
+    <span class="s">"hash"</span><span class="o">:</span> <span class="s">"0x1a1278f43c03e9ed12ba9c1995bae8ea1554cf67a38e9eedd97e9cd61a3e411d"</span>
+   <span class="p">},</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1677495006505</span><span class="p">,</span>
+   <span class="s">"permission"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"access_type"</span><span class="o">:</span> <span class="m">3</span>
+   <span class="p">},</span>
+   <span class="s">"creator"</span><span class="o">:</span> <span class="s">"inj13dyu3ukelncq95s7dqhg6crqvjursramcazkka"</span><span class="p">,</span>
+   <span class="s">"code_number"</span><span class="o">:</span> <span class="m">511</span>
+  <span class="p">}</span>
+ <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div><h3 id='injectiveexplorerrpc-getwasmcodes-request-parameters'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>limit</td>
+<td>Integer</td>
+<td>Limit number of codes to return</td>
+<td>No</td>
+</tr>
+<tr>
+<td>from_number</td>
+<td>Integer</td>
+<td>List all codes whose number (code_id) is not lower than from_number</td>
+<td>No</td>
+</tr>
+<tr>
+<td>to_number</td>
+<td>Integer</td>
+<td>List all codes whose number (code_id) is not greater than to_number</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<h3 id='injectiveexplorerrpc-getwasmcodes-response-parameters'>Response Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>paging</td>
+<td>Paging</td>
+<td>Pagination of results</td>
+</tr>
+<tr>
+<td>data</td>
+<td>WasmCode Array</td>
+<td>List of WasmCodes, after applying filters</td>
+</tr>
+</tbody></table>
+
+<p><strong>Paging</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>total</td>
+<td>Integer</td>
+<td>Total number of records available</td>
+</tr>
+</tbody></table>
+
+<p><strong>WasmCode</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>code_id</td>
+<td>Integer</td>
+<td>ID of stored wasm code, sorted in descending order</td>
+</tr>
+<tr>
+<td>tx_hash</td>
+<td>String</td>
+<td>Tx hash of store code transaction</td>
+</tr>
+<tr>
+<td>checksum</td>
+<td>Checksum</td>
+<td>Checksum of the cosmwasm code</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>Integer</td>
+<td>Block time when the code is stored, in millisecond</td>
+</tr>
+<tr>
+<td>contract_type</td>
+<td>String</td>
+<td>Contract type of the wasm code</td>
+</tr>
+<tr>
+<td>version</td>
+<td>String</td>
+<td>Version of the wasm code</td>
+</tr>
+<tr>
+<td>permission</td>
+<td>ContractPermission</td>
+<td>Describes instantiation permissions</td>
+</tr>
+<tr>
+<td>code_schema</td>
+<td>String</td>
+<td>Code schema preview (to be supported)</td>
+</tr>
+<tr>
+<td>code_view</td>
+<td>String</td>
+<td>Code repo preview, may contain schema folder (to be supported)</td>
+</tr>
+<tr>
+<td>instantiates</td>
+<td>Integer</td>
+<td>Number of contract instantiations from this code</td>
+</tr>
+<tr>
+<td>creator</td>
+<td>String</td>
+<td>Creator of this code</td>
+</tr>
+<tr>
+<td>code_number</td>
+<td>Integer</td>
+<td>Monotonic order of the code stored</td>
+</tr>
+<tr>
+<td>proposal_id</td>
+<td>Integer</td>
+<td>ID of the proposal that store this code</td>
+</tr>
+</tbody></table>
+
+<p><strong>ContractPermission</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>access_type</td>
+<td>Integer</td>
+<td>Access type of instantiation</td>
+</tr>
+<tr>
+<td>address</td>
+<td>Integer</td>
+<td>Account address</td>
+</tr>
+</tbody></table>
+
+<p><strong>Checksum</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>algorithm</td>
+<td>String</td>
+<td>Hash function algorithm</td>
+</tr>
+<tr>
+<td>hash</td>
+<td>String</td>
+<td>Hash of the cosmwasm bytecode</td>
+</tr>
+</tbody></table>
+<h2 id='injectiveexplorerrpc-getwasmcodebyid'>GetWasmCodeByID</h2>
+<p>Get cosmwasm code by its code ID</p>
+
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+
+<!-- embedme ../../../sdk-go/examples/explorer/12_GetWasmCodeByID/example.go -->
+<div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"context"</span>
+    <span class="s">"encoding/json"</span>
+    <span class="s">"fmt"</span>
+
+    <span class="n">explorerPB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"</span>
+
+    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+    <span class="n">explorerclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/explorer"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
+    <span class="n">explorerClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">explorerclient</span><span class="o">.</span><span class="n">NewExplorerClient</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExplorerGrpcEndpoint</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExplorerTlsCert</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+
+    <span class="n">req</span> <span class="o">:=</span> <span class="n">explorerPB</span><span class="o">.</span><span class="n">GetWasmCodeByIDRequest</span><span class="p">{</span>
+        <span class="n">CodeId</span><span class="o">:</span> <span class="m">10</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">explorerClient</span><span class="o">.</span><span class="n">GetWasmCodeByID</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+<span class="p">}</span>
+
+</code></pre></div>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
+ <span class="s">"code_id"</span><span class="o">:</span> <span class="m">10</span><span class="p">,</span>
+ <span class="s">"tx_hash"</span><span class="o">:</span> <span class="s">"0x476b1988ba0ea020a337b92f46afefde8af2ac9e72934a1b9882673b3926388c"</span><span class="p">,</span>
+ <span class="s">"checksum"</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s">"algorithm"</span><span class="o">:</span> <span class="s">"sha256"</span><span class="p">,</span>
+  <span class="s">"hash"</span><span class="o">:</span> <span class="s">"0xdba30bcea6d5997c00a7922b475e42f172e72b8ef6ad522c09bc1868bc6caff4"</span>
+ <span class="p">},</span>
+ <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1658305428842</span><span class="p">,</span>
+ <span class="s">"instantiates"</span><span class="o">:</span> <span class="m">4</span><span class="p">,</span>
+ <span class="s">"creator"</span><span class="o">:</span> <span class="s">"inj10hpqmlskky8azz5qca20xau2ppf3x23jsh9k8r"</span><span class="p">,</span>
+ <span class="s">"code_number"</span><span class="o">:</span> <span class="m">10</span>
+<span class="p">}</span>
+</code></pre></div><h3 id='injectiveexplorerrpc-getwasmcodebyid-request-parameters'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>code_id</td>
+<td>Integer</td>
+<td>ID of the code</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+<h3 id='injectiveexplorerrpc-getwasmcodebyid-response-parameters'>Response Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>code_id</td>
+<td>Integer</td>
+<td>ID of stored wasm code, sorted in descending order</td>
+</tr>
+<tr>
+<td>tx_hash</td>
+<td>String</td>
+<td>Tx hash of store code transaction</td>
+</tr>
+<tr>
+<td>checksum</td>
+<td>Checksum</td>
+<td>Checksum of the cosmwasm code</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>Integer</td>
+<td>Block time when the code is stored, in millisecond</td>
+</tr>
+<tr>
+<td>contract_type</td>
+<td>String</td>
+<td>Contract type of the wasm code</td>
+</tr>
+<tr>
+<td>version</td>
+<td>String</td>
+<td>Version of the wasm code</td>
+</tr>
+<tr>
+<td>permission</td>
+<td>ContractPermission</td>
+<td>Describes instantiation permissions</td>
+</tr>
+<tr>
+<td>code_schema</td>
+<td>String</td>
+<td>Code schema preview (to be supported)</td>
+</tr>
+<tr>
+<td>code_view</td>
+<td>String</td>
+<td>Code repo preview, may contain schema folder (to be supported)</td>
+</tr>
+<tr>
+<td>instantiates</td>
+<td>Integer</td>
+<td>Number of contract instantiations from this code</td>
+</tr>
+<tr>
+<td>creator</td>
+<td>String</td>
+<td>Creator of this code</td>
+</tr>
+<tr>
+<td>code_number</td>
+<td>Integer</td>
+<td>Monotonic order of the code stored</td>
+</tr>
+<tr>
+<td>proposal_id</td>
+<td>Integer</td>
+<td>ID of the proposal that store this code</td>
+</tr>
+</tbody></table>
+
+<p><strong>ContractPermission</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>access_type</td>
+<td>Integer</td>
+<td>Access type of instantiation</td>
+</tr>
+<tr>
+<td>address</td>
+<td>Integer</td>
+<td>Account address</td>
+</tr>
+</tbody></table>
+
+<p><strong>Checksum</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>algorithm</td>
+<td>String</td>
+<td>Hash function algorithm</td>
+</tr>
+<tr>
+<td>hash</td>
+<td>String</td>
+<td>Hash of the cosmwasm bytecode</td>
+</tr>
+</tbody></table>
+<h2 id='injectiveexplorerrpc-getwasmcontracts'>GetWasmContracts</h2>
+<p>Get cosmwasm instantiated contracts on injective-chain. Results are paginated.</p>
+
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+
+<!-- embedme ../../../sdk-go/examples/explorer/13_GetWasmContracts/example.go -->
+<div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"context"</span>
+    <span class="s">"encoding/json"</span>
+    <span class="s">"fmt"</span>
+
+    <span class="n">explorerPB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"</span>
+
+    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+    <span class="n">explorerclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/explorer"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
+    <span class="n">explorerClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">explorerclient</span><span class="o">.</span><span class="n">NewExplorerClient</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExplorerGrpcEndpoint</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExplorerTlsCert</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+
+    <span class="n">req</span> <span class="o">:=</span> <span class="n">explorerPB</span><span class="o">.</span><span class="n">GetWasmContractsRequest</span><span class="p">{</span>
+        <span class="n">Limit</span><span class="o">:</span> <span class="m">5</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">explorerClient</span><span class="o">.</span><span class="n">GetWasmContracts</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+<span class="p">}</span>
+
+</code></pre></div>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
+ <span class="s">"paging"</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s">"total"</span><span class="o">:</span> <span class="m">529</span><span class="p">,</span>
+  <span class="s">"from"</span><span class="o">:</span> <span class="m">1</span><span class="p">,</span>
+  <span class="s">"to"</span><span class="o">:</span> <span class="m">5</span>
+ <span class="p">},</span>
+ <span class="s">"data"</span><span class="o">:</span> <span class="p">[</span>
+  <span class="p">{</span>
+   <span class="s">"label"</span><span class="o">:</span> <span class="s">"Instantiation"</span><span class="p">,</span>
+   <span class="s">"address"</span><span class="o">:</span> <span class="s">"inj138nnvqqx4t49n6u8r7d8g6h2ek3kpztk3s4svy"</span><span class="p">,</span>
+   <span class="s">"tx_hash"</span><span class="o">:</span> <span class="s">"0xdc1c7dc4bb47710b22894def0c4fa12d2d86d9d3d6e3ed3a348d83e9052ea7c2"</span><span class="p">,</span>
+   <span class="s">"creator"</span><span class="o">:</span> <span class="s">"inj1rhsl5eld5qg7qe2w2nretw6s6xnwdpaju3rp5j"</span><span class="p">,</span>
+   <span class="s">"instantiated_at"</span><span class="o">:</span> <span class="m">1677520960574</span><span class="p">,</span>
+   <span class="s">"init_message"</span><span class="o">:</span> <span class="s">"{</span><span class="se">\"</span><span class="s">app_components</span><span class="se">\"</span><span class="s">:[],</span><span class="se">\"</span><span class="s">name</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">First Aoo</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">primitive_contract</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">inj1hsrl44l3gm5p52r26nx89g9tpptacuy755y6yd</span><span class="se">\"</span><span class="s">}"</span><span class="p">,</span>
+   <span class="s">"last_executed_at"</span><span class="o">:</span> <span class="m">1677520960574</span><span class="p">,</span>
+   <span class="s">"code_id"</span><span class="o">:</span> <span class="m">481</span><span class="p">,</span>
+   <span class="s">"admin"</span><span class="o">:</span> <span class="s">"inj1rhsl5eld5qg7qe2w2nretw6s6xnwdpaju3rp5j"</span><span class="p">,</span>
+   <span class="s">"contract_number"</span><span class="o">:</span> <span class="m">529</span><span class="p">,</span>
+   <span class="s">"version"</span><span class="o">:</span> <span class="s">"0.1.0"</span><span class="p">,</span>
+   <span class="s">"type"</span><span class="o">:</span> <span class="s">"crates.io:andromeda-app-contract"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"label"</span><span class="o">:</span> <span class="s">"CounterTestInstance"</span><span class="p">,</span>
+   <span class="s">"address"</span><span class="o">:</span> <span class="s">"inj1xd48d9fs7rmh9rhf36fj69mw8yxplnq66m3gxq"</span><span class="p">,</span>
+   <span class="s">"tx_hash"</span><span class="o">:</span> <span class="s">"0x05f44c2dd194a41a7e4606d350d85bd49cf59597dbb63681eaf97e51416a2df2"</span><span class="p">,</span>
+   <span class="s">"creator"</span><span class="o">:</span> <span class="s">"inj1kpps36y8c5qm9axr5w3v3ukqtth99pq40ga84e"</span><span class="p">,</span>
+   <span class="s">"executes"</span><span class="o">:</span> <span class="m">1</span><span class="p">,</span>
+   <span class="s">"instantiated_at"</span><span class="o">:</span> <span class="m">1677252138256</span><span class="p">,</span>
+   <span class="s">"init_message"</span><span class="o">:</span> <span class="s">"{</span><span class="se">\"</span><span class="s">count</span><span class="se">\"</span><span class="s">:99}"</span><span class="p">,</span>
+   <span class="s">"last_executed_at"</span><span class="o">:</span> <span class="m">1677255965387</span><span class="p">,</span>
+   <span class="s">"code_id"</span><span class="o">:</span> <span class="m">476</span><span class="p">,</span>
+   <span class="s">"contract_number"</span><span class="o">:</span> <span class="m">528</span><span class="p">,</span>
+   <span class="s">"version"</span><span class="o">:</span> <span class="s">"0.1.0"</span><span class="p">,</span>
+   <span class="s">"type"</span><span class="o">:</span> <span class="s">"crates.io:cw-counter"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"label"</span><span class="o">:</span> <span class="s">"Wormhole Wrapped CW20"</span><span class="p">,</span>
+   <span class="s">"address"</span><span class="o">:</span> <span class="s">"inj1m4g54lg2mhhm7a4h3ms5xlyecafhe4macgsuen"</span><span class="p">,</span>
+   <span class="s">"tx_hash"</span><span class="o">:</span> <span class="s">"0xce9b5b713da1b1b0e48d1b5451769ba80ca905145a90c704d01221986083c2d8"</span><span class="p">,</span>
+   <span class="s">"creator"</span><span class="o">:</span> <span class="s">"inj1q0e70vhrv063eah90mu97sazhywmeegp7myvnh"</span><span class="p">,</span>
+   <span class="s">"instantiated_at"</span><span class="o">:</span> <span class="m">1677179269211</span><span class="p">,</span>
+   <span class="s">"init_message"</span><span class="o">:</span> <span class="s">"{</span><span class="se">\"</span><span class="s">name</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">QAT</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">symbol</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">QAT</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">asset_chain</span><span class="se">\"</span><span class="s">:2,</span><span class="se">\"</span><span class="s">asset_address</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">AAAAAAAAAAAAAAAAGQLhj+sSNNANiA8frKXI106FAek=</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">decimals</span><span class="se">\"</span><span class="s">:8,</span><span class="se">\"</span><span class="s">mint</span><span class="se">\"</span><span class="s">:null,</span><span class="se">\"</span><span class="s">init_hook</span><span class="se">\"</span><span class="s">:{</span><span class="se">\"</span><span class="s">msg</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">eyJyZWdpc3Rlcl9hc3NldF9ob29rIjp7ImNoYWluIjoyLCJ0b2tlbl9hZGRyZXNzIjp7ImJ5dGVzIjpbMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMjUsMiwyMjUsMTQzLDIzNSwxOCw1MiwyMDgsMTMsMTM2LDE1LDMxLDE3MiwxNjUsMjAwLDIxNSw3OCwxMzMsMSwyMzNdfX19</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">contract_addr</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">inj1q0e70vhrv063eah90mu97sazhywmeegp7myvnh</span><span class="se">\"</span><span class="s">}}"</span><span class="p">,</span>
+   <span class="s">"last_executed_at"</span><span class="o">:</span> <span class="m">1677179269211</span><span class="p">,</span>
+   <span class="s">"code_id"</span><span class="o">:</span> <span class="m">14</span><span class="p">,</span>
+   <span class="s">"admin"</span><span class="o">:</span> <span class="s">"inj1q0e70vhrv063eah90mu97sazhywmeegp7myvnh"</span><span class="p">,</span>
+   <span class="s">"contract_number"</span><span class="o">:</span> <span class="m">527</span><span class="p">,</span>
+   <span class="s">"version"</span><span class="o">:</span> <span class="s">"0.1.0"</span><span class="p">,</span>
+   <span class="s">"type"</span><span class="o">:</span> <span class="s">"crates.io:cw20-base"</span><span class="p">,</span>
+   <span class="s">"cw20_metadata"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"token_info"</span><span class="o">:</span> <span class="p">{</span>
+     <span class="s">"name"</span><span class="o">:</span> <span class="s">"QAT (Wormhole)"</span><span class="p">,</span>
+     <span class="s">"symbol"</span><span class="o">:</span> <span class="s">"QAT"</span><span class="p">,</span>
+     <span class="s">"decimals"</span><span class="o">:</span> <span class="m">8</span><span class="p">,</span>
+     <span class="s">"total_supply"</span><span class="o">:</span> <span class="s">"0"</span>
+    <span class="p">}</span>
+   <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"label"</span><span class="o">:</span> <span class="s">"xAccount Registry"</span><span class="p">,</span>
+   <span class="s">"address"</span><span class="o">:</span> <span class="s">"inj1s4alfevl7u84v7c3klh2flv6fw95s3q08eje53"</span><span class="p">,</span>
+   <span class="s">"tx_hash"</span><span class="o">:</span> <span class="s">"0xad817a8a4fcef1c36f8c5535b5598a4bc2ddc069f8a60634438dae90a242efed"</span><span class="p">,</span>
+   <span class="s">"creator"</span><span class="o">:</span> <span class="s">"inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z"</span><span class="p">,</span>
+   <span class="s">"instantiated_at"</span><span class="o">:</span> <span class="m">1677176719385</span><span class="p">,</span>
+   <span class="s">"init_message"</span><span class="o">:</span> <span class="s">"{</span><span class="se">\"</span><span class="s">wormhole_id_here</span><span class="se">\"</span><span class="s">:19,</span><span class="se">\"</span><span class="s">wormhole_core_contract</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">inj1xx3aupmgv3ce537c0yce8zzd3sz567syuyedpg</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">factory_code_id</span><span class="se">\"</span><span class="s">:474,</span><span class="se">\"</span><span class="s">x_account_code_id</span><span class="se">\"</span><span class="s">:475,</span><span class="se">\"</span><span class="s">vm_id_here</span><span class="se">\"</span><span class="s">:1}"</span><span class="p">,</span>
+   <span class="s">"last_executed_at"</span><span class="o">:</span> <span class="m">1677176719385</span><span class="p">,</span>
+   <span class="s">"code_id"</span><span class="o">:</span> <span class="m">473</span><span class="p">,</span>
+   <span class="s">"admin"</span><span class="o">:</span> <span class="s">"inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z"</span><span class="p">,</span>
+   <span class="s">"contract_number"</span><span class="o">:</span> <span class="m">526</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"label"</span><span class="o">:</span> <span class="s">"xAccount Deployer"</span><span class="p">,</span>
+   <span class="s">"address"</span><span class="o">:</span> <span class="s">"inj1a0s058avjct43t7cwn7rfvmxt2p37v29xladv8"</span><span class="p">,</span>
+   <span class="s">"tx_hash"</span><span class="o">:</span> <span class="s">"0xad817a8a4fcef1c36f8c5535b5598a4bc2ddc069f8a60634438dae90a242efed"</span><span class="p">,</span>
+   <span class="s">"creator"</span><span class="o">:</span> <span class="s">"inj1s4alfevl7u84v7c3klh2flv6fw95s3q08eje53"</span><span class="p">,</span>
+   <span class="s">"instantiated_at"</span><span class="o">:</span> <span class="m">1677176719385</span><span class="p">,</span>
+   <span class="s">"init_message"</span><span class="o">:</span> <span class="s">"{</span><span class="se">\"</span><span class="s">x_account_registry</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">inj1s4alfevl7u84v7c3klh2flv6fw95s3q08eje53</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">commanders</span><span class="se">\"</span><span class="s">:[{</span><span class="se">\"</span><span class="s">wormhole_id</span><span class="se">\"</span><span class="s">:19,</span><span class="se">\"</span><span class="s">address_byte_length</span><span class="se">\"</span><span class="s">:20,</span><span class="se">\"</span><span class="s">address</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">AAAAAAAAAAAAAAAAQjjjD/fOAVOq8xb1O7rhomqGArc=</span><span class="se">\"</span><span class="s">}]}"</span><span class="p">,</span>
+   <span class="s">"last_executed_at"</span><span class="o">:</span> <span class="m">1677176719385</span><span class="p">,</span>
+   <span class="s">"code_id"</span><span class="o">:</span> <span class="m">475</span><span class="p">,</span>
+   <span class="s">"admin"</span><span class="o">:</span> <span class="s">"inj1gguwxrlhecq482hnzm6nhwhp5f4gvq4hmxpn7p"</span><span class="p">,</span>
+   <span class="s">"contract_number"</span><span class="o">:</span> <span class="m">525</span>
+  <span class="p">}</span>
+ <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div><h3 id='injectiveexplorerrpc-getwasmcontracts-request-parameters'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>limit</td>
+<td>Integer</td>
+<td>Max number of items to be returned, defaults to 100</td>
+<td>No</td>
+</tr>
+<tr>
+<td>code_id</td>
+<td>Integer</td>
+<td>Contract&#39;s code ID to be filtered</td>
+<td>No</td>
+</tr>
+<tr>
+<td>from_number</td>
+<td>Integer</td>
+<td>List all contracts whose number is not lower than from_number</td>
+<td>No</td>
+</tr>
+<tr>
+<td>to_number</td>
+<td>Integer</td>
+<td>List all contracts whose number is not greater than to_number</td>
+<td>No</td>
+</tr>
+<tr>
+<td>assets_only</td>
+<td>Boolean</td>
+<td>Filter only CW20 contracts</td>
+<td>No</td>
+</tr>
+<tr>
+<td>skip</td>
+<td>Integer</td>
+<td>Skip the first <em>n</em> cosmwasm contracts. This can be used to fetch all results since the API caps at 100</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<h3 id='injectiveexplorerrpc-getwasmcontracts-response-parameters'>Response Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>paging</td>
+<td>Paging</td>
+<td>Pagination of results</td>
+</tr>
+<tr>
+<td>data</td>
+<td>WasmContract Array</td>
+<td>List of WasmContracts after filtering</td>
+</tr>
+</tbody></table>
+
+<p><strong>Paging</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>total</td>
+<td>Integer</td>
+<td>Total number of records available</td>
+</tr>
+</tbody></table>
+
+<p><strong>WasmContract</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>label</td>
+<td>String</td>
+<td>General name of the contract</td>
+</tr>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>Address of the contract</td>
+</tr>
+<tr>
+<td>tx_hash</td>
+<td>String</td>
+<td>Hash of the instantiate transaction</td>
+</tr>
+<tr>
+<td>creator</td>
+<td>String</td>
+<td>Address of the contract creator</td>
+</tr>
+<tr>
+<td>executes</td>
+<td>Integer</td>
+<td>Number of times call to execute contract</td>
+</tr>
+<tr>
+<td>instantiated_at</td>
+<td>Integer</td>
+<td>Block timestamp that contract was instantiated, in UNIX millis</td>
+</tr>
+<tr>
+<td>init_message</td>
+<td>String</td>
+<td>Init message when this contract was instantiated</td>
+</tr>
+<tr>
+<td>last_executed_at</td>
+<td>Integer</td>
+<td>Block timestamp that contract was last called, in UNIX millis</td>
+</tr>
+<tr>
+<td>funds</td>
+<td>ContractFund Array</td>
+<td>List of contract funds</td>
+</tr>
+<tr>
+<td>code_id</td>
+<td>Integer</td>
+<td>Code ID of the contract</td>
+</tr>
+<tr>
+<td>admin</td>
+<td>String</td>
+<td>Admin of the contract</td>
+</tr>
+<tr>
+<td>current_migrate_message</td>
+<td>String</td>
+<td>Latest migrate message of the contract</td>
+</tr>
+<tr>
+<td>contract_number</td>
+<td>Integer</td>
+<td>Monotonic contract number in database</td>
+</tr>
+<tr>
+<td>version</td>
+<td>String</td>
+<td>Contract version</td>
+</tr>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>Contract type</td>
+</tr>
+<tr>
+<td>cw20_metadata</td>
+<td>Cw20Metadata</td>
+<td>Metadata of the CW20 contract</td>
+</tr>
+<tr>
+<td>proposal_id</td>
+<td>Integer</td>
+<td>ID of the proposal that instantiates this contract</td>
+</tr>
+</tbody></table>
+
+<p><strong>ContractFund</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>denom</td>
+<td>String</td>
+<td>Denominator</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>String</td>
+<td>Amount of denom</td>
+</tr>
+</tbody></table>
+
+<p><strong>Cw20Metadata</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token_info</td>
+<td>Cw20TokenInfo</td>
+<td>CW20 token info structure</td>
+</tr>
+<tr>
+<td>marketing_info</td>
+<td>Cw20MarketingInfo</td>
+<td>Marketing info structure</td>
+</tr>
+</tbody></table>
+
+<p><strong>Cw20TokenInfo</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>General name of the token</td>
+</tr>
+<tr>
+<td>symbol</td>
+<td>String</td>
+<td>Symbol of the token</td>
+</tr>
+<tr>
+<td>decimals</td>
+<td>Integer</td>
+<td>Decimal places of token</td>
+</tr>
+</tbody></table>
+
+<p><strong>Cw20MarketingInfo</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>project</td>
+<td>String</td>
+<td>Project information</td>
+</tr>
+<tr>
+<td>description</td>
+<td>String</td>
+<td>Token&#39;s description</td>
+</tr>
+<tr>
+<td>logo</td>
+<td>String</td>
+<td>Logo (url/embedded)</td>
+</tr>
+<tr>
+<td>marketing</td>
+<td>Bytes Array</td>
+<td>Address that can update the contract&#39;s marketing info</td>
+</tr>
+</tbody></table>
+<h2 id='injectiveexplorerrpc-getwasmcontractbyaddress'>GetWasmContractByAddress</h2>
+<p>Get cosmwasm contract by its address</p>
+
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+
+<!-- embedme ../../../sdk-go/examples/explorer/14_GetWasmContractByAddress/example.go -->
+<div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"context"</span>
+    <span class="s">"encoding/json"</span>
+    <span class="s">"fmt"</span>
+
+    <span class="n">explorerPB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"</span>
+
+    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+    <span class="n">explorerclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/explorer"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
+    <span class="n">explorerClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">explorerclient</span><span class="o">.</span><span class="n">NewExplorerClient</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExplorerGrpcEndpoint</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExplorerTlsCert</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+
+    <span class="n">req</span> <span class="o">:=</span> <span class="n">explorerPB</span><span class="o">.</span><span class="n">GetWasmContractByAddressRequest</span><span class="p">{</span>
+        <span class="n">ContractAddress</span><span class="o">:</span> <span class="s">"inj1ru9nhdjtjtz8u8wrwxmcl9zsns4fh2838yr5ga"</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">explorerClient</span><span class="o">.</span><span class="n">GetWasmContractByAddress</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+<span class="p">}</span>
+
+</code></pre></div>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
+ <span class="s">"label"</span><span class="o">:</span> <span class="s">"xAccount Registry"</span><span class="p">,</span>
+ <span class="s">"address"</span><span class="o">:</span> <span class="s">"inj1ru9nhdjtjtz8u8wrwxmcl9zsns4fh2838yr5ga"</span><span class="p">,</span>
+ <span class="s">"tx_hash"</span><span class="o">:</span> <span class="s">"0x7dbc4177ef6253b6cfb33c0345e023eec3a6603aa615fa836271d2f3743e33fb"</span><span class="p">,</span>
+ <span class="s">"creator"</span><span class="o">:</span> <span class="s">"inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z"</span><span class="p">,</span>
+ <span class="s">"executes"</span><span class="o">:</span> <span class="m">6</span><span class="p">,</span>
+ <span class="s">"instantiated_at"</span><span class="o">:</span> <span class="m">1676450262441</span><span class="p">,</span>
+ <span class="s">"init_message"</span><span class="o">:</span> <span class="s">"{</span><span class="se">\"</span><span class="s">wormhole_id_here</span><span class="se">\"</span><span class="s">:19,</span><span class="se">\"</span><span class="s">wormhole_core_contract</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">inj1xx3aupmgv3ce537c0yce8zzd3sz567syuyedpg</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">factory_code_id</span><span class="se">\"</span><span class="s">:422,</span><span class="se">\"</span><span class="s">x_account_code_id</span><span class="se">\"</span><span class="s">:421,</span><span class="se">\"</span><span class="s">vm_id_here</span><span class="se">\"</span><span class="s">:1}"</span><span class="p">,</span>
+ <span class="s">"last_executed_at"</span><span class="o">:</span> <span class="m">1676464935254</span><span class="p">,</span>
+ <span class="s">"code_id"</span><span class="o">:</span> <span class="m">420</span><span class="p">,</span>
+ <span class="s">"admin"</span><span class="o">:</span> <span class="s">"inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z"</span><span class="p">,</span>
+ <span class="s">"contract_number"</span><span class="o">:</span> <span class="m">430</span>
+<span class="p">}</span>
+</code></pre></div><h3 id='injectiveexplorerrpc-getwasmcontractbyaddress-request-parameters'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>contract_address</td>
+<td>String</td>
+<td>Contract address</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+<h3 id='injectiveexplorerrpc-getwasmcontractbyaddress-response-parameters'>Response Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>label</td>
+<td>String</td>
+<td>General name of the contract</td>
+</tr>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>Address of the contract</td>
+</tr>
+<tr>
+<td>tx_hash</td>
+<td>String</td>
+<td>Hash of the instantiate transaction</td>
+</tr>
+<tr>
+<td>creator</td>
+<td>String</td>
+<td>Address of the contract creator</td>
+</tr>
+<tr>
+<td>executes</td>
+<td>Integer</td>
+<td>Number of times call to execute contract</td>
+</tr>
+<tr>
+<td>instantiated_at</td>
+<td>Integer</td>
+<td>Block timestamp that contract was instantiated, in UNIX millis</td>
+</tr>
+<tr>
+<td>init_message</td>
+<td>String</td>
+<td>Init message when this contract was instantiated</td>
+</tr>
+<tr>
+<td>last_executed_at</td>
+<td>Integer</td>
+<td>Block timestamp that contract was last called, in UNIX millis</td>
+</tr>
+<tr>
+<td>funds</td>
+<td>ContractFund Array</td>
+<td>List of contract funds</td>
+</tr>
+<tr>
+<td>code_id</td>
+<td>Integer</td>
+<td>Code ID of the contract</td>
+</tr>
+<tr>
+<td>admin</td>
+<td>String</td>
+<td>Admin of the contract</td>
+</tr>
+<tr>
+<td>current_migrate_message</td>
+<td>String</td>
+<td>Latest migrate message of the contract</td>
+</tr>
+<tr>
+<td>contract_number</td>
+<td>Integer</td>
+<td>Monotonic contract number in database</td>
+</tr>
+<tr>
+<td>version</td>
+<td>String</td>
+<td>Contract version</td>
+</tr>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>Contract type</td>
+</tr>
+<tr>
+<td>cw20_metadata</td>
+<td>Cw20Metadata</td>
+<td>Metadata of the CW20 contract</td>
+</tr>
+<tr>
+<td>proposal_id</td>
+<td>Integer</td>
+<td>ID of the proposal that instantiates this contract</td>
+</tr>
+</tbody></table>
+
+<p><strong>ContractFund</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>denom</td>
+<td>String</td>
+<td>Denominator</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>String</td>
+<td>Amount of denom</td>
+</tr>
+</tbody></table>
+
+<p><strong>Cw20Metadata</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token_info</td>
+<td>Cw20TokenInfo</td>
+<td>CW20 token info structure</td>
+</tr>
+<tr>
+<td>marketing_info</td>
+<td>Cw20MarketingInfo</td>
+<td>Marketing info structure</td>
+</tr>
+</tbody></table>
+
+<p><strong>Cw20TokenInfo</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>General name of the token</td>
+</tr>
+<tr>
+<td>symbol</td>
+<td>String</td>
+<td>Symbol of the token</td>
+</tr>
+<tr>
+<td>decimals</td>
+<td>Integer</td>
+<td>Decimal places of token</td>
+</tr>
+</tbody></table>
+
+<p><strong>Cw20MarketingInfo</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>project</td>
+<td>String</td>
+<td>Project information</td>
+</tr>
+<tr>
+<td>description</td>
+<td>String</td>
+<td>Token&#39;s description</td>
+</tr>
+<tr>
+<td>logo</td>
+<td>String</td>
+<td>Logo (url/embedded)</td>
+</tr>
+<tr>
+<td>marketing</td>
+<td>Bytes Array</td>
+<td>Address that can update the contract&#39;s marketing info</td>
+</tr>
+</tbody></table>
+<h2 id='injectiveexplorerrpc-getcw20balance'>GetCw20Balance</h2>
+<p>Get CW20 balances of an injective account across all instantiated CW20 contracts</p>
+
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+
+<!-- embedme ../../../sdk-go/examples/explorer/15_GetCW20Balance/example.go -->
+<div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"context"</span>
+    <span class="s">"encoding/json"</span>
+    <span class="s">"fmt"</span>
+
+    <span class="n">explorerPB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"</span>
+
+    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+    <span class="n">explorerclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/explorer"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
+    <span class="n">explorerClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">explorerclient</span><span class="o">.</span><span class="n">NewExplorerClient</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExplorerGrpcEndpoint</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExplorerTlsCert</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+
+    <span class="n">req</span> <span class="o">:=</span> <span class="n">explorerPB</span><span class="o">.</span><span class="n">GetCw20BalanceRequest</span><span class="p">{</span>
+        <span class="n">Address</span><span class="o">:</span> <span class="s">"inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z"</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">explorerClient</span><span class="o">.</span><span class="n">GetCW20Balance</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+<span class="p">}</span>
+
+</code></pre></div>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
+ <span class="s">"field"</span><span class="o">:</span> <span class="p">[</span>
+  <span class="p">{</span>
+   <span class="s">"contract_address"</span><span class="o">:</span> <span class="s">"inj1v6p2u2pgk9qdcf3ussudszjetqwjaj6l89ce0k"</span><span class="p">,</span>
+   <span class="s">"account"</span><span class="o">:</span> <span class="s">"inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z"</span><span class="p">,</span>
+   <span class="s">"balance"</span><span class="o">:</span> <span class="s">"10000000000000000"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1666153787458</span><span class="p">,</span>
+   <span class="s">"cw20_metadata"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">"token_info"</span><span class="o">:</span> <span class="p">{</span>
+     <span class="s">"name"</span><span class="o">:</span> <span class="s">"test coin"</span><span class="p">,</span>
+     <span class="s">"symbol"</span><span class="o">:</span> <span class="s">"TEST"</span><span class="p">,</span>
+     <span class="s">"decimals"</span><span class="o">:</span> <span class="m">6</span><span class="p">,</span>
+     <span class="s">"total_supply"</span><span class="o">:</span> <span class="s">"10000000000000000"</span>
+    <span class="p">},</span>
+    <span class="s">"marketing_info"</span><span class="o">:</span> <span class="p">{</span>
+     <span class="s">"marketing"</span><span class="o">:</span> <span class="s">"bnVsbA=="</span>
+    <span class="p">}</span>
+   <span class="p">}</span>
+  <span class="p">}</span>
+ <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div><h3 id='injectiveexplorerrpc-getcw20balance-request-parameters'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>Address to list balance of</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>Integer</td>
+<td>Limit number of balances to return</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<h3 id='injectiveexplorerrpc-getcw20balance-response-parameters'>Response Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Parameter</td>
+<td>WasmCw20Balance Array</td>
+<td>CW20 balance array</td>
+</tr>
+</tbody></table>
+
+<p><strong>WasmCw20Balance</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>contract_address</td>
+<td>String</td>
+<td>Address of CW20 contract</td>
+</tr>
+<tr>
+<td>account</td>
+<td>String</td>
+<td>Account address</td>
+</tr>
+<tr>
+<td>balance</td>
+<td>String</td>
+<td>Account balance</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>Integer</td>
+<td>Update timestamp in UNIX millis</td>
+</tr>
+<tr>
+<td>cw20_metadata</td>
+<td>Cw20Metadata</td>
+<td>Metadata of the CW20 contract</td>
+</tr>
+</tbody></table>
+
+<p><strong>Cw20Metadata</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token_info</td>
+<td>Cw20TokenInfo</td>
+<td>CW20 token info</td>
+</tr>
+<tr>
+<td>marketing_info</td>
+<td>Cw20MarketingInfo</td>
+<td>Marketing info</td>
+</tr>
+</tbody></table>
+
+<p><strong>Cw20TokenInfo</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>General name of the token</td>
+</tr>
+<tr>
+<td>symbol</td>
+<td>String</td>
+<td>Symbol of the token</td>
+</tr>
+<tr>
+<td>decimals</td>
+<td>Integer</td>
+<td>Decimal places of token</td>
+</tr>
+</tbody></table>
+
+<p><strong>Cw20MarketingInfo</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>project</td>
+<td>String</td>
+<td>Project information</td>
+</tr>
+<tr>
+<td>description</td>
+<td>String</td>
+<td>Token&#39;s description</td>
+</tr>
+<tr>
+<td>logo</td>
+<td>String</td>
+<td>Logo (url/embedded)</td>
+</tr>
+<tr>
+<td>marketing</td>
+<td>Bytes Array</td>
+<td>Address that can update the contract&#39;s marketing info</td>
 </tr>
 </tbody></table>
 <h1 id='indexerhealthapi'>- IndexerHealthAPI</h1>
@@ -21480,11 +22943,15 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <h1 id='injectiveportfoliorpc'>- InjectivePortfolioRPC</h1>
 <p>InjectivePortfolioRPC defines the gRPC API of the Exchange Portfolio provider.</p>
 <h2 id='injectiveportfoliorpc-accountportfolio'>AccountPortfolio</h2>
-<p>Get details about an account&#39;s portfolio.</p>
+<p><em>New API. Available on testnet</em></p>
+
+<p>Get details about an account&#39;s portfolio. </p>
 <h3 id='injectiveportfoliorpc-accountportfolio-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
+
+<!-- embedme ../../../sdk-python/examples/exchange_client/portfolio_rpc/1_AccountPortfolio.py -->
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
@@ -21504,7 +22971,39 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
     <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code></code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code></code></pre></div>
+</code></pre></div>
+<!-- embedme ../../../sdk-go/examples/exchange/portfolio/1_AccountPortfolio/example.go -->
+<div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"context"</span>
+    <span class="s">"encoding/json"</span>
+    <span class="s">"fmt"</span>
+
+    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+    <span class="n">exchangeclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/exchange"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c">// select network: local, testnet, mainnet</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
+    <span class="n">exchangeClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeclient</span><span class="o">.</span><span class="n">NewExchangeClient</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeGrpcEndpoint</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeTlsCert</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+    <span class="n">accountAddress</span> <span class="o">:=</span> <span class="s">"inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"</span>
+    <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">GetAccountPortfolio</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">accountAddress</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+<span class="p">}</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code></code></pre></div>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -21528,14 +23027,103 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">account_address</span><span class="p">:</span> <span class="s">"inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"</span>
   <span class="n">bank_balances</span> <span class="p">{</span>
     <span class="n">denom</span><span class="p">:</span> <span class="s">"inj"</span>
-    <span class="n">amount</span><span class="p">:</span> <span class="s">"9989997074379500000000"</span>
+    <span class="n">amount</span><span class="p">:</span> <span class="s">"9990005504242500000000"</span>
   <span class="p">}</span>
   <span class="n">bank_balances</span> <span class="p">{</span>
     <span class="n">denom</span><span class="p">:</span> <span class="s">"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"</span>
-    <span class="n">amount</span><span class="p">:</span> <span class="s">"9690000000"</span>
+    <span class="n">amount</span><span class="p">:</span> <span class="s">"9689943508"</span>
+  <span class="p">}</span>
+  <span class="n">subaccounts</span> <span class="p">{</span>
+    <span class="n">subaccount_id</span><span class="p">:</span> <span class="s">"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002"</span>
+    <span class="n">denom</span><span class="p">:</span> <span class="s">"inj"</span>
+    <span class="n">deposit</span> <span class="p">{</span>
+      <span class="n">total_balance</span><span class="p">:</span> <span class="s">"1000000000000"</span>
+      <span class="n">available_balance</span><span class="p">:</span> <span class="s">"1000000000000"</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">subaccounts</span> <span class="p">{</span>
+    <span class="n">subaccount_id</span><span class="p">:</span> <span class="s">"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000"</span>
+    <span class="n">denom</span><span class="p">:</span> <span class="s">"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"</span>
+    <span class="n">deposit</span> <span class="p">{</span>
+      <span class="n">total_balance</span><span class="p">:</span> <span class="s">"0.4444"</span>
+      <span class="n">available_balance</span><span class="p">:</span> <span class="s">"0.4444"</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">subaccounts</span> <span class="p">{</span>
+    <span class="n">subaccount_id</span><span class="p">:</span> <span class="s">"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000"</span>
+    <span class="n">denom</span><span class="p">:</span> <span class="s">"inj"</span>
+    <span class="n">deposit</span> <span class="p">{</span>
+      <span class="n">total_balance</span><span class="p">:</span> <span class="s">"0"</span>
+      <span class="n">available_balance</span><span class="p">:</span> <span class="s">"0"</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">subaccounts</span> <span class="p">{</span>
+    <span class="n">subaccount_id</span><span class="p">:</span> <span class="s">"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"</span>
+    <span class="n">denom</span><span class="p">:</span> <span class="s">"inj"</span>
+    <span class="n">deposit</span> <span class="p">{</span>
+      <span class="n">total_balance</span><span class="p">:</span> <span class="s">"11050001000000000000"</span>
+      <span class="n">available_balance</span><span class="p">:</span> <span class="s">"10990001000000000000"</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">subaccounts</span> <span class="p">{</span>
+    <span class="n">subaccount_id</span><span class="p">:</span> <span class="s">"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"</span>
+    <span class="n">denom</span><span class="p">:</span> <span class="s">"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"</span>
+    <span class="n">deposit</span> <span class="p">{</span>
+      <span class="n">total_balance</span><span class="p">:</span> <span class="s">"302618110.6156"</span>
+      <span class="n">available_balance</span><span class="p">:</span> <span class="s">"298208110.6156"</span>
+    <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code></code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code></code></pre></div>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
+ <span class="s">"portfolio"</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s">"account_address"</span><span class="o">:</span> <span class="s">"inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"</span><span class="p">,</span>
+  <span class="s">"bank_balances"</span><span class="o">:</span> <span class="p">[</span>
+   <span class="p">{</span>
+    <span class="s">"denom"</span><span class="o">:</span> <span class="s">"inj"</span><span class="p">,</span>
+    <span class="s">"amount"</span><span class="o">:</span> <span class="s">"9989995731271500000000"</span>
+   <span class="p">},</span>
+   <span class="p">{</span>
+    <span class="s">"denom"</span><span class="o">:</span> <span class="s">"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"</span><span class="p">,</span>
+    <span class="s">"amount"</span><span class="o">:</span> <span class="s">"9690001523"</span>
+   <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s">"subaccounts"</span><span class="o">:</span> <span class="p">[</span>
+   <span class="p">{</span>
+    <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"</span><span class="p">,</span>
+    <span class="s">"denom"</span><span class="o">:</span> <span class="s">"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"</span><span class="p">,</span>
+    <span class="s">"deposit"</span><span class="o">:</span> <span class="p">{</span>
+     <span class="s">"total_balance"</span><span class="o">:</span> <span class="s">"302793075.4056"</span><span class="p">,</span>
+     <span class="s">"available_balance"</span><span class="o">:</span> <span class="s">"298383075.4056"</span>
+    <span class="p">}</span>
+   <span class="p">},</span>
+   <span class="p">{</span>
+    <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"</span><span class="p">,</span>
+    <span class="s">"denom"</span><span class="o">:</span> <span class="s">"inj"</span><span class="p">,</span>
+    <span class="s">"deposit"</span><span class="o">:</span> <span class="p">{</span>
+     <span class="s">"total_balance"</span><span class="o">:</span> <span class="s">"11020001000000000000"</span><span class="p">,</span>
+     <span class="s">"available_balance"</span><span class="o">:</span> <span class="s">"10960001000000000000"</span>
+    <span class="p">}</span>
+   <span class="p">},</span>
+   <span class="p">{</span>
+    <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002"</span><span class="p">,</span>
+    <span class="s">"denom"</span><span class="o">:</span> <span class="s">"inj"</span><span class="p">,</span>
+    <span class="s">"deposit"</span><span class="o">:</span> <span class="p">{</span>
+     <span class="s">"total_balance"</span><span class="o">:</span> <span class="s">"1000000000000"</span><span class="p">,</span>
+     <span class="s">"available_balance"</span><span class="o">:</span> <span class="s">"1000000000000"</span>
+    <span class="p">}</span>
+   <span class="p">},</span>
+   <span class="p">{</span>
+    <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000"</span><span class="p">,</span>
+    <span class="s">"denom"</span><span class="o">:</span> <span class="s">"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"</span><span class="p">,</span>
+    <span class="s">"deposit"</span><span class="o">:</span> <span class="p">{</span>
+     <span class="s">"total_balance"</span><span class="o">:</span> <span class="s">"0.3584"</span><span class="p">,</span>
+     <span class="s">"available_balance"</span><span class="o">:</span> <span class="s">"0.3584"</span>
+    <span class="p">}</span>
+   <span class="p">}</span>
+  <span class="p">]</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code></code></pre></div>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -21562,33 +23150,24 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>account_address</td>
 <td>String</td>
-<td>Address that the portfolio belongs to</td>
+<td>The account&#39;s portfolio address</td>
 </tr>
 <tr>
 <td>bank_balances</td>
 <td>Coin Array</td>
-<td>Total available bank balances of the account between all subaccounts</td>
+<td>Account available bank balances</td>
 </tr>
 <tr>
-<td>&lt;!--</td>
 <td>subaccounts</td>
-<td>SubaccountBalanceV2 Array</td>
+<td>SubaccountBalanceV2</td>
+<td>Subaccounts list</td>
+</tr>
+<tr>
+<td>positions_with_upnl</td>
+<td>PositionsWithUPNL</td>
+<td>All positions for all subaccounts, with unrealized PNL</td>
 </tr>
 </tbody></table>
-
-<!-- **SubaccountBalanceV2** -->
-
-<!-- |Parameter|Type|Description| -->
-
-<!-- |----|----|----| -->
-
-<!-- |subaccount_id|String|ID of the subaccount| -->
-
-<!-- |available_balances|Coin Array|Available subaccount balances| -->
-
-<!-- |margin_hold|Coin Array|Margin held by open orders| -->
-
-<!-- |unrealized_pnl|Coin Array|Unrealized PNL of open positions| -->
 
 <p><strong>Coin</strong></p>
 
@@ -21608,6 +23187,209 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>amount</td>
 <td>String</td>
 <td>Amount of the coin</td>
+</tr>
+</tbody></table>
+
+<p><strong>SubaccountBalanceV2</strong></p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>Related subaccount ID</td>
+</tr>
+<tr>
+<td>denom</td>
+<td>String</td>
+<td>Coin denom on the chain</td>
+</tr>
+<tr>
+<td>deposit</td>
+<td>SubaccountDeposit</td>
+<td>Subaccount&#39;s total balanace and available balances</td>
+</tr>
+</tbody></table>
+
+<p><strong>SubaccountDeposit</strong></p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>total_balance</td>
+<td>String</td>
+<td>All balances (in specific denom) that this subaccount has</td>
+</tr>
+<tr>
+<td>available_balance</td>
+<td>String</td>
+<td>Available balance (in specific denom), the balance that is not used by current orders</td>
+</tr>
+</tbody></table>
+<h2 id='injectiveportfoliorpc-streamaccountportfolio'>StreamAccountPortfolio</h2>
+<p><em>New API. Available on testnet</em></p>
+
+<p>Get continuous updates on account&#39;s portfolio.</p>
+<h3 id='injectiveportfoliorpc-streamaccountportfolio-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+
+<!-- embedme ../../../sdk-python/examples/exchange_client/portfolio_rpc/2_StreamAccountPortfolio.py -->
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">account_address</span> <span class="o">=</span> <span class="s">"inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"</span>
+    <span class="n">updates</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">stream_account_portfolio</span><span class="p">(</span><span class="n">account_address</span><span class="o">=</span><span class="n">account_address</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">for</span> <span class="n">update</span> <span class="ow">in</span> <span class="n">updates</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Account portfolio Update:</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">update</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+
+</code></pre></div>
+<!-- embedme ../../../sdk-go/examples/exchange/portfolio/3_StreamAccountPortfolioSubaccountBalances/example.go -->
+<div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"context"</span>
+    <span class="s">"encoding/json"</span>
+    <span class="s">"fmt"</span>
+
+    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+    <span class="n">exchangeclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/exchange"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c">// select network: local, testnet, mainnet</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
+    <span class="n">exchangeClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeclient</span><span class="o">.</span><span class="n">NewExchangeClient</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeGrpcEndpoint</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeTlsCert</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+
+    <span class="n">stream</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">StreamAccountPortfolio</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">"inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"</span><span class="p">,</span> <span class="s">"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"</span><span class="p">,</span> <span class="s">"total_balances"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">{</span>
+        <span class="k">select</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="o">&lt;-</span><span class="n">ctx</span><span class="o">.</span><span class="n">Done</span><span class="p">()</span><span class="o">:</span>
+            <span class="k">return</span>
+        <span class="k">default</span><span class="o">:</span>
+            <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">stream</span><span class="o">.</span><span class="n">Recv</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+                <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="p">}</span>
+            <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+            <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code></code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>account_address</td>
+<td>String</td>
+<td>The account&#39;s portfolio address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>Related subaccount ID</td>
+<td>No</td>
+</tr>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>Type of portfolio document (should be one of [&quot;bank&quot;, &quot;total_balance&quot;, &quot;available_balance&quot;])</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<h3 id='injectiveportfoliorpc-streamaccountportfolio-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="nb">type</span><span class="p">:</span> <span class="s">"bank"</span>
+<span class="n">denom</span><span class="p">:</span> <span class="s">"inj"</span>
+<span class="n">amount</span><span class="p">:</span> <span class="s">"9990005452404000000000"</span>
+
+<span class="n">Account</span> <span class="n">portfolio</span> <span class="n">Update</span><span class="p">:</span>
+
+<span class="nb">type</span><span class="p">:</span> <span class="s">"bank"</span>
+<span class="n">denom</span><span class="p">:</span> <span class="s">"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"</span>
+<span class="n">amount</span><span class="p">:</span> <span class="s">"9689943532"</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
+ <span class="s">"type"</span><span class="o">:</span> <span class="s">"total_balances"</span><span class="p">,</span>
+ <span class="s">"denom"</span><span class="o">:</span> <span class="s">"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"</span><span class="p">,</span>
+ <span class="s">"amount"</span><span class="o">:</span> <span class="s">"302686408.8456"</span><span class="p">,</span>
+ <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"</span>
+<span class="p">}{</span>
+ <span class="s">"type"</span><span class="o">:</span> <span class="s">"total_balances"</span><span class="p">,</span>
+ <span class="s">"denom"</span><span class="o">:</span> <span class="s">"inj"</span><span class="p">,</span>
+ <span class="s">"amount"</span><span class="o">:</span> <span class="s">"11040001000000000000"</span><span class="p">,</span>
+ <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code></code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>Type of portfolio document (should be one of [&quot;bank&quot;, &quot;total_balance&quot;, &quot;available_balance&quot;])</td>
+</tr>
+<tr>
+<td>denom</td>
+<td>String</td>
+<td>Denom of portfolio entry</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>String</td>
+<td>Amount of portfolio entry</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>Subaccount id of portfolio entry</td>
 </tr>
 </tbody></table>
 <h1 id='chain-api'>Chain API</h1>
