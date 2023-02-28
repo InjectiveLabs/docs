@@ -378,7 +378,7 @@ Server Latency: 375ms
 |server_time|Integer|UNIX time on the server in millis|
 |version|String|injective-exchange code version|
 |build|VersionResponse.BuildEntry Array|Additional build meta info|
-<!-- |region|String|Server's location region| -->
+
 
 **VersionResponse.BuildEntry**
 
