@@ -209,7 +209,7 @@ portfolio {
 
 **SubaccountBalanceV2**
 
-|Field|Type|Description|
+|Parameter|Type|Description|
 |-----|----|-----------|
 |subaccount_id|String|Related subaccount ID|
 |denom|String|Coin denom on the chain|
@@ -217,7 +217,7 @@ portfolio {
 
 **SubaccountDeposit**
 
-|Field|Type|Description|
+|Parameter|Type|Description|
 |-----|----|----|
 |total_balance|String| All balances (in specific denom) that this subaccount has |
 |available_balance|String| Available balance (in specific denom), the balance that is not used by current orders |
@@ -306,7 +306,7 @@ func main() {
 ``` typescript
 ```
 
-| Field           | Type   | Description                                                                                  | Required |
+| Parameter           | Type   | Description                                                                                  | Required |
 |-----------------|--------|----------------------------------------------------------------------------------------------|----------|
 | account_address | String | The account&#39;s portfolio address                                                          | Yes      |
 | subaccount_id   | String | Related subaccount ID                                                                        | No       |
@@ -344,7 +344,7 @@ amount: "9689943532"
 ``` typescript
 ```
 
-| Field         | Type   | Description                                                                                  |
+| Parameter         | Type   | Description                                                                                  |
 |---------------|--------|----------------------------------------------------------------------------------------------|
 | type          | String | Type of portfolio document (should be one of ["bank", "total_balance", "available_balance"]) |
 | denom         | String | Denom of portfolio entry                                                                     |
