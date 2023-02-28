@@ -345,8 +345,6 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 > Response Example:
 
 ``` python
-INFO:chain session cookie loaded from disk:
-[!] Info:
 timestamp: 1676695214189
 server_time: 1676695214692
 version: "dev"
