@@ -55,7 +55,7 @@ body {
   overflow-x: hidden;
   position: fixed;
   z-index: 30;
-  top: 0;
+  top: 40px; // default 0 without notification bar
   left: 0;
   bottom: 0;
   width: $nav-width;
@@ -302,6 +302,7 @@ body {
   z-index: 10;
   background-color: $main-bg;
   min-height: 100%;
+  top: 40px; // default 0 without notification bar
 
   padding-bottom: 1px; // prevent margin overflow
 
