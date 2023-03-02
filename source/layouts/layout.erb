@@ -60,6 +60,14 @@ under the License.
   </head>
 
   <body class="<%= page_classes %>" data-languages="<%=h language_tabs.map{ |lang| lang.is_a?(Hash) ? lang.keys.first : lang }.to_json %>">
+
+  <!-- Temporary Notification Bar -->
+  <div class="notification-bar-box">
+    <div class="notification-top-bar">
+      <p><b>Breaking changes to be introduced in v1.10 (March 14-16, 2023). Read more</b> <small><a href="https://injective.notion.site/The-new-trading-logic-to-be-introduced-in-v1-10-8b422f7bec6c4cac96459d558e917b6d">here</a></small></p>
+    </div>
+  </div>
+
     <a href="#" id="nav-button">
       <span>
         NAV
