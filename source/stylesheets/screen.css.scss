@@ -254,6 +254,44 @@ body {
   }
 }
 
+// Notification bar
+.notification-bar-box {
+  position: fixed;
+  height: 40px;
+  z-index: 99999;
+  padding: 0;
+  margin: 0
+}
+.notification-bar-box .notification-top-bar {
+  position: fixed;
+  z-index: 1;
+}
+.notification-top-bar {
+  top: 0;
+  left: 0;
+  height: 40px;
+  line-height: 40px;
+  width: 100%;
+  background: #01c8fc;
+  text-align: center;
+  color: #FFFFFF;
+  font-family: sans-serif;
+  font-weight: lighter;
+  font-size: 14px;
+}
+.notification-top-bar p {
+  padding: 0;
+  margin: 0;
+}
+.notification-top-bar p a {
+  padding: 5px 10px;
+  border-radius: 3px;
+  background: #FFF;
+  color: #01c8fc;
+  font-weight: bold;
+  text-decoration: none;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // PAGE LAYOUT AND CODE SAMPLE BACKGROUND
 ////////////////////////////////////////////////////////////////////////////////
