@@ -1,17 +1,19 @@
-# Examples
+# Market and Limit Order Examples
 
 ## Adding a Spot Market Buy Order
 
 - `Maker Fee = -0.01%`
 - `Taker Fee = 0.1%`
+
+
 - Market Buy Order:
 
     - `Quantity = 1,000 INJ`
     - `Worst Price = 5 USDT`
 
-→ The account's available balance is decremented by `5,000 USDT + Taker Fee = 5,005 USDT`.
+→ The account's available balance is decremented by `5,000 USDT + Taker Fee = 5,005 USDT`.
 
-Upon matching with a resting sell order with price of `4 USDT` the new account balances are calculated as:
+Upon matching with a resting sell order with price of `4 USDT` the new account balances are calculated as:
 
 - `Trading Fee = 1,000 * 4 * 0.001 = 4 USDT`
 - `Credit Amount = 1,000 INJ`
@@ -22,14 +24,16 @@ Upon matching with a resting sell order with price of `4 USDT` the new account
 
 - `Maker Fee = -0.01%`
 - `Taker Fee = 0.1%`
+
+
 - Market Sell Order:
 
     - `Quantity = 1,000 INJ`
     - `Worst Price = 3 USDT`
 
-→ The account's available balance is decremented by `1,000 INJ`.
+→ The account's available balance is decremented by `1,000 INJ`.
 
-Upon matching with a resting sell order with price of `4 USDT` the new account balances are calculated as:
+Upon matching with a resting sell order with price of `4 USDT` the new account balances are calculated as:
 
 - `Trading Fee = 1,000 * 4 * 0.001 = 4 USDT`
 - `Debit Amount = 1,000 INJ`
@@ -40,52 +44,50 @@ Upon matching with a resting sell order with price of `4 USDT` the new account
 
 - `Maker Fee = -0.01%`
 - `Taker Fee = 0.1%`
-- We initially assume a Market Buy Order:
 
+
+- We initially assume taker fees for the limit order in case the limit order is matched immediately. With price and quantity of:
     - `Quantity = 1,000 INJ`
     - `Price = 5 USDT`
 
-→ The account's available balance is decremented by `5,000 USDT + Taker Fee = 5,005 USDT`.
+→ The account's available balance is decremented by `5,000 USDT + Taker Fee = 5,005 USDT`.
 
 After the order is submitted:
 
-- If **Matched Immediately**: the limit order is treated as a market order unless Post-Only is selected, in which case the order will not be matched and will be rejected. Assuming a clearing price of 4 USDT:
-
+- If **Matched Immediately**: the limit order is filled and no fees are refunded since taker fees were previously deducted from the account's available balance. However, if Post-Only was selected, then the order will not be matched and will be rejected, with the trading fees being refunded. Assuming a clearing price of 4 USDT and a non Post-Only order:
     - `Trading Fee = 1,000 * 4 * 0.001 = 4 USDT`
-    - `Credit Amount = 1,000 INJ`
+    - `Credit Amount = 5,000 - 4,000 = 1,000 INJ`
     - `Debit Amount = 1,000 * 4 + 4 = 4,004 USDT`
     - `Clearing Refund = 5,005 - 4,004 = 1,001 USDT`
     - `Unmatched Fee Refund = 0 USDT`
-
-- If **Entirely** **Unmatched**, the order becomes a resting limit order and we refund the taker fee:
-
+<br />
+<br />
+- If **Entirely** **Unmatched**, the order becomes a resting limit order and we refund the taker fee:
     - `Fee Refund = 1,000 * 5 * (0.001) = 5 USDT`
-
-- If **Filled Later by Market Order,** a maker fee rebate will be credited. Since the order is filled by Market Order, the clearing price will be the price set in the limit order:
-
+<br />
+<br />
+- If **Filled Later by Market Order,** a maker fee will be charged, or a rebate will be credited. Since the order is filled by Market Order, the clearing price will be the price set in the limit order:
     - `Trading Fee Rebate = 1,000 * 5 * -0.0001 = 0.5 USDT`
     - `Credit Amount = 1,000 INJ + 0.5 USDT`
     - `Debit Amount (in quote asset) = 1,000 * 5 = 5,000 USDT`
-
-- If **Partially Matched Immediately:** the portion of the limit order that is filled immediately is treated as a market order with the rest being treated as a limit order. Assuming half the order is matched at a clearing price of 4 USDT and half the order is filled by Market Order at 5 USDT:
+<br />
+<br />
+- If **Partially Matched Immediately:** the portion of the limit order that is filled immediately is charged taker fees with the rest being charged/credited maker fees/rebates. Assuming half the order is matched at a clearing price of 4 USDT and half the order is filled by Market Order at 5 USDT:
 
     - Portion Immediately Filled:
-
         - `Taker Trading Fee = 500 * 4 * 0.001 = 2 USDT`
         - `Credit Amount = 500 INJ`
         - `Debit Amount (Including Fees) = 500 * 4 + 2 = 2,002 USDT`
         - `Clearing Refund = (quantity of order filled * limit price) - (quantity of order filled * clearing price) + (proportional difference between limit fees and clearing fees)= (500 * 5) - (500 * 4) + ((500 * 5) * 0.001 - (500 * 4) * 0.001) = 500.5 USDT`
         - `Unmatched Fee Refund = quantity of order unfilled * limit price * taker fee rate = 500 * 5 * 0.001 = 2.5 USDT`
-
+    <br /><br />
     - Rest of Order Filled Later by Market Order:
-
         - `Maker Trading Fee Rebate = 500 * 5 * -0.0001 = 0.25 USDT`
         - `Credit Amount = 500 INJ`
         - `Debit Amount = 500 * 5 = 2,500 USDT`
         - `Clearing Refund = 0 USDT`
-
+    <br /><br />
     - In Total:
-
         - `Net Trading Fee = 2 - 0.25 = 1.75 USDT`
         - `Credit Amount (Including Maker Fee Rebates) = 1000 INJ + 0.25 USDT`
         - `Debit Amount (Including Taker Fees) = 4,502 USDT`
@@ -94,30 +96,31 @@ After the order is submitted:
 
 - `Maker Fee = -0.01%`
 - `Taker Fee = 0.1%`
-- We initially assume a Market Sell Order:
 
+
+- We initially assume taker fees for the limit order in case the limit order is matched immediately. With price and quantity of:
     - `Quantity = 1,000 INJ`
     - `Price = 3 USDT`
 
-→ The account's available balance is decremented by `1,000 INJ`.
+→ The account's available balance is decremented by `1,000 INJ`.
 
 After the order is submitted:
 
-- If **Matched Immediately**: the limit order is treated as a market order unless Post-Only is selected, in which case the order will not be matched and will be rejected. Assuming a clearing price of 4 USDT:
-
+- If **Matched Immediately**: the limit order is filled and taker fees are deducted, unless Post-Only is selected, in which case the order will not be matched and will be rejected with no trading fees being charged. Assuming a clearing price of 4 USDT:
     - `Trading Fee = 1,000 * 4 * 0.001 = 4 USDT`
     - `Credit Amount = 1,000 * 4 - 4 = 3,996 USDT`
     - `Debit Amount = 1,000 INJ`
     - `Clearing Refund = 0 ETH`
     - `Fee Refund/Rebate = 0 USDT`
-
-- If **Filled Later by Market Order,** a maker fee rebate will be credited. Since the order is filled by Market Order, the clearing price will be the price set in the limit order:
-
+<br />
+<br />
+- If **Filled Later by Market Order**, a maker fee rebate will be credited. Since the order is filled by Market Order, the clearing price will be the price set in the limit order:
     - `Maker Trading Rebate = 1,000 * 3 * 0.0001 = 0.3 USDT`
     - `Credit Amount (in quote asset) = 1,000 * 3 + 0.3 = 3,000.3 USDT`
     - `Debit Amount (in base asset) = 1,000 INJ`
-
-- If **Partially Matched Immediately:** the portion of the limit order that is filled immediately is treated as a market order with the rest being treated as a limit order. Similar logic to a spot limit buy order applies.
+<br />
+<br />
+- If **Partially Matched Immediately:** the portion of the limit order that is filled immediately is charged taker fees with the rest being charged maker fees. Similar logic to a spot limit buy order applies.
 
 ## Derivative Market Order Payouts
 
@@ -125,15 +128,15 @@ The payouts for derivative market orders work the same way as for derivative lim
 
 ## Adding a Derivative Limit Buy Order
 
-- `Quantity = 1,000 INJ`, `Price = 5 USDT`, `Margin = 1,000 USDT`
+- `Quantity = 1,000 INJ`, `Price = 5 USDT`, `Margin = 1,000 USDT`
 - `TakerFeeRate = 0.001`
 - `MakerFeeRate = -0.0001`
 
-→ The account's available balance is decremented by `Margin + Taker Fee = 1000 + 5000 * 0.001 = 1005 USDT`.
+→ The account's available balance is decremented by `Margin + Taker Fee = 1000 + 5000 * 0.001 = 1005 USDT`.
 
 After creation:
 
-If **Unmatched**, the order becomes a resting limit order (maker) and we refund the taker fee on  vanilla orders (reduce-only orders don't pay upfront fees):
+If **Unmatched**, the order becomes a resting limit order (maker) and we refund the taker fee on  vanilla orders (reduce-only orders don't pay upfront fees):
 
 - `Fee Refund = 5 USDT`
 
@@ -142,7 +145,7 @@ If **Unmatched**, the order becomes a resting limit order (maker) and we refund
 Assuming:
 
 - a clearing price of 4 USDT
-- an existing `SHORT` position:
+- an existing `SHORT` position:
 
     - `Position Quantity = 600 INJ`
     - `Position Entry Price = 4.5 USDT`
@@ -164,7 +167,7 @@ Would result in:
 
 **2. Opening new position in opposite direction**:
 
-- a new `LONG` position:
+- a new `LONG` position:
 
     - `Position Quantity = 400 INJ`
     - `Position Entry Price = 4 USDT`
@@ -178,7 +181,7 @@ Would result in:
 **4. Refunding fee difference from order price vs. clearing price:**
 
 - `PriceDelta = Price - ClearingPrice = 5 - 4 = 1 USDT`
-- `ClearingFeeRefund = FillQuantity * PriceDelta * TakerFeeRate = 1000 * 1 * 0.001 = 1 USDT` 
+- `ClearingFeeRefund = FillQuantity * PriceDelta * TakerFeeRate = 1000 * 1 * 0.001 = 1 USDT` 
 
     - In the case of matching a sell order, this would have been a charge, not a refund
 
