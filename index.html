@@ -408,31 +408,31 @@
               </ul>
           </li>
           <li>
-            <a href="#examples" class="toc-h1 toc-link" data-title="Examples">Examples</a>
+            <a href="#market-and-limit-order-examples" class="toc-h1 toc-link" data-title="Market and Limit Order Examples">Market and Limit Order Examples</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#examples-adding-a-spot-market-buy-order" class="toc-h2 toc-link" data-title="Adding a Spot Market Buy Order">Adding a Spot Market Buy Order</a>
+                    <a href="#market-and-limit-order-examples-adding-a-spot-market-buy-order" class="toc-h2 toc-link" data-title="Adding a Spot Market Buy Order">Adding a Spot Market Buy Order</a>
                   </li>
                   <li>
-                    <a href="#examples-adding-a-spot-market-sell-order" class="toc-h2 toc-link" data-title="Adding a Spot Market Sell Order">Adding a Spot Market Sell Order</a>
+                    <a href="#market-and-limit-order-examples-adding-a-spot-market-sell-order" class="toc-h2 toc-link" data-title="Adding a Spot Market Sell Order">Adding a Spot Market Sell Order</a>
                   </li>
                   <li>
-                    <a href="#examples-adding-a-spot-limit-buy-order" class="toc-h2 toc-link" data-title="Adding a Spot Limit Buy Order">Adding a Spot Limit Buy Order</a>
+                    <a href="#market-and-limit-order-examples-adding-a-spot-limit-buy-order" class="toc-h2 toc-link" data-title="Adding a Spot Limit Buy Order">Adding a Spot Limit Buy Order</a>
                   </li>
                   <li>
-                    <a href="#examples-adding-a-spot-limit-sell-order" class="toc-h2 toc-link" data-title="Adding a Spot Limit Sell Order">Adding a Spot Limit Sell Order</a>
+                    <a href="#market-and-limit-order-examples-adding-a-spot-limit-sell-order" class="toc-h2 toc-link" data-title="Adding a Spot Limit Sell Order">Adding a Spot Limit Sell Order</a>
                   </li>
                   <li>
-                    <a href="#examples-derivative-market-order-payouts" class="toc-h2 toc-link" data-title="Derivative Market Order Payouts">Derivative Market Order Payouts</a>
+                    <a href="#market-and-limit-order-examples-derivative-market-order-payouts" class="toc-h2 toc-link" data-title="Derivative Market Order Payouts">Derivative Market Order Payouts</a>
                   </li>
                   <li>
-                    <a href="#examples-adding-a-derivative-limit-buy-order" class="toc-h2 toc-link" data-title="Adding a Derivative Limit Buy Order">Adding a Derivative Limit Buy Order</a>
+                    <a href="#market-and-limit-order-examples-adding-a-derivative-limit-buy-order" class="toc-h2 toc-link" data-title="Adding a Derivative Limit Buy Order">Adding a Derivative Limit Buy Order</a>
                   </li>
                   <li>
-                    <a href="#examples-market-order-matching" class="toc-h2 toc-link" data-title="Market Order Matching">Market Order Matching</a>
+                    <a href="#market-and-limit-order-examples-market-order-matching" class="toc-h2 toc-link" data-title="Market Order Matching">Market Order Matching</a>
                   </li>
                   <li>
-                    <a href="#examples-limit-order-matching" class="toc-h2 toc-link" data-title="Limit Order Matching">Limit Order Matching</a>
+                    <a href="#market-and-limit-order-examples-limit-order-matching" class="toc-h2 toc-link" data-title="Limit Order Matching">Limit Order Matching</a>
                   </li>
               </ul>
           </li>
@@ -1490,10 +1490,10 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <p>If the orders are getting matched, once the last reduce-only order of $65,500 is reached, the position will have been reduced to <code>1 BTC - 0.1 BTC - 0.3 BTC - 0.5 BTC - 0.1 BTC = 0 BTC</code>. A reduce-only order of 0.1 BTC after that will thus be invalid.</p>
 
 <p>To prevent this, we <strong>automatically cancel the existing 0.1 BTC reduce-only order</strong>. In other words, new vanilla limit orders can invalidate and auto-cancel existing reduce-only limit orders if the reduce-only order becomes invalid at its price.</p>
-<h1 id='examples'>Examples</h1><h2 id='examples-adding-a-spot-market-buy-order'>Adding a Spot Market Buy Order</h2>
+<h1 id='market-and-limit-order-examples'>Market and Limit Order Examples</h1><h2 id='market-and-limit-order-examples-adding-a-spot-market-buy-order'>Adding a Spot Market Buy Order</h2>
 <ul>
 <li><code>Maker Fee = -0.01%</code></li>
-<li><code>Taker Fee = 0.1%</code></li>
+<li><p><code>Taker Fee = 0.1%</code></p></li>
 <li><p>Market Buy Order:</p>
 
 <ul>
@@ -1502,9 +1502,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </ul></li>
 </ul>
 
-<p>→ The account&#39;s available balance is decremented by <code>5,000 USDT + Taker Fee = 5,005 USDT</code>.</p>
+<p>→ The account&#39;s available balance is decremented by <code>5,000 USDT + Taker Fee = 5,005 USDT</code>.</p>
 
-<p>Upon matching with a resting sell order with price of <code>4 USDT</code> the new account balances are calculated as:</p>
+<p>Upon matching with a resting sell order with price of <code>4 USDT</code> the new account balances are calculated as:</p>
 
 <ul>
 <li><code>Trading Fee = 1,000 * 4 * 0.001 = 4 USDT</code></li>
@@ -1512,10 +1512,10 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <li><code>Debit Amount = 1,000 * 4 + 4 = 4,004 USDT</code></li>
 <li><code>Clearing Refund = 5,005 - 4,004 = 1,001 USDT</code></li>
 </ul>
-<h2 id='examples-adding-a-spot-market-sell-order'>Adding a Spot Market Sell Order</h2>
+<h2 id='market-and-limit-order-examples-adding-a-spot-market-sell-order'>Adding a Spot Market Sell Order</h2>
 <ul>
 <li><code>Maker Fee = -0.01%</code></li>
-<li><code>Taker Fee = 0.1%</code></li>
+<li><p><code>Taker Fee = 0.1%</code></p></li>
 <li><p>Market Sell Order:</p>
 
 <ul>
@@ -1524,9 +1524,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </ul></li>
 </ul>
 
-<p>→ The account&#39;s available balance is decremented by <code>1,000 INJ</code>.</p>
+<p>→ The account&#39;s available balance is decremented by <code>1,000 INJ</code>.</p>
 
-<p>Upon matching with a resting sell order with price of <code>4 USDT</code> the new account balances are calculated as:</p>
+<p>Upon matching with a resting sell order with price of <code>4 USDT</code> the new account balances are calculated as:</p>
 
 <ul>
 <li><code>Trading Fee = 1,000 * 4 * 0.001 = 4 USDT</code></li>
@@ -1534,11 +1534,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <li><code>Credit Amount = 1,000 * 4 - 4 = 3,996 USDT</code></li>
 <li><code>Clearing Refund = 0</code></li>
 </ul>
-<h2 id='examples-adding-a-spot-limit-buy-order'>Adding a Spot Limit Buy Order</h2>
+<h2 id='market-and-limit-order-examples-adding-a-spot-limit-buy-order'>Adding a Spot Limit Buy Order</h2>
 <ul>
 <li><code>Maker Fee = -0.01%</code></li>
-<li><code>Taker Fee = 0.1%</code></li>
-<li><p>We initially assume a Market Buy Order:</p>
+<li><p><code>Taker Fee = 0.1%</code></p></li>
+<li><p>We initially assume taker fees for the limit order in case the limit order is matched immediately. With price and quantity of:</p>
 
 <ul>
 <li><code>Quantity = 1,000 INJ</code></li>
@@ -1546,53 +1546,61 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </ul></li>
 </ul>
 
-<p>→ The account&#39;s available balance is decremented by <code>5,000 USDT + Taker Fee = 5,005 USDT</code>.</p>
+<p>→ The account&#39;s available balance is decremented by <code>5,000 USDT + Taker Fee = 5,005 USDT</code>.</p>
 
 <p>After the order is submitted:</p>
 
 <ul>
-<li><p>If <strong>Matched Immediately</strong>: the limit order is treated as a market order unless Post-Only is selected, in which case the order will not be matched and will be rejected. Assuming a clearing price of 4 USDT:</p>
+<li>If <strong>Matched Immediately</strong>: the limit order is filled and no fees are refunded since taker fees were previously deducted from the account&#39;s available balance. However, if Post-Only was selected, then the order will not be matched and will be rejected, with the trading fees being refunded. Assuming a clearing price of 4 USDT and a non Post-Only order:
 
 <ul>
 <li><code>Trading Fee = 1,000 * 4 * 0.001 = 4 USDT</code></li>
-<li><code>Credit Amount = 1,000 INJ</code></li>
+<li><code>Credit Amount = 5,000 - 4,000 = 1,000 INJ</code></li>
 <li><code>Debit Amount = 1,000 * 4 + 4 = 4,004 USDT</code></li>
 <li><code>Clearing Refund = 5,005 - 4,004 = 1,001 USDT</code></li>
-<li><code>Unmatched Fee Refund = 0 USDT</code></li>
+<li><code>Unmatched Fee Refund = 0 USDT</code>
+<br />
+<br /></li>
 </ul></li>
-<li><p>If <strong>Entirely</strong> <strong>Unmatched</strong>, the order becomes a resting limit order and we refund the taker fee:</p>
+<li>If <strong>Entirely</strong> <strong>Unmatched</strong>, the order becomes a resting limit order and we refund the taker fee:
 
 <ul>
-<li><code>Fee Refund = 1,000 * 5 * (0.001) = 5 USDT</code></li>
+<li><code>Fee Refund = 1,000 * 5 * (0.001) = 5 USDT</code>
+<br />
+<br /></li>
 </ul></li>
-<li><p>If <strong>Filled Later by Market Order,</strong> a maker fee rebate will be credited. Since the order is filled by Market Order, the clearing price will be the price set in the limit order:</p>
+<li>If <strong>Filled Later by Market Order,</strong> a maker fee will be charged, or a rebate will be credited. Since the order is filled by Market Order, the clearing price will be the price set in the limit order:
 
 <ul>
 <li><code>Trading Fee Rebate = 1,000 * 5 * -0.0001 = 0.5 USDT</code></li>
 <li><code>Credit Amount = 1,000 INJ + 0.5 USDT</code></li>
-<li><code>Debit Amount (in quote asset) = 1,000 * 5 = 5,000 USDT</code></li>
+<li><code>Debit Amount (in quote asset) = 1,000 * 5 = 5,000 USDT</code>
+<br />
+<br /></li>
 </ul></li>
-<li><p>If <strong>Partially Matched Immediately:</strong> the portion of the limit order that is filled immediately is treated as a market order with the rest being treated as a limit order. Assuming half the order is matched at a clearing price of 4 USDT and half the order is filled by Market Order at 5 USDT:</p>
+<li><p>If <strong>Partially Matched Immediately:</strong> the portion of the limit order that is filled immediately is charged taker fees with the rest being charged/credited maker fees/rebates. Assuming half the order is matched at a clearing price of 4 USDT and half the order is filled by Market Order at 5 USDT:</p>
 
 <ul>
-<li><p>Portion Immediately Filled:</p>
+<li>Portion Immediately Filled:
 
 <ul>
 <li><code>Taker Trading Fee = 500 * 4 * 0.001 = 2 USDT</code></li>
 <li><code>Credit Amount = 500 INJ</code></li>
 <li><code>Debit Amount (Including Fees) = 500 * 4 + 2 = 2,002 USDT</code></li>
 <li><code>Clearing Refund = (quantity of order filled * limit price) - (quantity of order filled * clearing price) + (proportional difference between limit fees and clearing fees)= (500 * 5) - (500 * 4) + ((500 * 5) * 0.001 - (500 * 4) * 0.001) = 500.5 USDT</code></li>
-<li><code>Unmatched Fee Refund = quantity of order unfilled * limit price * taker fee rate = 500 * 5 * 0.001 = 2.5 USDT</code></li>
+<li><code>Unmatched Fee Refund = quantity of order unfilled * limit price * taker fee rate = 500 * 5 * 0.001 = 2.5 USDT</code>
+<br /><br /></li>
 </ul></li>
-<li><p>Rest of Order Filled Later by Market Order:</p>
+<li>Rest of Order Filled Later by Market Order:
 
 <ul>
 <li><code>Maker Trading Fee Rebate = 500 * 5 * -0.0001 = 0.25 USDT</code></li>
 <li><code>Credit Amount = 500 INJ</code></li>
 <li><code>Debit Amount = 500 * 5 = 2,500 USDT</code></li>
-<li><code>Clearing Refund = 0 USDT</code></li>
+<li><code>Clearing Refund = 0 USDT</code>
+<br /><br /></li>
 </ul></li>
-<li><p>In Total:</p>
+<li>In Total:
 
 <ul>
 <li><code>Net Trading Fee = 2 - 0.25 = 1.75 USDT</code></li>
@@ -1601,11 +1609,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </ul></li>
 </ul></li>
 </ul>
-<h2 id='examples-adding-a-spot-limit-sell-order'>Adding a Spot Limit Sell Order</h2>
+<h2 id='market-and-limit-order-examples-adding-a-spot-limit-sell-order'>Adding a Spot Limit Sell Order</h2>
 <ul>
 <li><code>Maker Fee = -0.01%</code></li>
-<li><code>Taker Fee = 0.1%</code></li>
-<li><p>We initially assume a Market Sell Order:</p>
+<li><p><code>Taker Fee = 0.1%</code></p></li>
+<li><p>We initially assume taker fees for the limit order in case the limit order is matched immediately. With price and quantity of:</p>
 
 <ul>
 <li><code>Quantity = 1,000 INJ</code></li>
@@ -1613,43 +1621,47 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </ul></li>
 </ul>
 
-<p>→ The account&#39;s available balance is decremented by <code>1,000 INJ</code>.</p>
+<p>→ The account&#39;s available balance is decremented by <code>1,000 INJ</code>.</p>
 
 <p>After the order is submitted:</p>
 
 <ul>
-<li><p>If <strong>Matched Immediately</strong>: the limit order is treated as a market order unless Post-Only is selected, in which case the order will not be matched and will be rejected. Assuming a clearing price of 4 USDT:</p>
+<li>If <strong>Matched Immediately</strong>: the limit order is filled and taker fees are deducted, unless Post-Only is selected, in which case the order will not be matched and will be rejected with no trading fees being charged. Assuming a clearing price of 4 USDT:
 
 <ul>
 <li><code>Trading Fee = 1,000 * 4 * 0.001 = 4 USDT</code></li>
 <li><code>Credit Amount = 1,000 * 4 - 4 = 3,996 USDT</code></li>
 <li><code>Debit Amount = 1,000 INJ</code></li>
 <li><code>Clearing Refund = 0 ETH</code></li>
-<li><code>Fee Refund/Rebate = 0 USDT</code></li>
+<li><code>Fee Refund/Rebate = 0 USDT</code>
+<br />
+<br /></li>
 </ul></li>
-<li><p>If <strong>Filled Later by Market Order,</strong> a maker fee rebate will be credited. Since the order is filled by Market Order, the clearing price will be the price set in the limit order:</p>
+<li>If <strong>Filled Later by Market Order</strong>, a maker fee rebate will be credited. Since the order is filled by Market Order, the clearing price will be the price set in the limit order:
 
 <ul>
 <li><code>Maker Trading Rebate = 1,000 * 3 * 0.0001 = 0.3 USDT</code></li>
 <li><code>Credit Amount (in quote asset) = 1,000 * 3 + 0.3 = 3,000.3 USDT</code></li>
-<li><code>Debit Amount (in base asset) = 1,000 INJ</code></li>
+<li><code>Debit Amount (in base asset) = 1,000 INJ</code>
+<br />
+<br /></li>
 </ul></li>
-<li><p>If <strong>Partially Matched Immediately:</strong> the portion of the limit order that is filled immediately is treated as a market order with the rest being treated as a limit order. Similar logic to a spot limit buy order applies.</p></li>
+<li>If <strong>Partially Matched Immediately:</strong> the portion of the limit order that is filled immediately is charged taker fees with the rest being charged maker fees. Similar logic to a spot limit buy order applies.</li>
 </ul>
-<h2 id='examples-derivative-market-order-payouts'>Derivative Market Order Payouts</h2>
+<h2 id='market-and-limit-order-examples-derivative-market-order-payouts'>Derivative Market Order Payouts</h2>
 <p>The payouts for derivative market orders work the same way as for derivative limit orders, with the one difference being they are cancelled if not immediately matched. See spot market and derivative limit orders as reference.</p>
-<h2 id='examples-adding-a-derivative-limit-buy-order'>Adding a Derivative Limit Buy Order</h2>
+<h2 id='market-and-limit-order-examples-adding-a-derivative-limit-buy-order'>Adding a Derivative Limit Buy Order</h2>
 <ul>
-<li><code>Quantity = 1,000 INJ</code>, <code>Price = 5 USDT</code>, <code>Margin = 1,000 USDT</code></li>
+<li><code>Quantity = 1,000 INJ</code>, <code>Price = 5 USDT</code>, <code>Margin = 1,000 USDT</code></li>
 <li><code>TakerFeeRate = 0.001</code></li>
 <li><code>MakerFeeRate = -0.0001</code></li>
 </ul>
 
-<p>→ The account&#39;s available balance is decremented by <code>Margin + Taker Fee = 1000 + 5000 * 0.001 = 1005 USDT</code>.</p>
+<p>→ The account&#39;s available balance is decremented by <code>Margin + Taker Fee = 1000 + 5000 * 0.001 = 1005 USDT</code>.</p>
 
 <p>After creation:</p>
 
-<p>If <strong>Unmatched</strong>, the order becomes a resting limit order (maker) and we refund the taker fee on  vanilla orders (reduce-only orders don&#39;t pay upfront fees):</p>
+<p>If <strong>Unmatched</strong>, the order becomes a resting limit order (maker) and we refund the taker fee on  vanilla orders (reduce-only orders don&#39;t pay upfront fees):</p>
 
 <ul>
 <li><code>Fee Refund = 5 USDT</code></li>
@@ -1661,7 +1673,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <ul>
 <li>a clearing price of 4 USDT</li>
-<li><p>an existing <code>SHORT</code> position:</p>
+<li><p>an existing <code>SHORT</code> position:</p>
 
 <ul>
 <li><code>Position Quantity = 600 INJ</code></li>
@@ -1692,7 +1704,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <p><strong>2. Opening new position in opposite direction</strong>:</p>
 
 <ul>
-<li><p>a new <code>LONG</code> position:</p>
+<li><p>a new <code>LONG</code> position:</p>
 
 <ul>
 <li><code>Position Quantity = 400 INJ</code></li>
@@ -1712,13 +1724,13 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <ul>
 <li><code>PriceDelta = Price - ClearingPrice = 5 - 4 = 1 USDT</code></li>
-<li><p><code>ClearingFeeRefund = FillQuantity * PriceDelta * TakerFeeRate = 1000 * 1 * 0.001 = 1 USDT</code> </p>
+<li><p><code>ClearingFeeRefund = FillQuantity * PriceDelta * TakerFeeRate = 1000 * 1 * 0.001 = 1 USDT</code> </p>
 
 <ul>
 <li>In the case of matching a sell order, this would have been a charge, not a refund</li>
 </ul></li>
 </ul>
-<h2 id='examples-market-order-matching'>Market Order Matching</h2><h3 id='examples-market-order-matching-existing-orderbook'>Existing Orderbook</h3>
+<h2 id='market-and-limit-order-examples-market-order-matching'>Market Order Matching</h2><h3 id='market-and-limit-order-examples-market-order-matching-existing-orderbook'>Existing Orderbook</h3>
 <table><thead>
 <tr>
 <th>Sells</th>
@@ -1730,7 +1742,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td><table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,210</td><td>0.1 BTC</td></tr><tr><td>$64,205</td><td>0.4 BTC</td></tr><tr><td>$64,200</td><td>0.2 BTC</td></tr> </table></td>
 </tr>
 </tbody></table>
-<h3 id='examples-market-order-matching-new-orders'>New Orders</h3>
+<h3 id='market-and-limit-order-examples-market-order-matching-new-orders'>New Orders</h3>
 <ul>
 <li>1x market buy order for 0.2 BTC with worst price 64,360</li>
 <li>1x market buy order for 0.4 BTC with worst price 66,000</li>
@@ -1738,7 +1750,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <li>1x market sell order for 0.2 BTC with worst price 61,000</li>
 <li>1x market sell order for 0.3 BTC with worst price 69,000</li>
 </ul>
-<h3 id='examples-market-order-matching-resulting-orderbook'>Resulting Orderbook</h3>
+<h3 id='market-and-limit-order-examples-market-order-matching-resulting-orderbook'>Resulting Orderbook</h3>
 <table><thead>
 <tr>
 <th>Sells</th>
@@ -1754,7 +1766,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <p><strong>Market Buys</strong>: Matching the highest priced market buy order first for 0.4 BTC. Now for the second market buy order only 0.1 BTC is left at matchable price, meaning the other 0.1 BTC in the order will be cancelled. Both orders will be matched with the single resting limit order at a price of 64,360 for a total quantity of 0.5 BTC.</p>
 
 <p><strong>Market Sells</strong>: Matching the first two market sell orders for at a matching price of <code>(64,210*0.1 + 64,205*0.2) / 0.3 = 64,206.67</code> for a total quantity of 0.3 BTC. The resting limit orders are both matched at their specified price points of 64,210 and 64,205. Since the last market sell order of 69,000 cannot be fulfilled, it is cancelled.</p>
-<h2 id='examples-limit-order-matching'>Limit Order Matching</h2><h3 id='examples-limit-order-matching-existing-orderbook'>Existing Orderbook</h3>
+<h2 id='market-and-limit-order-examples-limit-order-matching'>Limit Order Matching</h2><h3 id='market-and-limit-order-examples-limit-order-matching-existing-orderbook'>Existing Orderbook</h3>
 <table><thead>
 <tr>
 <th>Sells</th>
@@ -1766,7 +1778,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td><table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,210</td><td>0.1 BTC</td></tr><tr><td>$64,205</td><td>0.3 BTC</td></tr><tr><td>$64,200</td><td>0.2 BTC</td></tr> </table></td>
 </tr>
 </tbody></table>
-<h3 id='examples-limit-order-matching-new-orders'>New Orders</h3>
+<h3 id='market-and-limit-order-examples-limit-order-matching-new-orders'>New Orders</h3>
 <table><thead>
 <tr>
 <th>Sells</th>
@@ -1778,7 +1790,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td><table> <tr><th>Price</th><th>Quantity</th></tr><tr><td>$64,370</td><td>0.4 BTC</td></tr><tr><td>$64,360</td><td>0.2 BTC</td></tr> </table></td>
 </tr>
 </tbody></table>
-<h3 id='examples-limit-order-matching-matching-orders'>Matching Orders</h3>
+<h3 id='market-and-limit-order-examples-limit-order-matching-matching-orders'>Matching Orders</h3>
 <p>All new orders are incorporated into the existing orderbook. In our case this results in a negative spread:</p>
 
 <table><thead>
