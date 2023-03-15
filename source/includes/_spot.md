@@ -1610,7 +1610,7 @@ There are two caveats to be mindful of when taking this approach:
 ```
 
 * An extra 20,000 buffer can be added to the gas calculation to ensure the transaction is not rejected during execution on the validator node. Transactions often require a bit more gas depending on the operations; for example, a post-only order could cross the order book and get cancelled, which would cost a different amount of gas than if that order was posted in the book as a limit order. See example on right:
-* Note: In cosmos-sdk v0.46, a gas refund capability has been added through the PostHandler functionality. In theory, this means that gas constants can be set much higher such that transactions never fail; however, because v0.46 was not compatible with CosmWasm during the last chain upgrade, the refund capability is not yet implemented on Injective. This will likely change in the future, but as of now, gas is paid in its entirety as set.
+* Note: In cosmos-sdk v0.46, a gas refund capability was added through the PostHandler functionality. In theory, this means that gas constants can be set much higher such that transactions never fail; however, because v0.46 was not compatible with CosmWasm during the last chain upgrade, the refund capability is not implemented on Injective. This may change in the future, but as of now, gas is paid in its entirety as set.
 
 **2. In the event a transaction fails, the account sequence and subaccount nonce must both be refreshed**
 

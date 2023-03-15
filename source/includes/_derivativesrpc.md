@@ -1549,20 +1549,20 @@ paging {
 
 **DerivativeTrade**
 
-|Parameter|Type|Description|
-|----|----|----|
-|executed_at|Integer|Timestamp of trade execution in UNIX millis|
-|position_delta|PositionDelta|Position delta from the trade|
-|subaccount_id|String|ID of subaccount that executed the trade|
-|trade_execution_type|String|*Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|
-|fee|String|The fee associated with the trade|
-|is_liquidation|Boolean|True if the trade is a liquidation|
-|market_id|String|The market ID|
-|order_hash|String|The order hash|
-|payout|String|The payout associated with the trade|
-|fee_recipient|String|The address that received 40% of the fees|
-|trade_id|String|Unique identifier to differentiate between trades|
-|execution_side|String|Execution side of trade (Should be one of: ["maker", "taker"])
+|Parameter|Type| Description                                                                                                              |
+|----|----|--------------------------------------------------------------------------------------------------------------------------|
+|executed_at|Integer| Timestamp of trade execution (on chain) in UNIX millis                                                                   |
+|position_delta|PositionDelta| Position delta from the trade                                                                                            |
+|subaccount_id|String| ID of subaccount that executed the trade                                                                                 |
+|trade_execution_type|String| *Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
+|fee|String| The fee associated with the trade                                                                                        |
+|is_liquidation|Boolean| True if the trade is a liquidation                                                                                       |
+|market_id|String| The market ID                                                                                                            |
+|order_hash|String| The order hash                                                                                                           |
+|payout|String| The payout associated with the trade                                                                                     |
+|fee_recipient|String| The address that received 40% of the fees                                                                                |
+|trade_id|String| Unique identifier to differentiate between trades                                                                        |
+|execution_side|String| Execution side of trade (Should be one of: ["maker", "taker"])                                                           
 
 **PositionDelta**
 
@@ -1862,25 +1862,25 @@ timestamp: 1652793013000
 |----|----|----|
 |trade|DerivativeTrade|New derivative market trade|
 |operation_type|String|Trade operation type (Should be one of: ["insert", "invalidate"]) |
-|timestamp|Integer|Timestamp of new trade in UNIX millis|
+|timestamp|Integer|Timestamp the new trade is written into the database in UNIX millis|
 
 
 **DerivativeTrade**
 
-|Parameter|Type|Description|
-|----|----|----|
-|executed_at|Integer|Timestamp of trade execution in UNIX millis|
-|position_delta|PositionDelta|Position delta from the trade|
-|subaccount_id|String|ID of subaccount that executed the trade|
-|trade_execution_type|String|*Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|
-|fee|String|The fee associated with the trade|
-|is_liquidation|Boolean|True if the trade is a liquidation|
-|market_id|String|The market ID|
-|order_hash|String|The order hash|
-|payout|String|The payout associated with the trade|
-|fee_recipient|String|The address that received 40% of the fees|
-|trade_id|String|Unique identifier to differentiate between trades|
-|execution_side|String|Execution side of trade (Should be one of: ["maker", "taker"])
+|Parameter|Type| Description                                                                                                              |
+|----|----|--------------------------------------------------------------------------------------------------------------------------|
+|executed_at|Integer| Timestamp of trade execution (on chain) in UNIX millis                                                                   |
+|position_delta|PositionDelta| Position delta from the trade                                                                                            |
+|subaccount_id|String| ID of subaccount that executed the trade                                                                                 |
+|trade_execution_type|String| *Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
+|fee|String| The fee associated with the trade                                                                                        |
+|is_liquidation|Boolean| True if the trade is a liquidation                                                                                       |
+|market_id|String| The market ID                                                                                                            |
+|order_hash|String| The order hash                                                                                                           |
+|payout|String| The payout associated with the trade                                                                                     |
+|fee_recipient|String| The address that received 40% of the fees                                                                                |
+|trade_id|String| Unique identifier to differentiate between trades                                                                        |
+|execution_side|String| Execution side of trade (Should be one of: ["maker", "taker"])                                                           
 
 **PositionDelta**
 
@@ -4274,20 +4274,20 @@ trades {
 
 **DerivativeTrade**
 
-|Parameter|Type|Description|
-|----|----|----|
-|executed_at|Integer|Timestamp of trade execution in UNIX millis|
-|position_delta|PositionDelta|Position delta from the trade|
-|subaccount_id|String|ID of subaccount that executed the trade|
-|trade_execution_type|String|*Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|
-|fee|String|The fee associated with the trade|
-|is_liquidation|Boolean|True if the trade is a liquidation|
-|market_id|String|The market ID|
-|order_hash|String|The order hash|
-|payout|String|The payout associated with the trade|
-|fee_recipient|String|The address that received 40% of the fees|
-|trade_id|String|Unique identifier to differentiate between trades|
-|execution_side|String|Execution side of trade (Should be one of: ["maker", "taker"])
+|Parameter|Type| Description                                                                                                              |
+|----|----|--------------------------------------------------------------------------------------------------------------------------|
+|executed_at|Integer| Timestamp of trade execution (on chain) in UNIX millis                                                                   |
+|position_delta|PositionDelta| Position delta from the trade                                                                                            |
+|subaccount_id|String| ID of subaccount that executed the trade                                                                                 |
+|trade_execution_type|String| *Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
+|fee|String| The fee associated with the trade                                                                                        |
+|is_liquidation|Boolean| True if the trade is a liquidation                                                                                       |
+|market_id|String| The market ID                                                                                                            |
+|order_hash|String| The order hash                                                                                                           |
+|payout|String| The payout associated with the trade                                                                                     |
+|fee_recipient|String| The address that received 40% of the fees                                                                                |
+|trade_id|String| Unique identifier to differentiate between trades                                                                        |
+|execution_side|String| Execution side of trade (Should be one of: ["maker", "taker"])                                                           
 
 **PositionDelta**
 
