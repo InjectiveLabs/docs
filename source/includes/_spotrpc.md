@@ -1267,19 +1267,19 @@ paging {
 
 **SpotTrade**
 
-|Parameter|Type|Description|
-|----|----|----|
-|trade_direction|String|Direction of the trade(Should be one of: ["buy", "sell"]) |
-|trade_execution_type|String|Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|
-|fee|String|The fee associated with the trade (quote asset denom)|
-|market_id|String|The ID of the market that this trade is in|
-|order_hash|String|The order hash|
-|price|PriceLevel|Price level at which trade has been executed|
-|subaccount_id|String|The subaccountId that executed the trade|
-|executed_at|Integer|Timestamp of trade execution in UNIX millis|
-|fee_recipient|String|The address that received 40% of the fees|
-|trade_id|String|Unique identifier to differentiate between trades|
-|execution_side|String|Execution side of trade (Should be one of: ["maker", "taker"])
+|Parameter|Type| Description                                                                                                             |
+|----|----|-------------------------------------------------------------------------------------------------------------------------|
+|trade_direction|String| Direction of the trade(Should be one of: ["buy", "sell"])                                                               |
+|trade_execution_type|String| Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
+|fee|String| The fee associated with the trade (quote asset denom)                                                                   |
+|market_id|String| The ID of the market that this trade is in                                                                              |
+|order_hash|String| The order hash                                                                                                          |
+|price|PriceLevel| Price level at which trade has been executed                                                                            |
+|subaccount_id|String| The subaccountId that executed the trade                                                                                |
+|executed_at|Integer| Timestamp of trade execution (on chain) in UNIX millis                                                                  |
+|fee_recipient|String| The address that received 40% of the fees                                                                               |
+|trade_id|String| Unique identifier to differentiate between trades                                                                       |
+|execution_side|String| Execution side of trade (Should be one of: ["maker", "taker"])                                                          
 
 
 **PriceLevel**
@@ -1571,27 +1571,27 @@ timestamp: 1676015260000
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|trade|SpotTrade|New spot market trade|
-|operation_type|String|Trade operation type (Should be one of: ["insert", "invalidate"]) |
-|timestamp|Integer|Timestamp of new trade in UNIX millis|
+|Parameter|Type| Description                                                         |
+|----|----|---------------------------------------------------------------------|
+|trade|SpotTrade| New spot market trade                                               |
+|operation_type|String| Trade operation type (Should be one of: ["insert", "invalidate"])   |
+|timestamp|Integer| Timestamp the new trade is written into the database in UNIX millis |
 
 **SpotTrade**
 
-|Parameter|Type|Description|
-|----|----|----|
-|trade_direction|String|Direction of the trade(Should be one of: ["buy", "sell"])|
-|trade_execution_type|String|Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|
-|fee|String|The fee associated with the trade (quote asset denom)|
-|market_id|String|The ID of the market that this trade is in|
-|order_hash|String|The order hash|
-|price|PriceLevel|Price level at which trade has been executed|
-|subaccount_id|String|The subaccountId that executed the trade|
-|executed_at|Integer|Timestamp of trade execution in UNIX millis|
-|fee_recipient|String|The address that received 40% of the fees|
-|trade_id|String|Unique identifier to differentiate between trades|
-|execution_side|String|Execution side of trade (Should be one of: ["maker", "taker"])
+|Parameter|Type| Description                                                                                                             |
+|----|----|-------------------------------------------------------------------------------------------------------------------------|
+|trade_direction|String| Direction of the trade(Should be one of: ["buy", "sell"])                                                               |
+|trade_execution_type|String| Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
+|fee|String| The fee associated with the trade (quote asset denom)                                                                   |
+|market_id|String| The ID of the market that this trade is in                                                                              |
+|order_hash|String| The order hash                                                                                                          |
+|price|PriceLevel| Price level at which trade has been executed                                                                            |
+|subaccount_id|String| The subaccountId that executed the trade                                                                                |
+|executed_at|Integer| Timestamp of trade execution (on chain) in UNIX millis                                                                  |
+|fee_recipient|String| The address that received 40% of the fees                                                                               |
+|trade_id|String| Unique identifier to differentiate between trades                                                                       |
+|execution_side|String| Execution side of trade (Should be one of: ["maker", "taker"])                                                          
 
 **PriceLevel**
 
@@ -3508,19 +3508,19 @@ trades {
 
 **SpotTrade**
 
-|Parameter|Type|Description|
-|----|----|----|
-|trade_direction|String|The direction the trade (Should be one of: ["buy", "sell"])|
-|trade_execution_type|String|The execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|
-|fee|String|The fee associated with the trade (quote asset denom)|
-|market_id|String|The ID of the market that this trade is in|
-|order_hash|String|The order hash|
-|price|PriceLevel|Price level at which trade has been executed|
-|subaccount_id|String|Filter by the subaccount ID|
-|executed_at|Integer|Timestamp of trade execution in UNIX millis|
-|fee_recipient|String|Address that received fees from the order|
-|trade_id|String|A unique string that helps differentiate between trades|
-|execution_side|String|Trade's execution side (Should be one of: ["maker", "taker"])|
+|Parameter|Type| Description                                                                                                                 |
+|----|----|-----------------------------------------------------------------------------------------------------------------------------|
+|trade_direction|String| The direction the trade (Should be one of: ["buy", "sell"])                                                                 |
+|trade_execution_type|String| The execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
+|fee|String| The fee associated with the trade (quote asset denom)                                                                       |
+|market_id|String| The ID of the market that this trade is in                                                                                  |
+|order_hash|String| The order hash                                                                                                              |
+|price|PriceLevel| Price level at which trade has been executed                                                                                |
+|subaccount_id|String| Filter by the subaccount ID                                                                                                 |
+|executed_at|Integer| Timestamp of trade execution (on chain) in UNIX millis                                                                      |
+|fee_recipient|String| Address that received fees from the order                                                                                   |
+|trade_id|String| A unique string that helps differentiate between trades                                                                     |
+|execution_side|String| Trade's execution side (Should be one of: ["maker", "taker"])                                                               |
 
 **PriceLevel**
 
