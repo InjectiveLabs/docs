@@ -5850,7 +5850,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>executed_at</td>
 <td>Integer</td>
-<td>Timestamp of trade execution in UNIX millis</td>
+<td>Timestamp of trade execution (on chain) in UNIX millis</td>
 </tr>
 <tr>
 <td>fee_recipient</td>
@@ -6231,7 +6231,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>timestamp</td>
 <td>Integer</td>
-<td>Timestamp of new trade in UNIX millis</td>
+<td>Timestamp the new trade is written into the database in UNIX millis</td>
 </tr>
 </tbody></table>
 
@@ -6282,7 +6282,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>executed_at</td>
 <td>Integer</td>
-<td>Timestamp of trade execution in UNIX millis</td>
+<td>Timestamp of trade execution (on chain) in UNIX millis</td>
 </tr>
 <tr>
 <td>fee_recipient</td>
@@ -8682,7 +8682,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>executed_at</td>
 <td>Integer</td>
-<td>Timestamp of trade execution in UNIX millis</td>
+<td>Timestamp of trade execution (on chain) in UNIX millis</td>
 </tr>
 <tr>
 <td>fee_recipient</td>
@@ -11110,7 +11110,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>executed_at</td>
 <td>Integer</td>
-<td>Timestamp of trade execution in UNIX millis</td>
+<td>Timestamp of trade execution (on chain) in UNIX millis</td>
 </tr>
 <tr>
 <td>position_delta</td>
@@ -11538,7 +11538,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>timestamp</td>
 <td>Integer</td>
-<td>Timestamp of new trade in UNIX millis</td>
+<td>Timestamp the new trade is written into the database in UNIX millis</td>
 </tr>
 </tbody></table>
 
@@ -11554,7 +11554,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>executed_at</td>
 <td>Integer</td>
-<td>Timestamp of trade execution in UNIX millis</td>
+<td>Timestamp of trade execution (on chain) in UNIX millis</td>
 </tr>
 <tr>
 <td>position_delta</td>
@@ -14643,7 +14643,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <tr>
 <td>executed_at</td>
 <td>Integer</td>
-<td>Timestamp of trade execution in UNIX millis</td>
+<td>Timestamp of trade execution (on chain) in UNIX millis</td>
 </tr>
 <tr>
 <td>position_delta</td>
@@ -25808,7 +25808,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </code></pre></div>
 <ul>
 <li>An extra 20,000 buffer can be added to the gas calculation to ensure the transaction is not rejected during execution on the validator node. Transactions often require a bit more gas depending on the operations; for example, a post-only order could cross the order book and get cancelled, which would cost a different amount of gas than if that order was posted in the book as a limit order. See example on right:</li>
-<li>Note: In cosmos-sdk v0.46, a gas refund capability has been added through the PostHandler functionality. In theory, this means that gas constants can be set much higher such that transactions never fail; however, because v0.46 was not compatible with CosmWasm during the last chain upgrade, the refund capability is not yet implemented on Injective. This will likely change in the future, but as of now, gas is paid in its entirety as set.</li>
+<li>Note: In cosmos-sdk v0.46, a gas refund capability was added through the PostHandler functionality. In theory, this means that gas constants can be set much higher such that transactions never fail; however, because v0.46 was not compatible with CosmWasm during the last chain upgrade, the refund capability is not implemented on Injective. This may change in the future, but as of now, gas is paid in its entirety as set.</li>
 </ul>
 
 <p><strong>2. In the event a transaction fails, the account sequence and subaccount nonce must both be refreshed</strong></p>
@@ -27882,7 +27882,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </code></pre></div>
 <ul>
 <li>An extra 20,000 buffer can be added to the gas calculation to ensure the transaction is not rejected during execution on the validator node. Transactions often require a bit more gas depending on the operations; for example, a post-only order could cross the order book and get cancelled, which would cost a different amount of gas than if that order was posted in the book as a limit order. See example on right:</li>
-<li>Note: In cosmos-sdk v0.46, a gas refund capability has been added through the PostHandler functionality. In theory, this means that gas constants can be set much higher such that transactions never fail; however, because v0.46 was not compatible with CosmWasm during the last chain upgrade, the refund capability is not yet implemented on Injective. This will likely change in the future, but as of now, gas is paid in its entirety as set.</li>
+<li>Note: In cosmos-sdk v0.46, a gas refund capability was added through the PostHandler functionality. In theory, this means that gas constants can be set much higher such that transactions never fail; however, because v0.46 was not compatible with CosmWasm during the last chain upgrade, the refund capability is not implemented on Injective. This may change in the future, but as of now, gas is paid in its entirety as set.</li>
 </ul>
 
 <p><strong>2. In the event a transaction fails, the account sequence and subaccount nonce must both be refreshed</strong></p>
