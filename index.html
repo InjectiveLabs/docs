@@ -508,22 +508,22 @@
                     <a href="#injectivespotexchangerpc-streamtrades" class="toc-h2 toc-link" data-title="StreamTrades">StreamTrades</a>
                   </li>
                   <li>
-                    <a href="#injectivespotexchangerpc-orderbook" class="toc-h2 toc-link" data-title="Orderbook">Orderbook</a>
+                    <a href="#injectivespotexchangerpc-deprecated-orderbook" class="toc-h2 toc-link" data-title="[DEPRECATED] Orderbook">[DEPRECATED] Orderbook</a>
                   </li>
                   <li>
-                    <a href="#injectivespotexchangerpc-orderbooks" class="toc-h2 toc-link" data-title="Orderbooks">Orderbooks</a>
+                    <a href="#injectivespotexchangerpc-deprecated-orderbooks" class="toc-h2 toc-link" data-title="[DEPRECATED] Orderbooks">[DEPRECATED] Orderbooks</a>
                   </li>
                   <li>
-                    <a href="#injectivespotexchangerpc-streamorderbooks" class="toc-h2 toc-link" data-title="StreamOrderbooks">StreamOrderbooks</a>
+                    <a href="#injectivespotexchangerpc-deprecated-streamorderbooks" class="toc-h2 toc-link" data-title="[DEPRECATED] StreamOrderbooks">[DEPRECATED] StreamOrderbooks</a>
                   </li>
                   <li>
-                    <a href="#injectivespotexchangerpc-orderbooksv2-experimental" class="toc-h2 toc-link" data-title="OrderbooksV2 (Experimental)">OrderbooksV2 (Experimental)</a>
+                    <a href="#injectivespotexchangerpc-orderbooksv2" class="toc-h2 toc-link" data-title="OrderbooksV2">OrderbooksV2</a>
                   </li>
                   <li>
-                    <a href="#injectivespotexchangerpc-streamorderbooksv2-experimental" class="toc-h2 toc-link" data-title="StreamOrderbooksV2 (Experimental)">StreamOrderbooksV2 (Experimental)</a>
+                    <a href="#injectivespotexchangerpc-streamorderbooksv2" class="toc-h2 toc-link" data-title="StreamOrderbooksV2">StreamOrderbooksV2</a>
                   </li>
                   <li>
-                    <a href="#injectivespotexchangerpc-streamorderbookupdate-experimental" class="toc-h2 toc-link" data-title="StreamOrderbookUpdate (Experimental)">StreamOrderbookUpdate (Experimental)</a>
+                    <a href="#injectivespotexchangerpc-streamorderbookupdate" class="toc-h2 toc-link" data-title="StreamOrderbookUpdate">StreamOrderbookUpdate</a>
                   </li>
                   <li>
                     <a href="#injectivespotexchangerpc-subaccountorderslist" class="toc-h2 toc-link" data-title="SubaccountOrdersList">SubaccountOrdersList</a>
@@ -564,22 +564,22 @@
                     <a href="#injectivederivativeexchangerpc-streampositions" class="toc-h2 toc-link" data-title="StreamPositions">StreamPositions</a>
                   </li>
                   <li>
-                    <a href="#injectivederivativeexchangerpc-orderbook" class="toc-h2 toc-link" data-title="Orderbook">Orderbook</a>
+                    <a href="#injectivederivativeexchangerpc-deprecated-orderbook" class="toc-h2 toc-link" data-title="[DEPRECATED] Orderbook">[DEPRECATED] Orderbook</a>
                   </li>
                   <li>
-                    <a href="#injectivederivativeexchangerpc-orderbooks" class="toc-h2 toc-link" data-title="Orderbooks">Orderbooks</a>
+                    <a href="#injectivederivativeexchangerpc-deprecated-orderbooks" class="toc-h2 toc-link" data-title="[DEPRECATED] Orderbooks">[DEPRECATED] Orderbooks</a>
                   </li>
                   <li>
-                    <a href="#injectivederivativeexchangerpc-streamorderbooks" class="toc-h2 toc-link" data-title="StreamOrderbooks">StreamOrderbooks</a>
+                    <a href="#injectivederivativeexchangerpc-deprecated-streamorderbooks" class="toc-h2 toc-link" data-title="[DEPRECATED] StreamOrderbooks">[DEPRECATED] StreamOrderbooks</a>
                   </li>
                   <li>
-                    <a href="#injectivederivativeexchangerpc-orderbooksv2-experimental" class="toc-h2 toc-link" data-title="OrderbooksV2 (Experimental)">OrderbooksV2 (Experimental)</a>
+                    <a href="#injectivederivativeexchangerpc-orderbooksv2" class="toc-h2 toc-link" data-title="OrderbooksV2">OrderbooksV2</a>
                   </li>
                   <li>
-                    <a href="#injectivederivativeexchangerpc-streamorderbooksv2-experimental" class="toc-h2 toc-link" data-title="StreamOrderbooksV2 (Experimental)">StreamOrderbooksV2 (Experimental)</a>
+                    <a href="#injectivederivativeexchangerpc-streamorderbooksv2" class="toc-h2 toc-link" data-title="StreamOrderbooksV2">StreamOrderbooksV2</a>
                   </li>
                   <li>
-                    <a href="#injectivederivativeexchangerpc-streamorderbookupdate-experimental" class="toc-h2 toc-link" data-title="StreamOrderbookUpdate (Experimental)">StreamOrderbookUpdate (Experimental)</a>
+                    <a href="#injectivederivativeexchangerpc-streamorderbookupdate" class="toc-h2 toc-link" data-title="StreamOrderbookUpdate">StreamOrderbookUpdate</a>
                   </li>
                   <li>
                     <a href="#injectivederivativeexchangerpc-subaccountorderslist" class="toc-h2 toc-link" data-title="SubaccountOrdersList">SubaccountOrdersList</a>
@@ -6326,9 +6326,13 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Price level last updated timestamp in UNIX millis</td>
 </tr>
 </tbody></table>
-<h2 id='injectivespotexchangerpc-orderbook'>Orderbook</h2>
+<h2 id='injectivespotexchangerpc-deprecated-orderbook'>[DEPRECATED] Orderbook</h2>
 <p>Get the orderbook of a spot market.</p>
-<h3 id='injectivespotexchangerpc-orderbook-request-parameters'>Request Parameters</h3>
+
+<p><strong>Deprecation warning</strong></p>
+
+<p>This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api <a href="#injectivespotexchangerpc-orderbooksv2">OrderbookV2</a> instead.</p>
+<h3 id='injectivespotexchangerpc-deprecated-orderbook-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -6411,7 +6415,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 </tbody></table>
-<h3 id='injectivespotexchangerpc-orderbook-response-parameters'>Response Parameters</h3>
+<h3 id='injectivespotexchangerpc-deprecated-orderbook-response-parameters'>Response Parameters</h3>
 <blockquote>
 <p>Response Example:</p>
 </blockquote>
@@ -6584,9 +6588,13 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Price level last updated timestamp in UNIX millis</td>
 </tr>
 </tbody></table>
-<h2 id='injectivespotexchangerpc-orderbooks'>Orderbooks</h2>
-<p>Get the orderbooks for one or more spot markets.</p>
-<h3 id='injectivespotexchangerpc-orderbooks-request-parameters'>Request Parameters</h3>
+<h2 id='injectivespotexchangerpc-deprecated-orderbooks'>[DEPRECATED] Orderbooks</h2>
+<p>Get the orderbooks for one or more spot markets.  </p>
+
+<p><strong>Deprecation warning</strong></p>
+
+<p>This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api <a href="#injectivespotexchangerpc-orderbooksv2">OrderbookV2</a> instead.</p>
+<h3 id='injectivespotexchangerpc-deprecated-orderbooks-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -6671,7 +6679,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 </tbody></table>
-<h3 id='injectivespotexchangerpc-orderbooks-response-parameters'>Response Parameters</h3>
+<h3 id='injectivespotexchangerpc-deprecated-orderbooks-response-parameters'>Response Parameters</h3>
 <blockquote>
 <p>Response Example:</p>
 </blockquote>
@@ -6933,9 +6941,13 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Price level last updated timestamp in UNIX millis</td>
 </tr>
 </tbody></table>
-<h2 id='injectivespotexchangerpc-streamorderbooks'>StreamOrderbooks</h2>
-<p>Stream orderbook updates for an array of spot markets.</p>
-<h3 id='injectivespotexchangerpc-streamorderbooks-request-parameters'>Request Parameters</h3>
+<h2 id='injectivespotexchangerpc-deprecated-streamorderbooks'>[DEPRECATED] StreamOrderbooks</h2>
+<p>Stream orderbook updates for an array of spot markets.  </p>
+
+<p><strong>Deprecation warning</strong></p>
+
+<p>This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api <a href="#injectivespotexchangerpc-orderbooksv2">OrderbookV2</a> instead.</p>
+<h3 id='injectivespotexchangerpc-deprecated-streamorderbooks-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -7041,7 +7053,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 </tbody></table>
-<h3 id='injectivespotexchangerpc-streamorderbooks-response-parameters'>Response Parameters</h3>
+<h3 id='injectivespotexchangerpc-deprecated-streamorderbooks-response-parameters'>Response Parameters</h3>
 <blockquote>
 <p>Streaming Response Example:</p>
 </blockquote>
@@ -7263,9 +7275,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Price level last updated timestamp in UNIX millis</td>
 </tr>
 </tbody></table>
-<h2 id='injectivespotexchangerpc-orderbooksv2-experimental'>OrderbooksV2 (Experimental)</h2>
-<p>Get an orderbook snapshot for one or more spot markets. This API is currently experimental but offers better performance than V1.</p>
-<h3 id='injectivespotexchangerpc-orderbooksv2-experimental-request-parameters'>Request Parameters</h3>
+<h2 id='injectivespotexchangerpc-orderbooksv2'>OrderbooksV2</h2>
+<p>Get an orderbook snapshot for one or more spot markets.</p>
+<h3 id='injectivespotexchangerpc-orderbooksv2-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -7309,7 +7321,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 </tbody></table>
-<h3 id='injectivespotexchangerpc-orderbooksv2-experimental-response-parameters'>Response Parameters</h3>
+<h3 id='injectivespotexchangerpc-orderbooksv2-response-parameters'>Response Parameters</h3>
 <blockquote>
 <p>Response Example:</p>
 </blockquote>
@@ -7451,9 +7463,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Price level last updated timestamp in UNIX millis</td>
 </tr>
 </tbody></table>
-<h2 id='injectivespotexchangerpc-streamorderbooksv2-experimental'>StreamOrderbooksV2 (Experimental)</h2>
-<p>Stream orderbook snapshot updates for one or more spot markets. This API is currently experimental but offers better performance than V1.</p>
-<h3 id='injectivespotexchangerpc-streamorderbooksv2-experimental-request-parameters'>Request Parameters</h3>
+<h2 id='injectivespotexchangerpc-streamorderbooksv2'>StreamOrderbooksV2</h2>
+<p>Stream orderbook snapshot updates for one or more spot markets.</p>
+<h3 id='injectivespotexchangerpc-streamorderbooksv2-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -7497,7 +7509,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 </tbody></table>
-<h3 id='injectivespotexchangerpc-streamorderbooksv2-experimental-response-parameters'>Response Parameters</h3>
+<h3 id='injectivespotexchangerpc-streamorderbooksv2-response-parameters'>Response Parameters</h3>
 <blockquote>
 <p>Streaming Response Example:</p>
 </blockquote>
@@ -7625,9 +7637,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Price level last updated timestamp in UNIX millis</td>
 </tr>
 </tbody></table>
-<h2 id='injectivespotexchangerpc-streamorderbookupdate-experimental'>StreamOrderbookUpdate (Experimental)</h2>
-<p>Stream incremental orderbook updates for one or more spot markets. This stream should be started prior to obtaining orderbook snapshots so that no incremental updates are omitted between obtaining a snapshot and starting the update stream. This API is currently experimental.</p>
-<h3 id='injectivespotexchangerpc-streamorderbookupdate-experimental-request-parameters'>Request Parameters</h3>
+<h2 id='injectivespotexchangerpc-streamorderbookupdate'>StreamOrderbookUpdate</h2>
+<p>Stream incremental orderbook updates for one or more spot markets. This stream should be started prior to obtaining orderbook snapshots so that no incremental updates are omitted between obtaining a snapshot and starting the update stream.</p>
+<h3 id='injectivespotexchangerpc-streamorderbookupdate-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -7777,7 +7789,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 </tbody></table>
-<h3 id='injectivespotexchangerpc-streamorderbookupdate-experimental-response-parameters'>Response Parameters</h3>
+<h3 id='injectivespotexchangerpc-streamorderbookupdate-response-parameters'>Response Parameters</h3>
 <blockquote>
 <p>Streaming Response Example:</p>
 </blockquote>
@@ -12344,9 +12356,13 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Position created timestamp in UNIX millis. Currently not supported (value will be inaccurate).</td>
 </tr>
 </tbody></table>
-<h2 id='injectivederivativeexchangerpc-orderbook'>Orderbook</h2>
+<h2 id='injectivederivativeexchangerpc-deprecated-orderbook'>[DEPRECATED] Orderbook</h2>
 <p>Get the orderbook of a derivative market.</p>
-<h3 id='injectivederivativeexchangerpc-orderbook-request-parameters'>Request Parameters</h3>
+
+<p><strong>Deprecation warning</strong></p>
+
+<p>This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api <a href="#injectivederivativeexchangerpc-orderbooksv2">OrderbookV2</a> instead.</p>
+<h3 id='injectivederivativeexchangerpc-deprecated-orderbook-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -12429,7 +12445,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 </tbody></table>
-<h3 id='injectivederivativeexchangerpc-orderbook-response-parameters'>Response Parameters</h3>
+<h3 id='injectivederivativeexchangerpc-deprecated-orderbook-response-parameters'>Response Parameters</h3>
 <blockquote>
 <p>Response Example:</p>
 </blockquote>
@@ -12612,9 +12628,13 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Price number of the price level</td>
 </tr>
 </tbody></table>
-<h2 id='injectivederivativeexchangerpc-orderbooks'>Orderbooks</h2>
-<p>Get the orderbook for an array of derivative markets.</p>
-<h3 id='injectivederivativeexchangerpc-orderbooks-request-parameters'>Request Parameters</h3>
+<h2 id='injectivederivativeexchangerpc-deprecated-orderbooks'>[DEPRECATED] Orderbooks</h2>
+<p>Get the orderbook for an array of derivative markets.  </p>
+
+<p><strong>Deprecation warning</strong></p>
+
+<p>This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api <a href="#injectivederivativeexchangerpc-orderbooksv2">OrderbookV2</a> instead.</p>
+<h3 id='injectivederivativeexchangerpc-deprecated-orderbooks-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -12701,7 +12721,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 </tbody></table>
-<h3 id='injectivederivativeexchangerpc-orderbooks-response-parameters'>Response Parameters</h3>
+<h3 id='injectivederivativeexchangerpc-deprecated-orderbooks-response-parameters'>Response Parameters</h3>
 <blockquote>
 <p>Response Example:</p>
 </blockquote>
@@ -12917,9 +12937,13 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Price number of the price level</td>
 </tr>
 </tbody></table>
-<h2 id='injectivederivativeexchangerpc-streamorderbooks'>StreamOrderbooks</h2>
-<p>Stream orderbook updates for an array of derivative markets.</p>
-<h3 id='injectivederivativeexchangerpc-streamorderbooks-request-parameters'>Request Parameters</h3>
+<h2 id='injectivederivativeexchangerpc-deprecated-streamorderbooks'>[DEPRECATED] StreamOrderbooks</h2>
+<p>Stream orderbook updates for an array of derivative markets.  </p>
+
+<p><strong>Deprecation warning</strong></p>
+
+<p>This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api <a href="#injectivederivativeexchangerpc-orderbooksv2">OrderbookV2</a> instead.</p>
+<h3 id='injectivederivativeexchangerpc-deprecated-streamorderbooks-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -13022,7 +13046,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 </tbody></table>
-<h3 id='injectivederivativeexchangerpc-streamorderbooks-response-parameters'>Response Parameters</h3>
+<h3 id='injectivederivativeexchangerpc-deprecated-streamorderbooks-response-parameters'>Response Parameters</h3>
 <blockquote>
 <p>Streaming Response Example:</p>
 </blockquote>
@@ -13258,9 +13282,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Price number of the price level</td>
 </tr>
 </tbody></table>
-<h2 id='injectivederivativeexchangerpc-orderbooksv2-experimental'>OrderbooksV2 (Experimental)</h2>
-<p>Get an orderbook snapshot for one or more derivative markets. This API is currently experimental but offers better performance than V1.</p>
-<h3 id='injectivederivativeexchangerpc-orderbooksv2-experimental-request-parameters'>Request Parameters</h3>
+<h2 id='injectivederivativeexchangerpc-orderbooksv2'>OrderbooksV2</h2>
+<p>Get an orderbook snapshot for one or more derivative markets.</p>
+<h3 id='injectivederivativeexchangerpc-orderbooksv2-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -13305,7 +13329,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 </tbody></table>
-<h3 id='injectivederivativeexchangerpc-orderbooksv2-experimental-response-parameters'>Response Parameters</h3>
+<h3 id='injectivederivativeexchangerpc-orderbooksv2-response-parameters'>Response Parameters</h3>
 <blockquote>
 <p>Response Example:</p>
 </blockquote>
@@ -13465,9 +13489,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Price number of the price level</td>
 </tr>
 </tbody></table>
-<h2 id='injectivederivativeexchangerpc-streamorderbooksv2-experimental'>StreamOrderbooksV2 (Experimental)</h2>
-<p>Stream orderbook snapshot updates for one or more derivative markets. This API is currently experimental but offers better performance than V1.</p>
-<h3 id='injectivederivativeexchangerpc-streamorderbooksv2-experimental-request-parameters'>Request Parameters</h3>
+<h2 id='injectivederivativeexchangerpc-streamorderbooksv2'>StreamOrderbooksV2</h2>
+<p>Stream orderbook snapshot updates for one or more derivative markets</p>
+<h3 id='injectivederivativeexchangerpc-streamorderbooksv2-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -13511,7 +13535,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 </tbody></table>
-<h3 id='injectivederivativeexchangerpc-streamorderbooksv2-experimental-response-parameters'>Response Parameters</h3>
+<h3 id='injectivederivativeexchangerpc-streamorderbooksv2-response-parameters'>Response Parameters</h3>
 <blockquote>
 <p>Streaming Response Example:</p>
 </blockquote>
@@ -13644,9 +13668,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Price level last updated timestamp in UNIX millis</td>
 </tr>
 </tbody></table>
-<h2 id='injectivederivativeexchangerpc-streamorderbookupdate-experimental'>StreamOrderbookUpdate (Experimental)</h2>
-<p>Stream incremental orderbook updates for one or more derivative markets. This stream should be started prior to obtaining orderbook snapshots so that no incremental updates are omitted between obtaining a snapshot and starting the update stream. This API is currently experimental.</p>
-<h3 id='injectivederivativeexchangerpc-streamorderbookupdate-experimental-request-parameters'>Request Parameters</h3>
+<h2 id='injectivederivativeexchangerpc-streamorderbookupdate'>StreamOrderbookUpdate</h2>
+<p>Stream incremental orderbook updates for one or more derivative markets. This stream should be started prior to obtaining orderbook snapshots so that no incremental updates are omitted between obtaining a snapshot and starting the update stream.</p>
+<h3 id='injectivederivativeexchangerpc-streamorderbookupdate-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -13798,7 +13822,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Yes</td>
 </tr>
 </tbody></table>
-<h3 id='injectivederivativeexchangerpc-streamorderbookupdate-experimental-response-parameters'>Response Parameters</h3>
+<h3 id='injectivederivativeexchangerpc-streamorderbookupdate-response-parameters'>Response Parameters</h3>
 <blockquote>
 <p>Streaming Response Example:</p>
 </blockquote>
