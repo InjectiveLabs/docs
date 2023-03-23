@@ -2409,9 +2409,14 @@ timestamp: 1652793296000
 |created_at|Integer|Position created timestamp in UNIX millis. Currently not supported (value will be inaccurate).|
 
 
-## Orderbook
+## \[DEPRECATED\] Orderbook
 
 Get the orderbook of a derivative market.
+
+**Deprecation warning**
+
+This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api [OrderbookV2](#injectivederivativeexchangerpc-orderbooksv2) instead.
+
 
 ### Request Parameters
 > Request Example:
@@ -2646,9 +2651,13 @@ orderbook {
 |price|String|Price number of the price level|
 
 
-## Orderbooks
+## \[DEPRECATED\] Orderbooks
 
-Get the orderbook for an array of derivative markets.
+Get the orderbook for an array of derivative markets.  
+
+**Deprecation warning**
+
+This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api [OrderbookV2](#injectivederivativeexchangerpc-orderbooksv2) instead.
 
 ### Request Parameters
 > Request Example:
@@ -2903,10 +2912,13 @@ orderbooks {
 |price|String|Price number of the price level|
 
 
-## StreamOrderbooks
+## \[DEPRECATED\] StreamOrderbooks
 
-Stream orderbook updates for an array of derivative markets.
+Stream orderbook updates for an array of derivative markets.  
 
+**Deprecation warning**
+
+This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api [OrderbookV2](#injectivederivativeexchangerpc-orderbooksv2) instead.
 
 ### Request Parameters
 > Request Example:
@@ -3201,9 +3213,9 @@ market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
 |price|String|Price number of the price level|
 
 
-## OrderbooksV2 (Experimental)
+## OrderbooksV2
 
-Get an orderbook snapshot for one or more derivative markets. This API is currently experimental but offers better performance than V1.
+Get an orderbook snapshot for one or more derivative markets.
 
 ### Request Parameters
 > Request Example:
@@ -3355,9 +3367,9 @@ orderbooks {
 |price|String|Price number of the price level|
 
 
-## StreamOrderbooksV2 (Experimental)
+## StreamOrderbooksV2
 
-Stream orderbook snapshot updates for one or more derivative markets. This API is currently experimental but offers better performance than V1.
+Stream orderbook snapshot updates for one or more derivative markets
 
 
 ### Request Parameters
@@ -3484,9 +3496,9 @@ market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
 |timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
 
-## StreamOrderbookUpdate (Experimental)
+## StreamOrderbookUpdate
 
-Stream incremental orderbook updates for one or more derivative markets. This stream should be started prior to obtaining orderbook snapshots so that no incremental updates are omitted between obtaining a snapshot and starting the update stream. This API is currently experimental.
+Stream incremental orderbook updates for one or more derivative markets. This stream should be started prior to obtaining orderbook snapshots so that no incremental updates are omitted between obtaining a snapshot and starting the update stream.
 
 
 ### Request Parameters

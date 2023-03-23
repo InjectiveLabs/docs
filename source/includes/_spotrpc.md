@@ -1602,9 +1602,13 @@ timestamp: 1676015260000
 |timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
 
-## Orderbook
+## \[DEPRECATED\] Orderbook
 
 Get the orderbook of a spot market.
+
+**Deprecation warning**
+
+This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api [OrderbookV2](#injectivespotexchangerpc-orderbooksv2) instead.
 
 
 ### Request Parameters
@@ -1827,10 +1831,13 @@ orderbook {
 |timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
 
-## Orderbooks
+## \[DEPRECATED\] Orderbooks
 
-Get the orderbooks for one or more spot markets.
+Get the orderbooks for one or more spot markets.  
 
+**Deprecation warning**
+
+This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api [OrderbookV2](#injectivespotexchangerpc-orderbooksv2) instead.
 
 ### Request Parameters
 > Request Example:
@@ -2132,9 +2139,13 @@ orderbooks {
 |timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
 
-## StreamOrderbooks
+## \[DEPRECATED\] StreamOrderbooks
 
-Stream orderbook updates for an array of spot markets.
+Stream orderbook updates for an array of spot markets.  
+
+**Deprecation warning**
+
+This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api [OrderbookV2](#injectivespotexchangerpc-orderbooksv2) instead.
 
 
 ### Request Parameters
@@ -2418,9 +2429,9 @@ market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 |timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
 
-## OrderbooksV2 (Experimental)
+## OrderbooksV2
 
-Get an orderbook snapshot for one or more spot markets. This API is currently experimental but offers better performance than V1.
+Get an orderbook snapshot for one or more spot markets.
 
 
 ### Request Parameters
@@ -2557,9 +2568,9 @@ orderbooks {
 |timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
 
-## StreamOrderbooksV2 (Experimental)
+## StreamOrderbooksV2
 
-Stream orderbook snapshot updates for one or more spot markets. This API is currently experimental but offers better performance than V1.
+Stream orderbook snapshot updates for one or more spot markets.
 
 
 ### Request Parameters
@@ -2681,9 +2692,9 @@ market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 |timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
 
-## StreamOrderbookUpdate (Experimental)
+## StreamOrderbookUpdate
 
-Stream incremental orderbook updates for one or more spot markets. This stream should be started prior to obtaining orderbook snapshots so that no incremental updates are omitted between obtaining a snapshot and starting the update stream. This API is currently experimental.
+Stream incremental orderbook updates for one or more spot markets. This stream should be started prior to obtaining orderbook snapshots so that no incremental updates are omitted between obtaining a snapshot and starting the update stream.
 
 
 ### Request Parameters
