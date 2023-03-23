@@ -1606,7 +1606,9 @@ timestamp: 1676015260000
 
 Get the orderbook of a spot market.
 
-Deprecation warning: this api will be removed on April 5th 2023 on test net and on 22th on main net. Please use the new api [OrderbookV2](#injectivespotexchangerpc-orderbooksv2) instead.
+**Deprecation warning**
+
+This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api [OrderbookV2](#injectivespotexchangerpc-orderbooksv2) instead.
 
 
 ### Request Parameters
@@ -1833,7 +1835,9 @@ orderbook {
 
 Get the orderbooks for one or more spot markets.  
 
-Deprecation warning: this api will be removed on April 5th 2023 on test net and on 22th on main net. Please use the new api [OrderbooksV2](#injectivespotexchangerpc-orderbooksv2) instead.
+**Deprecation warning**
+
+This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api [OrderbookV2](#injectivespotexchangerpc-orderbooksv2) instead.
 
 ### Request Parameters
 > Request Example:
@@ -2139,7 +2143,9 @@ orderbooks {
 
 Stream orderbook updates for an array of spot markets.  
 
-Deprecation warning: this api will be removed on April 5th 2023 on test net and on 22th on main net. Please use the new api [StreamOrderbookV2](#injectivespotexchangerpc-streamorderbooksv2) instead.
+**Deprecation warning**
+
+This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api [OrderbookV2](#injectivespotexchangerpc-orderbooksv2) instead.
 
 
 ### Request Parameters

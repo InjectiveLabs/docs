@@ -2413,7 +2413,9 @@ timestamp: 1652793296000
 
 Get the orderbook of a derivative market.
 
-Deprecation warning: this api will be removed on April 5th 2023 on test net and on 22th on main net. Please use the new api [OrderbooksV2](#injectivederivativeexchangerpc-orderbooksv2) instead.
+**Deprecation warning**
+
+This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api [OrderbookV2](#injectivederivativeexchangerpc-orderbooksv2) instead.
 
 
 ### Request Parameters
@@ -2653,7 +2655,9 @@ orderbook {
 
 Get the orderbook for an array of derivative markets.  
 
-Deprecation warning: this api will be removed on April 5th 2023 on test net and on 22th on main net. Please use the new api [OrderbooksV2](#injectivederivativeexchangerpc-orderbooksv2) instead.
+**Deprecation warning**
+
+This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api [OrderbookV2](#injectivederivativeexchangerpc-orderbooksv2) instead.
 
 ### Request Parameters
 > Request Example:
@@ -2912,7 +2916,9 @@ orderbooks {
 
 Stream orderbook updates for an array of derivative markets.  
 
-Deprecation warning: this api will be removed on April 5th 2023 on test net and on 22th on main net. Please use the new api [StreamOrderbooksV2](#injectivederivativeexchangerpc-streamorderbooksv2) instead.
+**Deprecation warning**
+
+This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on mainnet. Please use the new api [OrderbookV2](#injectivederivativeexchangerpc-orderbooksv2) instead.
 
 ### Request Parameters
 > Request Example:
