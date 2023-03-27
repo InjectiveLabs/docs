@@ -44,7 +44,7 @@ import (
 )
 
 func main() {
-  //network := common.LoadNetwork("mainnet", "k8s")
+  // network := common.LoadNetwork("mainnet", "lb")
   network := common.LoadNetwork("testnet", "k8s")
   exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
   if err != nil {
@@ -259,7 +259,7 @@ import (
 )
 
 func main() {
-  //network := common.LoadNetwork("mainnet", "k8s")
+  // network := common.LoadNetwork("mainnet", "lb")
   network := common.LoadNetwork("testnet", "k8s")
   exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
   if err != nil {
@@ -497,7 +497,7 @@ import (
 )
 
 func main() {
-  //network := common.LoadNetwork("mainnet", "k8s")
+  // network := common.LoadNetwork("mainnet", "lb")
   network := common.LoadNetwork("testnet", "k8s")
   exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
   if err != nil {
