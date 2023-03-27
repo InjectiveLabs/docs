@@ -1136,7 +1136,7 @@
 <span class="p">)</span>
 
 <span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c">// network := common.LoadNetwork("mainnet", "k8s")</span>
+    <span class="c">// network := common.LoadNetwork("mainnet", "lb")</span>
     <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
     <span class="n">tmRPC</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">rpchttp</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">,</span> <span class="s">"/websocket"</span><span class="p">)</span>
 
