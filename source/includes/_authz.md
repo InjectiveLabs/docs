@@ -116,7 +116,7 @@ import (
 )
 
 func main() {
-    // network := common.LoadNetwork("mainnet", "k8s")
+    // network := common.LoadNetwork("mainnet", "lb")
     network := common.LoadNetwork("testnet", "k8s")
     tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
 
@@ -372,7 +372,7 @@ import (
 )
 
 func main() {
-    // network := common.LoadNetwork("mainnet", "k8s")
+    // network := common.LoadNetwork("mainnet", "lb")
     network := common.LoadNetwork("testnet", "k8s")
     tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
 
@@ -609,7 +609,7 @@ import (
 )
 
 func main() {
-    // network := common.LoadNetwork("mainnet", "k8s")
+    // network := common.LoadNetwork("mainnet", "lb")
     network := common.LoadNetwork("testnet", "k8s")
     tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
 
