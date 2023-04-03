@@ -895,6 +895,9 @@
               </ul>
           </li>
           <li>
+            <a href="#historical-queries" class="toc-h1 toc-link" data-title="- Historical Queries">- Historical Queries</a>
+          </li>
+          <li>
             <a href="#glossary" class="toc-h1 toc-link" data-title="Glossary">Glossary</a>
               <ul class="toc-list-h2">
                   <li>
@@ -33530,7 +33533,154 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Token amount</td>
 </tr>
 </tbody></table>
-<h1 id='glossary'>Glossary</h1><h2 id='glossary-injective-chain'>Injective Chain</h2>
+<h1 id='historical-queries'>- Historical Queries</h1>
+<p>Execute historical chain queries by passing the block height in the headers. Keep in mind that the chain node being used in the query should not be pruned for the height specified.</p>
+
+<p>Publicly maintained nodes are being pruned every 5-10 days.</p>
+
+<p>To find the available chain queries visit Swagger for <a href="https://lcd.injective.network/swagger/#/">Mainnet</a> and <a href="https://k8s.testnet.lcd.injective.network/swagger/#/">Testnet</a>.</p>
+
+<p><strong>Request Parameters</strong></p>
+
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">block_height</span> <span class="o">=</span> <span class="s">"9858070"</span>
+    <span class="n">lcd</span> <span class="o">=</span> <span class="s">"https://k8s.testnet.lcd.injective.network/injective/exchange/v1beta1/derivative/orderbook/0x2e94326a421c3f66c15a3b663c7b1ab7fb6a5298b3a57759ecf07f0036793fc9"</span>
+    <span class="n">lcd_request</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">lcd</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s">"Content-Type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span> <span class="s">"x-cosmos-block-height"</span><span class="p">:</span> <span class="s">"{}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">block_height</span><span class="p">)}).</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">lcd_request</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"fmt"</span>
+    <span class="s">"io/ioutil"</span>
+    <span class="s">"net/http"</span>
+    <span class="s">"time"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">queryAtHeight</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">method</span> <span class="kt">string</span><span class="p">,</span> <span class="n">height</span> <span class="kt">int64</span><span class="p">)</span> <span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">client</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="n">http</span><span class="o">.</span><span class="n">Client</span><span class="p">{</span>
+        <span class="n">Timeout</span><span class="o">:</span> <span class="n">time</span><span class="o">.</span><span class="n">Second</span> <span class="o">*</span> <span class="m">10</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">req</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="no">nil</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="no">nil</span><span class="p">,</span> <span class="n">fmt</span><span class="o">.</span><span class="n">Errorf</span><span class="p">(</span><span class="s">"new request err: %w"</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="s">"x-cosmos-block-height"</span><span class="p">,</span> <span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
+    <span class="n">response</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">client</span><span class="o">.</span><span class="n">Do</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="no">nil</span><span class="p">,</span> <span class="n">fmt</span><span class="o">.</span><span class="n">Errorf</span><span class="p">(</span><span class="s">"exec request err: %w"</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">defer</span> <span class="n">response</span><span class="o">.</span><span class="n">Body</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">ioutil</span><span class="o">.</span><span class="n">ReadAll</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">Body</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">result</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">queryAtHeight</span><span class="p">(</span><span class="s">"https://k8s.testnet.lcd.injective.network/injective/exchange/v1beta1/derivative/orderbook/0x2e94326a421c3f66c15a3b663c7b1ab7fb6a5298b3a57759ecf07f0036793fc9"</span><span class="p">,</span> <span class="s">"GET"</span><span class="p">,</span> <span class="m">9858070</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"query result:"</span><span class="p">,</span> <span class="kt">string</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>block_height</td>
+<td>String</td>
+<td>The block height at which we want to execute the query</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">query</span> <span class="n">result</span><span class="p">:</span>  <span class="p">{</span><span class="s">'buys_price_level'</span><span class="p">:</span> <span class="p">[{</span><span class="s">'p'</span><span class="p">:</span> <span class="s">'30624950000.000000000000000000'</span><span class="p">,</span> <span class="s">'q'</span><span class="p">:</span> <span class="s">'4.000000000000000000'</span><span class="p">},</span> <span class="p">{</span><span class="s">'p'</span><span class="p">:</span> <span class="s">'29885630000.000000000000000000'</span><span class="p">,</span> <span class="s">'q'</span><span class="p">:</span> <span class="s">'3.000000000000000000'</span><span class="p">},</span> <span class="p">{</span><span class="s">'p'</span><span class="p">:</span> <span class="s">'29710520000.000000000000000000'</span><span class="p">,</span> <span class="s">'q'</span><span class="p">:</span> <span class="s">'3.000000000000000000'</span><span class="p">},</span> <span class="p">{</span><span class="s">'p'</span><span class="p">:</span> <span class="s">'29321790000.000000000000000000'</span><span class="p">,</span> <span class="s">'q'</span><span class="p">:</span> <span class="s">'2.000000000000000000'</span><span class="p">},</span> <span class="p">{</span><span class="s">'p'</span><span class="p">:</span> <span class="s">'28861950000.000000000000000000'</span><span class="p">,</span> <span class="s">'q'</span><span class="p">:</span> <span class="s">'1.000000000000000000'</span><span class="p">},</span> <span class="p">{</span><span class="s">'p'</span><span class="p">:</span> <span class="s">'28766450000.000000000000000000'</span><span class="p">,</span> <span class="s">'q'</span><span class="p">:</span> <span class="s">'1.000000000000000000'</span><span class="p">},</span> <span class="p">{</span><span class="s">'p'</span><span class="p">:</span> <span class="s">'28386560000.000000000000000000'</span><span class="p">,</span> <span class="s">'q'</span><span class="p">:</span> <span class="s">'4.000000000000000000'</span><span class="p">},</span> <span class="p">{</span><span class="s">'p'</span><span class="p">:</span> <span class="s">'28378550000.000000000000000000'</span><span class="p">,</span> <span class="s">'q'</span><span class="p">:</span> <span class="s">'2.000000000000000000'</span><span class="p">},</span> <span class="p">{</span><span class="s">'p'</span><span class="p">:</span> <span class="s">'27677610000.000000000000000000'</span><span class="p">,</span> <span class="s">'q'</span><span class="p">:</span> <span class="s">'6.000000000000000000'</span><span class="p">},</span> <span class="p">{</span><span class="s">'p'</span><span class="p">:</span> <span class="s">'26828710000.000000000000000000'</span><span class="p">,</span> <span class="s">'q'</span><span class="p">:</span> <span class="s">'1.000000000000000000'</span><span class="p">},</span> <span class="p">{</span><span class="s">'p'</span><span class="p">:</span> <span class="s">'26773560000.000000000000000000'</span><span class="p">,</span> <span class="s">'q'</span><span class="p">:</span> <span class="s">'8.000000000000000000'</span><span class="p">},</span> <span class="p">{</span><span class="s">'p'</span><span class="p">:</span> <span class="s">'26479000000.000000000000000000'</span><span class="p">,</span> <span class="s">'q'</span><span class="p">:</span> <span class="s">'9.000000000000000000'</span><span class="p">},</span> <span class="p">{</span><span class="s">'p'</span><span class="p">:</span> <span class="s">'26203470000.000000000000000000'</span><span class="p">,</span> <span class="s">'q'</span><span class="p">:</span> <span class="s">'16.000000000000000000'</span><span class="p">},</span> <span class="p">{</span><span class="s">'p'</span><span class="p">:</span> <span class="s">'26038150000.000000000000000000'</span><span class="p">,</span> <span class="s">'q'</span><span class="p">:</span> <span class="s">'14.000000000000000000'</span><span class="p">}],</span> <span class="s">'sells_price_level'</span><span class="p">:</span> <span class="p">[]}</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="n">query</span> <span class="n">result</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s">"buys_price_level"</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s">"p"</span><span class="o">:</span> <span class="s">"30624950000.000000000000000000"</span><span class="p">,</span>
+      <span class="s">"q"</span><span class="o">:</span> <span class="s">"4.000000000000000000"</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s">"p"</span><span class="o">:</span> <span class="s">"29885630000.000000000000000000"</span><span class="p">,</span>
+      <span class="s">"q"</span><span class="o">:</span> <span class="s">"3.000000000000000000"</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s">"p"</span><span class="o">:</span> <span class="s">"29710520000.000000000000000000"</span><span class="p">,</span>
+      <span class="s">"q"</span><span class="o">:</span> <span class="s">"3.000000000000000000"</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s">"p"</span><span class="o">:</span> <span class="s">"29321790000.000000000000000000"</span><span class="p">,</span>
+      <span class="s">"q"</span><span class="o">:</span> <span class="s">"2.000000000000000000"</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s">"p"</span><span class="o">:</span> <span class="s">"28861950000.000000000000000000"</span><span class="p">,</span>
+      <span class="s">"q"</span><span class="o">:</span> <span class="s">"1.000000000000000000"</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s">"p"</span><span class="o">:</span> <span class="s">"28766450000.000000000000000000"</span><span class="p">,</span>
+      <span class="s">"q"</span><span class="o">:</span> <span class="s">"1.000000000000000000"</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s">"p"</span><span class="o">:</span> <span class="s">"28386560000.000000000000000000"</span><span class="p">,</span>
+      <span class="s">"q"</span><span class="o">:</span> <span class="s">"4.000000000000000000"</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s">"p"</span><span class="o">:</span> <span class="s">"28378550000.000000000000000000"</span><span class="p">,</span>
+      <span class="s">"q"</span><span class="o">:</span> <span class="s">"2.000000000000000000"</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s">"p"</span><span class="o">:</span> <span class="s">"27677610000.000000000000000000"</span><span class="p">,</span>
+      <span class="s">"q"</span><span class="o">:</span> <span class="s">"6.000000000000000000"</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s">"p"</span><span class="o">:</span> <span class="s">"26828710000.000000000000000000"</span><span class="p">,</span>
+      <span class="s">"q"</span><span class="o">:</span> <span class="s">"1.000000000000000000"</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s">"p"</span><span class="o">:</span> <span class="s">"26773560000.000000000000000000"</span><span class="p">,</span>
+      <span class="s">"q"</span><span class="o">:</span> <span class="s">"8.000000000000000000"</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s">"p"</span><span class="o">:</span> <span class="s">"26479000000.000000000000000000"</span><span class="p">,</span>
+      <span class="s">"q"</span><span class="o">:</span> <span class="s">"9.000000000000000000"</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s">"p"</span><span class="o">:</span> <span class="s">"26203470000.000000000000000000"</span><span class="p">,</span>
+      <span class="s">"q"</span><span class="o">:</span> <span class="s">"16.000000000000000000"</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s">"p"</span><span class="o">:</span> <span class="s">"26038150000.000000000000000000"</span><span class="p">,</span>
+      <span class="s">"q"</span><span class="o">:</span> <span class="s">"14.000000000000000000"</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s">"sells_price_level"</span><span class="o">:</span> <span class="p">[</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div><h1 id='glossary'>Glossary</h1><h2 id='glossary-injective-chain'>Injective Chain</h2>
 <p>The Injective Chain refers to the blockchain running the Injective Protocol. It is is the fundamental piece of infrastructure and ultimate source of truth for any trades happening on the network.</p>
 <h2 id='glossary-validator-injective-node'>Validator / Injective Node</h2>
 <p>A validator is a node for the Injective Chain. The term node itself refers to a host computer in a network. In the context of blockchains, nodes are the computers participating in producing new blocks and validating new transactions in a peer-to-peer fashion. All on-chain code for Injective is executed on the hardware of every validator, in contrast to a CEX where code is executed on a central server.</p>
