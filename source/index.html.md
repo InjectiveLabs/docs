@@ -35,6 +35,7 @@ includes:
   - oracle
   - staking
   - bank
+  - historicalqueries
   - glossary
   - faq
   # - exchangerpc
