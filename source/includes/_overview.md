@@ -64,12 +64,12 @@ In any given block:
 
 If you are a trader on existing centralized exchanges, you will be familiar with the concept of trading fees. Traders are charged a fee for each successful trade. However, for a DEX, there are additional gas costs that must be paid to the network. And luckily, the gas fee from trading on Injective is very minimal.
 
-- If you are a trader using a DEX UI, you don't need to worry about the gas costs, because the relayer will pay them for you. But in return you will be paying the trading fee in full.
+- If you are a trader using a DEX UI, you don't need to worry about the gas costs because the relayer will pay them for you. But in return, you will pay the trading fee in full.
 - If you are using the API, then you will need to pay the gas costs.
   - The gas costs are currently very small. 20K transactions will cost about 1 INJ.
   - You can set the recipient_fee to any of your own wallet addresses since you are in essence your own relayer saving you about 40% of all fees.
 
-**Note that trading from the default subaccount (0) will cost roughly 15% more gas. API traders can use other subaccounts to trade, read [here](https://injective.notion.site/The-new-trading-logic-to-be-introduced-in-v1-10-8b422f7bec6c4cac96459d558e917b6d) for more information on this increase.**
+**Note: trading from bank balances, which automatically uses the default subaccount 0, will cost roughly 15% more gas than trading from other subaccounts. API traders can use other subaccounts to trade to avoid the extra gas fees—read [here](https://injective.notion.site/The-new-trading-logic-to-be-introduced-in-v1-10-8b422f7bec6c4cac96459d558e917b6d) for more information.**
 
 
 ## Mark Price Margin Requirement
