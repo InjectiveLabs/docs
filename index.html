@@ -25187,11 +25187,13 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0002</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">133614</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000066807</span> <span class="n">INJ</span>
 </code></pre></div><h2 id='derivatives-localorderhashcomputation'>LocalOrderHashComputation</h2>
-<p>This function computes order hashes locally for SpotOrder and DerivativeOrder.</p>
+<p>This function computes order hashes locally for SpotOrder and DerivativeOrder. For more information, see the <a href="#derivatives-note-on-localorderhashcomputation-for-hfts-api-traders">note below</a>. </p>
 <h3 id='derivatives-localorderhashcomputation-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
+
+<!-- embedme ../../../sdk-python/examples/chain_client/0_LocalOrderHash.py -->
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
@@ -25291,7 +25293,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="k">print</span><span class="p">(</span><span class="s">"computed spot order hashes"</span><span class="p">,</span> <span class="n">order_hashes</span><span class="p">.</span><span class="n">spot</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"computed derivative order hashes"</span><span class="p">,</span> <span class="n">order_hashes</span><span class="p">.</span><span class="n">derivative</span><span class="p">)</span>
 
-    <span class="c1"># build sim tx 1
+    <span class="c1"># build tx 1
 </span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Transaction</span><span class="p">()</span>
         <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">spot_msg</span><span class="p">,</span> <span class="n">deriv_msg</span><span class="p">)</span>
@@ -25299,19 +25301,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
         <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
     <span class="p">)</span>
-    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
-    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
-    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
-
-    <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
-        <span class="k">return</span>
-
-    <span class="c1"># build tx
-</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
+    <span class="n">base_gas</span> <span class="o">=</span> <span class="mi">85000</span>
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -25335,7 +25327,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="k">print</span><span class="p">(</span><span class="s">"computed spot order hashes"</span><span class="p">,</span> <span class="n">order_hashes</span><span class="p">.</span><span class="n">spot</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"computed derivative order hashes"</span><span class="p">,</span> <span class="n">order_hashes</span><span class="p">.</span><span class="n">derivative</span><span class="p">)</span>
 
-    <span class="c1"># build sim tx 2
+    <span class="c1"># build tx 2
 </span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Transaction</span><span class="p">()</span>
         <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">spot_msg</span><span class="p">,</span> <span class="n">deriv_msg</span><span class="p">)</span>
@@ -25343,19 +25335,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
         <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
     <span class="p">)</span>
-    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
-    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
-    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
-
-    <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
-        <span class="k">return</span>
-
-    <span class="c1"># build tx
-</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
+    <span class="n">base_gas</span> <span class="o">=</span> <span class="mi">85000</span>
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -25433,7 +25415,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="k">print</span><span class="p">(</span><span class="s">"computed spot order hashes"</span><span class="p">,</span> <span class="n">order_hashes</span><span class="p">.</span><span class="n">spot</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"computed derivative order hashes"</span><span class="p">,</span> <span class="n">order_hashes</span><span class="p">.</span><span class="n">derivative</span><span class="p">)</span>
 
-    <span class="c1"># build sim tx 3
+    <span class="c1"># build tx 3
 </span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Transaction</span><span class="p">()</span>
         <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">spot_msg</span><span class="p">,</span> <span class="n">deriv_msg</span><span class="p">)</span>
@@ -25441,19 +25423,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
         <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
     <span class="p">)</span>
-    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
-    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
-    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
-
-    <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
-        <span class="k">return</span>
-
-    <span class="c1"># build tx
-</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
+    <span class="n">base_gas</span> <span class="o">=</span> <span class="mi">85000</span>
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -25473,6 +25445,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
     <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
 
 <span class="k">import</span> <span class="p">(</span>
@@ -27291,11 +27264,13 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">659092</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000329546</span> <span class="n">INJ</span>
 </code></pre></div><h2 id='spot-localorderhashcomputation'>LocalOrderHashComputation</h2>
-<p>This function computes order hashes locally for SpotOrder and DerivativeOrder.</p>
+<p>This function computes order hashes locally for SpotOrder and DerivativeOrder. For more information, see the <a href="#spot-note-on-localorderhashcomputation-for-hfts-api-traders">note below</a>. </p>
 <h3 id='spot-localorderhashcomputation-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
+
+<!-- embedme ../../../sdk-python/examples/chain_client/0_LocalOrderHash.py -->
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
@@ -27395,7 +27370,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="k">print</span><span class="p">(</span><span class="s">"computed spot order hashes"</span><span class="p">,</span> <span class="n">order_hashes</span><span class="p">.</span><span class="n">spot</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"computed derivative order hashes"</span><span class="p">,</span> <span class="n">order_hashes</span><span class="p">.</span><span class="n">derivative</span><span class="p">)</span>
 
-    <span class="c1"># build sim tx 1
+    <span class="c1"># build tx 1
 </span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Transaction</span><span class="p">()</span>
         <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">spot_msg</span><span class="p">,</span> <span class="n">deriv_msg</span><span class="p">)</span>
@@ -27403,19 +27378,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
         <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
     <span class="p">)</span>
-    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
-    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
-    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
-
-    <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
-        <span class="k">return</span>
-
-    <span class="c1"># build tx
-</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
+    <span class="n">base_gas</span> <span class="o">=</span> <span class="mi">85000</span>
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -27439,7 +27404,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="k">print</span><span class="p">(</span><span class="s">"computed spot order hashes"</span><span class="p">,</span> <span class="n">order_hashes</span><span class="p">.</span><span class="n">spot</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"computed derivative order hashes"</span><span class="p">,</span> <span class="n">order_hashes</span><span class="p">.</span><span class="n">derivative</span><span class="p">)</span>
 
-    <span class="c1"># build sim tx 2
+    <span class="c1"># build tx 2
 </span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Transaction</span><span class="p">()</span>
         <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">spot_msg</span><span class="p">,</span> <span class="n">deriv_msg</span><span class="p">)</span>
@@ -27447,19 +27412,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
         <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
     <span class="p">)</span>
-    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
-    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
-    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
-
-    <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
-        <span class="k">return</span>
-
-    <span class="c1"># build tx
-</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
+    <span class="n">base_gas</span> <span class="o">=</span> <span class="mi">85000</span>
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -27537,7 +27492,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="k">print</span><span class="p">(</span><span class="s">"computed spot order hashes"</span><span class="p">,</span> <span class="n">order_hashes</span><span class="p">.</span><span class="n">spot</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"computed derivative order hashes"</span><span class="p">,</span> <span class="n">order_hashes</span><span class="p">.</span><span class="n">derivative</span><span class="p">)</span>
 
-    <span class="c1"># build sim tx 3
+    <span class="c1"># build tx 3
 </span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Transaction</span><span class="p">()</span>
         <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">spot_msg</span><span class="p">,</span> <span class="n">deriv_msg</span><span class="p">)</span>
@@ -27545,19 +27500,9 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
         <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
     <span class="p">)</span>
-    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
-    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
-    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
-
-    <span class="c1"># simulate tx
-</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
-        <span class="k">return</span>
-
-    <span class="c1"># build tx
-</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
+    <span class="n">base_gas</span> <span class="o">=</span> <span class="mi">85000</span>
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -27577,6 +27522,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
     <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
 
 <span class="k">import</span> <span class="p">(</span>
