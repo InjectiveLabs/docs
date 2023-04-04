@@ -1089,7 +1089,7 @@
 <h2 id='overview-key-differences-to-cex'>Key Differences To CEX</h2>
 <ul>
 <li>All information is public which includes things like untriggered Stop/Take orders or pending orders in the mempool.</li>
-<li>The data stored on-chain is minimal for performance reasons and reflects only the current state; relayers provide additional historical data as well as a user interface for traders through the Injective Exchange API backend.</li>
+<li>The data stored on-chain is minimal for performance reasons and reflects only the current state; exchange dApps provide additional historical data as well as a user interface for traders through the Injective Exchange API backend.</li>
 <li>Usually a DEX has front-running issues, but those are mitigated at Injective through fast block times and FBA (Frequent Batch Auction).</li>
 <li>The order of execution is different. Any new exchange action is a new transaction and is not executed immediately. Instead, it is added to a queue (mempool) and executed once the block is committed. At the time of the block commit, all included transactions happen more or less instantly. Firstly, code that is inside the handler is executed in the transaction sequence which is decided by the miner. This is not a problem since the sequence does not affect matching prices due to FBA and thus fairness is guaranteed.</li>
 </ul>
@@ -1139,14 +1139,16 @@
 <p>If you are a trader on existing centralized exchanges, you will be familiar with the concept of trading fees. Traders are charged a fee for each successful trade. However, for a DEX, there are additional gas costs that must be paid to the network. And luckily, the gas fee from trading on Injective is very minimal.</p>
 
 <ul>
-<li>If you are a trader using a DEX UI, you don&#39;t need to worry about the gas costs, because the relayer will pay them for you. But in return you will be paying the trading fee in full.</li>
+<li>If you are a trader using a DEX UI, you don&#39;t need to worry about gas costs because the exchange dApp will pay them for you. However, you will pay trading fees in full.</li>
 <li>If you are using the API, then you will need to pay the gas costs.
 
 <ul>
-<li>The gas costs are currently very small. 20K transactions will cost about 1 INJ.</li>
-<li>You can set the recipient_fee to any of your own wallet addresses since you are in essence your own relayer saving you about 40% of all fees.</li>
+<li>The gas costs are currently minimal, 20K transactions will cost about 1 INJ.</li>
+<li>You can set the fee_recipient to your own wallet address to save 40% of all trading fees.</li>
 </ul></li>
 </ul>
+
+<p><strong>Note: trading from bank balances, which automatically uses the default subaccount 0, will cost roughly 15% more gas than trading from other subaccounts. API traders can use other subaccounts to trade to avoid the extra gas fees—read <a href="https://injective.notion.site/The-new-trading-logic-to-be-introduced-in-v1-10-8b422f7bec6c4cac96459d558e917b6d">here</a> for more information.</strong></p>
 <h2 id='overview-mark-price-margin-requirement'>Mark Price Margin Requirement</h2><div class="highlight"><pre class="highlight plaintext"><code>Quantity = 2 BTC, InitialMarginRatio = 0.05
 MarkPrice = $45,000, EntryPrice = $43,000
 
