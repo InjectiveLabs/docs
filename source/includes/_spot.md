@@ -1109,11 +1109,12 @@ gas fee: 0.000329546 INJ
 
 ## LocalOrderHashComputation
 
-This function computes order hashes locally for SpotOrder and DerivativeOrder.
+This function computes order hashes locally for SpotOrder and DerivativeOrder. For more information, see the [note below](#spot-note-on-localorderhashcomputation-for-hfts-api-traders). 
 
 ### Request Parameters
 > Request Example:
 
+<!-- embedme ../../../sdk-python/examples/chain_client/0_LocalOrderHash.py -->
 ``` python
 import asyncio
 import logging
@@ -1214,7 +1215,7 @@ async def main() -> None:
     print("computed spot order hashes", order_hashes.spot)
     print("computed derivative order hashes", order_hashes.derivative)
 
-    # build sim tx 1
+    # build tx 1
     tx = (
         Transaction()
         .with_messages(spot_msg, deriv_msg)
@@ -1222,19 +1223,9 @@ async def main() -> None:
         .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
-    sim_sign_doc = tx.get_sign_doc(pub_key)
-    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
-    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
-
-    # simulate tx
-    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
-    if not success:
-        print(sim_res)
-        return
-
-    # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
+    base_gas = 85000
+    gas_limit = base_gas + 20000  # add 20k for gas, fee computation
     gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
@@ -1258,7 +1249,7 @@ async def main() -> None:
     print("computed spot order hashes", order_hashes.spot)
     print("computed derivative order hashes", order_hashes.derivative)
 
-    # build sim tx 2
+    # build tx 2
     tx = (
         Transaction()
         .with_messages(spot_msg, deriv_msg)
@@ -1266,19 +1257,9 @@ async def main() -> None:
         .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
-    sim_sign_doc = tx.get_sign_doc(pub_key)
-    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
-    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
-
-    # simulate tx
-    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
-    if not success:
-        print(sim_res)
-        return
-
-    # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
+    base_gas = 85000
+    gas_limit = base_gas + 20000  # add 20k for gas, fee computation
     gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
@@ -1356,7 +1337,7 @@ async def main() -> None:
     print("computed spot order hashes", order_hashes.spot)
     print("computed derivative order hashes", order_hashes.derivative)
 
-    # build sim tx 3
+    # build tx 3
     tx = (
         Transaction()
         .with_messages(spot_msg, deriv_msg)
@@ -1364,19 +1345,9 @@ async def main() -> None:
         .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
     )
-    sim_sign_doc = tx.get_sign_doc(pub_key)
-    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
-    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
-
-    # simulate tx
-    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
-    if not success:
-        print(sim_res)
-        return
-
-    # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
+    base_gas = 85000
+    gas_limit = base_gas + 20000  # add 20k for gas, fee computation
     gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
@@ -1396,6 +1367,7 @@ async def main() -> None:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
