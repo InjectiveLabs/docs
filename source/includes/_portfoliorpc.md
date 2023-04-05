@@ -4,8 +4,6 @@ InjectivePortfolioRPC defines the gRPC API of the Exchange Portfolio provider.
 
 ## AccountPortfolio
 
-*New API. Available on testnet*
-
 Get details about an account's portfolio. 
 
 ### Request Parameters
@@ -224,8 +222,6 @@ portfolio {
 
 
 ## StreamAccountPortfolio
-
-*New API. Available on testnet*
 
 Get continuous updates on account's portfolio.
 
