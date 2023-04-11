@@ -15787,21 +15787,16 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
     <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">IndexerGrpcOracleApi</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">indexerGrpcOracleApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcOracleApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
-  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">oracleList</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcOracleApi</span><span class="p">.</span><span class="nx">fetchOracleList</span><span class="p">();</span>
 
-  <span class="kd">const</span> <span class="nx">oracleList</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">oracle</span><span class="p">.</span><span class="nx">fetchOracleList</span><span class="p">(</span>
-  <span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">oracleList</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">oracleList</span><span class="p">);</span>
 <span class="p">})();</span>
 </code></pre></div><h3 id='injectiveoraclerpc-oraclelist-response-parameters'>Response Parameters</h3>
 <blockquote>
@@ -15853,31 +15848,29 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
  <span class="p">]</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
-  <span class="dl">"</span><span class="s2">oraclesList</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">symbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ANC</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">baseSymbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">quoteSymbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">price</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2.212642692</span><span class="dl">"</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">symbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ATOM</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">baseSymbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">quoteSymbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">price</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">24.706861402</span><span class="dl">"</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">symbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ZRX</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">baseSymbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">quoteSymbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">coinbase</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">price</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.398902</span><span class="dl">"</span>
-    <span class="p">}</span>
-  <span class="p">]</span>
-<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">symbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ANC</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">baseSymbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">quoteSymbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">price</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2.212642692</span><span class="dl">"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">symbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ATOM</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">baseSymbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">quoteSymbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">price</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">24.706861402</span><span class="dl">"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">symbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ZRX</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">baseSymbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">quoteSymbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">coinbase</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">price</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.398902</span><span class="dl">"</span>
+  <span class="p">}</span>
+<span class="p">]</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -15995,32 +15988,24 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
     <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">IndexerGrpcOracleApi</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">indexerGrpcOracleApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcOracleApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">baseSymbol</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">BTC</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">baseSymbol</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">INJ</span><span class="dl">"</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">quoteSymbol</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">oracleType</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">oracleScaleFactor</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">oracleType</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">;</span> <span class="c1">// primary oracle we use</span>
 
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
-  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">oraclePrice</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcOracleApi</span><span class="p">.</span><span class="nx">fetchOraclePriceNoThrow</span><span class="p">({</span>
+    <span class="nx">baseSymbol</span><span class="p">,</span>
+    <span class="nx">quoteSymbol</span><span class="p">,</span>
+    <span class="nx">oracleType</span><span class="p">,</span>
+  <span class="p">});</span>
 
-  <span class="kd">const</span> <span class="nx">oraclePrice</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">oracle</span><span class="p">.</span><span class="nx">fetchOraclePrice</span><span class="p">(</span>
-    <span class="p">{</span>
-      <span class="nx">baseSymbol</span><span class="p">,</span>
-      <span class="nx">quoteSymbol</span><span class="p">,</span>
-      <span class="nx">oracleType</span><span class="p">,</span>
-      <span class="nx">oracleScaleFactor</span>
-    <span class="p">}</span>
-  <span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">oraclePrice</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">oraclePrice</span><span class="p">);</span>
 <span class="p">})();</span>
 </code></pre></div>
 <table><thead>
@@ -16064,9 +16049,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
  <span class="s">"price"</span><span class="o">:</span> <span class="s">"40128736026.4094317665"</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
-  <span class="dl">"</span><span class="s2">price</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">40128736026.4094317665</span><span class="dl">"</span>
-<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span> <span class="nl">price</span><span class="p">:</span> <span class="dl">'</span><span class="s1">1.368087992</span><span class="dl">'</span> <span class="p">}</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -16157,33 +16140,34 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcStreamClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient</span><span class="dl">"</span><span class="p">;;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span>
+  <span class="nx">IndexerGrpcOracleStream</span><span class="p">,</span>
+  <span class="nx">OraclePriceStreamCallback</span><span class="p">,</span>
+<span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
-
-  <span class="kd">const</span> <span class="nx">baseSymbol</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">BTC</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">quoteSymbol</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">oracleType</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">;</span>
-
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">indexerGrpcOracleStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcOracleStream</span><span class="p">(</span>
+    <span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span>
   <span class="p">);</span>
 
-  <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">oracle</span><span class="p">.</span><span class="nx">streamOraclePrices</span><span class="p">(</span>
-    <span class="p">{</span>
-    <span class="nx">oracleType</span><span class="p">,</span>
-    <span class="nx">baseSymbol</span><span class="p">,</span>
-    <span class="nx">quoteSymbol</span><span class="p">,</span>
-    <span class="na">callback</span><span class="p">:</span> <span class="p">(</span><span class="nx">streamPrices</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">streamPrices</span><span class="p">));</span>
-    <span class="p">},</span>
-    <span class="na">onEndCallback</span><span class="p">:</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Stream has ended with status: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">status</span><span class="p">);</span>
-    <span class="p">},</span>
-  <span class="p">});</span>
+  <span class="kd">const</span> <span class="nx">streamFn</span> <span class="o">=</span> <span class="nx">indexerGrpcOracleStream</span><span class="p">.</span><span class="nx">streamOraclePrices</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span>
+    <span class="nx">indexerGrpcOracleStream</span>
+  <span class="p">);</span>
+
+  <span class="kd">const</span> <span class="na">callback</span><span class="p">:</span> <span class="nx">OraclePriceStreamCallback</span> <span class="o">=</span> <span class="p">(</span><span class="nx">oraclePrices</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">oraclePrices</span><span class="p">);</span>
+  <span class="p">};</span>
+
+  <span class="kd">const</span> <span class="nx">streamFnArgs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">baseSymbol</span><span class="p">:</span> <span class="dl">"</span><span class="s2">BTC</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">quoteSymbol</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">oracleType</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">,</span>
+    <span class="nx">callback</span><span class="p">,</span>
+  <span class="p">};</span>
+
+  <span class="nx">streamFn</span><span class="p">(</span><span class="nx">streamFnArgs</span><span class="p">);</span>
 <span class="p">})();</span>
 </code></pre></div>
 <table><thead>
@@ -16307,21 +16291,19 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
   <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">IndexerGrpcInsuranceFundApi</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
-
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">indexerGrpcInsuranceFundApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcInsuranceFundApi</span><span class="p">(</span>
+    <span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span>
   <span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">insuranceFunds</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">insuranceFund</span><span class="p">.</span><span class="nx">fetchInsuranceFunds</span><span class="p">(</span>
-  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">insuranceFunds</span> <span class="o">=</span>
+    <span class="k">await</span> <span class="nx">indexerGrpcInsuranceFundApi</span><span class="p">.</span><span class="nx">fetchInsuranceFunds</span><span class="p">();</span>
 
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">insuranceFunds</span><span class="p">))</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">insuranceFunds</span><span class="p">);</span>
 <span class="p">})();</span>
 </code></pre></div><h3 id='injectiveinsurancerpc-insurancefunds-response-parameters'>Response Parameters</h3>
 <blockquote>
@@ -16392,114 +16374,50 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
  <span class="p">]</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
-  <span class="dl">"</span><span class="s2">fundsList</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">marketTicker</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">OSMO/UST PERP</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x8c7fd5e6a7f49d840512a43d95389a78e60ebaf0cde1af86b26a785eb23b3be5</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">depositDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ibc/B448C0CA358B958301D328CCDC5D5AD642FC30A6D3AE106FF721DB315F3DDE5C</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">poolTokenDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">share19</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">redemptionNoticePeriodDuration</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1209600</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">balance</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">6000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">totalShare</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">6000000000000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleBase</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">OSMO</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleQuote</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">UST</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">expiry</span><span class="dl">"</span><span class="p">:</span> <span class="mi">0</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">marketTicker</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Frontrunner Futures: Expires 5.21.2022</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xeb0964ef12b4bde6febd99a44b562e4f4301ec69a4052e63b6aac73fa6e5e1d0</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">depositDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">poolTokenDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">share20</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">redemptionNoticePeriodDuration</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1209600</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">balance</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">10000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">totalShare</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1000000000000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleBase</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">FRNT</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleQuote</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">pricefeed</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">expiry</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1653147605</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">marketTicker</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Frontrunner Futures: Expires 5.21.2023</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x00030df39180df04a873cb4aadc50d4135640af5c858ab637dbd4d31b147478c</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">depositDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">poolTokenDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">share21</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">redemptionNoticePeriodDuration</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1209600</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">balance</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">10000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">totalShare</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1000000000000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleBase</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">FRNT</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleQuote</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">pricefeed</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">expiry</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1684600043</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">marketTicker</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">BTC/USDT PERP</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x784cf40cff2d3cc60ee12fd707af460e49e2a5f8d1b4b8097395deb7d60d39f3</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">depositDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">poolTokenDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">share22</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">redemptionNoticePeriodDuration</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1209600</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">balance</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">20000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">totalShare</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1000000000000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleBase</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">BTC</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleQuote</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">expiry</span><span class="dl">"</span><span class="p">:</span> <span class="mi">0</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">marketTicker</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ETH/USDT PERP</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x54d4505adef6a5cef26bc403a33d595620ded4e15b9e2bc3dd489b714813366a</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">depositDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">poolTokenDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">share23</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">redemptionNoticePeriodDuration</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1209600</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">balance</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">20000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">totalShare</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1000000000000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleBase</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ETH</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleQuote</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">expiry</span><span class="dl">"</span><span class="p">:</span> <span class="mi">0</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">marketTicker</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">BNB/USDT PERP</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x1c79dac019f73e4060494ab1b4fcba734350656d6fc4d474f6a238c13c6f9ced</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">depositDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">poolTokenDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">share24</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">redemptionNoticePeriodDuration</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1209600</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">balance</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">20000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">totalShare</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1000000000000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleBase</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">BNB</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleQuote</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">expiry</span><span class="dl">"</span><span class="p">:</span> <span class="mi">0</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">marketTicker</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">INJ/USDT PERP</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">depositDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">poolTokenDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">share25</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">redemptionNoticePeriodDuration</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1209600</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">balance</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">20000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">totalShare</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1000000000000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleBase</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">INJ</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleQuote</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">expiry</span><span class="dl">"</span><span class="p">:</span> <span class="mi">0</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">marketTicker</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">LUNA/UST PERP</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x8158e603fb80c4e417696b0e98765b4ca89dcf886d3b9b2b90dc15bfb1aebd51</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">depositDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ibc/B448C0CA358B958301D328CCDC5D5AD642FC30A6D3AE106FF721DB315F3DDE5C</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">poolTokenDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">share26</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">redemptionNoticePeriodDuration</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1209600</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">balance</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">20000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">totalShare</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1000000000000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleBase</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">LUNA</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleQuote</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">UST</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">expiry</span><span class="dl">"</span><span class="p">:</span> <span class="mi">0</span>
-    <span class="p">}</span>
-  <span class="p">]</span>
-<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="na">depositDenom</span><span class="p">:</span> <span class="dl">'</span><span class="s1">peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">insurancePoolTokenDenom</span><span class="p">:</span> <span class="dl">'</span><span class="s1">share1</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">redemptionNoticePeriodDuration</span><span class="p">:</span> <span class="mi">1209600</span><span class="p">,</span>
+    <span class="na">balance</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100000000000</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">totalShare</span><span class="p">:</span> <span class="dl">'</span><span class="s1">1000000000000000000</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">depositTokenMeta</span><span class="p">:</span> <span class="kc">undefined</span><span class="p">,</span>
+    <span class="na">marketId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">marketTicker</span><span class="p">:</span> <span class="dl">'</span><span class="s1">BTC/USDT PERP</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">oracleBase</span><span class="p">:</span> <span class="dl">'</span><span class="s1">BTC</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">oracleQuote</span><span class="p">:</span> <span class="dl">'</span><span class="s1">USDT</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">oracleType</span><span class="p">:</span> <span class="kc">NaN</span><span class="p">,</span>
+    <span class="na">expiry</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="na">depositDenom</span><span class="p">:</span> <span class="dl">'</span><span class="s1">peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">insurancePoolTokenDenom</span><span class="p">:</span> <span class="dl">'</span><span class="s1">share2</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">redemptionNoticePeriodDuration</span><span class="p">:</span> <span class="mi">1209600</span><span class="p">,</span>
+    <span class="na">balance</span><span class="p">:</span> <span class="dl">'</span><span class="s1">101102000000</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">totalShare</span><span class="p">:</span> <span class="dl">'</span><span class="s1">1011020000000000000</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">depositTokenMeta</span><span class="p">:</span> <span class="kc">undefined</span><span class="p">,</span>
+    <span class="na">marketId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xd5e4b12b19ecf176e4e14b42944731c27677819d2ed93be4104ad7025529c7ff</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">marketTicker</span><span class="p">:</span> <span class="dl">'</span><span class="s1">ETH/USDT PERP</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">oracleBase</span><span class="p">:</span> <span class="dl">'</span><span class="s1">ETH</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">oracleQuote</span><span class="p">:</span> <span class="dl">'</span><span class="s1">USDT</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">oracleType</span><span class="p">:</span> <span class="kc">NaN</span><span class="p">,</span>
+    <span class="na">expiry</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="na">depositDenom</span><span class="p">:</span> <span class="dl">'</span><span class="s1">peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">insurancePoolTokenDenom</span><span class="p">:</span> <span class="dl">'</span><span class="s1">share3</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">redemptionNoticePeriodDuration</span><span class="p">:</span> <span class="mi">1209600</span><span class="p">,</span>
+    <span class="na">balance</span><span class="p">:</span> <span class="dl">'</span><span class="s1">101010000000</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">totalShare</span><span class="p">:</span> <span class="dl">'</span><span class="s1">1010100000000000000</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">depositTokenMeta</span><span class="p">:</span> <span class="kc">undefined</span><span class="p">,</span>
+    <span class="na">marketId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xe112199d9ee44ceb2697ea0edd1cd422223c105f3ed2bdf85223d3ca59f5909a</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">marketTicker</span><span class="p">:</span> <span class="dl">'</span><span class="s1">INJ/USDT PERP</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">oracleBase</span><span class="p">:</span> <span class="dl">'</span><span class="s1">INJ</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">oracleQuote</span><span class="p">:</span> <span class="dl">'</span><span class="s1">USDT</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">oracleType</span><span class="p">:</span> <span class="kc">NaN</span><span class="p">,</span>
+    <span class="na">expiry</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="p">}</span>
+<span class="p">]</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -16689,30 +16607,21 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
   <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">IndexerGrpcInsuranceFundApi</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
-
-  <span class="kd">const</span> <span class="nx">denom</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">share25</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">address</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">status</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">pending</span><span class="dl">"</span><span class="p">;</span>
-
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">indexerGrpcInsuranceFundApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcInsuranceFundApi</span><span class="p">(</span>
+    <span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span>
   <span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">redemptions</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">insuranceFund</span><span class="p">.</span><span class="nx">fetchRedemptions</span><span class="p">(</span>
-    <span class="p">{</span>
-      <span class="nx">denom</span><span class="p">,</span>
-      <span class="nx">address</span><span class="p">,</span>
-      <span class="nx">status</span>
-    <span class="p">}</span>
-  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">redemptions</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcInsuranceFundApi</span><span class="p">.</span><span class="nx">fetchRedemptions</span><span class="p">({</span>
+    <span class="na">address</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">denom</span><span class="p">:</span> <span class="dl">'</span><span class="s1">share1</span><span class="dl">'</span>
+  <span class="p">});</span>
 
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">redemptions</span><span class="p">))</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">redemptions</span><span class="p">);</span>
 <span class="p">})();</span>
 </code></pre></div>
 <table><thead>
@@ -16783,22 +16692,20 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
  <span class="p">]</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
-  <span class="dl">"</span><span class="s2">redemptionSchedulesList</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">redemptionId</span><span class="dl">"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">status</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">pending</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">redeemer</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">claimableRedemptionTime</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1655446154111000</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">redemptionAmount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">100000000000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">redemptionDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">share25</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">requestedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654236554111000</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">disbursedAmount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">disbursedDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">disbursedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">0</span>
-    <span class="p">}</span>
-  <span class="p">]</span>
-<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">redemptionId</span><span class="dl">"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">status</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">pending</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">redeemer</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">claimableRedemptionTime</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1655446154111000</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">redemptionAmount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">100000000000000000</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">redemptionDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">share25</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">requestedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654236554111000</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">disbursedAmount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">disbursedDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">disbursedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="p">}</span>
+<span class="p">]</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -22402,22 +22309,18 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
     <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="s">"Health OK?"</span><span class="p">,</span> <span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">IndexerGrpcMetaApi</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">indexerGrpcAuctionApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcMetaApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
-  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">ping</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcAuctionApi</span><span class="p">.</span><span class="nx">fetchPing</span><span class="p">();</span>
 
-  <span class="kd">const</span> <span class="nx">ping</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">meta</span><span class="p">.</span><span class="nx">fetchPing</span><span class="p">(</span>
-  <span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Health OK?</span><span class="dl">"</span><span class="p">,</span> <span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">ping</span><span class="p">))</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">ping</span><span class="p">);</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <blockquote>
 <p>Response Example:</p>
@@ -22481,21 +22384,16 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
     <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">IndexerGrpcMetaApi</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">indexerGrpcAuctionApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcMetaApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
-  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">version</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcAuctionApi</span><span class="p">.</span><span class="nx">fetchVersion</span><span class="p">();</span>
 
-  <span class="kd">const</span> <span class="nx">version</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">meta</span><span class="p">.</span><span class="nx">fetchVersion</span><span class="p">(</span>
-  <span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">version</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">version</span><span class="p">);</span>
 <span class="p">})();</span>
 </code></pre></div><h3 id='injectivemetarpc-version-response-parameters'>Response Parameters</h3>
 <blockquote>
@@ -22528,25 +22426,13 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
  <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
-  <span class="dl">"</span><span class="s2">version</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">dev</span><span class="dl">"</span><span class="p">,</span>
-  <span class="dl">"</span><span class="s2">buildMap</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">[</span>
-      <span class="dl">"</span><span class="s2">BuildDate</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">20220519-1436</span><span class="dl">"</span>
-    <span class="p">],</span>
-    <span class="p">[</span>
-      <span class="dl">"</span><span class="s2">GitCommit</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">464c6c8</span><span class="dl">"</span>
-    <span class="p">],</span>
-    <span class="p">[</span>
-      <span class="dl">"</span><span class="s2">GoArch</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">amd64</span><span class="dl">"</span>
-    <span class="p">],</span>
-    <span class="p">[</span>
-      <span class="dl">"</span><span class="s2">GoVersion</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">go1.17.3</span><span class="dl">"</span>
-    <span class="p">]</span>
-  <span class="p">]</span>
+  <span class="nl">version</span><span class="p">:</span> <span class="dl">'</span><span class="s1">v1.10.7.1</span><span class="dl">'</span><span class="p">,</span>
+  <span class="nx">build</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nl">GitCommit</span><span class="p">:</span> <span class="dl">'</span><span class="s1">c2c37f2</span><span class="dl">'</span><span class="p">,</span>
+    <span class="nx">BuildDate</span><span class="p">:</span> <span class="dl">'</span><span class="s1">20230405-1059</span><span class="dl">'</span><span class="p">,</span>
+    <span class="nx">GoVersion</span><span class="p">:</span> <span class="dl">'</span><span class="s1">go1.19.2</span><span class="dl">'</span><span class="p">,</span>
+    <span class="nx">GoArch</span><span class="p">:</span> <span class="dl">'</span><span class="s1">amd64</span><span class="dl">'</span>
+  <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <table><thead>
@@ -22649,22 +22535,16 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient</span><span class="dl">"</span><span class="p">;</span>
-
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">IndexerGrpcMetaApi</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">indexerGrpcAuctionApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcMetaApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
-  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">info</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcAuctionApi</span><span class="p">.</span><span class="nx">fetchInfo</span><span class="p">();</span>
 
-  <span class="kd">const</span> <span class="nx">info</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">meta</span><span class="p">.</span><span class="nx">fetchInfo</span><span class="p">(</span>
-  <span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">info</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">info</span><span class="p">);</span>
 <span class="p">})();</span>
 </code></pre></div>
 <table><thead>
@@ -22709,6 +22589,18 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="n">Server</span> <span class="n">Latency</span><span class="p">:</span> <span class="mi">427</span><span class="n">ms</span>
 
 <span class="n">Server</span> <span class="n">Latency</span><span class="p">:</span> <span class="mi">375</span><span class="n">ms</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
+  <span class="nl">timestamp</span><span class="p">:</span> <span class="dl">'</span><span class="s1">1681254156193</span><span class="dl">'</span><span class="p">,</span>
+  <span class="nx">serverTime</span><span class="p">:</span> <span class="dl">'</span><span class="s1">1681254156792</span><span class="dl">'</span><span class="p">,</span>
+  <span class="nx">version</span><span class="p">:</span> <span class="dl">'</span><span class="s1">v1.10.7.1</span><span class="dl">'</span><span class="p">,</span>
+  <span class="nx">build</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nl">BuildDate</span><span class="p">:</span> <span class="dl">'</span><span class="s1">20230405-1059</span><span class="dl">'</span><span class="p">,</span>
+    <span class="nx">GoVersion</span><span class="p">:</span> <span class="dl">'</span><span class="s1">go1.19.2</span><span class="dl">'</span><span class="p">,</span>
+    <span class="nx">GoArch</span><span class="p">:</span> <span class="dl">'</span><span class="s1">amd64</span><span class="dl">'</span><span class="p">,</span>
+    <span class="nx">GitCommit</span><span class="p">:</span> <span class="dl">'</span><span class="s1">c2c37f2</span><span class="dl">'</span>
+  <span class="p">},</span>
+  <span class="nx">region</span><span class="p">:</span> <span class="dl">''</span>
+<span class="p">}</span>
 </code></pre></div>
 <table><thead>
 <tr>
