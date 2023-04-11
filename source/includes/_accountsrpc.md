@@ -63,23 +63,20 @@ func main() {
 ```
 
 ``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
+import { IndexerGrpcAccountApi } from "@injectivelabs/sdk-ts";
+import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 
 (async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
+  const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer);
 
-  const accountAddress = "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt";
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
+  const injectiveAddress = "inj10y4mpwgqr4c63m7t8spxhf8rgcy2dz5vt3mvk9";
+
+  const subaccountsList = await indexerGrpcAccountApi.fetchSubaccountsList(
+    injectiveAddress
   );
 
-  const subaccountLists = await exchangeClient.account.fetchSubaccountsList(
-    accountAddress
-  );
-
-  console.log(protoObjectToJson(subaccountLists));
+  console.log(subaccountsList);
 })();
 ```
 
