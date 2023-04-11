@@ -81,7 +81,7 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
   console.log(protoObjectToJson(subaccountLists));
 })();
-````
+```
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
@@ -106,12 +106,11 @@ subaccounts: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002
 ```
 
 ``` typescript
-{
-  "subaccountsList": [
-    "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001",
-    "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002"
-  ]
-}
+[
+  '0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001',
+  '0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002',
+  '0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000'
+]
 ```
 
 |Parameter|Type|Description|
@@ -207,36 +206,24 @@ func main() {
 ```
 
 ```typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
+import { PaginationOption, IndexerGrpcAccountApi } from '@injectivelabs/sdk-ts'
+import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
 
 (async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s)
+  const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer)
 
-  const subaccountId =
-    "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
-  const denom = "inj";
-  const transferTypes = ["deposit"];
-  const pagination = {
-    skip: 0,
-    limit: 10,
-    key: ""
-  };
+  const subaccountId = '0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000'
+  const denom = 'inj'
+  const pagination = {} as PaginationOption
 
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
+  const subaccountHistory = await indexerGrpcAccountApi.fetchSubaccountHistory({
+    subaccountId,
+    denom,
+    pagination /* optional param */
+  })
 
-  const subaccountHistory = await exchangeClient.account.fetchSubaccountHistory(
-    {
-      subaccountId: subaccountId,
-      denom: denom,
-      transferTypes: transferTypes,
-      pagination: pagination,
-    });
-
-  console.log(protoObjectToJson(subaccountHistory));
+  console.log(subaccountHistory)
 })();
 ```
 
@@ -315,49 +302,34 @@ paging {
 
 ``` typescript
 {
-  "transfersList": [
+  transfers: [
     {
-      "transferType": "deposit",
-      "srcSubaccountId": "",
-      "srcAccountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-      "dstSubaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-      "dstAccountAddress": "",
-      "amount": {
-        "denom": "inj",
-        "amount": "50000000000000000000"
-      },
-      "executedAt": 1651492257605
+      transferType: 'withdraw',
+      srcSubaccountId: '0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000',
+      srcSubaccountAddress: '',
+      dstSubaccountId: '',
+      dstSubaccountAddress: 'inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku',
+      executedAt: 1676518649359,
+      amount: {
+        amount: '10000000000000000000',
+        denom: 'inj',
+      }
     },
     {
-      "transferType": "deposit",
-      "srcSubaccountId": "",
-      "srcAccountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-      "dstSubaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-      "dstAccountAddress": "",
-      "amount": {
-        "denom": "inj",
-        "amount": "1000000000000000000"
-      },
-      "executedAt": 1652453978939
-    },
-    {
-      "transferType": "deposit",
-      "srcSubaccountId": "",
-      "srcAccountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-      "dstSubaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-      "dstAccountAddress": "",
-      "amount": {
-        "denom": "inj",
-        "amount": "1000000000000000000"
-      },
-      "executedAt": 1653010969661
+      transferType: 'deposit',
+      srcSubaccountId: '',
+      srcSubaccountAddress: 'inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku',
+      dstSubaccountId: '0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000',
+      dstSubaccountAddress: '',
+      executedAt: 1676518457766,
+      amount: {
+        amount: '10000000000000000000',
+        denom: 'inj',
+      }
     }
+    ...
   ],
-  "paging": [
-    {
-      "total": 3
-    }
-  ]
+  pagination: { total: 15, from: 0, to: 0, countBySubaccount: '0' }
 }
 ```
 
@@ -455,27 +427,23 @@ func main() {
 ```
 
 ```typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
+import { IndexerGrpcAccountApi } from "@injectivelabs/sdk-ts";
+import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 
 (async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
+  const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer);
 
   const subaccountId =
     "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
   const denom = "inj";
 
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
-
-  const subaccountBalance = await exchangeClient.account.fetchSubaccountBalance(
+  const subaccountBalance = await indexerGrpcAccountApi.fetchSubaccountBalance(
     subaccountId,
     denom
   );
 
-  console.log(protoObjectToJson(subaccountBalance));
+  console.log(subaccountBalance);
 })();
 ```
 
@@ -516,15 +484,10 @@ balance {
 
 ``` typescript
 {
-  "balance": {
-    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-    "accountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-    "denom": "inj",
-    "deposit": {
-      "totalBalance": "1492235700000000000000",
-      "availableBalance": "1492235700000000000000"
-    }
-  }
+  subaccountId: '0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000',
+  accountAddress: 'inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku',
+  denom: 'inj',
+  deposit: { totalBalance: '334000000000000000000', availableBalance: '0' }
 }
 ```
 
@@ -614,24 +577,22 @@ func main() {
 ```
 
 ```typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
+import { IndexerGrpcAccountApi } from "@injectivelabs/sdk-ts";
+import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 
 (async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
+  const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer);
 
-  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
+  const subaccountId =
+    "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
 
-  const subaccountBalancesList = await exchangeClient.account.fetchSubaccountBalancesList(
-    subaccountId
-  );
+  const subaccountBalanceList =
+    await indexerGrpcAccountApi.fetchSubaccountBalancesList(subaccountId);
 
-  console.log(protoObjectToJson(subaccountBalancesList));
+  console.log(subaccountBalanceList);
 })();
+
 ```
 
 
@@ -701,37 +662,29 @@ balances {
 ```
 
 ``` typescript
-{
-  "balancesList": [
-    {
-      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-      "accountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-      "denom": "ibc/C4CFF46FD6DE35CA4CF4CE031E643C8FDC9BA4B99AE598E9B0ED98FE3A2319F9",
-      "deposit": {
-        "totalBalance": "1000000",
-        "availableBalance": "990000"
-      }
-    },
-    {
-      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-      "accountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-      "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "deposit": {
-        "totalBalance": "200493880101034.695319283887814576",
-        "availableBalance": "200493854575534.695319283887814031"
-      }
-    },
-    {
-      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-      "accountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-      "denom": "inj",
-      "deposit": {
-        "totalBalance": "50790000010000000003",
-        "availableBalance": "50790000010000000003"
-      }
+[
+  {
+    subaccountId: '0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000',
+    accountAddress: 'inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku',
+    denom: 'peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5',
+    deposit: {
+      totalBalance: '63522890505.651888522157767422',
+      availableBalance: '0.332888522157767422'
     }
-  ]
-}
+  },
+  {
+    subaccountId: '0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000',
+    accountAddress: 'inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku',
+    denom: 'inj',
+    deposit: { totalBalance: '334000000000000000000', availableBalance: '0' }
+  },
+  {
+    subaccountId: '0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000',
+    accountAddress: 'inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku',
+    denom: 'peggy0x44C21afAaF20c270EBbF5914Cfc3b5022173FEB7',
+    deposit: { totalBalance: '0', availableBalance: '0' }
+  }
+]
 ```
 
 |Parameter|Type|Description|
@@ -828,32 +781,28 @@ func main() {
 ```
 
 ```typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
+import { IndexerGrpcAccountApi } from "@injectivelabs/sdk-ts";
+import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 
 (async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
+  const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer);
 
-  const subaccountId = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
-  const marketId = "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
+  const subaccountId =
+    "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
+  const marketId =
+    "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
   const orderDirection = "buy";
 
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
-
-  const subaccountOrderSummary = await exchangeClient.account.fetchSubaccountOrderSummary(
-    {
+  const orderSummary = await indexerGrpcAccountApi.fetchSubaccountOrderSummary({
     subaccountId,
     marketId,
-    orderDirection
-  }
-  );
+    orderDirection,
+  });
 
-  console.log(protoObjectToJson(subaccountOrderSummary));
+  console.log(orderSummary);
 })();
-````
+```
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
@@ -964,29 +913,35 @@ func main() {
 ```
 
 ``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";
+import {
+  IndexerGrpcAccountStream,
+  BalanceStreamCallback,
+} from "@injectivelabs/sdk-ts";
+import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 
 (async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
+  const indexerGrpcAccountStream = new IndexerGrpcAccountStream(
+    endpoints.indexer
+  );
 
   const subaccountId =
     "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
 
-  const exchangeClient = new ExchangeGrpcStreamClient(
-    network.exchangeApi
+  const streamFn = indexerGrpcAccountStream.streamSubaccountBalance.bind(
+    indexerGrpcAccountStream
   );
 
-  await exchangeClient.account.streamSubaccountBalance({
+  const callback: BalanceStreamCallback = (subaccountBalance) => {
+    console.log(subaccountBalance);
+  };
+
+  const streamFnArgs = {
     subaccountId,
-    callback: (subaccountBalance) => {
-      console.log(protoObjectToJson(subaccountBalance));
-    },
-    onEndCallback: (status) => {
-      console.log("Stream has ended with status: " + status);
-    },
-  });
+    callback,
+  };
+
+  streamFn(streamFnArgs);
 })();
 ```
 
@@ -1182,28 +1137,26 @@ func main() {
 ```
 
 ```typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
+import { IndexerGrpcAccountApi } from "@injectivelabs/sdk-ts";
+import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 
 (async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
+  const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer);
 
-  const spotOrderHashes = ["0xb7b556d6eab10c4c185a660be44757a8a6715fb16db39708f2f76d9ce5ae8617"];
-  const derivativeOrderHashes = ["0x4228f9a56a5bb50de4ceadc64df694c77e7752d58b71a7c557a27ec10e1a094e"];
+  const spotOrderHashes = [
+    "0xce0d9b701f77cd6ddfda5dd3a4fe7b2d53ba83e5d6c054fb2e9e886200b7b7bb",
+  ];
+  const derivativeOrderHashes = [
+    "0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50",
+  ];
 
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
+  const orderStates = await indexerGrpcAccountApi.fetchOrderStates({
+    spotOrderHashes,
+    derivativeOrderHashes,
+  });
 
-  const orderStates = await exchangeClient.account.fetchOrderStates(
-    {
-      spotOrderHashes,
-      derivativeOrderHashes
-    }
-  );
-
-  console.log(protoObjectToJson(orderStates));
+  console.log(orderStates);
 })();
 ```
 
@@ -1290,7 +1243,7 @@ derivative_order_states {
 
 ``` typescript
 {
-  "spotOrderStatesList": [
+  "spotOrderStates": [
     {
       "orderHash": "0xb7b556d6eab10c4c185a660be44757a8a6715fb16db39708f2f76d9ce5ae8617",
       "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
@@ -1304,7 +1257,7 @@ derivative_order_states {
       "updatedAt": 1654080262300
     }
   ],
-  "derivativeOrderStatesList": [
+  "derivativeOrderStates": [
     {
       "orderHash": "0x4228f9a56a5bb50de4ceadc64df694c77e7752d58b71a7c557a27ec10e1a094e",
       "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
@@ -1417,24 +1370,20 @@ func main() {
 ```
 
 ``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
+import { IndexerGrpcAccountApi } from "@injectivelabs/sdk-ts";
+import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 
 (async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
+  const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer);
 
-  const accountAddress = "inj10y4mpwgqr4c63m7t8spxhf8rgcy2dz5vt3mvk9";
+  const injectiveAddress = "inj10y4mpwgqr4c63m7t8spxhf8rgcy2dz5vt3mvk9";
 
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
+  const portfolio = await indexerGrpcAccountApi.fetchPortfolio(
+    injectiveAddress
   );
 
-  const portfolio = await exchangeClient.account.fetchPortfolio(
-      accountAddress
-    );
-
-  console.log(protoObjectToJson(portfolio));
+  console.log(portfolio);
 })();
 ```
 
@@ -1584,30 +1533,26 @@ func main() {
 ```
 
 ```typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
+import { IndexerGrpcAccountApi } from "@injectivelabs/sdk-ts";
+import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 
 (async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
+  const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer);
 
-  const address = "inj1rwv4zn3jptsqs7l8lpa3uvzhs57y8duemete9e";
-  const epoch = 2;
+  const injectiveAddress = "inj10y4mpwgqr4c63m7t8spxhf8rgcy2dz5vt3mvk9";
+  const epoch = -1; // current epoch
 
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
+  const tradingRewards = await indexerGrpcAccountApi.fetchRewards(
+    {
+      address: injectiveAddress,
+      epoch,
+    }
   );
 
-  const rewards = await exchangeClient.account.fetchRewards(
-    {
-      address: address,
-      epoch: epoch
-    }
-    );
-
-  console.log(protoObjectToJson(rewards));
+  console.log(tradingRewards);
 })();
-````
+```
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
@@ -1664,20 +1609,18 @@ rewards {
 ```
 
 ``` typescript
-{
-  "rewardsList": [
-    {
-      "accountAddress": "inj1rwv4zn3jptsqs7l8lpa3uvzhs57y8duemete9e",
-      "rewardsList": [
-        {
-          "denom": "inj",
-          "amount": "755104058929571177652"
-        }
-      ],
-      "distributedAt": 1642582800716
-    }
-  ]
-}
+[
+  {
+    "accountAddress": "inj1rwv4zn3jptsqs7l8lpa3uvzhs57y8duemete9e",
+    "rewards": [
+      {
+        "denom": "inj",
+        "amount": "755104058929571177652"
+      }
+    ],
+    "distributedAt": 1642582800716
+  }
+]
 ```
 
 |Parameter|Type|Description|
