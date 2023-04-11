@@ -63,21 +63,16 @@ func main() {
 ```
 
 ``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
+import { IndexerGrpcOracleApi } from "@injectivelabs/sdk-ts";
+import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 
 (async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
+  const indexerGrpcOracleApi = new IndexerGrpcOracleApi(endpoints.indexer);
 
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
+  const oracleList = await indexerGrpcOracleApi.fetchOracleList();
 
-  const oracleList = await exchangeClient.oracle.fetchOracleList(
-  );
-
-  console.log(protoObjectToJson(oracleList));
+  console.log(oracleList);
 })();
 ```
 
@@ -138,31 +133,29 @@ oracles {
 ```
 
 ``` typescript
-{
-  "oraclesList": [
-    {
-      "symbol": "ANC",
-      "baseSymbol": "",
-      "quoteSymbol": "",
-      "oracleType": "bandibc",
-      "price": "2.212642692"
-    },
-    {
-      "symbol": "ATOM",
-      "baseSymbol": "",
-      "quoteSymbol": "",
-      "oracleType": "bandibc",
-      "price": "24.706861402"
-    },
-    {
-      "symbol": "ZRX",
-      "baseSymbol": "",
-      "quoteSymbol": "",
-      "oracleType": "coinbase",
-      "price": "0.398902"
-    }
-  ]
-}
+[
+  {
+    "symbol": "ANC",
+    "baseSymbol": "",
+    "quoteSymbol": "",
+    "oracleType": "bandibc",
+    "price": "2.212642692"
+  },
+  {
+    "symbol": "ATOM",
+    "baseSymbol": "",
+    "quoteSymbol": "",
+    "oracleType": "bandibc",
+    "price": "24.706861402"
+  },
+  {
+    "symbol": "ZRX",
+    "baseSymbol": "",
+    "quoteSymbol": "",
+    "oracleType": "coinbase",
+    "price": "0.398902"
+  }
+]
 ```
 
 |Parameter|Type|Description|
@@ -254,32 +247,24 @@ func main() {
 ```
 
 ``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
+import { IndexerGrpcOracleApi } from "@injectivelabs/sdk-ts";
+import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 
 (async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
+  const indexerGrpcOracleApi = new IndexerGrpcOracleApi(endpoints.indexer);
 
-  const baseSymbol = "BTC";
+  const baseSymbol = "INJ";
   const quoteSymbol = "USDT";
-  const oracleType = "bandibc";
-  const oracleScaleFactor = 6;
+  const oracleType = "bandibc"; // primary oracle we use
 
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
+  const oraclePrice = await indexerGrpcOracleApi.fetchOraclePriceNoThrow({
+    baseSymbol,
+    quoteSymbol,
+    oracleType,
+  });
 
-  const oraclePrice = await exchangeClient.oracle.fetchOraclePrice(
-    {
-      baseSymbol,
-      quoteSymbol,
-      oracleType,
-      oracleScaleFactor
-    }
-  );
-
-  console.log(protoObjectToJson(oraclePrice));
+  console.log(oraclePrice);
 })();
 ```
 
@@ -305,9 +290,7 @@ price: "16835930000"
 ```
 
 ``` typescript
-{
-  "price": "40128736026.4094317665"
-}
+{ price: '1.368087992' }
 ```
 
 |Parameter|Type|Description|
@@ -398,33 +381,34 @@ func main() {
 ```
 
 ``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";;
+import {
+  IndexerGrpcOracleStream,
+  OraclePriceStreamCallback,
+} from "@injectivelabs/sdk-ts";
+import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 
 (async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const baseSymbol = "BTC";
-  const quoteSymbol = "USDT";
-  const oracleType = "bandibc";
-
-  const exchangeClient = new ExchangeGrpcStreamClient(
-    network.exchangeApi
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
+  const indexerGrpcOracleStream = new IndexerGrpcOracleStream(
+    endpoints.indexer
   );
 
-  await exchangeClient.oracle.streamOraclePrices(
-    {
-    oracleType,
-    baseSymbol,
-    quoteSymbol,
-    callback: (streamPrices) => {
-      console.log(protoObjectToJson(streamPrices));
-    },
-    onEndCallback: (status) => {
-      console.log("Stream has ended with status: " + status);
-    },
-  });
+  const streamFn = indexerGrpcOracleStream.streamOraclePrices.bind(
+    indexerGrpcOracleStream
+  );
+
+  const callback: OraclePriceStreamCallback = (oraclePrices) => {
+    console.log(oraclePrices);
+  };
+
+  const streamFnArgs = {
+    baseSymbol: "BTC",
+    quoteSymbol: "USDT",
+    oracleType: "bandibc",
+    callback,
+  };
+
+  streamFn(streamFnArgs);
 })();
 ```
 

@@ -64,22 +64,18 @@ func main() {
 ```
 
 ``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
+import { IndexerGrpcMetaApi } from "@injectivelabs/sdk-ts";
+import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 
 (async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
+  const indexerGrpcAuctionApi = new IndexerGrpcMetaApi(endpoints.indexer);
 
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
+  const ping = await indexerGrpcAuctionApi.fetchPing();
 
-  const ping = await exchangeClient.meta.fetchPing(
-  );
-
-  console.log("Health OK?", protoObjectToJson(ping))
+  console.log(ping);
 })();
+
 ```
 
 > Response Example:
@@ -159,21 +155,16 @@ func main() {
 ```
 
 ``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
+import { IndexerGrpcMetaApi } from "@injectivelabs/sdk-ts";
+import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 
 (async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
+  const indexerGrpcAuctionApi = new IndexerGrpcMetaApi(endpoints.indexer);
 
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
+  const version = await indexerGrpcAuctionApi.fetchVersion();
 
-  const version = await exchangeClient.meta.fetchVersion(
-  );
-
-  console.log(protoObjectToJson(version));
+  console.log(version);
 })();
 ```
 
@@ -214,25 +205,13 @@ build {
 
 ``` typescript
 {
-  "version": "dev",
-  "buildMap": [
-    [
-      "BuildDate",
-      "20220519-1436"
-    ],
-    [
-      "GitCommit",
-      "464c6c8"
-    ],
-    [
-      "GoArch",
-      "amd64"
-    ],
-    [
-      "GoVersion",
-      "go1.17.3"
-    ]
-  ]
+  version: 'v1.10.7.1',
+  build: {
+    GitCommit: 'c2c37f2',
+    BuildDate: '20230405-1059',
+    GoVersion: 'go1.19.2',
+    GoArch: 'amd64'
+  }
 }
 ```
 
@@ -317,22 +296,16 @@ func main() {
 ```
 
 ``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
-
+import { IndexerGrpcMetaApi } from "@injectivelabs/sdk-ts";
+import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 
 (async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
+  const indexerGrpcAuctionApi = new IndexerGrpcMetaApi(endpoints.indexer);
 
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
+  const info = await indexerGrpcAuctionApi.fetchInfo();
 
-  const info = await exchangeClient.meta.fetchInfo(
-  );
-
-  console.log(protoObjectToJson(info));
+  console.log(info);
 })();
 ```
 
@@ -368,6 +341,21 @@ build {
 Server Latency: 427ms
 
 Server Latency: 375ms
+```
+
+``` typescript
+{
+  timestamp: '1681254156193',
+  serverTime: '1681254156792',
+  version: 'v1.10.7.1',
+  build: {
+    BuildDate: '20230405-1059',
+    GoVersion: 'go1.19.2',
+    GoArch: 'amd64',
+    GitCommit: 'c2c37f2'
+  },
+  region: ''
+}
 ```
 
 |Parameter|Type|Description|
