@@ -1935,23 +1935,20 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
   <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">IndexerGrpcAccountApi</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">indexerGrpcAccountApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcAccountApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">accountAddress</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="kd">const</span> <span class="nx">injectiveAddress</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">inj10y4mpwgqr4c63m7t8spxhf8rgcy2dz5vt3mvk9</span><span class="dl">"</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">subaccountsList</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcAccountApi</span><span class="p">.</span><span class="nx">fetchSubaccountsList</span><span class="p">(</span>
+    <span class="nx">injectiveAddress</span>
   <span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">subaccountLists</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">account</span><span class="p">.</span><span class="nx">fetchSubaccountsList</span><span class="p">(</span>
-    <span class="nx">accountAddress</span>
-  <span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">subaccountLists</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">subaccountsList</span><span class="p">);</span>
 <span class="p">})();</span>
 </code></pre></div>
 <table><thead>
