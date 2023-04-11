@@ -22775,7 +22775,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <h1 id='injectiveportfoliorpc'>- InjectivePortfolioRPC</h1>
 <p>InjectivePortfolioRPC defines the gRPC API of the Exchange Portfolio provider.</p>
 <h2 id='injectiveportfoliorpc-accountportfolio'>AccountPortfolio</h2>
-<p>Get details about an account&#39;s portfolio. </p>
+<p>Get details about an account&#39;s portfolio.</p>
 <h3 id='injectiveportfoliorpc-accountportfolio-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -22833,7 +22833,18 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
 <span class="p">}</span>
 
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code></code></pre></div>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">IndexerGrpcAccountPortfolioApi</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/sdk-ts</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/networks</span><span class="dl">'</span>
+
+<span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">indexerGrpcAccountPortfolioApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcAccountPortfolioApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">injectiveAddress</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">inj...</span><span class="dl">'</span>
+
+<span class="kd">const</span> <span class="nx">portfolio</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcAccountPortfolioApi</span><span class="p">.</span><span class="nx">fetchAccountPortfolio</span><span class="p">(</span><span class="nx">injectiveAddress</span><span class="p">)</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">portfolio</span><span class="p">)</span>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -22904,56 +22915,56 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
- <span class="s">"portfolio"</span><span class="o">:</span> <span class="p">{</span>
-  <span class="s">"account_address"</span><span class="o">:</span> <span class="s">"inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"</span><span class="p">,</span>
-  <span class="s">"bank_balances"</span><span class="o">:</span> <span class="p">[</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
+ <span class="dl">"</span><span class="s2">portfolio</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+  <span class="dl">"</span><span class="s2">accountAddress</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">bankBalances</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
    <span class="p">{</span>
-    <span class="s">"denom"</span><span class="o">:</span> <span class="s">"inj"</span><span class="p">,</span>
-    <span class="s">"amount"</span><span class="o">:</span> <span class="s">"9989995731271500000000"</span>
+    <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">amount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">9989995731271500000000</span><span class="dl">"</span>
    <span class="p">},</span>
    <span class="p">{</span>
-    <span class="s">"denom"</span><span class="o">:</span> <span class="s">"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"</span><span class="p">,</span>
-    <span class="s">"amount"</span><span class="o">:</span> <span class="s">"9690001523"</span>
+    <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">amount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">9690001523</span><span class="dl">"</span>
    <span class="p">}</span>
   <span class="p">],</span>
-  <span class="s">"subaccounts"</span><span class="o">:</span> <span class="p">[</span>
+  <span class="dl">"</span><span class="s2">subaccounts</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
    <span class="p">{</span>
-    <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"</span><span class="p">,</span>
-    <span class="s">"denom"</span><span class="o">:</span> <span class="s">"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"</span><span class="p">,</span>
-    <span class="s">"deposit"</span><span class="o">:</span> <span class="p">{</span>
-     <span class="s">"total_balance"</span><span class="o">:</span> <span class="s">"302793075.4056"</span><span class="p">,</span>
-     <span class="s">"available_balance"</span><span class="o">:</span> <span class="s">"298383075.4056"</span>
+    <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">deposit</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+     <span class="dl">"</span><span class="s2">totalBalance</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">302793075.4056</span><span class="dl">"</span><span class="p">,</span>
+     <span class="dl">"</span><span class="s2">availableBalance</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">298383075.4056</span><span class="dl">"</span>
     <span class="p">}</span>
    <span class="p">},</span>
    <span class="p">{</span>
-    <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"</span><span class="p">,</span>
-    <span class="s">"denom"</span><span class="o">:</span> <span class="s">"inj"</span><span class="p">,</span>
-    <span class="s">"deposit"</span><span class="o">:</span> <span class="p">{</span>
-     <span class="s">"total_balance"</span><span class="o">:</span> <span class="s">"11020001000000000000"</span><span class="p">,</span>
-     <span class="s">"available_balance"</span><span class="o">:</span> <span class="s">"10960001000000000000"</span>
+    <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">deposit</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+     <span class="dl">"</span><span class="s2">totalBalance</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">11020001000000000000</span><span class="dl">"</span><span class="p">,</span>
+     <span class="dl">"</span><span class="s2">availableBalance</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">10960001000000000000</span><span class="dl">"</span>
     <span class="p">}</span>
    <span class="p">},</span>
    <span class="p">{</span>
-    <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002"</span><span class="p">,</span>
-    <span class="s">"denom"</span><span class="o">:</span> <span class="s">"inj"</span><span class="p">,</span>
-    <span class="s">"deposit"</span><span class="o">:</span> <span class="p">{</span>
-     <span class="s">"total_balance"</span><span class="o">:</span> <span class="s">"1000000000000"</span><span class="p">,</span>
-     <span class="s">"available_balance"</span><span class="o">:</span> <span class="s">"1000000000000"</span>
+    <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">deposit</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+     <span class="dl">"</span><span class="s2">totalBalance</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1000000000000</span><span class="dl">"</span><span class="p">,</span>
+     <span class="dl">"</span><span class="s2">availableBalance</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1000000000000</span><span class="dl">"</span>
     <span class="p">}</span>
    <span class="p">},</span>
    <span class="p">{</span>
-    <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000"</span><span class="p">,</span>
-    <span class="s">"denom"</span><span class="o">:</span> <span class="s">"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"</span><span class="p">,</span>
-    <span class="s">"deposit"</span><span class="o">:</span> <span class="p">{</span>
-     <span class="s">"total_balance"</span><span class="o">:</span> <span class="s">"0.3584"</span><span class="p">,</span>
-     <span class="s">"available_balance"</span><span class="o">:</span> <span class="s">"0.3584"</span>
+    <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">deposit</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+     <span class="dl">"</span><span class="s2">totalBalance</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.3584</span><span class="dl">"</span><span class="p">,</span>
+     <span class="dl">"</span><span class="s2">availableBalance</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.3584</span><span class="dl">"</span>
     <span class="p">}</span>
    <span class="p">}</span>
   <span class="p">]</span>
  <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code></code></pre></div>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -23139,7 +23150,27 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="p">}</span>
 <span class="p">}</span>
 
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code></code></pre></div>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">IndexerGrpcAccountPortfolioStream</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/sdk-ts</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/networks</span><span class="dl">'</span>
+
+<span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">indexerGrpcAccountPortfolioStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcAccountPortfolioStream</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">accountAddress</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">inj...</span><span class="dl">'</span>
+
+<span class="kd">const</span> <span class="nx">streamFn</span> <span class="o">=</span> <span class="nx">indexerGrpcAccountPortfolioStream</span><span class="p">.</span><span class="nx">streamAccountPortfolio</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">indexerGrpcAccountPortfolioStream</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">callback</span> <span class="o">=</span> <span class="p">(</span><span class="nx">portfolioResults</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">portfolioResults</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">streamFnArgs</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">accountAddress</span><span class="p">,</span>
+  <span class="nx">callback</span>
+<span class="p">}</span>
+
+<span class="nx">streamFn</span><span class="p">(</span><span class="nx">streamFnArgs</span><span class="p">)</span>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -23191,7 +23222,20 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
  <span class="s">"amount"</span><span class="o">:</span> <span class="s">"11040001000000000000"</span><span class="p">,</span>
  <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code></code></pre></div>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
+ <span class="dl">"</span><span class="s2">type</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">total_balances</span><span class="dl">"</span><span class="p">,</span>
+ <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5</span><span class="dl">"</span><span class="p">,</span>
+ <span class="dl">"</span><span class="s2">amount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">302686408.8456</span><span class="dl">"</span><span class="p">,</span>
+ <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001</span><span class="dl">"</span><span class="p">,</span>
+ <span class="dl">"</span><span class="s2">timestamp</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">342423423</span><span class="dl">"</span>
+<span class="p">}{</span>
+ <span class="dl">"</span><span class="s2">type</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">total_balances</span><span class="dl">"</span><span class="p">,</span>
+ <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj</span><span class="dl">"</span><span class="p">,</span>
+ <span class="dl">"</span><span class="s2">amount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">11040001000000000000</span><span class="dl">"</span><span class="p">,</span>
+ <span class="dl">"</span><span class="s2">subaccount_id</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001</span><span class="dl">"</span><span class="p">,</span>
+ <span class="dl">"</span><span class="s2">timestamp</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">342432343</span><span class="dl">"</span>
+<span class="p">}</span>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Parameter</th>
