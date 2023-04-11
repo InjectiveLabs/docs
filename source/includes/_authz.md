@@ -198,6 +198,9 @@ func main() {
     fmt.Println("gas fee:", gasFee, "INJ")
 }
 ```
+``` typescript
+https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesAuthz#msggrant
+```
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
@@ -484,6 +487,9 @@ func main() {
 }
 ```
 
+``` typescript
+https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesAuthz#msgexec
+```
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
@@ -738,6 +744,10 @@ if __name__ == '__main__':
 
 ``` go
 
+```
+
+``` typescript
+https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesAuthz#msgrevoke
 ```
 
 |Parameter|Type|Description|Required|

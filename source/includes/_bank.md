@@ -178,6 +178,10 @@ func main() {
 }
 ```
 
+``` typescript
+https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesBank#msgsend
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |from_address|String|The Injective Chain address of the sender|Yes|
@@ -330,6 +334,10 @@ func main() {
 
   fmt.Println("gas fee:", gasFee, "INJ")
 }
+```
+
+``` typescript
+https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesBank#msgmultisend
 ```
 
 |Parameter|Type|Description|Required|

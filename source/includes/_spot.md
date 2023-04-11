@@ -211,6 +211,10 @@ func main() {
 }
 ```
 
+``` typescript
+https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesExchange#msgcreatespotmarketorder
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|String|Market ID of the market we want to send an order|Yes|
@@ -457,6 +461,10 @@ func main() {
 }
 ```
 
+``` typescript
+https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesExchange#msgcreatespotlimitorder
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |market_id|String|Market ID of the market we want to send an order|Yes|
@@ -662,6 +670,10 @@ func main() {
 
     fmt.Println("gas fee:", gasFee, "INJ")
 }
+```
+
+``` typescript
+https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesExchange#msgcancelspotorder
 ```
 
 |Parameter|Type|Description|Required|
@@ -1001,6 +1013,9 @@ func main() {
 }
 ```
 
+``` typescript
+https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesExchange#msgbatchupdateorders
+```
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
@@ -1491,6 +1506,13 @@ func main() {
 }
 ```
 
+``` typescript
+// Implementation
+https://github.com/InjectiveLabs/injective-ts/blob/master/packages/sdk-ts/src/core/modules/exchange/utils/classes/OrderHashManager.ts#L213
+
+// Examples
+https://github.com/InjectiveLabs/injective-ts/blob/master/packages/sdk-ts/src/core/modules/exchange/utils/classes/OrderHashManager.spec.ts
+```
 
 **MsgBatchCreateDerivativeLimitOrders**
 

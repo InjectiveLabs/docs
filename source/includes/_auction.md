@@ -174,8 +174,8 @@ func main() {
 }
 ```
 
-```typescript
-
+``` typescript
+https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesAuction#msgbid
 ```
 
 |Parameter|Type|Description|Required|

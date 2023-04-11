@@ -167,6 +167,10 @@ func main() {
 }
 ```
 
+``` typescript
+https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesStaking#msgwithdrawdelegatorreward
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |delegator_address|String|The delegator's address|Yes|
@@ -361,6 +365,10 @@ func main() {
 
 	fmt.Println("gas fee:", gasFee, "INJ")
 }
+```
+
+``` typescript
+https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesStaking#msgdelegate
 ```
 
 |Parameter|Type|Description|Required|

@@ -172,6 +172,10 @@ func main() {
 }
 ```
 
+``` typescript
+https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesExchange#msgdeposit
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |sender|String|The Injective Chain address|Yes|
@@ -369,6 +373,10 @@ func main() {
 
   fmt.Println("gas fee:", gasFee, "INJ")
 }
+```
+
+``` typescript
+https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesExchange#msgwithdraw
 ```
 
 |Parameter|Type|Description|Required|
@@ -573,6 +581,10 @@ func main() {
 }
 ```
 
+``` typescript
+https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesExchange
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |sender|String|The Injective Chain address|Yes|
@@ -774,6 +786,10 @@ func main() {
 
   fmt.Println("gas fee:", gasFee, "INJ")
 }
+```
+
+``` typescript
+https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesExchange#msgexternaltransfer
 ```
 
 |Parameter|Type|Description|Required|
@@ -989,6 +1005,10 @@ func main() {
 
   fmt.Println("gas fee:", gasFee, "INJ")
 }
+```
+
+``` typescript
+https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesPeggy#msgsendtoeth
 ```
 
 |Parameter|Type|Description|Required|
