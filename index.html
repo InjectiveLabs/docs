@@ -1050,8 +1050,8 @@
 <p><strong>Reference</strong></p>
 
 <ul>
+<li><p><a href="https://github.com/InjectiveLabs/injective-ts/wiki">InjectiveLabs/injective-ts.wiki</a></p></li>
 <li><p><a href="https://github.com/InjectiveLabs/injective-ts/tree/master/packages/sdk-ts">InjectiveLabs/injective-ts</a></p></li>
-<li><p><a href="https://github.com/InjectiveLabs/injective-sdk-ts-example">InjectiveLabs/injective-sdk-ts-example</a>.</p></li>
 </ul>
 <h1 id='overview'>Overview</h1>
 <p>Injective is a DeFi focused layer-1 blockchain built for the next generation of decentralized derivatives exchanges. The Injective Chain is a Tendermint-based IBC-compatible blockchain which supports a decentralized orderbook-based DEX protocol and a trustless ERC-20 token bridge to the Ethereum blockchain.</p>
@@ -16931,23 +16931,20 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
   <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">IndexerGrpcAuctionApi</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">indexerGrpcAuctionApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcAuctionApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">round</span> <span class="o">=</span> <span class="mi">19532</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">round</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
-  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">auction</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcAuctionApi</span><span class="p">.</span><span class="nx">fetchAuction</span><span class="p">(</span><span class="nx">round</span><span class="p">);</span>
 
-  <span class="kd">const</span> <span class="nx">auction</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">auction</span><span class="p">.</span><span class="nx">fetchAuction</span><span class="p">(</span><span class="nx">round</span><span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">auction</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">auction</span><span class="p">);</span>
 <span class="p">})();</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -17025,24 +17022,16 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="dl">"</span><span class="s2">winner</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
     <span class="dl">"</span><span class="s2">basketList</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
       <span class="p">{</span>
-        <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ibc/B448C0CA358B958301D328CCDC5D5AD642FC30A6D3AE106FF721DB315F3DDE5C</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">amount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">203444237</span><span class="dl">"</span>
-      <span class="p">},</span>
-      <span class="p">{</span>
-        <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">amount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">4062154364</span><span class="dl">"</span>
-      <span class="p">},</span>
-      <span class="p">{</span>
-        <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">amount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">5440816238</span><span class="dl">"</span>
+        <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5</span><span class="dl">"</span><span class="p">,</span>
+        <span class="dl">"</span><span class="s2">amount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">188940000</span><span class="dl">"</span>
       <span class="p">}</span>
     <span class="p">],</span>
     <span class="dl">"</span><span class="s2">winningBidAmount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
-    <span class="dl">"</span><span class="s2">round</span><span class="dl">"</span><span class="p">:</span> <span class="mi">19532</span><span class="p">,</span>
-    <span class="dl">"</span><span class="s2">endTimestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654234085000</span><span class="p">,</span>
-    <span class="dl">"</span><span class="s2">updatedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654233490496</span>
+    <span class="dl">"</span><span class="s2">round</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">endTimestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1657869187000</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">updatedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1658131202118</span>
   <span class="p">},</span>
-  <span class="dl">"</span><span class="s2">bidsList</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+  <span class="dl">"</span><span class="s2">bids</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
     <span class="p">{</span>
       <span class="dl">"</span><span class="s2">bidder</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span><span class="dl">"</span><span class="p">,</span>
       <span class="dl">"</span><span class="s2">amount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1000000000000000000</span><span class="dl">"</span><span class="p">,</span>
@@ -17314,52 +17303,21 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
  <span class="p">]</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
-  <span class="dl">"</span><span class="s2">auctionsList</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">winner</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">basketList</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-          <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ibc/B448C0CA358B958301D328CCDC5D5AD642FC30A6D3AE106FF721DB315F3DDE5C</span><span class="dl">"</span><span class="p">,</span>
-          <span class="dl">"</span><span class="s2">amount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">20541163349</span><span class="dl">"</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-          <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2</span><span class="dl">"</span><span class="p">,</span>
-          <span class="dl">"</span><span class="s2">amount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">3736040925000000</span><span class="dl">"</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-          <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">,</span>
-          <span class="dl">"</span><span class="s2">amount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">383119139180</span><span class="dl">"</span>
-        <span class="p">}</span>
-      <span class="p">],</span>
-      <span class="dl">"</span><span class="s2">winningBidAmount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">round</span><span class="dl">"</span><span class="p">:</span> <span class="mi">13435</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">endTimestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1650575885000</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">updatedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1650978931464</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">winner</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">basketList</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-          <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ibc/B448C0CA358B958301D328CCDC5D5AD642FC30A6D3AE106FF721DB315F3DDE5C</span><span class="dl">"</span><span class="p">,</span>
-          <span class="dl">"</span><span class="s2">amount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">20541163349</span><span class="dl">"</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-          <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2</span><span class="dl">"</span><span class="p">,</span>
-          <span class="dl">"</span><span class="s2">amount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">3736040925000000</span><span class="dl">"</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-          <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">,</span>
-          <span class="dl">"</span><span class="s2">amount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">383119139180</span><span class="dl">"</span>
-        <span class="p">}</span>
-      <span class="p">],</span>
-      <span class="dl">"</span><span class="s2">winningBidAmount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">round</span><span class="dl">"</span><span class="p">:</span> <span class="mi">13436</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">endTimestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1650576485000</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">updatedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1650978931847</span>
-    <span class="p">}</span>
-  <span class="p">]</span>
-<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">[</span> 
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">winner</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">basketList</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="dl">"</span><span class="s2">denom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5</span><span class="dl">"</span><span class="p">,</span>
+        <span class="dl">"</span><span class="s2">amount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">897254</span><span class="dl">"</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="dl">"</span><span class="s2">winningBidAmount</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">round</span><span class="dl">"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">endTimestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1663312387000</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">updatedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1662707592771</span>
+  <span class="p">},</span>
+<span class="p">]</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -17502,25 +17460,31 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcStreamClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span>
+  <span class="nx">IndexerGrpcAuctionStream</span><span class="p">,</span>
+  <span class="nx">BidsStreamCallback</span><span class="p">,</span>
+<span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
 
 <span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
-
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
+  <span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">indexerGrpcAuctionStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcAuctionStream</span><span class="p">(</span>
+    <span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span>
   <span class="p">);</span>
 
-  <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">auction</span><span class="p">.</span><span class="nx">streamBids</span><span class="p">({</span>
-    <span class="na">callback</span><span class="p">:</span> <span class="p">(</span><span class="nx">streamBids</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">streamBids</span><span class="p">));</span>
-    <span class="p">},</span>
-    <span class="na">onEndCallback</span><span class="p">:</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Stream has ended with status: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">status</span><span class="p">);</span>
-    <span class="p">},</span>
-  <span class="p">});</span>
+  <span class="kd">const</span> <span class="nx">streamFn</span> <span class="o">=</span> <span class="nx">indexerGrpcAuctionStream</span><span class="p">.</span><span class="nx">streamBids</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span>
+    <span class="nx">indexerGrpcAuctionStream</span>
+  <span class="p">);</span>
+
+  <span class="kd">const</span> <span class="na">callback</span><span class="p">:</span> <span class="nx">BidsStreamCallback</span> <span class="o">=</span> <span class="p">(</span><span class="nx">bids</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">bids</span><span class="p">);</span>
+  <span class="p">};</span>
+
+  <span class="kd">const</span> <span class="nx">streamFnArgs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">callback</span><span class="p">,</span>
+  <span class="p">};</span>
+
+  <span class="nx">streamFn</span><span class="p">(</span><span class="nx">streamFnArgs</span><span class="p">);</span>
 <span class="p">})();</span>
 </code></pre></div><h3 id='injectiveauctionrpc-streambids-response-parameters'>Response Parameters</h3>
 <blockquote>
