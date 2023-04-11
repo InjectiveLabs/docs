@@ -64,23 +64,20 @@ func main() {
 ```
 
 ``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
+import { IndexerGrpcAuctionApi } from "@injectivelabs/sdk-ts";
+import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 
 (async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
+  const indexerGrpcAuctionApi = new IndexerGrpcAuctionApi(endpoints.indexer);
 
-  const round = 19532;
+  const round = 1;
 
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
+  const auction = await indexerGrpcAuctionApi.fetchAuction(round);
 
-  const auction = await exchangeClient.auction.fetchAuction(round);
-
-  console.log(protoObjectToJson(auction));
+  console.log(auction);
 })();
+
 ```
 
 |Parameter|Type|Description|Required|
@@ -155,24 +152,16 @@ bids {
     "winner": "",
     "basketList": [
       {
-        "denom": "ibc/B448C0CA358B958301D328CCDC5D5AD642FC30A6D3AE106FF721DB315F3DDE5C",
-        "amount": "203444237"
-      },
-      {
-        "denom": "peggy0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-        "amount": "4062154364"
-      },
-      {
-        "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        "amount": "5440816238"
+        "denom": "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+        "amount": "188940000"
       }
     ],
     "winningBidAmount": "",
-    "round": 19532,
-    "endTimestamp": 1654234085000,
-    "updatedAt": 1654233490496
+    "round": 1,
+    "endTimestamp": 1657869187000,
+    "updatedAt": 1658131202118
   },
-  "bidsList": [
+  "bids": [
     {
       "bidder": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
       "amount": "1000000000000000000",
@@ -386,52 +375,21 @@ auctions {
 ```
 
 ``` typescript
-{
-  "auctionsList": [
-    {
-      "winner": "",
-      "basketList": [
-        {
-          "denom": "ibc/B448C0CA358B958301D328CCDC5D5AD642FC30A6D3AE106FF721DB315F3DDE5C",
-          "amount": "20541163349"
-        },
-        {
-          "denom": "peggy0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-          "amount": "3736040925000000"
-        },
-        {
-          "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-          "amount": "383119139180"
-        }
-      ],
-      "winningBidAmount": "",
-      "round": 13435,
-      "endTimestamp": 1650575885000,
-      "updatedAt": 1650978931464
-    },
-    {
-      "winner": "",
-      "basketList": [
-        {
-          "denom": "ibc/B448C0CA358B958301D328CCDC5D5AD642FC30A6D3AE106FF721DB315F3DDE5C",
-          "amount": "20541163349"
-        },
-        {
-          "denom": "peggy0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-          "amount": "3736040925000000"
-        },
-        {
-          "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-          "amount": "383119139180"
-        }
-      ],
-      "winningBidAmount": "",
-      "round": 13436,
-      "endTimestamp": 1650576485000,
-      "updatedAt": 1650978931847
-    }
-  ]
-}
+[ 
+  {
+    "winner": "",
+    "basketList": [
+      {
+        "denom": "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+        "amount": "897254"
+      }
+    ],
+    "winningBidAmount": "",
+    "round": 10,
+    "endTimestamp": 1663312387000,
+    "updatedAt": 1662707592771
+  },
+]
 ```
 
 |Parameter|Type|Description|
@@ -529,25 +487,31 @@ func main() {
 ```
 
 ``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";
+import {
+  IndexerGrpcAuctionStream,
+  BidsStreamCallback,
+} from "@injectivelabs/sdk-ts";
+import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 
 (async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const exchangeClient = new ExchangeGrpcStreamClient(
-    network.exchangeApi
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
+  const indexerGrpcAuctionStream = new IndexerGrpcAuctionStream(
+    endpoints.indexer
   );
 
-  await exchangeClient.auction.streamBids({
-    callback: (streamBids) => {
-      console.log(protoObjectToJson(streamBids));
-    },
-    onEndCallback: (status) => {
-      console.log("Stream has ended with status: " + status);
-    },
-  });
+  const streamFn = indexerGrpcAuctionStream.streamBids.bind(
+    indexerGrpcAuctionStream
+  );
+
+  const callback: BidsStreamCallback = (bids) => {
+    console.log(bids);
+  };
+
+  const streamFnArgs = {
+    callback,
+  };
+
+  streamFn(streamFnArgs);
 })();
 ```
 

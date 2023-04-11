@@ -126,6 +126,7 @@ yarn add @injectivelabs/sdk-ts
 
 **Reference**
 
+- [InjectiveLabs/injective-ts.wiki](https://github.com/InjectiveLabs/injective-ts/wiki)
+  
 - [InjectiveLabs/injective-ts](https://github.com/InjectiveLabs/injective-ts/tree/master/packages/sdk-ts)
 
-- [InjectiveLabs/injective-sdk-ts-example](https://github.com/InjectiveLabs/injective-sdk-ts-example).
