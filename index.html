@@ -9227,23 +9227,17 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
   <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">IndexerGrpcDerivativesApi</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/sdk-ts</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/networks</span><span class="dl">'</span>
 
-<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">indexerGrpcDerivativesApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcDerivativesApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">)</span>
 
-  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">0x...</span><span class="dl">'</span>
 
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
-  <span class="p">);</span>
+<span class="kd">const</span> <span class="nx">market</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcDerivativesApi</span><span class="p">.</span><span class="nx">fetchMarket</span><span class="p">(</span><span class="nx">marketId</span><span class="p">)</span>
 
-  <span class="kd">const</span> <span class="nx">market</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivatives</span><span class="p">.</span><span class="nx">fetchMarket</span><span class="p">(</span><span class="nx">marketId</span><span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">));</span>
-<span class="p">})();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">market</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -9687,25 +9681,15 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
   <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">IndexerGrpcDerivativesApi</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/sdk-ts</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/networks</span><span class="dl">'</span>
 
-<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">indexerGrpcDerivativesApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcDerivativesApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">)</span>
 
-  <span class="kd">const</span> <span class="nx">marketStatus</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">active</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">quoteDenom</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">markets</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcDerivativesApi</span><span class="p">.</span><span class="nx">fetchMarkets</span><span class="p">()</span>
 
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcClient</span><span class="p">(</span><span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span><span class="p">);</span>
-
-  <span class="kd">const</span> <span class="nx">markets</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivatives</span><span class="p">.</span><span class="nx">fetchMarkets</span><span class="p">({</span>
-    <span class="na">marketStatus</span><span class="p">:</span> <span class="nx">marketStatus</span><span class="p">,</span>
-    <span class="na">quoteDenom</span><span class="p">:</span> <span class="nx">quoteDenom</span><span class="p">,</span>
-  <span class="p">});</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">markets</span><span class="p">));</span>
-<span class="p">})();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">markets</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -9879,77 +9863,75 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
  <span class="p">]</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
-  <span class="dl">"</span><span class="s2">marketsList</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x1c79dac019f73e4060494ab1b4fcba734350656d6fc4d474f6a238c13c6f9ced</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketStatus</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">active</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">ticker</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">BNB/USDT PERP</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleBase</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">BNB</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleQuote</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleScaleFactor</span><span class="dl">"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">initialMarginRatio</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.095</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">maintenanceMarginRatio</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.05</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">quoteDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">quoteTokenMeta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Tether</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">address</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">symbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">logo</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://static.alchemyapi.io/images/assets/825.png</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">decimals</span><span class="dl">"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">updatedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1650978923353</span>
-      <span class="p">},</span>
-      <span class="dl">"</span><span class="s2">makerFeeRate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.0005</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">takerFeeRate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.0012</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">serviceProviderFee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.4</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">isPerpetual</span><span class="dl">"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">minPriceTickSize</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">10000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">minQuantityTickSize</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.01</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">perpetualMarketInfo</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="dl">"</span><span class="s2">hourlyFundingRateCap</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.000625</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">hourlyInterestRate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.00000416666</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">nextFundingTimestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246800</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">fundingInterval</span><span class="dl">"</span><span class="p">:</span> <span class="mi">3600</span>
-      <span class="p">},</span>
-      <span class="dl">"</span><span class="s2">perpetualMarketFunding</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="dl">"</span><span class="s2">cumulativeFunding</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">56890491.178246679699729639</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">cumulativePrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">7.082760891515203314</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">lastTimestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654245985</span>
-      <span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x1c79dac019f73e4060494ab1b4fcba734350656d6fc4d474f6a238c13c6f9ced</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">marketStatus</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">active</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">ticker</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">BNB/USDT PERP</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleBase</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">BNB</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleQuote</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bandibc</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleScaleFactor</span><span class="dl">"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">initialMarginRatio</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.095</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">maintenanceMarginRatio</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.05</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">quoteDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">quoteTokenMeta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Tether</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">address</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">symbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">logo</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://static.alchemyapi.io/images/assets/825.png</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">decimals</span><span class="dl">"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">updatedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1650978923353</span>
     <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x00030df39180df04a873cb4aadc50d4135640af5c858ab637dbd4d31b147478c</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketStatus</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">active</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">ticker</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Frontrunner Futures: Expires 5.21.2023</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleBase</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">FRNT</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleQuote</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">pricefeed</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">oracleScaleFactor</span><span class="dl">"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">initialMarginRatio</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.999999999999999999</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">maintenanceMarginRatio</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.1</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">quoteDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">quoteTokenMeta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Tether</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">address</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">symbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">logo</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://static.alchemyapi.io/images/assets/825.png</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">decimals</span><span class="dl">"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">updatedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1653064108501</span>
-      <span class="p">},</span>
-      <span class="dl">"</span><span class="s2">makerFeeRate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.005</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">takerFeeRate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.012</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">serviceProviderFee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.4</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">isPerpetual</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">minPriceTickSize</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.000000000000001</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">minQuantityTickSize</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.0001</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">expiryFuturesMarketInfo</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="dl">"</span><span class="s2">expirationTimestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1684600043</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">settlementPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0</span><span class="dl">"</span>
-      <span class="p">}</span>
+    <span class="dl">"</span><span class="s2">makerFeeRate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.0005</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">takerFeeRate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.0012</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">serviceProviderFee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.4</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">isPerpetual</span><span class="dl">"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">minPriceTickSize</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">10000</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">minQuantityTickSize</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.01</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">perpetualMarketInfo</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">hourlyFundingRateCap</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.000625</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">hourlyInterestRate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.00000416666</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">nextFundingTimestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246800</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">fundingInterval</span><span class="dl">"</span><span class="p">:</span> <span class="mi">3600</span>
+    <span class="p">},</span>
+    <span class="dl">"</span><span class="s2">perpetualMarketFunding</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">cumulativeFunding</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">56890491.178246679699729639</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">cumulativePrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">7.082760891515203314</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">lastTimestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654245985</span>
     <span class="p">}</span>
-  <span class="p">]</span>
-<span class="p">}</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x00030df39180df04a873cb4aadc50d4135640af5c858ab637dbd4d31b147478c</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">marketStatus</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">active</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">ticker</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Frontrunner Futures: Expires 5.21.2023</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleBase</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">FRNT</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleQuote</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">pricefeed</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleScaleFactor</span><span class="dl">"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">initialMarginRatio</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.999999999999999999</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">maintenanceMarginRatio</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.1</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">quoteDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">peggy0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">quoteTokenMeta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Tether</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">address</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">symbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">logo</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://static.alchemyapi.io/images/assets/825.png</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">decimals</span><span class="dl">"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">updatedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1653064108501</span>
+    <span class="p">},</span>
+    <span class="dl">"</span><span class="s2">makerFeeRate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.005</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">takerFeeRate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.012</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">serviceProviderFee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.4</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">isPerpetual</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">minPriceTickSize</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.000000000000001</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">minQuantityTickSize</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.0001</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">expiryFuturesMarketInfo</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">expirationTimestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1684600043</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">settlementPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0</span><span class="dl">"</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">]</span>
 
 </code></pre></div>
 <table><thead>
@@ -10259,30 +10241,28 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcStreamClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient</span><span class="dl">"</span><span class="p">;;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span>
+  <span class="nx">IndexerGrpcDerivativesStream</span>
+<span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/sdk-ts</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/networks</span><span class="dl">'</span>
 
-<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">indexerGrpcDerivativesStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcDerivativesStream</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">)</span>
 
-  <span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">];</span>
+<span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">0x...</span><span class="dl">'</span><span class="p">]</span> <span class="cm">/* optional param */</span>
 
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcStreamClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
-  <span class="p">);</span>
+<span class="kd">const</span> <span class="nx">streamFn</span> <span class="o">=</span> <span class="nx">indexerGrpcDerivativesStream</span><span class="p">.</span><span class="nx">streamDerivativeMarket</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">indexerGrpcDerivativesStream</span><span class="p">)</span>
 
-  <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivatives</span><span class="p">.</span><span class="nx">streamDerivativeMarket</span><span class="p">(</span>
-    <span class="p">{</span>
-      <span class="nx">marketIds</span><span class="p">,</span>
-      <span class="na">callback</span><span class="p">:</span> <span class="p">(</span><span class="nx">streamMarket</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">streamMarket</span><span class="p">));</span>
-      <span class="p">},</span>
-      <span class="na">onEndCallback</span><span class="p">:</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Stream has ended with status: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">status</span><span class="p">);</span>
-      <span class="p">},</span>
-    <span class="p">});</span>
-<span class="p">})();</span>
+<span class="kd">const</span> <span class="nx">callback</span> <span class="o">=</span> <span class="p">(</span><span class="nx">markets</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">markets</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">streamFnArgs</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">marketIds</span><span class="p">,</span>
+  <span class="nx">callback</span>
+<span class="p">}</span>
+
+<span class="nx">streamFn</span><span class="p">(</span><span class="nx">streamFnArgs</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -11015,7 +10995,35 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span>
+  <span class="nx">TradeDirection</span><span class="p">,</span>
+  <span class="nx">PaginationOption</span><span class="p">,</span>
+  <span class="nx">DerivativeOrderSide</span><span class="p">,</span>
+  <span class="nx">TradeExecutionType</span><span class="p">,</span>
+  <span class="nx">IndexerGrpcDerivativesApi</span>
+<span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/sdk-ts</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/networks</span><span class="dl">'</span>
+
+<span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">indexerGrpcDerivativesApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcDerivativesApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">0x...</span><span class="dl">'</span><span class="p">]</span> <span class="cm">/* optional param */</span>
+<span class="kd">const</span> <span class="nx">executionTypes</span> <span class="o">=</span> <span class="p">[</span><span class="nx">TradeExecutionType</span><span class="p">.</span><span class="nx">Market</span><span class="p">]</span> <span class="cm">/* optional param */</span>
+<span class="kd">const</span> <span class="nx">orderTypes</span> <span class="o">=</span> <span class="nx">DerivativeOrderSide</span><span class="p">.</span><span class="nx">StopBuy</span> <span class="cm">/* optional param */</span>
+<span class="kd">const</span> <span class="nx">direction</span> <span class="o">=</span> <span class="nx">TradeDirection</span><span class="p">.</span><span class="nx">Buy</span> <span class="cm">/* optional param */</span>
+<span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">0x...</span><span class="dl">'</span> <span class="cm">/* optional param */</span>
+<span class="kd">const</span> <span class="nx">paginationOption</span> <span class="o">=</span> <span class="p">{...}</span> <span class="k">as</span> <span class="nx">PaginationOption</span> <span class="cm">/* optional param */</span>
+
+<span class="kd">const</span> <span class="nx">orderHistory</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcDerivativesApi</span><span class="p">.</span><span class="nx">fetchOrderHistory</span><span class="p">({</span>
+  <span class="nx">marketIds</span><span class="p">,</span>
+  <span class="nx">executionTypes</span><span class="p">,</span>
+  <span class="nx">orderTypes</span><span class="p">,</span>
+  <span class="nx">direction</span><span class="p">,</span>
+  <span class="nx">subaccountId</span><span class="p">,</span>
+  <span class="nx">paginationOption</span>
+<span class="p">})</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">orderHistory</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -11277,32 +11285,32 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
   <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">TradeExecutionSide</span><span class="p">,</span> <span class="nx">TradeDirection</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span>
+  <span class="nx">TradeDirection</span><span class="p">,</span>
+  <span class="nx">PaginationOption</span><span class="p">,</span>
+  <span class="nx">TradeExecutionType</span><span class="p">,</span>
+  <span class="nx">IndexerGrpcDerivativesApi</span>
+<span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/sdk-ts</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/networks</span><span class="dl">'</span>
 
-<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">indexerGrpcDerivativesApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcDerivativesApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">)</span>
 
-  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">direction</span> <span class="o">=</span> <span class="nx">TradeDirection</span><span class="p">.</span><span class="nx">Buy</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">executionSide</span> <span class="o">=</span> <span class="nx">TradeExecutionSide</span><span class="p">.</span><span class="nx">Maker</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">0x...</span><span class="dl">'</span> <span class="cm">/* optional param */</span>
+<span class="kd">const</span> <span class="nx">executionTypes</span> <span class="o">=</span> <span class="p">[</span><span class="nx">TradeExecutionType</span><span class="p">.</span><span class="nx">Market</span><span class="p">]</span> <span class="cm">/* optional param */</span>
+<span class="kd">const</span> <span class="nx">direction</span> <span class="o">=</span> <span class="nx">TradeDirection</span><span class="p">.</span><span class="nx">Buy</span> <span class="cm">/* optional param */</span>
+<span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">0x...</span><span class="dl">'</span><span class="cm">/* optional param */</span>
+<span class="kd">const</span> <span class="nx">paginationOption</span> <span class="o">=</span> <span class="p">{...}</span> <span class="k">as</span> <span class="nx">PaginationOption</span> <span class="cm">/* optional param */</span>
 
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
-  <span class="p">);</span>
+<span class="kd">const</span> <span class="nx">trades</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcDerivativesApi</span><span class="p">.</span><span class="nx">fetchTrades</span><span class="p">({</span>
+  <span class="nx">marketId</span><span class="p">,</span>
+  <span class="nx">executionTypes</span><span class="p">,</span>
+  <span class="nx">direction</span><span class="p">,</span>
+  <span class="nx">subaccountId</span><span class="p">,</span>
+  <span class="nx">paginationOption</span>
+<span class="p">})</span>
 
-  <span class="kd">const</span> <span class="nx">market</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">spot</span><span class="p">.</span><span class="nx">fetchTrades</span><span class="p">(</span>
-    <span class="p">{</span>
-      <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
-      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
-      <span class="na">direction</span><span class="p">:</span> <span class="nx">direction</span><span class="p">,</span>
-      <span class="na">executionSide</span><span class="p">:</span> <span class="nx">executionSide</span><span class="p">,</span>
-  <span class="p">});</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">market</span><span class="p">));</span>
-<span class="p">})();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">trades</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -11453,78 +11461,76 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
  <span class="p">]</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
-  <span class="dl">"</span><span class="s2">tradesList</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">orderHash</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x3da3c53a00c28787d614c533b70d0c8c954dfa54a31ce930e58c23ee88e3ea09</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">tradeExecutionType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">limitMatchRestingOrder</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">isLiquidation</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">positionDelta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="dl">"</span><span class="s2">tradeDirection</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">39406400000</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionQuantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.02</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionMargin</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">841900000</span><span class="dl">"</span>
-      <span class="p">},</span>
-      <span class="dl">"</span><span class="s2">payout</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">856231180.396992742528328042</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">fee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">394064</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">executedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246304825</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">feeRecipient</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r</span><span class="dl">"</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">orderHash</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x3da3c53a00c28787d614c533b70d0c8c954dfa54a31ce930e58c23ee88e3ea09</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">tradeExecutionType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">limitMatchRestingOrder</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">isLiquidation</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">positionDelta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">tradeDirection</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">39406400000</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionQuantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.02</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionMargin</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">841900000</span><span class="dl">"</span>
     <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">orderHash</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x0dfc926924befc45d36a6178501143085a05e2dfb45330a05f57ed16a1b27a82</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">tradeExecutionType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">limitMatchRestingOrder</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">isLiquidation</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">positionDelta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="dl">"</span><span class="s2">tradeDirection</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">39406400000</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionQuantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.07</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionMargin</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2912938000</span><span class="dl">"</span>
-      <span class="p">},</span>
-      <span class="dl">"</span><span class="s2">payout</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2996809131.389474598849148143</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">fee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1379224</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">executedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246304825</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">feeRecipient</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r</span><span class="dl">"</span>
+    <span class="dl">"</span><span class="s2">payout</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">856231180.396992742528328042</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">fee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">394064</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">executedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246304825</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">feeRecipient</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r</span><span class="dl">"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">orderHash</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x0dfc926924befc45d36a6178501143085a05e2dfb45330a05f57ed16a1b27a82</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">tradeExecutionType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">limitMatchRestingOrder</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">isLiquidation</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">positionDelta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">tradeDirection</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">39406400000</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionQuantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.07</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionMargin</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2912938000</span><span class="dl">"</span>
     <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">orderHash</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xcae7168f316a60deaa832eaea99f0ac25a276efbc35913adc74fa64698925422</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">tradeExecutionType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">limitMatchRestingOrder</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">isLiquidation</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">positionDelta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="dl">"</span><span class="s2">tradeDirection</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">40128736026.409431766475</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionQuantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.05</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionMargin</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2014460000</span><span class="dl">"</span>
-      <span class="p">},</span>
-      <span class="dl">"</span><span class="s2">payout</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1990739547.202719429741148872</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">fee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1003218.400660235794161875</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">executedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246213333</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">feeRecipient</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r</span><span class="dl">"</span>
+    <span class="dl">"</span><span class="s2">payout</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2996809131.389474598849148143</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">fee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1379224</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">executedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246304825</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">feeRecipient</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r</span><span class="dl">"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">orderHash</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xcae7168f316a60deaa832eaea99f0ac25a276efbc35913adc74fa64698925422</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">tradeExecutionType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">limitMatchRestingOrder</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">isLiquidation</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">positionDelta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">tradeDirection</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">40128736026.409431766475</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionQuantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.05</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionMargin</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2014460000</span><span class="dl">"</span>
     <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">orderHash</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x11736cd550f7d53db11e89d0ae240a1d5a10aa78b00013a760b32964be15dd6d</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">tradeExecutionType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">limitMatchRestingOrder</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">isLiquidation</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">positionDelta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="dl">"</span><span class="s2">tradeDirection</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">40128736026.409431766475</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionQuantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.02</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionMargin</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">804982000</span><span class="dl">"</span>
-      <span class="p">},</span>
-      <span class="dl">"</span><span class="s2">payout</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">796295818.881087771896459548</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">fee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">401287.36026409431766475</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">executedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246213333</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">feeRecipient</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r</span><span class="dl">"</span>
-    <span class="p">}</span>
-  <span class="p">]</span>
-<span class="p">}</span>
+    <span class="dl">"</span><span class="s2">payout</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1990739547.202719429741148872</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">fee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1003218.400660235794161875</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">executedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246213333</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">feeRecipient</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r</span><span class="dl">"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">orderHash</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x11736cd550f7d53db11e89d0ae240a1d5a10aa78b00013a760b32964be15dd6d</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">tradeExecutionType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">limitMatchRestingOrder</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">isLiquidation</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">positionDelta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">tradeDirection</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">40128736026.409431766475</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionQuantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.02</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionMargin</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">804982000</span><span class="dl">"</span>
+    <span class="p">},</span>
+    <span class="dl">"</span><span class="s2">payout</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">796295818.881087771896459548</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">fee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">401287.36026409431766475</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">executedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246213333</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">feeRecipient</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r</span><span class="dl">"</span>
+  <span class="p">}</span>
+<span class="p">]</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -13064,7 +13070,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-deprecated-orderbooks'>[DEPRECATED] Orderbooks</h2>
-<p>Get the orderbook for an array of derivative markets.  </p>
+<p>Get the orderbook for an array of derivative markets.</p>
 
 <p><strong>Deprecation warning</strong></p>
 
@@ -13373,7 +13379,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </tr>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-deprecated-streamorderbooks'>[DEPRECATED] StreamOrderbooks</h2>
-<p>Stream orderbook updates for an array of derivative markets.  </p>
+<p>Stream orderbook updates for an array of derivative markets.</p>
 
 <p><strong>Deprecation warning</strong></p>
 
@@ -13953,7 +13959,27 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">IndexerGrpcDerivativesStream</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/sdk-ts</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/networks</span><span class="dl">'</span>
+
+<span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">indexerGrpcDerivativesStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcDerivativesStream</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">0x...</span><span class="dl">'</span><span class="p">]</span>
+
+<span class="kd">const</span> <span class="nx">streamFn</span> <span class="o">=</span> <span class="nx">indexerGrpcDerivativesStream</span><span class="p">.</span><span class="nx">streamDerivativeOrderbookV2</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">indexerGrpcDerivativesStream</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">callback</span> <span class="o">=</span> <span class="p">(</span><span class="nx">orderbooks</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">orderbooks</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">streamFnArgs</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">marketIds</span><span class="p">,</span>
+  <span class="nx">callback</span>
+<span class="p">}</span>
+
+<span class="nx">streamFn</span><span class="p">(</span><span class="nx">streamFnArgs</span><span class="p">)</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -14021,7 +14047,26 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="n">timestamp</span><span class="p">:</span> <span class="mi">1676621249000</span>
 <span class="n">market_id</span><span class="p">:</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
+  <span class="nl">orderbook</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">sells</span><span class="p">:</span> <span class="p">[{</span>
+      <span class="na">price</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.000000000008</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">quantity</span><span class="p">:</span> <span class="dl">"</span><span class="s2">10000000000000000</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">timestamp</span><span class="p">:</span> <span class="mi">1675904636889</span><span class="p">,</span>
+    <span class="p">}],</span>
+    <span class="na">buys</span><span class="p">:</span> <span class="p">[{</span>
+      <span class="na">price</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.000000000001</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">quantity</span><span class="p">:</span> <span class="dl">"</span><span class="s2">10000000000000000</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">timestamp</span><span class="p">:</span> <span class="mi">1675882430039</span><span class="p">,</span>
+    <span class="p">}],</span>
+    <span class="na">sequence</span><span class="p">:</span> <span class="mi">713</span><span class="p">,</span>
+    <span class="na">timestamp</span><span class="p">:</span> <span class="dl">"</span><span class="s2">343432244</span><span class="dl">"</span>
+  <span class="p">}</span>
+  <span class="nl">operationType</span><span class="p">:</span> <span class="dl">"</span><span class="s2">update</span><span class="dl">"</span>
+  <span class="nx">timestamp</span><span class="p">:</span> <span class="mi">1676610727000</span>
+  <span class="nx">marketId</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe</span><span class="dl">"</span>
+<span class="p">}</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -14240,7 +14285,29 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">asyncio</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span>
+  <span class="nx">IndexerGrpcDerivativesStream</span>
+<span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/sdk-ts</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/networks</span><span class="dl">'</span>
+
+<span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">indexerGrpcDerivativesStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcDerivativesStream</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">0x...</span><span class="dl">'</span><span class="p">]</span>
+
+<span class="kd">const</span> <span class="nx">streamFn</span> <span class="o">=</span> <span class="nx">indexerGrpcDerivativesStream</span><span class="p">.</span><span class="nx">streamDerivativeOrderbookUpdate</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">indexerGrpcDerivativesStream</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">callback</span> <span class="o">=</span> <span class="p">(</span><span class="nx">orderbookUpdates</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">orderbookUpdates</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">streamFnArgs</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">marketIds</span><span class="p">,</span>
+  <span class="nx">callback</span>
+<span class="p">}</span>
+
+<span class="nx">streamFn</span><span class="p">(</span><span class="nx">streamFnArgs</span><span class="p">)</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -14292,7 +14359,26 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="n">price</span><span class="p">:</span> <span class="mi">1000000000</span> <span class="o">|</span> <span class="n">quantity</span><span class="p">:</span> <span class="mf">0.0014</span> <span class="o">|</span> <span class="n">timestamp</span><span class="p">:</span> <span class="mi">1676622220695</span>
 <span class="o">====================================</span>
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
+  <span class="nl">orderbook</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">sells</span><span class="p">:</span> <span class="p">[{</span>
+      <span class="na">price</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.000000000008</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">quantity</span><span class="p">:</span> <span class="dl">"</span><span class="s2">10000000000000000</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">timestamp</span><span class="p">:</span> <span class="mi">1675904636889</span><span class="p">,</span>
+    <span class="p">}],</span>
+    <span class="na">buys</span><span class="p">:</span> <span class="p">[{</span>
+      <span class="na">price</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.000000000001</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">quantity</span><span class="p">:</span> <span class="dl">"</span><span class="s2">10000000000000000</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">timestamp</span><span class="p">:</span> <span class="mi">1675882430039</span><span class="p">,</span>
+    <span class="p">}],</span>
+    <span class="na">sequence</span><span class="p">:</span> <span class="mi">713</span><span class="p">,</span>
+    <span class="na">timestamp</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3243244</span><span class="dl">'</span>
+  <span class="p">}</span>
+  <span class="nl">operationType</span><span class="p">:</span> <span class="dl">"</span><span class="s2">update</span><span class="dl">"</span>
+  <span class="nx">timestamp</span><span class="p">:</span> <span class="mi">1676610727000</span>
+  <span class="nx">marketId</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe</span><span class="dl">"</span>
+<span class="p">}</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -14470,36 +14556,26 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
   <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span>
+  <span class="nx">PaginationOption</span><span class="p">,</span>
+  <span class="nx">IndexerGrpcDerivativesApi</span>
+<span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/sdk-ts</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/networks</span><span class="dl">'</span>
 
+<span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">indexerGrpcDerivativesApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcDerivativesApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">)</span>
 
-<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">0x...</span><span class="dl">'</span> <span class="cm">/* optional param */</span>
+<span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">0x...</span><span class="dl">'</span> <span class="cm">/* optional param */</span>
+<span class="kd">const</span> <span class="nx">paginationOption</span> <span class="o">=</span> <span class="p">{...}</span> <span class="k">as</span> <span class="nx">PaginationOption</span> <span class="cm">/* optional param */</span>
 
-  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="na">skip</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">limit</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="na">key</span><span class="p">:</span> <span class="dl">""</span>
-  <span class="p">};</span>
+<span class="kd">const</span> <span class="nx">subaccountOrders</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcDerivativesApi</span><span class="p">.</span><span class="nx">fetchSubaccountOrdersList</span><span class="p">({</span>
+  <span class="nx">marketId</span><span class="p">,</span>
+  <span class="nx">subaccountId</span><span class="p">,</span>
+  <span class="nx">paginationOption</span>
+<span class="p">})</span>
 
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
-  <span class="p">);</span>
-
-  <span class="kd">const</span> <span class="nx">subaccountOrders</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivatives</span><span class="p">.</span><span class="nx">fetchSubaccountOrdersList</span><span class="p">(</span>
-    <span class="p">{</span>
-      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
-      <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
-      <span class="na">pagination</span><span class="p">:</span> <span class="nx">pagination</span><span class="p">,</span>
-    <span class="p">}</span>
-  <span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">subaccountOrders</span><span class="p">));</span>
-<span class="p">})();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">subaccountOrders</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -14628,26 +14704,24 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
  <span class="p">]</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
-  <span class="dl">"</span><span class="s2">ordersList</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">orderHash</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xad5c1943f034b4587f8482b029e97c078848f30acad40bcceab3dc174d62ba40</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">orderSide</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">isReduceOnly</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">margin</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">30000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">price</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">30000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">quantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">unfilledQuantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">triggerPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">feeRecipient</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">state</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">booked</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">createdAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246251978</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">updatedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246251978</span>
-    <span class="p">}</span>
-  <span class="p">]</span>
-<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">orderHash</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xad5c1943f034b4587f8482b029e97c078848f30acad40bcceab3dc174d62ba40</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">orderSide</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">isReduceOnly</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">margin</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">30000000000</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">price</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">30000000000</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">quantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">unfilledQuantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">triggerPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">feeRecipient</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">state</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">booked</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">createdAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246251978</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">updatedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246251978</span>
+  <span class="p">}</span>
+<span class="p">]</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -14864,39 +14938,32 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
   <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span><span class="p">,</span> <span class="nx">TradeDirection</span><span class="p">,</span> <span class="nx">TradeExecutionType</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span>
+  <span class="nx">TradeDirection</span><span class="p">,</span>
+  <span class="nx">TradeExecutionType</span><span class="p">,</span>
+  <span class="nx">PaginationOption</span><span class="p">,</span>
+  <span class="nx">IndexerGrpcDerivativesApi</span>
+<span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/sdk-ts</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/networks</span><span class="dl">'</span>
 
-<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">indexerGrpcDerivativesApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcDerivativesApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">)</span>
 
-  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">direction</span> <span class="o">=</span> <span class="nx">TradeDirection</span><span class="p">.</span><span class="nx">Buy</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">executionType</span> <span class="o">=</span> <span class="nx">TradeExecutionType</span><span class="p">.</span><span class="nx">Market</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="na">skip</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">limit</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="na">key</span><span class="p">:</span> <span class="dl">""</span>
-  <span class="p">};</span>
+<span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">0x...</span><span class="dl">'</span> <span class="cm">/* optional param */</span>
+<span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">0x...</span><span class="dl">'</span> <span class="cm">/* optional param */</span>
+<span class="kd">const</span> <span class="nx">executionType</span> <span class="o">=</span> <span class="nx">TradeExecutionType</span><span class="p">.</span><span class="nx">LimitFill</span> <span class="cm">/* optional param */</span>
+<span class="kd">const</span> <span class="nx">direction</span> <span class="o">=</span> <span class="nx">TradeDirection</span><span class="p">.</span><span class="nx">Sell</span> <span class="cm">/* optional param */</span>
+<span class="kd">const</span> <span class="nx">paginationOption</span> <span class="o">=</span> <span class="p">{...}</span> <span class="k">as</span> <span class="nx">PaginationOption</span> <span class="cm">/* optional param */</span>
 
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
-  <span class="p">);</span>
+<span class="kd">const</span> <span class="nx">subaccountTrades</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcDerivativesApi</span><span class="p">.</span><span class="nx">fetchSubaccountTradesList</span><span class="p">({</span>
+  <span class="nx">marketId</span><span class="p">,</span>
+  <span class="nx">subaccountId</span><span class="p">,</span>
+  <span class="nx">executionType</span><span class="p">,</span>
+  <span class="nx">direction</span><span class="p">,</span>
+  <span class="nx">paginationOption</span>
+<span class="p">})</span>
 
-  <span class="kd">const</span> <span class="nx">subaccountTrades</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivatives</span><span class="p">.</span><span class="nx">fetchSubaccountTradesList</span><span class="p">(</span>
-    <span class="p">{</span>
-      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
-      <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
-      <span class="na">direction</span><span class="p">:</span> <span class="nx">direction</span><span class="p">,</span>
-      <span class="na">executionType</span><span class="p">:</span> <span class="nx">executionType</span><span class="p">,</span>
-      <span class="na">pagination</span><span class="p">:</span> <span class="nx">pagination</span><span class="p">,</span>
-    <span class="p">}</span>
-  <span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">subaccountTrades</span><span class="p">));</span>
-<span class="p">})();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">subaccountTrades</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -15020,61 +15087,59 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
  <span class="p">]</span>
 <span class="p">}</span>
 
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
-  <span class="dl">"</span><span class="s2">tradesList</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">orderHash</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xa84da1f4286c72b38556c751bf572200ae70d2390c5e0be9677d2ae787bea8d8</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">tradeExecutionType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">market</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">isLiquidation</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">positionDelta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="dl">"</span><span class="s2">tradeDirection</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">41951760760</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionQuantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionMargin</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">42161500000</span><span class="dl">"</span>
-      <span class="p">},</span>
-      <span class="dl">"</span><span class="s2">payout</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">fee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">50342112.912</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">executedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246228747</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">feeRecipient</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8</span><span class="dl">"</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">orderHash</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xa84da1f4286c72b38556c751bf572200ae70d2390c5e0be9677d2ae787bea8d8</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">tradeExecutionType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">market</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">isLiquidation</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">positionDelta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">tradeDirection</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">41951760760</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionQuantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionMargin</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">42161500000</span><span class="dl">"</span>
     <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">orderHash</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xfa3e2016812532fe1e867557997c27805462d3be3dc0b646f19a1a0a6c172fb8</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">tradeExecutionType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">market</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">isLiquidation</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">positionDelta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="dl">"</span><span class="s2">tradeDirection</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">38965000000</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionQuantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.001</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionMargin</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">28000000</span><span class="dl">"</span>
-      <span class="p">},</span>
-      <span class="dl">"</span><span class="s2">payout</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">36823936.837719129360630081</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">fee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">46758</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">executedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1651517007785</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">feeRecipient</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8</span><span class="dl">"</span>
+    <span class="dl">"</span><span class="s2">payout</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">fee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">50342112.912</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">executedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246228747</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">feeRecipient</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8</span><span class="dl">"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">orderHash</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xfa3e2016812532fe1e867557997c27805462d3be3dc0b646f19a1a0a6c172fb8</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">tradeExecutionType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">market</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">isLiquidation</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">positionDelta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">tradeDirection</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">38965000000</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionQuantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.001</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionMargin</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">28000000</span><span class="dl">"</span>
     <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">orderHash</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x482966d12d3339cc573f2f9d57aeddf6ece2929933eb26efdeb6dec2a6308b1f</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">tradeExecutionType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">market</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">isLiquidation</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">positionDelta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="dl">"</span><span class="s2">tradeDirection</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">41332500000</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionQuantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.01</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">executionMargin</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">415400000</span><span class="dl">"</span>
-      <span class="p">},</span>
-      <span class="dl">"</span><span class="s2">payout</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">343739533.621037542065851015</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">fee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">495990</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">executedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1651497901928</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">feeRecipient</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8</span><span class="dl">"</span>
-    <span class="p">}</span>
-  <span class="p">]</span>
-<span class="p">}</span>
+    <span class="dl">"</span><span class="s2">payout</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">36823936.837719129360630081</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">fee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">46758</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">executedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1651517007785</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">feeRecipient</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8</span><span class="dl">"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">orderHash</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x482966d12d3339cc573f2f9d57aeddf6ece2929933eb26efdeb6dec2a6308b1f</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">subaccountId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">tradeExecutionType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">market</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">isLiquidation</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">positionDelta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">tradeDirection</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">buy</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">41332500000</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionQuantity</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.01</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">executionMargin</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">415400000</span><span class="dl">"</span>
+    <span class="p">},</span>
+    <span class="dl">"</span><span class="s2">payout</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">343739533.621037542065851015</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">fee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">495990</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">executedAt</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1651497901928</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">feeRecipient</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8</span><span class="dl">"</span>
+  <span class="p">}</span>
+<span class="p">]</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -15261,36 +15326,24 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
   <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span>
+  <span class="nx">PaginationOption</span><span class="p">,</span>
+  <span class="nx">IndexerGrpcDerivativesApi</span>
+<span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/sdk-ts</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/networks</span><span class="dl">'</span>
 
+<span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">indexerGrpcDerivativesApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcDerivativesApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">)</span>
 
-<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">marketIds</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">0x...</span><span class="dl">'</span><span class="p">]</span> <span class="cm">/* optional param */</span>
+<span class="kd">const</span> <span class="nx">paginationOption</span> <span class="o">=</span> <span class="p">{...}</span> <span class="k">as</span> <span class="nx">PaginationOption</span> <span class="cm">/* optional param */</span>
 
-  <span class="kd">const</span> <span class="nx">subaccountId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="na">skip</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">limit</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="na">key</span><span class="p">:</span> <span class="dl">""</span>
-  <span class="p">};</span>
+<span class="kd">const</span> <span class="nx">fundingPayments</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcDerivativesApi</span><span class="p">.</span><span class="nx">fetchFundingPayments</span><span class="p">({</span>
+  <span class="nx">marketIds</span><span class="p">,</span>
+  <span class="nx">paginationOption</span>
+<span class="p">})</span>
 
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
-  <span class="p">);</span>
-
-  <span class="kd">const</span> <span class="nx">fundingPayments</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivatives</span><span class="p">.</span><span class="nx">fetchFundingPayments</span><span class="p">(</span>
-    <span class="p">{</span>
-      <span class="na">marketId</span><span class="p">:</span> <span class="nx">marketId</span><span class="p">,</span>
-      <span class="na">subaccountId</span><span class="p">:</span> <span class="nx">subaccountId</span><span class="p">,</span>
-      <span class="na">pagination</span><span class="p">:</span> <span class="nx">pagination</span><span class="p">,</span>
-      <span class="p">}</span>
-  <span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">fundingPayments</span><span class="p">));</span>
-<span class="p">})();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">fundingPayments</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -15385,28 +15438,26 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
  <span class="p">]</span>
 <span class="p">}</span>
 
-</code></pre></div><div class="highlight"><pre class="highlight plaintext"><code>{
-  "paymentsList": [
-    {
-      "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-      "amount": "-4895705.795221",
-      "timestamp": 1654246801786
-    },
-    {
-      "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-      "amount": "-20882.994228",
-      "timestamp": 1653818400878
-    },
-    {
-      "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-      "amount": "-20882.994228",
-      "timestamp": 1653814800643
-    }
-  ]
-}
+</code></pre></div><div class="highlight"><pre class="highlight plaintext"><code>[
+  {
+    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
+    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    "amount": "-4895705.795221",
+    "timestamp": 1654246801786
+  },
+  {
+    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
+    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    "amount": "-20882.994228",
+    "timestamp": 1653818400878
+  },
+  {
+    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
+    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    "amount": "-20882.994228",
+    "timestamp": 1653814800643
+  }
+]
 </code></pre></div>
 <table><thead>
 <tr>
@@ -15539,34 +15590,24 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
   <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkInfo</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/networks</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">protoObjectToJson</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">ExchangeGrpcClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span>
+  <span class="nx">PaginationOption</span><span class="p">,</span>
+  <span class="nx">IndexerGrpcDerivativesApi</span>
+<span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/sdk-ts</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/networks</span><span class="dl">'</span>
 
+<span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">indexerGrpcDerivativesApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcDerivativesApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">)</span>
 
-<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">network</span> <span class="o">=</span> <span class="nx">getNetworkInfo</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">0x...</span><span class="dl">'</span> <span class="cm">/* optional param */</span>
+<span class="kd">const</span> <span class="nx">paginationOption</span> <span class="o">=</span> <span class="p">{...}</span> <span class="k">as</span> <span class="nx">PaginationOption</span> <span class="cm">/* optional param */</span>
 
-  <span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="na">skip</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">limit</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="na">key</span><span class="p">:</span> <span class="dl">""</span>
-  <span class="p">};</span>
+<span class="kd">const</span> <span class="nx">fundingRates</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcDerivativesApi</span><span class="p">.</span><span class="nx">fetchFundingRates</span><span class="p">({</span>
+  <span class="nx">marketId</span><span class="p">,</span>
+  <span class="nx">paginationOption</span>
+<span class="p">})</span>
 
-  <span class="kd">const</span> <span class="nx">exchangeClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExchangeGrpcClient</span><span class="p">(</span>
-    <span class="nx">network</span><span class="p">.</span><span class="nx">exchangeApi</span>
-  <span class="p">);</span>
-
-  <span class="kd">const</span> <span class="nx">fundingRates</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">exchangeClient</span><span class="p">.</span><span class="nx">derivatives</span><span class="p">.</span><span class="nx">fetchFundingRates</span><span class="p">(</span>
-    <span class="p">{</span>
-      <span class="nx">marketId</span><span class="p">,</span>
-      <span class="na">pagination</span><span class="p">:</span> <span class="nx">pagination</span><span class="p">,</span>
-    <span class="p">}</span>
-    <span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">protoObjectToJson</span><span class="p">(</span><span class="nx">fundingRates</span><span class="p">));</span>
-<span class="p">})();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">fundingRates</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -15637,30 +15678,28 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
  <span class="p">]</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
-  <span class="dl">"</span><span class="s2">fundingRatesList</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">rate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.000122</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">timestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246801786</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">rate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.000109</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">timestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654243201239</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">rate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.00014</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">timestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654239601537</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">rate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.000115</span><span class="dl">"</span><span class="p">,</span>
-      <span class="dl">"</span><span class="s2">timestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654236001211</span>
-    <span class="p">}</span>
-  <span class="p">]</span>
-<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">rate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.000122</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">timestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654246801786</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">rate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.000109</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">timestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654243201239</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">rate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.00014</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">timestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654239601537</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">rate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.000115</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">timestamp</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1654236001211</span>
+  <span class="p">}</span>
+<span class="p">]</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -15749,7 +15788,17 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">IndexerGrpcDerivativesApi</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/sdk-ts</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/networks</span><span class="dl">'</span>
+
+<span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">indexerGrpcDerivativesApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcDerivativesApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">marketId</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">0x...</span><span class="dl">'</span>
+
+<span class="kd">const</span> <span class="nx">binaryOptionsMarket</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcDerivativesApi</span><span class="p">.</span><span class="nx">fetchBinaryOptionsMarket</span><span class="p">(</span><span class="nx">marketId</span><span class="p">)</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">binaryOptionsMarket</span><span class="p">)</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -15788,7 +15837,35 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">min_quantity_tick_size</span><span class="p">:</span> <span class="s">"0.01"</span>
 <span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
+  <span class="dl">"</span><span class="s2">market</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">marketStatus</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">active</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">ticker</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">INJ/USDT BO</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleSymbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleProvider</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">BANDIBC</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">provider</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleScaleFactor</span><span class="dl">"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">expirationTimestamp</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2343242423</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">settlementTimestamp</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2342342323</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">quoteDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">quoteTokenMeta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Tether</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">address</span><span class="dl">"</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">symbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">logo</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://static.alchemyapi.io/images/assets/7278.png</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">decimals</span><span class="dl">"</span><span class="p">:</span> <span class="mi">18</span><span class="p">;</span>
+      <span class="dl">"</span><span class="s2">updatedAt</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1650978921846</span><span class="dl">"</span>
+    <span class="p">},</span>
+    <span class="dl">"</span><span class="s2">makerFeeRate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.001</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">takerFeeRate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.002</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">serviceProviderFee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.4</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">minPriceTickSize</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.000000000000001</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">minQuantityTickSize</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1000000000000000</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">settlementPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1</span><span class="dl">"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -15976,7 +16053,17 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">IndexerGrpcDerivativesApi</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/sdk-ts</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getNetworkEndpoints</span><span class="p">,</span> <span class="nx">Network</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@injectivelabs/networks</span><span class="dl">'</span>
+
+<span class="kd">const</span> <span class="nx">endpoints</span> <span class="o">=</span> <span class="nx">getNetworkEndpoints</span><span class="p">(</span><span class="nx">Network</span><span class="p">.</span><span class="nx">TestnetK8s</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">indexerGrpcDerivativesApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IndexerGrpcDerivativesApi</span><span class="p">(</span><span class="nx">endpoints</span><span class="p">.</span><span class="nx">indexer</span><span class="p">)</span>
+
+
+<span class="kd">const</span> <span class="nx">binaryOptionsMarket</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">indexerGrpcDerivativesApi</span><span class="p">.</span><span class="nx">fetchBinaryOptionsMarkets</span><span class="p">()</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">binaryOptionsMarket</span><span class="p">)</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
@@ -16053,7 +16140,41 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">total</span><span class="p">:</span> <span class="mi">12</span>
 <span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="p">{</span>
+  <span class="nl">markets</span><span class="p">:</span> <span class="p">[{</span>
+    <span class="dl">"</span><span class="s2">marketId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">marketStatus</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">active</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">ticker</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">INJ/USDT BO</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleSymbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">inj</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleProvider</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">BANDIBC</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleType</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">provider</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">oracleScaleFactor</span><span class="dl">"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">expirationTimestamp</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2343242423</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">settlementTimestamp</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2342342323</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">quoteDenom</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">quoteTokenMeta</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Tether</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">address</span><span class="dl">"</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xdAC17F958D2ee523a2206206994597C13D831ec7</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">symbol</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">USDT</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">logo</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://static.alchemyapi.io/images/assets/7278.png</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">decimals</span><span class="dl">"</span><span class="p">:</span> <span class="mi">18</span><span class="p">;</span>
+      <span class="dl">"</span><span class="s2">updatedAt</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1650978921846</span><span class="dl">"</span>
+    <span class="p">},</span>
+    <span class="dl">"</span><span class="s2">makerFeeRate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.001</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">takerFeeRate</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.002</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">serviceProviderFee</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.4</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">minPriceTickSize</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.000000000000001</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">minQuantityTickSize</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1000000000000000</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">settlementPrice</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1</span><span class="dl">"</span>
+  <span class="p">}],</span>
+  <span class="nx">paging</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nl">total</span><span class="p">:</span> <span class="mi">5</span>
+    <span class="k">from</span><span class="p">:</span> <span class="mi">1</span>
+    <span class="nx">to</span><span class="p">:</span> <span class="mi">3</span>
+    <span class="nx">countBySubaccount</span><span class="p">:</span> <span class="dl">"</span><span class="s2">4</span><span class="dl">"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
 </code></pre></div>
 <table><thead>
 <tr>
