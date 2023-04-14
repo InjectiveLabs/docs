@@ -35,6 +35,7 @@ includes:
   - oracle
   - staking
   - bank
+  - wasm
   - historicalqueries
   - glossary
   - faq
