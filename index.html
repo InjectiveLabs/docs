@@ -889,6 +889,14 @@
               </ul>
           </li>
           <li>
+            <a href="#wasm" class="toc-h1 toc-link" data-title="- Wasm">- Wasm</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#wasm-msgexecutecontract" class="toc-h2 toc-link" data-title="MsgExecuteContract">MsgExecuteContract</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#historical-queries" class="toc-h1 toc-link" data-title="- Historical Queries">- Historical Queries</a>
           </li>
           <li>
@@ -34013,7 +34021,159 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Token amount</td>
 </tr>
 </tbody></table>
-<h1 id='historical-queries'>- Historical Queries</h1>
+<h1 id='wasm'>- Wasm</h1>
+<p>CosmWasm smart contract interactions.</p>
+<h2 id='wasm-msgexecutecontract'>MsgExecuteContract</h2><h3 id='wasm-msgexecutecontract-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+
+<!-- embedme ../../../sdk-python/examples/chain_client/40_MsgExecuteContract.py -->
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span> <span class="k">as</span> <span class="n">ProtoMsgComposer</span>
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.transaction</span> <span class="kn">import</span> <span class="n">Transaction</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span> <span class="nn">pyinjective.wallet</span> <span class="kn">import</span> <span class="n">PrivateKey</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># select network: local, testnet, mainnet
+</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">composer</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
+
+    <span class="c1"># initialize grpc client
+</span>    <span class="c1"># set custom cookie location (optional) - defaults to current dir
+</span>    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">sync_timeout_height</span><span class="p">()</span>
+
+    <span class="c1"># load account
+</span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"</span><span class="p">)</span>
+    <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">()</span>
+    <span class="n">account</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_account</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">())</span>
+
+    <span class="c1"># prepare tx msg
+</span>    <span class="c1"># NOTE: COIN MUST BE SORTED IN ALPHABETICAL ORDER BY DENOMS
+</span>    <span class="n">funds</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="mi">69</span><span class="p">,</span> <span class="n">denom</span><span class="o">=</span><span class="s">'factory/inj1hdvy6tl89llqy3ze8lv6mz5qh66sx9enn0jxg6/inj12ngevx045zpvacus9s6anr258gkwpmthnz80e9'</span><span class="p">),</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="mi">420</span><span class="p">,</span> <span class="n">denom</span><span class="o">=</span><span class="s">'peggy0x44C21afAaF20c270EBbF5914Cfc3b5022173FEB7'</span><span class="p">),</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">denom</span><span class="o">=</span><span class="s">'peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5'</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgExecuteContract</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+        <span class="n">contract</span><span class="o">=</span><span class="s">"inj1ady3s7whq30l4fx8sj3x6muv5mx4dfdlcpv8n7"</span><span class="p">,</span>
+        <span class="n">msg</span><span class="o">=</span><span class="s">'{"increment":{}}'</span><span class="p">,</span>
+        <span class="n">funds</span><span class="o">=</span><span class="n">funds</span>
+    <span class="p">)</span>
+
+    <span class="c1"># build sim tx
+</span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Transaction</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">with_messages</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">with_sequence</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">get_sequence</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_account_num</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">get_number</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">with_chain_id</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">chain_id</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">sim_sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
+    <span class="n">sim_sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sim_sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+    <span class="n">sim_tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sim_sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># simulate tx
+</span>    <span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">simulate_tx</span><span class="p">(</span><span class="n">sim_tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># build tx
+</span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+</span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
+    <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
+        <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
+        <span class="n">denom</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">fee_denom</span><span class="p">,</span>
+    <span class="p">)]</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">with_gas</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">).</span><span class="n">with_fee</span><span class="p">(</span><span class="n">fee</span><span class="p">).</span><span class="n">with_memo</span><span class="p">(</span><span class="s">''</span><span class="p">).</span><span class="n">with_timeout_height</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">timeout_height</span><span class="p">)</span>
+    <span class="n">sign_doc</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_sign_doc</span><span class="p">(</span><span class="n">pub_key</span><span class="p">)</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sign_doc</span><span class="p">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+    <span class="n">tx_raw_bytes</span> <span class="o">=</span> <span class="n">tx</span><span class="p">.</span><span class="n">get_tx_data</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub_key</span><span class="p">)</span>
+
+    <span class="c1"># broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
+</span>    <span class="n">res</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">send_tx_sync_mode</span><span class="p">(</span><span class="n">tx_raw_bytes</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"gas wanted: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"gas fee: {} INJ"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">gas_fee</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>sender</td>
+<td>String</td>
+<td>The Injective Chain address of the sender</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>contract</td>
+<td>String</td>
+<td>The Injective Chain address of the contract</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>msg</td>
+<td>Bytes</td>
+<td>JSON encoded message to pass to the contract</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>funds</td>
+<td>Coin Array</td>
+<td>List of Coins to be sent to the contract. Note that the coins must be alphabetically sorted by denoms</td>
+<td>No</td>
+</tr>
+</tbody></table>
+
+<p><strong>Coin</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>denom</td>
+<td>String</td>
+<td>Denom of the Coin</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>String</td>
+<td>Amount of Coin</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">txhash</span><span class="p">:</span> <span class="s">"814807A5C827FC385DF6108E52494E63A2010F36B1D6F36E43B2AEED5D530D60"</span>
+<span class="n">raw_log</span><span class="p">:</span> <span class="s">"[]"</span>
+
+<span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">217930</span>
+<span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.000108965</span> <span class="n">INJ</span>
+</code></pre></div><h1 id='historical-queries'>- Historical Queries</h1>
 <p>Execute historical chain queries by passing the block height in the headers. Keep in mind that the chain node being used in the query should not be pruned for the height specified.</p>
 
 <p>Publicly maintained nodes are being pruned every 5-10 days.</p>
