@@ -36,6 +36,7 @@ includes:
   - staking
   - bank
   - wasm
+  - insurance
   - historicalqueries
   - glossary
   - faq

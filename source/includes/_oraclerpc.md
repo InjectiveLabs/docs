@@ -169,7 +169,7 @@ oracles {
 |symbol|String|The symbol of the oracle asset|
 |base_symbol|String|Oracle base currency|
 |quote_symbol|String|Oracle quote currency. If no quote symbol is returned, USD is the default.|
-|oracle_type|String|The oracle provider|
+|oracle_base|String|Oracle base currency|
 |price|String|The price of the asset|
 
 
