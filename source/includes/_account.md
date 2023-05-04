@@ -1130,6 +1130,79 @@ if __name__ == '__main__':
     asyncio.get_event_loop().run_until_complete(main())
 ```
 
+```go
+package main
+
+import (
+  "context"
+  "fmt"
+  "os"
+  "time"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+
+  chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+)
+
+func main() {
+  // network := common.LoadNetwork("mainnet", "k8s")
+  network := common.LoadNetwork("mainnet", "k8s")
+  tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+    os.Getenv("HOME")+"/.injectived",
+    "injectived",
+    "file",
+    "inj-user",
+    "12345678",
+    "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+    false,
+  )
+
+  if err != nil {
+    panic(err)
+  }
+
+  clientCtx, err := chainclient.NewClientContext(
+    network.ChainId,
+    senderAddress.String(),
+    cosmosKeyring,
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
+
+  chainClient, err := chainclient.NewChainClient(
+    clientCtx,
+    network.ChainGrpcEndpoint,
+    common.OptionTLSCert(network.ChainTlsCert),
+    common.OptionGasPrices("500000000inj"),
+  )
+
+  if err != nil {
+    fmt.Println(err)
+  }
+
+  timeOutCtx, cancelFn := context.WithTimeout(context.Background(), 30*time.Second)
+  defer cancelFn()
+
+  resp, err := chainClient.GetTx(timeOutCtx, "A2B2B971C690AE7977451D24D6F450AECE6BCCB271E91E32C2563342DDA5254B")
+  if err != nil {
+    panic(err)
+  }
+
+  fmt.Println(resp.TxResponse)
+}
+```
+
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |tx_hash|String|The transaction hash|Yes|
@@ -1275,6 +1348,229 @@ tx_response {
     }
   }
 }
+```
+
+``` go
+code: 0
+codespace: ""
+data: 0AC1010A302F696E6A6563746976652E65786368616E67652E763162657461312E4D736742617463685570646174654F7264657273128C011202010122423078396638313937363932323364333439646462313738333335303831396437396235373736323363623361613163633462346534326361643638666264393462362242307834656239333035636565663365616264663762653734313338343931633966373738663439613131613164643733613930623761666366323731353263633935
+events:
+- attributes:
+  - index: true
+    key: YWNjX3NlcQ==
+    value: aW5qMWFzNGpydGE4ODV6M3puMzdhMnozeGs5Y2RkdDhkeXptZnZ3ZW13LzEwODczMTIy
+  type: tx
+- attributes:
+  - index: true
+    key: c2lnbmF0dXJl
+    value: eWtDcmVOVjdEaHF1Z1k5d2gvc25EWFF4VUtibC9ZK3h3Nmw5d3ZhU28zcExSYU9rVlR2b3VuaERmRy9ZYzl0SEplYVd6L1d2am1OekU2MmFJNHBrSHdFPQ==
+  type: tx
+- attributes:
+  - index: true
+    key: c3BlbmRlcg==
+    value: aW5qMWFzNGpydGE4ODV6M3puMzdhMnozeGs5Y2RkdDhkeXptZnZ3ZW13
+  - index: true
+    key: YW1vdW50
+    value: MzY5ODAxMDAwMDAwMDAwaW5q
+  type: coin_spent
+- attributes:
+  - index: true
+    key: cmVjZWl2ZXI=
+    value: aW5qMTd4cGZ2YWttMmFtZzk2MnlsczZmODR6M2tlbGw4YzVsNnM1eWU5
+  - index: true
+    key: YW1vdW50
+    value: MzY5ODAxMDAwMDAwMDAwaW5q
+  type: coin_received
+- attributes:
+  - index: true
+    key: cmVjaXBpZW50
+    value: aW5qMTd4cGZ2YWttMmFtZzk2MnlsczZmODR6M2tlbGw4YzVsNnM1eWU5
+  - index: true
+    key: c2VuZGVy
+    value: aW5qMWFzNGpydGE4ODV6M3puMzdhMnozeGs5Y2RkdDhkeXptZnZ3ZW13
+  - index: true
+    key: YW1vdW50
+    value: MzY5ODAxMDAwMDAwMDAwaW5q
+  type: transfer
+- attributes:
+  - index: true
+    key: c2VuZGVy
+    value: aW5qMWFzNGpydGE4ODV6M3puMzdhMnozeGs5Y2RkdDhkeXptZnZ3ZW13
+  type: message
+- attributes:
+  - index: true
+    key: ZmVl
+    value: MzY5ODAxMDAwMDAwMDAwaW5q
+  - index: true
+    key: ZmVlX3BheWVy
+    value: aW5qMWFzNGpydGE4ODV6M3puMzdhMnozeGs5Y2RkdDhkeXptZnZ3ZW13
+  type: tx
+- attributes:
+  - index: true
+    key: YWN0aW9u
+    value: L2luamVjdGl2ZS5leGNoYW5nZS52MWJldGExLk1zZ0JhdGNoVXBkYXRlT3JkZXJz
+  type: message
+- attributes:
+  - index: true
+    key: aXNMaW1pdENhbmNlbA==
+    value: dHJ1ZQ==
+  - index: true
+    key: bGltaXRfb3JkZXI=
+    value: eyJvcmRlcl9pbmZvIjp7InN1YmFjY291bnRfaWQiOiIweGVjMmIyMWFmYTczZDA1MTE0ZTNlZWE4NTEzNThiODZiNTY3NjkwNWIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEiLCJmZWVfcmVjaXBpZW50IjoiaW5qMWFzNGpydGE4ODV6M3puMzdhMnozeGs5Y2RkdDhkeXptZnZ3ZW13IiwicHJpY2UiOiI3NzM1MDAwLjAwMDAwMDAwMDAwMDAwMDAwMCIsInF1YW50aXR5IjoiNjQ2LjU2OTAwMDAwMDAwMDAwMDAwMCJ9LCJvcmRlcl90eXBlIjoiU0VMTF9QTyIsIm1hcmdpbiI6IjAuMDAwMDAwMDAwMDAwMDAwMDAwIiwiZmlsbGFibGUiOiI2NDYuNTY5MDAwMDAwMDAwMDAwMDAwIiwidHJpZ2dlcl9wcmljZSI6bnVsbCwib3JkZXJfaGFzaCI6ImhTZUNBOEU1a0krdmEzZUdLMnhWUGJxSlZybzNSUzlPRkJCVHhxMXhtVDg9In0=
+  - index: true
+    key: bWFya2V0X2lk
+    value: IjB4OWI5OTgwMTY3ZWNjMzY0NWZmMWE1NTE3ODg2NjUyZDk0YTA4MjVlNTRhNzdkMjA1N2NiYmUzZWJlZTAxNTk2MyI=
+  - index: true
+    key: bWFya2V0X29yZGVyX2NhbmNlbA==
+    value: bnVsbA==
+  type: injective.exchange.v1beta1.EventCancelDerivativeOrder
+- attributes:
+  - index: true
+    key: aXNMaW1pdENhbmNlbA==
+    value: dHJ1ZQ==
+  - index: true
+    key: bGltaXRfb3JkZXI=
+    value: eyJvcmRlcl9pbmZvIjp7InN1YmFjY291bnRfaWQiOiIweGVjMmIyMWFmYTczZDA1MTE0ZTNlZWE4NTEzNThiODZiNTY3NjkwNWIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEiLCJmZWVfcmVjaXBpZW50IjoiaW5qMWFzNGpydGE4ODV6M3puMzdhMnozeGs5Y2RkdDhkeXptZnZ3ZW13IiwicHJpY2UiOiI3NjY0MDAwLjAwMDAwMDAwMDAwMDAwMDAwMCIsInF1YW50aXR5IjoiNjQ2LjU2OTAwMDAwMDAwMDAwMDAwMCJ9LCJvcmRlcl90eXBlIjoiQlVZX1BPIiwibWFyZ2luIjoiOTkxMDYwOTYzLjIwMDAwMDAwMDAwMDAwMDAwMCIsImZpbGxhYmxlIjoiNjQ2LjU2OTAwMDAwMDAwMDAwMDAwMCIsInRyaWdnZXJfcHJpY2UiOm51bGwsIm9yZGVyX2hhc2giOiJnYllhaEVIdFhLY0J3RkgvazU4ZmxQdVZlUWRzcGlabjA5NWZia3E0a0dNPSJ9
+  - index: true
+    key: bWFya2V0X2lk
+    value: IjB4OWI5OTgwMTY3ZWNjMzY0NWZmMWE1NTE3ODg2NjUyZDk0YTA4MjVlNTRhNzdkMjA1N2NiYmUzZWJlZTAxNTk2MyI=
+  - index: true
+    key: bWFya2V0X29yZGVyX2NhbmNlbA==
+    value: bnVsbA==
+  type: injective.exchange.v1beta1.EventCancelDerivativeOrder
+- attributes:
+  - index: true
+    key: YnV5X29yZGVycw==
+    value: W10=
+  - index: true
+    key: bWFya2V0X2lk
+    value: IjB4OWI5OTgwMTY3ZWNjMzY0NWZmMWE1NTE3ODg2NjUyZDk0YTA4MjVlNTRhNzdkMjA1N2NiYmUzZWJlZTAxNTk2MyI=
+  - index: true
+    key: c2VsbF9vcmRlcnM=
+    value: W3sib3JkZXJfaW5mbyI6eyJzdWJhY2NvdW50X2lkIjoiMHhlYzJiMjFhZmE3M2QwNTExNGUzZWVhODUxMzU4Yjg2YjU2NzY5MDViMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxIiwiZmVlX3JlY2lwaWVudCI6ImluajFhczRqcnRhODg1ejN6bjM3YTJ6M3hrOWNkZHQ4ZHl6bWZ2d2VtdyIsInByaWNlIjoiNzczNzAwMC4wMDAwMDAwMDAwMDAwMDAwMDAiLCJxdWFudGl0eSI6IjY0Ni4zMzcwMDAwMDAwMDAwMDAwMDAifSwib3JkZXJfdHlwZSI6IlNFTExfUE8iLCJtYXJnaW4iOiIwLjAwMDAwMDAwMDAwMDAwMDAwMCIsImZpbGxhYmxlIjoiNjQ2LjMzNzAwMDAwMDAwMDAwMDAwMCIsInRyaWdnZXJfcHJpY2UiOm51bGwsIm9yZGVyX2hhc2giOiJuNEdYYVNJOU5KM2JGNE0xQ0JuWG0xZDJJOHM2b2N4TFRrTEsxbys5bExZPSJ9XQ==
+  type: injective.exchange.v1beta1.EventNewDerivativeOrders
+- attributes:
+  - index: true
+    key: YnV5X29yZGVycw==
+    value: W3sib3JkZXJfaW5mbyI6eyJzdWJhY2NvdW50X2lkIjoiMHhlYzJiMjFhZmE3M2QwNTExNGUzZWVhODUxMzU4Yjg2YjU2NzY5MDViMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxIiwiZmVlX3JlY2lwaWVudCI6ImluajFhczRqcnRhODg1ejN6bjM3YTJ6M3hrOWNkZHQ4ZHl6bWZ2d2VtdyIsInByaWNlIjoiNzY2NjAwMC4wMDAwMDAwMDAwMDAwMDAwMDAiLCJxdWFudGl0eSI6IjY0Ni4zMzcwMDAwMDAwMDAwMDAwMDAifSwib3JkZXJfdHlwZSI6IkJVWV9QTyIsIm1hcmdpbiI6Ijk5MDk2Mzg4OC40MDAwMDAwMDAwMDAwMDAwMDAiLCJmaWxsYWJsZSI6IjY0Ni4zMzcwMDAwMDAwMDAwMDAwMDAiLCJ0cmlnZ2VyX3ByaWNlIjpudWxsLCJvcmRlcl9oYXNoIjoiVHJrd1hPN3o2cjMzdm5RVGhKSEo5M2owbWhHaDNYT3BDM3I4OG5GU3pKVT0ifV0=
+  - index: true
+    key: bWFya2V0X2lk
+    value: IjB4OWI5OTgwMTY3ZWNjMzY0NWZmMWE1NTE3ODg2NjUyZDk0YTA4MjVlNTRhNzdkMjA1N2NiYmUzZWJlZTAxNTk2MyI=
+  - index: true
+    key: c2VsbF9vcmRlcnM=
+    value: W10=
+  type: injective.exchange.v1beta1.EventNewDerivativeOrders
+gas_used: "261983"
+gas_wanted: "369801"
+height: "32442284"
+info: ""
+logs:
+- events:
+  - attributes:
+    - key: isLimitCancel
+      value: "true"
+    - key: limit_order
+      value: '{"order_info":{"subaccount_id":"0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001","fee_recipient":"inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw","price":"7735000.000000000000000000","quantity":"646.569000000000000000"},"order_type":"SELL_PO","margin":"0.000000000000000000","fillable":"646.569000000000000000","trigger_price":null,"order_hash":"hSeCA8E5kI+va3eGK2xVPbqJVro3RS9OFBBTxq1xmT8="}'
+    - key: market_id
+      value: '"0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963"'
+    - key: market_order_cancel
+      value: "null"
+    - key: isLimitCancel
+      value: "true"
+    - key: limit_order
+      value: '{"order_info":{"subaccount_id":"0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001","fee_recipient":"inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw","price":"7664000.000000000000000000","quantity":"646.569000000000000000"},"order_type":"BUY_PO","margin":"991060963.200000000000000000","fillable":"646.569000000000000000","trigger_price":null,"order_hash":"gbYahEHtXKcBwFH/k58flPuVeQdspiZn095fbkq4kGM="}'
+    - key: market_id
+      value: '"0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963"'
+    - key: market_order_cancel
+      value: "null"
+    type: injective.exchange.v1beta1.EventCancelDerivativeOrder
+  - attributes:
+    - key: buy_orders
+      value: '[]'
+    - key: market_id
+      value: '"0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963"'
+    - key: sell_orders
+      value: '[{"order_info":{"subaccount_id":"0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001","fee_recipient":"inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw","price":"7737000.000000000000000000","quantity":"646.337000000000000000"},"order_type":"SELL_PO","margin":"0.000000000000000000","fillable":"646.337000000000000000","trigger_price":null,"order_hash":"n4GXaSI9NJ3bF4M1CBnXm1d2I8s6ocxLTkLK1o+9lLY="}]'
+    - key: buy_orders
+      value: '[{"order_info":{"subaccount_id":"0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001","fee_recipient":"inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw","price":"7666000.000000000000000000","quantity":"646.337000000000000000"},"order_type":"BUY_PO","margin":"990963888.400000000000000000","fillable":"646.337000000000000000","trigger_price":null,"order_hash":"TrkwXO7z6r33vnQThJHJ93j0mhGh3XOpC3r88nFSzJU="}]'
+    - key: market_id
+      value: '"0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963"'
+    - key: sell_orders
+      value: '[]'
+    type: injective.exchange.v1beta1.EventNewDerivativeOrders
+  - attributes:
+    - key: action
+      value: /injective.exchange.v1beta1.MsgBatchUpdateOrders
+    type: message
+  log: ""
+  msg_index: 0
+raw_log: '[{"events":[{"type":"injective.exchange.v1beta1.EventCancelDerivativeOrder","attributes":[{"key":"isLimitCancel","value":"true"},{"key":"limit_order","value":"{\"order_info\":{\"subaccount_id\":\"0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001\",\"fee_recipient\":\"inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw\",\"price\":\"7735000.000000000000000000\",\"quantity\":\"646.569000000000000000\"},\"order_type\":\"SELL_PO\",\"margin\":\"0.000000000000000000\",\"fillable\":\"646.569000000000000000\",\"trigger_price\":null,\"order_hash\":\"hSeCA8E5kI+va3eGK2xVPbqJVro3RS9OFBBTxq1xmT8=\"}"},{"key":"market_id","value":"\"0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963\""},{"key":"market_order_cancel","value":"null"},{"key":"isLimitCancel","value":"true"},{"key":"limit_order","value":"{\"order_info\":{\"subaccount_id\":\"0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001\",\"fee_recipient\":\"inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw\",\"price\":\"7664000.000000000000000000\",\"quantity\":\"646.569000000000000000\"},\"order_type\":\"BUY_PO\",\"margin\":\"991060963.200000000000000000\",\"fillable\":\"646.569000000000000000\",\"trigger_price\":null,\"order_hash\":\"gbYahEHtXKcBwFH/k58flPuVeQdspiZn095fbkq4kGM=\"}"},{"key":"market_id","value":"\"0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963\""},{"key":"market_order_cancel","value":"null"}]},{"type":"injective.exchange.v1beta1.EventNewDerivativeOrders","attributes":[{"key":"buy_orders","value":"[]"},{"key":"market_id","value":"\"0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963\""},{"key":"sell_orders","value":"[{\"order_info\":{\"subaccount_id\":\"0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001\",\"fee_recipient\":\"inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw\",\"price\":\"7737000.000000000000000000\",\"quantity\":\"646.337000000000000000\"},\"order_type\":\"SELL_PO\",\"margin\":\"0.000000000000000000\",\"fillable\":\"646.337000000000000000\",\"trigger_price\":null,\"order_hash\":\"n4GXaSI9NJ3bF4M1CBnXm1d2I8s6ocxLTkLK1o+9lLY=\"}]"},{"key":"buy_orders","value":"[{\"order_info\":{\"subaccount_id\":\"0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001\",\"fee_recipient\":\"inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw\",\"price\":\"7666000.000000000000000000\",\"quantity\":\"646.337000000000000000\"},\"order_type\":\"BUY_PO\",\"margin\":\"990963888.400000000000000000\",\"fillable\":\"646.337000000000000000\",\"trigger_price\":null,\"order_hash\":\"TrkwXO7z6r33vnQThJHJ93j0mhGh3XOpC3r88nFSzJU=\"}]"},{"key":"market_id","value":"\"0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963\""},{"key":"sell_orders","value":"[]"}]},{"type":"message","attributes":[{"key":"action","value":"/injective.exchange.v1beta1.MsgBatchUpdateOrders"}]}]}]'
+timestamp: "2023-05-02T03:04:55Z"
+tx:
+  '@type': /cosmos.tx.v1beta1.Tx
+  auth_info:
+    fee:
+      amount:
+      - amount: "369801000000000"
+        denom: inj
+      gas_limit: "369801"
+      granter: ""
+      payer: ""
+    signer_infos:
+    - mode_info:
+        single:
+          mode: SIGN_MODE_DIRECT
+      public_key:
+        '@type': /injective.crypto.v1beta1.ethsecp256k1.PubKey
+        key: An8DQ7/twFqvUuJxd5rCIkl04BfQocYS2T/A2pnYbFOJ
+      sequence: "10873122"
+  body:
+    extension_options: []
+    memo: ""
+    messages:
+    - '@type': /injective.exchange.v1beta1.MsgBatchUpdateOrders
+      binary_options_market_ids_to_cancel_all: []
+      binary_options_orders_to_cancel: []
+      binary_options_orders_to_create: []
+      derivative_market_ids_to_cancel_all: []
+      derivative_orders_to_cancel:
+      - market_id: 0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963
+        order_hash: 0x85278203c139908faf6b77862b6c553dba8956ba37452f4e141053c6ad71993f
+        order_mask: 0
+        subaccount_id: 0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001
+      - market_id: 0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963
+        order_hash: 0x81b61a8441ed5ca701c051ff939f1f94fb9579076ca62667d3de5f6e4ab89063
+        order_mask: 0
+        subaccount_id: 0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001
+      derivative_orders_to_create:
+      - margin: "0.000000000000000000"
+        market_id: 0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963
+        order_info:
+          fee_recipient: inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw
+          price: "7737000.000000000000000000"
+          quantity: "646.337000000000000000"
+          subaccount_id: 0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001
+        order_type: SELL_PO
+        trigger_price: null
+      - margin: "990963888.400000000000000000"
+        market_id: 0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963
+        order_info:
+          fee_recipient: inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw
+          price: "7666000.000000000000000000"
+          quantity: "646.337000000000000000"
+          subaccount_id: 0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001
+        order_type: BUY_PO
+        trigger_price: null
+      sender: inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw
+      spot_market_ids_to_cancel_all: []
+      spot_orders_to_cancel: []
+      spot_orders_to_create: []
+      subaccount_id: ""
+    non_critical_extension_options: []
+    timeout_height: "0"
+  signatures:
+  - ykCreNV7DhqugY9wh/snDXQxUKbl/Y+xw6l9wvaSo3pLRaOkVTvounhDfG/Yc9tHJeaWz/WvjmNzE62aI4pkHwE=
+txhash: A2B2B971C690AE7977451D24D6F450AECE6BCCB271E91E32C2563342DDA5254B
 ```
 
 
