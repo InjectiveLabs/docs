@@ -31194,6 +31194,76 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
     <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+  <span class="s">"context"</span>
+  <span class="s">"fmt"</span>
+  <span class="s">"os"</span>
+  <span class="s">"time"</span>
+
+  <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+
+  <span class="n">chainclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/chain"</span>
+  <span class="n">rpchttp</span> <span class="s">"github.com/tendermint/tendermint/rpc/client/http"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c">// network := common.LoadNetwork("mainnet", "k8s")</span>
+  <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"mainnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
+  <span class="n">tmRPC</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">rpchttp</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">,</span> <span class="s">"/websocket"</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="n">senderAddress</span><span class="p">,</span> <span class="n">cosmosKeyring</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">InitCosmosKeyring</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">Getenv</span><span class="p">(</span><span class="s">"HOME"</span><span class="p">)</span><span class="o">+</span><span class="s">"/.injectived"</span><span class="p">,</span>
+    <span class="s">"injectived"</span><span class="p">,</span>
+    <span class="s">"file"</span><span class="p">,</span>
+    <span class="s">"inj-user"</span><span class="p">,</span>
+    <span class="s">"12345678"</span><span class="p">,</span>
+    <span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">,</span> <span class="c">// keyring will be used if pk not provided</span>
+    <span class="no">false</span><span class="p">,</span>
+  <span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+    <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="n">clientCtx</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">NewClientContext</span><span class="p">(</span>
+    <span class="n">network</span><span class="o">.</span><span class="n">ChainId</span><span class="p">,</span>
+    <span class="n">senderAddress</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span>
+    <span class="n">cosmosKeyring</span><span class="p">,</span>
+  <span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="n">clientCtx</span> <span class="o">=</span> <span class="n">clientCtx</span><span class="o">.</span><span class="n">WithNodeURI</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">TmEndpoint</span><span class="p">)</span><span class="o">.</span><span class="n">WithClient</span><span class="p">(</span><span class="n">tmRPC</span><span class="p">)</span>
+
+  <span class="n">chainClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainclient</span><span class="o">.</span><span class="n">NewChainClient</span><span class="p">(</span>
+    <span class="n">clientCtx</span><span class="p">,</span>
+    <span class="n">network</span><span class="o">.</span><span class="n">ChainGrpcEndpoint</span><span class="p">,</span>
+    <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ChainTlsCert</span><span class="p">),</span>
+    <span class="n">common</span><span class="o">.</span><span class="n">OptionGasPrices</span><span class="p">(</span><span class="s">"500000000inj"</span><span class="p">),</span>
+  <span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="n">timeOutCtx</span><span class="p">,</span> <span class="n">cancelFn</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">WithTimeout</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">(),</span> <span class="m">30</span><span class="o">*</span><span class="n">time</span><span class="o">.</span><span class="n">Second</span><span class="p">)</span>
+  <span class="k">defer</span> <span class="n">cancelFn</span><span class="p">()</span>
+
+  <span class="n">resp</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">GetTx</span><span class="p">(</span><span class="n">timeOutCtx</span><span class="p">,</span> <span class="s">"A2B2B971C690AE7977451D24D6F450AECE6BCCB271E91E32C2563342DDA5254B"</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+    <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">TxResponse</span><span class="p">)</span>
+<span class="p">}</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -31351,6 +31421,226 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="n">code</span><span class="o">:</span> <span class="m">0</span>
+<span class="n">codespace</span><span class="o">:</span> <span class="s">""</span>
+<span class="n">data</span><span class="o">:</span> <span class="m">0</span><span class="n">AC1010A302F696E6A6563746976652E65786368616E67652E763162657461312E4D736742617463685570646174654F7264657273128C011202010122423078396638313937363932323364333439646462313738333335303831396437396235373736323363623361613163633462346534326361643638666264393462362242307834656239333035636565663365616264663762653734313338343931633966373738663439613131613164643733613930623761666366323731353263633935</span>
+<span class="n">events</span><span class="o">:</span>
+<span class="o">-</span> <span class="n">attributes</span><span class="o">:</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">YWNjX3NlcQ</span><span class="o">==</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">aW5qMWFzNGpydGE4ODV6M3puMzdhMnozeGs5Y2RkdDhkeXptZnZ3ZW13LzEwODczMTIy</span>
+  <span class="k">type</span><span class="o">:</span> <span class="n">tx</span>
+<span class="o">-</span> <span class="n">attributes</span><span class="o">:</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">c2lnbmF0dXJl</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">eWtDcmVOVjdEaHF1Z1k5d2gvc25EWFF4VUtibC9ZK3h3Nmw5d3ZhU28zcExSYU9rVlR2b3VuaERmRy9ZYzl0SEplYVd6L1d2am1OekU2MmFJNHBrSHdFPQ</span><span class="o">==</span>
+  <span class="k">type</span><span class="o">:</span> <span class="n">tx</span>
+<span class="o">-</span> <span class="n">attributes</span><span class="o">:</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">c3BlbmRlcg</span><span class="o">==</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">aW5qMWFzNGpydGE4ODV6M3puMzdhMnozeGs5Y2RkdDhkeXptZnZ3ZW13</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">YW1vdW50</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">MzY5ODAxMDAwMDAwMDAwaW5q</span>
+  <span class="k">type</span><span class="o">:</span> <span class="n">coin_spent</span>
+<span class="o">-</span> <span class="n">attributes</span><span class="o">:</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">cmVjZWl2ZXI</span><span class="o">=</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">aW5qMTd4cGZ2YWttMmFtZzk2MnlsczZmODR6M2tlbGw4YzVsNnM1eWU5</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">YW1vdW50</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">MzY5ODAxMDAwMDAwMDAwaW5q</span>
+  <span class="k">type</span><span class="o">:</span> <span class="n">coin_received</span>
+<span class="o">-</span> <span class="n">attributes</span><span class="o">:</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">cmVjaXBpZW50</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">aW5qMTd4cGZ2YWttMmFtZzk2MnlsczZmODR6M2tlbGw4YzVsNnM1eWU5</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">c2VuZGVy</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">aW5qMWFzNGpydGE4ODV6M3puMzdhMnozeGs5Y2RkdDhkeXptZnZ3ZW13</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">YW1vdW50</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">MzY5ODAxMDAwMDAwMDAwaW5q</span>
+  <span class="k">type</span><span class="o">:</span> <span class="n">transfer</span>
+<span class="o">-</span> <span class="n">attributes</span><span class="o">:</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">c2VuZGVy</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">aW5qMWFzNGpydGE4ODV6M3puMzdhMnozeGs5Y2RkdDhkeXptZnZ3ZW13</span>
+  <span class="k">type</span><span class="o">:</span> <span class="n">message</span>
+<span class="o">-</span> <span class="n">attributes</span><span class="o">:</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">ZmVl</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">MzY5ODAxMDAwMDAwMDAwaW5q</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">ZmVlX3BheWVy</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">aW5qMWFzNGpydGE4ODV6M3puMzdhMnozeGs5Y2RkdDhkeXptZnZ3ZW13</span>
+  <span class="k">type</span><span class="o">:</span> <span class="n">tx</span>
+<span class="o">-</span> <span class="n">attributes</span><span class="o">:</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">YWN0aW9u</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">L2luamVjdGl2ZS5leGNoYW5nZS52MWJldGExLk1zZ0JhdGNoVXBkYXRlT3JkZXJz</span>
+  <span class="k">type</span><span class="o">:</span> <span class="n">message</span>
+<span class="o">-</span> <span class="n">attributes</span><span class="o">:</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">aXNMaW1pdENhbmNlbA</span><span class="o">==</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">dHJ1ZQ</span><span class="o">==</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">bGltaXRfb3JkZXI</span><span class="o">=</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">eyJvcmRlcl9pbmZvIjp7InN1YmFjY291bnRfaWQiOiIweGVjMmIyMWFmYTczZDA1MTE0ZTNlZWE4NTEzNThiODZiNTY3NjkwNWIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEiLCJmZWVfcmVjaXBpZW50IjoiaW5qMWFzNGpydGE4ODV6M3puMzdhMnozeGs5Y2RkdDhkeXptZnZ3ZW13IiwicHJpY2UiOiI3NzM1MDAwLjAwMDAwMDAwMDAwMDAwMDAwMCIsInF1YW50aXR5IjoiNjQ2LjU2OTAwMDAwMDAwMDAwMDAwMCJ9LCJvcmRlcl90eXBlIjoiU0VMTF9QTyIsIm1hcmdpbiI6IjAuMDAwMDAwMDAwMDAwMDAwMDAwIiwiZmlsbGFibGUiOiI2NDYuNTY5MDAwMDAwMDAwMDAwMDAwIiwidHJpZ2dlcl9wcmljZSI6bnVsbCwib3JkZXJfaGFzaCI6ImhTZUNBOEU1a0krdmEzZUdLMnhWUGJxSlZybzNSUzlPRkJCVHhxMXhtVDg9In0</span><span class="o">=</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">bWFya2V0X2lk</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">IjB4OWI5OTgwMTY3ZWNjMzY0NWZmMWE1NTE3ODg2NjUyZDk0YTA4MjVlNTRhNzdkMjA1N2NiYmUzZWJlZTAxNTk2MyI</span><span class="o">=</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">bWFya2V0X29yZGVyX2NhbmNlbA</span><span class="o">==</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">bnVsbA</span><span class="o">==</span>
+  <span class="k">type</span><span class="o">:</span> <span class="n">injective</span><span class="o">.</span><span class="n">exchange</span><span class="o">.</span><span class="n">v1beta1</span><span class="o">.</span><span class="n">EventCancelDerivativeOrder</span>
+<span class="o">-</span> <span class="n">attributes</span><span class="o">:</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">aXNMaW1pdENhbmNlbA</span><span class="o">==</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">dHJ1ZQ</span><span class="o">==</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">bGltaXRfb3JkZXI</span><span class="o">=</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">eyJvcmRlcl9pbmZvIjp7InN1YmFjY291bnRfaWQiOiIweGVjMmIyMWFmYTczZDA1MTE0ZTNlZWE4NTEzNThiODZiNTY3NjkwNWIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEiLCJmZWVfcmVjaXBpZW50IjoiaW5qMWFzNGpydGE4ODV6M3puMzdhMnozeGs5Y2RkdDhkeXptZnZ3ZW13IiwicHJpY2UiOiI3NjY0MDAwLjAwMDAwMDAwMDAwMDAwMDAwMCIsInF1YW50aXR5IjoiNjQ2LjU2OTAwMDAwMDAwMDAwMDAwMCJ9LCJvcmRlcl90eXBlIjoiQlVZX1BPIiwibWFyZ2luIjoiOTkxMDYwOTYzLjIwMDAwMDAwMDAwMDAwMDAwMCIsImZpbGxhYmxlIjoiNjQ2LjU2OTAwMDAwMDAwMDAwMDAwMCIsInRyaWdnZXJfcHJpY2UiOm51bGwsIm9yZGVyX2hhc2giOiJnYllhaEVIdFhLY0J3RkgvazU4ZmxQdVZlUWRzcGlabjA5NWZia3E0a0dNPSJ9</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">bWFya2V0X2lk</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">IjB4OWI5OTgwMTY3ZWNjMzY0NWZmMWE1NTE3ODg2NjUyZDk0YTA4MjVlNTRhNzdkMjA1N2NiYmUzZWJlZTAxNTk2MyI</span><span class="o">=</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">bWFya2V0X29yZGVyX2NhbmNlbA</span><span class="o">==</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">bnVsbA</span><span class="o">==</span>
+  <span class="k">type</span><span class="o">:</span> <span class="n">injective</span><span class="o">.</span><span class="n">exchange</span><span class="o">.</span><span class="n">v1beta1</span><span class="o">.</span><span class="n">EventCancelDerivativeOrder</span>
+<span class="o">-</span> <span class="n">attributes</span><span class="o">:</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">YnV5X29yZGVycw</span><span class="o">==</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">W10</span><span class="o">=</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">bWFya2V0X2lk</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">IjB4OWI5OTgwMTY3ZWNjMzY0NWZmMWE1NTE3ODg2NjUyZDk0YTA4MjVlNTRhNzdkMjA1N2NiYmUzZWJlZTAxNTk2MyI</span><span class="o">=</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">c2VsbF9vcmRlcnM</span><span class="o">=</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">W3sib3JkZXJfaW5mbyI6eyJzdWJhY2NvdW50X2lkIjoiMHhlYzJiMjFhZmE3M2QwNTExNGUzZWVhODUxMzU4Yjg2YjU2NzY5MDViMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxIiwiZmVlX3JlY2lwaWVudCI6ImluajFhczRqcnRhODg1ejN6bjM3YTJ6M3hrOWNkZHQ4ZHl6bWZ2d2VtdyIsInByaWNlIjoiNzczNzAwMC4wMDAwMDAwMDAwMDAwMDAwMDAiLCJxdWFudGl0eSI6IjY0Ni4zMzcwMDAwMDAwMDAwMDAwMDAifSwib3JkZXJfdHlwZSI6IlNFTExfUE8iLCJtYXJnaW4iOiIwLjAwMDAwMDAwMDAwMDAwMDAwMCIsImZpbGxhYmxlIjoiNjQ2LjMzNzAwMDAwMDAwMDAwMDAwMCIsInRyaWdnZXJfcHJpY2UiOm51bGwsIm9yZGVyX2hhc2giOiJuNEdYYVNJOU5KM2JGNE0xQ0JuWG0xZDJJOHM2b2N4TFRrTEsxbys5bExZPSJ9XQ</span><span class="o">==</span>
+  <span class="k">type</span><span class="o">:</span> <span class="n">injective</span><span class="o">.</span><span class="n">exchange</span><span class="o">.</span><span class="n">v1beta1</span><span class="o">.</span><span class="n">EventNewDerivativeOrders</span>
+<span class="o">-</span> <span class="n">attributes</span><span class="o">:</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">YnV5X29yZGVycw</span><span class="o">==</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">W3sib3JkZXJfaW5mbyI6eyJzdWJhY2NvdW50X2lkIjoiMHhlYzJiMjFhZmE3M2QwNTExNGUzZWVhODUxMzU4Yjg2YjU2NzY5MDViMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxIiwiZmVlX3JlY2lwaWVudCI6ImluajFhczRqcnRhODg1ejN6bjM3YTJ6M3hrOWNkZHQ4ZHl6bWZ2d2VtdyIsInByaWNlIjoiNzY2NjAwMC4wMDAwMDAwMDAwMDAwMDAwMDAiLCJxdWFudGl0eSI6IjY0Ni4zMzcwMDAwMDAwMDAwMDAwMDAifSwib3JkZXJfdHlwZSI6IkJVWV9QTyIsIm1hcmdpbiI6Ijk5MDk2Mzg4OC40MDAwMDAwMDAwMDAwMDAwMDAiLCJmaWxsYWJsZSI6IjY0Ni4zMzcwMDAwMDAwMDAwMDAwMDAiLCJ0cmlnZ2VyX3ByaWNlIjpudWxsLCJvcmRlcl9oYXNoIjoiVHJrd1hPN3o2cjMzdm5RVGhKSEo5M2owbWhHaDNYT3BDM3I4OG5GU3pKVT0ifV0</span><span class="o">=</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">bWFya2V0X2lk</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">IjB4OWI5OTgwMTY3ZWNjMzY0NWZmMWE1NTE3ODg2NjUyZDk0YTA4MjVlNTRhNzdkMjA1N2NiYmUzZWJlZTAxNTk2MyI</span><span class="o">=</span>
+  <span class="o">-</span> <span class="n">index</span><span class="o">:</span> <span class="no">true</span>
+    <span class="n">key</span><span class="o">:</span> <span class="n">c2VsbF9vcmRlcnM</span><span class="o">=</span>
+    <span class="n">value</span><span class="o">:</span> <span class="n">W10</span><span class="o">=</span>
+  <span class="k">type</span><span class="o">:</span> <span class="n">injective</span><span class="o">.</span><span class="n">exchange</span><span class="o">.</span><span class="n">v1beta1</span><span class="o">.</span><span class="n">EventNewDerivativeOrders</span>
+<span class="n">gas_used</span><span class="o">:</span> <span class="s">"261983"</span>
+<span class="n">gas_wanted</span><span class="o">:</span> <span class="s">"369801"</span>
+<span class="n">height</span><span class="o">:</span> <span class="s">"32442284"</span>
+<span class="n">info</span><span class="o">:</span> <span class="s">""</span>
+<span class="n">logs</span><span class="o">:</span>
+<span class="o">-</span> <span class="n">events</span><span class="o">:</span>
+  <span class="o">-</span> <span class="n">attributes</span><span class="o">:</span>
+    <span class="o">-</span> <span class="n">key</span><span class="o">:</span> <span class="n">isLimitCancel</span>
+      <span class="n">value</span><span class="o">:</span> <span class="s">"true"</span>
+    <span class="o">-</span> <span class="n">key</span><span class="o">:</span> <span class="n">limit_order</span>
+      <span class="n">value</span><span class="o">:</span> <span class="err">'</span><span class="p">{</span><span class="s">"order_info"</span><span class="o">:</span><span class="p">{</span><span class="s">"subaccount_id"</span><span class="o">:</span><span class="s">"0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001"</span><span class="p">,</span><span class="s">"fee_recipient"</span><span class="o">:</span><span class="s">"inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw"</span><span class="p">,</span><span class="s">"price"</span><span class="o">:</span><span class="s">"7735000.000000000000000000"</span><span class="p">,</span><span class="s">"quantity"</span><span class="o">:</span><span class="s">"646.569000000000000000"</span><span class="p">},</span><span class="s">"order_type"</span><span class="o">:</span><span class="s">"SELL_PO"</span><span class="p">,</span><span class="s">"margin"</span><span class="o">:</span><span class="s">"0.000000000000000000"</span><span class="p">,</span><span class="s">"fillable"</span><span class="o">:</span><span class="s">"646.569000000000000000"</span><span class="p">,</span><span class="s">"trigger_price"</span><span class="o">:</span><span class="n">null</span><span class="p">,</span><span class="s">"order_hash"</span><span class="o">:</span><span class="s">"hSeCA8E5kI+va3eGK2xVPbqJVro3RS9OFBBTxq1xmT8="</span><span class="p">}</span><span class="err">'</span>
+    <span class="o">-</span> <span class="n">key</span><span class="o">:</span> <span class="n">market_id</span>
+      <span class="n">value</span><span class="o">:</span> <span class="err">'</span><span class="s">"0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963"</span><span class="err">'</span>
+    <span class="o">-</span> <span class="n">key</span><span class="o">:</span> <span class="n">market_order_cancel</span>
+      <span class="n">value</span><span class="o">:</span> <span class="s">"null"</span>
+    <span class="o">-</span> <span class="n">key</span><span class="o">:</span> <span class="n">isLimitCancel</span>
+      <span class="n">value</span><span class="o">:</span> <span class="s">"true"</span>
+    <span class="o">-</span> <span class="n">key</span><span class="o">:</span> <span class="n">limit_order</span>
+      <span class="n">value</span><span class="o">:</span> <span class="err">'</span><span class="p">{</span><span class="s">"order_info"</span><span class="o">:</span><span class="p">{</span><span class="s">"subaccount_id"</span><span class="o">:</span><span class="s">"0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001"</span><span class="p">,</span><span class="s">"fee_recipient"</span><span class="o">:</span><span class="s">"inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw"</span><span class="p">,</span><span class="s">"price"</span><span class="o">:</span><span class="s">"7664000.000000000000000000"</span><span class="p">,</span><span class="s">"quantity"</span><span class="o">:</span><span class="s">"646.569000000000000000"</span><span class="p">},</span><span class="s">"order_type"</span><span class="o">:</span><span class="s">"BUY_PO"</span><span class="p">,</span><span class="s">"margin"</span><span class="o">:</span><span class="s">"991060963.200000000000000000"</span><span class="p">,</span><span class="s">"fillable"</span><span class="o">:</span><span class="s">"646.569000000000000000"</span><span class="p">,</span><span class="s">"trigger_price"</span><span class="o">:</span><span class="n">null</span><span class="p">,</span><span class="s">"order_hash"</span><span class="o">:</span><span class="s">"gbYahEHtXKcBwFH/k58flPuVeQdspiZn095fbkq4kGM="</span><span class="p">}</span><span class="err">'</span>
+    <span class="o">-</span> <span class="n">key</span><span class="o">:</span> <span class="n">market_id</span>
+      <span class="n">value</span><span class="o">:</span> <span class="err">'</span><span class="s">"0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963"</span><span class="err">'</span>
+    <span class="o">-</span> <span class="n">key</span><span class="o">:</span> <span class="n">market_order_cancel</span>
+      <span class="n">value</span><span class="o">:</span> <span class="s">"null"</span>
+    <span class="k">type</span><span class="o">:</span> <span class="n">injective</span><span class="o">.</span><span class="n">exchange</span><span class="o">.</span><span class="n">v1beta1</span><span class="o">.</span><span class="n">EventCancelDerivativeOrder</span>
+  <span class="o">-</span> <span class="n">attributes</span><span class="o">:</span>
+    <span class="o">-</span> <span class="n">key</span><span class="o">:</span> <span class="n">buy_orders</span>
+      <span class="n">value</span><span class="o">:</span> <span class="err">'</span><span class="p">[]</span><span class="err">'</span>
+    <span class="o">-</span> <span class="n">key</span><span class="o">:</span> <span class="n">market_id</span>
+      <span class="n">value</span><span class="o">:</span> <span class="err">'</span><span class="s">"0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963"</span><span class="err">'</span>
+    <span class="o">-</span> <span class="n">key</span><span class="o">:</span> <span class="n">sell_orders</span>
+      <span class="n">value</span><span class="o">:</span> <span class="err">'</span><span class="p">[{</span><span class="s">"order_info"</span><span class="o">:</span><span class="p">{</span><span class="s">"subaccount_id"</span><span class="o">:</span><span class="s">"0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001"</span><span class="p">,</span><span class="s">"fee_recipient"</span><span class="o">:</span><span class="s">"inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw"</span><span class="p">,</span><span class="s">"price"</span><span class="o">:</span><span class="s">"7737000.000000000000000000"</span><span class="p">,</span><span class="s">"quantity"</span><span class="o">:</span><span class="s">"646.337000000000000000"</span><span class="p">},</span><span class="s">"order_type"</span><span class="o">:</span><span class="s">"SELL_PO"</span><span class="p">,</span><span class="s">"margin"</span><span class="o">:</span><span class="s">"0.000000000000000000"</span><span class="p">,</span><span class="s">"fillable"</span><span class="o">:</span><span class="s">"646.337000000000000000"</span><span class="p">,</span><span class="s">"trigger_price"</span><span class="o">:</span><span class="n">null</span><span class="p">,</span><span class="s">"order_hash"</span><span class="o">:</span><span class="s">"n4GXaSI9NJ3bF4M1CBnXm1d2I8s6ocxLTkLK1o+9lLY="</span><span class="p">}]</span><span class="err">'</span>
+    <span class="o">-</span> <span class="n">key</span><span class="o">:</span> <span class="n">buy_orders</span>
+      <span class="n">value</span><span class="o">:</span> <span class="err">'</span><span class="p">[{</span><span class="s">"order_info"</span><span class="o">:</span><span class="p">{</span><span class="s">"subaccount_id"</span><span class="o">:</span><span class="s">"0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001"</span><span class="p">,</span><span class="s">"fee_recipient"</span><span class="o">:</span><span class="s">"inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw"</span><span class="p">,</span><span class="s">"price"</span><span class="o">:</span><span class="s">"7666000.000000000000000000"</span><span class="p">,</span><span class="s">"quantity"</span><span class="o">:</span><span class="s">"646.337000000000000000"</span><span class="p">},</span><span class="s">"order_type"</span><span class="o">:</span><span class="s">"BUY_PO"</span><span class="p">,</span><span class="s">"margin"</span><span class="o">:</span><span class="s">"990963888.400000000000000000"</span><span class="p">,</span><span class="s">"fillable"</span><span class="o">:</span><span class="s">"646.337000000000000000"</span><span class="p">,</span><span class="s">"trigger_price"</span><span class="o">:</span><span class="n">null</span><span class="p">,</span><span class="s">"order_hash"</span><span class="o">:</span><span class="s">"TrkwXO7z6r33vnQThJHJ93j0mhGh3XOpC3r88nFSzJU="</span><span class="p">}]</span><span class="err">'</span>
+    <span class="o">-</span> <span class="n">key</span><span class="o">:</span> <span class="n">market_id</span>
+      <span class="n">value</span><span class="o">:</span> <span class="err">'</span><span class="s">"0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963"</span><span class="err">'</span>
+    <span class="o">-</span> <span class="n">key</span><span class="o">:</span> <span class="n">sell_orders</span>
+      <span class="n">value</span><span class="o">:</span> <span class="err">'</span><span class="p">[]</span><span class="err">'</span>
+    <span class="k">type</span><span class="o">:</span> <span class="n">injective</span><span class="o">.</span><span class="n">exchange</span><span class="o">.</span><span class="n">v1beta1</span><span class="o">.</span><span class="n">EventNewDerivativeOrders</span>
+  <span class="o">-</span> <span class="n">attributes</span><span class="o">:</span>
+    <span class="o">-</span> <span class="n">key</span><span class="o">:</span> <span class="n">action</span>
+      <span class="n">value</span><span class="o">:</span> <span class="o">/</span><span class="n">injective</span><span class="o">.</span><span class="n">exchange</span><span class="o">.</span><span class="n">v1beta1</span><span class="o">.</span><span class="n">MsgBatchUpdateOrders</span>
+    <span class="k">type</span><span class="o">:</span> <span class="n">message</span>
+  <span class="n">log</span><span class="o">:</span> <span class="s">""</span>
+  <span class="n">msg_index</span><span class="o">:</span> <span class="m">0</span>
+<span class="n">raw_log</span><span class="o">:</span> <span class="err">'</span><span class="p">[{</span><span class="s">"events"</span><span class="o">:</span><span class="p">[{</span><span class="s">"type"</span><span class="o">:</span><span class="s">"injective.exchange.v1beta1.EventCancelDerivativeOrder"</span><span class="p">,</span><span class="s">"attributes"</span><span class="o">:</span><span class="p">[{</span><span class="s">"key"</span><span class="o">:</span><span class="s">"isLimitCancel"</span><span class="p">,</span><span class="s">"value"</span><span class="o">:</span><span class="s">"true"</span><span class="p">},{</span><span class="s">"key"</span><span class="o">:</span><span class="s">"limit_order"</span><span class="p">,</span><span class="s">"value"</span><span class="o">:</span><span class="s">"{</span><span class="se">\"</span><span class="s">order_info</span><span class="se">\"</span><span class="s">:{</span><span class="se">\"</span><span class="s">subaccount_id</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">fee_recipient</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">price</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">7735000.000000000000000000</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">quantity</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">646.569000000000000000</span><span class="se">\"</span><span class="s">},</span><span class="se">\"</span><span class="s">order_type</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">SELL_PO</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">margin</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">0.000000000000000000</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">fillable</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">646.569000000000000000</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">trigger_price</span><span class="se">\"</span><span class="s">:null,</span><span class="se">\"</span><span class="s">order_hash</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">hSeCA8E5kI+va3eGK2xVPbqJVro3RS9OFBBTxq1xmT8=</span><span class="se">\"</span><span class="s">}"</span><span class="p">},{</span><span class="s">"key"</span><span class="o">:</span><span class="s">"market_id"</span><span class="p">,</span><span class="s">"value"</span><span class="o">:</span><span class="s">"</span><span class="se">\"</span><span class="s">0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963</span><span class="se">\"</span><span class="s">"</span><span class="p">},{</span><span class="s">"key"</span><span class="o">:</span><span class="s">"market_order_cancel"</span><span class="p">,</span><span class="s">"value"</span><span class="o">:</span><span class="s">"null"</span><span class="p">},{</span><span class="s">"key"</span><span class="o">:</span><span class="s">"isLimitCancel"</span><span class="p">,</span><span class="s">"value"</span><span class="o">:</span><span class="s">"true"</span><span class="p">},{</span><span class="s">"key"</span><span class="o">:</span><span class="s">"limit_order"</span><span class="p">,</span><span class="s">"value"</span><span class="o">:</span><span class="s">"{</span><span class="se">\"</span><span class="s">order_info</span><span class="se">\"</span><span class="s">:{</span><span class="se">\"</span><span class="s">subaccount_id</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">fee_recipient</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">price</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">7664000.000000000000000000</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">quantity</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">646.569000000000000000</span><span class="se">\"</span><span class="s">},</span><span class="se">\"</span><span class="s">order_type</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">BUY_PO</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">margin</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">991060963.200000000000000000</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">fillable</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">646.569000000000000000</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">trigger_price</span><span class="se">\"</span><span class="s">:null,</span><span class="se">\"</span><span class="s">order_hash</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">gbYahEHtXKcBwFH/k58flPuVeQdspiZn095fbkq4kGM=</span><span class="se">\"</span><span class="s">}"</span><span class="p">},{</span><span class="s">"key"</span><span class="o">:</span><span class="s">"market_id"</span><span class="p">,</span><span class="s">"value"</span><span class="o">:</span><span class="s">"</span><span class="se">\"</span><span class="s">0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963</span><span class="se">\"</span><span class="s">"</span><span class="p">},{</span><span class="s">"key"</span><span class="o">:</span><span class="s">"market_order_cancel"</span><span class="p">,</span><span class="s">"value"</span><span class="o">:</span><span class="s">"null"</span><span class="p">}]},{</span><span class="s">"type"</span><span class="o">:</span><span class="s">"injective.exchange.v1beta1.EventNewDerivativeOrders"</span><span class="p">,</span><span class="s">"attributes"</span><span class="o">:</span><span class="p">[{</span><span class="s">"key"</span><span class="o">:</span><span class="s">"buy_orders"</span><span class="p">,</span><span class="s">"value"</span><span class="o">:</span><span class="s">"[]"</span><span class="p">},{</span><span class="s">"key"</span><span class="o">:</span><span class="s">"market_id"</span><span class="p">,</span><span class="s">"value"</span><span class="o">:</span><span class="s">"</span><span class="se">\"</span><span class="s">0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963</span><span class="se">\"</span><span class="s">"</span><span class="p">},{</span><span class="s">"key"</span><span class="o">:</span><span class="s">"sell_orders"</span><span class="p">,</span><span class="s">"value"</span><span class="o">:</span><span class="s">"[{</span><span class="se">\"</span><span class="s">order_info</span><span class="se">\"</span><span class="s">:{</span><span class="se">\"</span><span class="s">subaccount_id</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">fee_recipient</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">price</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">7737000.000000000000000000</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">quantity</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">646.337000000000000000</span><span class="se">\"</span><span class="s">},</span><span class="se">\"</span><span class="s">order_type</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">SELL_PO</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">margin</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">0.000000000000000000</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">fillable</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">646.337000000000000000</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">trigger_price</span><span class="se">\"</span><span class="s">:null,</span><span class="se">\"</span><span class="s">order_hash</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">n4GXaSI9NJ3bF4M1CBnXm1d2I8s6ocxLTkLK1o+9lLY=</span><span class="se">\"</span><span class="s">}]"</span><span class="p">},{</span><span class="s">"key"</span><span class="o">:</span><span class="s">"buy_orders"</span><span class="p">,</span><span class="s">"value"</span><span class="o">:</span><span class="s">"[{</span><span class="se">\"</span><span class="s">order_info</span><span class="se">\"</span><span class="s">:{</span><span class="se">\"</span><span class="s">subaccount_id</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">fee_recipient</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">price</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">7666000.000000000000000000</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">quantity</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">646.337000000000000000</span><span class="se">\"</span><span class="s">},</span><span class="se">\"</span><span class="s">order_type</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">BUY_PO</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">margin</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">990963888.400000000000000000</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">fillable</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">646.337000000000000000</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">trigger_price</span><span class="se">\"</span><span class="s">:null,</span><span class="se">\"</span><span class="s">order_hash</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">TrkwXO7z6r33vnQThJHJ93j0mhGh3XOpC3r88nFSzJU=</span><span class="se">\"</span><span class="s">}]"</span><span class="p">},{</span><span class="s">"key"</span><span class="o">:</span><span class="s">"market_id"</span><span class="p">,</span><span class="s">"value"</span><span class="o">:</span><span class="s">"</span><span class="se">\"</span><span class="s">0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963</span><span class="se">\"</span><span class="s">"</span><span class="p">},{</span><span class="s">"key"</span><span class="o">:</span><span class="s">"sell_orders"</span><span class="p">,</span><span class="s">"value"</span><span class="o">:</span><span class="s">"[]"</span><span class="p">}]},{</span><span class="s">"type"</span><span class="o">:</span><span class="s">"message"</span><span class="p">,</span><span class="s">"attributes"</span><span class="o">:</span><span class="p">[{</span><span class="s">"key"</span><span class="o">:</span><span class="s">"action"</span><span class="p">,</span><span class="s">"value"</span><span class="o">:</span><span class="s">"/injective.exchange.v1beta1.MsgBatchUpdateOrders"</span><span class="p">}]}]}]</span><span class="err">'</span>
+<span class="n">timestamp</span><span class="o">:</span> <span class="s">"2023-05-02T03:04:55Z"</span>
+<span class="n">tx</span><span class="o">:</span>
+  <span class="err">'@</span><span class="k">type</span><span class="err">'</span><span class="o">:</span> <span class="o">/</span><span class="n">cosmos</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">v1beta1</span><span class="o">.</span><span class="n">Tx</span>
+  <span class="n">auth_info</span><span class="o">:</span>
+    <span class="n">fee</span><span class="o">:</span>
+      <span class="n">amount</span><span class="o">:</span>
+      <span class="o">-</span> <span class="n">amount</span><span class="o">:</span> <span class="s">"369801000000000"</span>
+        <span class="n">denom</span><span class="o">:</span> <span class="n">inj</span>
+      <span class="n">gas_limit</span><span class="o">:</span> <span class="s">"369801"</span>
+      <span class="n">granter</span><span class="o">:</span> <span class="s">""</span>
+      <span class="n">payer</span><span class="o">:</span> <span class="s">""</span>
+    <span class="n">signer_infos</span><span class="o">:</span>
+    <span class="o">-</span> <span class="n">mode_info</span><span class="o">:</span>
+        <span class="n">single</span><span class="o">:</span>
+          <span class="n">mode</span><span class="o">:</span> <span class="n">SIGN_MODE_DIRECT</span>
+      <span class="n">public_key</span><span class="o">:</span>
+        <span class="err">'@</span><span class="k">type</span><span class="err">'</span><span class="o">:</span> <span class="o">/</span><span class="n">injective</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">v1beta1</span><span class="o">.</span><span class="n">ethsecp256k1</span><span class="o">.</span><span class="n">PubKey</span>
+        <span class="n">key</span><span class="o">:</span> <span class="n">An8DQ7</span><span class="o">/</span><span class="n">twFqvUuJxd5rCIkl04BfQocYS2T</span><span class="o">/</span><span class="n">A2pnYbFOJ</span>
+      <span class="n">sequence</span><span class="o">:</span> <span class="s">"10873122"</span>
+  <span class="n">body</span><span class="o">:</span>
+    <span class="n">extension_options</span><span class="o">:</span> <span class="p">[]</span>
+    <span class="n">memo</span><span class="o">:</span> <span class="s">""</span>
+    <span class="n">messages</span><span class="o">:</span>
+    <span class="o">-</span> <span class="err">'@</span><span class="k">type</span><span class="err">'</span><span class="o">:</span> <span class="o">/</span><span class="n">injective</span><span class="o">.</span><span class="n">exchange</span><span class="o">.</span><span class="n">v1beta1</span><span class="o">.</span><span class="n">MsgBatchUpdateOrders</span>
+      <span class="n">binary_options_market_ids_to_cancel_all</span><span class="o">:</span> <span class="p">[]</span>
+      <span class="n">binary_options_orders_to_cancel</span><span class="o">:</span> <span class="p">[]</span>
+      <span class="n">binary_options_orders_to_create</span><span class="o">:</span> <span class="p">[]</span>
+      <span class="n">derivative_market_ids_to_cancel_all</span><span class="o">:</span> <span class="p">[]</span>
+      <span class="n">derivative_orders_to_cancel</span><span class="o">:</span>
+      <span class="o">-</span> <span class="n">market_id</span><span class="o">:</span> <span class="m">0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963</span>
+        <span class="n">order_hash</span><span class="o">:</span> <span class="m">0x85278203c139908faf6b77862b6c553dba8956ba37452f4e141053c6ad71993f</span>
+        <span class="n">order_mask</span><span class="o">:</span> <span class="m">0</span>
+        <span class="n">subaccount_id</span><span class="o">:</span> <span class="m">0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001</span>
+      <span class="o">-</span> <span class="n">market_id</span><span class="o">:</span> <span class="m">0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963</span>
+        <span class="n">order_hash</span><span class="o">:</span> <span class="m">0x81b61a8441ed5ca701c051ff939f1f94fb9579076ca62667d3de5f6e4ab89063</span>
+        <span class="n">order_mask</span><span class="o">:</span> <span class="m">0</span>
+        <span class="n">subaccount_id</span><span class="o">:</span> <span class="m">0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001</span>
+      <span class="n">derivative_orders_to_create</span><span class="o">:</span>
+      <span class="o">-</span> <span class="n">margin</span><span class="o">:</span> <span class="s">"0.000000000000000000"</span>
+        <span class="n">market_id</span><span class="o">:</span> <span class="m">0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963</span>
+        <span class="n">order_info</span><span class="o">:</span>
+          <span class="n">fee_recipient</span><span class="o">:</span> <span class="n">inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw</span>
+          <span class="n">price</span><span class="o">:</span> <span class="s">"7737000.000000000000000000"</span>
+          <span class="n">quantity</span><span class="o">:</span> <span class="s">"646.337000000000000000"</span>
+          <span class="n">subaccount_id</span><span class="o">:</span> <span class="m">0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001</span>
+        <span class="n">order_type</span><span class="o">:</span> <span class="n">SELL_PO</span>
+        <span class="n">trigger_price</span><span class="o">:</span> <span class="n">null</span>
+      <span class="o">-</span> <span class="n">margin</span><span class="o">:</span> <span class="s">"990963888.400000000000000000"</span>
+        <span class="n">market_id</span><span class="o">:</span> <span class="m">0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963</span>
+        <span class="n">order_info</span><span class="o">:</span>
+          <span class="n">fee_recipient</span><span class="o">:</span> <span class="n">inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw</span>
+          <span class="n">price</span><span class="o">:</span> <span class="s">"7666000.000000000000000000"</span>
+          <span class="n">quantity</span><span class="o">:</span> <span class="s">"646.337000000000000000"</span>
+          <span class="n">subaccount_id</span><span class="o">:</span> <span class="m">0xec2b21afa73d05114e3eea851358b86b5676905b000000000000000000000001</span>
+        <span class="n">order_type</span><span class="o">:</span> <span class="n">BUY_PO</span>
+        <span class="n">trigger_price</span><span class="o">:</span> <span class="n">null</span>
+      <span class="n">sender</span><span class="o">:</span> <span class="n">inj1as4jrta885z3zn37a2z3xk9cddt8dyzmfvwemw</span>
+      <span class="n">spot_market_ids_to_cancel_all</span><span class="o">:</span> <span class="p">[]</span>
+      <span class="n">spot_orders_to_cancel</span><span class="o">:</span> <span class="p">[]</span>
+      <span class="n">spot_orders_to_create</span><span class="o">:</span> <span class="p">[]</span>
+      <span class="n">subaccount_id</span><span class="o">:</span> <span class="s">""</span>
+    <span class="n">non_critical_extension_options</span><span class="o">:</span> <span class="p">[]</span>
+    <span class="n">timeout_height</span><span class="o">:</span> <span class="s">"0"</span>
+  <span class="n">signatures</span><span class="o">:</span>
+  <span class="o">-</span> <span class="n">ykCreNV7DhqugY9wh</span><span class="o">/</span><span class="n">snDXQxUKbl</span><span class="o">/</span><span class="n">Y</span><span class="o">+</span><span class="n">xw6l9wvaSo3pLRaOkVTvounhDfG</span><span class="o">/</span><span class="n">Yc9tHJeaWz</span><span class="o">/</span><span class="n">WvjmNzE62aI4pkHwE</span><span class="o">=</span>
+<span class="n">txhash</span><span class="o">:</span> <span class="n">A2B2B971C690AE7977451D24D6F450AECE6BCCB271E91E32C2563342DDA5254B</span>
 </code></pre></div><h2 id='account-streameventorderfail'>StreamEventOrderFail</h2>
 <blockquote>
 <p>Request Example:</p>
