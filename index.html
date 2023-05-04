@@ -31706,23 +31706,23 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="c1"># prepare tx msg
 </span>
     <span class="c1">#GENERIC AUTHZ
-</span>    <span class="c1"># msg = composer.MsgGrantGeneric(
+</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgGrantGeneric</span><span class="p">(</span>
+        <span class="n">granter</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span><span class="p">,</span>
+        <span class="n">grantee</span> <span class="o">=</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span><span class="p">,</span>
+        <span class="n">msg_type</span> <span class="o">=</span> <span class="s">"/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"</span><span class="p">,</span>
+        <span class="n">expire_in</span><span class="o">=</span><span class="mi">31536000</span> <span class="c1"># 1 year
+</span>    <span class="p">)</span>
+
+    <span class="c1">#TYPED AUTHZ
+</span>    <span class="c1"># msg = composer.MsgGrantTyped(
 </span>    <span class="c1">#     granter = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
 </span>    <span class="c1">#     grantee = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-</span>    <span class="c1">#     msg_type = "/injective.exchange.v1beta1.MsgCreateSpotLimitOrder",
-</span>    <span class="c1">#     expire_in=31536000 # 1 year
+</span>    <span class="c1">#     msg_type = "CreateSpotLimitOrderAuthz",
+</span>    <span class="c1">#     expire_in=31536000, # 1 year
+</span>    <span class="c1">#     subaccount_id=subaccount_id,
+</span>    <span class="c1">#     market_ids=market_ids
 </span>    <span class="c1"># )
 </span>
-    <span class="c1">#TYPED AUTHZ
-</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgGrantTyped</span><span class="p">(</span>
-        <span class="n">granter</span> <span class="o">=</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span><span class="p">,</span>
-        <span class="n">grantee</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span><span class="p">,</span>
-        <span class="n">msg_type</span> <span class="o">=</span> <span class="s">"CreateSpotLimitOrderAuthz"</span><span class="p">,</span>
-        <span class="n">expire_in</span><span class="o">=</span><span class="mi">31536000</span><span class="p">,</span> <span class="c1"># 1 year
-</span>        <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-        <span class="n">market_ids</span><span class="o">=</span><span class="n">market_ids</span>
-    <span class="p">)</span>
-
     <span class="c1"># build sim tx
 </span>    <span class="n">tx</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Transaction</span><span class="p">()</span>
@@ -31948,15 +31948,15 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">sync_timeout_height</span><span class="p">()</span>
 
     <span class="c1"># load account
-</span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"</span><span class="p">)</span>
+</span>    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span><span class="p">)</span>
     <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
     <span class="n">address</span> <span class="o">=</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">()</span>
     <span class="n">account</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_account</span><span class="p">(</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">())</span>
 
     <span class="c1"># prepare tx msg
-</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"</span>
-    <span class="n">grantee</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
-    <span class="n">granter_inj_address</span> <span class="o">=</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span>
+</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span>
+    <span class="n">grantee</span> <span class="o">=</span> <span class="s">"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"</span>
+    <span class="n">granter_inj_address</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
     <span class="n">granter_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">.</span><span class="n">from_acc_bech32</span><span class="p">(</span><span class="n">granter_inj_address</span><span class="p">)</span>
     <span class="n">granter_subaccount_id</span> <span class="o">=</span> <span class="n">granter_address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">msg0</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgCreateSpotLimitOrder</span><span class="p">(</span>
@@ -31994,10 +31994,10 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="k">return</span>
 
     <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
+    <span class="n">data</span><span class="o">=</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">replace</span><span class="p">(</span><span class="s">"results:"</span><span class="p">,</span> <span class="s">''</span><span class="p">))</span>
     <span class="n">unpacked_msg_res</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">UnpackMsgExecResponse</span><span class="p">(</span>
         <span class="n">msg_type</span><span class="o">=</span><span class="n">msg0</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span><span class="p">,</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">sim_res_msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data</span>
     <span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"simulation msg response"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">unpacked_msg_res</span><span class="p">)</span>
