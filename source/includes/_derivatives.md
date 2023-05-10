@@ -34,7 +34,7 @@ async def main() -> None:
     subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare trade info
-    market_id = "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+    market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
     # prepare tx msg
@@ -161,7 +161,7 @@ func main() {
 
     defaultSubaccountID := chainClient.DefaultSubaccount(senderAddress)
 
-    marketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+    marketId := "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
     amount := decimal.NewFromFloat(0.01)
     price := cosmtypes.MustNewDecFromStr("33000000000") //33,000
     leverage := cosmtypes.MustNewDecFromStr("2.5")
@@ -289,7 +289,7 @@ async def main() -> None:
     subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare trade info
-    market_id = "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+    market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
     # prepare tx msg
@@ -417,7 +417,7 @@ func main() {
 
     defaultSubaccountID := chainClient.DefaultSubaccount(senderAddress)
 
-    marketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+    marketId := "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
     amount := decimal.NewFromFloat(0.001)
     price := cosmtypes.MustNewDecFromStr("31000000000") //31,000
     leverage := cosmtypes.MustNewDecFromStr("2.5")
@@ -550,7 +550,7 @@ async def main() -> None:
     subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare trade info
-    market_id = "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+    market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
     order_hash = "0x667ee6f37f6d06bf473f4e1434e92ac98ff43c785405e2a511a0843daeca2de9"
 
     # prepare tx msg
@@ -982,7 +982,7 @@ func main() {
         MarketId:     smarketId,
     })
 
-    dmarketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+    dmarketId := "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
     damount := decimal.NewFromFloat(0.01)
     dprice := cosmtypes.MustNewDecFromStr("31000000000") //31,000
     dleverage := cosmtypes.MustNewDecFromStr("2")
@@ -1182,7 +1182,7 @@ async def main() -> None:
     subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare trade info
-    market_id = "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+    market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
 
     # prepare tx msg
     msg = composer.MsgIncreasePositionMargin(
@@ -1402,7 +1402,7 @@ async def main() -> None:
 
     # prepare trade info
     spot_market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-    deriv_market_id = "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+    deriv_market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
     spot_orders = [

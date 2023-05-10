@@ -1011,7 +1011,7 @@ func main() {
         MarketId:     smarketId,
     })
 
-    dmarketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+    dmarketId := "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
     damount := decimal.NewFromFloat(0.01)
     dprice := cosmtypes.MustNewDecFromStr("31000000000") //31,000
     dleverage := cosmtypes.MustNewDecFromStr("2")

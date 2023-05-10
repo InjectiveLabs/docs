@@ -22,7 +22,6 @@ includes:
   - insurancerpc
   - auctionsrpc
   - explorerrpc
-  - healthcheck
   - metarpc
   - portfoliorpc
   - chainapi
@@ -38,6 +37,7 @@ includes:
   - wasm
   - insurance
   - historicalqueries
+  - healthapi
   - glossary
   - faq
   # - exchangerpc
