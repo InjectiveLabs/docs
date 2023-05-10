@@ -1196,7 +1196,7 @@
         <span class="n">MarketId</span><span class="o">:</span>     <span class="n">smarketId</span><span class="p">,</span>
     <span class="p">})</span>
 
-    <span class="n">dmarketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+    <span class="n">dmarketId</span> <span class="o">:=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">damount</span> <span class="o">:=</span> <span class="n">decimal</span><span class="o">.</span><span class="n">NewFromFloat</span><span class="p">(</span><span class="m">0.01</span><span class="p">)</span>
     <span class="n">dprice</span> <span class="o">:=</span> <span class="n">cosmtypes</span><span class="o">.</span><span class="n">MustNewDecFromStr</span><span class="p">(</span><span class="s">"31000000000"</span><span class="p">)</span> <span class="c">//31,000</span>
     <span class="n">dleverage</span> <span class="o">:=</span> <span class="n">cosmtypes</span><span class="o">.</span><span class="n">MustNewDecFromStr</span><span class="p">(</span><span class="s">"2"</span><span class="p">)</span>

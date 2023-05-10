@@ -685,14 +685,6 @@
               </ul>
           </li>
           <li>
-            <a href="#indexerhealthapi" class="toc-h1 toc-link" data-title="- IndexerHealthAPI">- IndexerHealthAPI</a>
-              <ul class="toc-list-h2">
-                  <li>
-                    <a href="#indexerhealthapi-getstatus" class="toc-h2 toc-link" data-title="GetStatus">GetStatus</a>
-                  </li>
-              </ul>
-          </li>
-          <li>
             <a href="#injectivemetarpc" class="toc-h1 toc-link" data-title="- InjectiveMetaRPC">- InjectiveMetaRPC</a>
               <ul class="toc-list-h2">
                   <li>
@@ -912,6 +904,14 @@
           </li>
           <li>
             <a href="#historical-queries" class="toc-h1 toc-link" data-title="- Historical Queries">- Historical Queries</a>
+          </li>
+          <li>
+            <a href="#healthapi" class="toc-h1 toc-link" data-title="- HealthAPI">- HealthAPI</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#healthapi-getstatus" class="toc-h2 toc-link" data-title="GetStatus">GetStatus</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#glossary" class="toc-h1 toc-link" data-title="Glossary">Glossary</a>
@@ -5511,11 +5511,12 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <span class="k">import</span> <span class="p">(</span>
   <span class="s">"context"</span>
+  <span class="s">"encoding/json"</span>
   <span class="s">"fmt"</span>
 
   <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
   <span class="n">exchangeclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/exchange"</span>
-  <span class="n">derivativeExchangePB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"</span>
+  <span class="n">spotExchangePB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"</span>
 <span class="p">)</span>
 
 <span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
@@ -5523,26 +5524,26 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
   <span class="n">exchangeClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeclient</span><span class="o">.</span><span class="n">NewExchangeClient</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeGrpcEndpoint</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeTlsCert</span><span class="p">))</span>
   <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
   <span class="p">}</span>
 
   <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
-  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
-  <span class="n">subaccountId</span> <span class="o">:=</span> <span class="s">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span>
+  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span>
+  <span class="n">subaccountId</span> <span class="o">:=</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span>
 
-  <span class="n">req</span> <span class="o">:=</span> <span class="n">derivativeExchangePB</span><span class="o">.</span><span class="n">TradesRequest</span><span class="p">{</span>
+  <span class="n">req</span> <span class="o">:=</span> <span class="n">spotExchangePB</span><span class="o">.</span><span class="n">TradesRequest</span><span class="p">{</span>
     <span class="n">MarketId</span><span class="o">:</span>     <span class="n">marketId</span><span class="p">,</span>
     <span class="n">SubaccountId</span><span class="o">:</span> <span class="n">subaccountId</span><span class="p">,</span>
   <span class="p">}</span>
 
-  <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">GetDerivativeTrades</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
+  <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">GetSpotTrades</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
   <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
   <span class="p">}</span>
 
-  <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+  <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+  <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
 <span class="p">}</span>
-
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span>
   <span class="nx">TradeDirection</span><span class="p">,</span>
   <span class="nx">PaginationOption</span><span class="p">,</span>
@@ -9213,7 +9214,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">market</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_derivative_market</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">market</span><span class="p">)</span>
 
@@ -9240,7 +9241,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
 
   <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
-  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
   <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">GetDerivativeMarket</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">marketId</span><span class="p">)</span>
   <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
     <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
@@ -10696,7 +10697,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="s">"0x295639d56c987f0e24d21bb167872b3542a6e05a000000000000000000000000"</span>
     <span class="n">is_conditional</span> <span class="o">=</span> <span class="s">"false"</span>
     <span class="n">skip</span> <span class="o">=</span> <span class="mi">10</span>
@@ -11004,7 +11005,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">order_side</span> <span class="o">=</span> <span class="s">"sell"</span>
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="s">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span>
     <span class="n">orders</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">stream_historical_derivative_orders</span><span class="p">(</span>
@@ -11259,7 +11260,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="s">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span>
     <span class="n">trades</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_derivative_trades</span><span class="p">(</span>
         <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
@@ -11274,12 +11275,11 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
 <span class="k">import</span> <span class="p">(</span>
   <span class="s">"context"</span>
-  <span class="s">"encoding/json"</span>
   <span class="s">"fmt"</span>
 
   <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
   <span class="n">exchangeclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/exchange"</span>
-  <span class="n">spotExchangePB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"</span>
+  <span class="n">derivativeExchangePB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"</span>
 <span class="p">)</span>
 
 <span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
@@ -11287,25 +11287,24 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"k8s"</span><span class="p">)</span>
   <span class="n">exchangeClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeclient</span><span class="o">.</span><span class="n">NewExchangeClient</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeGrpcEndpoint</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">OptionTLSCert</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">ExchangeTlsCert</span><span class="p">))</span>
   <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-    <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
   <span class="p">}</span>
 
   <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
-  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"</span>
-  <span class="n">subaccountId</span> <span class="o">:=</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span>
+  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
+  <span class="n">subaccountId</span> <span class="o">:=</span> <span class="s">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span>
 
-  <span class="n">req</span> <span class="o">:=</span> <span class="n">spotExchangePB</span><span class="o">.</span><span class="n">TradesRequest</span><span class="p">{</span>
+  <span class="n">req</span> <span class="o">:=</span> <span class="n">derivativeExchangePB</span><span class="o">.</span><span class="n">TradesRequest</span><span class="p">{</span>
     <span class="n">MarketId</span><span class="o">:</span>     <span class="n">marketId</span><span class="p">,</span>
     <span class="n">SubaccountId</span><span class="o">:</span> <span class="n">subaccountId</span><span class="p">,</span>
   <span class="p">}</span>
 
-  <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">GetSpotTrades</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
+  <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">GetDerivativeTrades</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
   <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
-    <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
   <span class="p">}</span>
 
-  <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
-  <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+  <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span>
   <span class="nx">TradeDirection</span><span class="p">,</span>
@@ -11751,7 +11750,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
 
   <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
-  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
   <span class="n">subaccountId</span> <span class="o">:=</span> <span class="s">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span>
 
   <span class="n">req</span> <span class="o">:=</span> <span class="n">derivativeExchangePB</span><span class="o">.</span><span class="n">StreamTradesRequest</span><span class="p">{</span>
@@ -12177,7 +12176,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
 
   <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
-  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
   <span class="n">skip</span> <span class="o">:=</span> <span class="kt">uint64</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
   <span class="n">limit</span> <span class="o">:=</span> <span class="kt">int32</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
 
@@ -12519,7 +12518,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="s">"0xea98e3aa091a6676194df40ac089e40ab4604bf9000000000000000000000000"</span>
     <span class="n">positions</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">stream_derivative_positions</span><span class="p">(</span>
         <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
@@ -12552,7 +12551,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
 
   <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
-  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
 
   <span class="n">req</span> <span class="o">:=</span> <span class="n">derivativeExchangePB</span><span class="o">.</span><span class="n">StreamPositionsRequest</span><span class="p">{</span>
     <span class="n">MarketId</span><span class="o">:</span> <span class="n">marketId</span><span class="p">,</span>
@@ -12839,7 +12838,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">market</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_derivative_orderbook</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">market</span><span class="p">)</span>
 
@@ -12866,7 +12865,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
 
   <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
-  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
   <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">GetDerivativeOrderbook</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">marketId</span><span class="p">)</span>
   <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
     <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
@@ -13420,7 +13419,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">markets</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">stream_derivative_orderbook</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">)</span>
     <span class="k">async</span> <span class="k">for</span> <span class="n">market</span> <span class="ow">in</span> <span class="n">markets</span><span class="p">:</span>
         <span class="k">print</span><span class="p">(</span><span class="n">market</span><span class="p">)</span>
@@ -14232,7 +14231,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">async_client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">orderbook</span> <span class="o">=</span> <span class="n">Orderbook</span><span class="p">(</span><span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">)</span>
 
     <span class="c1"># start getting price levels updates
@@ -14510,33 +14509,25 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-  <span class="kn">import</span> <span class="nn">asyncio</span>
-  <span class="kn">import</span> <span class="nn">logging</span>
-
-  <span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
-  <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
-
-  <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-      <span class="c1"># select network: local, testnet, mainnet
-</span>      <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
-      <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-      <span class="n">subaccount_id</span> <span class="o">=</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span>
-      <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xe112199d9ee44ceb2697ea0edd1cd422223c105f3ed2bdf85223d3ca59f5909a"</span>
-      <span class="n">skip</span> <span class="o">=</span> <span class="mi">1</span>
-      <span class="n">limit</span> <span class="o">=</span> <span class="mi">2</span>
-      <span class="n">orders</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_derivative_subaccount_orders</span><span class="p">(</span>
-          <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
-          <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
-          <span class="n">skip</span><span class="o">=</span><span class="n">skip</span><span class="p">,</span>
-          <span class="n">limit</span><span class="o">=</span><span class="n">limit</span>
+    <span class="c1"># select network: local, testnet, mainnet
+</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">subaccount_id</span> <span class="o">=</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0xe112199d9ee44ceb2697ea0edd1cd422223c105f3ed2bdf85223d3ca59f5909a"</span>
+    <span class="n">skip</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">limit</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">orders</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_derivative_subaccount_orders</span><span class="p">(</span>
+        <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+        <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
+        <span class="n">skip</span><span class="o">=</span><span class="n">skip</span><span class="p">,</span>
+        <span class="n">limit</span><span class="o">=</span><span class="n">limit</span>
       <span class="p">)</span>
-      <span class="k">print</span><span class="p">(</span><span class="n">orders</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">orders</span><span class="p">)</span>
 
 
-  <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
-      <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
-      <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
 
 <span class="k">import</span> <span class="p">(</span>
@@ -14558,7 +14549,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
 
   <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
-  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
   <span class="n">subaccountId</span> <span class="o">:=</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span>
   <span class="n">skip</span> <span class="o">:=</span> <span class="kt">uint64</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
   <span class="n">limit</span> <span class="o">:=</span> <span class="kt">int32</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
@@ -14900,7 +14891,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">execution_type</span> <span class="o">=</span> <span class="s">"market"</span>
     <span class="n">direction</span> <span class="o">=</span> <span class="s">"sell"</span>
     <span class="n">skip</span> <span class="o">=</span> <span class="mi">10</span>
@@ -14940,7 +14931,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
 
   <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
-  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
   <span class="n">subaccountId</span> <span class="o">:=</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span>
   <span class="n">skip</span> <span class="o">:=</span> <span class="kt">uint64</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
   <span class="n">limit</span> <span class="o">:=</span> <span class="kt">int32</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
@@ -15294,7 +15285,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="s">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span>
     <span class="n">skip</span><span class="o">=</span><span class="mi">0</span>
     <span class="n">limit</span><span class="o">=</span><span class="mi">3</span>
@@ -15332,7 +15323,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
 
   <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
-  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
   <span class="n">subaccountId</span> <span class="o">:=</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span>
 
   <span class="n">req</span> <span class="o">:=</span> <span class="n">derivativeExchangePB</span><span class="o">.</span><span class="n">FundingPaymentsRequest</span><span class="p">{</span>
@@ -15562,7 +15553,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">skip</span><span class="o">=</span><span class="mi">0</span>
     <span class="n">limit</span><span class="o">=</span><span class="mi">3</span>
     <span class="n">end_time</span><span class="o">=</span><span class="mi">1675717201465</span>
@@ -15598,7 +15589,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">}</span>
 
   <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
-  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+  <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
 
   <span class="n">req</span> <span class="o">:=</span> <span class="n">derivativeExchangePB</span><span class="o">.</span><span class="n">FundingRatesRequest</span><span class="p">{</span>
     <span class="n">MarketId</span><span class="o">:</span> <span class="n">marketId</span><span class="p">,</span>
@@ -22789,107 +22780,6 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <td>Address that can update the contract&#39;s marketing info</td>
 </tr>
 </tbody></table>
-<h1 id='indexerhealthapi'>- IndexerHealthAPI</h1>
-<p>HealthAPI (HTTP) checks if backend data is up-to-date and reliable or not.</p>
-<h2 id='indexerhealthapi-getstatus'>GetStatus</h2>
-<p>Get current heights of the Injective Indexer and Injective Height Oracle to check backend health status. This service will return an error if the difference between the oracle height and the Indexer height is greater than 20 blocks.</p>
-
-<p><strong>Note:</strong></p>
-
-<p>During a recent upgrade, a new service has been deployed for the Indexer: the event provider. Prior to the upgrade, each Indexer within an instance would query its associated chain node (in the same instance) directly. Now, Indexers query an event provider service that consumes blocks from a K8s cluster. This frees up resources for chain nodes since they no longer serve data to the Indexers on the same instance. Before the event provider upgrade, the HealthAPI&#39;s <code>localHeight</code> essentially acted as a proxy for node height as long as the Indexer continued to ingest blocks. This meant that only <code>localHeight</code> and <code>horacleHeight</code> had to be compared to check both node health and Indexer health. However, since Indexers are no longer consuming data directly from a chain node and thus <code>localHeight</code> no longer proxies for the node&#39;s height, an additional health check must be performed to determine if the chain node itself is healthy. A health check for the Indexer is still performed to differentiate between Indexer health and node health.</p>
-
-<p>To check the health of an individual node (non K8s), the GetStatus API can be queried to obtain the Indexer height (<code>localHeight</code>) and the network height (<code>horacleHeight</code>). Next, the node height can be queried directly from the node (e.g. <code>curl --insecure http://sentry1.injective.network:26657/abci_info | grep last_block_height</code> or in Python <code>(await async_client.get_latest_block()).block.header.height</code>). Comparing <code>last_block_height</code> with <code>horacleHeight</code> gives a sense of the node&#39;s health, with a threshold of a 20 block difference being a good starting point for detecting unhealthy nodes. <code>localHeight</code> and <code>horacleHeight</code> can also be compared to check Indexer health, though an error should already be returned from the API query if the Indexer is deemed unhealthy (more than 20 block height difference).</p>
-
-<p>If K8s/LB endpoints are being used, there is no need to do these checks, as the cluster has built-in liveliness checks and excludes unhealthy nodes if any are detected.</p>
-
-<p>A recommended health check frequency of once every 20-30 seconds is recommended.</p>
-
-<blockquote>
-<p>Request Example:</p>
-</blockquote>
-
-<!-- embedme ../../../sdk-python/examples/exchange_client/health_http/1_GetStatus.py -->
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://sentry1.injective.network:4444/api/health/v1/status'</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
-
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
-</code></pre></div><h3 id='indexerhealthapi-getstatus-response-parameters'>Response Parameters</h3>
-<blockquote>
-<p>Response Example:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="p">{</span>
-  <span class="s">"s"</span><span class="p">:</span> <span class="s">""</span><span class="p">,</span>
-  <span class="s">"data"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"localHeight"</span><span class="p">:</span> <span class="mi">26953309</span><span class="p">,</span>
-    <span class="s">"localTimestamp"</span><span class="p">:</span> <span class="mi">1677042872</span><span class="p">,</span>
-    <span class="s">"horacleHeight"</span><span class="p">:</span> <span class="mi">26953309</span><span class="p">,</span>
-    <span class="s">"horacleTimestamp"</span><span class="p">:</span> <span class="mi">1677042872</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
-</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>s</td>
-<td>String</td>
-<td>Status of the response</td>
-</tr>
-<tr>
-<td>errmsg</td>
-<td>String</td>
-<td>Error message, if any</td>
-</tr>
-<tr>
-<td>data</td>
-<td>HealthStatus</td>
-<td>Height and time information for checking health</td>
-</tr>
-</tbody></table>
-
-<p><strong>HealthStatus</strong></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>localHeight</td>
-<td>Integer</td>
-<td>Injective Indexer block height</td>
-</tr>
-<tr>
-<td>localTimestamp</td>
-<td>Integer</td>
-<td>Timestamp of localHeight</td>
-</tr>
-<tr>
-<td>horacleHeight</td>
-<td>Integer</td>
-<td>Height of the network according to the Injective height oracle</td>
-</tr>
-<tr>
-<td>horacleTimestamp</td>
-<td>Integer</td>
-<td>Timestamp of horacleHeight</td>
-</tr>
-</tbody></table>
 <h1 id='injectivemetarpc'>- InjectiveMetaRPC</h1>
 <p>InjectiveMetaRPC defines the gRPC API of the Exchange Meta provider.</p>
 <h2 id='injectivemetarpc-ping'>Ping</h2>
@@ -23940,7 +23830,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># prepare trade info
-</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
 
     <span class="c1"># prepare tx msg
@@ -24064,7 +23954,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="n">defaultSubaccountID</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">DefaultSubaccount</span><span class="p">(</span><span class="n">senderAddress</span><span class="p">)</span>
 
-    <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+    <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">amount</span> <span class="o">:=</span> <span class="n">decimal</span><span class="o">.</span><span class="n">NewFromFloat</span><span class="p">(</span><span class="m">0.01</span><span class="p">)</span>
     <span class="n">price</span> <span class="o">:=</span> <span class="n">cosmtypes</span><span class="o">.</span><span class="n">MustNewDecFromStr</span><span class="p">(</span><span class="s">"33000000000"</span><span class="p">)</span> <span class="c">//33,000</span>
     <span class="n">leverage</span> <span class="o">:=</span> <span class="n">cosmtypes</span><span class="o">.</span><span class="n">MustNewDecFromStr</span><span class="p">(</span><span class="s">"2.5"</span><span class="p">)</span>
@@ -24232,7 +24122,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># prepare trade info
-</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
 
     <span class="c1"># prepare tx msg
@@ -24357,7 +24247,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="n">defaultSubaccountID</span> <span class="o">:=</span> <span class="n">chainClient</span><span class="o">.</span><span class="n">DefaultSubaccount</span><span class="p">(</span><span class="n">senderAddress</span><span class="p">)</span>
 
-    <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+    <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">amount</span> <span class="o">:=</span> <span class="n">decimal</span><span class="o">.</span><span class="n">NewFromFloat</span><span class="p">(</span><span class="m">0.001</span><span class="p">)</span>
     <span class="n">price</span> <span class="o">:=</span> <span class="n">cosmtypes</span><span class="o">.</span><span class="n">MustNewDecFromStr</span><span class="p">(</span><span class="s">"31000000000"</span><span class="p">)</span> <span class="c">//31,000</span>
     <span class="n">leverage</span> <span class="o">:=</span> <span class="n">cosmtypes</span><span class="o">.</span><span class="n">MustNewDecFromStr</span><span class="p">(</span><span class="s">"2.5"</span><span class="p">)</span>
@@ -24561,7 +24451,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># prepare trade info
-</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">order_hash</span> <span class="o">=</span> <span class="s">"0x667ee6f37f6d06bf473f4e1434e92ac98ff43c785405e2a511a0843daeca2de9"</span>
 
     <span class="c1"># prepare tx msg
@@ -25017,7 +24907,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="n">MarketId</span><span class="o">:</span>     <span class="n">smarketId</span><span class="p">,</span>
     <span class="p">})</span>
 
-    <span class="n">dmarketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+    <span class="n">dmarketId</span> <span class="o">:=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">damount</span> <span class="o">:=</span> <span class="n">decimal</span><span class="o">.</span><span class="n">NewFromFloat</span><span class="p">(</span><span class="m">0.01</span><span class="p">)</span>
     <span class="n">dprice</span> <span class="o">:=</span> <span class="n">cosmtypes</span><span class="o">.</span><span class="n">MustNewDecFromStr</span><span class="p">(</span><span class="s">"31000000000"</span><span class="p">)</span> <span class="c">//31,000</span>
     <span class="n">dleverage</span> <span class="o">:=</span> <span class="n">cosmtypes</span><span class="o">.</span><span class="n">MustNewDecFromStr</span><span class="p">(</span><span class="s">"2"</span><span class="p">)</span>
@@ -25472,7 +25362,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># prepare trade info
-</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
 
     <span class="c1"># prepare tx msg
 </span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgIncreasePositionMargin</span><span class="p">(</span>
@@ -25709,7 +25599,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># prepare trade info
 </span>    <span class="n">spot_market_id</span> <span class="o">=</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span>
-    <span class="n">deriv_market_id</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+    <span class="n">deriv_market_id</span> <span class="o">=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
 
     <span class="n">spot_orders</span> <span class="o">=</span> <span class="p">[</span>
@@ -27328,7 +27218,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="n">MarketId</span><span class="o">:</span>     <span class="n">smarketId</span><span class="p">,</span>
     <span class="p">})</span>
 
-    <span class="n">dmarketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+    <span class="n">dmarketId</span> <span class="o">:=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">damount</span> <span class="o">:=</span> <span class="n">decimal</span><span class="o">.</span><span class="n">NewFromFloat</span><span class="p">(</span><span class="m">0.01</span><span class="p">)</span>
     <span class="n">dprice</span> <span class="o">:=</span> <span class="n">cosmtypes</span><span class="o">.</span><span class="n">MustNewDecFromStr</span><span class="p">(</span><span class="s">"31000000000"</span><span class="p">)</span> <span class="c">//31,000</span>
     <span class="n">dleverage</span> <span class="o">:=</span> <span class="n">cosmtypes</span><span class="o">.</span><span class="n">MustNewDecFromStr</span><span class="p">(</span><span class="s">"2"</span><span class="p">)</span>
@@ -27795,7 +27685,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># prepare trade info
 </span>    <span class="n">spot_market_id</span> <span class="o">=</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span>
-    <span class="n">deriv_market_id</span> <span class="o">=</span> <span class="s">"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"</span>
+    <span class="n">deriv_market_id</span> <span class="o">=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
 
     <span class="n">spot_orders</span> <span class="o">=</span> <span class="p">[</span>
@@ -29559,7 +29449,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="n">MarketId</span><span class="o">:</span>     <span class="n">smarketId</span><span class="p">,</span>
     <span class="p">})</span>
 
-    <span class="n">dmarketId</span> <span class="o">:=</span> <span class="s">"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"</span>
+    <span class="n">dmarketId</span> <span class="o">:=</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span>
     <span class="n">damount</span> <span class="o">:=</span> <span class="n">decimal</span><span class="o">.</span><span class="n">NewFromFloat</span><span class="p">(</span><span class="m">0.01</span><span class="p">)</span>
     <span class="n">dprice</span> <span class="o">:=</span> <span class="n">cosmtypes</span><span class="o">.</span><span class="n">MustNewDecFromStr</span><span class="p">(</span><span class="s">"31000000000"</span><span class="p">)</span> <span class="c">//31,000</span>
     <span class="n">dleverage</span> <span class="o">:=</span> <span class="n">cosmtypes</span><span class="o">.</span><span class="n">MustNewDecFromStr</span><span class="p">(</span><span class="s">"2"</span><span class="p">)</span>
@@ -35011,7 +34901,110 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
   <span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
-</code></pre></div><h1 id='glossary'>Glossary</h1><h2 id='glossary-injective-chain'>Injective Chain</h2>
+</code></pre></div><h1 id='healthapi'>- HealthAPI</h1>
+<p>HealthAPI (HTTP) checks if backend data is up-to-date and reliable or not.</p>
+<h2 id='healthapi-getstatus'>GetStatus</h2>
+<p>To check the health of a node, the GetStatus API can be queried to obtain the Indexer height (<code>localHeight</code>) and the network height (<code>horacleHeight</code>). Next, the chain node height can be queried directly from the node (e.g. <code>curl --insecure http://sentry1.injective.network:26657/abci_info | grep last_block_height</code> or in Python <code>(await async_client.get_latest_block()).block.header.height</code>). Comparing <code>last_block_height</code> with <code>horacleHeight</code> gives a sense of the chain node&#39;s health, with a threshold of a 20 block difference being a good starting point for detecting unhealthy nodes. <code>localHeight</code> and <code>horacleHeight</code> can also be compared to check Indexer health, though an error should already be returned from the API query if the Indexer is deemed unhealthy (more than 20 block height difference).</p>
+
+<p>If LB/K8S endpoints are being used, there is no need to do these checks, as the cluster has built-in liveliness checks and excludes unhealthy nodes if any are detected.</p>
+
+<p>A recommended health check frequency of once every 20-30 seconds is recommended.</p>
+
+<p><strong>Notes</strong></p>
+
+<p><em>horacleHeight:</em> the network height of the chain (average returned by multiple nodes in the network)</p>
+
+<p><em>localHeight:</em> the latest synced block on the indexer</p>
+
+<p><em>lastBlock:</em> the latest synced block on the chain</p>
+
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+
+<!-- embedme ../../../sdk-python/examples/exchange_client/health_http/1_GetStatus.py -->
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://sentry1.injective.network:4444/api/health/v1/status'</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div><h3 id='healthapi-getstatus-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="p">{</span>
+  <span class="s">"s"</span><span class="p">:</span> <span class="s">""</span><span class="p">,</span>
+  <span class="s">"data"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s">"localHeight"</span><span class="p">:</span> <span class="mi">26953309</span><span class="p">,</span>
+    <span class="s">"localTimestamp"</span><span class="p">:</span> <span class="mi">1677042872</span><span class="p">,</span>
+    <span class="s">"horacleHeight"</span><span class="p">:</span> <span class="mi">26953309</span><span class="p">,</span>
+    <span class="s">"horacleTimestamp"</span><span class="p">:</span> <span class="mi">1677042872</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>s</td>
+<td>String</td>
+<td>Status of the response</td>
+</tr>
+<tr>
+<td>errmsg</td>
+<td>String</td>
+<td>Error message, if any</td>
+</tr>
+<tr>
+<td>data</td>
+<td>HealthStatus</td>
+<td>Height and time information for checking health</td>
+</tr>
+</tbody></table>
+
+<p><strong>HealthStatus</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>localHeight</td>
+<td>Integer</td>
+<td>Injective Indexer block height</td>
+</tr>
+<tr>
+<td>localTimestamp</td>
+<td>Integer</td>
+<td>Timestamp of localHeight</td>
+</tr>
+<tr>
+<td>horacleHeight</td>
+<td>Integer</td>
+<td>Height of the network according to the Injective height oracle</td>
+</tr>
+<tr>
+<td>horacleTimestamp</td>
+<td>Integer</td>
+<td>Timestamp of horacleHeight</td>
+</tr>
+</tbody></table>
+<h1 id='glossary'>Glossary</h1><h2 id='glossary-injective-chain'>Injective Chain</h2>
 <p>The Injective Chain refers to the blockchain running the Injective Protocol. It is is the fundamental piece of infrastructure and ultimate source of truth for any trades happening on the network.</p>
 <h2 id='glossary-validator-injective-node'>Validator / Injective Node</h2>
 <p>A validator is a node for the Injective Chain. The term node itself refers to a host computer in a network. In the context of blockchains, nodes are the computers participating in producing new blocks and validating new transactions in a peer-to-peer fashion. All on-chain code for Injective is executed on the hardware of every validator, in contrast to a CEX where code is executed on a central server.</p>
