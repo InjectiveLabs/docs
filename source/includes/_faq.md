@@ -16,7 +16,7 @@
 	500000000 * 104519 / 1e18 = 0.0000522595 INJ
 
 ## 4. Which API nodes can I connect to?
-	There are currently three sentry nodes you can connect to on Mainnet that are based in the U.S. and Tokyo. It's recommended to connect to the sentry node closer to your location in order to reduce latency. You can also run your own Injective Node and Exchange API backend to have lower latency and full control over the infrastructure. You can find the guide on that [here](https://injective.notion.site/Colocation-Service-Setup-Guide-ac00450b82bd4f638827c6261751049e)
+	The SDKs default to using a [K8s cluster endpoint](https://docs.injective.network/develop/public-endpoints). If you do not wish to use this endpoint, there are currently three sentry nodes you can connect to on Mainnet that are based in the U.S. and Tokyo. It's recommended you connect to the sentry node closest to your location in order to reduce latency. You can also run your own Injective Node and Exchange API backend to have lower latency and full control over the infrastructure. The guide to set up your own node can be found [here](https://www.notion.so/injective/Injective-Exchange-Service-Setup-Guide-7e59980634d54991862300670583d46a).
 
 	U.S. Sentry Node: sentry0.injective.network
 
