@@ -57,7 +57,47 @@ if __name__ == '__main__':
 ```
 
 ``` go
+package main
 
+import (
+  "crypto/tls"
+  "fmt"
+  "io/ioutil"
+  "net/http"
+  "time"
+)
+
+func queryHealthAPI(url, method string) ([]byte, error) {
+  tr := &http.Transport{
+    TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+  }
+  client := &http.Client{
+    Transport: tr,
+    Timeout:   time.Second * 10,
+  }
+
+  req, err := http.NewRequest(method, url, nil)
+  if err != nil {
+    return nil, fmt.Errorf("new request err: %w", err)
+  }
+
+  response, err := client.Do(req)
+  if err != nil {
+    return nil, fmt.Errorf("exec request err: %w", err)
+  }
+  defer response.Body.Close()
+
+  return ioutil.ReadAll(response.Body)
+}
+
+func main() {
+  result, err := queryHealthAPI("https://sentry1.injective.network:4444/api/health/v1/status", "GET")
+  if err != nil {
+    panic(err)
+  }
+
+  fmt.Println("query result:", string(result))
+}
 ```
 
 ``` typescript
