@@ -24,3 +24,4 @@
 |59|Post-only order exceeds top of book price|
 |60|Limit order cannot be atomic|
 |81|No margin locked in the subaccount (when placing RO conditional order with no position or vanilla order)|
+|95|Insufficient balance|
