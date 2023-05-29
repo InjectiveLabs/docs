@@ -72,7 +72,7 @@ async def main() -> None:
 
     # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
+    gas_limit = sim_res.gas_info.gas_used + 25000  # add 25k for gas, fee computation
     gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
@@ -321,7 +321,7 @@ async def main() -> None:
 
     # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
+    gas_limit = sim_res.gas_info.gas_used + 25000  # add 25k for gas, fee computation
     gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
@@ -562,7 +562,7 @@ async def main() -> None:
 
     # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
+    gas_limit = sim_res.gas_info.gas_used + 25000  # add 25k for gas, fee computation
     gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
@@ -1240,7 +1240,7 @@ async def main() -> None:
     )
     gas_price = 500000000
     base_gas = 85000
-    gas_limit = base_gas + 20000  # add 20k for gas, fee computation
+    gas_limit = base_gas + 25000  # add 25k for gas, fee computation
     gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
@@ -1274,7 +1274,7 @@ async def main() -> None:
     )
     gas_price = 500000000
     base_gas = 85000
-    gas_limit = base_gas + 20000  # add 20k for gas, fee computation
+    gas_limit = base_gas + 25000  # add 25k for gas, fee computation
     gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
@@ -1362,7 +1362,7 @@ async def main() -> None:
     )
     gas_price = 500000000
     base_gas = 85000
-    gas_limit = base_gas + 20000  # add 20k for gas, fee computation
+    gas_limit = base_gas + 25000  # add 25k for gas, fee computation
     gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
