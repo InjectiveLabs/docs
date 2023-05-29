@@ -23869,7 +23869,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -24162,7 +24162,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -24482,7 +24482,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -25393,7 +25393,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -25673,7 +25673,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="p">)</span>
     <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
     <span class="n">base_gas</span> <span class="o">=</span> <span class="mi">85000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -25707,7 +25707,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="p">)</span>
     <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
     <span class="n">base_gas</span> <span class="o">=</span> <span class="mi">85000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -25795,7 +25795,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="p">)</span>
     <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
     <span class="n">base_gas</span> <span class="o">=</span> <span class="mi">85000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -26266,7 +26266,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -26542,7 +26542,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -26816,7 +26816,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -27759,7 +27759,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="p">)</span>
     <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
     <span class="n">base_gas</span> <span class="o">=</span> <span class="mi">85000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -27793,7 +27793,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="p">)</span>
     <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
     <span class="n">base_gas</span> <span class="o">=</span> <span class="mi">85000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -27881,7 +27881,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
     <span class="p">)</span>
     <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
     <span class="n">base_gas</span> <span class="o">=</span> <span class="mi">85000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">base_gas</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -28327,7 +28327,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -28496,7 +28496,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -28655,7 +28655,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -28791,7 +28791,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -28942,7 +28942,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -29134,7 +29134,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -29931,7 +29931,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -30145,7 +30145,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -30361,7 +30361,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -30584,7 +30584,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -30813,7 +30813,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -31708,7 +31708,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -33419,7 +33419,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -34283,7 +34283,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -34429,7 +34429,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -34572,7 +34572,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
@@ -34691,7 +34691,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 
     <span class="c1"># build tx
 </span>    <span class="n">gas_price</span> <span class="o">=</span> <span class="mi">500000000</span>
-    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">20000</span>  <span class="c1"># add 20k for gas, fee computation
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="n">sim_res</span><span class="p">.</span><span class="n">gas_info</span><span class="p">.</span><span class="n">gas_used</span> <span class="o">+</span> <span class="mi">25000</span>  <span class="c1"># add 25k for gas, fee computation
 </span>    <span class="n">gas_fee</span> <span class="o">=</span> <span class="s">'{:.18f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">((</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">)).</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'0'</span><span class="p">)</span>
     <span class="n">fee</span> <span class="o">=</span> <span class="p">[</span><span class="n">composer</span><span class="p">.</span><span class="n">Coin</span><span class="p">(</span>
         <span class="n">amount</span><span class="o">=</span><span class="n">gas_price</span> <span class="o">*</span> <span class="n">gas_limit</span><span class="p">,</span>
