@@ -50,7 +50,7 @@ code_clipboard: true
 
 # Introduction
 
-Welcome to Injective Protocol's documentation!
+Welcome to Injective's documentation!
 
 Here you can find a comprehensive overview of our protocol, as well as tutorials, guides and general resources for developers and API traders.
 
