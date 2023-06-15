@@ -67,7 +67,7 @@ async def main() -> None:
         print(sim_res)
         return
 
-    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res.result.data, simulation=True)
+    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res, simulation=True)
     print("---Simulation Response---")
     print(sim_res_msg)
 
@@ -323,7 +323,7 @@ async def main() -> None:
         print(sim_res)
         return
 
-    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res.result.data, simulation=True)
+    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res, simulation=True)
     print("---Simulation Response---")
     print(sim_res_msg)
 
@@ -875,7 +875,7 @@ async def main() -> None:
         print(sim_res)
         return
 
-    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res.result.data, simulation=True)
+    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res, simulation=True)
     print("---Simulation Response---")
     print(sim_res_msg)
 
