@@ -68,7 +68,7 @@
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -237,7 +237,7 @@
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -396,7 +396,7 @@
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -532,7 +532,7 @@
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -683,7 +683,7 @@
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -875,7 +875,7 @@
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -1092,7 +1092,7 @@
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 

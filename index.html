@@ -18096,21 +18096,26 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-
-<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/1_GetTxByHash.py -->
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">composer</span> <span class="o">=</span> <span class="n">Composer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
     <span class="n">tx_hash</span> <span class="o">=</span> <span class="s">"0F3EBEC1882E1EEAC5B7BDD836E976250F1CD072B79485877CEACCB92ACDDF52"</span>
-    <span class="n">account</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_tx_by_hash</span><span class="p">(</span><span class="n">tx_hash</span><span class="o">=</span><span class="n">tx_hash</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+    <span class="n">transaction_response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_tx_by_hash</span><span class="p">(</span><span class="n">tx_hash</span><span class="o">=</span><span class="n">tx_hash</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">transaction_response</span><span class="p">)</span>
+
+    <span class="n">transaction_messages</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">UnpackTransactionMessages</span><span class="p">(</span><span class="n">transaction</span><span class="o">=</span><span class="n">transaction_response</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">transaction_messages</span><span class="p">)</span>
+    <span class="n">first_message</span> <span class="o">=</span> <span class="n">transaction_messages</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">first_message</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
     <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
@@ -18455,23 +18460,27 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-
-<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/2_AccountTxs.py -->
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span>
 <span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: local, testnet, mainnet
 </span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">composer</span> <span class="o">=</span> <span class="n">Composer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
     <span class="n">address</span> <span class="o">=</span> <span class="s">"inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex"</span>
     <span class="nb">type</span> <span class="o">=</span> <span class="s">"cosmos.bank.v1beta1.MsgSend"</span>
     <span class="n">limit</span> <span class="o">=</span> <span class="mi">2</span>
-    <span class="n">account</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_account_txs</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">address</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">type</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+    <span class="n">transactions_response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">get_account_txs</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">address</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">message_type</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">transactions_response</span><span class="p">)</span>
+    <span class="n">first_transaction_messages</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">UnpackTransactionMessages</span><span class="p">(</span><span class="n">transaction</span><span class="o">=</span><span class="n">transactions_response</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">first_transaction_messages</span><span class="p">)</span>
+    <span class="n">first_message</span> <span class="o">=</span> <span class="n">first_transaction_messages</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">first_message</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
     <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
@@ -23863,7 +23872,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -24156,7 +24165,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -24803,7 +24812,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -26260,7 +26269,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -26536,7 +26545,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -27114,7 +27123,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -28321,7 +28330,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -28490,7 +28499,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -28649,7 +28658,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -28785,7 +28794,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -28936,7 +28945,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -29128,7 +29137,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -29345,7 +29354,7 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"---Simulation Response---"</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">)</span>
 
@@ -32187,8 +32196,8 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
         <span class="k">print</span><span class="p">(</span><span class="n">sim_res</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">data</span><span class="o">=</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sim_res_msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">replace</span><span class="p">(</span><span class="s">"results:"</span><span class="p">,</span> <span class="s">''</span><span class="p">))</span>
+    <span class="n">sim_res_msg</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">MsgResponses</span><span class="p">(</span><span class="n">sim_res</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">sim_res_msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">unpacked_msg_res</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">.</span><span class="n">UnpackMsgExecResponse</span><span class="p">(</span>
         <span class="n">msg_type</span><span class="o">=</span><span class="n">msg0</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span><span class="p">,</span>
         <span class="n">data</span><span class="o">=</span><span class="n">data</span>
