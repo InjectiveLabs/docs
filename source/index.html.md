@@ -38,6 +38,7 @@ includes:
   - insurance
   - historicalqueries
   - healthapi
+  - streamrpc
   - glossary
   - faq
   # - exchangerpc
@@ -132,3 +133,9 @@ yarn add @injectivelabs/sdk-ts
   
 - [InjectiveLabs/injective-ts](https://github.com/InjectiveLabs/injective-ts/tree/master/packages/sdk-ts)
 
+## Stream Client
+
+A gRPC client for Injective's streaming API can be used to subscribe to real-time updates from the Injective Chain.
+
+**Reference**
+Consult Stream chain documentation for more information on how to use the stream client.
