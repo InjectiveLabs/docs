@@ -14,6 +14,7 @@ includes:
   - explorer
   - faucet
   - status
+  - broadcaster
   - exchangeapi
   - accountsrpc
   - spotrpc
