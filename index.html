@@ -443,6 +443,17 @@
             <a href="#status" class="toc-h1 toc-link" data-title="Status">Status</a>
           </li>
           <li>
+            <a href="#message-broadcaster" class="toc-h1 toc-link" data-title="Message Broadcaster">Message Broadcaster</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#message-broadcaster-broadcaster-for-standard-account" class="toc-h2 toc-link" data-title="Broadcaster for standard account">Broadcaster for standard account</a>
+                  </li>
+                  <li>
+                    <a href="#message-broadcaster-broadcaster-for-grantee-account" class="toc-h2 toc-link" data-title="Broadcaster for grantee account">Broadcaster for grantee account</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#indexer-api" class="toc-h1 toc-link" data-title="Indexer API">Indexer API</a>
           </li>
           <li>
@@ -1902,6 +1913,146 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <p><a href="https://testnet.status.injective.network">Testnet Status</a></p>
 
 <p><a href="https://status.injective.network">Mainnet Status</a></p>
+<h1 id='message-broadcaster'>Message Broadcaster</h1>
+<p>In the examples included in this documentation you will see all the steps required to interact with the chain, from deriving a public key from a private key, creating messages to query the chain or creating orders, to creating and broadcasting transactions to the chain.
+Before going to the examples of all the possible actions it is important to state that you can avoid implementing yourself all the steps to create and configure correctly a transaction. If you are not interested in defining all the low level aspects you can use the component called <em>MsgBroadcasterWithPk</em>.
+To use the broadcaster you just need to create an instance of <em>MsgBroadcasterWithPk</em>, and once all the messages to be included in the transaction have been created, use the <strong>broadcast</strong> method, passing the messages as a parameter. The broadcaster will take care of:
+- Calculate the gas fee to pay for the transaction
+- Create the transaction and configure it
+- Sign the transaction
+- Broadcast it to the chain</p>
+<h2 id='message-broadcaster-broadcaster-for-standard-account'>Broadcaster for standard account</h2>
+<blockquote>
+<p>Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span> <span class="k">as</span> <span class="n">ProtoMsgComposer</span>
+<span class="kn">from</span> <span class="nn">pyinjective.core.broadcaster</span> <span class="kn">import</span> <span class="n">MsgBroadcasterWithPk</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span> <span class="nn">pyinjective.wallet</span> <span class="kn">import</span> <span class="n">PrivateKey</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># select network: local, testnet, mainnet
+</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">composer</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
+    <span class="n">private_key_in_hexa</span> <span class="o">=</span> <span class="s">"f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"</span>
+
+    <span class="n">message_broadcaster</span> <span class="o">=</span> <span class="n">MsgBroadcasterWithPk</span><span class="p">.</span><span class="n">new_using_simulation</span><span class="p">(</span>
+        <span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">,</span>
+        <span class="n">private_key</span><span class="o">=</span><span class="n">private_key_in_hexa</span><span class="p">,</span>
+        <span class="n">use_secure_connection</span><span class="o">=</span><span class="bp">True</span>
+    <span class="p">)</span>
+
+    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="n">private_key_in_hexa</span><span class="p">)</span>
+    <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">()</span>
+    <span class="n">subaccount_id</span> <span class="o">=</span> <span class="n">address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># prepare trade info
+</span>    <span class="n">fee_recipient</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
+
+    <span class="n">spot_market_id_create</span> <span class="o">=</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span>
+
+    <span class="n">spot_orders_to_create</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">SpotOrder</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">spot_market_id_create</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+            <span class="n">price</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">quantity</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span>
+        <span class="p">),</span>
+        <span class="n">composer</span><span class="p">.</span><span class="n">SpotOrder</span><span class="p">(</span>
+            <span class="n">market_id</span><span class="o">=</span><span class="n">spot_market_id_create</span><span class="p">,</span>
+            <span class="n">subaccount_id</span><span class="o">=</span><span class="n">subaccount_id</span><span class="p">,</span>
+            <span class="n">fee_recipient</span><span class="o">=</span><span class="n">fee_recipient</span><span class="p">,</span>
+            <span class="n">price</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+            <span class="n">quantity</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span>
+            <span class="n">is_buy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+            <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span>
+        <span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="c1"># prepare tx msg
+</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgBatchUpdateOrders</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+        <span class="n">spot_orders_to_create</span><span class="o">=</span><span class="n">spot_orders_to_create</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># broadcast the transaction
+</span>    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">message_broadcaster</span><span class="p">.</span><span class="n">broadcast</span><span class="p">([</span><span class="n">msg</span><span class="p">])</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"---Transaction Response---"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+
+</code></pre></div>
+<p>This is the most common broadcaster configuration. Unless you are using grantee accounts (delegated accounts with authz) you should use this one.</p>
+<h2 id='message-broadcaster-broadcaster-for-grantee-account'>Broadcaster for grantee account</h2>
+<blockquote>
+<p>Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.composer</span> <span class="kn">import</span> <span class="n">Composer</span> <span class="k">as</span> <span class="n">ProtoMsgComposer</span>
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.core.broadcaster</span> <span class="kn">import</span> <span class="n">MsgBroadcasterWithPk</span>
+<span class="kn">from</span> <span class="nn">pyinjective.constant</span> <span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span> <span class="nn">pyinjective.wallet</span> <span class="kn">import</span> <span class="n">PrivateKey</span><span class="p">,</span> <span class="n">Address</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># select network: local, testnet, mainnet
+</span>    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">composer</span> <span class="o">=</span> <span class="n">ProtoMsgComposer</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
+
+    <span class="c1"># initialize grpc client
+</span>    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">sync_timeout_height</span><span class="p">()</span>
+
+    <span class="c1"># load account
+</span>    <span class="n">private_key_in_hexa</span> <span class="o">=</span> <span class="s">"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"</span>
+    <span class="n">priv_key</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">.</span><span class="n">from_hex</span><span class="p">(</span><span class="n">private_key_in_hexa</span><span class="p">)</span>
+    <span class="n">pub_key</span> <span class="o">=</span> <span class="n">priv_key</span><span class="p">.</span><span class="n">to_public_key</span><span class="p">()</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="n">pub_key</span><span class="p">.</span><span class="n">to_address</span><span class="p">()</span>
+
+    <span class="n">message_broadcaster</span> <span class="o">=</span> <span class="n">MsgBroadcasterWithPk</span><span class="p">.</span><span class="n">new_for_grantee_account_using_simulation</span><span class="p">(</span>
+        <span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">,</span>
+        <span class="n">grantee_private_key</span><span class="o">=</span><span class="n">private_key_in_hexa</span><span class="p">,</span>
+        <span class="n">use_secure_connection</span><span class="o">=</span><span class="bp">True</span>
+    <span class="p">)</span>
+
+    <span class="c1"># prepare tx msg
+</span>    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span>
+    <span class="n">granter_inj_address</span> <span class="o">=</span> <span class="s">"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"</span>
+    <span class="n">granter_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">.</span><span class="n">from_acc_bech32</span><span class="p">(</span><span class="n">granter_inj_address</span><span class="p">)</span>
+    <span class="n">granter_subaccount_id</span> <span class="o">=</span> <span class="n">granter_address</span><span class="p">.</span><span class="n">get_subaccount_id</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">composer</span><span class="p">.</span><span class="n">MsgCreateSpotLimitOrder</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">granter_inj_address</span><span class="p">,</span>
+        <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
+        <span class="n">subaccount_id</span><span class="o">=</span><span class="n">granter_subaccount_id</span><span class="p">,</span>
+        <span class="n">fee_recipient</span><span class="o">=</span><span class="n">address</span><span class="p">.</span><span class="n">to_acc_bech32</span><span class="p">(),</span>
+        <span class="n">price</span><span class="o">=</span><span class="mf">7.523</span><span class="p">,</span>
+        <span class="n">quantity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+        <span class="n">is_buy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">is_po</span><span class="o">=</span><span class="bp">False</span>
+    <span class="p">)</span>
+
+    <span class="c1"># broadcast the transaction
+</span>    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">message_broadcaster</span><span class="p">.</span><span class="n">broadcast</span><span class="p">([</span><span class="n">msg</span><span class="p">])</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"---Transaction Response---"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+
+</code></pre></div>
+<p>This is the required broadcaster configuration when operating with grantee accounts. The broadcaster will take care of creating the <code>MsgExec</code> message, so that the user keeps passing the same messages to the <code>broadcast</code> method that are passed when using the standard broadcaster with non-grantee accounts.</p>
 <h1 id='indexer-api'>Indexer API</h1>
 <p>The Indexer API is read-only whereas the Chain API is write and also includes a limited set of API requests to read data. The Chain API reads query the blockchain state from the node directly as opposed to the Indexer API which reconstructs state from events emitted by chain.</p>
 
