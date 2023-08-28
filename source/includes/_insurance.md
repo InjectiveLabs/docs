@@ -3,6 +3,9 @@ Includes the messages to create, underwrite and redeem in insurance funds.
 
 ## MsgCreateInsuranceFund
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -108,6 +111,9 @@ gas fee: 0.000075824 INJ
 
 ## MsgUnderwrite
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -204,6 +210,9 @@ gas fee: 0.000071021 INJ
 ```
 
 ## MsgRequestRedemption
+
+**IP rate limit group:** `chain`
+
 
 ### Request Parameters
 > Request Example:

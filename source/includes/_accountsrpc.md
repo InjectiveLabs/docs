@@ -5,6 +5,8 @@ InjectiveAccountsRPC defines the gRPC API of the Exchange Accounts provider.
 
 Get a list of subaccounts for a specific address.
 
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:
@@ -117,6 +119,9 @@ subaccounts: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002
 ## SubaccountHistory
 
 Get the subaccount's transfer history.
+
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:
@@ -363,6 +368,9 @@ paging {
 
 Get the balance of a subaccount for a specific denom.
 
+**IP rate limit group:** `indexer`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -513,6 +521,8 @@ balance {
 ## SubaccountBalancesList
 
 List the subaccount's balances for all denoms.
+
+**IP rate limit group:** `indexer`
 
 
 ### Request Parameters
@@ -708,6 +718,9 @@ balances {
 
 Get a summary of the subaccount's active/unfilled orders.
 
+**IP rate limit group:** `indexer`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -839,6 +852,9 @@ derivative orders: 7
 ## StreamSubaccountBalance
 
 Stream the subaccount's balance for all denoms.
+
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:
@@ -1068,6 +1084,8 @@ timestamp: 1675902946000
 ## OrderStates
 
 Get orders with an order hash. This request will return market orders and limit orders in all states [booked, partial_filled, filled, canceled]. For filled and canceled orders, there is a TTL of 3 minutes. Should your order be filled or canceled you will still be able to fetch it for 3 minutes.
+
+**IP rate limit group:** `indexer`
 
 
 ### Request Parameters
@@ -1311,6 +1329,8 @@ derivative_order_states {
 
 Get an overview of your portfolio.
 
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:
@@ -1463,6 +1483,8 @@ portfolio {
 ## Rewards
 
 Get the rewards for Trade & Earn, the request will fetch all addresses for the latest epoch (-1) by default.
+
+**IP rate limit group:** `indexer`
 
 
 ### Request Parameters

@@ -285,3 +285,14 @@ Again this perfectly valid and no further action is required because all order q
 If the orders are getting matched, once the last reduce-only order of $65,500 is reached, the position will have been reduced to `1 BTC - 0.1 BTC - 0.3 BTC - 0.5 BTC - 0.1 BTC = 0 BTC`. A reduce-only order of 0.1 BTC after that will thus be invalid.
 
 To prevent this, we **automatically cancel the existing 0.1 BTC reduce-only order**. In other words, new vanilla limit orders can invalidate and auto-cancel existing reduce-only limit orders if the reduce-only order becomes invalid at its price.
+
+
+## Rate Limits
+The public mainnet and testnet nodes have a request rate limit associated to the requester IP address.
+The limits are:
+
+- 20 requests/second for the "chain" group
+- 50 requests/second for the "indexer" group
+
+Each endpoint's section in this document clarifies which group the endpoint belongs to.
+When the limit is reached the server will respond sending an error response with code 429.

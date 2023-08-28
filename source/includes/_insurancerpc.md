@@ -6,6 +6,9 @@ InjectiveInsuranceRPC defines the gRPC API of the Insurance Exchange provider.
 
 List all the insurance funds.
 
+**IP rate limit group:** `indexer`
+
+
 > Request Example:
 
 <!-- embedme ../../../sdk-python/examples/exchange_client/insurance_rpc/1_InsuranceFunds.py -->
@@ -237,6 +240,9 @@ funds {
 ## Redemptions
 
 Get a list of redemptions. If no parameters are provided, redemptions for all pools and addresses will be returned.
+
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:

@@ -6,6 +6,8 @@ InjectiveExplorerRPC defines the gRPC API of the Explorer provider.
 
 Get the details for a specific transaction.
 
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:
@@ -248,6 +250,8 @@ data {
 ## AccountTxs
 
 Get the details for a specific transaction.
+
+**IP rate limit group:** `indexer`
 
 
 ### Request Parameters
@@ -683,6 +687,8 @@ data {
 
 Get data for blocks.
 
+**IP rate limit group:** `indexer`
+
 ### Request Parameters
 > Request Example:
 
@@ -881,6 +887,7 @@ data {
 
 Get detailed data for a single block.
 
+**IP rate limit group:** `indexer`
 
 ### Request Parameters
 > Request Example:
@@ -1052,6 +1059,8 @@ data {
 ## Txs
 
 Get the transactions.
+
+**IP rate limit group:** `indexer`
 
 
 ### Request Parameters
@@ -1348,6 +1357,7 @@ data {
 
 Stream transactions.
 
+**IP rate limit group:** `indexer`
 
 > Request Example:
 
@@ -1597,6 +1607,7 @@ tx_number: 165598679
 
 Stream blocks.
 
+**IP rate limit group:** `indexer`
 
 > Request Example:
 
@@ -1778,6 +1789,8 @@ timestamp: "2023-02-20 01:14:25.422 +0000 UTC"
 ## PeggyDeposits
 
 Get info on peggy deposits. By default, deposits for all senders and receivers will be fetched.
+
+**IP rate limit group:** `indexer`
 
 
 ### Request Parameters
@@ -2026,6 +2039,8 @@ field {
 
 Get info on peggy withdrawals.
 
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:
@@ -2272,6 +2287,8 @@ field {
 ## IBCTransfers
 
 Get data on IBC transfers.
+
+**IP rate limit group:** `indexer`
 
 
 ### Request Parameters
@@ -2538,9 +2555,12 @@ field {
 |created_at|Integer|The timestamp of the tx creation (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 |updated_at|String|The timestamp of the tx update (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 
+
 ## GetWasmCodes
 
 List all cosmwasm code on injective chain. Results are paginated.
+
+**IP rate limit group:** `indexer`
 
 > Request Example:
 
@@ -2721,9 +2741,12 @@ func main() {
 | algorithm | String | Hash function algorithm       |
 | hash      | String | Hash of the cosmwasm bytecode |
 
+
 ## GetWasmCodeByID
 
 Get cosmwasm code by its code ID
+
+**IP rate limit group:** `indexer`
 
 > Request Example:
 
@@ -2822,9 +2845,12 @@ func main() {
 | algorithm | String | Hash function algorithm       |
 | hash      | String | Hash of the cosmwasm bytecode |
 
+
 ## GetWasmContracts
 
 Get cosmwasm instantiated contracts on injective-chain. Results are paginated.
+
+**IP rate limit group:** `indexer`
 
 > Request Example:
 
@@ -3033,9 +3059,12 @@ func main() {
 |logo|String|Logo (url/embedded)|
 |marketing|Bytes Array|Address that can update the contract's marketing info|
 
+
 ## GetWasmContractByAddress
 
 Get cosmwasm contract by its address
+
+**IP rate limit group:** `indexer`
 
 > Request Example:
 
@@ -3159,6 +3188,8 @@ func main() {
 ## GetCw20Balance
 
 Get CW20 balances of an injective account across all instantiated CW20 contracts
+
+**IP rate limit group:** `indexer`
 
 > Request Example:
 

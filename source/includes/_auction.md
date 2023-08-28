@@ -4,6 +4,9 @@ Includes the message for placing bids in auctions.
 
 ## MsgBid
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 

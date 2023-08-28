@@ -3,6 +3,9 @@ Includes the message to relay a price feed.
 
 ## MsgRelayPriceFeedPrice
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 

@@ -6,6 +6,9 @@ InjectiveOracleRPC defines the gRPC API of the Exchange Oracle provider.
 
 Get a list of all oracles.
 
+**IP rate limit group:** `indexer`
+
+
 > Request Example:
 
 <!-- embedme ../../../sdk-python/examples/exchange_client/oracle_rpc/3_OracleList.py -->
@@ -177,6 +180,9 @@ oracles {
 
 Get the oracle price of an asset.
 
+**IP rate limit group:** `indexer`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -301,6 +307,9 @@ price: "16835930000"
 ## StreamPrices
 
 Stream new price changes for a specified oracle. If no oracles are provided, all price changes are streamed.
+
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:

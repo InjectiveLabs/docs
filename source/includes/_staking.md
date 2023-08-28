@@ -3,6 +3,9 @@ Includes the messages to claim and withdraw delegator rewards
 
 ## MsgWithdrawDelegatorReward
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -197,6 +200,9 @@ gas fee: 0.000097523 INJ
 
 
 ## MsgDelegate
+
+**IP rate limit group:** `chain`
+
 
 ### Request Parameters
 > Request Example:

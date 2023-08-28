@@ -4,6 +4,9 @@ Bank module.
 
 ## MsgSend
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -212,6 +215,9 @@ gas fee: 0.0000599355 INJ
 
 ## MsgMultiSend
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -381,6 +387,8 @@ gas fee: 0.000076422 INJ
 ## QueryAllBalances
 
 Get the bank balance for all denoms.
+
+**IP rate limit group:** `chain`
 
 
 ### Request Parameters
@@ -589,6 +597,8 @@ pagination {
 ## QueryBalance
 
 Get the bank balance for a specific denom.
+
+**IP rate limit group:** `chain`
 
 
 ### Request Parameters

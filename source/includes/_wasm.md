@@ -4,6 +4,9 @@ CosmWasm smart contract interactions.
 
 ## MsgExecuteContract
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 
