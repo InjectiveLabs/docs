@@ -6,6 +6,8 @@ InjectiveSpotExchangeRPC defines the gRPC API of the Spot Exchange provider.
 
 Get details of a single spot market.
 
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:
@@ -203,6 +205,8 @@ market {
 ## Markets
 
 Get a list of spot markets.
+
+**IP rate limit group:** `indexer`
 
 
 ### Request Parameters
@@ -486,6 +490,8 @@ markets {
 
 Stream live updates of spot markets.
 
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:
@@ -736,6 +742,8 @@ market: {
 
 List history of orders (all states) for a spot market.
 
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:
@@ -890,6 +898,9 @@ paging {
 
 Stream order updates for spot markets. If no parameters are given, updates to all subaccounts in all spot markets will be streamed.
 
+**IP rate limit group:** `indexer`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -1028,6 +1039,9 @@ timestamp: 1665486462000
 ## Trades
 
 Get trade history for a spot market. The default request returns all spot trades from all markets.
+
+**IP rate limit group:** `indexer`
+
 
 **\*Trade execution types**
 
@@ -1330,6 +1344,9 @@ paging {
 ## StreamTrades
 
 Stream newly executed trades of spot markets. The default request streams trades from all spot markets.
+
+**IP rate limit group:** `indexer`
+
 
 **\*Trade execution types**
 
@@ -2464,6 +2481,8 @@ market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 
 Get an orderbook snapshot for one or more spot markets.
 
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:
@@ -2996,6 +3015,8 @@ orderbooks {
 
 Stream orderbook snapshot updates for one or more spot markets.
 
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:
@@ -3164,6 +3185,8 @@ market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 ## StreamOrderbookUpdate
 
 Stream incremental orderbook updates for one or more spot markets. This stream should be started prior to obtaining orderbook snapshots so that no incremental updates are omitted between obtaining a snapshot and starting the update stream.
+
+**IP rate limit group:** `indexer`
 
 
 ### Request Parameters
@@ -3425,9 +3448,13 @@ price: 1E-15 | quantity: 17983000000000000000 | timestamp: 1675880932648
 |is_active|Boolean|Price level status|
 |timestamp|Integer|Price level last updated timestamp in UNIX millis|
 
+
 ## SubaccountOrdersList
 
 Get orders of a subaccount.
+
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:
@@ -3735,6 +3762,9 @@ paging {
 ## SubaccountTradesList
 
 Get trades of a subaccount.
+
+**IP rate limit group:** `indexer`
+
 
 **\*Trade execution types**
 

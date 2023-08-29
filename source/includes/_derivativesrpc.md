@@ -5,6 +5,9 @@ InjectiveDerivativeExchangeRPC defines the gRPC API of the Derivative Exchange p
 
 Get details of a single derivative market.
 
+**IP rate limit group:** `indexer`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -277,6 +280,8 @@ market {
 ## Markets
 
 Get a list of one or more derivative markets.
+
+**IP rate limit group:** `indexer`
 
 
 ### Request Parameters
@@ -665,6 +670,8 @@ markets {
 
 Stream live updates of derivative markets.
 
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:
@@ -968,6 +975,9 @@ timestamp: 1652792406000
 
 Lists historical orders posted from a subaccount
 
+**IP rate limit group:** `indexer`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -1135,6 +1145,9 @@ paging {
 
 Stream order updates of a derivative market.
 
+**IP rate limit group:** `indexer`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -1278,6 +1291,9 @@ timestamp: 1665487078000
 ## Trades
 
 Get trades of a derivative market.
+
+**IP rate limit group:** `indexer`
+
 
 **\*Trade execution types**
 
@@ -1587,6 +1603,9 @@ paging {
 ## StreamTrades
 
 Stream newly executed trades of a derivative market. The default request streams trades from all derivative markets.
+
+**IP rate limit group:** `indexer`
+
 
 **\*Trade execution types**
 
@@ -1900,6 +1919,8 @@ timestamp: 1652793013000
 
 Get the positions of a market.
 
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:
@@ -2171,9 +2192,12 @@ paging {
 |----|----|----|
 |total|Integer|Total number of available records|
 
+
 ## StreamPositions
 
 Stream position updates for a specific market.
+
+**IP rate limit group:** `indexer`
 
 
 ### Request Parameters
@@ -3221,6 +3245,9 @@ market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
 
 Get an orderbook snapshot for one or more derivative markets.
 
+**IP rate limit group:** `indexer`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -3374,6 +3401,8 @@ orderbooks {
 ## StreamOrderbooksV2
 
 Stream orderbook snapshot updates for one or more derivative markets
+
+**IP rate limit group:** `indexer`
 
 
 ### Request Parameters
@@ -3542,6 +3571,8 @@ market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
 ## StreamOrderbookUpdate
 
 Stream incremental orderbook updates for one or more derivative markets. This stream should be started prior to obtaining orderbook snapshots so that no incremental updates are omitted between obtaining a snapshot and starting the update stream.
+
+**IP rate limit group:** `indexer`
 
 
 ### Request Parameters
@@ -3808,6 +3839,8 @@ price: 1000000000 | quantity: 0.0014 | timestamp: 1676622220695
 
 Get the derivative orders of a specific subaccount.
 
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:
@@ -4066,9 +4099,13 @@ orders {
 |placed_order_hash|String|OrderHash of order that is triggered by this conditional order
 |execution_type|String|Execution type of conditional order|
 
+
 ## SubaccountTradesList
 
 Get the derivative trades for a specific subaccount.
+
+**IP rate limit group:** `indexer`
+
 
 **\*Trade execution types**
 
@@ -4365,9 +4402,12 @@ trades {
 |trade_direction|String|The direction the trade (Should be one of: ["buy", "sell"]) |
 |execution_margin|String|Execution margin of the trade|
 
+
 ## FundingPayments
 
 Get the funding payments for a subaccount.
+
+**IP rate limit group:** `indexer`
 
 
 ### Request Parameters
@@ -4575,6 +4615,8 @@ paging {
 
 Get the historical funding rates for a specific market.
 
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:
@@ -4765,6 +4807,9 @@ paging {
 
 Get details of a single binary options market.
 
+**IP rate limit group:** `indexer`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -4913,6 +4958,9 @@ market {
 ## BinaryOptionsMarkets
 
 Get a list of binary options markets.
+
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:

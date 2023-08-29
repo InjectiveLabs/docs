@@ -5,6 +5,7 @@ Includes all messages and queries related to the Authz module. Authz is an imple
 
 There are two types of authorization, Generic and Typed. Generic authorization will grant permissions to the grantee to execute exchange-related messages in all markets, typed authorization restricts the privileges to specified markets. Typed authorization is generally more safe since even if the grantee's key is compromised the attacker will only be able to send orders in specified markets - thus prevents them from launching bogus markets on-chain and executing orders on behalf of the granter.
 
+**IP rate limit group:** `chain`
 
 
 ### Request Parameters
@@ -252,6 +253,9 @@ gas fee: 0.0000589365 INJ
 ```
 
 ## MsgExec
+
+**IP rate limit group:** `chain`
+
 
 ### Request Parameters
 > Request Example:
@@ -520,6 +524,9 @@ gas fee: 0.000066986 INJ
 
 ## MsgRevoke
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -717,6 +724,9 @@ gas fee: 0.0000515765 INJ
 ## Grants
 
 Get the details of an authorization between a granter and a grantee.
+
+**IP rate limit group:** `chain`
+
 
 ### Request Parameters
 > Request Example:

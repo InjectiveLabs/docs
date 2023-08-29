@@ -5,6 +5,8 @@ InjectiveMetaRPC defines the gRPC API of the Exchange Meta provider.
 
 Get the server health.
 
+**IP rate limit group:** `indexer`
+
 
 > Request Example:
 
@@ -96,6 +98,8 @@ Health OK? {}
 ## Version
 
 Get the server version.
+
+**IP rate limit group:** `indexer`
 
 > Request Example:
 
@@ -231,6 +235,8 @@ build {
 ## Info
 
 Get the server information.
+
+**IP rate limit group:** `indexer`
 
 ### Request Parameters
 > Request Example:
@@ -377,6 +383,8 @@ Server Latency: 375ms
 ## StreamKeepAlive
 
 Subscribe to a stream and gracefully disconnect and connect to another sentry node if the primary becomes unavailable.
+
+**IP rate limit group:** `indexer`
 
 > Request Example:
 

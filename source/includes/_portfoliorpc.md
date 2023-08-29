@@ -6,6 +6,9 @@ InjectivePortfolioRPC defines the gRPC API of the Exchange Portfolio provider.
 
 Get details about an account's portfolio.
 
+**IP rate limit group:** `indexer`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -232,6 +235,9 @@ portfolio {
 ## StreamAccountPortfolio
 
 Get continuous updates on account's portfolio.
+
+**IP rate limit group:** `indexer`
+
 
 ### Request Parameters
 > Request Example:

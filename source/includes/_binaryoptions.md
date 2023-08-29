@@ -3,6 +3,9 @@ Includes all messages related to binary options.
 
 ## MsgCreateBinaryOptionsLimitOrder
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -138,6 +141,9 @@ gas fee: 0.0000606245 INJ
 
 ## MsgCreateBinaryOptionsMarketOrder
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -267,6 +273,9 @@ gas fee: 0.0000539515 INJ
 
 ## MsgCancelBinaryOptionsOrder
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -384,6 +393,9 @@ gas fee: 0.0000556515 INJ
 
 
 ## MsgAdminUpdateBinaryOptionsMarket
+
+**IP rate limit group:** `chain`
+
 
 ### Request Parameters
 > Request Example:
@@ -508,6 +520,9 @@ gas fee: 0.0000556515 INJ
 
 
 ## MsgInstantBinaryOptionsMarketLaunch
+
+**IP rate limit group:** `chain`
+
 
 ### Request Parameters
 > Request Example:
@@ -643,6 +658,9 @@ gas fee: 0.0000863755 INJ
 
 ## MsgRelayProviderPrices
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -765,6 +783,9 @@ MsgBatchUpdateOrders allows for the atomic cancellation and creation of spot and
 Users can cancel all limit orders in a given spot or derivative market for a given subaccountID by specifying the associated marketID in the SpotMarketIdsToCancelAll and DerivativeMarketIdsToCancelAll. Users can also cancel individual limit orders in SpotOrdersToCancel or DerivativeOrdersToCancel, but must ensure that marketIDs in these individual order cancellations are not already provided in the SpotMarketIdsToCancelAll or DerivativeMarketIdsToCancelAll.
 
 Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll or DerivativeMarketIdsToCancelAll, then the SubaccountID in the Msg should be left empty.
+
+**IP rate limit group:** `chain`
+
 
 ### Request Parameters
 > Request Example:

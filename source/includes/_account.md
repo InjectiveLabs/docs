@@ -3,6 +3,9 @@ Includes all messages related to accounts and transfers.
 
 ## MsgDeposit
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -204,6 +207,9 @@ gas fee: 0.0000660495 INJ
 ```
 
 ## MsgWithdraw
+
+**IP rate limit group:** `chain`
+
 
 ### Request Parameters
 > Request Example:
@@ -407,6 +413,9 @@ gas fee: 0.000064803 INJ
 
 
 ## MsgSubaccountTransfer
+
+**IP rate limit group:** `chain`
+
 
 ### Request Parameters
 > Request Example:
@@ -615,6 +624,9 @@ gas fee: 0.0000610515 INJ
 
 ## MsgExternalTransfer
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -820,6 +832,9 @@ gas fee: 0.0000611985 INJ
 
 
 ## MsgSendToEth
+
+**IP rate limit group:** `chain`
+
 
 ### Request Parameters
 > Request Example:
@@ -1042,6 +1057,9 @@ gas fee: 0.0000809535 INJ
 
 ## SendToInjective
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -1107,6 +1125,9 @@ Transaction hash: 0xb538abc7c2f893a2fe24c7a8ea606ff48d980a754499f1bec89b862c2bcb
 
 
 ## GetTx
+
+**IP rate limit group:** `chain`
+
 
 ### Request Parameters
 > Request Example:
@@ -1575,6 +1596,9 @@ txhash: A2B2B971C690AE7977451D24D6F450AECE6BCCB271E91E32C2563342DDA5254B
 
 
 ## StreamEventOrderFail
+
+**IP rate limit group:** `chain`
+
 
 > Request Example:
 

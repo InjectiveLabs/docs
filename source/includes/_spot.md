@@ -3,6 +3,9 @@ Includes all messages related to spot markets.
 
 ## MsgCreateSpotMarketOrder
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -250,6 +253,9 @@ gas fee: 0.000065298 INJ
 ```
 
 ## MsgCreateSpotLimitOrder
+
+**IP rate limit group:** `chain`
+
 
 ### Request Parameters
 > Request Example:
@@ -501,6 +507,9 @@ gas fee: 0.000064956 INJ
 
 ## MsgCancelSpotOrder
 
+**IP rate limit group:** `chain`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -709,6 +718,9 @@ MsgBatchUpdateOrders allows for the atomic cancellation and creation of spot and
 Users can cancel all limit orders in a given spot or derivative market for a given subaccountID by specifying the associated marketID in the SpotMarketIdsToCancelAll and DerivativeMarketIdsToCancelAll. Users can also cancel individual limit orders in SpotOrdersToCancel or DerivativeOrdersToCancel, but must ensure that marketIDs in these individual order cancellations are not already provided in the SpotMarketIdsToCancelAll or DerivativeMarketIdsToCancelAll.
 
 Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll or DerivativeMarketIdsToCancelAll, then the SubaccountID in the Msg should be left empty.
+
+**IP rate limit group:** `chain`
+
 
 ### Request Parameters
 > Request Example:
@@ -1125,6 +1137,9 @@ gas fee: 0.000329546 INJ
 ## LocalOrderHashComputation
 
 This function computes order hashes locally for SpotOrder and DerivativeOrder. For more information, see the [note below](#spot-note-on-localorderhashcomputation-for-hfts-api-traders). 
+
+**IP rate limit group:** `chain`
+
 
 ### Request Parameters
 > Request Example:

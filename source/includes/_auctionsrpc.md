@@ -6,6 +6,9 @@ InjectiveAuctionRPC defines the gRPC API of the Auction provider.
 
 Get the details of a specific auction.
 
+**IP rate limit group:** `indexer`
+
+
 ### Request Parameters
 > Request Example:
 
@@ -213,6 +216,9 @@ bids {
 
 Get the details of previous auctions.
 
+**IP rate limit group:** `indexer`
+
+
 > Request Example:
 
 <!-- embedme ../../../sdk-python/examples/exchange_client/auctions_rpc/2_Auctions.py -->
@@ -418,6 +424,9 @@ auctions {
 ## StreamBids
 
 Stream live updates for auction bids.
+
+**IP rate limit group:** `indexer`
+
 
 > Request Example:
 
