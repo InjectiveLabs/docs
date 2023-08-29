@@ -344,6 +344,14 @@
         <ul class="search-results"></ul>
       <ul id="toc" class="toc-list-h1">
           <li>
+            <a href="#change-log" class="toc-h1 toc-link" data-title="Change Log">Change Log</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#change-log-2023-08-28" class="toc-h2 toc-link" data-title="2023-08-28">2023-08-28</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
           </li>
           <li>
@@ -357,6 +365,9 @@
                   </li>
                   <li>
                     <a href="#clients-typescript-client" class="toc-h2 toc-link" data-title="Typescript Client">Typescript Client</a>
+                  </li>
+                  <li>
+                    <a href="#clients-for-other-languages" class="toc-h2 toc-link" data-title="For other languages">For other languages</a>
                   </li>
               </ul>
           </li>
@@ -398,6 +409,9 @@
                   </li>
                   <li>
                     <a href="#overview-reduce-only-order-precedence" class="toc-h2 toc-link" data-title="Reduce-Only Order Precedence">Reduce-Only Order Precedence</a>
+                  </li>
+                  <li>
+                    <a href="#overview-rate-limits" class="toc-h2 toc-link" data-title="Rate Limits">Rate Limits</a>
                   </li>
               </ul>
           </li>
@@ -1029,7 +1043,11 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id='introduction'>Introduction</h1>
+        <h1 id='change-log'>Change Log</h1><h2 id='change-log-2023-08-28'>2023-08-28</h2>
+<ul>
+<li>Added IP rate limits documentation</li>
+</ul>
+<h1 id='introduction'>Introduction</h1>
 <p>Welcome to Injective&#39;s documentation!</p>
 
 <p>Here you can find a comprehensive overview of our protocol, as well as tutorials, guides and general resources for developers and API traders.</p>
@@ -1089,6 +1107,9 @@
 <li><p><a href="https://github.com/InjectiveLabs/injective-ts/wiki">InjectiveLabs/injective-ts.wiki</a></p></li>
 <li><p><a href="https://github.com/InjectiveLabs/injective-ts/tree/master/packages/sdk-ts">InjectiveLabs/injective-ts</a></p></li>
 </ul>
+<h2 id='clients-for-other-languages'>For other languages</h2>
+<p>Currently Injective provides SDKs only for Go, Python and TypeScript. To interact with the nodes using a different language please connect directly using the gRPC proto objects.
+The compiled proto files for C++, C# and Rust can be found in <a href="https://github.com/InjectiveLabs/injective-proto">InjectiveLabs/injective-proto</a></p>
 <h1 id='overview'>Overview</h1>
 <p>Injective is a DeFi focused layer-1 blockchain built for the next generation of decentralized derivatives exchanges. The Injective Chain is a Tendermint-based IBC-compatible blockchain which supports a decentralized orderbook-based DEX protocol and a trustless ERC-20 token bridge to the Ethereum blockchain.</p>
 
@@ -1525,6 +1546,17 @@ Trader Rewards = 100 / 1,000 * 100 INJ = 10 INJ
 <p>If the orders are getting matched, once the last reduce-only order of $65,500 is reached, the position will have been reduced to <code>1 BTC - 0.1 BTC - 0.3 BTC - 0.5 BTC - 0.1 BTC = 0 BTC</code>. A reduce-only order of 0.1 BTC after that will thus be invalid.</p>
 
 <p>To prevent this, we <strong>automatically cancel the existing 0.1 BTC reduce-only order</strong>. In other words, new vanilla limit orders can invalidate and auto-cancel existing reduce-only limit orders if the reduce-only order becomes invalid at its price.</p>
+<h2 id='overview-rate-limits'>Rate Limits</h2>
+<p>The public mainnet and testnet nodes have a request rate limit associated to the requester IP address.
+The limits are:</p>
+
+<ul>
+<li>20 requests/second for the &quot;chain&quot; group</li>
+<li>50 requests/second for the &quot;indexer&quot; group</li>
+</ul>
+
+<p>Each endpoint&#39;s section in this document clarifies which group the endpoint belongs to.
+When the limit is reached the server will respond sending an error response with code 429.</p>
 <h1 id='market-and-limit-order-examples'>Market and Limit Order Examples</h1><h2 id='market-and-limit-order-examples-adding-a-spot-market-buy-order'>Adding a Spot Market Buy Order</h2>
 <ul>
 <li><code>Maker Fee = -0.01%</code></li>
@@ -2210,6 +2242,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <p>InjectiveAccountsRPC defines the gRPC API of the Exchange Accounts provider.</p>
 <h2 id='injectiveaccountsrpc-subaccountslist'>SubaccountsList</h2>
 <p>Get a list of subaccounts for a specific address.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveaccountsrpc-subaccountslist-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -2324,6 +2358,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveaccountsrpc-subaccounthistory'>SubaccountHistory</h2>
 <p>Get the subaccount&#39;s transfer history.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveaccountsrpc-subaccounthistory-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -2649,6 +2685,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveaccountsrpc-subaccountbalance'>SubaccountBalance</h2>
 <p>Get the balance of a subaccount for a specific denom.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveaccountsrpc-subaccountbalance-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -2842,6 +2880,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveaccountsrpc-subaccountbalanceslist'>SubaccountBalancesList</h2>
 <p>List the subaccount&#39;s balances for all denoms.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveaccountsrpc-subaccountbalanceslist-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -3077,6 +3117,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveaccountsrpc-subaccountordersummary'>SubaccountOrderSummary</h2>
 <p>Get a summary of the subaccount&#39;s active/unfilled orders.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveaccountsrpc-subaccountordersummary-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -3223,6 +3265,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveaccountsrpc-streamsubaccountbalance'>StreamSubaccountBalance</h2>
 <p>Stream the subaccount&#39;s balance for all denoms.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveaccountsrpc-streamsubaccountbalance-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -3499,6 +3543,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveaccountsrpc-orderstates'>OrderStates</h2>
 <p>Get orders with an order hash. This request will return market orders and limit orders in all states [booked, partial_filled, filled, canceled]. For filled and canceled orders, there is a TTL of 3 minutes. Should your order be filled or canceled you will still be able to fetch it for 3 minutes.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveaccountsrpc-orderstates-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -3843,6 +3889,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveaccountsrpc-portfolio'>Portfolio</h2>
 <p>Get an overview of your portfolio.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveaccountsrpc-portfolio-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -4036,6 +4084,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveaccountsrpc-rewards'>Rewards</h2>
 <p>Get the rewards for Trade &amp; Earn, the request will fetch all addresses for the latest epoch (-1) by default.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveaccountsrpc-rewards-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -4256,6 +4306,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <p>InjectiveSpotExchangeRPC defines the gRPC API of the Spot Exchange provider.</p>
 <h2 id='injectivespotexchangerpc-market'>Market</h2>
 <p>Get details of a single spot market.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivespotexchangerpc-market-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -4539,6 +4591,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivespotexchangerpc-markets'>Markets</h2>
 <p>Get a list of spot markets.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivespotexchangerpc-markets-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -4914,6 +4968,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivespotexchangerpc-streammarkets'>StreamMarkets</h2>
 <p>Stream live updates of spot markets.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivespotexchangerpc-streammarkets-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -5258,6 +5314,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivespotexchangerpc-ordershistory'>OrdersHistory</h2>
 <p>List history of orders (all states) for a spot market.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivespotexchangerpc-ordershistory-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -5534,6 +5592,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivespotexchangerpc-streamordershistory'>StreamOrdersHistory</h2>
 <p>Stream order updates for spot markets. If no parameters are given, updates to all subaccounts in all spot markets will be streamed.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivespotexchangerpc-streamordershistory-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -5770,6 +5830,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivespotexchangerpc-trades'>Trades</h2>
 <p>Get trade history for a spot market. The default request returns all spot trades from all markets.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 
 <p><strong>*Trade execution types</strong></p>
 
@@ -6206,6 +6268,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivespotexchangerpc-streamtrades'>StreamTrades</h2>
 <p>Stream newly executed trades of spot markets. The default request streams trades from all spot markets.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 
 <p><strong>*Trade execution types</strong></p>
 
@@ -7572,6 +7636,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivespotexchangerpc-orderbooksv2'>OrderbooksV2</h2>
 <p>Get an orderbook snapshot for one or more spot markets.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivespotexchangerpc-orderbooksv2-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -8153,6 +8219,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivespotexchangerpc-streamorderbooksv2'>StreamOrderbooksV2</h2>
 <p>Stream orderbook snapshot updates for one or more spot markets.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivespotexchangerpc-streamorderbooksv2-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -8372,6 +8440,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivespotexchangerpc-streamorderbookupdate'>StreamOrderbookUpdate</h2>
 <p>Stream incremental orderbook updates for one or more spot markets. This stream should be started prior to obtaining orderbook snapshots so that no incremental updates are omitted between obtaining a snapshot and starting the update stream.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivespotexchangerpc-streamorderbookupdate-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -8699,6 +8769,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivespotexchangerpc-subaccountorderslist'>SubaccountOrdersList</h2>
 <p>Get orders of a subaccount.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivespotexchangerpc-subaccountorderslist-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -9097,6 +9169,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivespotexchangerpc-subaccounttradeslist'>SubaccountTradesList</h2>
 <p>Get trades of a subaccount.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 
 <p><strong>*Trade execution types</strong></p>
 
@@ -9503,6 +9577,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <p>InjectiveDerivativeExchangeRPC defines the gRPC API of the Derivative Exchange provider.</p>
 <h2 id='injectivederivativeexchangerpc-market'>Market</h2>
 <p>Get details of a single derivative market.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivederivativeexchangerpc-market-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -9945,6 +10021,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-markets'>Markets</h2>
 <p>Get a list of one or more derivative markets.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivederivativeexchangerpc-markets-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -10505,6 +10583,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-streammarkets'>StreamMarkets</h2>
 <p>Stream live updates of derivative markets.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivederivativeexchangerpc-streammarkets-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -10986,6 +11066,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-ordershistory'>OrdersHistory</h2>
 <p>Lists historical orders posted from a subaccount</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivederivativeexchangerpc-ordershistory-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -11294,6 +11376,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-streamordershistory'>StreamOrdersHistory</h2>
 <p>Stream order updates of a derivative market.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivederivativeexchangerpc-streamordershistory-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -11540,6 +11624,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <!-- |placed_order_hash|String|Hash of order placed upon conditional order trigger| -->
 <h2 id='injectivederivativeexchangerpc-trades'>Trades</h2>
 <p>Get trades of a derivative market.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 
 <p><strong>*Trade execution types</strong></p>
 
@@ -11995,6 +12081,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <h2 id='injectivederivativeexchangerpc-streamtrades'>StreamTrades</h2>
 <p>Stream newly executed trades of a derivative market. The default request streams trades from all derivative markets.</p>
 
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
+
 <p><strong>*Trade execution types</strong></p>
 
 <ol>
@@ -12422,6 +12510,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-positions'>Positions</h2>
 <p>Get the positions of a market.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivederivativeexchangerpc-positions-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -12807,6 +12897,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-streampositions'>StreamPositions</h2>
 <p>Stream position updates for a specific market.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivederivativeexchangerpc-streampositions-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -14049,6 +14141,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-orderbooksv2'>OrderbooksV2</h2>
 <p>Get an orderbook snapshot for one or more derivative markets.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivederivativeexchangerpc-orderbooksv2-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -14256,6 +14350,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-streamorderbooksv2'>StreamOrderbooksV2</h2>
 <p>Stream orderbook snapshot updates for one or more derivative markets</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivederivativeexchangerpc-streamorderbooksv2-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -14474,6 +14570,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-streamorderbookupdate'>StreamOrderbookUpdate</h2>
 <p>Stream incremental orderbook updates for one or more derivative markets. This stream should be started prior to obtaining orderbook snapshots so that no incremental updates are omitted between obtaining a snapshot and starting the update stream.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivederivativeexchangerpc-streamorderbookupdate-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -14801,6 +14899,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-subaccountorderslist'>SubaccountOrdersList</h2>
 <p>Get the derivative orders of a specific subaccount.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivederivativeexchangerpc-subaccountorderslist-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -15170,6 +15270,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-subaccounttradeslist'>SubaccountTradesList</h2>
 <p>Get the derivative trades for a specific subaccount.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 
 <p><strong>*Trade execution types</strong></p>
 
@@ -15574,6 +15676,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-fundingpayments'>FundingPayments</h2>
 <p>Get the funding payments for a subaccount.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivederivativeexchangerpc-fundingpayments-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -15842,6 +15946,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-fundingrates'>FundingRates</h2>
 <p>Get the historical funding rates for a specific market.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivederivativeexchangerpc-fundingrates-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -16079,6 +16185,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-binaryoptionsmarket'>BinaryOptionsMarket</h2>
 <p>Get details of a single binary options market.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivederivativeexchangerpc-binaryoptionsmarket-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -16335,6 +16443,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivederivativeexchangerpc-binaryoptionsmarkets'>BinaryOptionsMarkets</h2>
 <p>Get a list of binary options markets.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivederivativeexchangerpc-binaryoptionsmarkets-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -16668,6 +16778,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <h2 id='injectiveoraclerpc-oraclelist'>OracleList</h2>
 <p>Get a list of all oracles.</p>
 
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
+
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -16856,6 +16968,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveoraclerpc-price'>Price</h2>
 <p>Get the oracle price of an asset.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveoraclerpc-price-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -16999,6 +17113,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveoraclerpc-streamprices'>StreamPrices</h2>
 <p>Stream new price changes for a specified oracle. If no oracles are provided, all price changes are streamed.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveoraclerpc-streamprices-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -17170,6 +17286,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <p>InjectiveInsuranceRPC defines the gRPC API of the Insurance Exchange provider.</p>
 <h2 id='injectiveinsurancerpc-insurancefunds'>InsuranceFunds</h2>
 <p>List all the insurance funds.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 
 <blockquote>
 <p>Request Example:</p>
@@ -17479,6 +17597,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveinsurancerpc-redemptions'>Redemptions</h2>
 <p>Get a list of redemptions. If no parameters are provided, redemptions for all pools and addresses will be returned.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveinsurancerpc-redemptions-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -17718,6 +17838,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <p>InjectiveAuctionRPC defines the gRPC API of the Auction provider.</p>
 <h2 id='injectiveauctionrpc-auction'>Auction</h2>
 <p>Get the details of a specific auction.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveauctionrpc-auction-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -17994,6 +18116,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <h2 id='injectiveauctionrpc-auctions'>Auctions</h2>
 <p>Get the details of previous auctions.</p>
 
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
+
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -18237,6 +18361,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <h2 id='injectiveauctionrpc-streambids'>StreamBids</h2>
 <p>Stream live updates for auction bids.</p>
 
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
+
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -18395,6 +18521,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <p>InjectiveExplorerRPC defines the gRPC API of the Explorer provider.</p>
 <h2 id='injectiveexplorerrpc-gettxbyhash'>GetTxByHash</h2>
 <p>Get the details for a specific transaction.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveexplorerrpc-gettxbyhash-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -18759,6 +18887,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveexplorerrpc-accounttxs'>AccountTxs</h2>
 <p>Get the details for a specific transaction.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveexplorerrpc-accounttxs-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -19350,6 +19480,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveexplorerrpc-blocks'>Blocks</h2>
 <p>Get data for blocks.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveexplorerrpc-blocks-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -19606,6 +19738,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveexplorerrpc-block'>Block</h2>
 <p>Get detailed data for a single block.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveexplorerrpc-block-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -19852,6 +19986,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveexplorerrpc-txs'>Txs</h2>
 <p>Get the transactions.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveexplorerrpc-txs-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -20219,6 +20355,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <h2 id='injectiveexplorerrpc-streamtxs'>StreamTxs</h2>
 <p>Stream transactions.</p>
 
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
+
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -20480,6 +20618,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <h2 id='injectiveexplorerrpc-streamblocks'>StreamBlocks</h2>
 <p>Stream blocks.</p>
 
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
+
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -20676,6 +20816,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveexplorerrpc-peggydeposits'>PeggyDeposits</h2>
 <p>Get info on peggy deposits. By default, deposits for all senders and receivers will be fetched.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveexplorerrpc-peggydeposits-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -20994,6 +21136,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveexplorerrpc-peggywithdrawals'>PeggyWithdrawals</h2>
 <p>Get info on peggy withdrawals.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveexplorerrpc-peggywithdrawals-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -21328,6 +21472,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveexplorerrpc-ibctransfers'>IBCTransfers</h2>
 <p>Get data on IBC transfers.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveexplorerrpc-ibctransfers-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -21706,6 +21852,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <h2 id='injectiveexplorerrpc-getwasmcodes'>GetWasmCodes</h2>
 <p>List all cosmwasm code on injective chain. Results are paginated.</p>
 
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
+
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -22013,6 +22161,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <h2 id='injectiveexplorerrpc-getwasmcodebyid'>GetWasmCodeByID</h2>
 <p>Get cosmwasm code by its code ID</p>
 
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
+
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -22203,6 +22353,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveexplorerrpc-getwasmcontracts'>GetWasmContracts</h2>
 <p>Get cosmwasm instantiated contracts on injective-chain. Results are paginated.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 
 <blockquote>
 <p>Request Example:</p>
@@ -22610,6 +22762,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <h2 id='injectiveexplorerrpc-getwasmcontractbyaddress'>GetWasmContractByAddress</h2>
 <p>Get cosmwasm contract by its address</p>
 
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
+
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -22878,6 +23032,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <h2 id='injectiveexplorerrpc-getcw20balance'>GetCw20Balance</h2>
 <p>Get CW20 balances of an injective account across all instantiated CW20 contracts</p>
 
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
+
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -23097,6 +23253,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <h2 id='injectivemetarpc-ping'>Ping</h2>
 <p>Get the server health.</p>
 
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
+
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -23171,6 +23329,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="nx">Health</span> <span class="nx">OK</span><span class="p">?</span> <span class="p">{}</span>
 </code></pre></div><h2 id='injectivemetarpc-version'>Version</h2>
 <p>Get the server version.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 
 <blockquote>
 <p>Request Example:</p>
@@ -23317,6 +23477,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectivemetarpc-info'>Info</h2>
 <p>Get the server information.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectivemetarpc-info-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -23495,6 +23657,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <h2 id='injectivemetarpc-streamkeepalive'>StreamKeepAlive</h2>
 <p>Subscribe to a stream and gracefully disconnect and connect to another sentry node if the primary becomes unavailable.</p>
 
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
+
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -23617,6 +23781,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <p>InjectivePortfolioRPC defines the gRPC API of the Exchange Portfolio provider.</p>
 <h2 id='injectiveportfoliorpc-accountportfolio'>AccountPortfolio</h2>
 <p>Get details about an account&#39;s portfolio.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveportfoliorpc-accountportfolio-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -23920,6 +24086,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='injectiveportfoliorpc-streamaccountportfolio'>StreamAccountPortfolio</h2>
 <p>Get continuous updates on account&#39;s portfolio.</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
 <h3 id='injectiveportfoliorpc-streamaccountportfolio-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -24111,7 +24279,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <p>On a high-level the end-user trading applications and Injective Products use the Indexer API to read data and the Chain API to write data to the blockchain. Even though it’s possible to develop trading applications using the Chain API only, the Indexer API includes more methods, streaming support, gRPC and also allows you to fetch historical data as the Chain API queries the blockchain state which doesn’t include historical records.</p>
 <h1 id='derivatives'>- Derivatives</h1>
 <p>Includes all messages related to derivative markets.</p>
-<h2 id='derivatives-msgcreatederivativemarketorder'>MsgCreateDerivativeMarketOrder</h2><h3 id='derivatives-msgcreatederivativemarketorder-request-parameters'>Request Parameters</h3>
+<h2 id='derivatives-msgcreatederivativemarketorder'>MsgCreateDerivativeMarketOrder</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='derivatives-msgcreatederivativemarketorder-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -24403,7 +24573,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3497</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">139962</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000069981</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='derivatives-msgcreatederivativelimitorder'>MsgCreateDerivativeLimitOrder</h2><h3 id='derivatives-msgcreatederivativelimitorder-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='derivatives-msgcreatederivativelimitorder'>MsgCreateDerivativeLimitOrder</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='derivatives-msgcreatederivativelimitorder-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -24732,7 +24904,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3496</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">171439</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.0000857195</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='derivatives-msgcancelderivativeorder'>MsgCancelDerivativeOrder</h2><h3 id='derivatives-msgcancelderivativeorder-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='derivatives-msgcancelderivativeorder'>MsgCancelDerivativeOrder</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='derivatives-msgcancelderivativeorder-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -24977,6 +25151,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <p>Users can cancel all limit orders in a given spot or derivative market for a given subaccountID by specifying the associated marketID in the SpotMarketIdsToCancelAll and DerivativeMarketIdsToCancelAll. Users can also cancel individual limit orders in SpotOrdersToCancel or DerivativeOrdersToCancel, but must ensure that marketIDs in these individual order cancellations are not already provided in the SpotMarketIdsToCancelAll or DerivativeMarketIdsToCancelAll.</p>
 
 <p>Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll or DerivativeMarketIdsToCancelAll, then the SubaccountID in the Msg should be left empty.</p>
+
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
 <h3 id='derivatives-msgbatchupdateorders-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -25643,7 +25819,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3508</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">659092</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000329546</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='derivatives-msgincreasepositionmargin'>MsgIncreasePositionMargin</h2><h3 id='derivatives-msgincreasepositionmargin-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='derivatives-msgincreasepositionmargin'>MsgIncreasePositionMargin</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='derivatives-msgincreasepositionmargin-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -25870,6 +26048,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000066807</span> <span class="n">INJ</span>
 </code></pre></div><h2 id='derivatives-localorderhashcomputation'>LocalOrderHashComputation</h2>
 <p>This function computes order hashes locally for SpotOrder and DerivativeOrder. For more information, see the <a href="#derivatives-note-on-localorderhashcomputation-for-hfts-api-traders">note below</a>. </p>
+
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
 <h3 id='derivatives-localorderhashcomputation-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -26509,7 +26689,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </ul>
 <h1 id='spot'>- Spot</h1>
 <p>Includes all messages related to spot markets.</p>
-<h2 id='spot-msgcreatespotmarketorder'>MsgCreateSpotMarketOrder</h2><h3 id='spot-msgcreatespotmarketorder-request-parameters'>Request Parameters</h3>
+<h2 id='spot-msgcreatespotmarketorder'>MsgCreateSpotMarketOrder</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='spot-msgcreatespotmarketorder-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -26784,7 +26966,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0004</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3494</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0004</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">130596</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000065298</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='spot-msgcreatespotlimitorder'>MsgCreateSpotLimitOrder</h2><h3 id='spot-msgcreatespotlimitorder-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='spot-msgcreatespotlimitorder'>MsgCreateSpotLimitOrder</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='spot-msgcreatespotlimitorder-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -27067,7 +27251,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3493</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">129912</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000064956</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='spot-msgcancelspotorder'>MsgCancelSpotOrder</h2><h3 id='spot-msgcancelspotorder-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='spot-msgcancelspotorder'>MsgCancelSpotOrder</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='spot-msgcancelspotorder-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -27288,6 +27474,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <p>Users can cancel all limit orders in a given spot or derivative market for a given subaccountID by specifying the associated marketID in the SpotMarketIdsToCancelAll and DerivativeMarketIdsToCancelAll. Users can also cancel individual limit orders in SpotOrdersToCancel or DerivativeOrdersToCancel, but must ensure that marketIDs in these individual order cancellations are not already provided in the SpotMarketIdsToCancelAll or DerivativeMarketIdsToCancelAll.</p>
 
 <p>Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll or DerivativeMarketIdsToCancelAll, then the SubaccountID in the Msg should be left empty.</p>
+
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
 <h3 id='spot-msgbatchupdateorders-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -27956,6 +28144,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000329546</span> <span class="n">INJ</span>
 </code></pre></div><h2 id='spot-localorderhashcomputation'>LocalOrderHashComputation</h2>
 <p>This function computes order hashes locally for SpotOrder and DerivativeOrder. For more information, see the <a href="#spot-note-on-localorderhashcomputation-for-hfts-api-traders">note below</a>. </p>
+
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
 <h3 id='spot-localorderhashcomputation-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -28565,7 +28755,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </ul>
 <h1 id='binary-options'>- Binary Options</h1>
 <p>Includes all messages related to binary options.</p>
-<h2 id='binary-options-msgcreatebinaryoptionslimitorder'>MsgCreateBinaryOptionsLimitOrder</h2><h3 id='binary-options-msgcreatebinaryoptionslimitorder-request-parameters'>Request Parameters</h3>
+<h2 id='binary-options-msgcreatebinaryoptionslimitorder'>MsgCreateBinaryOptionsLimitOrder</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='binary-options-msgcreatebinaryoptionslimitorder-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -28739,7 +28931,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">121249</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.0000606245</span> <span class="n">INJ</span>
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
-</code></pre></div><h2 id='binary-options-msgcreatebinaryoptionsmarketorder'>MsgCreateBinaryOptionsMarketOrder</h2><h3 id='binary-options-msgcreatebinaryoptionsmarketorder-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='binary-options-msgcreatebinaryoptionsmarketorder'>MsgCreateBinaryOptionsMarketOrder</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='binary-options-msgcreatebinaryoptionsmarketorder-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -28902,7 +29096,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">107903</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.0000539515</span> <span class="n">INJ</span>
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
-</code></pre></div><h2 id='binary-options-msgcancelbinaryoptionsorder'>MsgCancelBinaryOptionsOrder</h2><h3 id='binary-options-msgcancelbinaryoptionsorder-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='binary-options-msgcancelbinaryoptionsorder'>MsgCancelBinaryOptionsOrder</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='binary-options-msgcancelbinaryoptionsorder-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -29034,7 +29230,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">111303</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.0000556515</span> <span class="n">INJ</span>
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
-</code></pre></div><h2 id='binary-options-msgadminupdatebinaryoptionsmarket'>MsgAdminUpdateBinaryOptionsMarket</h2><h3 id='binary-options-msgadminupdatebinaryoptionsmarket-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='binary-options-msgadminupdatebinaryoptionsmarket'>MsgAdminUpdateBinaryOptionsMarket</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='binary-options-msgadminupdatebinaryoptionsmarket-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -29182,7 +29380,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">111303</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.0000556515</span> <span class="n">INJ</span>
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
-</code></pre></div><h2 id='binary-options-msginstantbinaryoptionsmarketlaunch'>MsgInstantBinaryOptionsMarketLaunch</h2><h3 id='binary-options-msginstantbinaryoptionsmarketlaunch-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='binary-options-msginstantbinaryoptionsmarketlaunch'>MsgInstantBinaryOptionsMarketLaunch</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='binary-options-msginstantbinaryoptionsmarketlaunch-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -29381,7 +29581,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">172751</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.0000863755</span> <span class="n">INJ</span>
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
-</code></pre></div><h2 id='binary-options-msgrelayproviderprices'>MsgRelayProviderPrices</h2><h3 id='binary-options-msgrelayproviderprices-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='binary-options-msgrelayproviderprices'>MsgRelayProviderPrices</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='binary-options-msgrelayproviderprices-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -29519,6 +29721,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <p>Users can cancel all limit orders in a given spot or derivative market for a given subaccountID by specifying the associated marketID in the SpotMarketIdsToCancelAll and DerivativeMarketIdsToCancelAll. Users can also cancel individual limit orders in SpotOrdersToCancel or DerivativeOrdersToCancel, but must ensure that marketIDs in these individual order cancellations are not already provided in the SpotMarketIdsToCancelAll or DerivativeMarketIdsToCancelAll.</p>
 
 <p>Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll or DerivativeMarketIdsToCancelAll, then the SubaccountID in the Msg should be left empty.</p>
+
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
 <h3 id='binary-options-msgbatchupdateorders-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -30186,7 +30390,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000329546</span> <span class="n">INJ</span>
 </code></pre></div><h1 id='account'>- Account</h1>
 <p>Includes all messages related to accounts and transfers.</p>
-<h2 id='account-msgdeposit'>MsgDeposit</h2><h3 id='account-msgdeposit-request-parameters'>Request Parameters</h3>
+<h2 id='account-msgdeposit'>MsgDeposit</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='account-msgdeposit-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -30399,7 +30605,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0002</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3492</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0002</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">132099</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.0000660495</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='account-msgwithdraw'>MsgWithdraw</h2><h3 id='account-msgwithdraw-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='account-msgwithdraw'>MsgWithdraw</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='account-msgwithdraw-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -30613,7 +30821,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0004</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3505</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0004</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">129606</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000064803</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='account-msgsubaccounttransfer'>MsgSubaccountTransfer</h2><h3 id='account-msgsubaccounttransfer-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='account-msgsubaccounttransfer'>MsgSubaccountTransfer</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='account-msgsubaccounttransfer-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -30836,7 +31046,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3507</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">122103</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.0000610515</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='account-msgexternaltransfer'>MsgExternalTransfer</h2><h3 id='account-msgexternaltransfer-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='account-msgexternaltransfer'>MsgExternalTransfer</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='account-msgexternaltransfer-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -31059,7 +31271,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0005</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3659</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:632"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0005</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">122397</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:633"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.0000611985</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='account-msgsendtoeth'>MsgSendToEth</h2><h3 id='account-msgsendtoeth-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='account-msgsendtoeth'>MsgSendToEth</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='account-msgsendtoeth-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -31295,7 +31509,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0004</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3516</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0004</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">161907</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.0000809535</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='account-sendtoinjective'>SendToInjective</h2><h3 id='account-sendtoinjective-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='account-sendtoinjective'>SendToInjective</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='account-sendtoinjective-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -31390,7 +31606,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="n">Transferred</span> <span class="mi">1</span> <span class="mh">0x36b3d7ace7201e28040eff30e815290d7b37ffad</span> <span class="k">from</span> <span class="mh">0xbdAEdEc95d563Fb05240d6e01821008454c24C36</span> <span class="n">to</span> <span class="n">inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku</span>
 
 <span class="n">Transaction</span> <span class="nb">hash</span><span class="p">:</span> <span class="mh">0xb538abc7c2f893a2fe24c7a8ea606ff48d980a754499f1bec89b862c2bcb9ea7</span>
-</code></pre></div><h2 id='account-gettx'>GetTx</h2><h3 id='account-gettx-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='account-gettx'>GetTx</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='account-gettx-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -31858,6 +32076,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
   <span class="o">-</span> <span class="n">ykCreNV7DhqugY9wh</span><span class="o">/</span><span class="n">snDXQxUKbl</span><span class="o">/</span><span class="n">Y</span><span class="o">+</span><span class="n">xw6l9wvaSo3pLRaOkVTvounhDfG</span><span class="o">/</span><span class="n">Yc9tHJeaWz</span><span class="o">/</span><span class="n">WvjmNzE62aI4pkHwE</span><span class="o">=</span>
 <span class="n">txhash</span><span class="o">:</span> <span class="n">A2B2B971C690AE7977451D24D6F450AECE6BCCB271E91E32C2563342DDA5254B</span>
 </code></pre></div><h2 id='account-streameventorderfail'>StreamEventOrderFail</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -31965,7 +32185,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">map</span><span class="p">[</span><span class="m">0x9db0f6e90d63b151ab0d64f0c6d83f747969f353d8c39a68cca65d046907e92a</span><span class="o">:</span><span class="m">59</span> <span class="m">0xdf7e05e66ab7a47e7a8a1751d4b9360fd80058cd5186162cee6fe124c57ece82</span><span class="o">:</span><span class="m">36</span><span class="p">]</span>
 </code></pre></div><h1 id='auction'>- Auction</h1>
 <p>Includes the message for placing bids in auctions.</p>
-<h2 id='auction-msgbid'>MsgBid</h2><h3 id='auction-msgbid-request-parameters'>Request Parameters</h3>
+<h2 id='auction-msgbid'>MsgBid</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='auction-msgbid-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -32178,6 +32400,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <p>Includes all messages and queries related to the Authz module. Authz is an implementation of the Cosmos SDK module, that allows granting arbitrary privileges from one account (the granter) to another account (the grantee). Authorizations must be granted for a particular Msg service method one by one using an implementation of the Authorization interface.</p>
 <h2 id='authz-msggrant'>MsgGrant</h2>
 <p>There are two types of authorization, Generic and Typed. Generic authorization will grant permissions to the grantee to execute exchange-related messages in all markets, typed authorization restricts the privileges to specified markets. Typed authorization is generally more safe since even if the grantee&#39;s key is compromised the attacker will only be able to send orders in specified markets - thus prevents them from launching bogus markets on-chain and executing orders on behalf of the granter.</p>
+
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
 <h3 id='authz-msggrant-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -32430,7 +32654,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3510</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">117873</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.0000589365</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='authz-msgexec'>MsgExec</h2><h3 id='authz-msgexec-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='authz-msgexec'>MsgExec</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='authz-msgexec-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -32700,7 +32926,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0004</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">1314</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0004</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">133972</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000066986</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='authz-msgrevoke'>MsgRevoke</h2><h3 id='authz-msgrevoke-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='authz-msgrevoke'>MsgRevoke</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='authz-msgrevoke-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -32908,6 +33136,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.0000515765</span> <span class="n">INJ</span>
 </code></pre></div><h2 id='authz-grants'>Grants</h2>
 <p>Get the details of an authorization between a granter and a grantee.</p>
+
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
 <h3 id='authz-grants-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -33047,7 +33277,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h1 id='oracle'>- Oracle</h1>
 <p>Includes the message to relay a price feed.</p>
-<h2 id='oracle-msgrelaypricefeedprice'>MsgRelayPriceFeedPrice</h2><h3 id='oracle-msgrelaypricefeedprice-request-parameters'>Request Parameters</h3>
+<h2 id='oracle-msgrelaypricefeedprice'>MsgRelayPriceFeedPrice</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='oracle-msgrelaypricefeedprice-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -33268,7 +33500,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.0000568235</span> <span class="n">INJ</span>
 </code></pre></div><h1 id='staking'>- Staking</h1>
 <p>Includes the messages to claim and withdraw delegator rewards</p>
-<h2 id='staking-msgwithdrawdelegatorreward'>MsgWithdrawDelegatorReward</h2><h3 id='staking-msgwithdrawdelegatorreward-request-parameters'>Request Parameters</h3>
+<h2 id='staking-msgwithdrawdelegatorreward'>MsgWithdrawDelegatorReward</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='staking-msgwithdrawdelegatorreward-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -33464,7 +33698,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">1322</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0003</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">195046</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000097523</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='staking-msgdelegate'>MsgDelegate</h2><h3 id='staking-msgdelegate-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='staking-msgdelegate'>MsgDelegate</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='staking-msgdelegate-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -33673,7 +33909,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000103923</span> <span class="n">INJ</span>
 </code></pre></div><h1 id='bank'>- Bank</h1>
 <p>Bank module.</p>
-<h2 id='bank-msgsend'>MsgSend</h2><h3 id='bank-msgsend-request-parameters'>Request Parameters</h3>
+<h2 id='bank-msgsend'>MsgSend</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='bank-msgsend-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -33891,7 +34129,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0004</span><span class="p">]</span> <span class="n">nonce</span> <span class="n">incremented</span> <span class="n">to</span> <span class="m">3491</span>                     <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:623"</span>
 <span class="n">DEBU</span><span class="p">[</span><span class="m">0004</span><span class="p">]</span> <span class="n">gas</span> <span class="n">wanted</span><span class="o">:</span>  <span class="m">119871</span>                           <span class="n">fn</span><span class="o">=</span><span class="n">func1</span> <span class="n">src</span><span class="o">=</span><span class="s">"client/chain/chain.go:624"</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.0000599355</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='bank-msgmultisend'>MsgMultiSend</h2><h3 id='bank-msgmultisend-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='bank-msgmultisend'>MsgMultiSend</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='bank-msgmultisend-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -34105,6 +34345,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">gas</span> <span class="n">fee</span><span class="o">:</span> <span class="m">0.000076422</span> <span class="n">INJ</span>
 </code></pre></div><h2 id='bank-queryallbalances'>QueryAllBalances</h2>
 <p>Get the bank balance for all denoms.</p>
+
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
 <h3 id='bank-queryallbalances-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -34342,6 +34584,8 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h2 id='bank-querybalance'>QueryBalance</h2>
 <p>Get the bank balance for a specific denom.</p>
+
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
 <h3 id='bank-querybalance-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
@@ -34529,7 +34773,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tbody></table>
 <h1 id='wasm'>- Wasm</h1>
 <p>CosmWasm smart contract interactions.</p>
-<h2 id='wasm-msgexecutecontract'>MsgExecuteContract</h2><h3 id='wasm-msgexecutecontract-request-parameters'>Request Parameters</h3>
+<h2 id='wasm-msgexecutecontract'>MsgExecuteContract</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='wasm-msgexecutecontract-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -34810,7 +35056,9 @@ The parameter sent to the <code>post_message</code> function has to be encoded i
 <span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.000069833</span> <span class="n">INJ</span>
 </code></pre></div><h1 id='insurance'>- Insurance</h1>
 <p>Includes the messages to create, underwrite and redeem in insurance funds.</p>
-<h2 id='insurance-msgcreateinsurancefund'>MsgCreateInsuranceFund</h2><h3 id='insurance-msgcreateinsurancefund-request-parameters'>Request Parameters</h3>
+<h2 id='insurance-msgcreateinsurancefund'>MsgCreateInsuranceFund</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='insurance-msgcreateinsurancefund-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -34957,7 +35205,9 @@ The parameter sent to the <code>post_message</code> function has to be encoded i
 
 <span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">151648</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.000075824</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='insurance-msgunderwrite'>MsgUnderwrite</h2><h3 id='insurance-msgunderwrite-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='insurance-msgunderwrite'>MsgUnderwrite</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='insurance-msgunderwrite-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -35076,7 +35326,9 @@ The parameter sent to the <code>post_message</code> function has to be encoded i
 
 <span class="n">gas</span> <span class="n">wanted</span><span class="p">:</span> <span class="mi">142042</span>
 <span class="n">gas</span> <span class="n">fee</span><span class="p">:</span> <span class="mf">0.000071021</span> <span class="n">INJ</span>
-</code></pre></div><h2 id='insurance-msgrequestredemption'>MsgRequestRedemption</h2><h3 id='insurance-msgrequestredemption-request-parameters'>Request Parameters</h3>
+</code></pre></div><h2 id='insurance-msgrequestredemption'>MsgRequestRedemption</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+<h3 id='insurance-msgrequestredemption-request-parameters'>Request Parameters</h3>
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
@@ -35345,6 +35597,8 @@ The parameter sent to the <code>post_message</code> function has to be encoded i
 </code></pre></div><h1 id='healthapi'>- HealthAPI</h1>
 <p>HealthAPI (HTTP) checks if backend data is up-to-date and reliable or not.</p>
 <h2 id='healthapi-getstatus'>GetStatus</h2>
+<p><strong>IP rate limit group:</strong> <code>chain</code></p>
+
 <p>To check the health of a node, the GetStatus API can be queried to obtain the Indexer height (<code>localHeight</code>) and the network height (<code>horacleHeight</code>). Next, the chain node height can be queried directly from the node (e.g. <code>curl --insecure http://sentry1.injective.network:26657/abci_info | grep last_block_height</code> or in Python <code>(await async_client.get_latest_block()).block.header.height</code>). Comparing <code>last_block_height</code> with <code>horacleHeight</code> gives a sense of the chain node&#39;s health, with a threshold of a 20 block difference being a good starting point for detecting unhealthy nodes. <code>localHeight</code> and <code>horacleHeight</code> can also be compared to check Indexer health, though an error should already be returned from the API query if the Indexer is deemed unhealthy (more than 20 block height difference).</p>
 
 <p>If LB/K8S endpoints are being used, there is no need to do these checks, as the cluster has built-in liveliness checks and excludes unhealthy nodes if any are detected.</p>
