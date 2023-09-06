@@ -11,15 +11,15 @@ To use the broadcaster you just need to create an instance of *MsgBroadcasterWit
 ## Broadcaster for standard account
 
 ### Calculate gas fee simulating the transaction
-For the broadcaster to calculate the gas fee running the simulation, create an instance of `MsgBroadcasterWithPk` with the message `new_using_simulation`.
-> Example:
+
+> Example - Calculate gas fee simulating the transaction:
 
 ``` python
 import asyncio
 
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.core.broadcaster import MsgBroadcasterWithPk
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey
 
 
@@ -82,18 +82,72 @@ if __name__ == "__main__":
 
 ```
 
+For the broadcaster to calculate the gas fee running the simulation, create an instance of `MsgBroadcasterWithPk` with the message `new_using_simulation`.
+
 This is the most common broadcaster configuration. Unless you are using grantee accounts (delegated accounts with authz) you should use this one.
 
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
 ### Calculate gas fee without simulation
-For the broadcaster to calculate the gas fee based on the messages included without running the simulation, create an instance of `MsgBroadcasterWithPk` with the message `new_without_simulation`.
-> Example:
+
+> Example - Calculate gas fee without simulation:
 
 ``` python
 import asyncio
 
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.core.broadcaster import MsgBroadcasterWithPk
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey
 
 
@@ -156,12 +210,18 @@ if __name__ == "__main__":
 
 ```
 
+For the broadcaster to calculate the gas fee based on the messages included without running the simulation, create an instance of `MsgBroadcasterWithPk` with the message `new_without_simulation`.
+
+<br />
+<br />
+
 ## Broadcaster for grantee account
 
 This is the required broadcaster configuration when operating with grantee accounts. The broadcaster will take care of creating the `MsgExec` message, so that the user keeps passing the same messages to the `broadcast` method that are passed when using the standard broadcaster with non-grantee accounts.
 
 ### Calculate gas fee simulating the transaction
-> Example:
+
+> Example - Calculate gas fee simulating the transaction:
 
 ``` python
 import asyncio
@@ -169,7 +229,7 @@ import asyncio
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.broadcaster import MsgBroadcasterWithPk
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey, Address
 
 
@@ -179,7 +239,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
@@ -223,9 +283,55 @@ if __name__ == "__main__":
 
 For the broadcaster to calculate the gas fee running the simulation, create an instance of `MsgBroadcasterWithPk` with the message `new_for_grantee_account_using_simulation`.
 
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
 ### Calculate gas fee without simulation
-> Example:
+
+> Example - Calculate gas fee without simulation:
 
 ``` python
 import asyncio
@@ -233,7 +339,7 @@ import asyncio
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.broadcaster import MsgBroadcasterWithPk
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey, Address
 
 
@@ -243,7 +349,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
@@ -287,6 +393,8 @@ if __name__ == "__main__":
 
 For the broadcaster to calculate the gas fee based on the messages included without running the simulation, create an instance of `MsgBroadcasterWithPk` with the message `new_for_grantee_account_without_simulation`.
 
+<br />
+<br />
 
 ---
 ***NOTE:***

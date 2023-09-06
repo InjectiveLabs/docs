@@ -26,7 +26,47 @@ pip install injective-py
 
 **Reference**
 
-[InjectiveLabs/sdk-python](https://github.com/InjectiveLabs/sdk-python).
+[InjectiveLabs/sdk-python](https://github.com/InjectiveLabs/sdk-python)
+
+### Markets and Tokens information
+
+> Example - Traditional Composer instantiation
+
+```python
+from pyinjective.composer import Composer
+from pyinjective.transaction import Transaction
+from pyinjective.core.network import Network
+
+
+network = Network.testnet()
+composer = Composer(network=network.string())
+```
+
+Python SDK traditionally relied on local configuration files to get the list of available markets and tokens in each network (mainnet, testnet and devnet).
+
+Since **version 0.8** the SDK is able also to get the markets and tokens information directly from the chain data (through the Indexer process). 
+The benefit of this approach is that it is not necessary to update the SDK version when a new market is created in the chain or a new token added.
+
+- To use the markets and tokens information from the local configuration files, create the Composer instance in the traditional way
+
+<br />
+<br />
+
+> Example - Get the composer instance through the AsyncClient
+
+```python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.async_client import AsyncClient
+from pyinjective.transaction import Transaction
+from pyinjective.core.network import Network
+
+
+network = Network.testnet()
+client = AsyncClient(network)
+composer = await client.composer()
+```
+
+- To get the markets and tokens information directly from the chain, create the Composer instance through the AsyncClient
 
 ## Golang Client
 

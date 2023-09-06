@@ -11,7 +11,7 @@ GetTx gets transaction details by hash.
 > Request Example:
 
 ``` python
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 network = Network.testnet()
 
@@ -66,7 +66,7 @@ Endpoint for checking server health.
 > Request Example:
 
 ``` python
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 network = Network.testnet()
 
@@ -98,7 +98,7 @@ Returns injective-exchange version.
 > Request Example:
 
 ``` python
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 network = Network.testnet()
 

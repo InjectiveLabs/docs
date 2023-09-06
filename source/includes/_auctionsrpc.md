@@ -18,12 +18,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     bid_round = 31
     auction = await client.get_auction(bid_round=bid_round)
     print(auction)
@@ -227,12 +227,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     auctions = await client.get_auctions()
     print(auctions)
 
@@ -436,12 +436,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     bids = await client.stream_bids()
     async for bid in bids:
         print(bid)

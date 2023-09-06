@@ -18,12 +18,12 @@ import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.composer import Composer
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     composer = Composer(network=network.string())
     tx_hash = "0F3EBEC1882E1EEAC5B7BDD836E976250F1CD072B79485877CEACCB92ACDDF52"
     transaction_response = await client.get_tx_by_hash(tx_hash=tx_hash)
@@ -263,12 +263,12 @@ import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.composer import Composer
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     composer = Composer(network=network.string())
     address = "inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex"
     type = "cosmos.bank.v1beta1.MsgSend"
@@ -698,12 +698,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     limit = 2
     block = await client.get_blocks(limit=limit)
     print(block)
@@ -898,12 +898,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     block_height = "5825046"
     block = await client.get_block(block_height=block_height)
     print(block)
@@ -1072,12 +1072,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     limit = 2
     txs = await client.get_txs(limit=limit)
     print(txs)
@@ -1367,12 +1367,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     stream_txs = await client.stream_txs(
     )
     async for tx in stream_txs:
@@ -1617,12 +1617,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     stream_blocks = await client.stream_blocks(
     )
     async for block in stream_blocks:
@@ -1802,12 +1802,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     receiver = "inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex"
     peggy_deposits = await client.get_peggy_deposits(receiver=receiver)
     print(peggy_deposits)
@@ -2051,12 +2051,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     sender = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
     limit = 2
     peggy_deposits = await client.get_peggy_withdrawals(
@@ -2300,12 +2300,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     sender = "inj1cll5cv3ezgal30gagkhnq2um6zf6qrmhw4r6c8"
     receiver = "cosmos1usr9g5a4s2qrwl63sdjtrs2qd4a7huh622pg82"
     src_channel = "channel-2"

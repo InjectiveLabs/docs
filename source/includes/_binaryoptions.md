@@ -16,7 +16,7 @@ import logging
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
-from pyinjective.constant import Network, Denom
+from pyinjective.core.network import Network, Denom
 from pyinjective.wallet import PrivateKey
 
 async def main() -> None:
@@ -25,7 +25,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
@@ -154,7 +154,7 @@ import logging
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey
 
 
@@ -164,7 +164,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
@@ -286,7 +286,7 @@ import logging
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey
 
 
@@ -296,7 +296,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
@@ -407,7 +407,7 @@ import logging
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey
 
 async def main() -> None:
@@ -416,7 +416,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
@@ -534,7 +534,7 @@ import logging
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey
 
 
@@ -544,7 +544,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
@@ -671,7 +671,7 @@ import logging
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey
 
 
@@ -681,7 +681,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
@@ -797,7 +797,7 @@ import logging
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey
 
 
@@ -807,7 +807,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
