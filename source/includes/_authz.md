@@ -18,7 +18,7 @@ import logging
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey
 
 
@@ -28,7 +28,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
@@ -267,7 +267,7 @@ import logging
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey, Address
 
 
@@ -277,7 +277,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
@@ -537,7 +537,7 @@ import logging
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey
 
 
@@ -547,7 +547,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
@@ -736,11 +736,11 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     granter = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
     grantee = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
     msg_type_url = "/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder"

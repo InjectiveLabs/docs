@@ -16,7 +16,7 @@ import logging
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey
 
 async def main() -> None:
@@ -25,7 +25,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
@@ -221,7 +221,7 @@ import logging
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey
 
 
@@ -231,7 +231,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
@@ -427,7 +427,7 @@ import logging
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey
 
 
@@ -437,7 +437,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
@@ -637,7 +637,7 @@ import logging
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey
 
 
@@ -647,7 +647,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
@@ -847,7 +847,7 @@ import requests
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey
 
 async def main() -> None:
@@ -856,7 +856,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
@@ -1070,7 +1070,7 @@ import requests
 import asyncio
 import logging
 
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.sendtocosmos import Peggo
 
 import importlib.resources as pkg_resources
@@ -1137,11 +1137,11 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     tx_hash = "0D2427F669F9862C0392A3D7699D678B30FD9D38861782E3FA32C7816889032E"
     tx_logs = await client.get_tx(tx_hash=tx_hash)
     print(tx_logs)
@@ -1609,7 +1609,7 @@ import json
 import websockets
 import base64
 
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     network = Network.testnet()

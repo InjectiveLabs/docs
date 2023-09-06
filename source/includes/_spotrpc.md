@@ -17,11 +17,11 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     market = await client.get_spot_market(market_id=market_id)
     print(market)
@@ -217,11 +217,11 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     market_status = "active"
     base_denom = "inj"
     quote_denom = "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
@@ -501,12 +501,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     markets = await client.stream_spot_markets()
     async for market in markets:
         print(market)
@@ -753,11 +753,11 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     subaccount_id = "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000"
     skip = 10
@@ -909,11 +909,11 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     order_side = "buy"
     subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
@@ -1059,11 +1059,11 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     market_ids = ["0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"]
     execution_side = "taker"
     direction = "buy"
@@ -1363,11 +1363,11 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     market_ids = [
         "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
         "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"
@@ -1668,12 +1668,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     orderbook = await client.get_spot_orderbook(market_id=market_id)
     print(orderbook)
@@ -1895,11 +1895,11 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     market_ids = [
         "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
         "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"
@@ -2204,12 +2204,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     market_ids = [
         "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
         "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"
@@ -2493,12 +2493,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     market_ids = [
         "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
         "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"
@@ -3027,13 +3027,13 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     market_ids = ["0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"]
     orderbooks = await client.stream_spot_orderbook_snapshot(market_ids=market_ids)
     async for orderbook in orderbooks:
@@ -3199,7 +3199,7 @@ import logging
 from decimal import *
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 
 class PriceLevel:
@@ -3246,7 +3246,7 @@ async def load_orderbook_snapshot(async_client: AsyncClient, orderbook: Orderboo
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    async_client = AsyncClient(network, insecure=False)
+    async_client = AsyncClient(network)
 
     market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     orderbook = Orderbook(market_id=market_id)
@@ -3464,12 +3464,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     subaccount_id = "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
     market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     skip = 10
@@ -3782,12 +3782,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     execution_type = "market"

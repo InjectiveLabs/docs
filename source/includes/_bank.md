@@ -17,7 +17,7 @@ import logging
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
 from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 from pyinjective.wallet import PrivateKey
 
 
@@ -27,8 +27,7 @@ async def main() -> None:
     composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    # set custom cookie location (optional) - defaults to current dir
-    client = AsyncClient(network, insecure=False, chain_cookie_location="/tmp/.chain_cookie")
+    client = AsyncClient(network)
     await client.sync_timeout_height()
 
     # load account
@@ -399,12 +398,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     address = "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
     all_bank_balances = await client.get_bank_balances(address=address)
     print(all_bank_balances)
@@ -609,12 +608,12 @@ import asyncio
 import logging
 
 from pyinjective.async_client import AsyncClient
-from pyinjective.constant import Network
+from pyinjective.core.network import Network
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    client = AsyncClient(network, insecure=False)
+    client = AsyncClient(network)
     address = "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
     denom = "inj"
     bank_balance = await client.get_bank_balance(address=address, denom=denom)
