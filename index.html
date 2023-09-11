@@ -31674,16 +31674,10 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <p>Request Example:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-
 <span class="kn">import</span> <span class="nn">asyncio</span>
-<span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">from</span> <span class="nn">pyinjective.core.network</span> <span class="kn">import</span> <span class="n">Network</span>
 <span class="kn">from</span> <span class="nn">pyinjective.sendtocosmos</span> <span class="kn">import</span> <span class="n">Peggo</span>
-
-<span class="kn">import</span> <span class="nn">importlib.resources</span> <span class="k">as</span> <span class="n">pkg_resources</span>
-<span class="kn">import</span> <span class="nn">pyinjective</span>
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
     <span class="c1"># select network: testnet, mainnet
@@ -31702,14 +31696,14 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 
     <span class="n">data</span> <span class="o">=</span> <span class="s">'{"@type": "/injective.exchange.v1beta1.MsgDeposit","sender": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku","subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000","amount": {"denom": "inj","amount": "1000000000000000000"}}'</span>
 
-    <span class="n">import_peggo</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="p">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">pyinjective</span><span class="p">,</span> <span class="s">'Peggo_ABI.json'</span><span class="p">)</span>
-    <span class="n">peggo_abi</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">import_peggo</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"../pyinjective/Peggo_ABI.json"</span><span class="p">)</span> <span class="k">as</span> <span class="n">pego_file</span><span class="p">:</span>
+        <span class="n">peggo_data</span> <span class="o">=</span> <span class="n">pego_file</span><span class="p">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">peggo_abi</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">peggo_data</span><span class="p">)</span>
 
     <span class="n">peggo_composer</span><span class="p">.</span><span class="n">sendToInjective</span><span class="p">(</span><span class="n">ethereum_endpoint</span><span class="o">=</span><span class="n">ethereum_endpoint</span><span class="p">,</span> <span class="n">private_key</span><span class="o">=</span><span class="n">private_key</span><span class="p">,</span> <span class="n">token_contract</span><span class="o">=</span><span class="n">token_contract</span><span class="p">,</span>
                  <span class="n">receiver</span><span class="o">=</span><span class="n">receiver</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="n">amount</span><span class="p">,</span> <span class="n">maxFeePerGas</span><span class="o">=</span><span class="n">maxFeePerGas_Gwei</span><span class="p">,</span> <span class="n">maxPriorityFeePerGas</span><span class="o">=</span><span class="n">maxPriorityFeePerGas_Gwei</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">peggo_abi</span><span class="o">=</span><span class="n">peggo_abi</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </code></pre></div>
 <table><thead>
@@ -31727,6 +31721,12 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>Yes</td>
 </tr>
 <tr>
+<td>private_key</td>
+<td>String</td>
+<td>Private key of the account to be used to sign the transaction</td>
+<td>Yes</td>
+</tr>
+<tr>
 <td>token_contract</td>
 <td>String</td>
 <td>The token contract, you can find the contract for the token you want to transfer on etherscan</td>
@@ -31739,22 +31739,40 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>Yes</td>
 </tr>
 <tr>
-<td>maxFeePerGas_Gwei</td>
+<td>amount</td>
+<td>Float</td>
+<td>The amount you want to transfer</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>maxFeePerGas</td>
 <td>Integer</td>
 <td>The maxFeePerGas in Gwei</td>
 <td>Yes</td>
 </tr>
 <tr>
-<td>maxPriorityFeePerGas_Gwei</td>
+<td>maxPriorityFeePerGas</td>
 <td>Integer</td>
 <td>The maxPriorityFeePerGas in Gwei</td>
 <td>Yes</td>
 </tr>
 <tr>
-<td>amount</td>
-<td>Integer</td>
-<td>The amount you want to transfer</td>
+<td>peggo_abi</td>
+<td>String</td>
+<td>Peggo contract ABI</td>
 <td>Yes</td>
+</tr>
+<tr>
+<td>data</td>
+<td>String</td>
+<td>The body of the message to send to Injective chain to do the deposit</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>decimals</td>
+<td>Integer</td>
+<td>Number of decimals in Injective chain of the token being transferred (default: 18)</td>
+<td>No</td>
 </tr>
 </tbody></table>
 
