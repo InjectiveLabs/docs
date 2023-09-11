@@ -1065,16 +1065,10 @@ gas fee: 0.0000809535 INJ
 
 ``` python
 import json
-import requests
-
 import asyncio
-import logging
 
 from pyinjective.core.network import Network
 from pyinjective.sendtocosmos import Peggo
-
-import importlib.resources as pkg_resources
-import pyinjective
 
 async def main() -> None:
     # select network: testnet, mainnet
@@ -1093,25 +1087,29 @@ async def main() -> None:
 
     data = '{"@type": "/injective.exchange.v1beta1.MsgDeposit","sender": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku","subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000","amount": {"denom": "inj","amount": "1000000000000000000"}}'
 
-    import_peggo = pkg_resources.read_text(pyinjective, 'Peggo_ABI.json')
-    peggo_abi = json.loads(import_peggo)
+    with open("../pyinjective/Peggo_ABI.json") as pego_file:
+        peggo_data = pego_file.read()
+    peggo_abi = json.loads(peggo_data)
 
     peggo_composer.sendToInjective(ethereum_endpoint=ethereum_endpoint, private_key=private_key, token_contract=token_contract,
                  receiver=receiver, amount=amount, maxFeePerGas=maxFeePerGas_Gwei, maxPriorityFeePerGas=maxPriorityFeePerGas_Gwei, data=data, peggo_abi=peggo_abi)
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
 ```
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |ethereum_endpoint|String|The ethereum endpoint, you can get one from providers like Infura and Alchemy|Yes|
+|private_key|String|Private key of the account to be used to sign the transaction|Yes|
 |token_contract|String|The token contract, you can find the contract for the token you want to transfer on etherscan|Yes|
 |receiver|String|The Injective Chain address to receive the funds|Yes|
-|maxFeePerGas_Gwei|Integer|The maxFeePerGas in Gwei|Yes|
-|maxPriorityFeePerGas_Gwei|Integer|The maxPriorityFeePerGas in Gwei|Yes|
-|amount|Integer|The amount you want to transfer|Yes|
+|amount|Float|The amount you want to transfer|Yes|
+|maxFeePerGas|Integer|The maxFeePerGas in Gwei|Yes|
+|maxPriorityFeePerGas|Integer|The maxPriorityFeePerGas in Gwei|Yes|
+|peggo_abi|String|Peggo contract ABI|Yes|
+|data|String|The body of the message to send to Injective chain to do the deposit|Yes|
+|decimals|Integer|Number of decimals in Injective chain of the token being transferred (default: 18)|No|
 
 
 > Response Example:
