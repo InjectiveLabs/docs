@@ -118,3 +118,7 @@ yarn add @injectivelabs/sdk-ts
 ## For other languages
 Currently Injective provides SDKs only for Go, Python and TypeScript. To interact with the nodes using a different language please connect directly using the gRPC proto objects.
 The compiled proto files for C++, C# and Rust can be found in [InjectiveLabs/injective-proto](https://github.com/InjectiveLabs/injective-proto)
+
+## Public endpoitns
+
+Find the [Mainnet and Tesnet public endpoints and resources](https://docs.injective.network/develop/public-endpoints).
