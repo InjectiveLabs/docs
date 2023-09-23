@@ -52,7 +52,7 @@
 	Discounts apply to all markets apart from markets that have negative maker fees or markets that have been explicitly excluded.
 
 ## 13. What is the block time on the network?
-	The average block time is currently around 2.5 seconds.
+	The average block time is 800ms.
 
 ## 14. Does gas fee affect block inclusion and transaction ordering?
 	Gas fee affects block inclusion but not ordering, currently there's no ordering of transactions other than the order they've arrived (based on the sequence number). For more information refer to the Tendermint [docs](https://docs.tendermint.com/v0.33/tendermint-core/mempool.html)
