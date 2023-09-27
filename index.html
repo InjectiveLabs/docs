@@ -416,6 +416,9 @@
                   <li>
                     <a href="#overview-rate-limits" class="toc-h2 toc-link" data-title="Rate Limits">Rate Limits</a>
                   </li>
+                  <li>
+                    <a href="#overview-order-types" class="toc-h2 toc-link" data-title="Order types">Order types</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -1611,6 +1614,19 @@ The limits are:</p>
 
 <p>Each endpoint&#39;s section in this document clarifies which group the endpoint belongs to.
 When the limit is reached the server will respond sending an error response with code 429.</p>
+<h2 id='overview-order-types'>Order types</h2>
+<ul>
+<li>BUY (1): A standard buy order to purchase an asset at either the current market price or a set limit price. Market orders in Injective also have a price to stablish a limit to the market price the order will be executed with.</li>
+<li>SELL (2): A standard sell order to sell an asset at either the current market price or a set limit price. Market orders in Injective also have a price to stablish a limit to the market price the order will be executed with.</li>
+<li>STOP_BUY (3): A stop-loss buy order converts into a regular buy order once the oracle price reaches or surpasses a specified trigger price.</li>
+<li>STOP_SELL (4): A stop-loss sell order becomes a regular sell order once the oracle price drops to or below a specified trigger price.</li>
+<li>TAKE_BUY (5): A take-profit buy order converts into a regular buy order once the oracle price reaches or surpasses a specified trigger price.</li>
+<li>TAKE_SELL (6): A take-profit sell order becomes a regular sell order once the oracle price drops to or below a specified trigger price.</li>
+<li>BUY_PO (7): Post-Only Buy. This order type ensures that the order will only be added to the order book and not match with a pre-existing order. It guarantees that you will be the market &quot;maker&quot; and not the &quot;taker&quot;.</li>
+<li>SELL_PO (8): Post-Only Sell. Similar to BUY_PO, this ensures that your sell order will only add liquidity to the order book and not match with a pre-existing order.</li>
+<li>BUY_ATOMIC (9): An atomic buy order is a market order that gets executed instantly, bypassing the Frequent Batch Auctions (FBA). It&#39;s intended for smart contracts that need to execute a trade instantly. A higher fee is paid defined in the global exchange parameters (currently it is two times the normal trading fee).</li>
+<li>SELL_ATOMIC (10): An atomic sell order is similar to a BUY_ATOMIC, and it gets executed instantly at the current market price, bypassing the FBA.</li>
+</ul>
 <h1 id='market-and-limit-order-examples'>Market and Limit Order Examples</h1><h2 id='market-and-limit-order-examples-adding-a-spot-market-buy-order'>Adding a Spot Market Buy Order</h2>
 <ul>
 <li><code>Maker Fee = -0.01%</code></li>
