@@ -1012,6 +1012,48 @@ if __name__ == '__main__':
 ```
 
 ``` go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+	subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+	skip := uint64(0)
+	limit := int32(10)
+	isConditional := "false"
+
+	req := derivativeExchangePB.OrdersHistoryRequest{
+		SubaccountId:  subaccountId,
+		MarketId:      marketId,
+		Skip:          skip,
+		Limit:         limit,
+		IsConditional: isConditional,
+	}
+
+	res, err := exchangeClient.GetHistoricalDerivativeOrders(ctx, req)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
 
 ```
 
@@ -1094,6 +1136,109 @@ paging {
 ```
 
 ``` go
+{
+ "orders": [
+  {
+   "order_hash": "0x17da6aa0ba9c192da6c9d5a043b4c36a91af5117636cb1f6e69654fc6cfc1bee",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "execution_type": "market",
+   "order_type": "sell",
+   "price": "6494113.703056872037914692",
+   "trigger_price": "0",
+   "quantity": "2110",
+   "filled_quantity": "2110",
+   "state": "filled",
+   "created_at": 1692857306725,
+   "updated_at": 1692857306725,
+   "direction": "sell",
+   "margin": "0"
+  },
+  {
+   "order_hash": "0xeac94983c5e1a47885e5959af073c475e4ec6ec343c1e1d441af1ba65f8aa5ee",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "execution_type": "limit",
+   "order_type": "buy",
+   "price": "8111100",
+   "trigger_price": "0",
+   "quantity": "10",
+   "filled_quantity": "10",
+   "state": "filled",
+   "created_at": 1688738648747,
+   "updated_at": 1688738648747,
+   "direction": "buy",
+   "margin": "82614000"
+  },
+  {
+   "order_hash": "0x41a5c6f8c8c8ff3f37e443617dda589f46f1678ef1a22e2ab2b6ca54e0788210",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "execution_type": "market",
+   "order_type": "buy",
+   "price": "8261400",
+   "trigger_price": "0",
+   "quantity": "100",
+   "filled_quantity": "100",
+   "state": "filled",
+   "created_at": 1688591280030,
+   "updated_at": 1688591280030,
+   "direction": "buy",
+   "margin": "274917218.543"
+  },
+  {
+   "order_hash": "0x2f667629cd06ac9fd6e54aa2544ad63cd43efc29418d0e1e12df9ba783c9a7ab",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "execution_type": "market",
+   "order_type": "buy",
+   "price": "7166668.98546",
+   "trigger_price": "0",
+   "quantity": "2000",
+   "filled_quantity": "2000",
+   "state": "filled",
+   "created_at": 1687507605674,
+   "updated_at": 1687507605674,
+   "direction": "buy",
+   "margin": "4814400000"
+  },
+  {
+   "order_hash": "0x4c42bca7b65f18bf96e75be03a53f73854da15e8030c38e63d1531307f8cd40c",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "execution_type": "market",
+   "order_type": "sell",
+   "price": "7123287.02926",
+   "trigger_price": "0",
+   "quantity": "1000",
+   "filled_quantity": "1000",
+   "state": "filled",
+   "created_at": 1687507547684,
+   "updated_at": 1687507547684,
+   "direction": "sell",
+   "margin": "0"
+  },
+  {
+   "order_hash": "0x70c66ce3e92aa616d3dbdbcd565c37a3d42b2b5a0951a8bebe9ddaca9852d547",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "execution_type": "market",
+   "order_type": "buy",
+   "price": "7162504.91532",
+   "trigger_price": "0",
+   "quantity": "1000",
+   "filled_quantity": "1000",
+   "state": "filled",
+   "created_at": 1687507348068,
+   "updated_at": 1687507348068,
+   "direction": "buy",
+   "margin": "7212200000"
+  }
+ ],
+ "paging": {
+  "total": 6
+ }
+}
 
 ```
 
@@ -1111,27 +1256,24 @@ paging {
 |Parameter|Type|Description|
 |----|----|----|
 |order_hash|String|Hash of the order|
-|quantity|String|Quantity of the order|
-|state|String|Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
-|trigger_price|String|The price that triggers stop/take orders|
 |market_id|String|Derivative market ID|
+|is_active|Boolean|Indicates if the order is active|
+|subaccount_id|String|The subaccountId that this order belongs to|
+|execution_type|String|The type of the order (Should be one of: ["limit", "market"])|
+|order_type|String|Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|
+|price|String|Price of the order|
+|trigger_price|String|The price that triggers stop/take orders|
+|quantity|String|Quantity of the order|
+|filled_quantity|String|The amount of the quantity filled|
+|state|String|Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
 |created_at|Integer|Order created timestamp in UNIX millis|
 |updated_at|Integer|Order updated timestamp in UNIX millis|
-|price|String|Price of the order|
-|subaccount_id|String|The subaccountId that this order belongs to|
-|order_type|String|Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|
-|execution_type|String|The type of the order (Should be one of: ["limit", "market"])|
-|filled_quantity|String|The amount of the quantity filled|
+|is_reduce_only|Boolean|Indicates if the order is reduce-only|
 |direction|String|The direction of the order (Should be one of: ["buy", "sell"])|
+|is_conditional|Boolean|Indicates if the order is conditional|
+|trigger_at|Integer|Trigger timestamp in UNIX millis|
+|placed_order_hash|String|Hash of order placed upon conditional order trigger|
 |margin|String|The margin of the order|
-<!-- uncomment when active -->
-<!-- |is_active|Boolean|Indicates if the order is active| -->
-<!-- |is_reduce_only|Boolean|Indicates if the order is reduce-only| -->
-<!-- |is_conditional|Boolean|Indicates if the order is conditional| -->
-<!-- |trigger_at|Integer|Trigger timestamp in UNIX millis| -->
-<!-- |placed_order_hash|String|Hash of order placed upon conditional order trigger| -->
-
-
 
 
 **Paging**
@@ -1177,6 +1319,55 @@ if __name__ == '__main__':
 ```
 
 ``` go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+	subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+	direction := "buy"
+
+	req := derivativeExchangePB.StreamOrdersHistoryRequest{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+		Direction:    direction,
+	}
+	stream, err := exchangeClient.StreamHistoricalDerivativeOrders(ctx, req)
+	if err != nil {
+		panic(err)
+	}
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				panic(err)
+				return
+			}
+			str, _ := json.MarshalIndent(res, "", " ")
+			fmt.Print(string(str))
+		}
+	}
+}
 
 ```
 
@@ -1248,7 +1439,46 @@ timestamp: 1665487078000
 ```
 
 ``` go
-
+{
+ "order": {
+  "order_hash": "0x4aeb72ac2ae5811126a0c384e05ce68745316add0e705c39e73f68c76431515e",
+  "market_id": "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74",
+  "is_active": true,
+  "subaccount_id": "0x7619f89a2172c6705aac7482f3adbf0601ea140e000000000000000000000000",
+  "execution_type": "limit",
+  "order_type": "sell_po",
+  "price": "27953000000",
+  "trigger_price": "0",
+  "quantity": "0.0344",
+  "filled_quantity": "0",
+  "state": "booked",
+  "created_at": 1696617269292,
+  "updated_at": 1696617269292,
+  "direction": "sell",
+  "margin": "320527734"
+ },
+ "operation_type": "insert",
+ "timestamp": 1696617272000
+}{
+ "order": {
+  "order_hash": "0x24d82da3530ce5d2d392c9563d29b79c3a25e058dd6d79e0d8f651703256eb78",
+  "market_id": "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74",
+  "subaccount_id": "0x6590d14d9e9c1d964f8c83bddc8a092f4a2d1284000000000000000000000000",
+  "execution_type": "limit",
+  "order_type": "buy_po",
+  "price": "27912000000",
+  "trigger_price": "0",
+  "quantity": "0.0344",
+  "filled_quantity": "0",
+  "state": "canceled",
+  "created_at": 1696617207873,
+  "updated_at": 1696617269292,
+  "direction": "buy",
+  "margin": "320057600"
+ },
+ "operation_type": "update",
+ "timestamp": 1696617272000
+}
 ```
 
 ``` typescript
@@ -1266,25 +1496,24 @@ timestamp: 1665487078000
 |Parameter|Type|Description|
 |----|----|----|
 |order_hash|String|Hash of the order|
-|quantity|String|Quantity of the order|
-|state|String|Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
-|trigger_price|String|The price that triggers stop/take orders|
 |market_id|String|Derivative market ID|
+|is_active|Boolean|Indicates if the order is active|
+|subaccount_id|String|The subaccountId that this order belongs to|
+|execution_type|String|The type of the order (Should be one of: ["limit", "market"])|
+|order_type|String|Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|
+|price|String|Price of the order|
+|trigger_price|String|The price that triggers stop/take orders|
+|quantity|String|Quantity of the order|
+|filled_quantity|String|The amount of the quantity filled|
+|state|String|Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
 |created_at|Integer|Order created timestamp in UNIX millis|
 |updated_at|Integer|Order updated timestamp in UNIX millis|
-|price|String|Price of the order|
-|subaccount_id|String|The subaccountId that this order belongs to|
-|order_type|String|Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|
-|execution_type|String|The type of the order (Should be one of: ["limit", "market"])|
-|filled_quantity|String|The amount of the quantity filled|
+|is_reduce_only|Boolean|Indicates if the order is reduce-only|
 |direction|String|The direction of the order (Should be one of: ["buy", "sell"])|
+|is_conditional|Boolean|Indicates if the order is conditional|
+|trigger_at|Integer|Trigger timestamp in UNIX millis|
+|placed_order_hash|String|Hash of order placed upon conditional order trigger|
 |margin|String|The margin of the order|
-<!-- uncomment when active -->
-<!-- |is_active|Boolean|Indicates if the order is active| -->
-<!-- |is_reduce_only|Boolean|Indicates if the order is reduce-only| -->
-<!-- |is_conditional|Boolean|Indicates if the order is conditional| -->
-<!-- |trigger_at|Integer|Trigger timestamp in UNIX millis| -->
-<!-- |placed_order_hash|String|Hash of order placed upon conditional order trigger| -->
 
 
 
@@ -2435,6 +2664,268 @@ timestamp: 1652793296000
 |quantity|String|Quantity of the position|
 |updated_at|Integer|Position updated timestamp in UNIX millis|
 |created_at|Integer|Position created timestamp in UNIX millis. Currently not supported (value will be inaccurate).|
+
+
+## LiquidablePositions
+
+Lists liquidable positions
+
+**IP rate limit group:** `indexer`
+
+
+### Request Parameters
+> Request Example:
+
+``` python
+import asyncio
+
+from google.protobuf import json_format
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+    skip = 10
+    limit = 3
+    positions = await client.get_derivative_liquidable_positions(
+        market_id=market_id,
+        skip=skip,
+        limit=limit,
+    )
+    print(
+        json_format.MessageToJson(
+            message=positions,
+            including_default_value_fields=True,
+            preserving_proto_field_name=True,
+        )
+    )
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+
+```
+
+``` go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+	skip := uint64(0)
+	limit := int32(10)
+
+	req := derivativeExchangePB.LiquidablePositionsRequest{
+		MarketId: marketId,
+		Skip:     skip,
+		Limit:    limit,
+	}
+
+	res, err := exchangeClient.GetDerivativeLiquidablePositions(ctx, req)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+
+}
+
+```
+
+``` typescript
+
+```
+
+|Parameter|Type|Description|Required|
+|----|----|----|----|
+|market_id|String|Filter by a single market ID|Yes|
+|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100|No|
+|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
+
+
+### Response Parameters
+> Response Example:
+
+``` python
+{
+  "positions": [
+    {
+      "ticker": "ETH/USDT PERP",
+      "market_id": "0x70bc8d7feab38b23d5fdfb12b9c3726e400c265edbcbf449b6c80c31d63d3a02",
+      "subaccount_id": "0x119b50b1b8159d4512fcdbf8a8b20615c03f489c000000000000000000000012",
+      "direction": "long",
+      "quantity": "0.065",
+      "entry_price": "1922716600",
+      "margin": "22451791.370131",
+      "liquidation_price": "1660320447.447271",
+      "mark_price": "1648710000",
+      "aggregate_reduce_only_quantity": "0",
+      "updated_at": "1696618802402",
+      "created_at": "-62135596800000"
+    },
+    {
+      "ticker": "ATOM/USDT PERP",
+      "market_id": "0xd97d0da6f6c11710ef06315971250e4e9aed4b7d4cd02059c9477ec8cf243782",
+      "subaccount_id": "0x119b50b1b8159d4512fcdbf8a8b20615c03f489c000000000000000000000015",
+      "direction": "long",
+      "quantity": "56.25",
+      "entry_price": "11184657.425333333333333334",
+      "margin": "112864240.293691",
+      "liquidation_price": "9661244.255088",
+      "mark_price": "6896191.55",
+      "aggregate_reduce_only_quantity": "0",
+      "updated_at": "1696618802402",
+      "created_at": "-62135596800000"
+    },
+    {
+      "ticker": "ATOM/USDT PERP",
+      "market_id": "0xd97d0da6f6c11710ef06315971250e4e9aed4b7d4cd02059c9477ec8cf243782",
+      "subaccount_id": "0x7370e9a6622b0f851fd2f706cf828ff283ae7b89000000000000000000000000",
+      "direction": "long",
+      "quantity": "7.15",
+      "entry_price": "10926300",
+      "margin": "20012894.885338",
+      "liquidation_price": "8555046.023505",
+      "mark_price": "6896191.55",
+      "aggregate_reduce_only_quantity": "0",
+      "updated_at": "1696618802402",
+      "created_at": "-62135596800000"
+    }
+  ]
+}
+```
+
+``` go
+{
+ "positions": [
+  {
+   "ticker": "ETH/USDT PERP",
+   "market_id": "0x70bc8d7feab38b23d5fdfb12b9c3726e400c265edbcbf449b6c80c31d63d3a02",
+   "subaccount_id": "0x119b50b1b8159d4512fcdbf8a8b20615c03f489c000000000000000000000012",
+   "direction": "long",
+   "quantity": "0.065",
+   "entry_price": "1922716600",
+   "margin": "22451791.370131",
+   "liquidation_price": "1660320447.447271",
+   "mark_price": "1649022499.99",
+   "aggregate_reduce_only_quantity": "0",
+   "updated_at": 1696618802402,
+   "created_at": -62135596800000
+  },
+  {
+   "ticker": "ATOM/USDT PERP",
+   "market_id": "0xd97d0da6f6c11710ef06315971250e4e9aed4b7d4cd02059c9477ec8cf243782",
+   "subaccount_id": "0x119b50b1b8159d4512fcdbf8a8b20615c03f489c000000000000000000000015",
+   "direction": "long",
+   "quantity": "56.25",
+   "entry_price": "11184657.425333333333333334",
+   "margin": "112864240.293691",
+   "liquidation_price": "9661244.255088",
+   "mark_price": "6898314.36",
+   "aggregate_reduce_only_quantity": "0",
+   "updated_at": 1696618802402,
+   "created_at": -62135596800000
+  },
+  {
+   "ticker": "ATOM/USDT PERP",
+   "market_id": "0xd97d0da6f6c11710ef06315971250e4e9aed4b7d4cd02059c9477ec8cf243782",
+   "subaccount_id": "0x7370e9a6622b0f851fd2f706cf828ff283ae7b89000000000000000000000000",
+   "direction": "long",
+   "quantity": "7.15",
+   "entry_price": "10926300",
+   "margin": "20012894.885338",
+   "liquidation_price": "8555046.023505",
+   "mark_price": "6898314.36",
+   "aggregate_reduce_only_quantity": "0",
+   "updated_at": 1696618802402,
+   "created_at": -62135596800000
+  },
+  {
+   "ticker": "ATOM/USDT PERP",
+   "market_id": "0xd97d0da6f6c11710ef06315971250e4e9aed4b7d4cd02059c9477ec8cf243782",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "direction": "long",
+   "quantity": "22.26",
+   "entry_price": "11020530.09511871719301351",
+   "margin": "72876657.354036",
+   "liquidation_price": "8154364.333631",
+   "mark_price": "6898314.36",
+   "aggregate_reduce_only_quantity": "0",
+   "updated_at": 1696618802402,
+   "created_at": -62135596800000
+  },
+  {
+   "ticker": "1MPEPE/USDT PERP",
+   "market_id": "0x14f82598b92674598af196770a45e1b808a4ef3aa86eb9ca09aff1aeab33ac46",
+   "subaccount_id": "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000",
+   "direction": "long",
+   "quantity": "4",
+   "entry_price": "1524800",
+   "margin": "1180851.583677",
+   "liquidation_price": "1366207.893423",
+   "mark_price": "717500",
+   "aggregate_reduce_only_quantity": "0",
+   "updated_at": 1696618802402,
+   "created_at": -62135596800000
+  }
+ ]
+}
+```
+
+``` typescript
+
+```
+
+|Parameter|Type|Description|
+|----|----|----|
+|positions|DerivativePosition Array|list of positions|
+|paging|Paging|Pagination of results|
+
+**DerivativePosition**
+
+|Parameter|Type|Description|
+|----|----|----|
+|ticker|String|Ticker of the derivative market|
+|market_id|String|Derivative market ID|
+|subaccount_id|String|The subaccountId that this position belongs to|
+|direction|String|The direction of the position (Should be one of: ["long", "short"])|
+|quantity|String|Quantity of the position|
+|entry_price|String|Price at which the position was created|
+|margin|String|Margin of the position|
+|liquidation_price|String|Liquidation price of the position|
+|mark_price|String|Oracle price of the base asset|
+|aggregate_reduce_only_quantity|String|Aggregate quantity of the reduce-only orders associated with the position|
+|created_at|Integer|Order created timestamp in UNIX millis|
+|updated_at|Integer|Order updated timestamp in UNIX millis|
+
+
+**Paging**
+
+|Parameter|Type|Description|
+|----|----|----|
+|total|Integer|Total number of available records|
 
 
 ## \[DEPRECATED\] Orderbook
