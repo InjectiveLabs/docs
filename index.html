@@ -5520,7 +5520,49 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
     <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"context"</span>
+    <span class="s">"encoding/json"</span>
+    <span class="s">"fmt"</span>
+
+    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+    <span class="n">exchangeclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/exchange"</span>
+    <span class="n">spotExchangePB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"lb"</span><span class="p">)</span>
+    <span class="n">exchangeClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeclient</span><span class="o">.</span><span class="n">NewExchangeClient</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+    <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span>
+    <span class="n">subaccountId</span> <span class="o">:=</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span>
+    <span class="n">skip</span> <span class="o">:=</span> <span class="kt">uint64</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
+    <span class="n">limit</span> <span class="o">:=</span> <span class="kt">int32</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
+    <span class="n">orderTypes</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">"buy_po"</span><span class="p">}</span>
+
+    <span class="n">req</span> <span class="o">:=</span> <span class="n">spotExchangePB</span><span class="o">.</span><span class="n">OrdersHistoryRequest</span><span class="p">{</span>
+        <span class="n">SubaccountId</span><span class="o">:</span> <span class="n">subaccountId</span><span class="p">,</span>
+        <span class="n">MarketId</span><span class="o">:</span>     <span class="n">marketId</span><span class="p">,</span>
+        <span class="n">Skip</span><span class="o">:</span>         <span class="n">skip</span><span class="p">,</span>
+        <span class="n">Limit</span><span class="o">:</span>        <span class="n">limit</span><span class="p">,</span>
+        <span class="n">OrderTypes</span><span class="o">:</span>   <span class="n">orderTypes</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">GetHistoricalSpotOrders</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+<span class="p">}</span>
+
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
 </code></pre></div>
 <table><thead>
@@ -5532,16 +5574,16 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tr>
 </thead><tbody>
 <tr>
-<td>market_id</td>
-<td>String</td>
-<td>Filter by market ID</td>
-<td>Yes</td>
-</tr>
-<tr>
 <td>subaccount_id</td>
 <td>String</td>
 <td>Filter by subaccount ID</td>
 <td>No</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Filter by market ID</td>
+<td>Yes</td>
 </tr>
 <tr>
 <td>skip</td>
@@ -5553,6 +5595,12 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>limit</td>
 <td>Integer</td>
 <td>Maximum number of items to be returned. 1 &lt;= <em>n</em> &lt;= 100</td>
+<td>No</td>
+</tr>
+<tr>
+<td>order_types</td>
+<td>String Array</td>
+<td>The order type (Should be one of: [&quot;buy&quot;, &quot;sell&quot;, &quot;stop_buy&quot;, &quot;stop_sell&quot;, &quot;take_buy&quot;, &quot;take_sell&quot;, &quot;buy_po&quot;, &quot;sell_po&quot;])</td>
 <td>No</td>
 </tr>
 <tr>
@@ -5586,9 +5634,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>No</td>
 </tr>
 <tr>
-<td>order_types</td>
-<td>String Array</td>
-<td>The order type (Should be one of: [&quot;buy&quot;, &quot;sell&quot;, &quot;stop_buy&quot;, &quot;stop_sell&quot;, &quot;take_buy&quot;, &quot;take_sell&quot;, &quot;buy_po&quot;, &quot;sell_po&quot;])</td>
+<td>market_ids</td>
+<td>Array of String</td>
+<td>Filter by more than one market ID (replaces market_id parameter)</td>
 <td>No</td>
 </tr>
 </tbody></table>
@@ -5645,7 +5693,164 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
   <span class="n">total</span><span class="p">:</span> <span class="mi">1000</span>
 <span class="p">}</span>
 
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
+ <span class="s">"orders"</span><span class="o">:</span> <span class="p">[</span>
+  <span class="p">{</span>
+   <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0x47a3858df766691a6124255a959ac17c79588fa36e52bed6d8aea2d927bb6a60"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"limit"</span><span class="p">,</span>
+   <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"buy_po"</span><span class="p">,</span>
+   <span class="s">"price"</span><span class="o">:</span> <span class="s">"0.000000000007789"</span><span class="p">,</span>
+   <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"12000000000000000000"</span><span class="p">,</span>
+   <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"12000000000000000000"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"filled"</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1681812187591</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1681886620984</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"buy"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0x4a0f7bec21c2861ec390510f461ab94a6e4425453e113ba41d67c5e79a45538b"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"limit"</span><span class="p">,</span>
+   <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"buy_po"</span><span class="p">,</span>
+   <span class="s">"price"</span><span class="o">:</span> <span class="s">"0.000000000007692"</span><span class="p">,</span>
+   <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"14000000000000000000"</span><span class="p">,</span>
+   <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"14000000000000000000"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"filled"</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1681812187591</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1681886620984</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"buy"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0x447b593a3c1683b64bd6ac4e60aa6ff22078951312eb3bfacf0b8b163eb015e4"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"limit"</span><span class="p">,</span>
+   <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"buy_po"</span><span class="p">,</span>
+   <span class="s">"price"</span><span class="o">:</span> <span class="s">"0.000000000005787"</span><span class="p">,</span>
+   <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"18000000000000000000"</span><span class="p">,</span>
+   <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"18000000000000000000"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"filled"</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1681812187591</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1681886620984</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"buy"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0x77d1c86d0b04b3347ace0f4a7f708adbb160d54701891d0c212a8c28bb10f77f"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"limit"</span><span class="p">,</span>
+   <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"buy_po"</span><span class="p">,</span>
+   <span class="s">"price"</span><span class="o">:</span> <span class="s">"0.000000000005457"</span><span class="p">,</span>
+   <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"8000000000000000000"</span><span class="p">,</span>
+   <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"8000000000000000000"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"filled"</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1681812187591</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1681886620984</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"buy"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0x76899c13fa3e591b1e2cbadfc2c84db5a7f4f97e42cee2451a6a90d04b100642"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"limit"</span><span class="p">,</span>
+   <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"buy_po"</span><span class="p">,</span>
+   <span class="s">"price"</span><span class="o">:</span> <span class="s">"0.000000000007134"</span><span class="p">,</span>
+   <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"4000000000000000000"</span><span class="p">,</span>
+   <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"4000000000000000000"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"filled"</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1681812187591</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1681886620984</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"buy"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0xf353711353a98ac3aceee62a4d7fed30e0c65cf38adfa898c455be5e5c671445"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"limit"</span><span class="p">,</span>
+   <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"buy_po"</span><span class="p">,</span>
+   <span class="s">"price"</span><span class="o">:</span> <span class="s">"0.000000000006138"</span><span class="p">,</span>
+   <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"2000000000000000000"</span><span class="p">,</span>
+   <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"2000000000000000000"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"filled"</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1681812187591</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1681886620984</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"buy"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0xb599db2124630b350e0ca2ea3453ece84e7721334e1009b451fa21d072a6cf8f"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"limit"</span><span class="p">,</span>
+   <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"buy_po"</span><span class="p">,</span>
+   <span class="s">"price"</span><span class="o">:</span> <span class="s">"0.000000000005667"</span><span class="p">,</span>
+   <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"22000000000000000000"</span><span class="p">,</span>
+   <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"22000000000000000000"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"filled"</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1681812187591</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1681886620984</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"buy"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0x1c28300cfebfef73c26e32d396162e45089e34a5ba0c627cc8b6e3fb1d9861ad"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"limit"</span><span class="p">,</span>
+   <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"buy_po"</span><span class="p">,</span>
+   <span class="s">"price"</span><span class="o">:</span> <span class="s">"0.000000000006263"</span><span class="p">,</span>
+   <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"20000000000000000000"</span><span class="p">,</span>
+   <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"20000000000000000000"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"filled"</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1681812187591</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1681886620984</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"buy"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0x7a2b9753c94c67f5e79e2f9dcd8af8a619d55d2f9ba1a134a22c5ef154b76e7f"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"limit"</span><span class="p">,</span>
+   <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"buy_po"</span><span class="p">,</span>
+   <span class="s">"price"</span><span class="o">:</span> <span class="s">"0.000000000007683"</span><span class="p">,</span>
+   <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"16000000000000000000"</span><span class="p">,</span>
+   <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"16000000000000000000"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"filled"</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1681812187591</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1681886620984</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"buy"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0x4984a08abefd29ba6bc914b11182251e18c0235842916955a4ffdc8ff149d188"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"limit"</span><span class="p">,</span>
+   <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"buy_po"</span><span class="p">,</span>
+   <span class="s">"price"</span><span class="o">:</span> <span class="s">"0.000000000007668"</span><span class="p">,</span>
+   <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"6000000000000000000"</span><span class="p">,</span>
+   <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"6000000000000000000"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"filled"</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1681812187591</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1681886620984</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"buy"</span>
+  <span class="p">}</span>
+ <span class="p">],</span>
+ <span class="s">"paging"</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s">"total"</span><span class="o">:</span> <span class="m">1000</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
 
 </code></pre></div>
@@ -5683,9 +5888,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>Hash of the order</td>
 </tr>
 <tr>
-<td>quantity</td>
+<td>market_id</td>
 <td>String</td>
-<td>Quantity of the order</td>
+<td>ID of the spot market</td>
 </tr>
 <tr>
 <td>is_active</td>
@@ -5693,9 +5898,24 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>Indicates if the order is active</td>
 </tr>
 <tr>
-<td>state</td>
+<td>subaccount_id</td>
 <td>String</td>
-<td>Order state (Should be one of: [&quot;booked&quot;, &quot;partial_filled&quot;, &quot;filled&quot;, &quot;canceled&quot;])</td>
+<td>ID of the subaccount that the order belongs to</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>String</td>
+<td>The type of the order (Should be one of: [&quot;limit&quot;, &quot;market&quot;])</td>
+</tr>
+<tr>
+<td>order_type</td>
+<td>String</td>
+<td>Order type (Should be one of: [&quot;buy&quot;, &quot;sell&quot;, &quot;stop_buy&quot;, &quot;stop_sell&quot;, &quot;take_buy&quot;, &quot;take_sell&quot;, &quot;buy_po&quot;, &quot;sell_po&quot;])</td>
+</tr>
+<tr>
+<td>price</td>
+<td>String</td>
+<td>Price of the order</td>
 </tr>
 <tr>
 <td>trigger_price</td>
@@ -5703,9 +5923,19 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>Trigger price used by stop/take orders</td>
 </tr>
 <tr>
-<td>market_id</td>
+<td>quantity</td>
 <td>String</td>
-<td>ID of the spot market</td>
+<td>Quantity of the order</td>
+</tr>
+<tr>
+<td>filled_quantity</td>
+<td>String</td>
+<td>The amount of the quantity filled</td>
+</tr>
+<tr>
+<td>state</td>
+<td>String</td>
+<td>Order state (Should be one of: [&quot;booked&quot;, &quot;partial_filled&quot;, &quot;filled&quot;, &quot;canceled&quot;])</td>
 </tr>
 <tr>
 <td>created_at</td>
@@ -5716,31 +5946,6 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>updated_at</td>
 <td>Integer</td>
 <td>Order updated timestamp in UNIX millis</td>
-</tr>
-<tr>
-<td>price</td>
-<td>String</td>
-<td>Price of the order</td>
-</tr>
-<tr>
-<td>subaccount_id</td>
-<td>String</td>
-<td>ID of the subaccount that the order belongs to</td>
-</tr>
-<tr>
-<td>order_type</td>
-<td>String</td>
-<td>Order type (Should be one of: [&quot;buy&quot;, &quot;sell&quot;, &quot;stop_buy&quot;, &quot;stop_sell&quot;, &quot;take_buy&quot;, &quot;take_sell&quot;, &quot;buy_po&quot;, &quot;sell_po&quot;])</td>
-</tr>
-<tr>
-<td>execution_type</td>
-<td>String</td>
-<td>The type of the order (Should be one of: [&quot;limit&quot;, &quot;market&quot;])</td>
-</tr>
-<tr>
-<td>filled_quantity</td>
-<td>String</td>
-<td>The amount of the quantity filled</td>
 </tr>
 <tr>
 <td>direction</td>
@@ -5794,7 +5999,56 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
     <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"context"</span>
+    <span class="s">"encoding/json"</span>
+    <span class="s">"fmt"</span>
+
+    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+    <span class="n">exchangeclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/exchange"</span>
+    <span class="n">spotExchangePB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"lb"</span><span class="p">)</span>
+    <span class="n">exchangeClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeclient</span><span class="o">.</span><span class="n">NewExchangeClient</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+    <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span>
+    <span class="n">subaccountId</span> <span class="o">:=</span> <span class="s">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span>
+    <span class="n">direction</span> <span class="o">:=</span> <span class="s">"buy"</span>
+
+    <span class="n">req</span> <span class="o">:=</span> <span class="n">spotExchangePB</span><span class="o">.</span><span class="n">StreamOrdersHistoryRequest</span><span class="p">{</span>
+        <span class="n">MarketId</span><span class="o">:</span>     <span class="n">marketId</span><span class="p">,</span>
+        <span class="n">SubaccountId</span><span class="o">:</span> <span class="n">subaccountId</span><span class="p">,</span>
+        <span class="n">Direction</span><span class="o">:</span>    <span class="n">direction</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">stream</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">StreamHistoricalSpotOrders</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">{</span>
+        <span class="k">select</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="o">&lt;-</span><span class="n">ctx</span><span class="o">.</span><span class="n">Done</span><span class="p">()</span><span class="o">:</span>
+            <span class="k">return</span>
+        <span class="k">default</span><span class="o">:</span>
+            <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">stream</span><span class="o">.</span><span class="n">Recv</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+                <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="p">}</span>
+            <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+            <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span>
   <span class="nx">TradeDirection</span><span class="p">,</span>
   <span class="nx">PaginationOption</span><span class="p">,</span>
@@ -5895,7 +6149,43 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="p">}</span>
 <span class="n">operation_type</span><span class="p">:</span> <span class="s">"insert"</span>
 <span class="n">timestamp</span><span class="p">:</span> <span class="mi">1665486462000</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
+ <span class="s">"order"</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0xf8a90ee4cfb4c938035b791d3b3561e8991803793b4b5590164b2ecbfa247f3d"</span><span class="p">,</span>
+  <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span><span class="p">,</span>
+  <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0x5e249f0e8cb406f41de16e1bd6f6b55e7bc75add000000000000000000000004"</span><span class="p">,</span>
+  <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"limit"</span><span class="p">,</span>
+  <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"buy_po"</span><span class="p">,</span>
+  <span class="s">"price"</span><span class="o">:</span> <span class="s">"0.000000000007438"</span><span class="p">,</span>
+  <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+  <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"76848283000000000000000"</span><span class="p">,</span>
+  <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+  <span class="s">"state"</span><span class="o">:</span> <span class="s">"canceled"</span><span class="p">,</span>
+  <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1696621893030</span><span class="p">,</span>
+  <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1696621895445</span><span class="p">,</span>
+  <span class="s">"direction"</span><span class="o">:</span> <span class="s">"buy"</span>
+ <span class="p">},</span>
+ <span class="s">"operation_type"</span><span class="o">:</span> <span class="s">"update"</span><span class="p">,</span>
+ <span class="s">"timestamp"</span><span class="o">:</span> <span class="m">1696621898000</span>
+<span class="p">}{</span>
+ <span class="s">"order"</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0xfd6bf489944cb181ee94057b80ffdfc113a17d48d0455c8d10e4deadf341bdfd"</span><span class="p">,</span>
+  <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"</span><span class="p">,</span>
+  <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0x5e249f0e8cb406f41de16e1bd6f6b55e7bc75add000000000000000000000004"</span><span class="p">,</span>
+  <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"limit"</span><span class="p">,</span>
+  <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"buy_po"</span><span class="p">,</span>
+  <span class="s">"price"</span><span class="o">:</span> <span class="s">"0.000000000007478"</span><span class="p">,</span>
+  <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+  <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"76437220000000000000000"</span><span class="p">,</span>
+  <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+  <span class="s">"state"</span><span class="o">:</span> <span class="s">"canceled"</span><span class="p">,</span>
+  <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1696621893030</span><span class="p">,</span>
+  <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1696621895445</span><span class="p">,</span>
+  <span class="s">"direction"</span><span class="o">:</span> <span class="s">"buy"</span>
+ <span class="p">},</span>
+ <span class="s">"operation_type"</span><span class="o">:</span> <span class="s">"update"</span><span class="p">,</span>
+ <span class="s">"timestamp"</span><span class="o">:</span> <span class="m">1696621898000</span>
+<span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
 </code></pre></div>
 <table><thead>
@@ -5937,9 +6227,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>Hash of the order</td>
 </tr>
 <tr>
-<td>quantity</td>
+<td>market_id</td>
 <td>String</td>
-<td>Quantity of the order</td>
+<td>ID of the spot market</td>
 </tr>
 <tr>
 <td>is_active</td>
@@ -5947,9 +6237,24 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>Indicates if the order is active</td>
 </tr>
 <tr>
-<td>state</td>
+<td>subaccount_id</td>
 <td>String</td>
-<td>Order state (Should be one of: [&quot;booked&quot;, &quot;partial_filled&quot;, &quot;filled&quot;, &quot;canceled&quot;])</td>
+<td>ID of the subaccount that the order belongs to</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>String</td>
+<td>The type of the order (Should be one of: [&quot;limit&quot;, &quot;market&quot;])</td>
+</tr>
+<tr>
+<td>order_type</td>
+<td>String</td>
+<td>Order type (Should be one of: [&quot;buy&quot;, &quot;sell&quot;, &quot;stop_buy&quot;, &quot;stop_sell&quot;, &quot;take_buy&quot;, &quot;take_sell&quot;, &quot;buy_po&quot;, &quot;sell_po&quot;])</td>
+</tr>
+<tr>
+<td>price</td>
+<td>String</td>
+<td>Price of the order</td>
 </tr>
 <tr>
 <td>trigger_price</td>
@@ -5957,9 +6262,19 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>Trigger price used by stop/take orders</td>
 </tr>
 <tr>
-<td>market_id</td>
+<td>quantity</td>
 <td>String</td>
-<td>Spot Market ID</td>
+<td>Quantity of the order</td>
+</tr>
+<tr>
+<td>filled_quantity</td>
+<td>String</td>
+<td>The amount of the quantity filled</td>
+</tr>
+<tr>
+<td>state</td>
+<td>String</td>
+<td>Order state (Should be one of: [&quot;booked&quot;, &quot;partial_filled&quot;, &quot;filled&quot;, &quot;canceled&quot;])</td>
 </tr>
 <tr>
 <td>created_at</td>
@@ -5970,31 +6285,6 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>updated_at</td>
 <td>Integer</td>
 <td>Order updated timestamp in UNIX millis</td>
-</tr>
-<tr>
-<td>price</td>
-<td>String</td>
-<td>Price of the order</td>
-</tr>
-<tr>
-<td>subaccount_id</td>
-<td>String</td>
-<td>ID of the subaccount that this order belongs to</td>
-</tr>
-<tr>
-<td>order_type</td>
-<td>String</td>
-<td>Order type (Should be one of: [&quot;buy&quot;, &quot;sell&quot;, &quot;stop_buy&quot;, &quot;stop_sell&quot;, &quot;take_buy&quot;, &quot;take_sell&quot;, &quot;buy_po&quot;, &quot;sell_po&quot;])</td>
-</tr>
-<tr>
-<td>execution_type</td>
-<td>String</td>
-<td>Execution type of the order (Should be one of: [&quot;limit&quot;, &quot;market&quot;])</td>
-</tr>
-<tr>
-<td>filled_quantity</td>
-<td>String</td>
-<td>The amount of order quantity filled</td>
 </tr>
 <tr>
 <td>direction</td>
@@ -11273,7 +11563,49 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
     <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"context"</span>
+    <span class="s">"encoding/json"</span>
+    <span class="s">"fmt"</span>
+
+    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+    <span class="n">exchangeclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/exchange"</span>
+    <span class="n">derivativeExchangePB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"lb"</span><span class="p">)</span>
+    <span class="n">exchangeClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeclient</span><span class="o">.</span><span class="n">NewExchangeClient</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+    <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span>
+    <span class="n">subaccountId</span> <span class="o">:=</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span>
+    <span class="n">skip</span> <span class="o">:=</span> <span class="kt">uint64</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
+    <span class="n">limit</span> <span class="o">:=</span> <span class="kt">int32</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
+    <span class="n">isConditional</span> <span class="o">:=</span> <span class="s">"false"</span>
+
+    <span class="n">req</span> <span class="o">:=</span> <span class="n">derivativeExchangePB</span><span class="o">.</span><span class="n">OrdersHistoryRequest</span><span class="p">{</span>
+        <span class="n">SubaccountId</span><span class="o">:</span>  <span class="n">subaccountId</span><span class="p">,</span>
+        <span class="n">MarketId</span><span class="o">:</span>      <span class="n">marketId</span><span class="p">,</span>
+        <span class="n">Skip</span><span class="o">:</span>          <span class="n">skip</span><span class="p">,</span>
+        <span class="n">Limit</span><span class="o">:</span>         <span class="n">limit</span><span class="p">,</span>
+        <span class="n">IsConditional</span><span class="o">:</span> <span class="n">isConditional</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">GetHistoricalDerivativeOrders</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+<span class="p">}</span>
+
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
 </code></pre></div>
 <table><thead>
@@ -11418,7 +11750,110 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="n">paging</span> <span class="p">{</span>
   <span class="n">total</span><span class="p">:</span> <span class="mi">32</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
+ <span class="s">"orders"</span><span class="o">:</span> <span class="p">[</span>
+  <span class="p">{</span>
+   <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0x17da6aa0ba9c192da6c9d5a043b4c36a91af5117636cb1f6e69654fc6cfc1bee"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"market"</span><span class="p">,</span>
+   <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"sell"</span><span class="p">,</span>
+   <span class="s">"price"</span><span class="o">:</span> <span class="s">"6494113.703056872037914692"</span><span class="p">,</span>
+   <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"2110"</span><span class="p">,</span>
+   <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"2110"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"filled"</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1692857306725</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1692857306725</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"sell"</span><span class="p">,</span>
+   <span class="s">"margin"</span><span class="o">:</span> <span class="s">"0"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0xeac94983c5e1a47885e5959af073c475e4ec6ec343c1e1d441af1ba65f8aa5ee"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"limit"</span><span class="p">,</span>
+   <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"buy"</span><span class="p">,</span>
+   <span class="s">"price"</span><span class="o">:</span> <span class="s">"8111100"</span><span class="p">,</span>
+   <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"10"</span><span class="p">,</span>
+   <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"10"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"filled"</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1688738648747</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1688738648747</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"buy"</span><span class="p">,</span>
+   <span class="s">"margin"</span><span class="o">:</span> <span class="s">"82614000"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0x41a5c6f8c8c8ff3f37e443617dda589f46f1678ef1a22e2ab2b6ca54e0788210"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"market"</span><span class="p">,</span>
+   <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"buy"</span><span class="p">,</span>
+   <span class="s">"price"</span><span class="o">:</span> <span class="s">"8261400"</span><span class="p">,</span>
+   <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"100"</span><span class="p">,</span>
+   <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"100"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"filled"</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1688591280030</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1688591280030</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"buy"</span><span class="p">,</span>
+   <span class="s">"margin"</span><span class="o">:</span> <span class="s">"274917218.543"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0x2f667629cd06ac9fd6e54aa2544ad63cd43efc29418d0e1e12df9ba783c9a7ab"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"market"</span><span class="p">,</span>
+   <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"buy"</span><span class="p">,</span>
+   <span class="s">"price"</span><span class="o">:</span> <span class="s">"7166668.98546"</span><span class="p">,</span>
+   <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"2000"</span><span class="p">,</span>
+   <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"2000"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"filled"</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1687507605674</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1687507605674</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"buy"</span><span class="p">,</span>
+   <span class="s">"margin"</span><span class="o">:</span> <span class="s">"4814400000"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0x4c42bca7b65f18bf96e75be03a53f73854da15e8030c38e63d1531307f8cd40c"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"market"</span><span class="p">,</span>
+   <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"sell"</span><span class="p">,</span>
+   <span class="s">"price"</span><span class="o">:</span> <span class="s">"7123287.02926"</span><span class="p">,</span>
+   <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"1000"</span><span class="p">,</span>
+   <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"1000"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"filled"</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1687507547684</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1687507547684</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"sell"</span><span class="p">,</span>
+   <span class="s">"margin"</span><span class="o">:</span> <span class="s">"0"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0x70c66ce3e92aa616d3dbdbcd565c37a3d42b2b5a0951a8bebe9ddaca9852d547"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"market"</span><span class="p">,</span>
+   <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"buy"</span><span class="p">,</span>
+   <span class="s">"price"</span><span class="o">:</span> <span class="s">"7162504.91532"</span><span class="p">,</span>
+   <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"1000"</span><span class="p">,</span>
+   <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"1000"</span><span class="p">,</span>
+   <span class="s">"state"</span><span class="o">:</span> <span class="s">"filled"</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1687507348068</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1687507348068</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"buy"</span><span class="p">,</span>
+   <span class="s">"margin"</span><span class="o">:</span> <span class="s">"7212200000"</span>
+  <span class="p">}</span>
+ <span class="p">],</span>
+ <span class="s">"paging"</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s">"total"</span><span class="o">:</span> <span class="m">6</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
 </code></pre></div>
 <table><thead>
@@ -11455,14 +11890,34 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>Hash of the order</td>
 </tr>
 <tr>
-<td>quantity</td>
+<td>market_id</td>
 <td>String</td>
-<td>Quantity of the order</td>
+<td>Derivative market ID</td>
 </tr>
 <tr>
-<td>state</td>
+<td>is_active</td>
+<td>Boolean</td>
+<td>Indicates if the order is active</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
 <td>String</td>
-<td>Order state (Should be one of: [&quot;booked&quot;, &quot;partial_filled&quot;, &quot;filled&quot;, &quot;canceled&quot;])</td>
+<td>The subaccountId that this order belongs to</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>String</td>
+<td>The type of the order (Should be one of: [&quot;limit&quot;, &quot;market&quot;])</td>
+</tr>
+<tr>
+<td>order_type</td>
+<td>String</td>
+<td>Order type (Should be one of: [&quot;buy&quot;, &quot;sell&quot;, &quot;stop_buy&quot;, &quot;stop_sell&quot;, &quot;take_buy&quot;, &quot;take_sell&quot;, &quot;buy_po&quot;, &quot;sell_po&quot;])</td>
+</tr>
+<tr>
+<td>price</td>
+<td>String</td>
+<td>Price of the order</td>
 </tr>
 <tr>
 <td>trigger_price</td>
@@ -11470,9 +11925,19 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>The price that triggers stop/take orders</td>
 </tr>
 <tr>
-<td>market_id</td>
+<td>quantity</td>
 <td>String</td>
-<td>Derivative market ID</td>
+<td>Quantity of the order</td>
+</tr>
+<tr>
+<td>filled_quantity</td>
+<td>String</td>
+<td>The amount of the quantity filled</td>
+</tr>
+<tr>
+<td>state</td>
+<td>String</td>
+<td>Order state (Should be one of: [&quot;booked&quot;, &quot;partial_filled&quot;, &quot;filled&quot;, &quot;canceled&quot;])</td>
 </tr>
 <tr>
 <td>created_at</td>
@@ -11485,29 +11950,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>Order updated timestamp in UNIX millis</td>
 </tr>
 <tr>
-<td>price</td>
-<td>String</td>
-<td>Price of the order</td>
-</tr>
-<tr>
-<td>subaccount_id</td>
-<td>String</td>
-<td>The subaccountId that this order belongs to</td>
-</tr>
-<tr>
-<td>order_type</td>
-<td>String</td>
-<td>Order type (Should be one of: [&quot;buy&quot;, &quot;sell&quot;, &quot;stop_buy&quot;, &quot;stop_sell&quot;, &quot;take_buy&quot;, &quot;take_sell&quot;, &quot;buy_po&quot;, &quot;sell_po&quot;])</td>
-</tr>
-<tr>
-<td>execution_type</td>
-<td>String</td>
-<td>The type of the order (Should be one of: [&quot;limit&quot;, &quot;market&quot;])</td>
-</tr>
-<tr>
-<td>filled_quantity</td>
-<td>String</td>
-<td>The amount of the quantity filled</td>
+<td>is_reduce_only</td>
+<td>Boolean</td>
+<td>Indicates if the order is reduce-only</td>
 </tr>
 <tr>
 <td>direction</td>
@@ -11515,23 +11960,26 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>The direction of the order (Should be one of: [&quot;buy&quot;, &quot;sell&quot;])</td>
 </tr>
 <tr>
+<td>is_conditional</td>
+<td>Boolean</td>
+<td>Indicates if the order is conditional</td>
+</tr>
+<tr>
+<td>trigger_at</td>
+<td>Integer</td>
+<td>Trigger timestamp in UNIX millis</td>
+</tr>
+<tr>
+<td>placed_order_hash</td>
+<td>String</td>
+<td>Hash of order placed upon conditional order trigger</td>
+</tr>
+<tr>
 <td>margin</td>
 <td>String</td>
 <td>The margin of the order</td>
 </tr>
 </tbody></table>
-
-<!-- uncomment when active -->
-
-<!-- |is_active|Boolean|Indicates if the order is active| -->
-
-<!-- |is_reduce_only|Boolean|Indicates if the order is reduce-only| -->
-
-<!-- |is_conditional|Boolean|Indicates if the order is conditional| -->
-
-<!-- |trigger_at|Integer|Trigger timestamp in UNIX millis| -->
-
-<!-- |placed_order_hash|String|Hash of order placed upon conditional order trigger| -->
 
 <p><strong>Paging</strong></p>
 
@@ -11578,7 +12026,56 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
     <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"context"</span>
+    <span class="s">"encoding/json"</span>
+    <span class="s">"fmt"</span>
+
+    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+    <span class="n">exchangeclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/exchange"</span>
+    <span class="n">derivativeExchangePB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"lb"</span><span class="p">)</span>
+    <span class="n">exchangeClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeclient</span><span class="o">.</span><span class="n">NewExchangeClient</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+    <span class="n">marketId</span> <span class="o">:=</span> <span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span>
+    <span class="n">subaccountId</span> <span class="o">:=</span> <span class="s">"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"</span>
+    <span class="n">direction</span> <span class="o">:=</span> <span class="s">"buy"</span>
+
+    <span class="n">req</span> <span class="o">:=</span> <span class="n">derivativeExchangePB</span><span class="o">.</span><span class="n">StreamOrdersHistoryRequest</span><span class="p">{</span>
+        <span class="n">MarketId</span><span class="o">:</span>     <span class="n">marketId</span><span class="p">,</span>
+        <span class="n">SubaccountId</span><span class="o">:</span> <span class="n">subaccountId</span><span class="p">,</span>
+        <span class="n">Direction</span><span class="o">:</span>    <span class="n">direction</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">stream</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">StreamHistoricalDerivativeOrders</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">{</span>
+        <span class="k">select</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="o">&lt;-</span><span class="n">ctx</span><span class="o">.</span><span class="n">Done</span><span class="p">()</span><span class="o">:</span>
+            <span class="k">return</span>
+        <span class="k">default</span><span class="o">:</span>
+            <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">stream</span><span class="o">.</span><span class="n">Recv</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+                <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="p">}</span>
+            <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+            <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span>
   <span class="nx">TradeDirection</span><span class="p">,</span>
   <span class="nx">PaginationOption</span><span class="p">,</span>
@@ -11677,7 +12174,46 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <span class="p">}</span>
 <span class="n">operation_type</span><span class="p">:</span> <span class="s">"insert"</span>
 <span class="n">timestamp</span><span class="p">:</span> <span class="mi">1665487078000</span>
-</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
+ <span class="s">"order"</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0x4aeb72ac2ae5811126a0c384e05ce68745316add0e705c39e73f68c76431515e"</span><span class="p">,</span>
+  <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span><span class="p">,</span>
+  <span class="s">"is_active"</span><span class="o">:</span> <span class="no">true</span><span class="p">,</span>
+  <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0x7619f89a2172c6705aac7482f3adbf0601ea140e000000000000000000000000"</span><span class="p">,</span>
+  <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"limit"</span><span class="p">,</span>
+  <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"sell_po"</span><span class="p">,</span>
+  <span class="s">"price"</span><span class="o">:</span> <span class="s">"27953000000"</span><span class="p">,</span>
+  <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+  <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"0.0344"</span><span class="p">,</span>
+  <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+  <span class="s">"state"</span><span class="o">:</span> <span class="s">"booked"</span><span class="p">,</span>
+  <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1696617269292</span><span class="p">,</span>
+  <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1696617269292</span><span class="p">,</span>
+  <span class="s">"direction"</span><span class="o">:</span> <span class="s">"sell"</span><span class="p">,</span>
+  <span class="s">"margin"</span><span class="o">:</span> <span class="s">"320527734"</span>
+ <span class="p">},</span>
+ <span class="s">"operation_type"</span><span class="o">:</span> <span class="s">"insert"</span><span class="p">,</span>
+ <span class="s">"timestamp"</span><span class="o">:</span> <span class="m">1696617272000</span>
+<span class="p">}{</span>
+ <span class="s">"order"</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s">"order_hash"</span><span class="o">:</span> <span class="s">"0x24d82da3530ce5d2d392c9563d29b79c3a25e058dd6d79e0d8f651703256eb78"</span><span class="p">,</span>
+  <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"</span><span class="p">,</span>
+  <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0x6590d14d9e9c1d964f8c83bddc8a092f4a2d1284000000000000000000000000"</span><span class="p">,</span>
+  <span class="s">"execution_type"</span><span class="o">:</span> <span class="s">"limit"</span><span class="p">,</span>
+  <span class="s">"order_type"</span><span class="o">:</span> <span class="s">"buy_po"</span><span class="p">,</span>
+  <span class="s">"price"</span><span class="o">:</span> <span class="s">"27912000000"</span><span class="p">,</span>
+  <span class="s">"trigger_price"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+  <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"0.0344"</span><span class="p">,</span>
+  <span class="s">"filled_quantity"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+  <span class="s">"state"</span><span class="o">:</span> <span class="s">"canceled"</span><span class="p">,</span>
+  <span class="s">"created_at"</span><span class="o">:</span> <span class="m">1696617207873</span><span class="p">,</span>
+  <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1696617269292</span><span class="p">,</span>
+  <span class="s">"direction"</span><span class="o">:</span> <span class="s">"buy"</span><span class="p">,</span>
+  <span class="s">"margin"</span><span class="o">:</span> <span class="s">"320057600"</span>
+ <span class="p">},</span>
+ <span class="s">"operation_type"</span><span class="o">:</span> <span class="s">"update"</span><span class="p">,</span>
+ <span class="s">"timestamp"</span><span class="o">:</span> <span class="m">1696617272000</span>
+<span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight typescript tab-typescript"><code>
 </code></pre></div>
 <table><thead>
@@ -11719,14 +12255,34 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>Hash of the order</td>
 </tr>
 <tr>
-<td>quantity</td>
+<td>market_id</td>
 <td>String</td>
-<td>Quantity of the order</td>
+<td>Derivative market ID</td>
 </tr>
 <tr>
-<td>state</td>
+<td>is_active</td>
+<td>Boolean</td>
+<td>Indicates if the order is active</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
 <td>String</td>
-<td>Order state (Should be one of: [&quot;booked&quot;, &quot;partial_filled&quot;, &quot;filled&quot;, &quot;canceled&quot;])</td>
+<td>The subaccountId that this order belongs to</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>String</td>
+<td>The type of the order (Should be one of: [&quot;limit&quot;, &quot;market&quot;])</td>
+</tr>
+<tr>
+<td>order_type</td>
+<td>String</td>
+<td>Order type (Should be one of: [&quot;buy&quot;, &quot;sell&quot;, &quot;stop_buy&quot;, &quot;stop_sell&quot;, &quot;take_buy&quot;, &quot;take_sell&quot;, &quot;buy_po&quot;, &quot;sell_po&quot;])</td>
+</tr>
+<tr>
+<td>price</td>
+<td>String</td>
+<td>Price of the order</td>
 </tr>
 <tr>
 <td>trigger_price</td>
@@ -11734,9 +12290,19 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>The price that triggers stop/take orders</td>
 </tr>
 <tr>
-<td>market_id</td>
+<td>quantity</td>
 <td>String</td>
-<td>Derivative market ID</td>
+<td>Quantity of the order</td>
+</tr>
+<tr>
+<td>filled_quantity</td>
+<td>String</td>
+<td>The amount of the quantity filled</td>
+</tr>
+<tr>
+<td>state</td>
+<td>String</td>
+<td>Order state (Should be one of: [&quot;booked&quot;, &quot;partial_filled&quot;, &quot;filled&quot;, &quot;canceled&quot;])</td>
 </tr>
 <tr>
 <td>created_at</td>
@@ -11749,29 +12315,9 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>Order updated timestamp in UNIX millis</td>
 </tr>
 <tr>
-<td>price</td>
-<td>String</td>
-<td>Price of the order</td>
-</tr>
-<tr>
-<td>subaccount_id</td>
-<td>String</td>
-<td>The subaccountId that this order belongs to</td>
-</tr>
-<tr>
-<td>order_type</td>
-<td>String</td>
-<td>Order type (Should be one of: [&quot;buy&quot;, &quot;sell&quot;, &quot;stop_buy&quot;, &quot;stop_sell&quot;, &quot;take_buy&quot;, &quot;take_sell&quot;, &quot;buy_po&quot;, &quot;sell_po&quot;])</td>
-</tr>
-<tr>
-<td>execution_type</td>
-<td>String</td>
-<td>The type of the order (Should be one of: [&quot;limit&quot;, &quot;market&quot;])</td>
-</tr>
-<tr>
-<td>filled_quantity</td>
-<td>String</td>
-<td>The amount of the quantity filled</td>
+<td>is_reduce_only</td>
+<td>Boolean</td>
+<td>Indicates if the order is reduce-only</td>
 </tr>
 <tr>
 <td>direction</td>
@@ -11779,23 +12325,26 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>The direction of the order (Should be one of: [&quot;buy&quot;, &quot;sell&quot;])</td>
 </tr>
 <tr>
+<td>is_conditional</td>
+<td>Boolean</td>
+<td>Indicates if the order is conditional</td>
+</tr>
+<tr>
+<td>trigger_at</td>
+<td>Integer</td>
+<td>Trigger timestamp in UNIX millis</td>
+</tr>
+<tr>
+<td>placed_order_hash</td>
+<td>String</td>
+<td>Hash of order placed upon conditional order trigger</td>
+</tr>
+<tr>
 <td>margin</td>
 <td>String</td>
 <td>The margin of the order</td>
 </tr>
 </tbody></table>
-
-<!-- uncomment when active -->
-
-<!-- |is_active|Boolean|Indicates if the order is active| -->
-
-<!-- |is_reduce_only|Boolean|Indicates if the order is reduce-only| -->
-
-<!-- |is_conditional|Boolean|Indicates if the order is conditional| -->
-
-<!-- |trigger_at|Integer|Trigger timestamp in UNIX millis| -->
-
-<!-- |placed_order_hash|String|Hash of order placed upon conditional order trigger| -->
 <h2 id='injectivederivativeexchangerpc-trades'>Trades</h2>
 <p>Get trades of a derivative market.</p>
 
