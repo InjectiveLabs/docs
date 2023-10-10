@@ -778,6 +778,48 @@ if __name__ == '__main__':
 ```
 
 ``` go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+	subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+	skip := uint64(0)
+	limit := int32(10)
+	orderTypes := []string{"buy_po"}
+
+	req := spotExchangePB.OrdersHistoryRequest{
+		SubaccountId: subaccountId,
+		MarketId:     marketId,
+		Skip:         skip,
+		Limit:        limit,
+		OrderTypes:   orderTypes,
+	}
+
+	res, err := exchangeClient.GetHistoricalSpotOrders(ctx, req)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
 
 ```
 
@@ -787,16 +829,17 @@ if __name__ == '__main__':
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
-|market_id|String|Filter by market ID|Yes|
 |subaccount_id|String|Filter by subaccount ID|No|
+|market_id|String|Filter by market ID|Yes|
 |skip|Integer|Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100|No|
 |limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
+|order_types|String Array|The order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|No|
 |direction|String|Filter by order direction (Should be one of: ["buy", "sell"])|No|
 |start_time|Integer|Search for orders where createdAt >= startTime, time in milliseconds|No|
 |end_time|Integer|Search for orders where createdAt <= startTime, time in milliseconds|No|
 |state|String|The order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|No|
 |execution_types|String Array|The execution of the order (Should be one of: ["limit", "market"])|No|
-|order_types|String Array|The order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|No|
+|market_ids|Array of String|Filter by more than one market ID (replaces market_id parameter)|No|
 
 
 ### Response Parameters
@@ -855,6 +898,163 @@ paging {
 ```
 
 ``` go
+{
+ "orders": [
+  {
+   "order_hash": "0x47a3858df766691a6124255a959ac17c79588fa36e52bed6d8aea2d927bb6a60",
+   "market_id": "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "execution_type": "limit",
+   "order_type": "buy_po",
+   "price": "0.000000000007789",
+   "trigger_price": "0",
+   "quantity": "12000000000000000000",
+   "filled_quantity": "12000000000000000000",
+   "state": "filled",
+   "created_at": 1681812187591,
+   "updated_at": 1681886620984,
+   "direction": "buy"
+  },
+  {
+   "order_hash": "0x4a0f7bec21c2861ec390510f461ab94a6e4425453e113ba41d67c5e79a45538b",
+   "market_id": "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "execution_type": "limit",
+   "order_type": "buy_po",
+   "price": "0.000000000007692",
+   "trigger_price": "0",
+   "quantity": "14000000000000000000",
+   "filled_quantity": "14000000000000000000",
+   "state": "filled",
+   "created_at": 1681812187591,
+   "updated_at": 1681886620984,
+   "direction": "buy"
+  },
+  {
+   "order_hash": "0x447b593a3c1683b64bd6ac4e60aa6ff22078951312eb3bfacf0b8b163eb015e4",
+   "market_id": "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "execution_type": "limit",
+   "order_type": "buy_po",
+   "price": "0.000000000005787",
+   "trigger_price": "0",
+   "quantity": "18000000000000000000",
+   "filled_quantity": "18000000000000000000",
+   "state": "filled",
+   "created_at": 1681812187591,
+   "updated_at": 1681886620984,
+   "direction": "buy"
+  },
+  {
+   "order_hash": "0x77d1c86d0b04b3347ace0f4a7f708adbb160d54701891d0c212a8c28bb10f77f",
+   "market_id": "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "execution_type": "limit",
+   "order_type": "buy_po",
+   "price": "0.000000000005457",
+   "trigger_price": "0",
+   "quantity": "8000000000000000000",
+   "filled_quantity": "8000000000000000000",
+   "state": "filled",
+   "created_at": 1681812187591,
+   "updated_at": 1681886620984,
+   "direction": "buy"
+  },
+  {
+   "order_hash": "0x76899c13fa3e591b1e2cbadfc2c84db5a7f4f97e42cee2451a6a90d04b100642",
+   "market_id": "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "execution_type": "limit",
+   "order_type": "buy_po",
+   "price": "0.000000000007134",
+   "trigger_price": "0",
+   "quantity": "4000000000000000000",
+   "filled_quantity": "4000000000000000000",
+   "state": "filled",
+   "created_at": 1681812187591,
+   "updated_at": 1681886620984,
+   "direction": "buy"
+  },
+  {
+   "order_hash": "0xf353711353a98ac3aceee62a4d7fed30e0c65cf38adfa898c455be5e5c671445",
+   "market_id": "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "execution_type": "limit",
+   "order_type": "buy_po",
+   "price": "0.000000000006138",
+   "trigger_price": "0",
+   "quantity": "2000000000000000000",
+   "filled_quantity": "2000000000000000000",
+   "state": "filled",
+   "created_at": 1681812187591,
+   "updated_at": 1681886620984,
+   "direction": "buy"
+  },
+  {
+   "order_hash": "0xb599db2124630b350e0ca2ea3453ece84e7721334e1009b451fa21d072a6cf8f",
+   "market_id": "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "execution_type": "limit",
+   "order_type": "buy_po",
+   "price": "0.000000000005667",
+   "trigger_price": "0",
+   "quantity": "22000000000000000000",
+   "filled_quantity": "22000000000000000000",
+   "state": "filled",
+   "created_at": 1681812187591,
+   "updated_at": 1681886620984,
+   "direction": "buy"
+  },
+  {
+   "order_hash": "0x1c28300cfebfef73c26e32d396162e45089e34a5ba0c627cc8b6e3fb1d9861ad",
+   "market_id": "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "execution_type": "limit",
+   "order_type": "buy_po",
+   "price": "0.000000000006263",
+   "trigger_price": "0",
+   "quantity": "20000000000000000000",
+   "filled_quantity": "20000000000000000000",
+   "state": "filled",
+   "created_at": 1681812187591,
+   "updated_at": 1681886620984,
+   "direction": "buy"
+  },
+  {
+   "order_hash": "0x7a2b9753c94c67f5e79e2f9dcd8af8a619d55d2f9ba1a134a22c5ef154b76e7f",
+   "market_id": "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "execution_type": "limit",
+   "order_type": "buy_po",
+   "price": "0.000000000007683",
+   "trigger_price": "0",
+   "quantity": "16000000000000000000",
+   "filled_quantity": "16000000000000000000",
+   "state": "filled",
+   "created_at": 1681812187591,
+   "updated_at": 1681886620984,
+   "direction": "buy"
+  },
+  {
+   "order_hash": "0x4984a08abefd29ba6bc914b11182251e18c0235842916955a4ffdc8ff149d188",
+   "market_id": "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "execution_type": "limit",
+   "order_type": "buy_po",
+   "price": "0.000000000007668",
+   "trigger_price": "0",
+   "quantity": "6000000000000000000",
+   "filled_quantity": "6000000000000000000",
+   "state": "filled",
+   "created_at": 1681812187591,
+   "updated_at": 1681886620984,
+   "direction": "buy"
+  }
+ ],
+ "paging": {
+  "total": 1000
+ }
+}
 
 ```
 
@@ -873,18 +1073,18 @@ paging {
 |Parameter|Type|Description|
 |----|----|----|
 |order_hash|String|Hash of the order|
-|quantity|String|Quantity of the order|
-|is_active|Boolean|Indicates if the order is active|
-|state|String|Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
-|trigger_price|String|Trigger price used by stop/take orders|
 |market_id|String|ID of the spot market|
+|is_active|Boolean|Indicates if the order is active|
+|subaccount_id|String|ID of the subaccount that the order belongs to|
+|execution_type|String|The type of the order (Should be one of: ["limit", "market"]) |
+|order_type|String|Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|
+|price|String|Price of the order|
+|trigger_price|String|Trigger price used by stop/take orders|
+|quantity|String|Quantity of the order|
+|filled_quantity|String|The amount of the quantity filled|
+|state|String|Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
 |created_at|Integer|Order created timestamp in UNIX millis|
 |updated_at|Integer|Order updated timestamp in UNIX millis|
-|price|String|Price of the order|
-|subaccount_id|String|ID of the subaccount that the order belongs to|
-|order_type|String|Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|
-|execution_type|String|The type of the order (Should be one of: ["limit", "market"]) |
-|filled_quantity|String|The amount of the quantity filled|
 |direction|String|The direction of the order (Should be one of: ["buy", "sell"])|
 
 **Paging**
@@ -930,6 +1130,55 @@ if __name__ == '__main__':
 ```
 
 ``` go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+	subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+	direction := "buy"
+
+	req := spotExchangePB.StreamOrdersHistoryRequest{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+		Direction:    direction,
+	}
+	stream, err := exchangeClient.StreamHistoricalSpotOrders(ctx, req)
+	if err != nil {
+		panic(err)
+	}
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				panic(err)
+				return
+			}
+			str, _ := json.MarshalIndent(res, "", " ")
+			fmt.Print(string(str))
+		}
+	}
+}
 
 ```
 
@@ -1003,7 +1252,43 @@ timestamp: 1665486462000
 ```
 
 ``` go
-
+{
+ "order": {
+  "order_hash": "0xf8a90ee4cfb4c938035b791d3b3561e8991803793b4b5590164b2ecbfa247f3d",
+  "market_id": "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+  "subaccount_id": "0x5e249f0e8cb406f41de16e1bd6f6b55e7bc75add000000000000000000000004",
+  "execution_type": "limit",
+  "order_type": "buy_po",
+  "price": "0.000000000007438",
+  "trigger_price": "0",
+  "quantity": "76848283000000000000000",
+  "filled_quantity": "0",
+  "state": "canceled",
+  "created_at": 1696621893030,
+  "updated_at": 1696621895445,
+  "direction": "buy"
+ },
+ "operation_type": "update",
+ "timestamp": 1696621898000
+}{
+ "order": {
+  "order_hash": "0xfd6bf489944cb181ee94057b80ffdfc113a17d48d0455c8d10e4deadf341bdfd",
+  "market_id": "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+  "subaccount_id": "0x5e249f0e8cb406f41de16e1bd6f6b55e7bc75add000000000000000000000004",
+  "execution_type": "limit",
+  "order_type": "buy_po",
+  "price": "0.000000000007478",
+  "trigger_price": "0",
+  "quantity": "76437220000000000000000",
+  "filled_quantity": "0",
+  "state": "canceled",
+  "created_at": 1696621893030,
+  "updated_at": 1696621895445,
+  "direction": "buy"
+ },
+ "operation_type": "update",
+ "timestamp": 1696621898000
+}
 ```
 
 ``` typescript
@@ -1021,18 +1306,18 @@ timestamp: 1665486462000
 |Parameter|Type|Description|
 |----|----|----|
 |order_hash|String|Hash of the order|
-|quantity|String|Quantity of the order|
+|market_id|String|ID of the spot market|
 |is_active|Boolean|Indicates if the order is active|
-|state|String|Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
+|subaccount_id|String|ID of the subaccount that the order belongs to|
+|execution_type|String|The type of the order (Should be one of: ["limit", "market"]) |
+|order_type|String|Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|
+|price|String|Price of the order|
 |trigger_price|String|Trigger price used by stop/take orders|
-|market_id|String|Spot Market ID|
+|quantity|String|Quantity of the order|
+|filled_quantity|String|The amount of the quantity filled|
+|state|String|Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
 |created_at|Integer|Order created timestamp in UNIX millis|
 |updated_at|Integer|Order updated timestamp in UNIX millis|
-|price|String|Price of the order|
-|subaccount_id|String|ID of the subaccount that this order belongs to|
-|order_type|String|Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) |
-|execution_type|String|Execution type of the order (Should be one of: ["limit", "market"]) |
-|filled_quantity|String|The amount of order quantity filled|
 |direction|String|The direction of the order (Should be one of: ["buy", "sell"])|
 
 
