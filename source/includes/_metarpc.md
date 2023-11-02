@@ -391,18 +391,18 @@ Subscribe to a stream and gracefully disconnect and connect to another sentry no
 <!-- embedme ../../../sdk-python/examples/exchange_client/meta_rpc/4_StreamKeepAlive.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
 
-    task1 = asyncio.create_task(get_markets(client))
-    task2 = asyncio.create_task(keepalive(client, [task1]))
+    task1 = asyncio.get_event_loop().create_task(get_markets(client))
+    task2 = asyncio.get_event_loop().create_task(keepalive(client, [task1]))
 
     try:
         await asyncio.gather(
@@ -422,15 +422,15 @@ async def get_markets(client):
 async def keepalive(client, tasks: list):
     stream = await client.stream_keepalive()
     async for announce in stream:
-        print('Server announce:', announce)
+        print("Server announce:", announce)
         async for task in tasks:
             task.cancel()
-        print('Cancelled all tasks')
+        print("Cancelled all tasks")
 
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go

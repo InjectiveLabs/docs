@@ -11,33 +11,32 @@ Includes all messages related to derivative markets.
 
 ``` python
 import asyncio
-import logging
+import uuid
 
-from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
-from pyinjective.transaction import Transaction
 from pyinjective.core.network import Network
+from pyinjective.transaction import Transaction
 from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
     client = AsyncClient(network)
+    composer = await client.composer()
     await client.sync_timeout_height()
 
     # load account
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
-    account = await client.get_account(address.to_acc_bech32())
+    await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare trade info
-    market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
     # prepare tx msg
@@ -49,7 +48,8 @@ async def main() -> None:
         price=50000,
         quantity=0.01,
         leverage=3,
-        is_buy=True
+        is_buy=True,
+        cid=str(uuid.uuid4()),
     )
 
     # build sim tx
@@ -70,19 +70,21 @@ async def main() -> None:
         print(sim_res)
         return
 
-    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res, simulation=True)
+    sim_res_msg = composer.MsgResponses(sim_res, simulation=True)
     print("---Simulation Response---")
     print(sim_res_msg)
 
     # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 25000  # add 25k for gas, fee computation
-    gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
-    fee = [composer.Coin(
-        amount=gas_price * gas_limit,
-        denom=network.fee_denom,
-    )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
+    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
+    gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
+    fee = [
+        composer.Coin(
+            amount=gas_price * gas_limit,
+            denom=network.fee_denom,
+        )
+    ]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -94,129 +96,134 @@ async def main() -> None:
     print("gas wanted: {}".format(gas_limit))
     print("gas fee: {} INJ".format(gas_fee))
 
+
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
 package main
 
 import (
-    "fmt"
-    "os"
-    "time"
+	"fmt"
+	"github.com/google/uuid"
+	"os"
+	"time"
 
-    "github.com/InjectiveLabs/sdk-go/client/common"
-    "github.com/shopspring/decimal"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	"github.com/shopspring/decimal"
 
-    exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
-    chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-    cosmtypes "github.com/cosmos/cosmos-sdk/types"
-    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+	exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+	cosmtypes "github.com/cosmos/cosmos-sdk/types"
 )
 
 func main() {
-    // network := common.LoadNetwork("mainnet", "lb")
-    network := common.LoadNetwork("testnet", "k8s")
-    tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	network := common.LoadNetwork("testnet", "lb")
+	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	if err != nil {
+		panic(err)
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
 
-    senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-        os.Getenv("HOME")+"/.injectived",
-        "injectived",
-        "file",
-        "inj-user",
-        "12345678",
-        "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-        false,
-    )
+	if err != nil {
+		panic(err)
+	}
 
-    if err != nil {
-        panic(err)
-    }
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
 
-    clientCtx, err := chainclient.NewClientContext(
-        network.ChainId,
-        senderAddress.String(),
-        cosmosKeyring,
-    )
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
 
-    clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
+	chainClient, err := chainclient.NewChainClient(
+		clientCtx,
+		network,
+		common.OptionGasPrices("500000000inj"),
+	)
 
-    chainClient, err := chainclient.NewChainClient(
-        clientCtx,
-        network.ChainGrpcEndpoint,
-        common.OptionTLSCert(network.ChainTlsCert),
-        common.OptionGasPrices("500000000inj"),
-    )
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	defaultSubaccountID := chainClient.DefaultSubaccount(senderAddress)
 
-    defaultSubaccountID := chainClient.DefaultSubaccount(senderAddress)
+	marketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+	amount := decimal.NewFromFloat(0.01)
+	price := cosmtypes.MustNewDecFromStr("33000000000") //33,000
+	leverage := cosmtypes.MustNewDecFromStr("2.5")
 
-    marketId := "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
-    amount := decimal.NewFromFloat(0.01)
-    price := cosmtypes.MustNewDecFromStr("33000000000") //33,000
-    leverage := cosmtypes.MustNewDecFromStr("2.5")
+	order := chainClient.DerivativeOrder(defaultSubaccountID, network, &chainclient.DerivativeOrderData{
+		OrderType:    exchangetypes.OrderType_SELL, //BUY SELL
+		Quantity:     amount,
+		Price:        price,
+		Leverage:     leverage,
+		FeeRecipient: senderAddress.String(),
+		MarketId:     marketId,
+		IsReduceOnly: true,
+		Cid:          uuid.NewString(),
+	})
 
-    order := chainClient.DerivativeOrder(defaultSubaccountID, network, &chainclient.DerivativeOrderData{
-        OrderType:    exchangetypes.OrderType_SELL, //BUY SELL
-        Quantity:     amount,
-        Price:        price,
-        Leverage:     leverage,
-        FeeRecipient: senderAddress.String(),
-        MarketId:     marketId,
-        IsReduceOnly: false,
-    })
+	msg := new(exchangetypes.MsgCreateDerivativeMarketOrder)
+	msg.Sender = senderAddress.String()
+	msg.Order = exchangetypes.DerivativeOrder(*order)
 
-    msg := new(exchangetypes.MsgCreateDerivativeMarketOrder)
-    msg.Sender = senderAddress.String()
-    msg.Order = exchangetypes.DerivativeOrder(*order)
+	simRes, err := chainClient.SimulateMsg(clientCtx, msg)
 
-    simRes, err := chainClient.SimulateMsg(clientCtx, msg)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	msgCreateDerivativeMarketOrderResponse := exchangetypes.MsgCreateDerivativeMarketOrderResponse{}
+	err = msgCreateDerivativeMarketOrderResponse.Unmarshal(simRes.Result.MsgResponses[0].Value)
 
-    simResMsgs := common.MsgResponse(simRes.Result.Data)
-    msgCreateDerivativeMarketOrderResponse := exchangetypes.MsgCreateDerivativeMarketOrderResponse{}
-    msgCreateDerivativeMarketOrderResponse.Unmarshal(simResMsgs[0].Data)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	fmt.Println("simulated order hash", msgCreateDerivativeMarketOrderResponse.OrderHash)
 
-    fmt.Println("simulated order hash", msgCreateDerivativeMarketOrderResponse.OrderHash)
+	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	err = chainClient.QueueBroadcastMsg(msg)
 
-    //AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
-    err = chainClient.QueueBroadcastMsg(msg)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	time.Sleep(time.Second * 5)
 
-    time.Sleep(time.Second * 5)
+	gasFee, err := chainClient.GetGasFee()
 
-    gasFee, err := chainClient.GetGasFee()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-    if err != nil {
-        fmt.Println(err)
-        return
-    }
-
-    fmt.Println("gas fee:", gasFee, "INJ")
+	fmt.Println("gas fee:", gasFee, "INJ")
 }
+
 ```
 
 ``` typescript
@@ -231,6 +238,7 @@ https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesExchange#msgcrae
 | fee_recipient  | String  | The address that will receive 40% of the fees, this could be set to your own address | Yes      |
 | price          | Float   | The worst accepted price of the base asset                                           | Yes      |
 | quantity       | Float   | The quantity of the base asset                                                       | Yes      |
+| cid            | String  | Identifier for the order specified by the user (up to 36 characters, like a UUID)    | No       |
 | leverage       | Float   | The leverage factor for the order                                                    | Yes      |
 | is_buy         | Boolean | Set to true or false for buy and sell orders respectively                            | Yes      |
 | is_reduce_only | Boolean | Set to true or false for reduce-only or normal orders respectively                   | No       |
@@ -269,33 +277,32 @@ gas fee: 0.000069981 INJ
 
 ``` python
 import asyncio
-import logging
+import uuid
 
-from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
-from pyinjective.transaction import Transaction
 from pyinjective.core.network import Network
+from pyinjective.transaction import Transaction
 from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
     client = AsyncClient(network)
+    composer = await client.composer()
     await client.sync_timeout_height()
 
     # load account
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
-    account = await client.get_account(address.to_acc_bech32())
+    await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare trade info
-    market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
     # prepare tx msg
@@ -308,7 +315,8 @@ async def main() -> None:
         quantity=0.1,
         leverage=1,
         is_buy=False,
-        is_reduce_only=False
+        is_reduce_only=False,
+        cid=str(uuid.uuid4()),
     )
 
     # build sim tx
@@ -329,19 +337,21 @@ async def main() -> None:
         print(sim_res)
         return
 
-    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res, simulation=True)
+    sim_res_msg = composer.MsgResponses(sim_res, simulation=True)
     print("---Simulation Response---")
     print(sim_res_msg)
 
     # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 25000  # add 25k for gas, fee computation
-    gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
-    fee = [composer.Coin(
-        amount=gas_price * gas_limit,
-        denom=network.fee_denom,
-    )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
+    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
+    gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
+    fee = [
+        composer.Coin(
+            amount=gas_price * gas_limit,
+            denom=network.fee_denom,
+        )
+    ]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -353,129 +363,129 @@ async def main() -> None:
     print("gas wanted: {}".format(gas_limit))
     print("gas fee: {} INJ".format(gas_fee))
 
+
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
 package main
 
 import (
-    "fmt"
-    "os"
-    "time"
+	"fmt"
+	"github.com/google/uuid"
+	"os"
+	"time"
 
-    "github.com/InjectiveLabs/sdk-go/client/common"
-    "github.com/shopspring/decimal"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	"github.com/shopspring/decimal"
 
-    exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
-    chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-    cosmtypes "github.com/cosmos/cosmos-sdk/types"
-    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+	exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+	cosmtypes "github.com/cosmos/cosmos-sdk/types"
 )
 
 func main() {
-    // network := common.LoadNetwork("mainnet", "lb")
-    network := common.LoadNetwork("testnet", "k8s")
-    tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	network := common.LoadNetwork("testnet", "lb")
+	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	if err != nil {
+		panic(err)
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
 
-    senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-        os.Getenv("HOME")+"/.injectived",
-        "injectived",
-        "file",
-        "inj-user",
-        "12345678",
-        "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-        false,
-    )
+	if err != nil {
+		panic(err)
+	}
 
-    if err != nil {
-        panic(err)
-    }
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
 
-    clientCtx, err := chainclient.NewClientContext(
-        network.ChainId,
-        senderAddress.String(),
-        cosmosKeyring,
-    )
+	if err != nil {
+		fmt.Println(err)
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
 
-    clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
+	chainClient, err := chainclient.NewChainClient(
+		clientCtx,
+		network,
+		common.OptionGasPrices("500000000inj"),
+	)
 
-    chainClient, err := chainclient.NewChainClient(
-        clientCtx,
-        network.ChainGrpcEndpoint,
-        common.OptionTLSCert(network.ChainTlsCert),
-        common.OptionGasPrices("500000000inj"),
-    )
+	if err != nil {
+		fmt.Println(err)
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	defaultSubaccountID := chainClient.DefaultSubaccount(senderAddress)
 
-    defaultSubaccountID := chainClient.DefaultSubaccount(senderAddress)
+	marketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+	amount := decimal.NewFromFloat(0.001)
+	price := cosmtypes.MustNewDecFromStr("31000000000") //31,000
+	leverage := cosmtypes.MustNewDecFromStr("2.5")
 
-    marketId := "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
-    amount := decimal.NewFromFloat(0.001)
-    price := cosmtypes.MustNewDecFromStr("31000000000") //31,000
-    leverage := cosmtypes.MustNewDecFromStr("2.5")
+	order := chainClient.DerivativeOrder(defaultSubaccountID, network, &chainclient.DerivativeOrderData{
+		OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
+		Quantity:     amount,
+		Price:        price,
+		Leverage:     leverage,
+		FeeRecipient: senderAddress.String(),
+		MarketId:     marketId,
+		IsReduceOnly: true,
+		Cid:          uuid.NewString(),
+	})
 
-    order := chainClient.DerivativeOrder(defaultSubaccountID, network, &chainclient.DerivativeOrderData{
-        OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
-        Quantity:     amount,
-        Price:        price,
-        Leverage:     leverage,
-        FeeRecipient: senderAddress.String(),
-        MarketId:     marketId,
-        IsReduceOnly: false,
-    })
+	msg := new(exchangetypes.MsgCreateDerivativeLimitOrder)
+	msg.Sender = senderAddress.String()
+	msg.Order = exchangetypes.DerivativeOrder(*order)
 
-    msg := new(exchangetypes.MsgCreateDerivativeLimitOrder)
-    msg.Sender = senderAddress.String()
-    msg.Order = exchangetypes.DerivativeOrder(*order)
+	simRes, err := chainClient.SimulateMsg(clientCtx, msg)
 
-    simRes, err := chainClient.SimulateMsg(clientCtx, msg)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	msgCreateDerivativeLimitOrderResponse := exchangetypes.MsgCreateDerivativeLimitOrderResponse{}
+	err = msgCreateDerivativeLimitOrderResponse.Unmarshal(simRes.Result.MsgResponses[0].Value)
 
-    simResMsgs := common.MsgResponse(simRes.Result.Data)
-    msgCreateDerivativeLimitOrderResponse := exchangetypes.MsgCreateDerivativeLimitOrderResponse{}
-    msgCreateDerivativeLimitOrderResponse.Unmarshal(simResMsgs[0].Data)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	fmt.Println("simulated order hash", msgCreateDerivativeLimitOrderResponse.OrderHash)
 
-    fmt.Println("simulated order hash", msgCreateDerivativeLimitOrderResponse.OrderHash)
+	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	err = chainClient.QueueBroadcastMsg(msg)
 
-    //AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
-    err = chainClient.QueueBroadcastMsg(msg)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	time.Sleep(time.Second * 5)
 
-    time.Sleep(time.Second * 5)
+	gasFee, err := chainClient.GetGasFee()
 
-    gasFee, err := chainClient.GetGasFee()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-    if err != nil {
-        fmt.Println(err)
-        return
-    }
-
-    fmt.Println("gas fee:", gasFee, "INJ")
+	fmt.Println("gas fee:", gasFee, "INJ")
 }
+
 ```
 
 ``` typescript
@@ -490,6 +500,7 @@ https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesExchange#msgcrae
 | fee_recipient  | String  | The address that will receive 40% of the fees, this could be set to your own address | Yes      |
 | price          | Float   | The price of the base asset                                                          | Yes      |
 | quantity       | Float   | The quantity of the base asset                                                       | Yes      |
+| cid            | String  | Identifier for the order specified by the user (up to 36 characters, like a UUID)    | No       |
 | leverage       | Float   | The leverage factor for the order                                                    | Yes      |
 | trigger_price  | String  | Set the trigger price for conditional orders                                         | No       |
 | is_buy         | Boolean | Set to true or false for buy and sell orders respectively                            | Yes      |
@@ -754,39 +765,38 @@ Further note that if no marketIDs are provided in the SpotMarketIdsToCancelAll o
 
 ``` python
 import asyncio
-import logging
+import uuid
 
-from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
-from pyinjective.transaction import Transaction
 from pyinjective.core.network import Network
+from pyinjective.transaction import Transaction
 from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
     client = AsyncClient(network)
+    composer = await client.composer()
     await client.sync_timeout_height()
 
     # load account
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
-    account = await client.get_account(address.to_acc_bech32())
+    await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
 
     # prepare trade info
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
-    derivative_market_id_create = "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+    derivative_market_id_create = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
     spot_market_id_create = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 
     derivative_market_id_cancel = "0xd5e4b12b19ecf176e4e14b42944731c27677819d2ed93be4104ad7025529c7ff"
-    derivative_market_id_cancel_2 = "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+    derivative_market_id_cancel_2 = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
     spot_market_id_cancel = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     spot_market_id_cancel_2 = "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"
 
@@ -794,26 +804,26 @@ async def main() -> None:
         composer.OrderData(
             market_id=derivative_market_id_cancel,
             subaccount_id=subaccount_id,
-            order_hash="0x48690013c382d5dbaff9989db04629a16a5818d7524e027d517ccc89fd068103"
+            order_hash="0x48690013c382d5dbaff9989db04629a16a5818d7524e027d517ccc89fd068103",
         ),
         composer.OrderData(
             market_id=derivative_market_id_cancel_2,
             subaccount_id=subaccount_id,
-            order_hash="0x7ee76255d7ca763c56b0eab9828fca89fdd3739645501c8a80f58b62b4f76da5"
-        )
+            order_hash="0x7ee76255d7ca763c56b0eab9828fca89fdd3739645501c8a80f58b62b4f76da5",
+        ),
     ]
 
     spot_orders_to_cancel = [
         composer.OrderData(
             market_id=spot_market_id_cancel,
             subaccount_id=subaccount_id,
-            order_hash="0x3870fbdd91f07d54425147b1bb96404f4f043ba6335b422a6d494d285b387f2d"
+            cid="0e5c3ad5-2cc4-4a2a-bbe5-b12697739163",
         ),
         composer.OrderData(
             market_id=spot_market_id_cancel_2,
             subaccount_id=subaccount_id,
-            order_hash="0x222daa22f60fe9f075ed0ca583459e121c23e64431c3fbffdedda04598ede0d2"
-        )
+            order_hash="0x222daa22f60fe9f075ed0ca583459e121c23e64431c3fbffdedda04598ede0d2",
+        ),
     ]
 
     derivative_orders_to_create = [
@@ -825,7 +835,8 @@ async def main() -> None:
             quantity=0.1,
             leverage=1,
             is_buy=True,
-            is_po=False
+            is_po=False,
+            cid=str(uuid.uuid4()),
         ),
         composer.DerivativeOrder(
             market_id=derivative_market_id_create,
@@ -835,7 +846,8 @@ async def main() -> None:
             quantity=0.01,
             leverage=1,
             is_buy=False,
-            is_po=False
+            is_po=False,
+            cid=str(uuid.uuid4()),
         ),
     ]
 
@@ -847,7 +859,8 @@ async def main() -> None:
             price=3,
             quantity=55,
             is_buy=True,
-            is_po=False
+            is_po=False,
+            cid=str(uuid.uuid4()),
         ),
         composer.SpotOrder(
             market_id=spot_market_id_create,
@@ -856,7 +869,8 @@ async def main() -> None:
             price=300,
             quantity=55,
             is_buy=False,
-            is_po=False
+            is_po=False,
+            cid=str(uuid.uuid4()),
         ),
     ]
 
@@ -866,7 +880,7 @@ async def main() -> None:
         derivative_orders_to_create=derivative_orders_to_create,
         spot_orders_to_create=spot_orders_to_create,
         derivative_orders_to_cancel=derivative_orders_to_cancel,
-        spot_orders_to_cancel=spot_orders_to_cancel
+        spot_orders_to_cancel=spot_orders_to_cancel,
     )
 
     # build sim tx
@@ -887,19 +901,21 @@ async def main() -> None:
         print(sim_res)
         return
 
-    sim_res_msg = ProtoMsgComposer.MsgResponses(sim_res, simulation=True)
+    sim_res_msg = composer.MsgResponses(sim_res, simulation=True)
     print("---Simulation Response---")
     print(sim_res_msg)
 
     # build tx
     gas_price = 500000000
-    gas_limit = sim_res.gas_info.gas_used + 20000 # add 20k for gas, fee computation
-    gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
-    fee = [composer.Coin(
-        amount=gas_price * gas_limit,
-        denom=network.fee_denom,
-    )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
+    gas_limit = sim_res.gas_info.gas_used + 20000  # add 20k for gas, fee computation
+    gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
+    fee = [
+        composer.Coin(
+            amount=gas_price * gas_limit,
+            denom=network.fee_denom,
+        )
+    ]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -911,145 +927,150 @@ async def main() -> None:
     print("gas wanted: {}".format(gas_limit))
     print("gas fee: {} INJ".format(gas_fee))
 
+
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
 package main
 
 import (
-    "fmt"
-    "os"
-    "time"
+	"fmt"
+	"github.com/google/uuid"
+	"os"
+	"time"
 
-    "github.com/InjectiveLabs/sdk-go/client/common"
-    "github.com/shopspring/decimal"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	"github.com/shopspring/decimal"
 
-    exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
-    chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-    cosmtypes "github.com/cosmos/cosmos-sdk/types"
-    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+	exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+	cosmtypes "github.com/cosmos/cosmos-sdk/types"
 )
 
 func main() {
-    // network := common.LoadNetwork("mainnet", "lb")
-    network := common.LoadNetwork("testnet", "k8s")
-    tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	network := common.LoadNetwork("testnet", "lb")
+	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	if err != nil {
+		panic(err)
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
 
-    senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-        os.Getenv("HOME")+"/.injectived",
-        "injectived",
-        "file",
-        "inj-user",
-        "12345678",
-        "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-        false,
-    )
+	if err != nil {
+		panic(err)
+	}
 
-    if err != nil {
-        panic(err)
-    }
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
 
-    clientCtx, err := chainclient.NewClientContext(
-        network.ChainId,
-        senderAddress.String(),
-        cosmosKeyring,
-    )
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
 
-    clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
+	chainClient, err := chainclient.NewChainClient(
+		clientCtx,
+		network,
+		common.OptionGasPrices("500000000inj"),
+	)
 
-    chainClient, err := chainclient.NewChainClient(
-        clientCtx,
-        network.ChainGrpcEndpoint,
-        common.OptionTLSCert(network.ChainTlsCert),
-        common.OptionGasPrices("500000000inj"),
-    )
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	defaultSubaccountID := chainClient.DefaultSubaccount(senderAddress)
 
-    defaultSubaccountID := chainClient.DefaultSubaccount(senderAddress)
+	smarketId := "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"
+	samount := decimal.NewFromFloat(2)
+	sprice := decimal.NewFromFloat(22.5)
+	smarketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
 
-    smarketId := "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"
-    samount := decimal.NewFromFloat(2)
-    sprice := decimal.NewFromFloat(22.5)
-    smarketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
+	spot_order := chainClient.SpotOrder(defaultSubaccountID, network, &chainclient.SpotOrderData{
+		OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
+		Quantity:     samount,
+		Price:        sprice,
+		FeeRecipient: senderAddress.String(),
+		MarketId:     smarketId,
+		Cid:          uuid.NewString(),
+	})
 
-    spot_order := chainClient.SpotOrder(defaultSubaccountID, network, &chainclient.SpotOrderData{
-        OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
-        Quantity:     samount,
-        Price:        sprice,
-        FeeRecipient: senderAddress.String(),
-        MarketId:     smarketId,
-    })
+	dmarketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+	damount := decimal.NewFromFloat(0.01)
+	dprice := cosmtypes.MustNewDecFromStr("31000000000") //31,000
+	dleverage := cosmtypes.MustNewDecFromStr("2")
+	dmarketIds := []string{"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"}
 
-    dmarketId := "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
-    damount := decimal.NewFromFloat(0.01)
-    dprice := cosmtypes.MustNewDecFromStr("31000000000") //31,000
-    dleverage := cosmtypes.MustNewDecFromStr("2")
-    dmarketIds := []string{"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"}
+	derivative_order := chainClient.DerivativeOrder(defaultSubaccountID, network, &chainclient.DerivativeOrderData{
+		OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
+		Quantity:     damount,
+		Price:        dprice,
+		Leverage:     dleverage,
+		FeeRecipient: senderAddress.String(),
+		MarketId:     dmarketId,
+		IsReduceOnly: false,
+		Cid:          uuid.NewString(),
+	})
 
-    derivative_order := chainClient.DerivativeOrder(defaultSubaccountID, network, &chainclient.DerivativeOrderData{
-        OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
-        Quantity:     damount,
-        Price:        dprice,
-        Leverage:     dleverage,
-        FeeRecipient: senderAddress.String(),
-        MarketId:     dmarketId,
-        IsReduceOnly: false,
-    })
+	msg := new(exchangetypes.MsgBatchUpdateOrders)
+	msg.Sender = senderAddress.String()
+	msg.SubaccountId = defaultSubaccountID.Hex()
+	msg.SpotOrdersToCreate = []*exchangetypes.SpotOrder{spot_order}
+	msg.DerivativeOrdersToCreate = []*exchangetypes.DerivativeOrder{derivative_order}
+	msg.SpotMarketIdsToCancelAll = smarketIds
+	msg.DerivativeMarketIdsToCancelAll = dmarketIds
 
-    msg := new(exchangetypes.MsgBatchUpdateOrders)
-    msg.Sender = senderAddress.String()
-    msg.SubaccountId = defaultSubaccountID.Hex()
-    msg.SpotOrdersToCreate = []*exchangetypes.SpotOrder{spot_order}
-    msg.DerivativeOrdersToCreate = []*exchangetypes.DerivativeOrder{derivative_order}
-    msg.SpotMarketIdsToCancelAll = smarketIds
-    msg.DerivativeMarketIdsToCancelAll = dmarketIds
+	simRes, err := chainClient.SimulateMsg(clientCtx, msg)
 
-    simRes, err := chainClient.SimulateMsg(clientCtx, msg)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	MsgBatchUpdateOrdersResponse := exchangetypes.MsgBatchUpdateOrdersResponse{}
+	MsgBatchUpdateOrdersResponse.Unmarshal(simRes.Result.MsgResponses[0].Value)
 
-    simResMsgs := common.MsgResponse(simRes.Result.Data)
-    MsgBatchUpdateOrdersResponse := exchangetypes.MsgBatchUpdateOrdersResponse{}
-    MsgBatchUpdateOrdersResponse.Unmarshal(simResMsgs[0].Data)
+	fmt.Println("simulated spot order hashes", MsgBatchUpdateOrdersResponse.SpotOrderHashes)
 
-    fmt.Println("simulated spot order hashes", MsgBatchUpdateOrdersResponse.SpotOrderHashes)
+	fmt.Println("simulated derivative order hashes", MsgBatchUpdateOrdersResponse.DerivativeOrderHashes)
 
-    fmt.Println("simulated derivative order hashes", MsgBatchUpdateOrdersResponse.DerivativeOrderHashes)
+	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	err = chainClient.QueueBroadcastMsg(msg)
 
-    //AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
-    err = chainClient.QueueBroadcastMsg(msg)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	time.Sleep(time.Second * 5)
 
-    time.Sleep(time.Second * 5)
+	gasFee, err := chainClient.GetGasFee()
 
-    gasFee, err := chainClient.GetGasFee()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-    if err != nil {
-        fmt.Println(err)
-        return
-    }
-
-    fmt.Println("gas fee:", gasFee, "INJ")
+	fmt.Println("gas fee:", gasFee, "INJ")
 }
+
 ```
 
 ``` typescript
@@ -1079,6 +1100,7 @@ https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesExchange#msgbatc
 |fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|Float|The price of the base asset|Yes|
 |quantity|Float|The quantity of the base asset|Yes|
+|cid|String|Identifier for the order specified by the user (up to 36 characters, like a UUID)|No|
 |is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
 
@@ -1093,7 +1115,8 @@ https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesExchange#msgbatc
 |price|Float|The price of the base asset|Yes|
 |quantity|Float|The quantity of the base asset|Yes|
 |leverage|Float|The leverage factor for the order|No|
-|trigger_price|Boolean|Set the trigger price for conditional orders|No|
+|trigger_price|String|Set the trigger price for conditional orders|No|
+|cid|String|Identifier for the order specified by the user (up to 36 characters, like a UUID)|No|
 |is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
 |is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
@@ -1111,6 +1134,7 @@ https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesExchange#msgbatc
 |fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|Float|The price of the base asset|Yes|
 |quantity|Float|The quantity of the base asset|Yes|
+|cid|String|Identifier for the order specified by the user (up to 36 characters, like a UUID)|No|
 |leverage|Float|The leverage factor for the order|No|
 |is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
@@ -1124,6 +1148,7 @@ https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesExchange#msgbatc
 |market_id|String|Market ID of the market we want to cancel an order|Yes|
 |subaccount_id|String|The subaccount we want to cancel an order from|Yes|
 |order_hash|String|The hash of a specific order|Yes|
+|cid|String|Identifier for the order specified by the user (up to 36 characters, like a UUID)|No|
 |is_conditional|Boolean|Set to true or false for conditional and regular orders respectively. Setting this value will incur less gas for the order cancellation and faster execution|No|
 |order_direction|Boolean|The direction of the order (Should be one of: [buy sell]). Setting this value will incur less gas for the order cancellation and faster execution|No|
 |order_type|Boolean|The type of the order (Should be one of: [market limit]). Setting this value will incur less gas for the order cancellation and faster execution|No|
@@ -1386,41 +1411,37 @@ This function computes order hashes locally for SpotOrder and DerivativeOrder. F
 <!-- embedme ../../../sdk-python/examples/chain_client/0_LocalOrderHash.py -->
 ``` python
 import asyncio
-import logging
+import uuid
 
-from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
-from pyinjective.transaction import Transaction
 from pyinjective.core.network import Network
-from pyinjective.wallet import PrivateKey
 from pyinjective.orderhash import OrderHashManager
+from pyinjective.transaction import Transaction
+from pyinjective.wallet import PrivateKey
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
-    composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
     client = AsyncClient(network)
+    composer = await client.composer()
     await client.sync_timeout_height()
 
     # load account
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
-    account = await client.get_account(address.to_acc_bech32())
+    await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
     subaccount_id_2 = address.get_subaccount_id(index=1)
 
-    order_hash_manager = OrderHashManager(
-        address=address,
-        network=network,
-        subaccount_indexes=[0,1,2,7]
-    )
+    order_hash_manager = OrderHashManager(address=address, network=network, subaccount_indexes=[0, 1, 2, 7])
 
     # prepare trade info
     spot_market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-    deriv_market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
+    deriv_market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
     spot_orders = [
@@ -1431,7 +1452,8 @@ async def main() -> None:
             price=0.524,
             quantity=0.01,
             is_buy=True,
-            is_po=False
+            is_po=False,
+            cid=str(uuid.uuid4()),
         ),
         composer.SpotOrder(
             market_id=spot_market_id,
@@ -1440,7 +1462,8 @@ async def main() -> None:
             price=27.92,
             quantity=0.01,
             is_buy=False,
-            is_po=False
+            is_po=False,
+            cid=str(uuid.uuid4()),
         ),
     ]
 
@@ -1453,7 +1476,8 @@ async def main() -> None:
             quantity=0.01,
             leverage=1.5,
             is_buy=True,
-            is_po=False
+            is_po=False,
+            cid=str(uuid.uuid4()),
         ),
         composer.DerivativeOrder(
             market_id=deriv_market_id,
@@ -1463,23 +1487,20 @@ async def main() -> None:
             quantity=0.01,
             leverage=2,
             is_buy=False,
-            is_reduce_only=False
+            is_reduce_only=False,
+            cid=str(uuid.uuid4()),
         ),
     ]
 
     # prepare tx msg
-    spot_msg = composer.MsgBatchCreateSpotLimitOrders(
-        sender=address.to_acc_bech32(),
-        orders=spot_orders
-    )
+    spot_msg = composer.MsgBatchCreateSpotLimitOrders(sender=address.to_acc_bech32(), orders=spot_orders)
 
-    deriv_msg = composer.MsgBatchCreateDerivativeLimitOrders(
-        sender=address.to_acc_bech32(),
-        orders=derivative_orders
-    )
+    deriv_msg = composer.MsgBatchCreateDerivativeLimitOrders(sender=address.to_acc_bech32(), orders=derivative_orders)
 
     # compute order hashes
-    order_hashes = order_hash_manager.compute_order_hashes(spot_orders=spot_orders, derivative_orders=derivative_orders, subaccount_index=0)
+    order_hashes = order_hash_manager.compute_order_hashes(
+        spot_orders=spot_orders, derivative_orders=derivative_orders, subaccount_index=0
+    )
 
     print("computed spot order hashes", order_hashes.spot)
     print("computed derivative order hashes", order_hashes.derivative)
@@ -1494,13 +1515,15 @@ async def main() -> None:
     )
     gas_price = 500000000
     base_gas = 85000
-    gas_limit = base_gas + 25000  # add 25k for gas, fee computation
-    gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
-    fee = [composer.Coin(
-        amount=gas_price * gas_limit,
-        denom=network.fee_denom,
-    )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
+    gas_limit = base_gas + 20000  # add 20k for gas, fee computation
+    gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
+    fee = [
+        composer.Coin(
+            amount=gas_price * gas_limit,
+            denom=network.fee_denom,
+        )
+    ]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -1511,9 +1534,10 @@ async def main() -> None:
     print("gas wanted: {}".format(gas_limit))
     print("gas fee: {} INJ".format(gas_fee))
 
-
     # compute order hashes
-    order_hashes = order_hash_manager.compute_order_hashes(spot_orders=spot_orders, derivative_orders=derivative_orders, subaccount_index=0)
+    order_hashes = order_hash_manager.compute_order_hashes(
+        spot_orders=spot_orders, derivative_orders=derivative_orders, subaccount_index=0
+    )
 
     print("computed spot order hashes", order_hashes.spot)
     print("computed derivative order hashes", order_hashes.derivative)
@@ -1528,13 +1552,15 @@ async def main() -> None:
     )
     gas_price = 500000000
     base_gas = 85000
-    gas_limit = base_gas + 25000  # add 25k for gas, fee computation
-    gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
-    fee = [composer.Coin(
-        amount=gas_price * gas_limit,
-        denom=network.fee_denom,
-    )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
+    gas_limit = base_gas + 20000  # add 20k for gas, fee computation
+    gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
+    fee = [
+        composer.Coin(
+            amount=gas_price * gas_limit,
+            denom=network.fee_denom,
+        )
+    ]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -1553,7 +1579,8 @@ async def main() -> None:
             price=1.524,
             quantity=0.01,
             is_buy=True,
-            is_po=True
+            is_po=True,
+            cid=str(uuid.uuid4()),
         ),
         composer.SpotOrder(
             market_id=spot_market_id,
@@ -1562,7 +1589,8 @@ async def main() -> None:
             price=27.92,
             quantity=0.01,
             is_buy=False,
-            is_po=False
+            is_po=False,
+            cid=str(uuid.uuid4()),
         ),
     ]
 
@@ -1575,7 +1603,8 @@ async def main() -> None:
             quantity=0.01,
             leverage=1.5,
             is_buy=True,
-            is_po=False
+            is_po=False,
+            cid=str(uuid.uuid4()),
         ),
         composer.DerivativeOrder(
             market_id=deriv_market_id,
@@ -1585,23 +1614,20 @@ async def main() -> None:
             quantity=0.01,
             leverage=2,
             is_buy=False,
-            is_reduce_only=False
+            is_reduce_only=False,
+            cid=str(uuid.uuid4()),
         ),
     ]
 
     # prepare tx msg
-    spot_msg = composer.MsgBatchCreateSpotLimitOrders(
-        sender=address.to_acc_bech32(),
-        orders=spot_orders
-    )
+    spot_msg = composer.MsgBatchCreateSpotLimitOrders(sender=address.to_acc_bech32(), orders=spot_orders)
 
-    deriv_msg = composer.MsgBatchCreateDerivativeLimitOrders(
-        sender=address.to_acc_bech32(),
-        orders=derivative_orders
-    )
+    deriv_msg = composer.MsgBatchCreateDerivativeLimitOrders(sender=address.to_acc_bech32(), orders=derivative_orders)
 
     # compute order hashes
-    order_hashes = order_hash_manager.compute_order_hashes(spot_orders=spot_orders, derivative_orders=derivative_orders, subaccount_index=1)
+    order_hashes = order_hash_manager.compute_order_hashes(
+        spot_orders=spot_orders, derivative_orders=derivative_orders, subaccount_index=1
+    )
 
     print("computed spot order hashes", order_hashes.spot)
     print("computed derivative order hashes", order_hashes.derivative)
@@ -1616,13 +1642,15 @@ async def main() -> None:
     )
     gas_price = 500000000
     base_gas = 85000
-    gas_limit = base_gas + 25000  # add 25k for gas, fee computation
-    gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
-    fee = [composer.Coin(
-        amount=gas_price * gas_limit,
-        denom=network.fee_denom,
-    )]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo('').with_timeout_height(client.timeout_height)
+    gas_limit = base_gas + 20000  # add 20k for gas, fee computation
+    gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
+    fee = [
+        composer.Coin(
+            amount=gas_price * gas_limit,
+            denom=network.fee_denom,
+        )
+    ]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(client.timeout_height)
     sign_doc = tx.get_sign_doc(pub_key)
     sig = priv_key.sign(sign_doc.SerializeToString())
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
@@ -1633,8 +1661,8 @@ async def main() -> None:
     print("gas wanted: {}".format(gas_limit))
     print("gas fee: {} INJ".format(gas_fee))
 
+
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
     asyncio.get_event_loop().run_until_complete(main())
 
 ```
@@ -1643,120 +1671,119 @@ if __name__ == "__main__":
 package main
 
 import (
-    "fmt"
-    exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
-    chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-    "github.com/InjectiveLabs/sdk-go/client/common"
-    cosmtypes "github.com/cosmos/cosmos-sdk/types"
-    "github.com/shopspring/decimal"
-    rpchttp "github.com/tendermint/tendermint/rpc/client/http"
-    "os"
-    "time"
+	"fmt"
+	"github.com/google/uuid"
+	"os"
+	"time"
+
+	exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+	cosmtypes "github.com/cosmos/cosmos-sdk/types"
+	"github.com/shopspring/decimal"
 )
 
 func main() {
-    // network := common.LoadNetwork("mainnet", "lb")
-    network := common.LoadNetwork("testnet", "k8s")
-    tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	network := common.LoadNetwork("testnet", "lb")
+	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	if err != nil {
+		panic(err)
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
+	if err != nil {
+		panic(err)
+	}
 
-    senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-        os.Getenv("HOME")+"/.injectived",
-        "injectived",
-        "file",
-        "inj-user",
-        "12345678",
-        "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-        false,
-    )
+	// initialize grpc client
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
 
-    if err != nil {
-        panic(err)
-    }
+	if err != nil {
+		fmt.Println(err)
+	}
 
-    // initialize grpc client
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
 
-    clientCtx, err := chainclient.NewClientContext(
-        network.ChainId,
-        senderAddress.String(),
-        cosmosKeyring,
-    )
+	chainClient, err := chainclient.NewChainClient(
+		clientCtx,
+		network,
+		common.OptionGasPrices("500000000inj"),
+	)
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	if err != nil {
+		fmt.Println(err)
+	}
 
-    clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
+	// prepare tx msg
+	defaultSubaccountID := chainClient.Subaccount(senderAddress, 1)
 
-    chainClient, err := chainclient.NewChainClient(
-        clientCtx,
-        network.ChainGrpcEndpoint,
-        common.OptionTLSCert(network.ChainTlsCert),
-        common.OptionGasPrices("500000000inj"),
-    )
+	spotOrder := chainClient.SpotOrder(defaultSubaccountID, network, &chainclient.SpotOrderData{
+		OrderType:    exchangetypes.OrderType_BUY,
+		Quantity:     decimal.NewFromFloat(2),
+		Price:        decimal.NewFromFloat(22.55),
+		FeeRecipient: senderAddress.String(),
+		MarketId:     "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa",
+		Cid:          uuid.NewString(),
+	})
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	derivativeOrder := chainClient.DerivativeOrder(defaultSubaccountID, network, &chainclient.DerivativeOrderData{
+		OrderType:    exchangetypes.OrderType_BUY,
+		Quantity:     decimal.NewFromFloat(2),
+		Price:        cosmtypes.MustNewDecFromStr("31000000000"),
+		Leverage:     cosmtypes.MustNewDecFromStr("2.5"),
+		FeeRecipient: senderAddress.String(),
+		MarketId:     "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
+		Cid:          uuid.NewString(),
+	})
 
-    // prepare tx msg
-    defaultSubaccountID := chainClient.DefaultSubaccount(senderAddress)
+	msg := new(exchangetypes.MsgBatchCreateSpotLimitOrders)
+	msg.Sender = senderAddress.String()
+	msg.Orders = []exchangetypes.SpotOrder{*spotOrder}
 
-    spotOrder := chainClient.SpotOrder(defaultSubaccountID, network, &chainclient.SpotOrderData{
-        OrderType:    exchangetypes.OrderType_BUY,
-        Quantity:     decimal.NewFromFloat(2),
-        Price:        decimal.NewFromFloat(22.55),
-        FeeRecipient: senderAddress.String(),
-        MarketId:     "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa",
-    })
+	msg1 := new(exchangetypes.MsgBatchCreateDerivativeLimitOrders)
+	msg1.Sender = senderAddress.String()
+	msg1.Orders = []exchangetypes.DerivativeOrder{*derivativeOrder, *derivativeOrder}
 
-    derivativeOrder := chainClient.DerivativeOrder(defaultSubaccountID, network, &chainclient.DerivativeOrderData{
-        OrderType:    exchangetypes.OrderType_BUY,
-        Quantity:     decimal.NewFromFloat(2),
-        Price:        cosmtypes.MustNewDecFromStr("31000000000"),
-        Leverage:     cosmtypes.MustNewDecFromStr("2.5"),
-        FeeRecipient: senderAddress.String(),
-        MarketId:     "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    })
+	// compute local order hashes
+	orderHashes, err := chainClient.ComputeOrderHashes(msg.Orders, msg1.Orders, defaultSubaccountID)
 
-    msg := new(exchangetypes.MsgBatchCreateSpotLimitOrders)
-    msg.Sender = senderAddress.String()
-    msg.Orders = []exchangetypes.SpotOrder{*spotOrder}
+	if err != nil {
+		fmt.Println(err)
+	}
 
-    msg1 := new(exchangetypes.MsgBatchCreateDerivativeLimitOrders)
-    msg1.Sender = senderAddress.String()
-    msg1.Orders = []exchangetypes.DerivativeOrder{*derivativeOrder, *derivativeOrder}
+	fmt.Println("computed spot order hashes: ", orderHashes.Spot)
+	fmt.Println("computed derivative order hashes: ", orderHashes.Derivative)
 
-    // compute local order hashes
-    orderHashes, err := chainClient.ComputeOrderHashes(msg.Orders, msg1.Orders)
+	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	err = chainClient.QueueBroadcastMsg(msg, msg1)
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	if err != nil {
+		fmt.Println(err)
+	}
 
-    fmt.Println("computed spot order hashes: ", orderHashes.Spot)
-    fmt.Println("computed derivative order hashes: ", orderHashes.Derivative)
+	time.Sleep(time.Second * 5)
 
-    //AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
-    err = chainClient.QueueBroadcastMsg(msg, msg1)
+	gasFee, err := chainClient.GetGasFee()
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-    time.Sleep(time.Second * 5)
-
-    gasFee, err := chainClient.GetGasFee()
-
-    if err != nil {
-        fmt.Println(err)
-        return
-    }
-
-    fmt.Println("gas fee:", gasFee, "INJ")
+	fmt.Println("gas fee:", gasFee, "INJ")
 }
 ```
 
@@ -1786,6 +1813,7 @@ https://github.com/InjectiveLabs/injective-ts/blob/master/packages/sdk-ts/src/co
 |quantity|Float|The quantity of the base asset|Yes|
 |leverage|Float|The leverage factor for the order|No|
 |trigger_price|String|Set the trigger price for conditional orders|No|
+|cid|String|Identifier for the order specified by the user (up to 36 characters, like a UUID)|No|
 |is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
 |is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
@@ -1811,6 +1839,7 @@ https://github.com/InjectiveLabs/injective-ts/blob/master/packages/sdk-ts/src/co
 |fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
 |price|Float|The price of the base asset|Yes|
 |quantity|Float|The quantity of the base asset|Yes|
+|cid|String|Identifier for the order specified by the user (up to 36 characters, like a UUID)|No|
 |is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
 |is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
 
