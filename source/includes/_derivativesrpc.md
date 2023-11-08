@@ -77,9 +77,9 @@ const market = await indexerGrpcDerivativesApi.fetchMarket(marketId)
 console.log(market)
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|ID of the market to fetch|Yes|
+| Parameter | Type   | Description               | Required |
+| --------- | ------ | ------------------------- | -------- |
+| market_id | String | ID of the market to fetch | Yes      |
 
 
 
@@ -210,71 +210,71 @@ market {
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|market|DerivativeMarketInfo|Info about a particular derivative market|
+| Parameter | Type                 | Description                               |
+| --------- | -------------------- | ----------------------------------------- |
+| market    | DerivativeMarketInfo | Info about a particular derivative market |
 
 **DerivativeMarketInfo**
 
-|Parameter|Type|Description|
-|----|----|----|
-|oracle_quote|String|Oracle quote currency|
-|oracle_type|String|Oracle Type|
-|quote_denom|String|Coin denom used for the quote asset|
-|is_perpetual|Boolean|True if the market is a perpetual swap market|
-|maker_fee_rate|String|Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading|
-|min_price_tick_size|String|Defines the minimum required tick size for the order's price|
-|min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
-|oracle_scale_factor|Integer|Scaling multiple to scale oracle prices to the correct number of decimals|
-|taker_fee_rate|String|Defines the fee percentage takers pay (in quote asset) when trading|
-|expiry_futures_market_info|ExpiryFuturesMarketInfo|Info about expiry futures market|
-|initial_margin_ratio|String|The initial margin ratio of the derivative market|
-|market_status|String|The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|
-|service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
-|oracle_base|String|Oracle base currency|
-|perpetual_market_funding|PerpetualMarketFunding|PerpetualMarketFunding object|
-|perpetual_market_info|PerpetualMarketInfo|Information about the perpetual market|
-|ticker|String|The name of the pair in format AAA/BBB, where AAA is the base asset and BBB is the quote asset|
-|maintenance_margin_ratio|String|The maintenance margin ratio of the derivative market|
-|market_id|String|The market ID|
-|quoteTokenMeta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
+| Parameter                  | Type                    | Description                                                                                             |
+| -------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------- |
+| oracle_quote               | String                  | Oracle quote currency                                                                                   |
+| oracle_type                | String                  | Oracle Type                                                                                             |
+| quote_denom                | String                  | Coin denom used for the quote asset                                                                     |
+| is_perpetual               | Boolean                 | True if the market is a perpetual swap market                                                           |
+| maker_fee_rate             | String                  | Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading             |
+| min_price_tick_size        | String                  | Defines the minimum required tick size for the order's price                                            |
+| min_quantity_tick_size     | String                  | Defines the minimum required tick size for the order's quantity                                         |
+| oracle_scale_factor        | Integer                 | Scaling multiple to scale oracle prices to the correct number of decimals                               |
+| taker_fee_rate             | String                  | Defines the fee percentage takers pay (in quote asset) when trading                                     |
+| expiry_futures_market_info | ExpiryFuturesMarketInfo | Info about expiry futures market                                                                        |
+| initial_margin_ratio       | String                  | The initial margin ratio of the derivative market                                                       |
+| market_status              | String                  | The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"]) |
+| service_provider_fee       | String                  | Percentage of the transaction fee shared with the service provider                                      |
+| oracle_base                | String                  | Oracle base currency                                                                                    |
+| perpetual_market_funding   | PerpetualMarketFunding  | PerpetualMarketFunding object                                                                           |
+| perpetual_market_info      | PerpetualMarketInfo     | Information about the perpetual market                                                                  |
+| ticker                     | String                  | The name of the pair in format AAA/BBB, where AAA is the base asset and BBB is the quote asset          |
+| maintenance_margin_ratio   | String                  | The maintenance margin ratio of the derivative market                                                   |
+| market_id                  | String                  | The market ID                                                                                           |
+| quoteTokenMeta             | TokenMeta               | Token metadata for quote asset, only for Ethereum-based assets                                          |
 
 **ExpiryFuturesMarketInfo**
 
-|Parameter|Type|Description|
-|----|----|----|
-|expiration_timestamp|Integer|Defines the expiration time for a time expiry futures market in UNIX seconds|
-|settlement_price|String|Defines the settlement price for a time expiry futures market|
+| Parameter            | Type    | Description                                                                  |
+| -------------------- | ------- | ---------------------------------------------------------------------------- |
+| expiration_timestamp | Integer | Defines the expiration time for a time expiry futures market in UNIX seconds |
+| settlement_price     | String  | Defines the settlement price for a time expiry futures market                |
 
 **PerpetualMarketFunding**
 
-|Parameter|Type|Description|
-|----|----|----|
-|cumulative_funding|String|Defines the cumulative funding of a perpetual market|
-|cumulative_price|String|Defines the cumulative price for the current hour up to the last timestamp|
-|last_timestamp|Integer|Defines the last funding timestamp in UNIX seconds|
+| Parameter          | Type    | Description                                                                |
+| ------------------ | ------- | -------------------------------------------------------------------------- |
+| cumulative_funding | String  | Defines the cumulative funding of a perpetual market                       |
+| cumulative_price   | String  | Defines the cumulative price for the current hour up to the last timestamp |
+| last_timestamp     | Integer | Defines the last funding timestamp in UNIX seconds                         |
 
 
 **PerpetualMarketInfo**
 
-|Parameter|Type|Description|
-|----|----|----|
-|hourly_funding_rate_cap|String|Defines the default maximum absolute value of the hourly funding rate|
-|hourly_interest_rate|String|Defines the hourly interest rate of the perpetual market|
-|next_funding_timestamp|Integer|Defines the next funding timestamp in UNIX seconds|
-|funding_interval|Integer|Defines the funding interval in seconds|
+| Parameter               | Type    | Description                                                           |
+| ----------------------- | ------- | --------------------------------------------------------------------- |
+| hourly_funding_rate_cap | String  | Defines the default maximum absolute value of the hourly funding rate |
+| hourly_interest_rate    | String  | Defines the hourly interest rate of the perpetual market              |
+| next_funding_timestamp  | Integer | Defines the next funding timestamp in UNIX seconds                    |
+| funding_interval        | Integer | Defines the funding interval in seconds                               |
 
 
 **TokenMeta**
 
-|Parameter|Type|Description|
-|----|----|----|
-|address|String|Token's Ethereum contract address|
-|decimals|Integer|Token decimals|
-|logo|String|URL to the logo image|
-|name|String|Token full name|
-|symbol|String|Token symbol short name|
-|updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
+| Parameter | Type    | Description                                     |
+| --------- | ------- | ----------------------------------------------- |
+| address   | String  | Token's Ethereum contract address               |
+| decimals  | Integer | Token decimals                                  |
+| logo      | String  | URL to the logo image                           |
+| name      | String  | Token full name                                 |
+| symbol    | String  | Token symbol short name                         |
+| updatedAt | Integer | Token metadata fetched timestamp in UNIX millis |
 
 
 ## Markets
@@ -363,10 +363,10 @@ const markets = await indexerGrpcDerivativesApi.fetchMarkets()
 console.log(markets)
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_status|String|Filter by market status (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|No|
-|quote_denom|String|Filter by the Coin denomination of the quote currency|No|
+| Parameter     | Type   | Description                                                                                            | Required |
+| ------------- | ------ | ------------------------------------------------------------------------------------------------------ | -------- |
+| market_status | String | Filter by market status (Should be one of: ["active", "paused", "suspended", "demolished", "expired"]) | No       |
+| quote_denom   | String | Filter by the Coin denomination of the quote currency                                                  | No       |
 
 
 
@@ -599,71 +599,71 @@ markets {
 
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|markets|DerivativeMarketInfo Array|List of derivative markets and associated info|
+| Parameter | Type                       | Description                                    |
+| --------- | -------------------------- | ---------------------------------------------- |
+| markets   | DerivativeMarketInfo Array | List of derivative markets and associated info |
 
 **DerivativeMarketInfo**
 
-|Parameter|Type|Description|
-|----|----|----|
-|oracle_quote|String|Oracle quote currency|
-|oracle_type|String|Oracle Type|
-|quote_denom|String|Coin denom used for the quote asset|
-|is_perpetual|Boolean|True if the market is a perpetual swap market|
-|maker_fee_rate|String|Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading|
-|min_price_tick_size|String|Defines the minimum required tick size for the order's price|
-|min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
-|oracle_scale_factor|Integer|Scaling multiple to scale oracle prices to the correct number of decimals|
-|taker_fee_rate|String|Defines the fee percentage takers pay (in quote asset) when trading|
-|expiry_futures_market_info|ExpiryFuturesMarketInfo|Info about expiry futures market|
-|initial_margin_ratio|String|The initial margin ratio of the derivative market|
-|market_status|String|The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|
-|service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
-|oracle_base|String|Oracle base currency|
-|perpetual_market_funding|PerpetualMarketFunding|PerpetualMarketFunding object|
-|perpetual_market_info|PerpetualMarketInfo|Information about the perpetual market|
-|ticker|String|The name of the pair in format AAA/BBB, where AAA is the base asset and BBB is the quote asset|
-|maintenance_margin_ratio|String|The maintenance margin ratio of the derivative market|
-|market_id|String|The market ID|
-|quoteTokenMeta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
+| Parameter                  | Type                    | Description                                                                                             |
+| -------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------- |
+| oracle_quote               | String                  | Oracle quote currency                                                                                   |
+| oracle_type                | String                  | Oracle Type                                                                                             |
+| quote_denom                | String                  | Coin denom used for the quote asset                                                                     |
+| is_perpetual               | Boolean                 | True if the market is a perpetual swap market                                                           |
+| maker_fee_rate             | String                  | Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading             |
+| min_price_tick_size        | String                  | Defines the minimum required tick size for the order's price                                            |
+| min_quantity_tick_size     | String                  | Defines the minimum required tick size for the order's quantity                                         |
+| oracle_scale_factor        | Integer                 | Scaling multiple to scale oracle prices to the correct number of decimals                               |
+| taker_fee_rate             | String                  | Defines the fee percentage takers pay (in quote asset) when trading                                     |
+| expiry_futures_market_info | ExpiryFuturesMarketInfo | Info about expiry futures market                                                                        |
+| initial_margin_ratio       | String                  | The initial margin ratio of the derivative market                                                       |
+| market_status              | String                  | The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"]) |
+| service_provider_fee       | String                  | Percentage of the transaction fee shared with the service provider                                      |
+| oracle_base                | String                  | Oracle base currency                                                                                    |
+| perpetual_market_funding   | PerpetualMarketFunding  | PerpetualMarketFunding object                                                                           |
+| perpetual_market_info      | PerpetualMarketInfo     | Information about the perpetual market                                                                  |
+| ticker                     | String                  | The name of the pair in format AAA/BBB, where AAA is the base asset and BBB is the quote asset          |
+| maintenance_margin_ratio   | String                  | The maintenance margin ratio of the derivative market                                                   |
+| market_id                  | String                  | The market ID                                                                                           |
+| quoteTokenMeta             | TokenMeta               | Token metadata for quote asset, only for Ethereum-based assets                                          |
 
 **ExpiryFuturesMarketInfo**
 
-|Parameter|Type|Description|
-|----|----|----|
-|expiration_timestamp|Integer|Defines the expiration time for a time expiry futures market in UNIX seconds|
-|settlement_price|String|Defines the settlement price for a time expiry futures market|
+| Parameter            | Type    | Description                                                                  |
+| -------------------- | ------- | ---------------------------------------------------------------------------- |
+| expiration_timestamp | Integer | Defines the expiration time for a time expiry futures market in UNIX seconds |
+| settlement_price     | String  | Defines the settlement price for a time expiry futures market                |
 
 **PerpetualMarketFunding**
 
-|Parameter|Type|Description|
-|----|----|----|
-|cumulative_funding|String|Defines the cumulative funding of a perpetual market|
-|cumulative_price|String|Defines the cumulative price for the current hour up to the last timestamp|
-|last_timestamp|Integer|Defines the last funding timestamp in UNIX seconds|
+| Parameter          | Type    | Description                                                                |
+| ------------------ | ------- | -------------------------------------------------------------------------- |
+| cumulative_funding | String  | Defines the cumulative funding of a perpetual market                       |
+| cumulative_price   | String  | Defines the cumulative price for the current hour up to the last timestamp |
+| last_timestamp     | Integer | Defines the last funding timestamp in UNIX seconds                         |
 
 
 **PerpetualMarketInfo**
 
-|Parameter|Type|Description|
-|----|----|----|
-|hourly_funding_rate_cap|String|Defines the default maximum absolute value of the hourly funding rate|
-|hourly_interest_rate|String|Defines the hourly interest rate of the perpetual market|
-|next_funding_timestamp|Integer|Defines the next funding timestamp in UNIX seconds|
-|funding_interval|Integer|Defines the funding interval in seconds|
+| Parameter               | Type    | Description                                                           |
+| ----------------------- | ------- | --------------------------------------------------------------------- |
+| hourly_funding_rate_cap | String  | Defines the default maximum absolute value of the hourly funding rate |
+| hourly_interest_rate    | String  | Defines the hourly interest rate of the perpetual market              |
+| next_funding_timestamp  | Integer | Defines the next funding timestamp in UNIX seconds                    |
+| funding_interval        | Integer | Defines the funding interval in seconds                               |
 
 
 **TokenMeta**
 
-|Parameter|Type|Description|
-|----|----|----|
-|address|String|Token's Ethereum contract address|
-|decimals|Integer|Token decimals|
-|logo|String|URL to the logo image|
-|name|String|Token full name|
-|symbol|String|Token symbol short name|
-|updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
+| Parameter | Type    | Description                                     |
+| --------- | ------- | ----------------------------------------------- |
+| address   | String  | Token's Ethereum contract address               |
+| decimals  | Integer | Token decimals                                  |
+| logo      | String  | URL to the logo image                           |
+| name      | String  | Token full name                                 |
+| symbol    | String  | Token symbol short name                         |
+| updatedAt | Integer | Token metadata fetched timestamp in UNIX millis |
 
 
 ## StreamMarkets
@@ -765,9 +765,9 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_ids|String Array|List of market IDs for updates streaming, empty means 'ALL' derivative markets|No|
+| Parameter  | Type         | Description                                                                    | Required |
+| ---------- | ------------ | ------------------------------------------------------------------------------ | -------- |
+| market_ids | String Array | List of market IDs for updates streaming, empty means 'ALL' derivative markets | No       |
 
 ### Response Parameters
 > Streaming Response Example:
@@ -902,73 +902,73 @@ timestamp: 1652792406000
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|market|DerivativeMarketInfo|Info about a particular derivative market|
-|operation_type|String|Update type (Should be one of: ["insert", "delete", "replace", "update", "invalidate"])|
-|timestamp|Integer|Operation timestamp in UNIX millis|
+| Parameter      | Type                 | Description                                                                             |
+| -------------- | -------------------- | --------------------------------------------------------------------------------------- |
+| market         | DerivativeMarketInfo | Info about a particular derivative market                                               |
+| operation_type | String               | Update type (Should be one of: ["insert", "delete", "replace", "update", "invalidate"]) |
+| timestamp      | Integer              | Operation timestamp in UNIX millis                                                      |
 
 **DerivativeMarketInfo**
 
-|Parameter|Type|Description|
-|----|----|----|
-|oracle_quote|String|Oracle quote currency|
-|oracle_type|String|Oracle Type|
-|quote_denom|String|Coin denom used for the quote asset|
-|is_perpetual|Boolean|True if the market is a perpetual swap market|
-|maker_fee_rate|String|Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading|
-|min_price_tick_size|String|Defines the minimum required tick size for the order's price|
-|min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
-|oracle_scale_factor|Integer|Scaling multiple to scale oracle prices to the correct number of decimals|
-|taker_fee_rate|String|Defines the fee percentage takers pay (in quote asset) when trading|
-|expiry_futures_market_info|ExpiryFuturesMarketInfo|Info about expiry futures market|
-|initial_margin_ratio|String|The initial margin ratio of the derivative market|
-|market_status|String|The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|
-|service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
-|oracle_base|String|Oracle base currency|
-|perpetual_market_funding|PerpetualMarketFunding|PerpetualMarketFunding object|
-|perpetual_market_info|PerpetualMarketInfo|Information about the perpetual market|
-|ticker|String|The name of the pair in format AAA/BBB, where AAA is the base asset and BBB is the quote asset|
-|maintenance_margin_ratio|String|The maintenance margin ratio of the derivative market|
-|market_id|String|The market ID|
-|quoteTokenMeta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
+| Parameter                  | Type                    | Description                                                                                             |
+| -------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------- |
+| oracle_quote               | String                  | Oracle quote currency                                                                                   |
+| oracle_type                | String                  | Oracle Type                                                                                             |
+| quote_denom                | String                  | Coin denom used for the quote asset                                                                     |
+| is_perpetual               | Boolean                 | True if the market is a perpetual swap market                                                           |
+| maker_fee_rate             | String                  | Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading             |
+| min_price_tick_size        | String                  | Defines the minimum required tick size for the order's price                                            |
+| min_quantity_tick_size     | String                  | Defines the minimum required tick size for the order's quantity                                         |
+| oracle_scale_factor        | Integer                 | Scaling multiple to scale oracle prices to the correct number of decimals                               |
+| taker_fee_rate             | String                  | Defines the fee percentage takers pay (in quote asset) when trading                                     |
+| expiry_futures_market_info | ExpiryFuturesMarketInfo | Info about expiry futures market                                                                        |
+| initial_margin_ratio       | String                  | The initial margin ratio of the derivative market                                                       |
+| market_status              | String                  | The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"]) |
+| service_provider_fee       | String                  | Percentage of the transaction fee shared with the service provider                                      |
+| oracle_base                | String                  | Oracle base currency                                                                                    |
+| perpetual_market_funding   | PerpetualMarketFunding  | PerpetualMarketFunding object                                                                           |
+| perpetual_market_info      | PerpetualMarketInfo     | Information about the perpetual market                                                                  |
+| ticker                     | String                  | The name of the pair in format AAA/BBB, where AAA is the base asset and BBB is the quote asset          |
+| maintenance_margin_ratio   | String                  | The maintenance margin ratio of the derivative market                                                   |
+| market_id                  | String                  | The market ID                                                                                           |
+| quoteTokenMeta             | TokenMeta               | Token metadata for quote asset, only for Ethereum-based assets                                          |
 
 **ExpiryFuturesMarketInfo**
 
-|Parameter|Type|Description|
-|----|----|----|
-|expiration_timestamp|Integer|Defines the expiration time for a time expiry futures market in UNIX seconds|
-|settlement_price|String|Defines the settlement price for a time expiry futures market|
+| Parameter            | Type    | Description                                                                  |
+| -------------------- | ------- | ---------------------------------------------------------------------------- |
+| expiration_timestamp | Integer | Defines the expiration time for a time expiry futures market in UNIX seconds |
+| settlement_price     | String  | Defines the settlement price for a time expiry futures market                |
 
 **PerpetualMarketFunding**
 
-|Parameter|Type|Description|
-|----|----|----|
-|cumulative_funding|String|Defines the cumulative funding of a perpetual market|
-|cumulative_price|String|Defines the cumulative price for the current hour up to the last timestamp|
-|last_timestamp|Integer|Defines the last funding timestamp in UNIX seconds|
+| Parameter          | Type    | Description                                                                |
+| ------------------ | ------- | -------------------------------------------------------------------------- |
+| cumulative_funding | String  | Defines the cumulative funding of a perpetual market                       |
+| cumulative_price   | String  | Defines the cumulative price for the current hour up to the last timestamp |
+| last_timestamp     | Integer | Defines the last funding timestamp in UNIX seconds                         |
 
 
 **PerpetualMarketInfo**
 
-|Parameter|Type|Description|
-|----|----|----|
-|hourly_funding_rate_cap|String|Defines the default maximum absolute value of the hourly funding rate|
-|hourly_interest_rate|String|Defines the hourly interest rate of the perpetual market|
-|next_funding_timestamp|Integer|Defines the next funding timestamp in UNIX seconds|
-|funding_interval|Integer|Defines the funding interval in seconds|
+| Parameter               | Type    | Description                                                           |
+| ----------------------- | ------- | --------------------------------------------------------------------- |
+| hourly_funding_rate_cap | String  | Defines the default maximum absolute value of the hourly funding rate |
+| hourly_interest_rate    | String  | Defines the hourly interest rate of the perpetual market              |
+| next_funding_timestamp  | Integer | Defines the next funding timestamp in UNIX seconds                    |
+| funding_interval        | Integer | Defines the funding interval in seconds                               |
 
 
 **TokenMeta**
 
-|Parameter|Type|Description|
-|----|----|----|
-|address|String|Token's Ethereum contract address|
-|decimals|Integer|Token decimals|
-|logo|String|URL to the logo image|
-|name|String|Token full name|
-|symbol|String|Token symbol short name|
-|updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
+| Parameter | Type    | Description                                     |
+| --------- | ------- | ----------------------------------------------- |
+| address   | String  | Token's Ethereum contract address               |
+| decimals  | Integer | Token decimals                                  |
+| logo      | String  | URL to the logo image                           |
+| name      | String  | Token full name                                 |
+| symbol    | String  | Token symbol short name                         |
+| updatedAt | Integer | Token metadata fetched timestamp in UNIX millis |
 
 
 ## OrdersHistory
@@ -1061,21 +1061,24 @@ func main() {
 
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Filter by a single market ID|Yes|
-|market_ids|String Array|Filter by multiple market IDs|No|
-|subaccount_id|String|Filter by subaccount ID|No|
-|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100|No|
-|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
-|direction|String|Filter by order direction (Should be one of: ["buy", "sell"])|No|
-|is_conditional|String|Search for conditional/non-conditional orders(Should be one of: ["true", "false"])|No|
-|start_time|Integer|Search for orders where createdAt >= startTime, time in milliseconds|No|
-|end_time|Integer|Search for orders where createdAt <= startTime, time in milliseconds|No|
-|state|String|The order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|No|
-|execution_types|String Array|The execution of the order (Should be one of: ["limit", "market"])|No|
-|order_type|String|The order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|No|
-|order_types|String Array|The order types to be included (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|No|
+| Parameter           | Type         | Description                                                                                                                               | Required |
+| ------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| subaccount_id       | String       | Filter by subaccount ID                                                                                                                   | No       |
+| market_id           | String       | Filter by a single market ID                                                                                                              | Yes      |
+| skip                | Integer      | Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100                                | No       |
+| limit               | Integer      | Maximum number of items to be returned. 1 <= *n* <= 100                                                                                   | No       |
+| order_types         | String Array | The order types to be included (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) | No       |
+| direction           | String       | Filter by order direction (Should be one of: ["buy", "sell"])                                                                             | No       |
+| start_time          | Integer      | Search for orders where createdAt >= startTime, time in milliseconds                                                                      | No       |
+| end_time            | Integer      | Search for orders where createdAt <= startTime, time in milliseconds                                                                      | No       |
+| is_conditional      | String       | Search for conditional/non-conditional orders(Should be one of: ["true", "false"])                                                        | No       |
+| order_type          | String       | The order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])                 | No       |
+| state               | String       | The order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                                                    | No       |
+| execution_types     | String Array | The execution of the order (Should be one of: ["limit", "market"])                                                                        | No       |
+| market_ids          | String Array | Filter by multiple market IDs                                                                                                             | No       |
+| trade_id            | String       | Filter by the trade's trade id                                                                                                            | No       |
+| active_markets_only | Bool         | Return only orders for active markets                                                                                                     | No       |
+| cid                 | String       | Filter by the custom client order id of the trade's order                                                                                 | No       |
 
 
 ### Response Parameters
@@ -1246,41 +1249,43 @@ paging {
 
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|orders|DerivativeOrderHistory Array|list of historical derivative orders|
-|paging|Paging|Pagination of results|
+| Parameter | Type                         | Description                          |
+| --------- | ---------------------------- | ------------------------------------ |
+| orders    | DerivativeOrderHistory Array | list of historical derivative orders |
+| paging    | Paging                       | Pagination of results                |
 
 **DerivativeOrderHistory**
 
-|Parameter|Type|Description|
-|----|----|----|
-|order_hash|String|Hash of the order|
-|market_id|String|Derivative market ID|
-|is_active|Boolean|Indicates if the order is active|
-|subaccount_id|String|The subaccountId that this order belongs to|
-|execution_type|String|The type of the order (Should be one of: ["limit", "market"])|
-|order_type|String|Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|
-|price|String|Price of the order|
-|trigger_price|String|The price that triggers stop/take orders|
-|quantity|String|Quantity of the order|
-|filled_quantity|String|The amount of the quantity filled|
-|state|String|Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
-|created_at|Integer|Order created timestamp in UNIX millis|
-|updated_at|Integer|Order updated timestamp in UNIX millis|
-|is_reduce_only|Boolean|Indicates if the order is reduce-only|
-|direction|String|The direction of the order (Should be one of: ["buy", "sell"])|
-|is_conditional|Boolean|Indicates if the order is conditional|
-|trigger_at|Integer|Trigger timestamp in UNIX millis|
-|placed_order_hash|String|Hash of order placed upon conditional order trigger|
-|margin|String|The margin of the order|
+| Parameter         | Type    | Description                                                                                                           |
+| ----------------- | ------- | --------------------------------------------------------------------------------------------------------------------- |
+| order_hash        | String  | Hash of the order                                                                                                     |
+| market_id         | String  | Derivative market ID                                                                                                  |
+| is_active         | Boolean | Indicates if the order is active                                                                                      |
+| subaccount_id     | String  | The subaccountId that this order belongs to                                                                           |
+| execution_type    | String  | The type of the order (Should be one of: ["limit", "market"])                                                         |
+| order_type        | String  | Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) |
+| price             | String  | Price of the order                                                                                                    |
+| trigger_price     | String  | The price that triggers stop/take orders                                                                              |
+| quantity          | String  | Quantity of the order                                                                                                 |
+| filled_quantity   | String  | The amount of the quantity filled                                                                                     |
+| state             | String  | Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                                    |
+| created_at        | Integer | Order created timestamp in UNIX millis                                                                                |
+| updated_at        | Integer | Order updated timestamp in UNIX millis                                                                                |
+| is_reduce_only    | Boolean | Indicates if the order is reduce-only                                                                                 |
+| direction         | String  | The direction of the order (Should be one of: ["buy", "sell"])                                                        |
+| is_conditional    | Boolean | Indicates if the order is conditional                                                                                 |
+| trigger_at        | Integer | Trigger timestamp in UNIX millis                                                                                      |
+| placed_order_hash | String  | Hash of order placed upon conditional order trigger                                                                   |
+| margin            | String  | The margin of the order                                                                                               |
+| tx_hash           | String  | Transaction hash in which the order was created (not all orders have this value)                                      |
+| cid               | String  | Identifier for the order specified by the user (up to 36 characters, like a UUID)                                     |
 
 
 **Paging**
 
-|Parameter|Type|Description|
-|----|----|----|
-|total|Integer|Total number of available records|
+| Parameter | Type    | Description                       |
+| --------- | ------- | --------------------------------- |
+| total     | Integer | Total number of available records |
 
 
 ## StreamOrdersHistory
@@ -1403,14 +1408,14 @@ const orderHistory = await indexerGrpcDerivativesApi.fetchOrderHistory({
 console.log(orderHistory)
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Filter by market ID|Yes|
-|subaccount_id|String|Filter by subaccount ID|No|
-|direction|String|Filter by direction (Should be one of: ["buy", "sell"])|No|
-|state|String|Filter by state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|No|
-|order_types|String Array|Filter by order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|No|
-|execution_types|String Array|Filter by execution type (Should be one of: ["limit", "market"])|No|
+| Parameter       | Type         | Description                                                                                                                     | Required |
+| --------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| market_id       | String       | Filter by market ID                                                                                                             | Yes      |
+| subaccount_id   | String       | Filter by subaccount ID                                                                                                         | No       |
+| direction       | String       | Filter by direction (Should be one of: ["buy", "sell"])                                                                         | No       |
+| state           | String       | Filter by state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                                          | No       |
+| order_types     | String Array | Filter by order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) | No       |
+| execution_types | String Array | Filter by execution type (Should be one of: ["limit", "market"])                                                                | No       |
 
 
 ### Response Parameters
@@ -1485,35 +1490,37 @@ timestamp: 1665487078000
 
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|order|DerivativeOrderHistory|Updated order|
-|operation_type|String|Order update type (Should be one of: ["insert", "replace", "update", "invalidate"])|
-|timestamp|Integer|Operation timestamp in UNIX millis|
+| Parameter      | Type                   | Description                                                                         |
+| -------------- | ---------------------- | ----------------------------------------------------------------------------------- |
+| order          | DerivativeOrderHistory | Updated order                                                                       |
+| operation_type | String                 | Order update type (Should be one of: ["insert", "replace", "update", "invalidate"]) |
+| timestamp      | Integer                | Operation timestamp in UNIX millis                                                  |
 
 **DerivativeOrderHistory**
 
-|Parameter|Type|Description|
-|----|----|----|
-|order_hash|String|Hash of the order|
-|market_id|String|Derivative market ID|
-|is_active|Boolean|Indicates if the order is active|
-|subaccount_id|String|The subaccountId that this order belongs to|
-|execution_type|String|The type of the order (Should be one of: ["limit", "market"])|
-|order_type|String|Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|
-|price|String|Price of the order|
-|trigger_price|String|The price that triggers stop/take orders|
-|quantity|String|Quantity of the order|
-|filled_quantity|String|The amount of the quantity filled|
-|state|String|Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
-|created_at|Integer|Order created timestamp in UNIX millis|
-|updated_at|Integer|Order updated timestamp in UNIX millis|
-|is_reduce_only|Boolean|Indicates if the order is reduce-only|
-|direction|String|The direction of the order (Should be one of: ["buy", "sell"])|
-|is_conditional|Boolean|Indicates if the order is conditional|
-|trigger_at|Integer|Trigger timestamp in UNIX millis|
-|placed_order_hash|String|Hash of order placed upon conditional order trigger|
-|margin|String|The margin of the order|
+| Parameter         | Type    | Description                                                                                                           |
+| ----------------- | ------- | --------------------------------------------------------------------------------------------------------------------- |
+| order_hash        | String  | Hash of the order                                                                                                     |
+| market_id         | String  | Derivative market ID                                                                                                  |
+| is_active         | Boolean | Indicates if the order is active                                                                                      |
+| subaccount_id     | String  | The subaccountId that this order belongs to                                                                           |
+| execution_type    | String  | The type of the order (Should be one of: ["limit", "market"])                                                         |
+| order_type        | String  | Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) |
+| price             | String  | Price of the order                                                                                                    |
+| trigger_price     | String  | The price that triggers stop/take orders                                                                              |
+| quantity          | String  | Quantity of the order                                                                                                 |
+| filled_quantity   | String  | The amount of the quantity filled                                                                                     |
+| state             | String  | Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                                    |
+| created_at        | Integer | Order created timestamp in UNIX millis                                                                                |
+| updated_at        | Integer | Order updated timestamp in UNIX millis                                                                                |
+| is_reduce_only    | Boolean | Indicates if the order is reduce-only                                                                                 |
+| direction         | String  | The direction of the order (Should be one of: ["buy", "sell"])                                                        |
+| is_conditional    | Boolean | Indicates if the order is conditional                                                                                 |
+| trigger_at        | Integer | Trigger timestamp in UNIX millis                                                                                      |
+| placed_order_hash | String  | Hash of order placed upon conditional order trigger                                                                   |
+| margin            | String  | The margin of the order                                                                                               |
+| tx_hash           | String  | Transaction hash in which the order was created (not all orders have this value)                                      |
+| cid               | String  | Identifier for the order specified by the user (up to 36 characters, like a UUID)                                     |
 
 
 
@@ -1625,19 +1632,22 @@ const trades = await indexerGrpcDerivativesApi.fetchTrades({
 console.log(trades)
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Filter by a single market ID|No|
-|market_ids|String Array|Filter by multiple market IDs|No|
-|subaccount_id|String|Filter by a single subaccount ID|No|
-|subaccount_ids|String Array|Filter by multiple subaccount IDs|No|
-|direction|String|Filter by the direction of the trade (Should be one of: ["buy", "sell"])|No|
-|execution_side|String|Filter by the execution side of the trade (Should be one of: ["maker", "taker"])|No|
-|execution_types|String Array|Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|No|
-|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100|No|
-|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
-|start_time|Integer|startTime <= trade execution timestamp <= endTime|No|
-|end_time|Integer|startTime <= trade execution timestamp <= endTime|No|
+| Parameter       | Type         | Description                                                                                                                     | Required |
+| --------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| market_id       | String       | Filter by a single market ID                                                                                                    | No       |
+| execution_side  | String       | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
+| direction       | String       | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
+| subaccount_id   | String       | Filter by a single subaccount ID                                                                                                | No       |
+| skip            | Integer      | Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100                       | No       |
+| limit           | Integer      | Maximum number of items to be returned. 1 <= *n* <= 100                                                                         | No       |
+| start_time      | Integer      | startTime <= trade execution timestamp <= endTime                                                                               | No       |
+| end_time        | Integer      | startTime <= trade execution timestamp <= endTime                                                                               | No       |
+| market_ids      | String Array | Filter by multiple market IDs                                                                                                   | No       |
+| subaccount_ids  | String Array | Filter by multiple subaccount IDs                                                                                               | No       |
+| execution_types | String Array | Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
+| trade_id        | String       | Filter by the trade id of the trade                                                                                             | No       |
+| account_address | String       | Filter by the account address                                                                                                   | No       |
+| cid             | String       | Filter by the custom client order id of the trade's order                                                                       | No       |
 
 ### Response Parameters
 > Response Example:
@@ -1791,42 +1801,43 @@ paging {
 ]
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|trades|DerivativeTrade Array|List of trades of derivative markets|
-|paging|Paging|Pagination of results|
+| Parameter | Type                  | Description                          |
+| --------- | --------------------- | ------------------------------------ |
+| trades    | DerivativeTrade Array | List of trades of derivative markets |
+| paging    | Paging                | Pagination of results                |
 
 **DerivativeTrade**
 
-|Parameter|Type| Description                                                                                                              |
-|----|----|--------------------------------------------------------------------------------------------------------------------------|
-|executed_at|Integer| Timestamp of trade execution (on chain) in UNIX millis                                                                   |
-|position_delta|PositionDelta| Position delta from the trade                                                                                            |
-|subaccount_id|String| ID of subaccount that executed the trade                                                                                 |
-|trade_execution_type|String| *Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
-|fee|String| The fee associated with the trade                                                                                        |
-|is_liquidation|Boolean| True if the trade is a liquidation                                                                                       |
-|market_id|String| The market ID                                                                                                            |
-|order_hash|String| The order hash                                                                                                           |
-|payout|String| The payout associated with the trade                                                                                     |
-|fee_recipient|String| The address that received 40% of the fees                                                                                |
-|trade_id|String| Unique identifier to differentiate between trades                                                                        |
-|execution_side|String| Execution side of trade (Should be one of: ["maker", "taker"])
+| Parameter            | Type          | Description                                                                                                              |
+| -------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| order_hash           | String        | The order hash                                                                                                           |
+| subaccount_id        | String        | ID of subaccount that executed the trade                                                                                 |
+| market_id            | String        | The market ID                                                                                                            |
+| trade_execution_type | String        | *Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
+| is_liquidation       | Boolean       | True if the trade is a liquidation                                                                                       |
+| position_delta       | PositionDelta | Position delta from the trade                                                                                            |
+| payout               | String        | The payout associated with the trade                                                                                     |
+| fee                  | String        | The fee associated with the trade                                                                                        |
+| executed_at          | Integer       | Timestamp of trade execution (on chain) in UNIX millis                                                                   |
+| fee_recipient        | String        | The address that received 40% of the fees                                                                                |
+| trade_id             | String        | Unique identifier to differentiate between trades                                                                        |
+| execution_side       | String        | Execution side of trade (Should be one of: ["maker", "taker"])                                                           |
+| cid                  | String        | Custom client order id                                                                                                   |
 
 **PositionDelta**
 
-|Parameter|Type|Description|
-|----|----|----|
-|execution_price|String|Execution price of the trade|
-|execution_quantity|String|Execution quantity of the trade|
-|trade_direction|String|The direction the trade (Should be one of: ["buy", "sell"]) |
-|execution_margin|String|Execution margin of the trade|
+| Parameter          | Type   | Description                                                 |
+| ------------------ | ------ | ----------------------------------------------------------- |
+| execution_price    | String | Execution price of the trade                                |
+| execution_quantity | String | Execution quantity of the trade                             |
+| trade_direction    | String | The direction the trade (Should be one of: ["buy", "sell"]) |
+| execution_margin   | String | Execution margin of the trade                               |
 
 **Paging**
 
-|Parameter|Type|Description|
-|----|----|----|
-|total|Integer|Total number of records available|
+| Parameter | Type    | Description                       |
+| --------- | ------- | --------------------------------- |
+| total     | Integer | Total number of records available |
 
 
 ## StreamTrades
@@ -1966,15 +1977,22 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Filter by a single market ID|No|
-|market_ids|String Array|Filter by multiple market IDs|No|
-|subaccount_id|String|Filter by a single subaccount ID|No|
-|subaccount_ids|String Array|Filter by multiple subaccount IDs|No|
-|direction|String|Filter by the direction of the trade (Should be one of: ["buy", "sell"])|No|
-|execution_side|String|Filter by the execution side of the trade (Should be one of: ["maker", "taker"])|No|
-|execution_types|String Array|Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|No|
+| Parameter       | Type         | Description                                                                                                                     | Required |
+| --------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| market_id       | String       | Filter by a single market ID                                                                                                    | No       |
+| execution_side  | String       | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
+| direction       | String       | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
+| subaccount_id   | String       | Filter by a single subaccount ID                                                                                                | No       |
+| skip            | Integer      | Skip will skip the first N items from the result                                                                                | No       |
+| limit           | Integer      | Maximum number of items to be returned                                                                                          | No       |
+| start_time      | Integer      | Start timestamp (UNIX milliseconds) from when to filter trades                                                                  | No       |
+| end_time        | Integer      | End timestamp (UNIX milliseconds) to filter trades                                                                              | No       |
+| market_ids      | String Array | Filter by multiple market IDs                                                                                                   | No       |
+| subaccount_ids  | String Array | Filter by multiple subaccount IDs                                                                                               | No       |
+| execution_types | String Array | Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
+| trade_id        | String       | Filter by the trade's trade id                                                                                                  | No       |
+| account_address | String       | Filter by the account address                                                                                                   | No       |
+| cid             | String       | Filter by the custom client order id of the trade's order                                                                       | No       |
 
 ### Response Parameters
 > Streaming Response Example:
@@ -2110,38 +2128,39 @@ timestamp: 1652793013000
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|trade|DerivativeTrade|New derivative market trade|
-|operation_type|String|Trade operation type (Should be one of: ["insert", "invalidate"]) |
-|timestamp|Integer|Timestamp the new trade is written into the database in UNIX millis|
+| Parameter      | Type            | Description                                                         |
+| -------------- | --------------- | ------------------------------------------------------------------- |
+| trade          | DerivativeTrade | New derivative market trade                                         |
+| operation_type | String          | Trade operation type (Should be one of: ["insert", "invalidate"])   |
+| timestamp      | Integer         | Timestamp the new trade is written into the database in UNIX millis |
 
 
 **DerivativeTrade**
 
-|Parameter|Type| Description                                                                                                              |
-|----|----|--------------------------------------------------------------------------------------------------------------------------|
-|executed_at|Integer| Timestamp of trade execution (on chain) in UNIX millis                                                                   |
-|position_delta|PositionDelta| Position delta from the trade                                                                                            |
-|subaccount_id|String| ID of subaccount that executed the trade                                                                                 |
-|trade_execution_type|String| *Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
-|fee|String| The fee associated with the trade                                                                                        |
-|is_liquidation|Boolean| True if the trade is a liquidation                                                                                       |
-|market_id|String| The market ID                                                                                                            |
-|order_hash|String| The order hash                                                                                                           |
-|payout|String| The payout associated with the trade                                                                                     |
-|fee_recipient|String| The address that received 40% of the fees                                                                                |
-|trade_id|String| Unique identifier to differentiate between trades                                                                        |
-|execution_side|String| Execution side of trade (Should be one of: ["maker", "taker"])
+| Parameter            | Type          | Description                                                                                                              |
+| -------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| order_hash           | String        | The order hash                                                                                                           |
+| subaccount_id        | String        | ID of subaccount that executed the trade                                                                                 |
+| market_id            | String        | The market ID                                                                                                            |
+| trade_execution_type | String        | *Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
+| is_liquidation       | Boolean       | True if the trade is a liquidation                                                                                       |
+| position_delta       | PositionDelta | Position delta from the trade                                                                                            |
+| payout               | String        | The payout associated with the trade                                                                                     |
+| fee                  | String        | The fee associated with the trade                                                                                        |
+| executed_at          | Integer       | Timestamp of trade execution (on chain) in UNIX millis                                                                   |
+| fee_recipient        | String        | The address that received 40% of the fees                                                                                |
+| trade_id             | String        | Unique identifier to differentiate between trades                                                                        |
+| execution_side       | String        | Execution side of trade (Should be one of: ["maker", "taker"])                                                           |
+| cid                  | String        | Custom client order id                                                                                                   |
 
 **PositionDelta**
 
-|Parameter|Type|Description|
-|----|----|----|
-|execution_price|String|Execution price of the trade|
-|execution_quantity|String|Execution quantity of the trade|
-|trade_direction|String|The direction the trade (Should be one of: ["buy", "sell"]) |
-|execution_margin|String|Execution margin of the trade|
+| Parameter          | Type   | Description                                                 |
+| ------------------ | ------ | ----------------------------------------------------------- |
+| execution_price    | String | Execution price of the trade                                |
+| execution_quantity | String | Execution quantity of the trade                             |
+| trade_direction    | String | The direction the trade (Should be one of: ["buy", "sell"]) |
+| execution_margin   | String | Execution margin of the trade                               |
 
 
 ## Positions
@@ -2263,17 +2282,17 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Filter by a single market ID|No|
-|market_ids|String Array|Filter by multiple market IDs|No|
-|subaccount_id|String|Filter by subaccount ID|No|
-|direction|String|Filter by direction of position (Should be one of: ["long", "short"])
-|subaccount_total_positions|Boolean|Choose to return subaccount total positions (Should be one of: [True, False])
-|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100|No|
-|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
-|start_time|Integer|startTime <= position timestamp <= endTime|No|
-|end_time|Integer|startTime <= position timestamp <= endTime|No|
+| Parameter                  | Type         | Description                                                                                                | Required |
+| -------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------- | -------- |
+| market_id                  | String       | Filter by a single market ID                                                                               | No       |
+| market_ids                 | String Array | Filter by multiple market IDs                                                                              | No       |
+| subaccount_id              | String       | Filter by subaccount ID                                                                                    | No       |
+| direction                  | String       | Filter by direction of position (Should be one of: ["long", "short"])                                      |          |
+| subaccount_total_positions | Boolean      | Choose to return subaccount total positions (Should be one of: [True, False])                              |          |
+| skip                       | Integer      | Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100 | No       |
+| limit                      | Integer      | Maximum number of items to be returned. 1 <= *n* <= 100                                                    | No       |
+| start_time                 | Integer      | startTime <= position timestamp <= endTime                                                                 | No       |
+| end_time                   | Integer      | startTime <= position timestamp <= endTime                                                                 | No       |
 
 ### Response Parameters
 > Response Example:
@@ -2392,34 +2411,34 @@ paging {
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|positions|DerivativePosition Array|List of derivative positions|
-|paging|Paging|Pagination of results|
+| Parameter | Type                     | Description                  |
+| --------- | ------------------------ | ---------------------------- |
+| positions | DerivativePosition Array | List of derivative positions |
+| paging    | Paging                   | Pagination of results        |
 
 **DerivativePosition**
 
-|Parameter|Type|Description|
-|----|----|----|
-|direction|String|Direction of the position (Should be one of: ["long", "short"])|
-|market_id|String|ID of the market the position is in|
-|subaccount_id|String|The subaccount ID the position belongs to|
-|ticker|String|Ticker of the derivative market|
-|aggregate_reduce_only_quantity|String|Aggregate quantity of the reduce-only orders associated with the position|
-|entry_price|String|Entry price of the position|
-|liquidation_price|String|Liquidation price of the position|
-|margin|String|Margin of the position|
-|mark_price|String|Oracle price of the base asset|
-|quantity|String|Quantity of the position|
-|updated_at|Integer|Position updated timestamp in UNIX millis|
-|created_at|Integer|Position created timestamp in UNIX millis. Currently not supported (value will be inaccurate).|
+| Parameter                      | Type    | Description                                                                                    |
+| ------------------------------ | ------- | ---------------------------------------------------------------------------------------------- |
+| direction                      | String  | Direction of the position (Should be one of: ["long", "short"])                                |
+| market_id                      | String  | ID of the market the position is in                                                            |
+| subaccount_id                  | String  | The subaccount ID the position belongs to                                                      |
+| ticker                         | String  | Ticker of the derivative market                                                                |
+| aggregate_reduce_only_quantity | String  | Aggregate quantity of the reduce-only orders associated with the position                      |
+| entry_price                    | String  | Entry price of the position                                                                    |
+| liquidation_price              | String  | Liquidation price of the position                                                              |
+| margin                         | String  | Margin of the position                                                                         |
+| mark_price                     | String  | Oracle price of the base asset                                                                 |
+| quantity                       | String  | Quantity of the position                                                                       |
+| updated_at                     | Integer | Position updated timestamp in UNIX millis                                                      |
+| created_at                     | Integer | Position created timestamp in UNIX millis. Currently not supported (value will be inaccurate). |
 
 
 **Paging**
 
-|Parameter|Type|Description|
-|----|----|----|
-|total|Integer|Total number of available records|
+| Parameter | Type    | Description                       |
+| --------- | ------- | --------------------------------- |
+| total     | Integer | Total number of available records |
 
 
 ## StreamPositions
@@ -2535,12 +2554,12 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|ID of the market to stream position data from|No|
-|market_ids|String Array|IDs of the markets to stream position data from|No|
-|subaccount_ids|String Array|Subaccount IDs of the traders to stream positions from|No|
-|subaccount_id|String|Subaccount ID of the trader to stream positions from|No|
+| Parameter      | Type         | Description                                            | Required |
+| -------------- | ------------ | ------------------------------------------------------ | -------- |
+| market_id      | String       | ID of the market to stream position data from          | No       |
+| market_ids     | String Array | IDs of the markets to stream position data from        | No       |
+| subaccount_ids | String Array | Subaccount IDs of the traders to stream positions from | No       |
+| subaccount_id  | String       | Subaccount ID of the trader to stream positions from   | No       |
 
 
 ### Response Parameters
@@ -2643,27 +2662,27 @@ timestamp: 1652793296000
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|position|DerivativePosition|Updated derivative position|
-|timestamp|Integer|Timestamp of update in UNIX millis|
+| Parameter | Type               | Description                        |
+| --------- | ------------------ | ---------------------------------- |
+| position  | DerivativePosition | Updated derivative position        |
+| timestamp | Integer            | Timestamp of update in UNIX millis |
 
 **DerivativePosition**
 
-|Parameter|Type|Description|
-|----|----|----|
-|direction|String|Direction of the position (Should be one of: ["long", "short"])|
-|market_id|String|ID of the market the position is in|
-|subaccount_id|String|The subaccount ID the position belongs to|
-|ticker|String|Ticker of the derivative market|
-|aggregate_reduce_only_quantity|String|Aggregate quantity of the reduce-only orders associated with the position|
-|entry_price|String|Entry price of the position|
-|liquidation_price|String|Liquidation price of the position|
-|margin|String|Margin of the position|
-|mark_price|String|Oracle price of the base asset|
-|quantity|String|Quantity of the position|
-|updated_at|Integer|Position updated timestamp in UNIX millis|
-|created_at|Integer|Position created timestamp in UNIX millis. Currently not supported (value will be inaccurate).|
+| Parameter                      | Type    | Description                                                                                    |
+| ------------------------------ | ------- | ---------------------------------------------------------------------------------------------- |
+| direction                      | String  | Direction of the position (Should be one of: ["long", "short"])                                |
+| market_id                      | String  | ID of the market the position is in                                                            |
+| subaccount_id                  | String  | The subaccount ID the position belongs to                                                      |
+| ticker                         | String  | Ticker of the derivative market                                                                |
+| aggregate_reduce_only_quantity | String  | Aggregate quantity of the reduce-only orders associated with the position                      |
+| entry_price                    | String  | Entry price of the position                                                                    |
+| liquidation_price              | String  | Liquidation price of the position                                                              |
+| margin                         | String  | Margin of the position                                                                         |
+| mark_price                     | String  | Oracle price of the base asset                                                                 |
+| quantity                       | String  | Quantity of the position                                                                       |
+| updated_at                     | Integer | Position updated timestamp in UNIX millis                                                      |
+| created_at                     | Integer | Position created timestamp in UNIX millis. Currently not supported (value will be inaccurate). |
 
 
 ## \[DEPRECATED\] Orderbook
@@ -2750,9 +2769,9 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|ID of the market to fetch orderbook from|Yes|
+| Parameter | Type   | Description                              | Required |
+| --------- | ------ | ---------------------------------------- | -------- |
+| market_id | String | ID of the market to fetch orderbook from | Yes      |
 
 
 
@@ -2888,24 +2907,24 @@ orderbook {
 
 
 
-|Parameter|Type|Description|
-|----|----|----|
-|orderbook|DerivativeLimitOrderbook|Orderbook of a particular derivative market|
+| Parameter | Type                     | Description                                 |
+| --------- | ------------------------ | ------------------------------------------- |
+| orderbook | DerivativeLimitOrderbook | Orderbook of a particular derivative market |
 
 **DerivativeLimitOrderbook**
 
-|Parameter|Type|Description|
-|----|----|----|
-|buys|PriceLevel Array|List of price levels for buys|
-|sells|PriceLevel Array|List of price levels for sells|
+| Parameter | Type             | Description                    |
+| --------- | ---------------- | ------------------------------ |
+| buys      | PriceLevel Array | List of price levels for buys  |
+| sells     | PriceLevel Array | List of price levels for sells |
 
 **PriceLevel**
 
-|Parameter|Type|Description|
-|----|----|----|
-|quantity|String|Quantity of the price level|
-|timestamp|Integer|Price level last updated timestamp in UNIX millis|
-|price|String|Price number of the price level|
+| Parameter | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| quantity  | String  | Quantity of the price level                       |
+| timestamp | Integer | Price level last updated timestamp in UNIX millis |
+| price     | String  | Price number of the price level                   |
 
 
 ## \[DEPRECATED\] Orderbooks
@@ -2995,9 +3014,9 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_ids|String Array|List of IDs of markets to get orderbooks from|Yes|
+| Parameter  | Type         | Description                                   | Required |
+| ---------- | ------------ | --------------------------------------------- | -------- |
+| market_ids | String Array | List of IDs of markets to get orderbooks from | Yes      |
 
 
 ### Response Parameters
@@ -3142,31 +3161,31 @@ orderbooks {
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|orderbooks|SingleDerivativeLimitOrderbook Array|List of derivative market orderbooks|
+| Parameter  | Type                                 | Description                          |
+| ---------- | ------------------------------------ | ------------------------------------ |
+| orderbooks | SingleDerivativeLimitOrderbook Array | List of derivative market orderbooks |
 
 **SingleDerivativeLimitOrderbook**
 
-|Parameter|Type|Description|
-|----|----|----|
-|market_id|String|ID of the market that the orderbook belongs to|
-|orderbook|DerivativeLimitOrderbook|Orderbook of the market|
+| Parameter | Type                     | Description                                    |
+| --------- | ------------------------ | ---------------------------------------------- |
+| market_id | String                   | ID of the market that the orderbook belongs to |
+| orderbook | DerivativeLimitOrderbook | Orderbook of the market                        |
 
 **DerivativeLimitOrderbook**
 
-|Parameter|Type|Description|
-|----|----|----|
-|buys|PriceLevel Array|List of price levels for buys|
-|sells|PriceLevel Array|List of price levels for sells|
+| Parameter | Type             | Description                    |
+| --------- | ---------------- | ------------------------------ |
+| buys      | PriceLevel Array | List of price levels for buys  |
+| sells     | PriceLevel Array | List of price levels for sells |
 
 **PriceLevel**
 
-|Parameter|Type|Description|
-|----|----|----|
-|quantity|String|Quantity of the price level|
-|timestamp|Integer|Price level last updated timestamp in UNIX millis|
-|price|String|Price number of the price level|
+| Parameter | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| quantity  | String  | Quantity of the price level                       |
+| timestamp | Integer | Price level last updated timestamp in UNIX millis |
+| price     | String  | Price number of the price level                   |
 
 
 ## \[DEPRECATED\] StreamOrderbooks
@@ -3273,9 +3292,9 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 ```
 
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_ids|String Array|List of market IDs for orderbook streaming, empty means 'ALL' derivative markets|Yes|
+| Parameter  | Type         | Description                                                                      | Required |
+| ---------- | ------------ | -------------------------------------------------------------------------------- | -------- |
+| market_ids | String Array | List of market IDs for orderbook streaming, empty means 'ALL' derivative markets | Yes      |
 
 
 
@@ -3447,27 +3466,27 @@ market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|operation_type|String|Order update type (Should be one of: ["insert", "delete", "replace", "update", "invalidate"])|
-|orderbook|DerivativeLimitOrderbook|Orderbook of a Derivative Market|
-|timestamp|Integer|Orderbook update timestamp in UNIX millis|
-|market_id|String|ID of the market the orderbook belongs to|
+| Parameter      | Type                     | Description                                                                                   |
+| -------------- | ------------------------ | --------------------------------------------------------------------------------------------- |
+| operation_type | String                   | Order update type (Should be one of: ["insert", "delete", "replace", "update", "invalidate"]) |
+| orderbook      | DerivativeLimitOrderbook | Orderbook of a Derivative Market                                                              |
+| timestamp      | Integer                  | Orderbook update timestamp in UNIX millis                                                     |
+| market_id      | String                   | ID of the market the orderbook belongs to                                                     |
 
 **DerivativeLimitOrderbook**
 
-|Parameter|Type|Description|
-|----|----|----|
-|buys|PriceLevel Array|List of price levels for buys|
-|sells|PriceLevel Array|List of price levels for sells|
+| Parameter | Type             | Description                    |
+| --------- | ---------------- | ------------------------------ |
+| buys      | PriceLevel Array | List of price levels for buys  |
+| sells     | PriceLevel Array | List of price levels for sells |
 
 **PriceLevel**
 
-|Parameter|Type|Description|
-|----|----|----|
-|quantity|String|Quantity of the price level|
-|timestamp|Integer|Price level last updated timestamp in UNIX millis|
-|price|String|Price number of the price level|
+| Parameter | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| quantity  | String  | Quantity of the price level                       |
+| timestamp | Integer | Price level last updated timestamp in UNIX millis |
+| price     | String  | Price number of the price level                   |
 
 
 ## OrderbooksV2
@@ -3513,9 +3532,9 @@ if __name__ == '__main__':
 
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_ids|String Array|List of IDs of markets to get orderbook snapshots from|Yes|
+| Parameter  | Type         | Description                                            | Required |
+| ---------- | ------------ | ------------------------------------------------------ | -------- |
+| market_ids | String Array | List of IDs of markets to get orderbook snapshots from | Yes      |
 
 
 ### Response Parameters
@@ -3599,32 +3618,32 @@ orderbooks {
 
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|orderbooks|SingleDerivativeLimitOrderbookV2 Array|List of derivative market orderbooks|
+| Parameter  | Type                                   | Description                          |
+| ---------- | -------------------------------------- | ------------------------------------ |
+| orderbooks | SingleDerivativeLimitOrderbookV2 Array | List of derivative market orderbooks |
 
 **SingleDerivativeLimitOrderbookV2**
 
-|Parameter|Type|Description|
-|----|----|----|
-|market_id|String|ID of the market that the orderbook belongs to|
-|orderbook|DerivativeLimitOrderbookV2|Orderbook of the market|
+| Parameter | Type                       | Description                                    |
+| --------- | -------------------------- | ---------------------------------------------- |
+| market_id | String                     | ID of the market that the orderbook belongs to |
+| orderbook | DerivativeLimitOrderbookV2 | Orderbook of the market                        |
 
 **DerivativeLimitOrderbookV2**
 
-|Parameter|Type|Description|
-|----|----|----|
-|buys|PriceLevel Array|List of price levels for buys|
-|sells|PriceLevel Array|List of price levels for sells|
-|sequence|Integer|Sequence number of the orderbook; increments by 1 each update|
+| Parameter | Type             | Description                                                   |
+| --------- | ---------------- | ------------------------------------------------------------- |
+| buys      | PriceLevel Array | List of price levels for buys                                 |
+| sells     | PriceLevel Array | List of price levels for sells                                |
+| sequence  | Integer          | Sequence number of the orderbook; increments by 1 each update |
 
 **PriceLevel**
 
-|Parameter|Type|Description|
-|----|----|----|
-|quantity|String|Quantity of the price level|
-|timestamp|Integer|Price level last updated timestamp in UNIX millis|
-|price|String|Price number of the price level|
+| Parameter | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| quantity  | String  | Quantity of the price level                       |
+| timestamp | Integer | Price level last updated timestamp in UNIX millis |
+| price     | String  | Price number of the price level                   |
 
 
 ## StreamOrderbooksV2
@@ -3689,9 +3708,9 @@ streamFn(streamFnArgs)
 
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_ids|String Array|List of market IDs for orderbook streaming; empty means all spot markets|Yes|
+| Parameter  | Type         | Description                                                              | Required |
+| ---------- | ------------ | ------------------------------------------------------------------------ | -------- |
+| market_ids | String Array | List of market IDs for orderbook streaming; empty means all spot markets | Yes      |
 
 
 ### Response Parameters
@@ -3773,28 +3792,28 @@ market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
 
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|orderbook|DerivativeLimitOrderbookV2|Orderbook of a Derivative Market|
-|operation_type|String|Order update type (Should be one of: ["insert", "replace", "update", "invalidate"])|
-|timestamp|Integer|Operation timestamp in UNIX millis|
-|market_id|String|ID of the market the orderbook belongs to|
+| Parameter      | Type                       | Description                                                                         |
+| -------------- | -------------------------- | ----------------------------------------------------------------------------------- |
+| orderbook      | DerivativeLimitOrderbookV2 | Orderbook of a Derivative Market                                                    |
+| operation_type | String                     | Order update type (Should be one of: ["insert", "replace", "update", "invalidate"]) |
+| timestamp      | Integer                    | Operation timestamp in UNIX millis                                                  |
+| market_id      | String                     | ID of the market the orderbook belongs to                                           |
 
 **DerivativeLimitOrderbookV2**
 
-|Parameter|Type|Description|
-|----|----|----|
-|buys|PriceLevel Array|List of price levels for buys|
-|sells|PriceLevel Array|List of price levels for sells|
-|sequence|Integer|Sequence number of the orderbook; increments by 1 each update|
+| Parameter | Type             | Description                                                   |
+| --------- | ---------------- | ------------------------------------------------------------- |
+| buys      | PriceLevel Array | List of price levels for buys                                 |
+| sells     | PriceLevel Array | List of price levels for sells                                |
+| sequence  | Integer          | Sequence number of the orderbook; increments by 1 each update |
 
 **PriceLevel**
 
-|Parameter|Type|Description|
-|----|----|----|
-|price|String|Price number of the price level|
-|quantity|String|Quantity of the price level|
-|timestamp|Integer|Price level last updated timestamp in UNIX millis|
+| Parameter | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| price     | String  | Price number of the price level                   |
+| quantity  | String  | Quantity of the price level                       |
+| timestamp | Integer | Price level last updated timestamp in UNIX millis |
 
 
 ## StreamOrderbookUpdate
@@ -3969,9 +3988,9 @@ streamFn(streamFnArgs)
 
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_ids|String Array|List of market IDs for orderbook streaming; empty means all derivative markets|Yes|
+| Parameter  | Type         | Description                                                                    | Required |
+| ---------- | ------------ | ------------------------------------------------------------------------------ | -------- |
+| market_ids | String Array | List of market IDs for orderbook streaming; empty means all derivative markets | Yes      |
 
 
 ### Response Parameters
@@ -4037,31 +4056,31 @@ price: 1000000000 | quantity: 0.0014 | timestamp: 1676622220695
 
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|orderbook_level_updates|OrderbookLevelUpdates|Orderbook level updates of a derivative market|
-|operation_type|String|Order update type (Should be one of: ["insert", "replace", "update", "invalidate"])|
-|timestamp|Integer|Operation timestamp in UNIX millis|
-|market_id|String|ID of the market the orderbook belongs to|
+| Parameter               | Type                  | Description                                                                         |
+| ----------------------- | --------------------- | ----------------------------------------------------------------------------------- |
+| orderbook_level_updates | OrderbookLevelUpdates | Orderbook level updates of a derivative market                                      |
+| operation_type          | String                | Order update type (Should be one of: ["insert", "replace", "update", "invalidate"]) |
+| timestamp               | Integer               | Operation timestamp in UNIX millis                                                  |
+| market_id               | String                | ID of the market the orderbook belongs to                                           |
 
 **OrderbookLevelUpdates**
 
-|Parameter|Type|Description|
-|----|----|----|
-|market_id|String|ID of the market the orderbook belongs to|
-|sequence|Integer|Orderbook update sequence number; increments by 1 each update|
-|buys|PriceLevelUpdate Array|List of buy level updates|
-|sells|PriceLevelUpdate Array|List of sell level updates|
-|updated_at|Integer|Timestamp of the updates in UNIX millis|
+| Parameter  | Type                   | Description                                                   |
+| ---------- | ---------------------- | ------------------------------------------------------------- |
+| market_id  | String                 | ID of the market the orderbook belongs to                     |
+| sequence   | Integer                | Orderbook update sequence number; increments by 1 each update |
+| buys       | PriceLevelUpdate Array | List of buy level updates                                     |
+| sells      | PriceLevelUpdate Array | List of sell level updates                                    |
+| updated_at | Integer                | Timestamp of the updates in UNIX millis                       |
 
 **PriceLevelUpdate**
 
-|Parameter|Type|Description|
-|----|----|----|
-|price|String|Price number of the price level|
-|quantity|String|Quantity of the price level|
-|is_active|Boolean|Price level status|
-|timestamp|Integer|Price level last updated timestamp in UNIX millis|
+| Parameter | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| price     | String  | Price number of the price level                   |
+| quantity  | String  | Quantity of the price level                       |
+| is_active | Boolean | Price level status                                |
+| timestamp | Integer | Price level last updated timestamp in UNIX millis |
 
 
 ## SubaccountOrdersList
@@ -4170,12 +4189,12 @@ const subaccountOrders = await indexerGrpcDerivativesApi.fetchSubaccountOrdersLi
 console.log(subaccountOrders)
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|subaccount_id|String|Filter by subaccount ID|Yes|
-|market_id|String|Filter by market ID|No|
-|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100|No|
-|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
+| Parameter     | Type    | Description                                                                                                | Required |
+| ------------- | ------- | ---------------------------------------------------------------------------------------------------------- | -------- |
+| subaccount_id | String  | Filter by subaccount ID                                                                                    | Yes      |
+| market_id     | String  | Filter by market ID                                                                                        | No       |
+| skip          | Integer | Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100 | No       |
+| limit         | Integer | Maximum number of items to be returned. 1 <= *n* <= 100                                                    | No       |
 
 
 ### Response Parameters
@@ -4298,35 +4317,39 @@ orders {
 ]
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|orders|DerivativeLimitOrder Array|List of derivative orders|
-|paging|Paging|Pagination of results|
+| Parameter | Type                       | Description               |
+| --------- | -------------------------- | ------------------------- |
+| orders    | DerivativeLimitOrder Array | List of derivative orders |
+| paging    | Paging                     | Pagination of results     |
 
 **DerivativeLimitOrder**
 
-|Parameter|Type|Description|
-|----|----|----|
-|fee_recipient|String|Fee recipient address|
-|order_hash|String|Hash of the order|
-|quantity|String|Quantity of the order|
-|state|String|Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"]) |
-|trigger_price|String|The price that triggers stop/take orders|
-|market_id|String|The market ID|
-|created_at|Integer|Order created timestamp in UNIX millis|
-|price|String|Price of the order|
-|subaccount_id|String|The subaccount ID this order belongs to|
-|updated_at|Integer|Order updated timestamp in UNIX millis|
-|is_reduce_only|Boolean|True if the order is a reduce-only order|
-|margin|String|Margin of the order|
-|order_side|String|The side of the order (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell"])|
-|unfilled_quantity|String|The amount of the quantity remaining unfilled|
-|order_number|Integer|Order number of subaccount|
-|order_type|String|Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|
-|is_conditional|Boolean|If the order is conditional|
-|trigger_at|Integer|Trigger timestamp, only exists for conditional orders|
-|placed_order_hash|String|OrderHash of order that is triggered by this conditional order
-|execution_type|String|Execution type of conditional order|
+| Parameter         | Type    | Description                                                                                                           |
+| ----------------- | ------- | --------------------------------------------------------------------------------------------------------------------- |
+| order_hash        | String  | Hash of the order                                                                                                     |
+| order_side        | String  | The side of the order (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell"])           |
+| market_id         | String  | The market ID                                                                                                         |
+| subaccount_id     | String  | The subaccount ID this order belongs to                                                                               |
+| is_reduce_only    | Boolean | True if the order is a reduce-only order                                                                              |
+| margin            | String  | Margin of the order                                                                                                   |
+| price             | String  | Price of the order                                                                                                    |
+| quantity          | String  | Quantity of the order                                                                                                 |
+| unfilled_quantity | String  | The amount of the quantity remaining unfilled                                                                         |
+| trigger_price     | String  | The price that triggers stop/take orders                                                                              |
+| fee_recipient     | String  | Fee recipient address                                                                                                 |
+| state             | String  | Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                                    |
+| created_at        | Integer | Order created timestamp in UNIX millis                                                                                |
+| updated_at        | Integer | Order updated timestamp in UNIX millis                                                                                |
+| order_number      | Integer | Order number of subaccount                                                                                            |
+| order_type        | String  | Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) |
+| is_conditional    | Boolean | If the order is conditional                                                                                           |
+| trigger_at        | Integer | Trigger timestamp, only exists for conditional orders                                                                 |
+| placed_order_hash | String  | OrderHash of order that is triggered by this conditional order                                                        |
+| execution_type    | String  | Execution type of conditional order                                                                                   |
+| tx_hash           | String  | Transaction hash in which the order was created (not all orders have this value)                                      |
+| cid               | String  | Identifier for the order specified by the user (up to 36 characters, like a UUID)                                     |
+
+
 
 
 ## SubaccountTradesList
@@ -4453,14 +4476,14 @@ const subaccountTrades = await indexerGrpcDerivativesApi.fetchSubaccountTradesLi
 console.log(subaccountTrades)
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|subaccount_id|String|Subaccount ID of trader to get trades from|Yes|
-|market_id|String|Filter by Market ID|No|
-|direction|String|Filter by the direction of the trades (Should be one of: ["buy", "sell"])|No|
-|execution_type|String|Filter by the *execution type of the trades (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|No|
-|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100|No|
-|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
+| Parameter      | Type    | Description                                                                                                                             | Required |
+| -------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| subaccount_id  | String  | Subaccount ID of trader to get trades from                                                                                              | Yes      |
+| market_id      | String  | Filter by Market ID                                                                                                                     | No       |
+| direction      | String  | Filter by the direction of the trades (Should be one of: ["buy", "sell"])                                                               | No       |
+| execution_type | String  | Filter by the *execution type of the trades (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
+| skip           | Integer | Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100                              | No       |
+| limit          | Integer | Maximum number of items to be returned. 1 <= *n* <= 100                                                                                 | No       |
 
 
 ### Response Parameters
@@ -4601,35 +4624,36 @@ trades {
 ]
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|trades|DerivativeTrade Array|List of derivative market trades|
+| Parameter | Type                  | Description                      |
+| --------- | --------------------- | -------------------------------- |
+| trades    | DerivativeTrade Array | List of derivative market trades |
 
 **DerivativeTrade**
 
-|Parameter|Type| Description                                                                                                              |
-|----|----|--------------------------------------------------------------------------------------------------------------------------|
-|executed_at|Integer| Timestamp of trade execution (on chain) in UNIX millis                                                                   |
-|position_delta|PositionDelta| Position delta from the trade                                                                                            |
-|subaccount_id|String| ID of subaccount that executed the trade                                                                                 |
-|trade_execution_type|String| *Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
-|fee|String| The fee associated with the trade                                                                                        |
-|is_liquidation|Boolean| True if the trade is a liquidation                                                                                       |
-|market_id|String| The market ID                                                                                                            |
-|order_hash|String| The order hash                                                                                                           |
-|payout|String| The payout associated with the trade                                                                                     |
-|fee_recipient|String| The address that received 40% of the fees                                                                                |
-|trade_id|String| Unique identifier to differentiate between trades                                                                        |
-|execution_side|String| Execution side of trade (Should be one of: ["maker", "taker"])
+| Parameter            | Type          | Description                                                                                                              |
+| -------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| order_hash           | String        | The order hash                                                                                                           |
+| subaccount_id        | String        | ID of subaccount that executed the trade                                                                                 |
+| market_id            | String        | The market ID                                                                                                            |
+| trade_execution_type | String        | *Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
+| is_liquidation       | Boolean       | True if the trade is a liquidation                                                                                       |
+| position_delta       | PositionDelta | Position delta from the trade                                                                                            |
+| payout               | String        | The payout associated with the trade                                                                                     |
+| fee                  | String        | The fee associated with the trade                                                                                        |
+| executed_at          | Integer       | Timestamp of trade execution (on chain) in UNIX millis                                                                   |
+| fee_recipient        | String        | The address that received 40% of the fees                                                                                |
+| trade_id             | String        | Unique identifier to differentiate between trades                                                                        |
+| execution_side       | String        | Execution side of trade (Should be one of: ["maker", "taker"])                                                           |
+| cid                  | String        | Custom client order id                                                                                                   |
 
 **PositionDelta**
 
-|Parameter|Type|Description|
-|----|----|----|
-|execution_price|String|Execution price of the trade|
-|execution_quantity|String|Execution quantity of the trade|
-|trade_direction|String|The direction the trade (Should be one of: ["buy", "sell"]) |
-|execution_margin|String|Execution margin of the trade|
+| Parameter          | Type   | Description                                                 |
+| ------------------ | ------ | ----------------------------------------------------------- |
+| execution_price    | String | Execution price of the trade                                |
+| execution_quantity | String | Execution quantity of the trade                             |
+| trade_direction    | String | The direction the trade (Should be one of: ["buy", "sell"]) |
+| execution_margin   | String | Execution margin of the trade                               |
 
 
 ## FundingPayments
@@ -4733,14 +4757,14 @@ const fundingPayments = await indexerGrpcDerivativesApi.fetchFundingPayments({
 console.log(fundingPayments)
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|subaccount_id|String|Subaccount ID of the trader we want to get the positions from|Yes|
-|market_id|String|Filter by a single market ID|No|
-|market_ids|String Array|Filter by multiple market IDs|No|
-|skip|Integer|Skip the last *n* funding payments. This can be used to fetch all payments since the API caps at 100|No|
-|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
-|end_time|Integer|Upper bound (inclusive) of the funding payment timestamp|No|
+| Parameter     | Type         | Description                                                                                          | Required |
+| ------------- | ------------ | ---------------------------------------------------------------------------------------------------- | -------- |
+| subaccount_id | String       | Subaccount ID of the trader we want to get the positions from                                        | Yes      |
+| market_id     | String       | Filter by a single market ID                                                                         | No       |
+| market_ids    | String Array | Filter by multiple market IDs                                                                        | No       |
+| skip          | Integer      | Skip the last *n* funding payments. This can be used to fetch all payments since the API caps at 100 | No       |
+| limit         | Integer      | Maximum number of items to be returned. 1 <= *n* <= 100                                              | No       |
+| end_time      | Integer      | Upper bound (inclusive) of the funding payment timestamp                                             | No       |
 
 
 ### Response Parameters
@@ -4819,25 +4843,25 @@ paging {
 ]
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|payments|FundingPayment Array|List of funding payments|
-|paging|Paging|Pagination of results|
+| Parameter | Type                 | Description              |
+| --------- | -------------------- | ------------------------ |
+| payments  | FundingPayment Array | List of funding payments |
+| paging    | Paging               | Pagination of results    |
 
 **FundingPayment**
 
-|Parameter|Type|Description|
-|----|----|----|
-|market_id|String|The market ID|
-|subaccount_id|String|The subaccount ID|
-|amount|String|The amount of the funding payment|
-|timestamp|Integer|Operation timestamp in UNIX millis|
+| Parameter     | Type    | Description                        |
+| ------------- | ------- | ---------------------------------- |
+| market_id     | String  | The market ID                      |
+| subaccount_id | String  | The subaccount ID                  |
+| amount        | String  | The amount of the funding payment  |
+| timestamp     | Integer | Operation timestamp in UNIX millis |
 
 **Paging**
 
-|Parameter|Type|Description|
-|----|----|----|
-|total|Integer|Total number of records available|
+| Parameter | Type    | Description                       |
+| --------- | ------- | --------------------------------- |
+| total     | Integer | Total number of records available |
 
 
 ## FundingRates
@@ -4937,12 +4961,12 @@ const fundingRates = await indexerGrpcDerivativesApi.fetchFundingRates({
 console.log(fundingRates)
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|ID of the market to get funding rates for|Yes|
-|skip|Integer|Skip the last *n* funding rates. This can be used to fetch all funding rates since the API caps at 100|No|
-|limit|Integer|Maximum number of funding rates to be returned. 1 <= *n* <= 100|No|
-|end_time|Integer|Upper bound (inclusive) of funding rate timestamp|No|
+| Parameter | Type    | Description                                                                                            | Required |
+| --------- | ------- | ------------------------------------------------------------------------------------------------------ | -------- |
+| market_id | String  | ID of the market to get funding rates for                                                              | Yes      |
+| skip      | Integer | Skip the last *n* funding rates. This can be used to fetch all funding rates since the API caps at 100 | No       |
+| limit     | Integer | Maximum number of funding rates to be returned. 1 <= *n* <= 100                                        | No       |
+| end_time  | Integer | Upper bound (inclusive) of funding rate timestamp                                                      | No       |
 
 
 ### Response Parameters
@@ -5011,25 +5035,25 @@ paging {
 ]
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|funding_rates|FundingRate Array|List of funding rates|
-|paging|Paging|Pagination of results|
+| Parameter     | Type              | Description           |
+| ------------- | ----------------- | --------------------- |
+| funding_rates | FundingRate Array | List of funding rates |
+| paging        | Paging            | Pagination of results |
 
 
 **FundingRate**
 
-|Parameter|Type|Description|
-|----|----|----|
-|market_id|String|The derivative market ID|
-|rate|String|Value of the funding rate|
-|timestamp|Integer|Timestamp of funding rate in UNIX millis|
+| Parameter | Type    | Description                              |
+| --------- | ------- | ---------------------------------------- |
+| market_id | String  | The derivative market ID                 |
+| rate      | String  | Value of the funding rate                |
+| timestamp | Integer | Timestamp of funding rate in UNIX millis |
 
 **Paging**
 
-|Parameter|Type|Description|
-|----|----|----|
-|total|Integer|Total number of records available|
+| Parameter | Type    | Description                       |
+| --------- | ------- | --------------------------------- |
+| total     | Integer | Total number of records available |
 
 
 ## BinaryOptionsMarket
@@ -5082,9 +5106,9 @@ const binaryOptionsMarket = await indexerGrpcDerivativesApi.fetchBinaryOptionsMa
 console.log(binaryOptionsMarket)
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|ID of the binary options market to fetch|Yes|
+| Parameter | Type   | Description                              | Required |
+| --------- | ------ | ---------------------------------------- | -------- |
+| market_id | String | ID of the binary options market to fetch | Yes      |
 
 
 ### Response Parameters
@@ -5146,42 +5170,42 @@ market {
 
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|market|BinaryOptionsMarketInfo|Info about a particular binary options market|
+| Parameter | Type                    | Description                                   |
+| --------- | ----------------------- | --------------------------------------------- |
+| market    | BinaryOptionsMarketInfo | Info about a particular binary options market |
 
 **BinaryOptionsMarketInfo**
 
-|Parameter|Type|Description|
-|----|----|----|
-|market_id|String|The market ID|
-|market_status|String|The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|
-|ticker|String|The name of the binary options market|
-|oracle_symbol|String|Oracle symbol|
-|oracle_provider|String|Oracle provider|
-|oracle_type|String|Oracle Type|
-|oracle_scale_factor|Integer|Scaling multiple to scale oracle prices to the correct number of decimals|
-|expiration_timestamp|Integer|Defines the expiration time for the market in UNIX seconds|
-|settlement_timestamp|Integer|Defines the settlement time for the market in UNIX seconds|
-|quote_denom|String|Coin denom used for the quote asset|
-|quoteTokenMeta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
-|maker_fee_rate|String|Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading|
-|taker_fee_rate|String|Defines the fee percentage takers pay (in quote asset) when trading|
-|service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
-|min_price_tick_size|String|Defines the minimum required tick size for the order's price|
-|min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
-|settlement_price|String|Defines the settlement price of the market|
+| Parameter              | Type      | Description                                                                                             |
+| ---------------------- | --------- | ------------------------------------------------------------------------------------------------------- |
+| market_id              | String    | The market ID                                                                                           |
+| market_status          | String    | The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"]) |
+| ticker                 | String    | The name of the binary options market                                                                   |
+| oracle_symbol          | String    | Oracle symbol                                                                                           |
+| oracle_provider        | String    | Oracle provider                                                                                         |
+| oracle_type            | String    | Oracle Type                                                                                             |
+| oracle_scale_factor    | Integer   | Scaling multiple to scale oracle prices to the correct number of decimals                               |
+| expiration_timestamp   | Integer   | Defines the expiration time for the market in UNIX seconds                                              |
+| settlement_timestamp   | Integer   | Defines the settlement time for the market in UNIX seconds                                              |
+| quote_denom            | String    | Coin denom used for the quote asset                                                                     |
+| quoteTokenMeta         | TokenMeta | Token metadata for quote asset, only for Ethereum-based assets                                          |
+| maker_fee_rate         | String    | Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading             |
+| taker_fee_rate         | String    | Defines the fee percentage takers pay (in quote asset) when trading                                     |
+| service_provider_fee   | String    | Percentage of the transaction fee shared with the service provider                                      |
+| min_price_tick_size    | String    | Defines the minimum required tick size for the order's price                                            |
+| min_quantity_tick_size | String    | Defines the minimum required tick size for the order's quantity                                         |
+| settlement_price       | String    | Defines the settlement price of the market                                                              |
 
 **TokenMeta**
 
-|Parameter|Type|Description|
-|----|----|----|
-|address|String|Token's Ethereum contract address|
-|decimals|Integer|Token decimals|
-|logo|String|URL to the logo image|
-|name|String|Token full name|
-|symbol|String|Token symbol short name|
-|updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
+| Parameter | Type    | Description                                     |
+| --------- | ------- | ----------------------------------------------- |
+| address   | String  | Token's Ethereum contract address               |
+| decimals  | Integer | Token decimals                                  |
+| logo      | String  | URL to the logo image                           |
+| name      | String  | Token full name                                 |
+| symbol    | String  | Token symbol short name                         |
+| updatedAt | Integer | Token metadata fetched timestamp in UNIX millis |
 
 
 ## BinaryOptionsMarkets
@@ -5243,12 +5267,12 @@ console.log(binaryOptionsMarket)
 
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_status|String|Filter by the status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|No|
-|quote_denom|String|Filter by the Coin denomination of the quote currency|No|
-|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100|No|
-|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
+| Parameter     | Type    | Description                                                                                                       | Required |
+| ------------- | ------- | ----------------------------------------------------------------------------------------------------------------- | -------- |
+| market_status | String  | Filter by the status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"]) | No       |
+| quote_denom   | String  | Filter by the Coin denomination of the quote currency                                                             | No       |
+| skip          | Integer | Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100        | No       |
+| limit         | Integer | Maximum number of items to be returned. 1 <= *n* <= 100                                                           | No       |
 
 
 ### Response Parameters
@@ -5336,46 +5360,46 @@ paging {
 
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|market|BinaryOptionsMarketInfo Array|List of binary options markets and associated info|
-|paging|Paging|Pagination of results|
+| Parameter | Type                          | Description                                        |
+| --------- | ----------------------------- | -------------------------------------------------- |
+| market    | BinaryOptionsMarketInfo Array | List of binary options markets and associated info |
+| paging    | Paging                        | Pagination of results                              |
 
 **BinaryOptionsMarketInfo**
 
-|Parameter|Type|Description|
-|----|----|----|
-|market_id|String|The market ID|
-|market_status|String|The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|
-|ticker|String|The name of the binary options market|
-|oracle_symbol|String|Oracle symbol|
-|oracle_provider|String|Oracle provider|
-|oracle_type|String|Oracle Type|
-|oracle_scale_factor|Integer|Scaling multiple to scale oracle prices to the correct number of decimals|
-|expiration_timestamp|Integer|Defines the expiration time for the market in UNIX seconds|
-|settlement_timestamp|Integer|Defines the settlement time for the market in UNIX seconds|
-|quote_denom|String|Coin denom used for the quote asset|
-|quoteTokenMeta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
-|maker_fee_rate|String|Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading|
-|taker_fee_rate|String|Defines the fee percentage takers pay (in quote asset) when trading|
-|service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
-|min_price_tick_size|String|Defines the minimum required tick size for the order's price|
-|min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
-|settlement_price|String|Defines the settlement price of the market|
+| Parameter              | Type      | Description                                                                                             |
+| ---------------------- | --------- | ------------------------------------------------------------------------------------------------------- |
+| market_id              | String    | The market ID                                                                                           |
+| market_status          | String    | The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"]) |
+| ticker                 | String    | The name of the binary options market                                                                   |
+| oracle_symbol          | String    | Oracle symbol                                                                                           |
+| oracle_provider        | String    | Oracle provider                                                                                         |
+| oracle_type            | String    | Oracle Type                                                                                             |
+| oracle_scale_factor    | Integer   | Scaling multiple to scale oracle prices to the correct number of decimals                               |
+| expiration_timestamp   | Integer   | Defines the expiration time for the market in UNIX seconds                                              |
+| settlement_timestamp   | Integer   | Defines the settlement time for the market in UNIX seconds                                              |
+| quote_denom            | String    | Coin denom used for the quote asset                                                                     |
+| quoteTokenMeta         | TokenMeta | Token metadata for quote asset, only for Ethereum-based assets                                          |
+| maker_fee_rate         | String    | Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading             |
+| taker_fee_rate         | String    | Defines the fee percentage takers pay (in quote asset) when trading                                     |
+| service_provider_fee   | String    | Percentage of the transaction fee shared with the service provider                                      |
+| min_price_tick_size    | String    | Defines the minimum required tick size for the order's price                                            |
+| min_quantity_tick_size | String    | Defines the minimum required tick size for the order's quantity                                         |
+| settlement_price       | String    | Defines the settlement price of the market                                                              |
 
 **TokenMeta**
 
-|Parameter|Type|Description|
-|----|----|----|
-|address|String|Token's Ethereum contract address|
-|decimals|Integer|Token decimals|
-|logo|String|URL to the logo image|
-|name|String|Token full name|
-|symbol|String|Token symbol short name|
-|updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
+| Parameter | Type    | Description                                     |
+| --------- | ------- | ----------------------------------------------- |
+| address   | String  | Token's Ethereum contract address               |
+| decimals  | Integer | Token decimals                                  |
+| logo      | String  | URL to the logo image                           |
+| name      | String  | Token full name                                 |
+| symbol    | String  | Token symbol short name                         |
+| updatedAt | Integer | Token metadata fetched timestamp in UNIX millis |
 
 **Paging**
 
-|Parameter|Type|Description|
-|----|----|----|
-|total|Integer|Total number of available records|
+| Parameter | Type    | Description                       |
+| --------- | ------- | --------------------------------- |
+| total     | Integer | Total number of available records |

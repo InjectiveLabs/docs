@@ -80,9 +80,9 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|MarketId of the market we want to fetch|Yes|
+| Parameter | Type   | Description                             | Required |
+| --------- | ------ | --------------------------------------- | -------- |
+| market_id | String | MarketId of the market we want to fetch | Yes      |
 
 
 ### Response Parameters
@@ -169,37 +169,37 @@ market {
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|market|SpotMarketInfo|Info about particular spot market|
+| Parameter | Type           | Description                       |
+| --------- | -------------- | --------------------------------- |
+| market    | SpotMarketInfo | Info about particular spot market |
 
 **SpotMarketInfo**
 
-|Parameter|Type|Description|
-|----|----|----|
-|base_denom|String|Coin denom of the base asset|
-|market_id|String|ID of the spot market of interest|
-|market_status|String|The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|
-|min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
-|quote_token_meta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
-|service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
-|base_token_meta|TokenMeta|Token metadata for base asset, only for Ethereum-based assets|
-|maker_fee_rate|String|Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading|
-|min_price_tick_size|String|Defines the minimum required tick size for the order's price|
-|quote_denom|String|Coin denom of the quote asset|
-|taker_fee_rate|String|Defines the fee percentage takers pay (in the quote asset) when trading|
-|ticker|String|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset|
+| Parameter              | Type      | Description                                                                                             |
+| ---------------------- | --------- | ------------------------------------------------------------------------------------------------------- |
+| base_denom             | String    | Coin denom of the base asset                                                                            |
+| market_id              | String    | ID of the spot market of interest                                                                       |
+| market_status          | String    | The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"]) |
+| min_quantity_tick_size | String    | Defines the minimum required tick size for the order's quantity                                         |
+| quote_token_meta       | TokenMeta | Token metadata for quote asset, only for Ethereum-based assets                                          |
+| service_provider_fee   | String    | Percentage of the transaction fee shared with the service provider                                      |
+| base_token_meta        | TokenMeta | Token metadata for base asset, only for Ethereum-based assets                                           |
+| maker_fee_rate         | String    | Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading             |
+| min_price_tick_size    | String    | Defines the minimum required tick size for the order's price                                            |
+| quote_denom            | String    | Coin denom of the quote asset                                                                           |
+| taker_fee_rate         | String    | Defines the fee percentage takers pay (in the quote asset) when trading                                 |
+| ticker                 | String    | A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset                       |
 
 **TokenMeta**
 
-|Parameter|Type|Description|
-|----|----|----|
-|address|String|Token's Ethereum contract address|
-|decimals|Integer|Token decimals|
-|logo|String|URL to the logo image|
-|name|String|Token full name|
-|symbol|String|Token symbol short name|
-|updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
+| Parameter | Type    | Description                                     |
+| --------- | ------- | ----------------------------------------------- |
+| address   | String  | Token's Ethereum contract address               |
+| decimals  | Integer | Token decimals                                  |
+| logo      | String  | URL to the logo image                           |
+| name      | String  | Token full name                                 |
+| symbol    | String  | Token symbol short name                         |
+| updatedAt | Integer | Token metadata fetched timestamp in UNIX millis |
 
 
 ## Markets
@@ -299,11 +299,11 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 ```
 
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|base_denom|String|Filter by the Coin denomination of the base currency|No|
-|market_status|String|Filter by status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|No|
-|quote_denom|String|Filter by the Coin denomination of the quote currency|No|
+| Parameter     | Type   | Description                                                                                                   | Required |
+| ------------- | ------ | ------------------------------------------------------------------------------------------------------------- | -------- |
+| base_denom    | String | Filter by the Coin denomination of the base currency                                                          | No       |
+| market_status | String | Filter by status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"]) | No       |
+| quote_denom   | String | Filter by the Coin denomination of the quote currency                                                         | No       |
 
 
 ### Response Parameters
@@ -452,37 +452,37 @@ markets {
 ]
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|markets|SpotMarketInfo Array|List of spot markets|
+| Parameter | Type                 | Description          |
+| --------- | -------------------- | -------------------- |
+| markets   | SpotMarketInfo Array | List of spot markets |
 
 **SpotMarketInfo**
 
-|Parameter|Type|Description|
-|----|----|----|
-|base_denom|String|Coin denom of the base asset|
-|market_id|String|ID of the spot market of interest|
-|market_status|String|The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|
-|min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
-|quote_token_meta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
-|service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
-|base_token_meta|TokenMeta|Token metadata for base asset, only for Ethereum-based assets|
-|maker_fee_rate|String|Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading|
-|min_price_tick_size|String|Defines the minimum required tick size for the order's price|
-|quote_denom|String|Coin denom of the quote asset|
-|taker_fee_rate|String|Defines the fee percentage takers pay (in the quote asset) when trading|
-|ticker|String|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset|
+| Parameter              | Type      | Description                                                                                             |
+| ---------------------- | --------- | ------------------------------------------------------------------------------------------------------- |
+| base_denom             | String    | Coin denom of the base asset                                                                            |
+| market_id              | String    | ID of the spot market of interest                                                                       |
+| market_status          | String    | The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"]) |
+| min_quantity_tick_size | String    | Defines the minimum required tick size for the order's quantity                                         |
+| quote_token_meta       | TokenMeta | Token metadata for quote asset, only for Ethereum-based assets                                          |
+| service_provider_fee   | String    | Percentage of the transaction fee shared with the service provider                                      |
+| base_token_meta        | TokenMeta | Token metadata for base asset, only for Ethereum-based assets                                           |
+| maker_fee_rate         | String    | Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading             |
+| min_price_tick_size    | String    | Defines the minimum required tick size for the order's price                                            |
+| quote_denom            | String    | Coin denom of the quote asset                                                                           |
+| taker_fee_rate         | String    | Defines the fee percentage takers pay (in the quote asset) when trading                                 |
+| ticker                 | String    | A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset                       |
 
 **TokenMeta**
 
-|Parameter|Type|Description|
-|----|----|----|
-|address|String|Token's Ethereum contract address|
-|decimals|Integer|Token decimals|
-|logo|String|URL to the logo image|
-|name|String|Token full name|
-|symbol|String|Token symbol short name|
-|updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
+| Parameter | Type    | Description                                     |
+| --------- | ------- | ----------------------------------------------- |
+| address   | String  | Token's Ethereum contract address               |
+| decimals  | Integer | Token decimals                                  |
+| logo      | String  | URL to the logo image                           |
+| name      | String  | Token full name                                 |
+| symbol    | String  | Token symbol short name                         |
+| updatedAt | Integer | Token metadata fetched timestamp in UNIX millis |
 
 
 
@@ -592,9 +592,9 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_ids|String Array|List of market IDs for updates streaming, empty means 'ALL' spot markets|No|
+| Parameter  | Type         | Description                                                              | Required |
+| ---------- | ------------ | ------------------------------------------------------------------------ | -------- |
+| market_ids | String Array | List of market IDs for updates streaming, empty means 'ALL' spot markets | No       |
 
 ### Response Parameters
 > Streaming Response Example:
@@ -703,39 +703,39 @@ market: {
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|market|SpotMarketInfo|Info about particular spot market|
-|operation_type|String|Update type (Should be one of: ["insert", "replace", "update", "invalidate"]) |
-|timestamp|Integer|Operation timestamp in UNIX millis|
+| Parameter      | Type           | Description                                                                   |
+| -------------- | -------------- | ----------------------------------------------------------------------------- |
+| market         | SpotMarketInfo | Info about particular spot market                                             |
+| operation_type | String         | Update type (Should be one of: ["insert", "replace", "update", "invalidate"]) |
+| timestamp      | Integer        | Operation timestamp in UNIX millis                                            |
 
 **SpotMarketInfo**
 
-|Parameter|Type|Description|
-|----|----|----|
-|base_denom|String|Coin denom of the base asset|
-|market_id|String|ID of the spot market of interest|
-|market_status|String|The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"])|
-|min_quantity_tick_size|String|Defines the minimum required tick size for the order's quantity|
-|quote_token_meta|TokenMeta|Token metadata for quote asset, only for Ethereum-based assets|
-|service_provider_fee|String|Percentage of the transaction fee shared with the service provider|
-|base_token_meta|TokenMeta|Token metadata for base asset, only for Ethereum-based assets|
-|maker_fee_rate|String|Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading|
-|min_price_tick_size|String|Defines the minimum required tick size for the order's price|
-|quote_denom|String|Coin denom of the quote asset|
-|taker_fee_rate|String|Defines the fee percentage takers pay (in the quote asset) when trading|
-|ticker|String|A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset|
+| Parameter              | Type      | Description                                                                                             |
+| ---------------------- | --------- | ------------------------------------------------------------------------------------------------------- |
+| base_denom             | String    | Coin denom of the base asset                                                                            |
+| market_id              | String    | ID of the spot market of interest                                                                       |
+| market_status          | String    | The status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"]) |
+| min_quantity_tick_size | String    | Defines the minimum required tick size for the order's quantity                                         |
+| quote_token_meta       | TokenMeta | Token metadata for quote asset, only for Ethereum-based assets                                          |
+| service_provider_fee   | String    | Percentage of the transaction fee shared with the service provider                                      |
+| base_token_meta        | TokenMeta | Token metadata for base asset, only for Ethereum-based assets                                           |
+| maker_fee_rate         | String    | Defines the fee percentage makers pay (or receive, if negative) in quote asset when trading             |
+| min_price_tick_size    | String    | Defines the minimum required tick size for the order's price                                            |
+| quote_denom            | String    | Coin denom of the quote asset                                                                           |
+| taker_fee_rate         | String    | Defines the fee percentage takers pay (in the quote asset) when trading                                 |
+| ticker                 | String    | A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset                       |
 
 **TokenMeta**
 
-|Parameter|Type|Description|
-|----|----|----|
-|address|String|Token's Ethereum contract address|
-|decimals|Integer|Token decimals|
-|logo|String|URL to the logo image|
-|name|String|Token full name|
-|symbol|String|Token symbol short name|
-|updatedAt|Integer|Token metadata fetched timestamp in UNIX millis|
+| Parameter | Type    | Description                                     |
+| --------- | ------- | ----------------------------------------------- |
+| address   | String  | Token's Ethereum contract address               |
+| decimals  | Integer | Token decimals                                  |
+| logo      | String  | URL to the logo image                           |
+| name      | String  | Token full name                                 |
+| symbol    | String  | Token symbol short name                         |
+| updatedAt | Integer | Token metadata fetched timestamp in UNIX millis |
 
 
 ## OrdersHistory
@@ -827,19 +827,22 @@ func main() {
 
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|subaccount_id|String|Filter by subaccount ID|No|
-|market_id|String|Filter by market ID|Yes|
-|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100|No|
-|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
-|order_types|String Array|The order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|No|
-|direction|String|Filter by order direction (Should be one of: ["buy", "sell"])|No|
-|start_time|Integer|Search for orders where createdAt >= startTime, time in milliseconds|No|
-|end_time|Integer|Search for orders where createdAt <= startTime, time in milliseconds|No|
-|state|String|The order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|No|
-|execution_types|String Array|The execution of the order (Should be one of: ["limit", "market"])|No|
-|market_ids|Array of String|Filter by more than one market ID (replaces market_id parameter)|No|
+| Parameter           | Type         | Description                                                                                                                               | Required |
+| ------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| subaccount_id       | String       | Filter by subaccount ID                                                                                                                   | No       |
+| market_id           | String       | Filter by a single market ID                                                                                                              | Yes      |
+| skip                | Integer      | Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100                                | No       |
+| limit               | Integer      | Maximum number of items to be returned. 1 <= *n* <= 100                                                                                   | No       |
+| order_types         | String Array | The order types to be included (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) | No       |
+| direction           | String       | Filter by order direction (Should be one of: ["buy", "sell"])                                                                             | No       |
+| start_time          | Integer      | Search for orders where createdAt >= startTime, time in milliseconds                                                                      | No       |
+| end_time            | Integer      | Search for orders where createdAt <= startTime, time in milliseconds                                                                      | No       |
+| state               | String       | The order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                                                    | No       |
+| execution_types     | String Array | The execution of the order (Should be one of: ["limit", "market"])                                                                        | No       |
+| market_ids          | String Array | Filter by multiple market IDs                                                                                                             | No       |
+| trade_id            | String       | Filter by the trade's trade id                                                                                                            | No       |
+| active_markets_only | Bool         | Return only orders for active markets                                                                                                     | No       |
+| cid                 | String       | Filter by the custom client order id of the trade's order                                                                                 | No       |
 
 
 ### Response Parameters
@@ -1063,35 +1066,37 @@ paging {
 
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|orders|SpotOrderHistory Array|List of prior spot orders|
-|paging|Paging|Pagination of results|
+| Parameter | Type                   | Description               |
+| --------- | ---------------------- | ------------------------- |
+| orders    | SpotOrderHistory Array | List of prior spot orders |
+| paging    | Paging                 | Pagination of results     |
 
 ***SpotOrderHistory***
 
-|Parameter|Type|Description|
-|----|----|----|
-|order_hash|String|Hash of the order|
-|market_id|String|ID of the spot market|
-|is_active|Boolean|Indicates if the order is active|
-|subaccount_id|String|ID of the subaccount that the order belongs to|
-|execution_type|String|The type of the order (Should be one of: ["limit", "market"]) |
-|order_type|String|Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|
-|price|String|Price of the order|
-|trigger_price|String|Trigger price used by stop/take orders|
-|quantity|String|Quantity of the order|
-|filled_quantity|String|The amount of the quantity filled|
-|state|String|Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
-|created_at|Integer|Order created timestamp in UNIX millis|
-|updated_at|Integer|Order updated timestamp in UNIX millis|
-|direction|String|The direction of the order (Should be one of: ["buy", "sell"])|
+| Parameter       | Type    | Description                                                                                                           |
+| --------------- | ------- | --------------------------------------------------------------------------------------------------------------------- |
+| order_hash      | String  | Hash of the order                                                                                                     |
+| market_id       | String  | ID of the spot market                                                                                                 |
+| is_active       | Boolean | Indicates if the order is active                                                                                      |
+| subaccount_id   | String  | ID of the subaccount that the order belongs to                                                                        |
+| execution_type  | String  | The type of the order (Should be one of: ["limit", "market"])                                                         |
+| order_type      | String  | Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) |
+| price           | String  | Price of the order                                                                                                    |
+| trigger_price   | String  | Trigger price used by stop/take orders                                                                                |
+| quantity        | String  | Quantity of the order                                                                                                 |
+| filled_quantity | String  | The amount of the quantity filled                                                                                     |
+| state           | String  | Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                                    |
+| created_at      | Integer | Order created timestamp in UNIX millis                                                                                |
+| updated_at      | Integer | Order updated timestamp in UNIX millis                                                                                |
+| direction       | String  | The direction of the order (Should be one of: ["buy", "sell"])                                                        |
+| tx_hash         | String  | Transaction hash in which the order was created (not all orders have this value)                                      |
+| cid             | String  | Identifier for the order specified by the user (up to 36 characters, like a UUID)                                     |
 
 **Paging**
 
-|Parameter|Type|Description|
-|----|----|----|
-|total|Integer|Total number of available records|
+| Parameter | Type    | Description                       |
+| --------- | ------- | --------------------------------- |
+| total     | Integer | Total number of available records |
 
 
 ## StreamOrdersHistory
@@ -1217,14 +1222,14 @@ console.log(orderHistory)
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Filter by market ID|Yes|
-|subaccount_id|String|Filter by subaccount ID|No|
-|direction|String|Filter by direction (Should be one of: ["buy", "sell"])|No|
-|state|String|Filter by state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|No|
-|order_types|String Array|Filter by order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|No|
-|execution_types|String Array|Filter by execution type (Should be one of: ["limit", "market"])|No|
+| Parameter       | Type         | Description                                                                                                                     | Required |
+| --------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| market_id       | String       | Filter by market ID                                                                                                             | Yes      |
+| subaccount_id   | String       | Filter by subaccount ID                                                                                                         | No       |
+| direction       | String       | Filter by direction (Should be one of: ["buy", "sell"])                                                                         | No       |
+| state           | String       | Filter by state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                                          | No       |
+| order_types     | String Array | Filter by order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) | No       |
+| execution_types | String Array | Filter by execution type (Should be one of: ["limit", "market"])                                                                | No       |
 
 
 ### Response Parameters
@@ -1295,30 +1300,32 @@ timestamp: 1665486462000
 
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|order|SpotOrderHistory|Updated Order|
-|operation_type|String|Order update type (Should be one of: ["insert", "replace", "update", "invalidate"]) |
-|timestamp|Integer|Operation timestamp in UNIX millis|
+| Parameter      | Type             | Description                                                                         |
+| -------------- | ---------------- | ----------------------------------------------------------------------------------- |
+| order          | SpotOrderHistory | Updated Order                                                                       |
+| operation_type | String           | Order update type (Should be one of: ["insert", "replace", "update", "invalidate"]) |
+| timestamp      | Integer          | Operation timestamp in UNIX millis                                                  |
 
 **SpotOrderHistory**
 
-|Parameter|Type|Description|
-|----|----|----|
-|order_hash|String|Hash of the order|
-|market_id|String|ID of the spot market|
-|is_active|Boolean|Indicates if the order is active|
-|subaccount_id|String|ID of the subaccount that the order belongs to|
-|execution_type|String|The type of the order (Should be one of: ["limit", "market"]) |
-|order_type|String|Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])|
-|price|String|Price of the order|
-|trigger_price|String|Trigger price used by stop/take orders|
-|quantity|String|Quantity of the order|
-|filled_quantity|String|The amount of the quantity filled|
-|state|String|Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
-|created_at|Integer|Order created timestamp in UNIX millis|
-|updated_at|Integer|Order updated timestamp in UNIX millis|
-|direction|String|The direction of the order (Should be one of: ["buy", "sell"])|
+| Parameter       | Type    | Description                                                                                                           |
+| --------------- | ------- | --------------------------------------------------------------------------------------------------------------------- |
+| order_hash      | String  | Hash of the order                                                                                                     |
+| market_id       | String  | ID of the spot market                                                                                                 |
+| is_active       | Boolean | Indicates if the order is active                                                                                      |
+| subaccount_id   | String  | ID of the subaccount that the order belongs to                                                                        |
+| execution_type  | String  | The type of the order (Should be one of: ["limit", "market"])                                                         |
+| order_type      | String  | Order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) |
+| price           | String  | Price of the order                                                                                                    |
+| trigger_price   | String  | Trigger price used by stop/take orders                                                                                |
+| quantity        | String  | Quantity of the order                                                                                                 |
+| filled_quantity | String  | The amount of the quantity filled                                                                                     |
+| state           | String  | Order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                                    |
+| created_at      | Integer | Order created timestamp in UNIX millis                                                                                |
+| updated_at      | Integer | Order updated timestamp in UNIX millis                                                                                |
+| direction       | String  | The direction of the order (Should be one of: ["buy", "sell"])                                                        |
+| tx_hash         | String  | Transaction hash in which the order was created (not all orders have this value)                                      |
+| cid             | String  | Identifier for the order specified by the user (up to 36 characters, like a UUID)                                     |
 
 
 ## Trades
@@ -1440,19 +1447,22 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Filter by a single market ID|No|
-|market_ids|String Array|Filter by multiple market IDs|No|
-|subaccount_id|String|Filter by a single subaccount ID|No|
-|subaccount_ids|String Array|Filter by multiple subaccount IDs|No|
-|direction|String|Filter by the direction of the trade (Should be one of: ["buy", "sell"])|No|
-|execution_side|String|Filter by the execution side of the trade (Should be one of: ["maker", "taker"])|No|
-|execution_types|String Array|Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|No|
-|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100|No|
-|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
-|start_time|Integer|startTime <= trade execution timestamp <= endTime|No|
-|end_time|Integer|startTime <= trade execution timestamp <= endTime|No|
+| Parameter       | Type         | Description                                                                                                                     | Required |
+| --------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| market_id       | String       | Filter by a single market ID                                                                                                    | No       |
+| execution_side  | String       | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
+| direction       | String       | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
+| subaccount_id   | String       | Filter by a single subaccount ID                                                                                                | No       |
+| skip            | Integer      | Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100                       | No       |
+| limit           | Integer      | Maximum number of items to be returned. 1 <= *n* <= 100                                                                         | No       |
+| start_time      | Integer      | startTime <= trade execution timestamp <= endTime                                                                               | No       |
+| end_time        | Integer      | startTime <= trade execution timestamp <= endTime                                                                               | No       |
+| market_ids      | String Array | Filter by multiple market IDs                                                                                                   | No       |
+| subaccount_ids  | String Array | Filter by multiple subaccount IDs                                                                                               | No       |
+| execution_types | String Array | Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
+| trade_id        | String       | Filter by the trade id of the trade                                                                                             | No       |
+| account_address | String       | Filter by the account address                                                                                                   | No       |
+| cid             | String       | Filter by the custom client order id of the trade's order                                                                       | No       |
 
 
 ### Response Parameters
@@ -1589,41 +1599,42 @@ paging {
 ]
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|trades|SpotTrade Array|Trades of a particular spot market|
-|paging|Paging|Pagination of results|
+| Parameter | Type            | Description                        |
+| --------- | --------------- | ---------------------------------- |
+| trades    | SpotTrade Array | Trades of a particular spot market |
+| paging    | Paging          | Pagination of results              |
 
 **SpotTrade**
 
-|Parameter|Type| Description                                                                                                             |
-|----|----|-------------------------------------------------------------------------------------------------------------------------|
-|trade_direction|String| Direction of the trade(Should be one of: ["buy", "sell"])                                                               |
-|trade_execution_type|String| Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
-|fee|String| The fee associated with the trade (quote asset denom)                                                                   |
-|market_id|String| The ID of the market that this trade is in                                                                              |
-|order_hash|String| The order hash                                                                                                          |
-|price|PriceLevel| Price level at which trade has been executed                                                                            |
-|subaccount_id|String| The subaccountId that executed the trade                                                                                |
-|executed_at|Integer| Timestamp of trade execution (on chain) in UNIX millis                                                                  |
-|fee_recipient|String| The address that received 40% of the fees                                                                               |
-|trade_id|String| Unique identifier to differentiate between trades                                                                       |
-|execution_side|String| Execution side of trade (Should be one of: ["maker", "taker"])                                                          
+| Parameter            | Type       | Description                                                                                                             |
+| -------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------- |
+| order_hash           | String     | The order hash                                                                                                          |
+| subaccount_id        | String     | The subaccountId that executed the trade                                                                                |
+| market_id            | String     | The ID of the market that this trade is in                                                                              |
+| trade_execution_type | String     | Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
+| trade_direction      | String     | Direction of the trade(Should be one of: ["buy", "sell"])                                                               |
+| price                | PriceLevel | Price level at which trade has been executed                                                                            |
+| fee                  | String     | The fee associated with the trade (quote asset denom)                                                                   |
+| executed_at          | Integer    | Timestamp of trade execution (on chain) in UNIX millis                                                                  |
+| fee_recipient        | String     | The address that received 40% of the fees                                                                               |
+| trade_id             | String     | Unique identifier to differentiate between trades                                                                       |
+| execution_side       | String     | Execution side of trade (Should be one of: ["maker", "taker"])                                                          |
+| cid                  | String     | Identifier for the order specified by the user (up to 36 characters, like a UUID)                                       |
 
 
 **PriceLevel**
 
-|Parameter|Type|Description|
-|----|----|----|
-|price|String|Price number of the price level|
-|quantity|String|Quantity of the price level|
-|timestamp|Integer|Price level last updated timestamp in UNIX millis|
+| Parameter | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| price     | String  | Price number of the price level                   |
+| quantity  | String  | Quantity of the price level                       |
+| timestamp | Integer | Price level last updated timestamp in UNIX millis |
 
 **Paging**
 
-|Parameter|Type|Description|
-|----|----|----|
-|total|Integer|Total number of records available|
+| Parameter | Type    | Description                       |
+| --------- | ------- | --------------------------------- |
+| total     | Integer | Total number of records available |
 
 
 ## StreamTrades
@@ -1769,15 +1780,22 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Filter by a single market ID|No|
-|market_ids|String Array|Filter by multiple market IDs|No|
-|subaccount_id|String|Filter by a single subaccount ID|No|
-|subaccount_ids|String Array|Filter by multiple subaccount IDs|No|
-|direction|String|Filter by the direction of the trade (Should be one of: ["buy", "sell"])|No|
-|execution_side|String|Filter by the execution side of the trade (Should be one of: ["maker", "taker"])|No|
-|execution_types|String Array|Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|No|
+| Parameter       | Type         | Description                                                                                                                     | Required |
+| --------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| market_id       | String       | Filter by a single market ID                                                                                                    | No       |
+| execution_side  | String       | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
+| direction       | String       | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
+| subaccount_id   | String       | Filter by a single subaccount ID                                                                                                | No       |
+| skip            | Integer      | Skip will skip the first N items from the result                                                                                | No       |
+| limit           | Integer      | Maximum number of items to be returned                                                                                          | No       |
+| start_time      | Integer      | Start timestamp (UNIX milliseconds) from when to filter trades                                                                  | No       |
+| end_time        | Integer      | End timestamp (UNIX milliseconds) to filter trades                                                                              | No       |
+| market_ids      | String Array | Filter by multiple market IDs                                                                                                   | No       |
+| subaccount_ids  | String Array | Filter by multiple subaccount IDs                                                                                               | No       |
+| execution_types | String Array | Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
+| trade_id        | String       | Filter by the trade's trade id                                                                                                  | No       |
+| account_address | String       | Filter by the account address                                                                                                   | No       |
+| cid             | String       | Filter by the custom client order id of the trade's order                                                                       | No       |
 
 ### Response Parameters
 > Streaming Response Example:
@@ -1905,35 +1923,37 @@ timestamp: 1676015260000
 }
 ```
 
-|Parameter|Type| Description                                                         |
-|----|----|---------------------------------------------------------------------|
-|trade|SpotTrade| New spot market trade                                               |
-|operation_type|String| Trade operation type (Should be one of: ["insert", "invalidate"])   |
-|timestamp|Integer| Timestamp the new trade is written into the database in UNIX millis |
+| Parameter      | Type      | Description                                                         |
+| -------------- | --------- | ------------------------------------------------------------------- |
+| trade          | SpotTrade | New spot market trade                                               |
+| operation_type | String    | Trade operation type (Should be one of: ["insert", "invalidate"])   |
+| timestamp      | Integer   | Timestamp the new trade is written into the database in UNIX millis |
 
 **SpotTrade**
 
-|Parameter|Type| Description                                                                                                             |
-|----|----|-------------------------------------------------------------------------------------------------------------------------|
-|trade_direction|String| Direction of the trade(Should be one of: ["buy", "sell"])                                                               |
-|trade_execution_type|String| Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
-|fee|String| The fee associated with the trade (quote asset denom)                                                                   |
-|market_id|String| The ID of the market that this trade is in                                                                              |
-|order_hash|String| The order hash                                                                                                          |
-|price|PriceLevel| Price level at which trade has been executed                                                                            |
-|subaccount_id|String| The subaccountId that executed the trade                                                                                |
-|executed_at|Integer| Timestamp of trade execution (on chain) in UNIX millis                                                                  |
-|fee_recipient|String| The address that received 40% of the fees                                                                               |
-|trade_id|String| Unique identifier to differentiate between trades                                                                       |
-|execution_side|String| Execution side of trade (Should be one of: ["maker", "taker"])                                                          
+| Parameter            | Type       | Description                                                                                                             |
+| -------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------- |
+| order_hash           | String     | The order hash                                                                                                          |
+| subaccount_id        | String     | The subaccountId that executed the trade                                                                                |
+| market_id            | String     | The ID of the market that this trade is in                                                                              |
+| trade_execution_type | String     | Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
+| trade_direction      | String     | Direction of the trade(Should be one of: ["buy", "sell"])                                                               |
+| price                | PriceLevel | Price level at which trade has been executed                                                                            |
+| fee                  | String     | The fee associated with the trade (quote asset denom)                                                                   |
+| executed_at          | Integer    | Timestamp of trade execution (on chain) in UNIX millis                                                                  |
+| fee_recipient        | String     | The address that received 40% of the fees                                                                               |
+| trade_id             | String     | Unique identifier to differentiate between trades                                                                       |
+| execution_side       | String     | Execution side of trade (Should be one of: ["maker", "taker"])                                                          |
+| cid                  | String     | Identifier for the order specified by the user (up to 36 characters, like a UUID)                                       |
+
 
 **PriceLevel**
 
-|Parameter|Type|Description|
-|----|----|----|
-|price|String|Price number of the price level|
-|quantity|String|Quantity of the price level|
-|timestamp|Integer|Price level last updated timestamp in UNIX millis|
+| Parameter | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| price     | String  | Price number of the price level                   |
+| quantity  | String  | Quantity of the price level                       |
+| timestamp | Integer | Price level last updated timestamp in UNIX millis |
 
 
 ## \[DEPRECATED\] Orderbook
@@ -2019,9 +2039,9 @@ import { protoObjectToJson, ExchangeClient } from "@injectivelabs/sdk-ts";
 
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Market ID of the spot market to get orderbook from|Yes|
+| Parameter | Type   | Description                                        | Required |
+| --------- | ------ | -------------------------------------------------- | -------- |
+| market_id | String | Market ID of the spot market to get orderbook from | Yes      |
 
 
 ### Response Parameters
@@ -2144,24 +2164,24 @@ orderbook {
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|orderbook|SpotLimitOrderbook|Orderbook of a particular spot market|
+| Parameter | Type               | Description                           |
+| --------- | ------------------ | ------------------------------------- |
+| orderbook | SpotLimitOrderbook | Orderbook of a particular spot market |
 
 **SpotLimitOrderbook**
 
-|Parameter|Type|Description|
-|----|----|----|
-|buys|PriceLevel Array|List of price levels for buys|
-|sells|PriceLevel Array|List of price levels for sells|
+| Parameter | Type             | Description                    |
+| --------- | ---------------- | ------------------------------ |
+| buys      | PriceLevel Array | List of price levels for buys  |
+| sells     | PriceLevel Array | List of price levels for sells |
 
 **PriceLevel**
 
-|Parameter|Type|Description|
-|----|----|----|
-|price|String|Price number of the price level|
-|quantity|String|Quantity of the price level|
-|timestamp|Integer|Price level last updated timestamp in UNIX millis|
+| Parameter | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| price     | String  | Price number of the price level                   |
+| quantity  | String  | Quantity of the price level                       |
+| timestamp | Integer | Price level last updated timestamp in UNIX millis |
 
 
 ## \[DEPRECATED\] Orderbooks
@@ -2249,9 +2269,9 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_ids|String Array|Filter by one or more market IDs|Yes|
+| Parameter  | Type         | Description                      | Required |
+| ---------- | ------------ | -------------------------------- | -------- |
+| market_ids | String Array | Filter by one or more market IDs | Yes      |
 
 
 ### Response Parameters
@@ -2444,32 +2464,32 @@ orderbooks {
 
 
 
-|Parameter|Type|Description|
-|----|----|----|
-|orderbooks|SingleSpotLimitOrderbook Array|List of spot market orderbooks with market IDs|
+| Parameter  | Type                           | Description                                    |
+| ---------- | ------------------------------ | ---------------------------------------------- |
+| orderbooks | SingleSpotLimitOrderbook Array | List of spot market orderbooks with market IDs |
 
 **SingleSpotLimitOrderbook**
 
-|Parameter|Type|Description|
-|----|----|----|
-|market_id|String|ID of spot market|
-|orderbook|SpotLimitOrderBook|Orderbook of the market|
+| Parameter | Type               | Description             |
+| --------- | ------------------ | ----------------------- |
+| market_id | String             | ID of spot market       |
+| orderbook | SpotLimitOrderBook | Orderbook of the market |
 
 
 **SpotLimitOrderbook**
 
-|Parameter|Type|Description|
-|----|----|----|
-|buys|PriceLevel Array|List of price levels for buys|
-|sells|PriceLevel Array|List of price levels for sells|
+| Parameter | Type             | Description                    |
+| --------- | ---------------- | ------------------------------ |
+| buys      | PriceLevel Array | List of price levels for buys  |
+| sells     | PriceLevel Array | List of price levels for sells |
 
 **PriceLevel**
 
-|Parameter|Type|Description|
-|----|----|----|
-|price|String|Price number of the price level|
-|quantity|String|Quantity of the price level|
-|timestamp|Integer|Price level last updated timestamp in UNIX millis|
+| Parameter | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| price     | String  | Price number of the price level                   |
+| quantity  | String  | Quantity of the price level                       |
+| timestamp | Integer | Price level last updated timestamp in UNIX millis |
 
 
 ## \[DEPRECATED\] StreamOrderbooks
@@ -2579,9 +2599,9 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_ids|String Array|List of market IDs for orderbook streaming; empty means all spot markets|Yes|
+| Parameter  | Type         | Description                                                              | Required |
+| ---------- | ------------ | ------------------------------------------------------------------------ | -------- |
+| market_ids | String Array | List of market IDs for orderbook streaming; empty means all spot markets | Yes      |
 
 
 
@@ -2739,27 +2759,27 @@ market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|orderbook|SpotLimitOrderbook|Orderbook of a Spot Market|
-|operation_type|String|Order update type (Should be one of: ["insert", "replace", "update", "invalidate"])|
-|timestamp|Integer|Operation timestamp in UNIX millis|
-|market_id|String|ID of the market the orderbook belongs to|
+| Parameter      | Type               | Description                                                                         |
+| -------------- | ------------------ | ----------------------------------------------------------------------------------- |
+| orderbook      | SpotLimitOrderbook | Orderbook of a Spot Market                                                          |
+| operation_type | String             | Order update type (Should be one of: ["insert", "replace", "update", "invalidate"]) |
+| timestamp      | Integer            | Operation timestamp in UNIX millis                                                  |
+| market_id      | String             | ID of the market the orderbook belongs to                                           |
 
 **SpotLimitOrderbook**
 
-|Parameter|Type|Description|
-|----|----|----|
-|buys|PriceLevel Array|List of price levels for buys|
-|sells|PriceLevel Array|List of price levels for sells|
+| Parameter | Type             | Description                    |
+| --------- | ---------------- | ------------------------------ |
+| buys      | PriceLevel Array | List of price levels for buys  |
+| sells     | PriceLevel Array | List of price levels for sells |
 
 **PriceLevel**
 
-|Parameter|Type|Description|
-|----|----|----|
-|price|String|Price number of the price level|
-|quantity|String|Quantity of the price level|
-|timestamp|Integer|Price level last updated timestamp in UNIX millis|
+| Parameter | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| price     | String  | Price number of the price level                   |
+| quantity  | String  | Quantity of the price level                       |
+| timestamp | Integer | Price level last updated timestamp in UNIX millis |
 
 
 ## OrderbooksV2
@@ -2817,9 +2837,9 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_ids|String Array|List of IDs of markets to get orderbook snapshots from|Yes|
+| Parameter  | Type         | Description                                            | Required |
+| ---------- | ------------ | ------------------------------------------------------ | -------- |
+| market_ids | String Array | List of IDs of markets to get orderbook snapshots from | Yes      |
 
 
 ### Response Parameters
@@ -3267,33 +3287,33 @@ orderbooks {
 
 
 
-|Parameter|Type|Description|
-|----|----|----|
-|orderbooks|SingleSpotLimitOrderbookV2 Array|List of spot market orderbooks with market IDs|
+| Parameter  | Type                             | Description                                    |
+| ---------- | -------------------------------- | ---------------------------------------------- |
+| orderbooks | SingleSpotLimitOrderbookV2 Array | List of spot market orderbooks with market IDs |
 
 **SingleSpotLimitOrderbookV2**
 
-|Parameter|Type|Description|
-|----|----|----|
-|market_id|String|ID of spot market|
-|orderbook|SpotLimitOrderBookV2|Orderbook of the market|
+| Parameter | Type                 | Description             |
+| --------- | -------------------- | ----------------------- |
+| market_id | String               | ID of spot market       |
+| orderbook | SpotLimitOrderBookV2 | Orderbook of the market |
 
 
 **SpotLimitOrderbookV2**
 
-|Parameter|Type|Description|
-|----|----|----|
-|buys|PriceLevel Array|List of price levels for buys|
-|sells|PriceLevel Array|List of price levels for sells|
-|sequence|Integer|Sequence number of the orderbook; increments by 1 each update|
+| Parameter | Type             | Description                                                   |
+| --------- | ---------------- | ------------------------------------------------------------- |
+| buys      | PriceLevel Array | List of price levels for buys                                 |
+| sells     | PriceLevel Array | List of price levels for sells                                |
+| sequence  | Integer          | Sequence number of the orderbook; increments by 1 each update |
 
 **PriceLevel**
 
-|Parameter|Type|Description|
-|----|----|----|
-|price|String|Price number of the price level|
-|quantity|String|Quantity of the price level|
-|timestamp|Integer|Price level last updated timestamp in UNIX millis|
+| Parameter | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| price     | String  | Price number of the price level                   |
+| quantity  | String  | Quantity of the price level                       |
+| timestamp | Integer | Price level last updated timestamp in UNIX millis |
 
 
 ## StreamOrderbooksV2
@@ -3366,9 +3386,9 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_ids|String Array|List of market IDs for orderbook streaming; empty means all spot markets|Yes|
+| Parameter  | Type         | Description                                                              | Required |
+| ---------- | ------------ | ------------------------------------------------------------------------ | -------- |
+| market_ids | String Array | List of market IDs for orderbook streaming; empty means all spot markets | Yes      |
 
 
 ### Response Parameters
@@ -3443,28 +3463,28 @@ market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|orderbook|SpotLimitOrderbookV2|Orderbook of a Spot Market|
-|operation_type|String|Order update type (Should be one of: ["insert", "replace", "update", "invalidate"])|
-|timestamp|Integer|Operation timestamp in UNIX millis|
-|market_id|String|ID of the market the orderbook belongs to|
+| Parameter      | Type                 | Description                                                                         |
+| -------------- | -------------------- | ----------------------------------------------------------------------------------- |
+| orderbook      | SpotLimitOrderbookV2 | Orderbook of a Spot Market                                                          |
+| operation_type | String               | Order update type (Should be one of: ["insert", "replace", "update", "invalidate"]) |
+| timestamp      | Integer              | Operation timestamp in UNIX millis                                                  |
+| market_id      | String               | ID of the market the orderbook belongs to                                           |
 
 **SpotLimitOrderbookV2**
 
-|Parameter|Type|Description|
-|----|----|----|
-|buys|PriceLevel Array|List of price levels for buys|
-|sells|PriceLevel Array|List of price levels for sells|
-|sequence|Integer|Sequence number of the orderbook; increments by 1 each update|
+| Parameter | Type             | Description                                                   |
+| --------- | ---------------- | ------------------------------------------------------------- |
+| buys      | PriceLevel Array | List of price levels for buys                                 |
+| sells     | PriceLevel Array | List of price levels for sells                                |
+| sequence  | Integer          | Sequence number of the orderbook; increments by 1 each update |
 
 **PriceLevel**
 
-|Parameter|Type|Description|
-|----|----|----|
-|price|String|Price number of the price level|
-|quantity|String|Quantity of the price level|
-|timestamp|Integer|Price level last updated timestamp in UNIX millis|
+| Parameter | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| price     | String  | Price number of the price level                   |
+| quantity  | String  | Quantity of the price level                       |
+| timestamp | Integer | Price level last updated timestamp in UNIX millis |
 
 
 ## StreamOrderbookUpdate
@@ -3643,9 +3663,9 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_ids|String Array|List of market IDs for orderbook streaming; empty means all spot markets|Yes|
+| Parameter  | Type         | Description                                                              | Required |
+| ---------- | ------------ | ------------------------------------------------------------------------ | -------- |
+| market_ids | String Array | List of market IDs for orderbook streaming; empty means all spot markets | Yes      |
 
 
 ### Response Parameters
@@ -3707,31 +3727,31 @@ price: 1E-15 | quantity: 17983000000000000000 | timestamp: 1675880932648
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|orderbook_level_updates|OrderbookLevelUpdates|Orderbook level updates of a spot market|
-|operation_type|String|Order update type (Should be one of: ["insert", "replace", "update", "invalidate"])|
-|timestamp|Integer|Operation timestamp in UNIX millis|
-|market_id|String|ID of the market the orderbook belongs to|
+| Parameter               | Type                  | Description                                                                         |
+| ----------------------- | --------------------- | ----------------------------------------------------------------------------------- |
+| orderbook_level_updates | OrderbookLevelUpdates | Orderbook level updates of a spot market                                            |
+| operation_type          | String                | Order update type (Should be one of: ["insert", "replace", "update", "invalidate"]) |
+| timestamp               | Integer               | Operation timestamp in UNIX millis                                                  |
+| market_id               | String                | ID of the market the orderbook belongs to                                           |
 
 **OrderbookLevelUpdates**
 
-|Parameter|Type|Description|
-|----|----|----|
-|market_id|String|ID of the market the orderbook belongs to|
-|sequence|Integer|Orderbook update sequence number; increments by 1 each update|
-|buys|PriceLevelUpdate Array|List of buy level updates|
-|sells|PriceLevelUpdate Array|List of sell level updates|
-|updated_at|Integer|Timestamp of the updates in UNIX millis|
+| Parameter  | Type                   | Description                                                   |
+| ---------- | ---------------------- | ------------------------------------------------------------- |
+| market_id  | String                 | ID of the market the orderbook belongs to                     |
+| sequence   | Integer                | Orderbook update sequence number; increments by 1 each update |
+| buys       | PriceLevelUpdate Array | List of buy level updates                                     |
+| sells      | PriceLevelUpdate Array | List of sell level updates                                    |
+| updated_at | Integer                | Timestamp of the updates in UNIX millis                       |
 
 **PriceLevelUpdate**
 
-|Parameter|Type|Description|
-|----|----|----|
-|price|String|Price number of the price level|
-|quantity|String|Quantity of the price level|
-|is_active|Boolean|Price level status|
-|timestamp|Integer|Price level last updated timestamp in UNIX millis|
+| Parameter | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| price     | String  | Price number of the price level                   |
+| quantity  | String  | Quantity of the price level                       |
+| is_active | Boolean | Price level status                                |
+| timestamp | Integer | Price level last updated timestamp in UNIX millis |
 
 
 ## SubaccountOrdersList
@@ -3840,12 +3860,12 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|subaccount_id|String|Filter by subaccount ID|Yes|
-|market_id|String|Filter by market ID|No|
-|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100|No|
-|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
+| Parameter     | Type    | Description                                                                                               | Required |
+| ------------- | ------- | --------------------------------------------------------------------------------------------------------- | -------- |
+| subaccount_id | String  | Filter by subaccount ID                                                                                   | Yes      |
+| market_id     | String  | Filter by market ID                                                                                       | No       |
+| skip          | Integer | Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100 | No       |
+| limit         | Integer | Maximum number of items to be returned. 1 <= *n* <= 100                                                   | No       |
 
 
 ### Response Parameters
@@ -4011,37 +4031,39 @@ paging {
 ]
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|orders|SpotLimitOrder Array|List of spot market orders|
-|paging|Paging|Pagination of results|
+| Parameter | Type                 | Description                |
+| --------- | -------------------- | -------------------------- |
+| orders    | SpotLimitOrder Array | List of spot market orders |
+| paging    | Paging               | Pagination of results      |
 
 
 **SpotLimitOrder**
 
-|Parameter|Type|Description|
-|----|----|----|
-|state|String|State of the order (Should be one of: ["booked", "partial_filled", "filled", "canceled"])|
-|subaccount_id|String|The subaccount ID the order belongs to|
-|unfilled_quantity|String|The amount of the quantity remaining unfilled|
-|market_id|String|ID of the market the order belongs to|
-|order_hash|String|Hash of the order|
-|order_side|String|The side of the order (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell"])|
-|fee_recipient|String|The address that receives fees if the order is executed|
-|price|String|The price of the order|
-|quantity|String|The quantity of the order|
-|trigger_price|String|The price that triggers stop and take orders. If no price is set, the default is 0|
-|created_at|Integer|Order committed timestamp in UNIX millis|
-|updated_at|Integer|Order updated timestamp in UNIX millis|
+| Parameter         | Type    | Description                                                                                                 |
+| ----------------- | ------- | ----------------------------------------------------------------------------------------------------------- |
+| order_hash        | String  | Hash of the order                                                                                           |
+| order_side        | String  | The side of the order (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell"]) |
+| market_id         | String  | ID of the market the order belongs to                                                                       |
+| subaccount_id     | String  | The subaccount ID the order belongs to                                                                      |
+| price             | String  | The price of the order                                                                                      |
+| quantity          | String  | The quantity of the order                                                                                   |
+| unfilled_quantity | String  | The amount of the quantity remaining unfilled                                                               |
+| trigger_price     | String  | The price that triggers stop and take orders. If no price is set, the default is 0                          |
+| fee_recipient     | String  | The address that receives fees if the order is executed                                                     |
+| state             | String  | State of the order (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                   |
+| created_at        | Integer | Order committed timestamp in UNIX millis                                                                    |
+| updated_at        | Integer | Order updated timestamp in UNIX millis                                                                      |
+| tx_hash           | String  | Transaction hash in which the order was created (not all orders have this value)                            |
+| cid               | String  | Identifier for the order specified by the user (up to 36 characters, like a UUID)                           |
 
 
 **Paging**
 
-|Parameter|Type|Description|
-|----|----|----|
-|total|Integer|Total number of available records|
-|from|Integer|Lower bound of indices of records returned|
-|to|integer|Upper bound of indices of records returned|
+| Parameter | Type    | Description                                |
+| --------- | ------- | ------------------------------------------ |
+| total     | Integer | Total number of available records          |
+| from      | Integer | Lower bound of indices of records returned |
+| to        | integer | Upper bound of indices of records returned |
 
 
 ## SubaccountTradesList
@@ -4171,14 +4193,14 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|subaccount_id|String|Filter by subaccount ID|Yes|
-|market_id|String|Filter by market ID|No|
-|direction|String|Filter by the direction of the trades (Should be one of: ["buy", "sell"])|No|
-|execution_type|String|Filter by the *execution type of the trades (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"])|No|
-|skip|Integer|Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100|No|
-|limit|Integer|Maximum number of items to be returned. 1 <= *n* <= 100|No|
+| Parameter      | Type    | Description                                                                                                                             | Required |
+| -------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| subaccount_id  | String  | Filter by subaccount ID                                                                                                                 | Yes      |
+| market_id      | String  | Filter by market ID                                                                                                                     | No       |
+| direction      | String  | Filter by the direction of the trades (Should be one of: ["buy", "sell"])                                                               | No       |
+| execution_type | String  | Filter by the *execution type of the trades (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
+| skip           | Integer | Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100                               | No       |
+| limit          | Integer | Maximum number of items to be returned. 1 <= *n* <= 100                                                                                 | No       |
 
 ### Response Parameters
 > Response Example:
@@ -4325,30 +4347,32 @@ trades {
 ]
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|trades|SpotTrade Array|List of spot market trades|
+| Parameter | Type            | Description                |
+| --------- | --------------- | -------------------------- |
+| trades    | SpotTrade Array | List of spot market trades |
 
 **SpotTrade**
 
-|Parameter|Type| Description                                                                                                                 |
-|----|----|-----------------------------------------------------------------------------------------------------------------------------|
-|trade_direction|String| The direction the trade (Should be one of: ["buy", "sell"])                                                                 |
-|trade_execution_type|String| The execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
-|fee|String| The fee associated with the trade (quote asset denom)                                                                       |
-|market_id|String| The ID of the market that this trade is in                                                                                  |
-|order_hash|String| The order hash                                                                                                              |
-|price|PriceLevel| Price level at which trade has been executed                                                                                |
-|subaccount_id|String| Filter by the subaccount ID                                                                                                 |
-|executed_at|Integer| Timestamp of trade execution (on chain) in UNIX millis                                                                      |
-|fee_recipient|String| Address that received fees from the order                                                                                   |
-|trade_id|String| A unique string that helps differentiate between trades                                                                     |
-|execution_side|String| Trade's execution side (Should be one of: ["maker", "taker"])                                                               |
+| Parameter            | Type       | Description                                                                                                             |
+| -------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------- |
+| order_hash           | String     | The order hash                                                                                                          |
+| subaccount_id        | String     | The subaccountId that executed the trade                                                                                |
+| market_id            | String     | The ID of the market that this trade is in                                                                              |
+| trade_execution_type | String     | Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
+| trade_direction      | String     | Direction of the trade(Should be one of: ["buy", "sell"])                                                               |
+| price                | PriceLevel | Price level at which trade has been executed                                                                            |
+| fee                  | String     | The fee associated with the trade (quote asset denom)                                                                   |
+| executed_at          | Integer    | Timestamp of trade execution (on chain) in UNIX millis                                                                  |
+| fee_recipient        | String     | The address that received 40% of the fees                                                                               |
+| trade_id             | String     | Unique identifier to differentiate between trades                                                                       |
+| execution_side       | String     | Execution side of trade (Should be one of: ["maker", "taker"])                                                          |
+| cid                  | String     | Identifier for the order specified by the user (up to 36 characters, like a UUID)                                       |
+
 
 **PriceLevel**
 
-|Parameter|Type|Description|
-|----|----|----|
-|price|String|Price number of the price level|
-|quantity|String|Quantity of the price level|
-|timestamp|Integer|Price level last updated timestamp in UNIX millis|
+| Parameter | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| price     | String  | Price number of the price level                   |
+| quantity  | String  | Quantity of the price level                       |
+| timestamp | Integer | Price level last updated timestamp in UNIX millis |
