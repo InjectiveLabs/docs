@@ -1,7 +1,7 @@
 # Change Log
 
-## 2023-11-01
-- Python SDK v1.0 and Go SDK v2.0
+## 2023-11-06
+- Python SDK v1.0 and Go SDK v1.49
   - Added logic to support use of Client Order ID (CID) new identifier in OrderInfo
   - New chain stream support
   - Remove support for `sentry` nodes in mainnet network. The only supported node option in mainnet is `lb`
