@@ -112,17 +112,17 @@ if __name__ == "__main__":
 
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Market ID of the market we want to send an order|Yes|
-|sender|String|The Injective Chain address|Yes|
-|subaccount_id|String|The subaccount we want to send an order from|Yes|
-|fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
-|price|Float|The price of the base asset|Yes|
-|quantity|Float|The quantity of the base asset|Yes|
-|is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
-|is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
-|is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
+| Parameter      | Type    | Description                                                                          | Required |
+| -------------- | ------- | ------------------------------------------------------------------------------------ | -------- |
+| market_id      | String  | Market ID of the market we want to send an order                                     | Yes      |
+| sender         | String  | The Injective Chain address                                                          | Yes      |
+| subaccount_id  | String  | The subaccount we want to send an order from                                         | Yes      |
+| fee_recipient  | String  | The address that will receive 40% of the fees, this could be set to your own address | Yes      |
+| price          | Float   | The price of the base asset                                                          | Yes      |
+| quantity       | Float   | The quantity of the base asset                                                       | Yes      |
+| is_buy         | Boolean | Set to true or false for buy and sell orders respectively                            | Yes      |
+| is_reduce_only | Boolean | Set to true or false for reduce-only or normal orders respectively                   | No       |
+| is_po          | Boolean | Set to true or false for post-only or normal orders respectively                     | No       |
 
 
 > Response Example:
@@ -249,16 +249,16 @@ if __name__ == "__main__":
 
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Market ID of the market we want to send an order|Yes|
-|sender|String|The Injective Chain address|Yes|
-|subaccount_id|String|The subaccount we want to send an order from|Yes|
-|fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
-|price|Float|The price of the base asset|Yes|
-|quantity|Float|The quantity of the base asset|Yes|
-|is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
-|is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
+| Parameter      | Type    | Description                                                                          | Required |
+| -------------- | ------- | ------------------------------------------------------------------------------------ | -------- |
+| market_id      | String  | Market ID of the market we want to send an order                                     | Yes      |
+| sender         | String  | The Injective Chain address                                                          | Yes      |
+| subaccount_id  | String  | The subaccount we want to send an order from                                         | Yes      |
+| fee_recipient  | String  | The address that will receive 40% of the fees, this could be set to your own address | Yes      |
+| price          | Float   | The price of the base asset                                                          | Yes      |
+| quantity       | Float   | The quantity of the base asset                                                       | Yes      |
+| is_buy         | Boolean | Set to true or false for buy and sell orders respectively                            | Yes      |
+| is_reduce_only | Boolean | Set to true or false for reduce-only or normal orders respectively                   | No       |
 
 
 > Response Example:
@@ -376,12 +376,17 @@ if __name__ == "__main__":
 
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Market ID of the market we want to cancel an order|Yes|
-|sender|String|The Injective Chain address|Yes|
-|subaccount_id|String|The subaccount we want to cancel an order from|Yes|
-|order_hash|String|The hash of a specific order|Yes|
+| Parameter     | Type    | Description                                                                                | Required |
+| ------------- | ------- | ------------------------------------------------------------------------------------------ | -------- |
+| sender        | String  | The Injective Chain address                                                                | Yes      |
+| market_id     | String  | Market ID of the market we want to cancel an order                                         | Yes      |
+| subaccount_id | String  | The subaccount we want to cancel an order from                                             | Yes      |
+| order_hash    | String  | The hash of a specific order                                                               | No       |
+| cid           | String  | Identifier for the order specified by the user (up to 36 characters, like a UUID)          | No       |
+
+
+**Note:** either `order_hash` or `cid` has to be specified.
+
 
 
 > Response Example:
@@ -504,14 +509,14 @@ if __name__ == "__main__":
 
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Market ID of the market we want to settle|Yes|
-|sender|String|The Injective Chain address|Yes|
-|status|String|The market status (Should be one of: [Unspecified, Demolished]|Yes|
-|settlement_price|Integer|The settlement price (must be in the 0-1 range)|Conditional|
-|expiration_timestamp|Integer|The expiration timestamp (trading halts, orders are cancelled and traders await settlement)|Conditional|
-|settlement_timestamp|Integer|The settlement timestamp|Conditional|
+| Parameter            | Type    | Description                                                                                 | Required    |
+| -------------------- | ------- | ------------------------------------------------------------------------------------------- | ----------- |
+| market_id            | String  | Market ID of the market we want to settle                                                   | Yes         |
+| sender               | String  | The Injective Chain address                                                                 | Yes         |
+| status               | String  | The market status (Should be one of: [Unspecified, Demolished]                              | Yes         |
+| settlement_price     | Integer | The settlement price (must be in the 0-1 range)                                             | Conditional |
+| expiration_timestamp | Integer | The expiration timestamp (trading halts, orders are cancelled and traders await settlement) | Conditional |
+| settlement_timestamp | Integer | The settlement timestamp                                                                    | Conditional |
 
 
 > Response Example:
@@ -636,22 +641,22 @@ if __name__ == "__main__":
 
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Market ID of the market we want to settle|Yes|
-|sender|String|The Injective Chain address|Yes|
-|ticker|String|The market ticker|Yes|
-|oracle_symbol|String|The oracle symbol|Yes|
-|oracle_provider|String|The oracle provider|Yes|
-|oracle_type|String|The oracle type|Yes|
-|quote_denom|String|The quote denom|Yes|
-|oracle_scale_factor|Integer|The oracle scale factor (6 for USDT)|Yes|
-|maker_fee_rate|Integer|The fee rate for maker orders|Yes|
-|taker_fee_rate|Integer|The fee rate for taker orders|Yes|
-|min_price_tick_size|Integer|The minimum price tick size|Yes|
-|min_quantity_tick_size|Integer|The minimum quantity tick size|Yes|
-|expiration_timestamp|Integer|The expiration timestamp (trading halts, orders are cancelled and traders await settlement)|Yes|
-|settlement_timestamp|Integer|The settlement timestamp|Yes|
+| Parameter              | Type    | Description                                                                                 | Required |
+| ---------------------- | ------- | ------------------------------------------------------------------------------------------- | -------- |
+| market_id              | String  | Market ID of the market we want to settle                                                   | Yes      |
+| sender                 | String  | The Injective Chain address                                                                 | Yes      |
+| ticker                 | String  | The market ticker                                                                           | Yes      |
+| oracle_symbol          | String  | The oracle symbol                                                                           | Yes      |
+| oracle_provider        | String  | The oracle provider                                                                         | Yes      |
+| oracle_type            | String  | The oracle type                                                                             | Yes      |
+| quote_denom            | String  | The quote denom                                                                             | Yes      |
+| oracle_scale_factor    | Integer | The oracle scale factor (6 for USDT)                                                        | Yes      |
+| maker_fee_rate         | Integer | The fee rate for maker orders                                                               | Yes      |
+| taker_fee_rate         | Integer | The fee rate for taker orders                                                               | Yes      |
+| min_price_tick_size    | Integer | The minimum price tick size                                                                 | Yes      |
+| min_quantity_tick_size | Integer | The minimum quantity tick size                                                              | Yes      |
+| expiration_timestamp   | Integer | The expiration timestamp (trading halts, orders are cancelled and traders await settlement) | Yes      |
+| settlement_timestamp   | Integer | The settlement timestamp                                                                    | Yes      |
 
 
 > Response Example:
@@ -765,12 +770,12 @@ if __name__ == "__main__":
 
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|sender|String|The Injective Chain address|Yes|
-|provider|String|The provider name|Yes|
-|symbols|List|The symbols we want to relay a price for|Yes|
-|prices|List|The prices for the respective symbols|Yes|
+| Parameter | Type   | Description                              | Required |
+| --------- | ------ | ---------------------------------------- | -------- |
+| sender    | String | The Injective Chain address              | Yes      |
+| provider  | String | The provider name                        | Yes      |
+| symbols   | List   | The symbols we want to relay a price for | Yes      |
+| prices    | List   | The prices for the respective symbols    | Yes      |
 
 
 > Response Example:
@@ -1115,81 +1120,81 @@ func main() {
 ```
 
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|sender|String|The Injective Chain address|Yes|
-|subaccount_id|String|The subaccount ID|Conditional|
-|derivative_orders_to_create|DerivativeOrder|DerivativeOrder object|No|
-|binary_options_orders_to_create|BinaryOptionsOrder|BinaryOptionsOrder object|No|
-|spot_orders_to_create|SpotOrder|SpotOrder object|No|
-|derivative_orders_to_cancel|OrderData|OrderData object to cancel|No|
-|binary_options_orders_to_cancel|OrderData|OrderData object to cancel|No|
-|spot_orders_to_cancel|Orderdata|OrderData object to cancel|No|
-|spot_market_ids_to_cancel_all|List|Spot Market IDs for the markets the trader wants to cancel all active orders|No|
-|derivative_market_ids_to_cancel_all|List|Derivative Market IDs for the markets the trader wants to cancel all active orders|No|
-|binary_options_market_ids_to_cancel_all|List|Binary Options Market IDs for the markets the trader wants to cancel all active orders|No|
+| Parameter                               | Type               | Description                                                                            | Required    |
+| --------------------------------------- | ------------------ | -------------------------------------------------------------------------------------- | ----------- |
+| sender                                  | String             | The Injective Chain address                                                            | Yes         |
+| subaccount_id                           | String             | The subaccount ID                                                                      | Conditional |
+| derivative_orders_to_create             | DerivativeOrder    | DerivativeOrder object                                                                 | No          |
+| binary_options_orders_to_create         | BinaryOptionsOrder | BinaryOptionsOrder object                                                              | No          |
+| spot_orders_to_create                   | SpotOrder          | SpotOrder object                                                                       | No          |
+| derivative_orders_to_cancel             | OrderData          | OrderData object to cancel                                                             | No          |
+| binary_options_orders_to_cancel         | OrderData          | OrderData object to cancel                                                             | No          |
+| spot_orders_to_cancel                   | Orderdata          | OrderData object to cancel                                                             | No          |
+| spot_market_ids_to_cancel_all           | List               | Spot Market IDs for the markets the trader wants to cancel all active orders           | No          |
+| derivative_market_ids_to_cancel_all     | List               | Derivative Market IDs for the markets the trader wants to cancel all active orders     | No          |
+| binary_options_market_ids_to_cancel_all | List               | Binary Options Market IDs for the markets the trader wants to cancel all active orders | No          |
 
 **SpotOrder**
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Market ID of the market we want to send an order|Yes|
-|subaccount_id|String|The subaccount we want to send an order from|Yes|
-|fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
-|price|Float|The price of the base asset|Yes|
-|quantity|Float|The quantity of the base asset|Yes|
-|cid|String|Identifier for the order specified by the user (up to 36 characters, like a UUID)|No|
-|is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
-|is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
+| Parameter     | Type    | Description                                                                          | Required |
+| ------------- | ------- | ------------------------------------------------------------------------------------ | -------- |
+| market_id     | String  | Market ID of the market we want to send an order                                     | Yes      |
+| subaccount_id | String  | The subaccount we want to send an order from                                         | Yes      |
+| fee_recipient | String  | The address that will receive 40% of the fees, this could be set to your own address | Yes      |
+| price         | Float   | The price of the base asset                                                          | Yes      |
+| quantity      | Float   | The quantity of the base asset                                                       | Yes      |
+| cid           | String  | Identifier for the order specified by the user (up to 36 characters, like a UUID)    | No       |
+| is_buy        | Boolean | Set to true or false for buy and sell orders respectively                            | Yes      |
+| is_po         | Boolean | Set to true or false for post-only or normal orders respectively                     | No       |
 
 
 **DerivativeOrder**
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Market ID of the market we want to send an order|Yes|
-|subaccount_id|String|The subaccount ID we want to send an order from|Yes|
-|fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
-|price|Float|The price of the base asset|Yes|
-|quantity|Float|The quantity of the base asset|Yes|
-|leverage|Float|The leverage factor for the order|No|
-|trigger_price|String|Set the trigger price for conditional orders|No|
-|cid|String|Identifier for the order specified by the user (up to 36 characters, like a UUID)|No|
-|is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
-|is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
-|is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
-|stop_buy|Boolean|Set to true for conditional stop_buy orders|No|
-|stop_sell|Boolean|Set to true for conditional stop_sell orders|No|
-|take_buy|Boolean|Set to true for conditional take_buy orders|No|
-|take_sell|Boolean|Set to true for conditional take_sell|No|
+| Parameter      | Type    | Description                                                                          | Required |
+| -------------- | ------- | ------------------------------------------------------------------------------------ | -------- |
+| market_id      | String  | Market ID of the market we want to send an order                                     | Yes      |
+| subaccount_id  | String  | The subaccount ID we want to send an order from                                      | Yes      |
+| fee_recipient  | String  | The address that will receive 40% of the fees, this could be set to your own address | Yes      |
+| price          | Float   | The price of the base asset                                                          | Yes      |
+| quantity       | Float   | The quantity of the base asset                                                       | Yes      |
+| leverage       | Float   | The leverage factor for the order                                                    | No       |
+| trigger_price  | String  | Set the trigger price for conditional orders                                         | No       |
+| cid            | String  | Identifier for the order specified by the user (up to 36 characters, like a UUID)    | No       |
+| is_buy         | Boolean | Set to true or false for buy and sell orders respectively                            | Yes      |
+| is_reduce_only | Boolean | Set to true or false for reduce-only or normal orders respectively                   | No       |
+| is_po          | Boolean | Set to true or false for post-only or normal orders respectively                     | No       |
+| stop_buy       | Boolean | Set to true for conditional stop_buy orders                                          | No       |
+| stop_sell      | Boolean | Set to true for conditional stop_sell orders                                         | No       |
+| take_buy       | Boolean | Set to true for conditional take_buy orders                                          | No       |
+| take_sell      | Boolean | Set to true for conditional take_sell                                                | No       |
 
 **BinaryOptionsOrder**
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Market ID of the market we want to send an order|Yes|
-|subaccount_id|String|The subaccount ID we want to send an order from|Yes|
-|fee_recipient|String|The address that will receive 40% of the fees, this could be set to your own address|Yes|
-|price|Float|The price of the base asset|Yes|
-|quantity|Float|The quantity of the base asset|Yes|
-|cid|String|Identifier for the order specified by the user (up to 36 characters, like a UUID)|No|
-|leverage|Float|The leverage factor for the order|No|
-|is_buy|Boolean|Set to true or false for buy and sell orders respectively|Yes|
-|is_reduce_only|Boolean|Set to true or false for reduce-only or normal orders respectively|No|
-|is_po|Boolean|Set to true or false for post-only or normal orders respectively|No|
+| Parameter      | Type    | Description                                                                          | Required |
+| -------------- | ------- | ------------------------------------------------------------------------------------ | -------- |
+| market_id      | String  | Market ID of the market we want to send an order                                     | Yes      |
+| subaccount_id  | String  | The subaccount ID we want to send an order from                                      | Yes      |
+| fee_recipient  | String  | The address that will receive 40% of the fees, this could be set to your own address | Yes      |
+| price          | Float   | The price of the base asset                                                          | Yes      |
+| quantity       | Float   | The quantity of the base asset                                                       | Yes      |
+| cid            | String  | Identifier for the order specified by the user (up to 36 characters, like a UUID)    | No       |
+| leverage       | Float   | The leverage factor for the order                                                    | No       |
+| is_buy         | Boolean | Set to true or false for buy and sell orders respectively                            | Yes      |
+| is_reduce_only | Boolean | Set to true or false for reduce-only or normal orders respectively                   | No       |
+| is_po          | Boolean | Set to true or false for post-only or normal orders respectively                     | No       |
 
 
 **OrderData**
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|market_id|String|Market ID of the market we want to cancel an order|Yes|
-|subaccount_id|String|The subaccount we want to cancel an order from|Yes|
-|order_hash|String|The hash of a specific order|Yes|
-|cid|String|Identifier for the order specified by the user (up to 36 characters, like a UUID)|No|
-|is_conditional|Boolean|Set to true or false for conditional and regular orders respectively. Setting this value will incur less gas for the order cancellation and faster execution|No|
-|order_direction|Boolean|The direction of the order (Should be one of: [buy sell]). Setting this value will incur less gas for the order cancellation and faster execution|No|
-|order_type|Boolean|The type of the order (Should be one of: [market limit]). Setting this value will incur less gas for the order cancellation and faster execution|No|
+| Parameter       | Type    | Description                                                                                                                                                  | Required |
+| --------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
+| market_id       | String  | Market ID of the market we want to cancel an order                                                                                                           | Yes      |
+| subaccount_id   | String  | The subaccount we want to cancel an order from                                                                                                               | Yes      |
+| order_hash      | String  | The hash of a specific order                                                                                                                                 | Yes      |
+| cid             | String  | Identifier for the order specified by the user (up to 36 characters, like a UUID)                                                                            | No       |
+| is_conditional  | Boolean | Set to true or false for conditional and regular orders respectively. Setting this value will incur less gas for the order cancellation and faster execution | No       |
+| order_direction | Boolean | The direction of the order (Should be one of: [buy sell]). Setting this value will incur less gas for the order cancellation and faster execution            | No       |
+| order_type      | Boolean | The type of the order (Should be one of: [market limit]). Setting this value will incur less gas for the order cancellation and faster execution             | No       |
 
 
 > Response Example:
