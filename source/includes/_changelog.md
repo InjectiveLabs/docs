@@ -1,6 +1,6 @@
 # Change Log
 
-## 2023-11-06
+## 2023-11-13
 - Python SDK v1.0 and Go SDK v1.49
   - Added logic to support use of Client Order ID (CID) new identifier in OrderInfo
   - New chain stream support
