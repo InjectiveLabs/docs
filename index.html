@@ -26110,15 +26110,15 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tr>
 </thead><tbody>
 <tr>
-<td>market_id</td>
-<td>String</td>
-<td>Market ID of the market we want to cancel an order</td>
-<td>Yes</td>
-</tr>
-<tr>
 <td>sender</td>
 <td>String</td>
 <td>The Injective Chain address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Market ID of the market we want to cancel an order</td>
 <td>Yes</td>
 </tr>
 <tr>
@@ -26131,7 +26131,7 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>order_hash</td>
 <td>String</td>
 <td>The hash of a specific order</td>
-<td>Yes</td>
+<td>No</td>
 </tr>
 <tr>
 <td>is_conditional</td>
@@ -26151,7 +26151,15 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>The type of the order (Should be one of: [market limit]). Setting this value will incur less gas for the order cancellation and faster execution</td>
 <td>No</td>
 </tr>
+<tr>
+<td>cid</td>
+<td>String</td>
+<td>Identifier for the order specified by the user (up to 36 characters, like a UUID)</td>
+<td>No</td>
+</tr>
 </tbody></table>
+
+<p><strong>Note:</strong> either <code>order_hash</code> or <code>cid</code> has to be specified.</p>
 
 <blockquote>
 <p>Response Example:</p>
@@ -28534,15 +28542,15 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tr>
 </thead><tbody>
 <tr>
-<td>market_id</td>
-<td>String</td>
-<td>Market ID of the market we want to cancel an order</td>
-<td>Yes</td>
-</tr>
-<tr>
 <td>sender</td>
 <td>String</td>
 <td>The Injective Chain address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Market ID of the market we want to cancel an order</td>
 <td>Yes</td>
 </tr>
 <tr>
@@ -28555,9 +28563,17 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>order_hash</td>
 <td>String</td>
 <td>The hash of a specific order</td>
-<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>cid</td>
+<td>String</td>
+<td>Identifier for the order specified by the user (up to 36 characters, like a UUID)</td>
+<td>No</td>
 </tr>
 </tbody></table>
+
+<p><strong>Note:</strong> either <code>order_hash</code> or <code>cid</code> has to be specified.</p>
 
 <blockquote>
 <p>Response Example:</p>
@@ -30387,15 +30403,15 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 </tr>
 </thead><tbody>
 <tr>
-<td>market_id</td>
-<td>String</td>
-<td>Market ID of the market we want to cancel an order</td>
-<td>Yes</td>
-</tr>
-<tr>
 <td>sender</td>
 <td>String</td>
 <td>The Injective Chain address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>Market ID of the market we want to cancel an order</td>
 <td>Yes</td>
 </tr>
 <tr>
@@ -30408,9 +30424,17 @@ To improve the gas cost calculation when using the <em>MsgBatchUpdateOrders</em>
 <td>order_hash</td>
 <td>String</td>
 <td>The hash of a specific order</td>
-<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>cid</td>
+<td>String</td>
+<td>Identifier for the order specified by the user (up to 36 characters, like a UUID)</td>
+<td>No</td>
 </tr>
 </tbody></table>
+
+<p><strong>Note:</strong> either <code>order_hash</code> or <code>cid</code> has to be specified.</p>
 
 <blockquote>
 <p>Response Example:</p>
