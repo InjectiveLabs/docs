@@ -701,12 +701,16 @@ func main() {
 https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesExchange#msgcancelspotorder
 ```
 
-| Parameter     | Type   | Description                                        | Required |
-| ------------- | ------ | -------------------------------------------------- | -------- |
-| market_id     | String | Market ID of the market we want to cancel an order | Yes      |
-| sender        | String | The Injective Chain address                        | Yes      |
-| subaccount_id | String | The subaccount we want to cancel an order from     | Yes      |
-| order_hash    | String | The hash of a specific order                       | Yes      |
+| Parameter     | Type   | Description                                                                       | Required |
+| ------------- | ------ | --------------------------------------------------------------------------------- | -------- |
+| sender        | String | The Injective Chain address                                                       | Yes      |
+| market_id     | String | Market ID of the market we want to cancel an order                                | Yes      |
+| subaccount_id | String | The subaccount we want to cancel an order from                                    | Yes      |
+| order_hash    | String | The hash of a specific order                                                      | No       |
+| cid           | String | Identifier for the order specified by the user (up to 36 characters, like a UUID) | No       |
+
+
+**Note:** either `order_hash` or `cid` has to be specified.
 
 
 > Response Example:
