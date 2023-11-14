@@ -16,13 +16,7 @@
 	500000000 * 104519 / 1e18 = 0.0000522595 INJ
 
 ## 4. Which API nodes can I connect to?
-	The SDKs default to using a [K8s cluster endpoint](https://docs.injective.network/develop/public-endpoints). If you do not wish to use this endpoint, there are currently three sentry nodes you can connect to on Mainnet that are based in the U.S. and Tokyo. It's recommended you connect to the sentry node closest to your location in order to reduce latency. You can also run your own Injective Node and Exchange API backend to have lower latency and full control over the infrastructure. The guide to set up your own node can be found [here](https://www.notion.so/injective/Injective-Exchange-Service-Setup-Guide-7e59980634d54991862300670583d46a).
-
-	U.S. Sentry Node: sentry0.injective.network
-
-	U.S. Sentry Node: sentry1.injective.network
-
-	Tokyo Sentry Node: sentry3.injective.network
+	The SDKs default to using a [load balanced endpoint](https://docs.injective.network/develop/public-endpoints). It is possible also to run a local node. The guide to set up your own node can be found [here](https://www.notion.so/injective/Injective-Exchange-Service-Setup-Guide-7e59980634d54991862300670583d46a).
 
 
 ## 5. Does Injective have an API support channel?
@@ -30,9 +24,11 @@
 
 ## 6. Can I get the order_hash (order_id) right after I send a new order?
 	Yes, you can actually fetch the order_hash before you even send the transaction through our simulation, you can see the Chain API examples on how to use the simulation.
+	
+	A better alternative is to set a client order id (cid) to the orders. It is possible to then cancel the orders by cid instead of hash. With this it is no longer necessary to calculate the order hash in advance.
 
 ## 7. Are there limits in the API requests?
-	No, there are currently no limits in the API requests.
+	All public nodes have limits to the number of request they allow per IP. Please check the [rate limits page](#overview-rate-limits).
 
 ## 8. What is the normal order latency I can expect?
 	There's no guarantee on when the chain will process your transaction. It depends on the peer to peer gossip of the network and whether your transaction reaches a given block producer to get included in a block. You can read more details about this here [https://docs.tendermint.com/v0.35/assets/img/tm-transaction-flow.258ca020.png](https://docs.tendermint.com/v0.35/assets/img/tm-transaction-flow.258ca020.png) as well as the docs here [https://docs.tendermint.com/v0.35/introduction/what-is-tendermint.html](https://docs.tendermint.com/v0.35/introduction/what-is-tendermint.html)
@@ -83,8 +79,6 @@
 	**Sync:** Wait for the tx to pass/fail CheckTx
 
 	**Async:** Don’t wait for the tx to pass/fail CheckTx; send and return tx immediately
-
-	**Block:** Wait for the tx to pass/fail CheckTx, DeliverTx, and be committed in a block
 
 ## 17. When may I see a max subscriptions per client error?
 	You can open up to 5 chain channels per IP, if you run more than 5 trading bots from the same IP then this error would naturally show up and you should use a different IP. Every trading bot should open one chain channel only, thus if you're seeing this error and don't have 5 distinct trading bots then it indicates an issue in your logic. If you want to broadcast multiple transactions in a single block you can use sync mode and open one channel only. You can refer [here](https://github.com/InjectiveLabs/sdk-python/blob/master/examples/async/chain_client/1_MsgSend.py#L32) for the chain channel initialization in sdk-python.

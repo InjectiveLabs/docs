@@ -42,6 +42,7 @@ includes:
   - insurance
   - historicalqueries
   - healthapi
+  - chainstream
   - glossary
   - faq
   # - exchangerpc

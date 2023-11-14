@@ -16,6 +16,7 @@ To use the broadcaster you just need to create an instance of *MsgBroadcasterWit
 
 ``` python
 import asyncio
+import uuid
 
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.core.broadcaster import MsgBroadcasterWithPk
@@ -32,7 +33,6 @@ async def main() -> None:
     message_broadcaster = MsgBroadcasterWithPk.new_using_simulation(
         network=network,
         private_key=private_key_in_hexa,
-        use_secure_connection=True
     )
 
     priv_key = PrivateKey.from_hex(private_key_in_hexa)
@@ -53,7 +53,8 @@ async def main() -> None:
             price=3,
             quantity=55,
             is_buy=True,
-            is_po=False
+            is_po=False,
+            cid=str(uuid.uuid4()),
         ),
         composer.SpotOrder(
             market_id=spot_market_id_create,
@@ -62,7 +63,8 @@ async def main() -> None:
             price=300,
             quantity=55,
             is_buy=False,
-            is_po=False
+            is_po=False,
+            cid=str(uuid.uuid4()),
         ),
     ]
 
@@ -76,6 +78,7 @@ async def main() -> None:
     result = await message_broadcaster.broadcast([msg])
     print("---Transaction Response---")
     print(result)
+
 
 if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
@@ -144,6 +147,7 @@ This is the most common broadcaster configuration. Unless you are using grantee 
 
 ``` python
 import asyncio
+import uuid
 
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.core.broadcaster import MsgBroadcasterWithPk
@@ -160,7 +164,6 @@ async def main() -> None:
     message_broadcaster = MsgBroadcasterWithPk.new_without_simulation(
         network=network,
         private_key=private_key_in_hexa,
-        use_secure_connection=True
     )
 
     priv_key = PrivateKey.from_hex(private_key_in_hexa)
@@ -181,7 +184,8 @@ async def main() -> None:
             price=3,
             quantity=55,
             is_buy=True,
-            is_po=False
+            is_po=False,
+            cid=str(uuid.uuid4()),
         ),
         composer.SpotOrder(
             market_id=spot_market_id_create,
@@ -190,7 +194,8 @@ async def main() -> None:
             price=300,
             quantity=55,
             is_buy=False,
-            is_po=False
+            is_po=False,
+            cid=str(uuid.uuid4()),
         ),
     ]
 
@@ -204,6 +209,7 @@ async def main() -> None:
     result = await message_broadcaster.broadcast([msg])
     print("---Transaction Response---")
     print(result)
+
 
 if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
@@ -225,12 +231,13 @@ This is the required broadcaster configuration when operating with grantee accou
 
 ``` python
 import asyncio
+import uuid
 
-from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
+from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.core.broadcaster import MsgBroadcasterWithPk
 from pyinjective.core.network import Network
-from pyinjective.wallet import PrivateKey, Address
+from pyinjective.wallet import Address, PrivateKey
 
 
 async def main() -> None:
@@ -251,7 +258,6 @@ async def main() -> None:
     message_broadcaster = MsgBroadcasterWithPk.new_for_grantee_account_using_simulation(
         network=network,
         grantee_private_key=private_key_in_hexa,
-        use_secure_connection=True
     )
 
     # prepare tx msg
@@ -268,13 +274,15 @@ async def main() -> None:
         price=7.523,
         quantity=0.01,
         is_buy=True,
-        is_po=False
+        is_po=False,
+        cid=str(uuid.uuid4()),
     )
 
     # broadcast the transaction
     result = await message_broadcaster.broadcast([msg])
     print("---Transaction Response---")
     print(result)
+
 
 if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
@@ -335,12 +343,13 @@ For the broadcaster to calculate the gas fee running the simulation, create an i
 
 ``` python
 import asyncio
+import uuid
 
-from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.async_client import AsyncClient
+from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.core.broadcaster import MsgBroadcasterWithPk
 from pyinjective.core.network import Network
-from pyinjective.wallet import PrivateKey, Address
+from pyinjective.wallet import Address, PrivateKey
 
 
 async def main() -> None:
@@ -361,7 +370,6 @@ async def main() -> None:
     message_broadcaster = MsgBroadcasterWithPk.new_for_grantee_account_without_simulation(
         network=network,
         grantee_private_key=private_key_in_hexa,
-        use_secure_connection=True
     )
 
     # prepare tx msg
@@ -378,13 +386,15 @@ async def main() -> None:
         price=7.523,
         quantity=0.01,
         is_buy=True,
-        is_po=False
+        is_po=False,
+        cid=str(uuid.uuid4()),
     )
 
     # broadcast the transaction
     result = await message_broadcaster.broadcast([msg])
     print("---Transaction Response---")
     print(result)
+
 
 if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
