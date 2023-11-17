@@ -267,6 +267,7 @@ Response structure for the data stream.
 | Parameter                  | Type                     | Description                           | Required |
 | -------------------------- | ------------------------ | ------------------------------------- | -------- |
 | BlockHeight                | Integer                  | The current block height.             |          |
+| BlockTime                  | Integer                  | The current block timestamp           |          |
 | BankBalances               | BankBalance Array        | List of bank balances.                |          |
 | SubaccountDeposits         | SubaccountDeposits Array | List of subaccount deposits.          |          |
 | SpotTrades                 | SpotTrade Array          | List of spot trades.                  |          |
