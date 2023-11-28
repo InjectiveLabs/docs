@@ -301,35 +301,37 @@ Structure for subaccount deposits.
 
 Structure for spot trades.
 
-| Parameter           | Type   | Description                                    | Required |
-| ------------------- | ------ | ---------------------------------------------- | -------- |
-| MarketId            | String | The market ID.                                 |          |
-| IsBuy               | bool   | True if it is a buy, False if it is a sell.    |          |
-| ExecutionType       | String | The execution type.                            |          |
-| Quantity            | Dec    | The quantity of the trade.                     |          |
-| Price               | Dec    | The price of the trade.                        |          |
-| SubaccountId        | String | The subaccount ID that executed the trade.     |          |
-| Fee                 | Dec    | The fee of the trade.                          |          |
-| OrderHash           | String | The hash of the order.                         |          |
-| FeeRecipientAddress | String | The fee recipient address.                     |          |
-| Cid                 | String | Identifier for the order specified by the user |          |
+| Parameter           | Type   | Description                                       | Required |
+| ------------------- | ------ | ------------------------------------------------- | -------- |
+| MarketId            | String | The market ID.                                    |          |
+| IsBuy               | bool   | True if it is a buy, False if it is a sell.       |          |
+| ExecutionType       | String | The execution type.                               |          |
+| Quantity            | Dec    | The quantity of the trade.                        |          |
+| Price               | Dec    | The price of the trade.                           |          |
+| SubaccountId        | String | The subaccount ID that executed the trade.        |          |
+| Fee                 | Dec    | The fee of the trade.                             |          |
+| OrderHash           | String | The hash of the order.                            |          |
+| FeeRecipientAddress | String | The fee recipient address.                        |          |
+| Cid                 | String | Identifier for the order specified by the user    |          |
+| TradeId             | String | Unique identifier to differentiate between trades |          |
 
 ### DerivativeTrade
 
 Structure for derivative trades.
 
-| Parameter           | Type          | Description                                    | Required |
-| ------------------- | ------------- | ---------------------------------------------- | -------- |
-| MarketId            | String        | The market ID.                                 |          |
-| IsBuy               | bool          | True if it is a buy, False if it is a sell.    |          |
-| ExecutionType       | String        | The execution type.                            |          |
-| SubaccountId        | String        | The subaccount ID that executed the trade.     |          |
-| PositionDelta       | PositionDelta | The position delta.                            |          |
-| Payout              | Dec           | The payout of the trade.                       |          |
-| Fee                 | Dec           | The fee of the trade.                          |          |
-| OrderHash           | String        | The hash of the order.                         |          |
-| FeeRecipientAddress | String        | The fee recipient address.                     |          |
-| Cid                 | String        | Identifier for the order specified by the user |          |
+| Parameter           | Type          | Description                                       | Required |
+| ------------------- | ------------- | ------------------------------------------------- | -------- |
+| MarketId            | String        | The market ID.                                    |          |
+| IsBuy               | bool          | True if it is a buy, False if it is a sell.       |          |
+| ExecutionType       | String        | The execution type.                               |          |
+| SubaccountId        | String        | The subaccount ID that executed the trade.        |          |
+| PositionDelta       | PositionDelta | The position delta.                               |          |
+| Payout              | Dec           | The payout of the trade.                          |          |
+| Fee                 | Dec           | The fee of the trade.                             |          |
+| OrderHash           | String        | The hash of the order.                            |          |
+| FeeRecipientAddress | String        | The fee recipient address.                        |          |
+| Cid                 | String        | Identifier for the order specified by the user    |          |
+| TradeId             | String        | Unique identifier to differentiate between trades |          |
 
 ### SpotOrder
 
