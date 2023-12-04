@@ -15,21 +15,21 @@ Get the details of a specific auction.
 <!-- embedme ../../../sdk-python/examples/exchange_client/auctions_rpc/1_Auction.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     bid_round = 31
-    auction = await client.get_auction(bid_round=bid_round)
+    auction = await client.fetch_auction(round=bid_round)
     print(auction)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
 ```
@@ -83,9 +83,9 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|bid_round|Integer|The auction round number. -1 for latest|Yes|
+| Parameter | Type    | Description                             | Required |
+| --------- | ------- | --------------------------------------- | -------- |
+| round     | Integer | The auction round number. -1 for latest | Yes      |
 
 
 ### Response Parameters
@@ -224,21 +224,22 @@ Get the details of previous auctions.
 <!-- embedme ../../../sdk-python/examples/exchange_client/auctions_rpc/2_Auctions.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    auctions = await client.get_auctions()
+    auctions = await client.fetch_auctions()
     print(auctions)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -433,22 +434,46 @@ Stream live updates for auction bids.
 <!-- embedme ../../../sdk-python/examples/exchange_client/auctions_rpc/3_StreamBids.py -->
 ``` python
 import asyncio
-import logging
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
+
+async def bid_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to bids updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The bids updates stream has been closed")
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    bids = await client.stream_bids()
-    async for bid in bids:
-        print(bid)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    task = asyncio.get_event_loop().create_task(
+        client.listen_bids_updates(
+            callback=bid_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -523,6 +548,13 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
   streamFn(streamFnArgs);
 })();
 ```
+
+| Parameter          | Type     | Description                                                                                          | Required |
+| ------------------ | -------- | ---------------------------------------------------------------------------------------------------- | -------- |
+| callback           | Function | Function receiving one parameter (a stream event JSON dictionary) to process each new event          | Yes      |
+| on_end_callback    | Function | Function with the logic to execute when the stream connection is interrupted                         | No       |
+| on_status_callback | Function | Function receiving one parameter (the exception) with the logic to execute when an exception happens | No       |
+
 
 ### Response Parameters
 > Response Example:

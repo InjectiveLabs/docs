@@ -12,7 +12,10 @@ Includes the messages to claim and withdraw delegator rewards
 ``` python
 import asyncio
 
+from grpc import RpcError
+
 from pyinjective.async_client import AsyncClient
+from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.constant import GAS_FEE_BUFFER_AMOUNT, GAS_PRICE
 from pyinjective.core.network import Network
 from pyinjective.transaction import Transaction
@@ -20,31 +23,35 @@ from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
+    """For a validator to withdraw his rewards & commissions simultaneously"""
     # select network: local, testnet, mainnet
     network = Network.testnet()
+    composer = ProtoMsgComposer(network=network.string())
 
     # initialize grpc client
-    client = AsyncClient(network)
-    composer = await client.composer()
+    client = AsyncClient(network, insecure=False)
     await client.sync_timeout_height()
 
     # load account
+    # private key is that from the validator's wallet
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
-    await client.get_account(address.to_acc_bech32())
+    await client.fetch_account(address.to_acc_bech32())
 
     # prepare tx msg
     validator_address = "injvaloper1ultw9r29l8nxy5u6thcgusjn95vsy2caw722q5"
 
-    msg = composer.MsgWithdrawDelegatorReward(
+    msg0 = composer.MsgWithdrawDelegatorReward(
         delegator_address=address.to_acc_bech32(), validator_address=validator_address
     )
+
+    msg1 = composer.MsgWithdrawValidatorCommission(validator_address=validator_address)
 
     # build sim tx
     tx = (
         Transaction()
-        .with_messages(msg)
+        .with_messages(msg0, msg1)
         .with_sequence(client.get_sequence())
         .with_account_num(client.get_number())
         .with_chain_id(network.chain_id)
@@ -54,14 +61,15 @@ async def main() -> None:
     sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
-    if not success:
-        print(sim_res)
+    try:
+        sim_res = await client.simulate(sim_tx_raw_bytes)
+    except RpcError as ex:
+        print(ex)
         return
 
     # build tx
     gas_price = GAS_PRICE
-    gas_limit = sim_res.gas_info.gas_used + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
+    gas_limit = int(sim_res["gasInfo"]["gasUsed"]) + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
     gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
     fee = [
         composer.Coin(
@@ -75,7 +83,7 @@ async def main() -> None:
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.send_tx_sync_mode(tx_raw_bytes)
+    res = await client.broadcast_tx_sync_mode(tx_raw_bytes)
     print(res)
     print("gas wanted: {}".format(gas_limit))
     print("gas fee: {} INJ".format(gas_fee))
@@ -211,6 +219,8 @@ gas fee: 0.000097523 INJ
 ``` python
 import asyncio
 
+from grpc import RpcError
+
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import GAS_FEE_BUFFER_AMOUNT, GAS_PRICE
 from pyinjective.core.network import Network
@@ -231,7 +241,7 @@ async def main() -> None:
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
-    await client.get_account(address.to_acc_bech32())
+    await client.fetch_account(address.to_acc_bech32())
 
     # prepare tx msg
     validator_address = "injvaloper1ultw9r29l8nxy5u6thcgusjn95vsy2caw722q5"
@@ -254,14 +264,15 @@ async def main() -> None:
     sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
-    if not success:
-        print(sim_res)
+    try:
+        sim_res = await client.simulate(sim_tx_raw_bytes)
+    except RpcError as ex:
+        print(ex)
         return
 
     # build tx
     gas_price = GAS_PRICE
-    gas_limit = sim_res.gas_info.gas_used + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
+    gas_limit = int(sim_res["gasInfo"]["gasUsed"]) + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
     gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
     fee = [
         composer.Coin(
@@ -275,7 +286,7 @@ async def main() -> None:
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.send_tx_sync_mode(tx_raw_bytes)
+    res = await client.broadcast_tx_sync_mode(tx_raw_bytes)
     print(res)
     print("gas wanted: {}".format(gas_limit))
     print("gas fee: {} INJ".format(gas_fee))

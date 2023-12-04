@@ -15,24 +15,23 @@ Get details about an account's portfolio.
 <!-- embedme ../../../sdk-python/examples/exchange_client/portfolio_rpc/1_AccountPortfolio.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     account_address = "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-    portfolio = await client.get_account_portfolio(
-        account_address=account_address
-    )
+    portfolio = await client.fetch_account_portfolio(account_address=account_address)
     print(portfolio)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 <!-- embedme ../../../sdk-go/examples/exchange/portfolio/1_AccountPortfolio/example.go -->
@@ -83,9 +82,9 @@ const portfolio = await indexerGrpcAccountPortfolioApi.fetchAccountPortfolio(inj
 console.log(portfolio)
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|account_address|String|Address of the account to get portfolio for|Yes|
+| Parameter       | Type   | Description                                 | Required |
+| --------------- | ------ | ------------------------------------------- | -------- |
+| account_address | String | Address of the account to get portfolio for | Yes      |
 
 ### Response Parameters
 > Response Example:
@@ -245,24 +244,45 @@ Get continuous updates on account's portfolio.
 <!-- embedme ../../../sdk-python/examples/exchange_client/portfolio_rpc/2_StreamAccountPortfolio.py -->
 ``` python
 import asyncio
-import logging
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
+
+async def account_portfolio_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to account portfolio updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The account portfolio updates stream has been closed")
 
 
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
     account_address = "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-    updates = await client.stream_account_portfolio(account_address=account_address)
-    async for update in updates:
-        print("Account portfolio Update:\n")
-        print(update)
+
+    task = asyncio.get_event_loop().create_task(
+        client.listen_account_portfolio_updates(
+            account_address=account_address,
+            callback=account_portfolio_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
 
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
 ```
@@ -336,11 +356,14 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-| Parameter       | Type   | Description                                                                                  | Required |
-|-----------------|--------|----------------------------------------------------------------------------------------------|----------|
-| account_address | String | The account&#39;s portfolio address                                                          | Yes      |
-| subaccount_id   | String | Related subaccount ID                                                                        | No       |
-| type            | String | Type of portfolio document (should be one of ["bank", "total_balance", "available_balance"]) | No       |
+| Parameter          | Type     | Description                                                                                          | Required |
+| ------------------ | -------- | ---------------------------------------------------------------------------------------------------- | -------- |
+| account_address    | String   | The account&#39;s portfolio address                                                                  | Yes      |
+| subaccount_id      | String   | Related subaccount ID                                                                                | No       |
+| callback           | Function | Function receiving one parameter (a stream event JSON dictionary) to process each new event          | Yes      |
+| on_end_callback    | Function | Function with the logic to execute when the stream connection is interrupted                         | No       |
+| on_status_callback | Function | Function receiving one parameter (the exception) with the logic to execute when an exception happens | No       |
+
 
 ### Response Parameters
 > Response Example:

@@ -14,11 +14,11 @@ Get the details for a specific transaction.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.composer import Composer
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -26,17 +26,18 @@ async def main() -> None:
     client = AsyncClient(network)
     composer = Composer(network=network.string())
     tx_hash = "0F3EBEC1882E1EEAC5B7BDD836E976250F1CD072B79485877CEACCB92ACDDF52"
-    transaction_response = await client.get_tx_by_hash(tx_hash=tx_hash)
+    transaction_response = await client.fetch_tx_by_tx_hash(tx_hash=tx_hash)
     print(transaction_response)
 
-    transaction_messages = composer.UnpackTransactionMessages(transaction=transaction_response.data)
+    transaction_messages = composer.unpack_transaction_messages(transaction_data=transaction_response["data"])
     print(transaction_messages)
     first_message = transaction_messages[0]
     print(first_message)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -259,11 +260,12 @@ Get the details for a specific transaction.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
 from pyinjective.composer import Composer
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -271,17 +273,22 @@ async def main() -> None:
     client = AsyncClient(network)
     composer = Composer(network=network.string())
     address = "inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex"
-    type = "cosmos.bank.v1beta1.MsgSend"
+    message_type = "cosmos.bank.v1beta1.MsgSend"
     limit = 2
-    transactions_response = await client.get_account_txs(address=address, type=message_type, limit=limit)
+    pagination = PaginationOption(limit=limit)
+    transactions_response = await client.fetch_account_txs(
+        address=address,
+        message_type=message_type,
+        pagination=pagination,
+    )
     print(transactions_response)
-    first_transaction_messages = composer.UnpackTransactionMessages(transaction=transactions_response.data[0])
+    first_transaction_messages = composer.unpack_transaction_messages(transaction_data=transactions_response["data"][0])
     print(first_transaction_messages)
     first_message = first_transaction_messages[0]
     print(first_message)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
 ```
@@ -350,15 +357,17 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|address|String|The Injective Chain address|Yes|
-|type|String|Filter by message type|No|
-|module|String|Filter by module|No|
-|before|Integer|Filter transactions before a given block height|No|
-|after|Integer|Filter transactions after a given block height|No|
-|limit|Integer|Limit the returned transactions|No|
-|skip|Integer|Skip the first *n* transactions. This can be used to fetch all results since the API caps at 100.|No|
+| Parameter    | Type             | Description                                     | Required |
+| ------------ | ---------------- | ----------------------------------------------- | -------- |
+| address      | String           | The Injective Chain address                     | Yes      |
+| before       | Integer          | Filter transactions before a given block height | No       |
+| after        | Integer          | Filter transactions after a given block height  | No       |
+| message_type | String           | Filter by message type                          | No       |
+| module       | String           | Filter by module                                | No       |
+| from_number  | Integer          | Filter from transaction number                  | No       |
+| to_number    | Integer          | Filter to transaction number                    | No       |
+| status       | String           | Filter by transaction status                    | No       |
+| pagination   | PaginationOption | Pagination configuration                        | No       |
 
 
 ### Response Parameters
@@ -695,21 +704,23 @@ Get data for blocks.
 <!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/3_Blocks.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     limit = 2
-    block = await client.get_blocks(limit=limit)
-    print(block)
+    pagination = PaginationOption(limit=limit)
+    blocks = await client.fetch_blocks(pagination=pagination)
+    print(blocks)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
 ```
@@ -766,11 +777,11 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|before|Integer|Filter transactions before a given block height|No|
-|after|Integer|Filter transactions after a given block height|No|
-|limit|Integer|Limit the number of returned blocks|No|
+| Parameter  | Type             | Description                                     | Required |
+| ---------- | ---------------- | ----------------------------------------------- | -------- |
+| before     | Integer          | Filter transactions before a given block height | No       |
+| after      | Integer          | Filter transactions after a given block height  | No       |
+| pagination | PaginationOption | Pagination configuration                        | No       |
 
 
 ### Response Parameters
@@ -895,21 +906,21 @@ Get detailed data for a single block.
 <!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/4_Block.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     block_height = "5825046"
-    block = await client.get_block(block_height=block_height)
+    block = await client.fetch_block(block_id=block_height)
     print(block)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
 ```
@@ -966,9 +977,9 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|id|String|Block height|Yes|
+| Parameter | Type   | Description  | Required |
+| --------- | ------ | ------------ | -------- |
+| block_id  | String | Block height | Yes      |
 
 
 ### Response Parameters
@@ -1069,21 +1080,23 @@ Get the transactions.
 <!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/5_TxsRequest.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     limit = 2
-    txs = await client.get_txs(limit=limit)
+    pagination = PaginationOption(limit=limit)
+    txs = await client.fetch_txs(pagination=pagination)
     print(txs)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
 ```
@@ -1145,14 +1158,16 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|type|String|Filter by message type|No|
-|module|String|Filter by module|No|
-|before|Integer|Filter transactions before a given block height|No|
-|after|Integer|Filter transactions after a given block height|No|
-|limit|Integer|Limit the returned transactions|No|
-|skip|Integer|Skip the first *n* transactions. This can be used to fetch all results since the API caps at 100.|No|
+| Parameter    | Type             | Description                                     | Required |
+| ------------ | ---------------- | ----------------------------------------------- | -------- |
+| before       | Integer          | Filter transactions before a given block height | No       |
+| after        | Integer          | Filter transactions after a given block height  | No       |
+| message_type | String           | Filter by message type                          | No       |
+| module       | String           | Filter by module                                | No       |
+| from_number  | Integer          | Filter from transaction number                  | No       |
+| to_number    | Integer          | Filter to transaction number                    | No       |
+| status       | String           | Filter by transaction status                    | No       |
+| pagination   | PaginationOption | Pagination configuration                        | No       |
 
 
 ### Response Parameters
@@ -1364,22 +1379,44 @@ Stream transactions.
 <!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/6_StreamTxs.py -->
 ``` python
 import asyncio
-import logging
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
+
+async def tx_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to txs updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The txs updates stream has been closed")
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    stream_txs = await client.stream_txs(
-    )
-    async for tx in stream_txs:
-        print(tx)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    task = asyncio.get_event_loop().create_task(
+        client.listen_txs_updates(
+            callback=tx_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
 ```
@@ -1450,6 +1487,13 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
     });
 })();
 ```
+
+| Parameter          | Type     | Description                                                                                          | Required |
+| ------------------ | -------- | ---------------------------------------------------------------------------------------------------- | -------- |
+| callback           | Function | Function receiving one parameter (a stream event JSON dictionary) to process each new event          | Yes      |
+| on_end_callback    | Function | Function with the logic to execute when the stream connection is interrupted                         | No       |
+| on_status_callback | Function | Function receiving one parameter (the exception) with the logic to execute when an exception happens | No       |
+
 
 ### Response Parameters
 > Response Example:
@@ -1614,22 +1658,44 @@ Stream blocks.
 <!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/7_StreamBlocks.py -->
 ``` python
 import asyncio
-import logging
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
+
+async def block_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to blocks updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The blocks updates stream has been closed")
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    stream_blocks = await client.stream_blocks(
-    )
-    async for block in stream_blocks:
-        print(block)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    task = asyncio.get_event_loop().create_task(
+        client.listen_blocks_updates(
+            callback=block_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
 ```
@@ -1701,6 +1767,12 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
     });
 })();
 ```
+
+| Parameter          | Type     | Description                                                                                          | Required |
+| ------------------ | -------- | ---------------------------------------------------------------------------------------------------- | -------- |
+| callback           | Function | Function receiving one parameter (a stream event JSON dictionary) to process each new event          | Yes      |
+| on_end_callback    | Function | Function with the logic to execute when the stream connection is interrupted                         | No       |
+| on_status_callback | Function | Function receiving one parameter (the exception) with the logic to execute when an exception happens | No       |
 
 
 ### Response Parameters
@@ -1799,21 +1871,21 @@ Get info on peggy deposits. By default, deposits for all senders and receivers w
 <!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/8_GetPeggyDeposits.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     receiver = "inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex"
-    peggy_deposits = await client.get_peggy_deposits(receiver=receiver)
+    peggy_deposits = await client.fetch_peggy_deposit_txs(receiver=receiver)
     print(peggy_deposits)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
 ```
@@ -1879,12 +1951,11 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|sender|String|Filter by sender address|No|
-|receiver|String|Filter by receiver address|No|
-|limit|Integer|Limit the number of returned records|No|
-|skip|Integer|Skip the first *n* records. This can be used to retrieve all records since the API caps at 100|No|
+| Parameter  | Type             | Description                | Required |
+| ---------- | ---------------- | -------------------------- | -------- |
+| sender     | String           | Filter by sender address   | No       |
+| receiver   | String           | Filter by receiver address | No       |
+| pagination | PaginationOption | Pagination configuration   | No       |
 
 
 ### Response Parameters
@@ -2048,10 +2119,11 @@ Get info on peggy withdrawals.
 <!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/9_GetPeggyWithdrawals.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -2059,14 +2131,12 @@ async def main() -> None:
     client = AsyncClient(network)
     sender = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
     limit = 2
-    peggy_deposits = await client.get_peggy_withdrawals(
-        sender=sender,
-        limit=limit
-    )
+    pagination = PaginationOption(limit=limit)
+    peggy_deposits = await client.fetch_peggy_withdrawal_txs(sender=sender, pagination=pagination)
     print(peggy_deposits)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
 ```
@@ -2131,12 +2201,11 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|sender|String|Filter by sender address|No|
-|receiver|String|Filter by receiver address|No|
-|limit|Integer|Limit the number of returned records|No|
-|skip|Integer|Skip the first *n* records. This can be used to retrieve all records since the API caps at 100|No|
+| Parameter  | Type             | Description                | Required |
+| ---------- | ---------------- | -------------------------- | -------- |
+| sender     | String           | Filter by sender address   | No       |
+| receiver   | String           | Filter by receiver address | No       |
+| pagination | PaginationOption | Pagination configuration   | No       |
 
 ### Response Parameters
 > Response Example:
@@ -2297,10 +2366,11 @@ Get data on IBC transfers.
 <!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/10_GetIBCTransfers.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -2314,20 +2384,20 @@ async def main() -> None:
     dest_port = "transfer"
     limit = 1
     skip = 10
-    ibc_transfers = await client.get_ibc_transfers(
+    pagination = PaginationOption(limit=limit, skip=skip)
+    ibc_transfers = await client.fetch_ibc_transfer_txs(
         sender=sender,
         receiver=receiver,
         src_channel=src_channel,
         src_port=src_port,
-        destination_channel=destination_channel,
+        dest_channel=destination_channel,
         dest_port=dest_port,
-        # limit=limit,
-        # skip=skip
+        pagination=pagination,
     )
     print(ibc_transfers)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
 ```
@@ -2392,16 +2462,15 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|sender|String|Filter transfers based on sender address|No|
-|receiver|String|Filter transfers based on receiver address|No|
-|src_channel|String|Filter transfers based on source channel|No|
-|src_port|String|Filter transfers based on source port|No|
-|dest_channel|String|Filter transfers based on destination channel|No|
-|dest_port|String|Filter transfers based on destination port|No|
-|limit|Integer|Limit the returned transfers|No|
-|skip|Integer|Skip the last *n* transfers. This can be used to fetch all transfers since the API caps at 100|No|
+| Parameter    | Type             | Description                                   | Required |
+| ------------ | ---------------- | --------------------------------------------- | -------- |
+| sender       | String           | Filter transfers based on sender address      | No       |
+| receiver     | String           | Filter transfers based on receiver address    | No       |
+| src_channel  | String           | Filter transfers based on source channel      | No       |
+| src_port     | String           | Filter transfers based on source port         | No       |
+| dest_channel | String           | Filter transfers based on destination channel | No       |
+| dest_port    | String           | Filter transfers based on destination port    | No       |
+| pagination   | PaginationOption | Pagination configuration                      | No       |
 
 
 ### Response Parameters

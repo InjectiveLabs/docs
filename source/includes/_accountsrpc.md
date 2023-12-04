@@ -14,22 +14,22 @@ Get a list of subaccounts for a specific address.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
 
+
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     account_address = "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-    subacc_list = await client.get_subaccount_list(account_address)
+    subacc_list = await client.fetch_subaccounts_list(account_address)
     print(subacc_list)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -128,10 +128,11 @@ Get the subaccount's transfer history.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     network = Network.testnet()
@@ -142,23 +143,16 @@ async def main() -> None:
     skip = 1
     limit = 15
     end_time = 1665118340224
-    subacc_history = await client.get_subaccount_history(
-        subaccount_id=subaccount,
-        denom=denom,
-        transfer_types=transfer_types,
-        skip=skip,
-        limit=limit,
-        end_time=end_time
+    pagination = PaginationOption(skip=skip, limit=limit, end_time=end_time)
+    subacc_history = await client.fetch_subaccount_history(
+        subaccount_id=subaccount, denom=denom, transfer_types=transfer_types, pagination=pagination,
     )
     print(subacc_history)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
-    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -376,26 +370,23 @@ Get the balance of a subaccount for a specific denom.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
 
+
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     denom = "inj"
-    balance = await client.get_subaccount_balance(
-        subaccount_id=subaccount_id,
-        denom=denom
-    )
+    balance = await client.fetch_subaccount_balance(subaccount_id=subaccount_id, denom=denom)
     print(balance)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -530,25 +521,23 @@ List the subaccount's balances for all denoms.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
     subaccount = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     denoms = ["inj", "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"]
-    subacc_balances_list = await client.get_subaccount_balances_list(
-        subaccount_id=subaccount,
-        denoms=denoms
-    )
+    subacc_balances_list = await client.fetch_subaccount_balances_list(subaccount_id=subaccount, denoms=denoms)
     print(subacc_balances_list)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -726,27 +715,26 @@ Get a summary of the subaccount's active/unfilled orders.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
     subaccount = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-    # order_direction = "buy"
-    # market_id = "0xe112199d9ee44ceb2697ea0edd1cd422223c105f3ed2bdf85223d3ca59f5909a"
-    subacc_order_summary = await client.get_subaccount_order_summary(
-        subaccount_id=subaccount,
-        # order_direction=order_direction,
-        # market_id=market_id
-        )
+    order_direction = "buy"
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+    subacc_order_summary = await client.fetch_subaccount_order_summary(
+        subaccount_id=subaccount, order_direction=order_direction, market_id=market_id
+    )
     print(subacc_order_summary)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -861,24 +849,48 @@ Stream the subaccount's balance for all denoms.
 
 ``` python
 import asyncio
-import logging
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
+
+async def balance_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to balance updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The balance updates stream has been closed")
+
 
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
     subaccount_id = "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
     denoms = ["inj", "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"]
-    subaccount = await client.stream_subaccount_balance(subaccount_id)
-    async for balance in subaccount:
-        print("Subaccount balance Update:\n")
-        print(balance)
+    task = asyncio.get_event_loop().create_task(
+        client.listen_subaccount_balance_updates(
+            subaccount_id=subaccount_id,
+            callback=balance_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+            denoms=denoms,
+        )
+    )
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -958,10 +970,13 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|subaccount_id|String|Filter by subaccount ID|Yes|
-|denoms|String Array|Filter balances by denoms. If not set, the balances of all the denoms for the subaccount are provided|No|
+| Parameter          | Type         | Description                                                                                           | Required |
+| ------------------ | ------------ | ----------------------------------------------------------------------------------------------------- | -------- |
+| subaccount_id      | String       | Filter by subaccount ID                                                                               | Yes      |
+| denoms             | String Array | Filter balances by denoms. If not set, the balances of all the denoms for the subaccount are provided | No       |
+| callback           | Function     | Function receiving one parameter (a stream event JSON dictionary) to process each new event           | Yes      |
+| on_end_callback    | Function     | Function with the logic to execute when the stream connection is interrupted                          | No       |
+| on_status_callback | Function     | Function receiving one parameter (the exception) with the logic to execute when an exception happens  | No       |
 
 
 ### Response Parameters
@@ -1093,22 +1108,31 @@ Get orders with an order hash. This request will return market orders and limit 
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
 
+
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
-    spot_order_hashes = ["0xce0d9b701f77cd6ddfda5dd3a4fe7b2d53ba83e5d6c054fb2e9e886200b7b7bb", "0x2e2245b5431638d76c6e0cc6268970418a1b1b7df60a8e94b8cf37eae6105542"]
-    derivative_order_hashes = ["0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50", "0xbb1f036001378cecb5fff1cc69303919985b5bf058c32f37d5aaf9b804c07a06"]
-    orders = await client.get_order_states(spot_order_hashes=spot_order_hashes, derivative_order_hashes=derivative_order_hashes)
+    spot_order_hashes = [
+        "0xce0d9b701f77cd6ddfda5dd3a4fe7b2d53ba83e5d6c054fb2e9e886200b7b7bb",
+        "0x2e2245b5431638d76c6e0cc6268970418a1b1b7df60a8e94b8cf37eae6105542",
+    ]
+    derivative_order_hashes = [
+        "0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50",
+        "0xbb1f036001378cecb5fff1cc69303919985b5bf058c32f37d5aaf9b804c07a06",
+    ]
+    orders = await client.fetch_order_states(
+        spot_order_hashes=spot_order_hashes, derivative_order_hashes=derivative_order_hashes
+    )
     print(orders)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -1337,21 +1361,22 @@ Get an overview of your portfolio.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
     account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-    portfolio = await client.get_portfolio(account_address=account_address)
+    portfolio = await client.fetch_portfolio(account_address=account_address)
     print(portfolio)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -1492,24 +1517,23 @@ Get the rewards for Trade & Earn, the request will fetch all addresses for the l
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
 
+
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
-    # account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+    account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
     epoch = -1
-    rewards = await client.get_rewards(
-        # account_address=account_address,
-        epoch=epoch)
+    rewards = await client.fetch_rewards(account_address=account_address, epoch=epoch)
     print(rewards)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go

@@ -14,21 +14,22 @@ List all the insurance funds.
 <!-- embedme ../../../sdk-python/examples/exchange_client/insurance_rpc/1_InsuranceFunds.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    insurance_funds = await client.get_insurance_funds()
+    insurance_funds = await client.fetch_insurance_funds()
     print(insurance_funds)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 
 ```
 
@@ -250,10 +251,10 @@ Get a list of redemptions. If no parameters are provided, redemptions for all po
 <!-- embedme ../../../sdk-python/examples/exchange_client/insurance_rpc/2_Redemptions.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -262,16 +263,13 @@ async def main() -> None:
     redeemer = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
     redemption_denom = "share4"
     status = "disbursed"
-    insurance_redemptions = await client.get_redemptions(
-        redeemer=redeemer,
-        redemption_denom=redemption_denom,
-        status=status
-    )
+    insurance_redemptions = await client.fetch_redemptions(address=redeemer, denom=redemption_denom, status=status)
     print(insurance_redemptions)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 
 ```
 
@@ -328,11 +326,11 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|redeemer|String|Filter by address of the redeemer|No|
-|redemption_denom|String|Filter by denom of the insurance pool token|No|
-|status|String|Filter by redemption status (Should be one of: ["disbursed", "pending"])|No|
+| Parameter | Type   | Description                                                              | Required |
+| --------- | ------ | ------------------------------------------------------------------------ | -------- |
+| address   | String | Filter by address of the redeemer                                        | No       |
+| denom     | String | Filter by denom of the insurance pool token                              | No       |
+| status    | String | Filter by redemption status (Should be one of: ["disbursed", "pending"]) | No       |
 
 
 ### Response Parameters

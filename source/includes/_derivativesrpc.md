@@ -13,22 +13,23 @@ Get details of a single derivative market.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
-    market = await client.get_derivative_market(market_id=market_id)
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+    market = await client.fetch_derivative_market(market_id=market_id)
     print(market)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -289,26 +290,24 @@ Get a list of one or more derivative markets.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    market_status = "active"
+    market_statuses = ["active"]
     quote_denom = "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-    market = await client.get_derivative_markets(
-        market_status=market_status,
-        quote_denom=quote_denom
-    )
+    market = await client.fetch_derivative_markets(market_statuses=market_statuses, quote_denom=quote_denom)
     print(market)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -363,10 +362,10 @@ const markets = await indexerGrpcDerivativesApi.fetchMarkets()
 console.log(markets)
 ```
 
-| Parameter     | Type   | Description                                                                                            | Required |
-| ------------- | ------ | ------------------------------------------------------------------------------------------------------ | -------- |
-| market_status | String | Filter by market status (Should be one of: ["active", "paused", "suspended", "demolished", "expired"]) | No       |
-| quote_denom   | String | Filter by the Coin denomination of the quote currency                                                  | No       |
+| Parameter       | Type         | Description                                                                                            | Required |
+| --------------- | ------------ | ------------------------------------------------------------------------------------------------------ | -------- |
+| market_statuses | String Array | Filter by market status (Should be any of: ["active", "paused", "suspended", "demolished", "expired"]) | No       |
+| quote_denom     | String       | Filter by the Coin denomination of the quote currency                                                  | No       |
 
 
 
@@ -678,22 +677,46 @@ Stream live updates of derivative markets.
 
 ``` python
 import asyncio
-import logging
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
+
+async def market_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to derivative markets updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The derivative markets updates stream has been closed")
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    markets = await client.stream_derivative_markets()
-    async for market in markets:
-        print(market)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    task = asyncio.get_event_loop().create_task(
+        client.listen_derivative_market_updates(
+            callback=market_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -765,9 +788,12 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-| Parameter  | Type         | Description                                                                    | Required |
-| ---------- | ------------ | ------------------------------------------------------------------------------ | -------- |
-| market_ids | String Array | List of market IDs for updates streaming, empty means 'ALL' derivative markets | No       |
+| Parameter          | Type         | Description                                                                                          | Required |
+| ------------------ | ------------ | ---------------------------------------------------------------------------------------------------- | -------- |
+| market_ids         | String Array | List of market IDs for updates streaming, empty means 'ALL' derivative markets                       | No       |
+| callback           | Function     | Function receiving one parameter (a stream event JSON dictionary) to process each new event          | Yes      |
+| on_end_callback    | Function     | Function with the logic to execute when the stream connection is interrupted                         | No       |
+| on_status_callback | Function     | Function receiving one parameter (the exception) with the logic to execute when an exception happens | No       |
 
 ### Response Parameters
 > Streaming Response Example:
@@ -983,32 +1009,34 @@ Lists historical orders posted from a subaccount
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
+    market_ids = ["0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"]
     subaccount_id = "0x295639d56c987f0e24d21bb167872b3542a6e05a000000000000000000000000"
     is_conditional = "false"
     skip = 10
     limit = 3
-    orders = await client.get_historical_derivative_orders(
-        market_id=market_id,
+    pagination = PaginationOption(skip=skip, limit=limit)
+    orders = await client.fetch_derivative_orders_history(
         subaccount_id=subaccount_id,
-        skip=skip,
-        limit=limit,
+        market_ids=market_ids,
         is_conditional=is_conditional,
+        pagination=pagination,
     )
     print(orders)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -1061,24 +1089,19 @@ func main() {
 
 ```
 
-| Parameter           | Type         | Description                                                                                                                               | Required |
-| ------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| subaccount_id       | String       | Filter by subaccount ID                                                                                                                   | No       |
-| market_id           | String       | Filter by a single market ID                                                                                                              | Yes      |
-| skip                | Integer      | Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100                                | No       |
-| limit               | Integer      | Maximum number of items to be returned. 1 <= *n* <= 100                                                                                   | No       |
-| order_types         | String Array | The order types to be included (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) | No       |
-| direction           | String       | Filter by order direction (Should be one of: ["buy", "sell"])                                                                             | No       |
-| start_time          | Integer      | Search for orders where createdAt >= startTime, time in milliseconds                                                                      | No       |
-| end_time            | Integer      | Search for orders where createdAt <= startTime, time in milliseconds                                                                      | No       |
-| is_conditional      | String       | Search for conditional/non-conditional orders(Should be one of: ["true", "false"])                                                        | No       |
-| order_type          | String       | The order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"])                 | No       |
-| state               | String       | The order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                                                    | No       |
-| execution_types     | String Array | The execution of the order (Should be one of: ["limit", "market"])                                                                        | No       |
-| market_ids          | String Array | Filter by multiple market IDs                                                                                                             | No       |
-| trade_id            | String       | Filter by the trade's trade id                                                                                                            | No       |
-| active_markets_only | Bool         | Return only orders for active markets                                                                                                     | No       |
-| cid                 | String       | Filter by the custom client order id of the trade's order                                                                                 | No       |
+| Parameter           | Type             | Description                                                                                                                               | Required |
+| ------------------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| subaccount_id       | String           | Filter by subaccount ID                                                                                                                   | No       |
+| market_ids          | String Array     | Filter by multiple market IDs                                                                                                             | No       |
+| order_types         | String Array     | The order types to be included (Should be any of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) | No       |
+| direction           | String           | Filter by order direction (Should be one of: ["buy", "sell"])                                                                             | No       |
+| is_conditional      | String           | Search for conditional/non-conditional orders(Should be one of: ["true", "false"])                                                        | No       |
+| state               | String           | The order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                                                    | No       |
+| execution_types     | String Array     | The execution of the order (Should be one of: ["limit", "market"])                                                                        | No       |
+| trade_id            | String           | Filter by the trade's trade id                                                                                                            | No       |
+| active_markets_only | Bool             | Return only orders for active markets                                                                                                     | No       |
+| cid                 | String           | Filter by the custom client order id of the trade's order                                                                                 | No       |
+| pagination          | PaginationOption | Pagination configuration                                                                                                                  | No       |
 
 
 ### Response Parameters
@@ -1300,27 +1323,48 @@ Stream order updates of a derivative market.
 
 ``` python
 import asyncio
-import logging
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
+
+async def order_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to derivative orders history updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The derivative orders history updates stream has been closed")
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
-    order_side = "sell"
-    subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
-    orders = await client.stream_historical_derivative_orders(
-        market_id=market_id
-    )
-    async for order in orders:
-        print(order)
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    task = asyncio.get_event_loop().create_task(
+        client.listen_derivative_orders_history_updates(
+            callback=order_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+            market_id=market_id,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -1408,14 +1452,17 @@ const orderHistory = await indexerGrpcDerivativesApi.fetchOrderHistory({
 console.log(orderHistory)
 ```
 
-| Parameter       | Type         | Description                                                                                                                     | Required |
-| --------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| market_id       | String       | Filter by market ID                                                                                                             | Yes      |
-| subaccount_id   | String       | Filter by subaccount ID                                                                                                         | No       |
-| direction       | String       | Filter by direction (Should be one of: ["buy", "sell"])                                                                         | No       |
-| state           | String       | Filter by state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                                          | No       |
-| order_types     | String Array | Filter by order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) | No       |
-| execution_types | String Array | Filter by execution type (Should be one of: ["limit", "market"])                                                                | No       |
+| Parameter          | Type         | Description                                                                                                                     | Required |
+| ------------------ | ------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| subaccount_id      | String       | Filter by subaccount ID                                                                                                         | No       |
+| market_id          | String       | Filter by market ID                                                                                                             | No       |
+| order_types        | String Array | Filter by order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) | No       |
+| direction          | String       | Filter by direction (Should be one of: ["buy", "sell"])                                                                         | No       |
+| state              | String       | Filter by state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                                          | No       |
+| execution_types    | String Array | Filter by execution type (Should be one of: ["limit", "market"])                                                                | No       |
+| callback           | Function     | Function receiving one parameter (a stream event JSON dictionary) to process each new event                                     | Yes      |
+| on_end_callback    | Function     | Function with the logic to execute when the stream connection is interrupted                                                    | No       |
+| on_status_callback | Function     | Function receiving one parameter (the exception) with the logic to execute when an exception happens                            | No       |
 
 
 ### Response Parameters
@@ -1543,26 +1590,30 @@ Get trades of a derivative market.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
-    subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
-    trades = await client.get_derivative_trades(
-        market_id=market_id,
-        subaccount_id=subaccount_id
+    market_ids = ["0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"]
+    subaccount_ids = ["0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"]
+    skip = 0
+    limit = 4
+    pagination = PaginationOption(skip=skip, limit=limit)
+    trades = await client.fetch_derivative_trades(
+        market_ids=market_ids, subaccount_ids=subaccount_ids, pagination=pagination
     )
     print(trades)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -1632,22 +1683,17 @@ const trades = await indexerGrpcDerivativesApi.fetchTrades({
 console.log(trades)
 ```
 
-| Parameter       | Type         | Description                                                                                                                     | Required |
-| --------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| market_id       | String       | Filter by a single market ID                                                                                                    | No       |
-| execution_side  | String       | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
-| direction       | String       | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
-| subaccount_id   | String       | Filter by a single subaccount ID                                                                                                | No       |
-| skip            | Integer      | Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100                       | No       |
-| limit           | Integer      | Maximum number of items to be returned. 1 <= *n* <= 100                                                                         | No       |
-| start_time      | Integer      | startTime <= trade execution timestamp <= endTime                                                                               | No       |
-| end_time        | Integer      | startTime <= trade execution timestamp <= endTime                                                                               | No       |
-| market_ids      | String Array | Filter by multiple market IDs                                                                                                   | No       |
-| subaccount_ids  | String Array | Filter by multiple subaccount IDs                                                                                               | No       |
-| execution_types | String Array | Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
-| trade_id        | String       | Filter by the trade id of the trade                                                                                             | No       |
-| account_address | String       | Filter by the account address                                                                                                   | No       |
-| cid             | String       | Filter by the custom client order id of the trade's order                                                                       | No       |
+| Parameter       | Type             | Description                                                                                                                     | Required |
+| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| market_ids      | String Array     | Filter by multiple market IDs                                                                                                   | No       |
+| subaccount_ids  | String Array     | Filter by multiple subaccount IDs                                                                                               | No       |
+| execution_side  | String           | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
+| direction       | String           | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
+| execution_types | String Array     | Filter by the *trade execution type (Should be any of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
+| trade_id        | String           | Filter by the trade id of the trade                                                                                             | No       |
+| account_address | String           | Filter by the account address                                                                                                   | No       |
+| cid             | String           | Filter by the custom client order id of the trade's order                                                                       | No       |
+| pagination      | PaginationOption | Pagination configuration                                                                                                        | No       |
 
 ### Response Parameters
 > Response Example:
@@ -1860,30 +1906,53 @@ Stream newly executed trades of a derivative market. The default request streams
 
 ``` python
 import asyncio
-import logging
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
+
+async def market_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to derivative trades updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The derivative trades updates stream has been closed")
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     market_ids = [
-        "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3",
-        "0xd5e4b12b19ecf176e4e14b42944731c27677819d2ed93be4104ad7025529c7ff"
+        "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+        "0x70bc8d7feab38b23d5fdfb12b9c3726e400c265edbcbf449b6c80c31d63d3a02",
     ]
-    subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
-    trades = await client.stream_derivative_trades(
-        market_id=market_ids[0],
-        subaccount_id=subaccount_id
-    )
-    async for trade in trades:
-        print(trade)
+    subaccount_ids = ["0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"]
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    task = asyncio.get_event_loop().create_task(
+        client.listen_derivative_trades_updates(
+            callback=market_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+            market_ids=market_ids,
+            subaccount_ids=subaccount_ids,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -1977,22 +2046,20 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 })();
 ```
 
-| Parameter       | Type         | Description                                                                                                                     | Required |
-| --------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| market_id       | String       | Filter by a single market ID                                                                                                    | No       |
-| execution_side  | String       | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
-| direction       | String       | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
-| subaccount_id   | String       | Filter by a single subaccount ID                                                                                                | No       |
-| skip            | Integer      | Skip will skip the first N items from the result                                                                                | No       |
-| limit           | Integer      | Maximum number of items to be returned                                                                                          | No       |
-| start_time      | Integer      | Start timestamp (UNIX milliseconds) from when to filter trades                                                                  | No       |
-| end_time        | Integer      | End timestamp (UNIX milliseconds) to filter trades                                                                              | No       |
-| market_ids      | String Array | Filter by multiple market IDs                                                                                                   | No       |
-| subaccount_ids  | String Array | Filter by multiple subaccount IDs                                                                                               | No       |
-| execution_types | String Array | Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
-| trade_id        | String       | Filter by the trade's trade id                                                                                                  | No       |
-| account_address | String       | Filter by the account address                                                                                                   | No       |
-| cid             | String       | Filter by the custom client order id of the trade's order                                                                       | No       |
+| Parameter          | Type             | Description                                                                                                                     | Required |
+| ------------------ | ---------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| market_ids         | String Array     | Filter by multiple market IDs                                                                                                   | No       |
+| execution_side     | String           | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
+| direction          | String           | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
+| subaccount_ids     | String Array     | Filter by multiple subaccount IDs                                                                                               | No       |
+| execution_types    | String Array     | Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
+| trade_id           | String           | Filter by the trade's trade id                                                                                                  | No       |
+| account_address    | String           | Filter by the account address                                                                                                   | No       |
+| cid                | String           | Filter by the custom client order id of the trade's order                                                                       | No       |
+| pagination         | PaginationOption | Pagination configuration                                                                                                        | No       |
+| callback           | Function         | Function receiving one parameter (a stream event JSON dictionary) to process each new event                                     | Yes      |
+| on_end_callback    | Function         | Function with the logic to execute when the stream connection is interrupted                                                    | No       |
+| on_status_callback | Function         | Function receiving one parameter (the exception) with the logic to execute when an exception happens                            | No       |
 
 ### Response Parameters
 > Streaming Response Example:
@@ -2175,37 +2242,39 @@ Get the positions of a market.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     market_ids = [
-        "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3",
-        "0xe112199d9ee44ceb2697ea0edd1cd422223c105f3ed2bdf85223d3ca59f5909a"
+        "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+        "0xd97d0da6f6c11710ef06315971250e4e9aed4b7d4cd02059c9477ec8cf243782",
     ]
     subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
     direction = "short"
     subaccount_total_positions = False
     skip = 4
     limit = 4
-    positions = await client.get_derivative_positions(
+    pagination = PaginationOption(skip=skip, limit=limit)
+    positions = await client.fetch_derivative_positions(
         market_ids=market_ids,
-        # subaccount_id=subaccount_id,
+        subaccount_id=subaccount_id,
         direction=direction,
         subaccount_total_positions=subaccount_total_positions,
-        skip=skip,
-        limit=limit
+        pagination=pagination,
     )
     print(positions)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -2282,17 +2351,13 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 })();
 ```
 
-| Parameter                  | Type         | Description                                                                                                | Required |
-| -------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------- | -------- |
-| market_id                  | String       | Filter by a single market ID                                                                               | No       |
-| market_ids                 | String Array | Filter by multiple market IDs                                                                              | No       |
-| subaccount_id              | String       | Filter by subaccount ID                                                                                    | No       |
-| direction                  | String       | Filter by direction of position (Should be one of: ["long", "short"])                                      |          |
-| subaccount_total_positions | Boolean      | Choose to return subaccount total positions (Should be one of: [True, False])                              |          |
-| skip                       | Integer      | Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100 | No       |
-| limit                      | Integer      | Maximum number of items to be returned. 1 <= *n* <= 100                                                    | No       |
-| start_time                 | Integer      | startTime <= position timestamp <= endTime                                                                 | No       |
-| end_time                   | Integer      | startTime <= position timestamp <= endTime                                                                 | No       |
+| Parameter                  | Type             | Description                                                                   | Required |
+| -------------------------- | ---------------- | ----------------------------------------------------------------------------- | -------- |
+| market_ids                 | String Array     | Filter by multiple market IDs                                                 | No       |
+| subaccount_id              | String           | Filter by subaccount ID                                                       | No       |
+| direction                  | String           | Filter by direction of position (Should be one of: ["long", "short"])         | No       |
+| subaccount_total_positions | Boolean          | Choose to return subaccount total positions (Should be one of: [True, False]) | No       |
+| pagination                 | PaginationOption | Pagination configuration                                                      | No       |
 
 ### Response Parameters
 > Response Example:
@@ -2453,27 +2518,50 @@ Stream position updates for a specific market.
 
 ``` python
 import asyncio
-import logging
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
+
+async def positions_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to derivative positions updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The derivative positions updates stream has been closed")
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
-    subaccount_id = "0xea98e3aa091a6676194df40ac089e40ab4604bf9000000000000000000000000"
-    positions = await client.stream_derivative_positions(
-        market_id=market_id,
-        subaccount_id=subaccount_id
-    )
-    async for position in positions:
-        print(position)
+    market_ids = ["0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"]
+    subaccount_ids = ["0xea98e3aa091a6676194df40ac089e40ab4604bf9000000000000000000000000"]
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    task = asyncio.get_event_loop().create_task(
+        client.listen_derivative_positions_updates(
+            callback=positions_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+            market_ids=market_ids,
+            subaccount_ids=subaccount_ids,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -2554,12 +2642,13 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 })();
 ```
 
-| Parameter      | Type         | Description                                            | Required |
-| -------------- | ------------ | ------------------------------------------------------ | -------- |
-| market_id      | String       | ID of the market to stream position data from          | No       |
-| market_ids     | String Array | IDs of the markets to stream position data from        | No       |
-| subaccount_ids | String Array | Subaccount IDs of the traders to stream positions from | No       |
-| subaccount_id  | String       | Subaccount ID of the trader to stream positions from   | No       |
+| Parameter          | Type         | Description                                                                                          | Required |
+| ------------------ | ------------ | ---------------------------------------------------------------------------------------------------- | -------- |
+| market_ids         | String Array | IDs of the markets to stream position data from                                                      | No       |
+| subaccount_ids     | String Array | Subaccount IDs of the traders to stream positions from                                               | No       |
+| callback           | Function     | Function receiving one parameter (a stream event JSON dictionary) to process each new event          | Yes      |
+| on_end_callback    | Function     | Function with the logic to execute when the stream connection is interrupted                         | No       |
+| on_status_callback | Function     | Function receiving one parameter (the exception) with the logic to execute when an exception happens | No       |
 
 
 ### Response Parameters
@@ -2699,22 +2788,23 @@ This API will be removed on April 5, 2023 on testnet and on April 22, 2023 on ma
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
-    market = await client.get_derivative_orderbook(market_id=market_id)
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+    market = await client.fetch_derivative_orderbook_v2(market_id=market_id)
     print(market)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -3502,24 +3592,24 @@ Get an orderbook snapshot for one or more derivative markets.
 <!-- embedme ../../../sdk-python/examples/exchange_client/derivative_exchange_rpc/22_OrderbooksV2.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     market_ids = [
-        "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3",
-        "0xd5e4b12b19ecf176e4e14b42944731c27677819d2ed93be4104ad7025529c7ff"
+        "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+        "0xd5e4b12b19ecf176e4e14b42944731c27677819d2ed93be4104ad7025529c7ff",
     ]
-    orderbooks = await client.get_derivative_orderbooksV2(market_ids=market_ids)
+    orderbooks = await client.fetch_derivative_orderbooks_v2(market_ids=market_ids)
     print(orderbooks)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
 ```
@@ -3659,23 +3749,46 @@ Stream orderbook snapshot updates for one or more derivative markets
 <!-- embedme ../../../sdk-python/examples/exchange_client/derivative_exchange_rpc/23_StreamOrderbooksV2.py -->
 ``` python
 import asyncio
-import logging
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
+
+async def orderbook_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to derivative orderbook snapshots ({exception})")
+
+
+def stream_closed_processor():
+    print("The derivative orderbook snapshots stream has been closed")
 
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    market_ids = ["0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"]
-    orderbooks = await client.stream_derivative_orderbook_snapshot(market_ids=market_ids)
-    async for orderbook in orderbooks:
-        print(orderbook)
+    market_ids = ["0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"]
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    task = asyncio.get_event_loop().create_task(
+        client.listen_derivative_orderbook_snapshots(
+            market_ids=market_ids,
+            callback=orderbook_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
 ```
@@ -3708,9 +3821,12 @@ streamFn(streamFnArgs)
 
 ```
 
-| Parameter  | Type         | Description                                                              | Required |
-| ---------- | ------------ | ------------------------------------------------------------------------ | -------- |
-| market_ids | String Array | List of market IDs for orderbook streaming; empty means all spot markets | Yes      |
+| Parameter          | Type         | Description                                                                                          | Required |
+| ------------------ | ------------ | ---------------------------------------------------------------------------------------------------- | -------- |
+| market_ids         | String Array | List of market IDs for orderbook streaming; empty means all spot markets                             | Yes      |
+| callback           | Function     | Function receiving one parameter (a stream event JSON dictionary) to process each new event          | Yes      |
+| on_end_callback    | Function     | Function with the logic to execute when the stream connection is interrupted                         | No       |
+| on_status_callback | Function     | Function receiving one parameter (the exception) with the logic to execute when an exception happens | No       |
 
 
 ### Response Parameters
@@ -3829,11 +3945,21 @@ Stream incremental orderbook updates for one or more derivative markets. This st
 <!-- embedme ../../../sdk-python/examples/exchange_client/derivative_exchange_rpc/6_StreamOrderbookUpdate.py -->
 ``` python
 import asyncio
-import logging
-from decimal import *
+from decimal import Decimal
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to derivative orderbook updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The derivative orderbook updates stream has been closed")
 
 
 class PriceLevel:
@@ -3855,24 +3981,24 @@ class Orderbook:
 
 async def load_orderbook_snapshot(async_client: AsyncClient, orderbook: Orderbook):
     # load the snapshot
-    res = await async_client.get_derivative_orderbooksV2(market_ids=[orderbook.market_id])
-    for snapshot in res.orderbooks:
-        if snapshot.market_id != orderbook.market_id:
+    res = await async_client.fetch_derivative_orderbooks_v2(market_ids=[orderbook.market_id])
+    for snapshot in res["orderbooks"]:
+        if snapshot["marketId"] != orderbook.market_id:
             raise Exception("unexpected snapshot")
 
-        orderbook.sequence = int(snapshot.orderbook.sequence)
+        orderbook.sequence = int(snapshot["orderbook"]["sequence"])
 
-        for buy in snapshot.orderbook.buys:
-            orderbook.levels["buys"][buy.price] = PriceLevel(
-                price=Decimal(buy.price),
-                quantity=Decimal(buy.quantity),
-                timestamp=buy.timestamp,
+        for buy in snapshot["orderbook"]["buys"]:
+            orderbook.levels["buys"][buy["price"]] = PriceLevel(
+                price=Decimal(buy["price"]),
+                quantity=Decimal(buy["quantity"]),
+                timestamp=int(buy["timestamp"]),
             )
-        for sell in snapshot.orderbook.sells:
-            orderbook.levels["sells"][sell.price] = PriceLevel(
-                price=Decimal(sell.price),
-                quantity=Decimal(sell.quantity),
-                timestamp=sell.timestamp,
+        for sell in snapshot["orderbook"]["sells"]:
+            orderbook.levels["sells"][sell["price"]] = PriceLevel(
+                price=Decimal(sell["price"]),
+                quantity=Decimal(sell["quantity"]),
+                timestamp=int(sell["timestamp"]),
             )
         break
 
@@ -3882,78 +4008,96 @@ async def main() -> None:
     network = Network.testnet()
     async_client = AsyncClient(network)
 
-    market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
     orderbook = Orderbook(market_id=market_id)
+    updates_queue = asyncio.Queue()
+    tasks = []
+
+    async def queue_event(event: Dict[str, Any]):
+        await updates_queue.put(event)
 
     # start getting price levels updates
-    stream = await async_client.stream_derivative_orderbook_update(market_ids=[market_id])
-    first_update = None
-    async for update in stream:
-        first_update = update.orderbook_level_updates
-        break
+    task = asyncio.get_event_loop().create_task(
+        async_client.listen_derivative_orderbook_updates(
+            market_ids=[market_id],
+            callback=queue_event,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+    tasks.append(task)
 
     # load the snapshot once we are already receiving updates, so we don't miss any
     await load_orderbook_snapshot(async_client=async_client, orderbook=orderbook)
 
-    # start consuming updates again to process them
-    apply_orderbook_update(orderbook, first_update)
-    async for update in stream:
-        apply_orderbook_update(orderbook, update.orderbook_level_updates)
+    task = asyncio.get_event_loop().create_task(
+        apply_orderbook_update(orderbook=orderbook, updates_queue=updates_queue)
+    )
+    tasks.append(task)
+
+    await asyncio.sleep(delay=60)
+    for task in tasks:
+        task.cancel()
 
 
-def apply_orderbook_update(orderbook: Orderbook, updates):
-    # discard old updates
-    if updates.sequence <= orderbook.sequence:
-        return
+async def apply_orderbook_update(orderbook: Orderbook, updates_queue: asyncio.Queue):
+    while True:
+        updates = await updates_queue.get()
+        update = updates["orderbookLevelUpdates"]
 
-    print(" * * * * * * * * * * * * * * * * * * *")
+        # discard updates older than the snapshot
+        if int(update["sequence"]) <= orderbook.sequence:
+            return
 
-    # ensure we have not missed any update
-    if updates.sequence > (orderbook.sequence + 1):
-        raise Exception("missing orderbook update events from stream, must restart: {} vs {}".format(
-            updates.sequence, (orderbook.sequence + 1)))
+        print(" * * * * * * * * * * * * * * * * * * *")
 
-    print("updating orderbook with updates at sequence {}".format(updates.sequence))
+        # ensure we have not missed any update
+        if int(update["sequence"]) > (orderbook.sequence + 1):
+            raise Exception(
+                "missing orderbook update events from stream, must restart: {} vs {}".format(
+                    update["sequence"], (orderbook.sequence + 1)
+                )
+            )
 
-    # update orderbook
-    orderbook.sequence = updates.sequence
-    for direction, levels in {"buys": updates.buys, "sells": updates.sells}.items():
-        for level in levels:
-            if level.is_active:
-                # upsert level
-                orderbook.levels[direction][level.price] = PriceLevel(
-                    price=Decimal(level.price),
-                    quantity=Decimal(level.quantity),
-                    timestamp=level.timestamp)
-            else:
-                if level.price in orderbook.levels[direction]:
-                    del orderbook.levels[direction][level.price]
+        print("updating orderbook with updates at sequence {}".format(update["sequence"]))
 
-    # sort the level numerically
-    buys = sorted(orderbook.levels["buys"].values(), key=lambda x: x.price, reverse=True)
-    sells = sorted(orderbook.levels["sells"].values(), key=lambda x: x.price, reverse=True)
+        # update orderbook
+        orderbook.sequence = int(update["sequence"])
+        for direction, levels in {"buys": update["buys"], "sells": update["sells"]}.items():
+            for level in levels:
+                if level["isActive"]:
+                    # upsert level
+                    orderbook.levels[direction][level["price"]] = PriceLevel(
+                        price=Decimal(level["price"]), quantity=Decimal(level["quantity"]), timestamp=level["timestamp"]
+                    )
+                else:
+                    if level["price"] in orderbook.levels[direction]:
+                        del orderbook.levels[direction][level["price"]]
 
-    # lowest sell price should be higher than the highest buy price
-    if len(buys) > 0 and len(sells) > 0:
-        highest_buy = buys[0].price
-        lowest_sell = sells[-1].price
-        print("Max buy: {} - Min sell: {}".format(highest_buy, lowest_sell))
-        if highest_buy >= lowest_sell:
-            raise Exception("crossed orderbook, must restart")
+        # sort the level numerically
+        buys = sorted(orderbook.levels["buys"].values(), key=lambda x: x.price, reverse=True)
+        sells = sorted(orderbook.levels["sells"].values(), key=lambda x: x.price, reverse=True)
 
-    # for the example, print the list of buys and sells orders.
-    print("sells")
-    for k in sells:
-        print(k)
-    print("=========")
-    print("buys")
-    for k in buys:
-        print(k)
-    print("====================================")
+        # lowest sell price should be higher than the highest buy price
+        if len(buys) > 0 and len(sells) > 0:
+            highest_buy = buys[0].price
+            lowest_sell = sells[-1].price
+            print("Max buy: {} - Min sell: {}".format(highest_buy, lowest_sell))
+            if highest_buy >= lowest_sell:
+                raise Exception("crossed orderbook, must restart")
+
+        # for the example, print the list of buys and sells orders.
+        print("sells")
+        for k in sells:
+            print(k)
+        print("=========")
+        print("buys")
+        for k in buys:
+            print(k)
+        print("====================================")
 
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+if __name__ == "__main__":
     asyncio.run(main())
 
 ```
@@ -3988,9 +4132,12 @@ streamFn(streamFnArgs)
 
 ```
 
-| Parameter  | Type         | Description                                                                    | Required |
-| ---------- | ------------ | ------------------------------------------------------------------------------ | -------- |
-| market_ids | String Array | List of market IDs for orderbook streaming; empty means all derivative markets | Yes      |
+| Parameter          | Type         | Description                                                                                          | Required |
+| ------------------ | ------------ | ---------------------------------------------------------------------------------------------------- | -------- |
+| market_ids         | String Array | List of market IDs for orderbook streaming; empty means all derivative markets                       | Yes      |
+| callback           | Function     | Function receiving one parameter (a stream event JSON dictionary) to process each new event          | Yes      |
+| on_end_callback    | Function     | Function with the logic to execute when the stream connection is interrupted                         | No       |
+| on_status_callback | Function     | Function receiving one parameter (the exception) with the logic to execute when an exception happens | No       |
 
 
 ### Response Parameters
@@ -4095,31 +4242,30 @@ Get the derivative orders of a specific subaccount.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-    market_id = "0xe112199d9ee44ceb2697ea0edd1cd422223c105f3ed2bdf85223d3ca59f5909a"
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
     skip = 1
     limit = 2
-    orders = await client.get_derivative_subaccount_orders(
-        subaccount_id=subaccount_id,
-        market_id=market_id,
-        skip=skip,
-        limit=limit
-      )
+    pagination = PaginationOption(skip=skip, limit=limit)
+    orders = await client.fetch_subaccount_orders_list(
+        subaccount_id=subaccount_id, market_id=market_id, pagination=pagination
+    )
     print(orders)
 
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -4189,12 +4335,11 @@ const subaccountOrders = await indexerGrpcDerivativesApi.fetchSubaccountOrdersLi
 console.log(subaccountOrders)
 ```
 
-| Parameter     | Type    | Description                                                                                                | Required |
-| ------------- | ------- | ---------------------------------------------------------------------------------------------------------- | -------- |
-| subaccount_id | String  | Filter by subaccount ID                                                                                    | Yes      |
-| market_id     | String  | Filter by market ID                                                                                        | No       |
-| skip          | Integer | Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100 | No       |
-| limit         | Integer | Maximum number of items to be returned. 1 <= *n* <= 100                                                    | No       |
+| Parameter     | Type             | Description              | Required |
+| ------------- | ---------------- | ------------------------ | -------- |
+| subaccount_id | String           | Filter by subaccount ID  | Yes      |
+| market_id     | String           | Filter by market ID      | No       |
+| pagination    | PaginationOption | Pagination configuration | No       |
 
 
 ### Response Parameters
@@ -4372,35 +4517,36 @@ Get the derivative trades for a specific subaccount.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-    market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
     execution_type = "market"
     direction = "sell"
     skip = 10
     limit = 2
-    trades = await client.get_derivative_subaccount_trades(
+    pagination = PaginationOption(skip=skip, limit=limit)
+    trades = await client.fetch_derivative_subaccount_trades_list(
         subaccount_id=subaccount_id,
         market_id=market_id,
         execution_type=execution_type,
         direction=direction,
-        skip=skip,
-        limit=limit
+        pagination=pagination,
     )
     print(trades)
 
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -4476,14 +4622,13 @@ const subaccountTrades = await indexerGrpcDerivativesApi.fetchSubaccountTradesLi
 console.log(subaccountTrades)
 ```
 
-| Parameter      | Type    | Description                                                                                                                             | Required |
-| -------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| subaccount_id  | String  | Subaccount ID of trader to get trades from                                                                                              | Yes      |
-| market_id      | String  | Filter by Market ID                                                                                                                     | No       |
-| direction      | String  | Filter by the direction of the trades (Should be one of: ["buy", "sell"])                                                               | No       |
-| execution_type | String  | Filter by the *execution type of the trades (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
-| skip           | Integer | Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100                              | No       |
-| limit          | Integer | Maximum number of items to be returned. 1 <= *n* <= 100                                                                                 | No       |
+| Parameter      | Type             | Description                                                                                                                             | Required |
+| -------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| subaccount_id  | String           | Subaccount ID of trader to get trades from                                                                                              | Yes      |
+| market_id      | String           | Filter by Market ID                                                                                                                     | No       |
+| execution_type | String           | Filter by the *execution type of the trades (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
+| direction      | String           | Filter by the direction of the trades (Should be one of: ["buy", "sell"])                                                               | No       |
+| pagination     | PaginationOption | Pagination configuration                                                                                                                | No       |
 
 
 ### Response Parameters
@@ -4668,32 +4813,31 @@ Get the funding payments for a subaccount.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
+    market_ids = ["0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"]
     subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
-    skip=0
-    limit=3
-    end_time=1676426400125
-    funding = await client.get_funding_payments(
-        market_id=market_id,
-        subaccount_id=subaccount_id,
-        skip=skip,
-        limit=limit,
-        end_time=end_time
+    skip = 0
+    limit = 3
+    end_time = 1676426400125
+    pagination = PaginationOption(skip=skip, limit=limit, end_time=end_time)
+    funding_payments = await client.fetch_funding_payments(
+        market_ids=market_ids, subaccount_id=subaccount_id, pagination=pagination
     )
-    print(funding)
+    print(funding_payments)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -4757,14 +4901,11 @@ const fundingPayments = await indexerGrpcDerivativesApi.fetchFundingPayments({
 console.log(fundingPayments)
 ```
 
-| Parameter     | Type         | Description                                                                                          | Required |
-| ------------- | ------------ | ---------------------------------------------------------------------------------------------------- | -------- |
-| subaccount_id | String       | Subaccount ID of the trader we want to get the positions from                                        | Yes      |
-| market_id     | String       | Filter by a single market ID                                                                         | No       |
-| market_ids    | String Array | Filter by multiple market IDs                                                                        | No       |
-| skip          | Integer      | Skip the last *n* funding payments. This can be used to fetch all payments since the API caps at 100 | No       |
-| limit         | Integer      | Maximum number of items to be returned. 1 <= *n* <= 100                                              | No       |
-| end_time      | Integer      | Upper bound (inclusive) of the funding payment timestamp                                             | No       |
+| Parameter     | Type             | Description                                                   | Required |
+| ------------- | ---------------- | ------------------------------------------------------------- | -------- |
+| market_ids    | String Array     | Filter by multiple market IDs                                 | No       |
+| subaccount_id | String           | Subaccount ID of the trader we want to get the positions from | No       |
+| pagination    | PaginationOption | Pagination configuration                                      | No       |
 
 
 ### Response Parameters
@@ -4876,30 +5017,28 @@ Get the historical funding rates for a specific market.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    market_id = "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
-    skip=0
-    limit=3
-    end_time=1675717201465
-    funding_rates = await client.get_funding_rates(
-        market_id=market_id,
-        skip=skip,
-        limit=limit,
-        end_time=end_time
-    )
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+    skip = 0
+    limit = 3
+    end_time = 1675717201465
+    pagination = PaginationOption(skip=skip, limit=limit, end_time=end_time)
+    funding_rates = await client.fetch_funding_rates(market_id=market_id, pagination=pagination)
     print(funding_rates)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -4961,12 +5100,10 @@ const fundingRates = await indexerGrpcDerivativesApi.fetchFundingRates({
 console.log(fundingRates)
 ```
 
-| Parameter | Type    | Description                                                                                            | Required |
-| --------- | ------- | ------------------------------------------------------------------------------------------------------ | -------- |
-| market_id | String  | ID of the market to get funding rates for                                                              | Yes      |
-| skip      | Integer | Skip the last *n* funding rates. This can be used to fetch all funding rates since the API caps at 100 | No       |
-| limit     | Integer | Maximum number of funding rates to be returned. 1 <= *n* <= 100                                        | No       |
-| end_time  | Integer | Upper bound (inclusive) of funding rate timestamp                                                      | No       |
+| Parameter  | Type             | Description                               | Required |
+| ---------- | ---------------- | ----------------------------------------- | -------- |
+| market_id  | String           | ID of the market to get funding rates for | Yes      |
+| pagination | PaginationOption | Pagination configuration                  | No       |
 
 
 ### Response Parameters
@@ -5069,21 +5206,20 @@ Get details of a single binary options market.
 <!-- embedme ../../../sdk-python/examples/exchange_client/derivative_exchange_rpc/20_Binary_Options_Market.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
 
+
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     market_id = "0x175513943b8677368d138e57bcd6bef53170a0da192e7eaa8c2cd4509b54f8db"
-    market = await client.get_binary_options_market(market_id=market_id)
+    market = await client.fetch_binary_options_market(market_id=market_id)
     print(market)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
 ```
@@ -5221,30 +5357,22 @@ Get a list of binary options markets.
 <!-- embedme ../../../sdk-python/examples/exchange_client/derivative_exchange_rpc/19_Binary_Options_Markets.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
 
+
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     market_status = "active"
-    quote_denom = "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-    limit = 2
-    skip = 2
-    market = await client.get_binary_options_markets(
-        market_status=market_status,
-        quote_denom=quote_denom,
-        limit=limit,
-        skip=skip
-    )
+    quote_denom = "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+    market = await client.fetch_binary_options_markets(market_status=market_status, quote_denom=quote_denom)
 
     print(market)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
 ```
@@ -5267,12 +5395,11 @@ console.log(binaryOptionsMarket)
 
 ```
 
-| Parameter     | Type    | Description                                                                                                       | Required |
-| ------------- | ------- | ----------------------------------------------------------------------------------------------------------------- | -------- |
-| market_status | String  | Filter by the status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"]) | No       |
-| quote_denom   | String  | Filter by the Coin denomination of the quote currency                                                             | No       |
-| skip          | Integer | Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100        | No       |
-| limit         | Integer | Maximum number of items to be returned. 1 <= *n* <= 100                                                           | No       |
+| Parameter     | Type             | Description                                                                                                       | Required |
+| ------------- | ---------------- | ----------------------------------------------------------------------------------------------------------------- | -------- |
+| market_status | String           | Filter by the status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"]) | No       |
+| quote_denom   | String           | Filter by the Coin denomination of the quote currency                                                             | No       |
+| pagination    | PaginationOption | Pagination configuration                                                                                          | No       |
 
 
 ### Response Parameters
