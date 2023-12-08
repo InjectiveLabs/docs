@@ -90,56 +90,93 @@ console.log(portfolio)
 > Response Example:
 
 ``` python
-portfolio {
-  account_address: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-  bank_balances {
-    denom: "inj"
-    amount: "9990005504242500000000"
-  }
-  bank_balances {
-    denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-    amount: "9689943508"
-  }
-  subaccounts {
-    subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002"
-    denom: "inj"
-    deposit {
-      total_balance: "1000000000000"
-      available_balance: "1000000000000"
-    }
-  }
-  subaccounts {
-    subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000"
-    denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-    deposit {
-      total_balance: "0.4444"
-      available_balance: "0.4444"
-    }
-  }
-  subaccounts {
-    subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000"
-    denom: "inj"
-    deposit {
-      total_balance: "0"
-      available_balance: "0"
-    }
-  }
-  subaccounts {
-    subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
-    denom: "inj"
-    deposit {
-      total_balance: "11050001000000000000"
-      available_balance: "10990001000000000000"
-    }
-  }
-  subaccounts {
-    subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
-    denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-    deposit {
-      total_balance: "302618110.6156"
-      available_balance: "298208110.6156"
-    }
-  }
+{
+   "portfolio":{
+      "accountAddress":"inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt",
+      "bankBalances":[
+         {
+            "denom":"inj",
+            "amount":"9689395972014420000000"
+         },
+         {
+            "denom":"peggy0x44C21afAaF20c270EBbF5914Cfc3b5022173FEB7",
+            "amount":"100000000000000000000"
+         },
+         {
+            "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+            "amount":"8689670208"
+         }
+      ],
+      "subaccounts":[
+         {
+            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
+            "denom":"peggy0x44C21afAaF20c270EBbF5914Cfc3b5022173FEB7",
+            "deposit":{
+               "totalBalance":"0",
+               "availableBalance":"0"
+            }
+         },
+         {
+            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
+            "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+            "deposit":{
+               "totalBalance":"0.170858923182467801",
+               "availableBalance":"0.170858923182467801"
+            }
+         },
+         {
+            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
+            "denom":"inj",
+            "deposit":{
+               "totalBalance":"0.458458",
+               "availableBalance":"0.458458"
+            }
+         },
+         {
+            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002",
+            "denom":"inj",
+            "deposit":{
+               "totalBalance":"1000000000000",
+               "availableBalance":"1000000000000"
+            }
+         },
+         {
+            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001",
+            "denom":"inj",
+            "deposit":{
+               "totalBalance":"11010001000000000000",
+               "availableBalance":"11010001000000000000"
+            }
+         },
+         {
+            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001",
+            "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+            "deposit":{
+               "totalBalance":"298666021.6838251182660625",
+               "availableBalance":"298666021.6838251182660625"
+            }
+         }
+      ],
+      "positionsWithUpnl":[
+         {
+            "position":{
+               "ticker":"TIA/USDT-01NOV2023",
+               "marketId":"0xf97a740538e10845e0c3db9ea94c6eaf8a570aeebe3e3511e2e387501a40e4bb",
+               "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
+               "direction":"short",
+               "quantity":"139.6",
+               "entryPrice":"22522222.222222222222222222",
+               "margin":"985863999.424172444444444445",
+               "liquidationPrice":"29004201.230732",
+               "markPrice":"23.706683000000000000",
+               "aggregateReduceOnlyQuantity":"0",
+               "updatedAt":"1696481899",
+               "createdAt":"0"
+            },
+            "unrealizedPnl":"-165.350724577777780880"
+         }
+      ]
+   }
 }
 ```
 
@@ -369,15 +406,20 @@ streamFn(streamFnArgs)
 > Response Example:
 
 ``` python
-type: "bank"
-denom: "inj"
-amount: "9990005452404000000000"
-
-Account portfolio Update:
-
-type: "bank"
-denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-amount: "9689943532"
+{
+ "type": "total_balances",
+ "denom": "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+ "amount": "302686408.8456",
+ "subaccountId": "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001",
+ "timestamp": "342423423"
+}
+{
+ "type": "total_balances",
+ "denom": "inj",
+ "amount": "11040001000000000000",
+ "subaccount_id": "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001",
+ "timestamp": "342432343"
+}
 ```
 
 ``` go

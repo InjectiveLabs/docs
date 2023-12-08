@@ -85,32 +85,58 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-oracles {
-  symbol: "BTC"
-  oracle_type: "bandibc"
-  price: "16835.93"
-}
-oracles {
-  symbol: "ETH"
-  oracle_type: "bandibc"
-  price: "1251.335"
-}
-oracles {
-  symbol: "INJ"
-  oracle_type: "bandibc"
-  price: "1.368087992"
-}
-oracles {
-  symbol: "USDT"
-  oracle_type: "bandibc"
-  price: "0.999785552"
-}
-oracles {
-  symbol: "FRNT/USDT"
-  base_symbol: "FRNT"
-  quote_symbol: "USDT"
-  oracle_type: "pricefeed"
-  price: "0.5"
+{
+   "oracles":[
+      {
+         "symbol":"BTC",
+         "oracleType":"bandibc",
+         "price":"16835.93",
+         "baseSymbol":"",
+         "quoteSymbol":""
+      },
+      {
+         "symbol":"ETH",
+         "oracleType":"bandibc",
+         "price":"1251.335",
+         "baseSymbol":"",
+         "quoteSymbol":""
+      },
+      {
+         "symbol":"INJ",
+         "oracleType":"bandibc",
+         "price":"1.368087992",
+         "baseSymbol":"",
+         "quoteSymbol":""
+      },
+      {
+         "symbol":"USDT",
+         "oracleType":"bandibc",
+         "price":"0.999785552",
+         "baseSymbol":"",
+         "quoteSymbol":""
+      },
+      {
+         "symbol":"FRNT/USDT",
+         "baseSymbol":"FRNT",
+         "quoteSymbol":"USDT",
+         "oracleType":"pricefeed",
+         "price":"0.5"
+      },
+      {
+         "symbol":"0xb327d9cf0ecd793a175fa70ac8d2dc109d4462758e556962c4a87b02ec4f3f15",
+         "baseSymbol":"0xb327d9cf0ecd793a175fa70ac8d2dc109d4462758e556962c4a87b02ec4f3f15",
+         "quoteSymbol":"0xb327d9cf0ecd793a175fa70ac8d2dc109d4462758e556962c4a87b02ec4f3f15",
+         "oracleType":"pyth",
+         "price":"7.33638432"
+      },
+      {
+         "symbol":"0xecf553770d9b10965f8fb64771e93f5690a182edc32be4a3236e0caaa6e0581a",
+         "baseSymbol":"0xecf553770d9b10965f8fb64771e93f5690a182edc32be4a3236e0caaa6e0581a",
+         "quoteSymbol":"0xecf553770d9b10965f8fb64771e93f5690a182edc32be4a3236e0caaa6e0581a",
+         "oracleType":"pyth",
+         "price":"225.28704062"
+      }
+   ]
 }
 ```
 
@@ -288,7 +314,7 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-price: "16835930000"
+{ "price": '1.368087992' }
 ```
 
 ``` go
@@ -460,11 +486,10 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Streaming Response Example:
 
 ``` python
-price: "16835.93"
-timestamp: 1676539631606
-
-price: "16840.12"
-timestamp: 1676539635432
+{
+   "price":"1.3683814386627584",
+   "timestamp":"1702043286264"
+}
 ```
 
 ``` go

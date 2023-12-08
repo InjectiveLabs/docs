@@ -178,22 +178,14 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-Version: version: "dev"
-build {
-  key: "BuildDate"
-  value: "20230210-0651"
-}
-build {
-  key: "GitCommit"
-  value: "6b0c142"
-}
-build {
-  key: "GoArch"
-  value: "amd64"
-}
-build {
-  key: "GoVersion"
-  value: "go1.19.2"
+{
+   "version":"v1.12.46-rc1",
+   "build":{
+      "BuildDate":"20231110-0736",
+      "GitCommit":"2b326fe",
+      "GoVersion":"go1.20.5",
+      "GoArch":"amd64"
+   }
 }
 ```
 
@@ -326,29 +318,18 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-timestamp: 1676695214189
-server_time: 1676695214692
-version: "dev"
-build {
-  key: "BuildDate"
-  value: "20230210-0651"
+{
+   "timestamp":"1702040535291",
+   "serverTime":"1702040536394",
+   "version":"v1.12.46-guilds-rc5",
+   "build":{
+      "BuildDate":"20231113-1523",
+      "GitCommit":"78a9ea2",
+      "GoVersion":"go1.20.5",
+      "GoArch":"amd64"
+   },
+   "region":""
 }
-build {
-  key: "GitCommit"
-  value: "6b0c142"
-}
-build {
-  key: "GoArch"
-  value: "amd64"
-}
-build {
-  key: "GoVersion"
-  value: "go1.19.2"
-}
-
-Server Latency: 427ms
-
-Server Latency: 375ms
 ```
 
 ``` typescript
@@ -450,8 +431,6 @@ async def get_markets(client):
 
 if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
-
-
 
 ```
 

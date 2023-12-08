@@ -92,36 +92,42 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-auction {
-  winner: "inj1uyk56r3xdcf60jwrmn7p9rgla9dc4gam56ajrq"
-  basket {
-    denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-    amount: "2322098"
-  }
-  winning_bid_amount: "2000000000000000000"
-  round: 31
-  end_timestamp: 1676013187000
-  updated_at: 1675408390939
-}
-bids {
-  bidder: "inj1pdxq82m20fzkjn2th2mm5jp7t5ex6j6klf9cs5"
-  amount: "1000000000000000000"
-  timestamp: 1675426622603
-}
-bids {
-  bidder: "inj1tu9xwxms5dvz3782tjal0fy5rput78p3k5sfv6"
-  amount: "1010000000000000000"
-  timestamp: 1675427580363
-}
-bids {
-  bidder: "inj1sdkt803zwq2tpej0k2a0z58hwyrnerzfsxj356"
-  amount: "1030000000000000000"
-  timestamp: 1675482275821
-}
-bids {
-  bidder: "inj1uyk56r3xdcf60jwrmn7p9rgla9dc4gam56ajrq"
-  amount: "2000000000000000000"
-  timestamp: 1675595586380
+{
+   "auction":{
+      "winner":"inj1uyk56r3xdcf60jwrmn7p9rgla9dc4gam56ajrq",
+      "basket":[
+         {
+            "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+            "amount":"2322098"
+         }
+      ],
+      "winningBidAmount":"2000000000000000000",
+      "round":"31",
+      "endTimestamp":"1676013187000",
+      "updatedAt":"1677075140258"
+   },
+   "bids":[
+      {
+         "bidder":"inj1pdxq82m20fzkjn2th2mm5jp7t5ex6j6klf9cs5",
+         "amount":"1000000000000000000",
+         "timestamp":"1675426622603"
+      },
+      {
+         "bidder":"inj1tu9xwxms5dvz3782tjal0fy5rput78p3k5sfv6",
+         "amount":"1010000000000000000",
+         "timestamp":"1675427580363"
+      },
+      {
+         "bidder":"inj1sdkt803zwq2tpej0k2a0z58hwyrnerzfsxj356",
+         "amount":"1030000000000000000",
+         "timestamp":"1675482275821"
+      },
+      {
+         "bidder":"inj1uyk56r3xdcf60jwrmn7p9rgla9dc4gam56ajrq",
+         "amount":"2000000000000000000",
+         "timestamp":"1675595586380"
+      }
+   ]
 }
 ```
 
@@ -295,44 +301,66 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 > Response Example:
 
 ``` python
-auctions {
-  basket {
-    denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-    amount: "188940000"
-  }
-  round: 1
-  end_timestamp: 1657869187000
-  updated_at: 1658131202118
-}
-auctions {
-  basket {
-    denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-    amount: "219025410"
-  }
-  round: 2
-  end_timestamp: 1658473987000
-  updated_at: 1658134858904
-}
-
-...
-
-auctions {
-  basket {
-    denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-    amount: "394877"
-  }
-  round: 32
-  end_timestamp: 1676617987000
-  updated_at: 1676013212591
-}
-auctions {
-  basket {
-    denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-    amount: "1563547"
-  }
-  round: 33
-  end_timestamp: 1677222787000
-  updated_at: 1676617990954
+{
+   "auctions":[
+      {
+         "basket":[
+            {
+               "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+               "amount":"188940000"
+            }
+         ],
+         "round":"1",
+         "endTimestamp":"1657869187000",
+         "updatedAt":"1658131202118",
+         "winner":"",
+         "winningBidAmount":""
+      },
+      {
+         "basket":[
+            {
+               "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+               "amount":"219025410"
+            }
+         ],
+         "round":"2",
+         "endTimestamp":"1658473987000",
+         "updatedAt":"1658134858904",
+         "winner":"",
+         "winningBidAmount":""
+      },
+      ...
+      {
+         "winner":"inj1rk9fguz9zjwtqm3t6e9fzp7n9dd7jfhaw9dcc4",
+         "basket":[
+            {
+               "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+               "amount":"1066722260002"
+            }
+         ],
+         "winningBidAmount":"3007530000000000000000",
+         "round":"73",
+         "endTimestamp":"1701414787000",
+         "updatedAt":"1700809987278"
+      },
+      {
+         "basket":[
+            {
+               "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+               "amount":"1137356301548"
+            },
+            {
+               "denom":"peggy0xf9152067989BDc8783fF586624124C05A529A5D1",
+               "amount":"128519416"
+            }
+         ],
+         "round":"74",
+         "endTimestamp":"1702019587000",
+         "updatedAt":"1701414788278",
+         "winner":"",
+         "winningBidAmount":""
+      }
+   ]
 }
 ```
 
@@ -560,15 +588,18 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-bidder: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-bid_amount: "2100000000000000000"
-round: 33
-timestamp: 1676692477304
-
-bidder: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-bid_amount: "2200000000000000256"
-round: 33
-timestamp: 1676692509733
+{
+  "bidder": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+  "bidAmount": "1000000000000000000",
+  "round": 19532,
+  "timestamp": 1654233511715
+}
+{
+  "bidder": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+  "bidAmount": "3000000000000000000",
+  "round": 19532,
+  "timestamp": 1654233530633
+}
 ```
 
 ``` go

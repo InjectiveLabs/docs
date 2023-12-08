@@ -516,12 +516,41 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-balances {
-  denom: "inj"
-  amount: "225858203095000000000"
-}
-pagination {
-  total: 1
+{
+   "balances":[
+      {
+         "denom":"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/atom",
+         "amount":"10000000000"
+      },
+      {
+         "denom":"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/usdc",
+         "amount":"10000000000"
+      },
+      {
+         "denom":"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/weth",
+         "amount":"5000000000"
+      },
+      {
+         "denom":"factory/inj1aetmaq5pswvfg6nhvgd4lt94qmg23ka3ljgxlm/SHURIKEN",
+         "amount":"115700000"
+      },
+      {
+         "denom":"factory/inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r/test",
+         "amount":"1000000"
+      },
+      {
+         "denom":"inj",
+         "amount":"760662316753211286487"
+      },
+      {
+         "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+         "amount":"9996297948"
+      }
+   ],
+   "pagination":{
+      "total":"7",
+      "nextKey":""
+   }
 }
 ```
 
@@ -736,9 +765,11 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-balance {
-  denom: "inj"
-  amount: "225839507773500000000"
+{
+   "balance":{
+      "denom":"inj",
+      "amount":"760662316753211286487"
+   }
 }
 ```
 

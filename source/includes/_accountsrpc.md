@@ -91,8 +91,13 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-subaccounts: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
-subaccounts: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002"
+{
+   "subaccounts":[
+      "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001",
+      "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002",
+      "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000"
+   ]
+}
 ```
 
 ``` go
@@ -238,28 +243,42 @@ import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
 > Response Example:
 
 ``` python
-transfers {
-  transfer_type: "deposit"
-  src_account_address: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-  dst_subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  amount {
-    denom: "inj"
-    amount: "2000000000000000000"
-  }
-  executed_at: 1665117493543
-}
-transfers {
-  transfer_type: "deposit"
-  src_account_address: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-  dst_subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  amount {
-    denom: "inj"
-    amount: "15000000000000000000"
-  }
-  executed_at: 1660313668990
-}
-paging {
-  total: 3
+{
+   "transfers":[
+      {
+         "transferType":"deposit",
+         "srcAccountAddress":"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+         "dstSubaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+         "amount":{
+            "denom":"inj",
+            "amount":"2000000000000000000"
+         },
+         "executedAt":"1665117493543",
+         "srcSubaccountId":"",
+         "dstAccountAddress":""
+      },
+      {
+         "transferType":"deposit",
+         "srcAccountAddress":"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+         "dstSubaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+         "amount":{
+            "denom":"inj",
+            "amount":"15000000000000000000"
+         },
+         "executedAt":"1660313668990",
+         "srcSubaccountId":"",
+         "dstAccountAddress":""
+      }
+   ],
+   "paging":{
+      "total":"3",
+      "from":0,
+      "to":0,
+      "countBySubaccount":"0",
+      "next":[
+         
+      ]
+   }
 }
 
 ```
@@ -453,14 +472,16 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-balance {
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  account_address: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-  denom: "inj"
-  deposit {
-    total_balance: "1492235700000000000000"
-    available_balance: "1492235700000000000000"
-  }
+{
+   "balance":{
+      "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "accountAddress":"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+      "denom":"inj",
+      "deposit":{
+         "totalBalance":"0",
+         "availableBalance":"0"
+      }
+   }
 }
 ```
 
@@ -603,23 +624,27 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-balances {
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  account_address: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-  denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-  deposit {
-    total_balance: "115310339308.284511627876066473"
-    available_balance: "115236639078.284511627876066473"
-  }
-}
-balances {
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  account_address: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-  denom: "inj"
-  deposit {
-    total_balance: "1492235700000000000000"
-    available_balance: "1492235700000000000000"
-  }
+{
+   "balances":[
+      {
+         "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+         "accountAddress":"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+         "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+         "deposit":{
+            "totalBalance":"131721505.337958346262317217",
+            "availableBalance":"0.337958346262317217"
+         }
+      },
+      {
+         "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+         "accountAddress":"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+         "denom":"inj",
+         "deposit":{
+            "totalBalance":"0",
+            "availableBalance":"0"
+         }
+      }
+   ]
 }
 ```
 
@@ -814,8 +839,10 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-spot_orders_total: 1
-derivative_orders_total: 7
+{
+   "derivativeOrdersTotal":"1",
+   "spotOrdersTotal":"0"
+}
 ```
 
 ``` go
@@ -983,42 +1010,30 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Streaming Response Example:
 
 ``` python
-Subaccount balance Update:
-
-balance {
-  subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
-  account_address: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-  denom: "inj"
-  deposit {
-    available_balance: "9980001000000000000"
-  }
+{
+  "balance": {
+    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    "accountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+    "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "deposit": {
+      "totalBalance": "200493439765890.695319283887814576",
+      "availableBalance": "200493414240390.695319283887814031"
+    }
+  },
+  "timestamp": 1654234765000
 }
-timestamp: 1675902606000
-
-Subaccount balance Update:
-
-balance {
-  subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
-  account_address: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-  denom: "inj"
-  deposit {
-    available_balance: "9990001000000000000"
-  }
+{
+  "balance": {
+    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    "accountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+    "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "deposit": {
+      "totalBalance": "200493847328858.695319283887814576",
+      "availableBalance": "200493821803358.695319283887814031"
+    }
+  },
+  "timestamp": 1654234804000
 }
-timestamp: 1675902946000
-
-Subaccount balance Update:
-
-balance {
-  subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
-  account_address: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-  denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-  deposit {
-    total_balance: "199999859.1576"
-    available_balance: "199989859.1576"
-  }
-}
-timestamp: 1675902946000
 ```
 
 ``` go
@@ -1209,41 +1224,35 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-spot_order_states {
-  order_hash: "0xa848395a768ee06af360e2e35bac6f598fdc52e8d0c34a588d32cd9108f3571f"
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  market_id: "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"
-  order_type: "buy"
-  order_side: "buy"
-  state: "booked"
-  quantity_filled: "0"
-  quantity_remaining: "2000000"
-  created_at: 1652701438661
-  updated_at: 1652701438661
-}
-spot_order_states {
-  order_hash: "0x163861fba3d911631e18354a03e7357bc6358cd2042535e8ad11dc6c29f8c558"
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  market_id: "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"
-  order_type: "buy"
-  order_side: "buy"
-  state: "booked"
-  quantity_filled: "0"
-  quantity_remaining: "2000000"
-  created_at: 1652693332688
-  updated_at: 1652693332688
-}
-derivative_order_states {
-  order_hash: "0x962af5e492a2ce4575616dbcf687a063ef9c4b33a047a9fb86794804923337c8"
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  market_id: "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-  order_type: "sell"
-  order_side: "sell"
-  state: "booked"
-  quantity_filled: "1"
-  quantity_remaining: "0"
-  created_at: 1652786114544
-  updated_at: 1652786114544
+{
+  "spotOrderStates": [
+    {
+      "orderHash": "0xb7b556d6eab10c4c185a660be44757a8a6715fb16db39708f2f76d9ce5ae8617",
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "marketId": "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa",
+      "orderType": "limit",
+      "orderSide": "buy",
+      "state": "booked",
+      "quantityFilled": "0",
+      "quantityRemaining": "1000000",
+      "createdAt": 1654080262300,
+      "updatedAt": 1654080262300
+    }
+  ],
+  "derivativeOrderStates": [
+    {
+      "orderHash": "0x4228f9a56a5bb50de4ceadc64df694c77e7752d58b71a7c557a27ec10e1a094e",
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "marketId": "0x1c79dac019f73e4060494ab1b4fcba734350656d6fc4d474f6a238c13c6f9ced",
+      "orderType": "limit",
+      "orderSide": "buy",
+      "state": "booked",
+      "quantityFilled": "0",
+      "quantityRemaining": "1",
+      "createdAt": 1654235059957,
+      "updatedAt": 1654235059957
+    }
+  ]
 }
 ```
 
@@ -1438,17 +1447,87 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-portfolio {
-  portfolio_value: "121771.765274665073374624"
-  available_balance: "120622.8032988109636363"
-  locked_balance: "1476.0573145189379903"
-  unrealized_pnl: "-327.095338664828251976"
-  subaccounts {
-    subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-    available_balance: "120622.8032988109636363"
-    locked_balance: "1476.0573145189379903"
-    unrealized_pnl: "-327.095338664828251976"
-  }
+{
+   "portfolio":{
+      "portfolioValue":"6229.040631548905238875",
+      "availableBalance":"92.4500010811984646",
+      "lockedBalance":"13218.3573583009093604",
+      "unrealizedPnl":"-7081.766727833202586125",
+      "subaccounts":[
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000002",
+            "availableBalance":"0",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000006",
+            "availableBalance":"0",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000008",
+            "availableBalance":"0",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000009",
+            "availableBalance":"0",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f971347490200000061746f6d2d75736474",
+            "availableBalance":"0.00000066622556",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+            "availableBalance":"0.0000003382963046",
+            "lockedBalance":"13218.3573583009093604",
+            "unrealizedPnl":"-7081.766727833202586125"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f971347490200000000696e6a2d75736474",
+            "availableBalance":"0.0000000766766",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000001",
+            "availableBalance":"92.45",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000003",
+            "availableBalance":"0",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000007",
+            "availableBalance":"0",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000004",
+            "availableBalance":"0",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000005",
+            "availableBalance":"0",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         }
+      ]
+   }
 }
 ```
 
@@ -1607,31 +1686,20 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-rewards {
-  account_address: "inj1qra8c03h70y36j85dpvtj05juxe9z7acuvz6vg"
-  rewards {
-    denom: "inj"
-    amount: "1954269574440758128"
-  }
-  distributed_at: 1672218001897
+{
+   "rewards":[
+      {
+         "accountAddress":"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+         "rewards":[
+            {
+               "denom":"inj",
+               "amount":"11169382212463849"
+            }
+         ],
+         "distributedAt":"1672218001897"
+      }
+   ]
 }
-rewards {
-  account_address: "inj1q4sww3amkmwhym54aaey5v8wemkh9v80jp8e3z"
-  rewards {
-    denom: "inj"
-    amount: "8497057876433151133"
-  }
-  distributed_at: 1672218001897
-}
-rewards {
-  account_address: "inj1pqsujjk66dsf40v2lfrry46m2fym44thgn5qqh"
-  rewards {
-    denom: "inj"
-    amount: "41401176734199333"
-  }
-  distributed_at: 1672218001897
-}
-...
 ```
 
 ``` go

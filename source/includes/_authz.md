@@ -783,14 +783,18 @@ https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesAuthz#msgrevoke
 > Response Example:
 
 ``` python
-grants: {
-  authorization: {
-    type_url: "/cosmos.authz.v1beta1.GenericAuthorization",
-    value: "\n3/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"
-  },
-  expiration: {
-    seconds: 1673468820
-  }
+{
+   "grants":[
+      {
+         "authorization":"OrderedDict("[
+            "(""@type",
+            "/cosmos.authz.v1beta1.GenericAuthorization"")",
+            "(""msg",
+            "/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"")"
+         ]")",
+         "expiration":"2024-12-07T02:26:01Z"
+      }
+   ]
 }
 ```
 
