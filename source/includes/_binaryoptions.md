@@ -984,10 +984,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/google/uuid"
 	"os"
 	"time"
 
+	"github.com/InjectiveLabs/sdk-go/client"
 	"github.com/InjectiveLabs/sdk-go/client/common"
 	"github.com/shopspring/decimal"
 
@@ -1034,7 +1034,7 @@ func main() {
 	chainClient, err := chainclient.NewChainClient(
 		clientCtx,
 		network,
-		common.OptionGasPrices("500000000inj"),
+		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
 	)
 
 	if err != nil {
@@ -1055,7 +1055,6 @@ func main() {
 		Price:        sprice,
 		FeeRecipient: senderAddress.String(),
 		MarketId:     smarketId,
-		Cid:          uuid.NewString(),
 	})
 
 	dmarketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
@@ -1072,7 +1071,6 @@ func main() {
 		FeeRecipient: senderAddress.String(),
 		MarketId:     dmarketId,
 		IsReduceOnly: false,
-		Cid:          uuid.NewString(),
 	})
 
 	msg := new(exchangetypes.MsgBatchUpdateOrders)

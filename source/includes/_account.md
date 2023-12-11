@@ -87,89 +87,86 @@ if __name__ == "__main__":
 package main
 
 import (
-  "fmt"
-  "os"
-  "time"
+	"fmt"
+	"github.com/InjectiveLabs/sdk-go/client"
+	"os"
+	"time"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
+	"github.com/InjectiveLabs/sdk-go/client/common"
 
-  sdktypes "github.com/cosmos/cosmos-sdk/types"
-  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+	sdktypes "github.com/cosmos/cosmos-sdk/types"
 
-  exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
-  chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
-  if err != nil {
-    fmt.Println(err)
-  }
+	network := common.LoadNetwork("testnet", "lb")
+	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	if err != nil {
+		panic(err)
+	}
 
-  senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-    os.Getenv("HOME")+"/.injectived",
-    "injectived",
-    "file",
-    "inj-user",
-    "12345678",
-    "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-    false,
-  )
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
 
-  if err != nil {
-    panic(err)
-  }
+	if err != nil {
+		panic(err)
+	}
 
-  clientCtx, err := chainclient.NewClientContext(
-    network.ChainId,
-    senderAddress.String(),
-    cosmosKeyring,
-  )
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	msg := &exchangetypes.MsgDeposit{
+		Sender:       senderAddress.String(),
+		SubaccountId: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+		Amount: sdktypes.Coin{
+			Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
+		},
+	}
 
-  clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
+	chainClient, err := chainclient.NewChainClient(
+		clientCtx,
+		network,
+		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
+	)
 
-  msg := &exchangetypes.MsgDeposit{
-    Sender:       senderAddress.String(),
-    SubaccountId: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-    Amount: sdktypes.Coin{
-      Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
-    },
-  }
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  chainClient, err := chainclient.NewChainClient(
-    clientCtx,
-    network.ChainGrpcEndpoint,
-    common.OptionTLSCert(network.ChainTlsCert),
-    common.OptionGasPrices("500000000inj"),
-  )
+	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	err = chainClient.QueueBroadcastMsg(msg)
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  //AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
-  err = chainClient.QueueBroadcastMsg(msg)
+	time.Sleep(time.Second * 5)
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	gasFee, err := chainClient.GetGasFee()
 
-  time.Sleep(time.Second * 5)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-  gasFee, err := chainClient.GetGasFee()
-
-  if err != nil {
-    fmt.Println(err)
-    return
-  }
-
-  fmt.Println("gas fee:", gasFee, "INJ")
+	fmt.Println("gas fee:", gasFee, "INJ")
 }
 ```
 
@@ -290,90 +287,90 @@ if __name__ == "__main__":
 package main
 
 import (
-  "fmt"
-  "os"
-  "time"
+	"fmt"
+	"os"
+	"time"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
+	"github.com/InjectiveLabs/sdk-go/client"
+	"github.com/InjectiveLabs/sdk-go/client/common"
 
-  exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
-  chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-  sdktypes "github.com/cosmos/cosmos-sdk/types"
-  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+	exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+	sdktypes "github.com/cosmos/cosmos-sdk/types"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	network := common.LoadNetwork("testnet", "lb")
+	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	if err != nil {
+		panic(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
 
-  senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-    os.Getenv("HOME")+"/.injectived",
-    "injectived",
-    "file",
-    "inj-user",
-    "12345678",
-    "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-    false,
-  )
+	if err != nil {
+		panic(err)
+	}
 
-  if err != nil {
-    panic(err)
-  }
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
 
-  clientCtx, err := chainclient.NewClientContext(
-    network.ChainId,
-    senderAddress.String(),
-    cosmosKeyring,
-  )
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
 
-  clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
+	msg := &exchangetypes.MsgSubaccountTransfer{
+		Sender:                  senderAddress.String(),
+		SourceSubaccountId:      "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+		DestinationSubaccountId: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000001",
+		Amount: sdktypes.Coin{
+			Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
+		},
+	}
 
-  msg := &exchangetypes.MsgWithdraw{
-    Sender:       senderAddress.String(),
-    SubaccountId: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-    Amount: sdktypes.Coin{
-      Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
-    },
-  }
+	chainClient, err := chainclient.NewChainClient(
+		clientCtx,
+		network,
+		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
+	)
 
-  chainClient, err := chainclient.NewChainClient(
-    clientCtx,
-    network.ChainGrpcEndpoint,
-    common.OptionTLSCert(network.ChainTlsCert),
-    common.OptionGasPrices("500000000inj"),
-  )
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	err = chainClient.QueueBroadcastMsg(msg)
 
-  //AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
-  err = chainClient.QueueBroadcastMsg(msg)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	time.Sleep(time.Second * 5)
 
-  time.Sleep(time.Second * 5)
+	gasFee, err := chainClient.GetGasFee()
 
-  gasFee, err := chainClient.GetGasFee()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-  if err != nil {
-    fmt.Println(err)
-    return
-  }
-
-  fmt.Println("gas fee:", gasFee, "INJ")
+	fmt.Println("gas fee:", gasFee, "INJ")
 }
+
 ```
 
 ``` typescript
@@ -500,91 +497,90 @@ if __name__ == "__main__":
 package main
 
 import (
-  "fmt"
-  "os"
-  "time"
+	"fmt"
+	"os"
+	"time"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
+	"github.com/InjectiveLabs/sdk-go/client"
+	"github.com/InjectiveLabs/sdk-go/client/common"
 
-  exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
-  chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-  sdktypes "github.com/cosmos/cosmos-sdk/types"
-  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+	exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+	sdktypes "github.com/cosmos/cosmos-sdk/types"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	network := common.LoadNetwork("testnet", "lb")
+	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	if err != nil {
+		panic(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
 
-  senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-    os.Getenv("HOME")+"/.injectived",
-    "injectived",
-    "file",
-    "inj-user",
-    "12345678",
-    "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-    false,
-  )
+	if err != nil {
+		panic(err)
+	}
 
-  if err != nil {
-    panic(err)
-  }
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
 
-  clientCtx, err := chainclient.NewClientContext(
-    network.ChainId,
-    senderAddress.String(),
-    cosmosKeyring,
-  )
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
 
-  clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
+	msg := &exchangetypes.MsgSubaccountTransfer{
+		Sender:                  senderAddress.String(),
+		SourceSubaccountId:      "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+		DestinationSubaccountId: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000001",
+		Amount: sdktypes.Coin{
+			Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
+		},
+	}
 
-  msg := &exchangetypes.MsgSubaccountTransfer{
-    Sender:                  senderAddress.String(),
-    SourceSubaccountId:      "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-    DestinationSubaccountId: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000001",
-    Amount: sdktypes.Coin{
-      Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
-    },
-  }
+	chainClient, err := chainclient.NewChainClient(
+		clientCtx,
+		network,
+		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
+	)
 
-  chainClient, err := chainclient.NewChainClient(
-    clientCtx,
-    network.ChainGrpcEndpoint,
-    common.OptionTLSCert(network.ChainTlsCert),
-    common.OptionGasPrices("500000000inj"),
-  )
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	err = chainClient.QueueBroadcastMsg(msg)
 
-  //AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
-  err = chainClient.QueueBroadcastMsg(msg)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	time.Sleep(time.Second * 5)
 
-  time.Sleep(time.Second * 5)
+	gasFee, err := chainClient.GetGasFee()
 
-  gasFee, err := chainClient.GetGasFee()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-  if err != nil {
-    fmt.Println(err)
-    return
-  }
-
-  fmt.Println("gas fee:", gasFee, "INJ")
+	fmt.Println("gas fee:", gasFee, "INJ")
 }
+
 ```
 
 ``` typescript
@@ -712,91 +708,90 @@ if __name__ == "__main__":
 package main
 
 import (
-  "fmt"
-  "os"
-  "time"
+	"fmt"
+	"os"
+	"time"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
+	"github.com/InjectiveLabs/sdk-go/client"
+	"github.com/InjectiveLabs/sdk-go/client/common"
 
-  exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
-  chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-  sdktypes "github.com/cosmos/cosmos-sdk/types"
-  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+	exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+	sdktypes "github.com/cosmos/cosmos-sdk/types"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	network := common.LoadNetwork("testnet", "lb")
+	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	if err != nil {
+		panic(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
 
-  senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-    os.Getenv("HOME")+"/.injectived",
-    "injectived",
-    "file",
-    "inj-user",
-    "12345678",
-    "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-    false,
-  )
+	if err != nil {
+		panic(err)
+	}
 
-  if err != nil {
-    panic(err)
-  }
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
 
-  clientCtx, err := chainclient.NewClientContext(
-    network.ChainId,
-    senderAddress.String(),
-    cosmosKeyring,
-  )
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
 
-  clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
+	msg := &exchangetypes.MsgExternalTransfer{
+		Sender:                  senderAddress.String(),
+		SourceSubaccountId:      "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+		DestinationSubaccountId: "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000",
+		Amount: sdktypes.Coin{
+			Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
+		},
+	}
 
-  msg := &exchangetypes.MsgExternalTransfer{
-    Sender:                  senderAddress.String(),
-    SourceSubaccountId:      "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-    DestinationSubaccountId: "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000",
-    Amount: sdktypes.Coin{
-      Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
-    },
-  }
+	chainClient, err := chainclient.NewChainClient(
+		clientCtx,
+		network,
+		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
+	)
 
-  chainClient, err := chainclient.NewChainClient(
-    clientCtx,
-    network.ChainGrpcEndpoint,
-    common.OptionTLSCert(network.ChainTlsCert),
-    common.OptionGasPrices("500000000inj"),
-  )
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	err = chainClient.QueueBroadcastMsg(msg)
 
-  //AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
-  err = chainClient.QueueBroadcastMsg(msg)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	time.Sleep(time.Second * 5)
 
-  time.Sleep(time.Second * 5)
+	gasFee, err := chainClient.GetGasFee()
 
-  gasFee, err := chainClient.GetGasFee()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-  if err != nil {
-    fmt.Println(err)
-    return
-  }
-
-  fmt.Println("gas fee:", gasFee, "INJ")
+	fmt.Println("gas fee:", gasFee, "INJ")
 }
+
 ```
 
 ``` typescript
@@ -930,98 +925,97 @@ if __name__ == "__main__":
 package main
 
 import (
-  "fmt"
-  "os"
-  "time"
+	"fmt"
+	"os"
+	"time"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
+	"github.com/InjectiveLabs/sdk-go/client"
+	"github.com/InjectiveLabs/sdk-go/client/common"
 
-  peggytypes "github.com/InjectiveLabs/sdk-go/chain/peggy/types"
-  chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-  sdktypes "github.com/cosmos/cosmos-sdk/types"
-  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+	peggytypes "github.com/InjectiveLabs/sdk-go/chain/peggy/types"
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+	sdktypes "github.com/cosmos/cosmos-sdk/types"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	network := common.LoadNetwork("testnet", "lb")
+	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	if err != nil {
+		panic(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
 
-  senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-    os.Getenv("HOME")+"/.injectived",
-    "injectived",
-    "file",
-    "inj-user",
-    "12345678",
-    "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-    false,
-  )
+	if err != nil {
+		panic(err)
+	}
 
-  if err != nil {
-    panic(err)
-  }
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
 
-  clientCtx, err := chainclient.NewClientContext(
-    network.ChainId,
-    senderAddress.String(),
-    cosmosKeyring,
-  )
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
 
-  clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
+	ethDest := "0xaf79152ac5df276d9a8e1e2e22822f9713474902"
 
-  ethDest := "0xaf79152ac5df276d9a8e1e2e22822f9713474902"
+	amount := sdktypes.Coin{
+		Denom: "inj", Amount: sdktypes.NewInt(5000000000000000000), // 5 INJ
+	}
+	bridgeFee := sdktypes.Coin{
+		Denom: "inj", Amount: sdktypes.NewInt(2000000000000000000), // 2 INJ
+	}
 
-  amount := sdktypes.Coin{
-    Denom: "inj", Amount: sdktypes.NewInt(5000000000000000000), // 5 INJ
-  }
-  bridgeFee := sdktypes.Coin{
-    Denom: "inj", Amount: sdktypes.NewInt(2000000000000000000), // 2 INJ
-  }
+	msg := &peggytypes.MsgSendToEth{
+		Sender:    senderAddress.String(),
+		Amount:    amount,
+		EthDest:   ethDest,
+		BridgeFee: bridgeFee,
+	}
 
-  msg := &peggytypes.MsgSendToEth{
-    Sender:    senderAddress.String(),
-    Amount:    amount,
-    EthDest:   ethDest,
-    BridgeFee: bridgeFee,
-  }
+	chainClient, err := chainclient.NewChainClient(
+		clientCtx,
+		network,
+		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
+	)
 
-  chainClient, err := chainclient.NewChainClient(
-    clientCtx,
-    network.ChainGrpcEndpoint,
-    common.OptionTLSCert(network.ChainTlsCert),
-    common.OptionGasPrices("500000000inj"),
-  )
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	err = chainClient.QueueBroadcastMsg(msg)
 
-  //AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
-  err = chainClient.QueueBroadcastMsg(msg)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	time.Sleep(time.Second * 5)
 
-  time.Sleep(time.Second * 5)
+	gasFee, err := chainClient.GetGasFee()
 
-  gasFee, err := chainClient.GetGasFee()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-  if err != nil {
-    fmt.Println(err)
-    return
-  }
-
-  fmt.Println("gas fee:", gasFee, "INJ")
+	fmt.Println("gas fee:", gasFee, "INJ")
 }
+
 ```
 
 ``` typescript
@@ -1155,73 +1149,75 @@ if __name__ == '__main__':
 package main
 
 import (
-  "context"
-  "fmt"
-  "os"
-  "time"
+	"context"
+	"fmt"
+	"os"
+	"time"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
+	"github.com/InjectiveLabs/sdk-go/client"
+	"github.com/InjectiveLabs/sdk-go/client/common"
 
-  chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "k8s")
-  network := common.LoadNetwork("mainnet", "k8s")
-  tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	// network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("mainnet", "lb")
+	tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-    os.Getenv("HOME")+"/.injectived",
-    "injectived",
-    "file",
-    "inj-user",
-    "12345678",
-    "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-    false,
-  )
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
 
-  if err != nil {
-    panic(err)
-  }
+	if err != nil {
+		panic(err)
+	}
 
-  clientCtx, err := chainclient.NewClientContext(
-    network.ChainId,
-    senderAddress.String(),
-    cosmosKeyring,
-  )
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
 
-  chainClient, err := chainclient.NewChainClient(
-    clientCtx,
-    network.ChainGrpcEndpoint,
-    common.OptionTLSCert(network.ChainTlsCert),
-    common.OptionGasPrices("500000000inj"),
-  )
+	chainClient, err := chainclient.NewChainClient(
+		clientCtx,
+		network,
+		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
+	)
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  timeOutCtx, cancelFn := context.WithTimeout(context.Background(), 30*time.Second)
-  defer cancelFn()
+	timeOutCtx, cancelFn := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancelFn()
 
-  resp, err := chainClient.GetTx(timeOutCtx, "A2B2B971C690AE7977451D24D6F450AECE6BCCB271E91E32C2563342DDA5254B")
-  if err != nil {
-    panic(err)
-  }
+	resp, err := chainClient.GetTx(timeOutCtx, "A2B2B971C690AE7977451D24D6F450AECE6BCCB271E91E32C2563342DDA5254B")
+	if err != nil {
+		panic(err)
+	}
 
-  fmt.Println(resp.TxResponse)
+	fmt.Println(resp.TxResponse)
 }
+
 ```
 
 |Parameter|Type|Description|Required|
