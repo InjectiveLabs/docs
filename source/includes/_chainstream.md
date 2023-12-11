@@ -85,12 +85,13 @@ import (
 	"encoding/json"
 	"fmt"
 	chainStreamModule "github.com/InjectiveLabs/sdk-go/chain/stream/types"
+	"github.com/InjectiveLabs/sdk-go/client"
 	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
 	"github.com/InjectiveLabs/sdk-go/client/common"
 )
 
 func main() {
-	network := common.LoadNetwork("devnet", "lb")
+	network := common.LoadNetwork("testnet", "lb")
 
 	clientCtx, err := chainclient.NewClientContext(
 		network.ChainId,
@@ -105,7 +106,7 @@ func main() {
 	chainClient, err := chainclient.NewChainClient(
 		clientCtx,
 		network,
-		common.OptionGasPrices("500000000inj"),
+		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
 	)
 	if err != nil {
 		panic(err)
@@ -120,39 +121,39 @@ func main() {
 
 	req := chainStreamModule.StreamRequest{
 		BankBalancesFilter: &chainStreamModule.BankBalancesFilter{
-			Accounts: String Array{"*"},
+			Accounts: []string{"*"},
 		},
 		SpotOrdersFilter: &chainStreamModule.OrdersFilter{
-			MarketIds:     String Array{injUsdtMarket},
-			SubaccountIds: String Array{subaccountId},
+			MarketIds:     []string{injUsdtMarket},
+			SubaccountIds: []string{subaccountId},
 		},
 		DerivativeOrdersFilter: &chainStreamModule.OrdersFilter{
-			MarketIds:     String Array{injUsdtPerpMarket},
-			SubaccountIds: String Array{subaccountId},
+			MarketIds:     []string{injUsdtPerpMarket},
+			SubaccountIds: []string{subaccountId},
 		},
 		SpotTradesFilter: &chainStreamModule.TradesFilter{
-			MarketIds:     String Array{injUsdtMarket},
-			SubaccountIds: String Array{"*"},
+			MarketIds:     []string{injUsdtMarket},
+			SubaccountIds: []string{"*"},
 		},
 		SubaccountDepositsFilter: &chainStreamModule.SubaccountDepositsFilter{
-			SubaccountIds: String Array{subaccountId},
+			SubaccountIds: []string{subaccountId},
 		},
 		DerivativeOrderbooksFilter: &chainStreamModule.OrderbookFilter{
-			MarketIds: String Array{injUsdtPerpMarket},
+			MarketIds: []string{injUsdtPerpMarket},
 		},
 		SpotOrderbooksFilter: &chainStreamModule.OrderbookFilter{
-			MarketIds: String Array{injUsdtMarket},
+			MarketIds: []string{injUsdtMarket},
 		},
 		PositionsFilter: &chainStreamModule.PositionsFilter{
-			SubaccountIds: String Array{subaccountId},
-			MarketIds:     String Array{injUsdtPerpMarket},
+			SubaccountIds: []string{subaccountId},
+			MarketIds:     []string{injUsdtPerpMarket},
 		},
 		DerivativeTradesFilter: &chainStreamModule.TradesFilter{
-			SubaccountIds: String Array{"*"},
-			MarketIds:     String Array{injUsdtPerpMarket},
+			SubaccountIds: []string{"*"},
+			MarketIds:     []string{injUsdtPerpMarket},
 		},
 		OraclePriceFilter: &chainStreamModule.OraclePriceFilter{
-			Symbol: String Array{"INJ", "USDT"},
+			Symbol: []string{"INJ", "USDT"},
 		},
 	}
 	stream, err := chainClient.ChainStream(ctx, req)
