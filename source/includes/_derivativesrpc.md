@@ -1569,38 +1569,40 @@ if __name__ == '__main__':
 package main
 
 import (
-  "context"
-  "fmt"
+	"context"
+	"encoding/json"
+	"fmt"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-  derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-  ctx := context.Background()
-  marketId := "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
-  subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+	ctx := context.Background()
+	marketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+	subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
 
-  req := derivativeExchangePB.TradesRequest{
-    MarketId:     marketId,
-    SubaccountId: subaccountId,
-  }
+	req := derivativeExchangePB.TradesRequest{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+	}
 
-  res, err := exchangeClient.GetDerivativeTrades(ctx, req)
-  if err != nil {
-    fmt.Println(err)
-  }
+	res, err := exchangeClient.GetDerivativeTrades(ctx, req)
+	if err != nil {
+		panic(err)
+	}
 
-  fmt.Println(res)
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
 }
+
 ```
 
 ``` typescript
@@ -2966,32 +2968,33 @@ if __name__ == '__main__':
 package main
 
 import (
-  "context"
-  "encoding/json"
-  "fmt"
+	"context"
+	"encoding/json"
+	"fmt"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    panic(err)
-  }
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-  ctx := context.Background()
-  marketIds := []string{"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce", "0x1f73e21972972c69c03fb105a5864592ac2b47996ffea3c500d1ea2d20138717"}
-  res, err := exchangeClient.GetDerivativeOrderbooks(ctx, marketIds)
-  if err != nil {
-    panic(err)
-  }
+	ctx := context.Background()
+	marketIds := []string{"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"}
+	res, err := exchangeClient.GetDerivativeOrderbooksV2(ctx, marketIds)
+	if err != nil {
+		panic(err)
+	}
 
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
 }
+
 ```
 
 ``` typescript
@@ -3224,44 +3227,42 @@ if __name__ == '__main__':
 package main
 
 import (
-  "context"
-  "encoding/json"
-  "fmt"
+	"context"
+	"fmt"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    panic(err)
-  }
+	network := common.LoadNetwork("devnet-1", "")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-  ctx := context.Background()
-  marketIds := []string{"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"}
-  stream, err := exchangeClient.StreamDerivativeOrderbook(ctx, marketIds)
-  if err != nil {
-    panic(err)
-  }
+	ctx := context.Background()
+	marketIds := []string{"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"}
+	stream, err := exchangeClient.StreamDerivativeOrderbookV2(ctx, marketIds)
+	if err != nil {
+		panic(err)
+	}
 
-  for {
-    select {
-    case <-ctx.Done():
-      return
-    default:
-      res, err := stream.Recv()
-      if err != nil {
-        panic(err)
-        return
-      }
-      str, _ := json.MarshalIndent(res, "", " ")
-      fmt.Print(string(str))
-    }
-  }
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			fmt.Println(res.MarketId, len(res.Orderbook.Sells), len(res.Orderbook.Buys))
+		}
+	}
 }
+
 ```
 
 ```typescript

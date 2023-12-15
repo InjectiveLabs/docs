@@ -45,7 +45,7 @@ composer = Composer(network=network.string())
 Python SDK traditionally relied on local configuration files to get the list of available markets and tokens in each network (mainnet, testnet and devnet).
 
 Since **version 0.8** the SDK is able also to get the markets and tokens information directly from the chain data (through the Indexer process). 
-The benefit of this approach is that it is not necessary to update the SDK version when a new market is created in the chain or a new token added.
+The benefit of this approach is that it is not necessary to update the SDK version when a new market is created in the chain or a new token is added.
 
 - To use the markets and tokens information from the local configuration files, create the Composer instance in the traditional way
 
@@ -94,9 +94,162 @@ Download the package using `go mod download`
 go mod download github.com/InjectiveLabs/sdk-go
 ```
 
+### Markets and Tokens information
+
+> Example - Traditional ChainClient instantiation
+
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/InjectiveLabs/sdk-go/client"
+	"os"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	if err != nil {
+		panic(err)
+	}
+
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	// initialize grpc client
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
+
+	chainClient, err := chainclient.NewChainClient(
+		clientCtx,
+		network,
+		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
+	)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+}
+
+```
+
+Go SDK traditionally relied on local configuration files to get the list of available markets and tokens in each network (mainnet, testnet and devnet).
+
+Since **version 1.49** the SDK is able also to get the markets and tokens information directly from the chain data (through the Indexer process). 
+The benefit of this approach is that it is not necessary to update the SDK version when a new market is created in the chain or a new token is added.
+
+- To use the markets and tokens information from the local configuration files, create the Composer instance in the traditional way
+
+<br />
+<br />
+
+> Example - Get markets and tokens from Indexer (ExchangeClient)
+
+```go
+package main
+
+import (
+	"context"
+	"github.com/InjectiveLabs/sdk-go/client"
+	"github.com/InjectiveLabs/sdk-go/client/core"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	"os"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	if err != nil {
+		panic(err)
+	}
+
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	// initialize grpc client
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
+	if err != nil {
+		panic(err)
+	}
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
+
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketsAssistant, err := core.NewMarketsAssistantUsingExchangeClient(ctx, exchangeClient)
+	if err != nil {
+		panic(err)
+	}
+
+	chainClient, err := chainclient.NewChainClientWithMarketsAssistant(
+		clientCtx,
+		network,
+		marketsAssistant,
+		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
+	)
+
+	if err != nil {
+		panic(err)
+	}
+}
+
+```
+
+- To get the markets and tokens information directly from the chain, create the ChainClient instance with an instance of MarketsAssistant
+
+
 **Reference**
 
 [InjectiveLabs/sdk-go](https://github.com/InjectiveLabs/sdk-go).
+
 
 ## Typescript Client
 
