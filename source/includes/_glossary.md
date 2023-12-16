@@ -2,7 +2,7 @@
 
 ## Injective Chain
 
-The Injective Chain refers to the blockchain running the Injective Protocol. It is is the fundamental piece of infrastructure and ultimate source of truth for any trades happening on the network.
+The Injective Chain refers to the blockchain running the Injective Protocol. It is the fundamental piece of infrastructure and ultimate source of truth for any trades happening on the network.
 
 ## Validator / Injective Node
 
