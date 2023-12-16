@@ -158,7 +158,7 @@ Data feed configuration data for TradingView.
 
 |Parameter|Type|Description|
 |----|----|----|
-|supported_resolutions|Array of string|Supported resolutios|
+|supported_resolutions|Array of string|Supported resolutions|
 |supports_group_request|Boolean|Supports group requests|
 |supports_marks|Boolean|Supports marks|
 |supports_search|Boolean|Supports symbol search|
@@ -453,7 +453,7 @@ Data feed configuration data for TradingView.
 
 |Parameter|Type|Description|
 |----|----|----|
-|supported_resolutions|Array of string|Supported resolutios|
+|supported_resolutions|Array of string|Supported resolutions|
 |supports_group_request|Boolean|Supports group requests|
 |supports_marks|Boolean|Supports marks|
 |supports_search|Boolean|Supports symbol search|
