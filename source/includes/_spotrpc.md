@@ -36,32 +36,33 @@ if __name__ == "__main__":
 package main
 
 import (
-  "context"
-  "encoding/json"
-  "fmt"
+	"context"
+	"encoding/json"
+	"fmt"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-  ctx := context.Background()
-  marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  res, err := exchangeClient.GetSpotMarket(ctx, marketId)
-  if err != nil {
-    fmt.Println(err)
-  }
+	ctx := context.Background()
+	marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+	res, err := exchangeClient.GetSpotMarket(ctx, marketId)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
 }
+
 ```
 
 ``` typescript
@@ -243,40 +244,41 @@ if __name__ == "__main__":
 package main
 
 import (
-  "context"
-  "encoding/json"
-  "fmt"
+	"context"
+	"encoding/json"
+	"fmt"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-  spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-  ctx := context.Background()
-  marketStatus := "active"
-  quoteDenom := "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+	ctx := context.Background()
+	marketStatus := "active"
+	quoteDenom := "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
 
-  req := spotExchangePB.MarketsRequest{
-    MarketStatus: marketStatus,
-    QuoteDenom:   quoteDenom,
-  }
+	req := spotExchangePB.MarketsRequest{
+		MarketStatus: marketStatus,
+		QuoteDenom:   quoteDenom,
+	}
 
-  res, err := exchangeClient.GetSpotMarkets(ctx, req)
-  if err != nil {
-    fmt.Println(err)
-  }
+	res, err := exchangeClient.GetSpotMarkets(ctx, req)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
 }
+
 ```
 
 ``` typescript
@@ -549,44 +551,45 @@ if __name__ == "__main__":
 package main
 
 import (
-  "context"
-  "encoding/json"
-  "fmt"
+	"context"
+	"encoding/json"
+	"fmt"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-  ctx := context.Background()
-  marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
-  stream, err := exchangeClient.StreamSpotMarket(ctx, marketIds)
-  if err != nil {
-    fmt.Println(err)
-  }
+	ctx := context.Background()
+	marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
+	stream, err := exchangeClient.StreamSpotMarket(ctx, marketIds)
+	if err != nil {
+		panic(err)
+	}
 
-  for {
-    select {
-    case <-ctx.Done():
-      return
-    default:
-      res, err := stream.Recv()
-      if err != nil {
-        fmt.Println(err)
-        return
-      }
-      str, _ := json.MarshalIndent(res, "", " ")
-      fmt.Print(string(str))
-    }
-  }
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			str, _ := json.MarshalIndent(res, "", " ")
+			fmt.Print(string(str))
+		}
+	}
 }
+
 ```
 
 ``` typescript
@@ -2181,51 +2184,52 @@ if __name__ == "__main__":
 package main
 
 import (
-  "context"
-  "encoding/json"
-  "fmt"
+	"context"
+	"encoding/json"
+	"fmt"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-  spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-  ctx := context.Background()
-  marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+	ctx := context.Background()
+	marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+	subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
 
-  req := spotExchangePB.StreamTradesRequest{
-    MarketId:     marketId,
-    SubaccountId: subaccountId,
-  }
-  stream, err := exchangeClient.StreamSpotTrades(ctx, req)
-  if err != nil {
-    fmt.Println(err)
-  }
+	req := spotExchangePB.StreamTradesRequest{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+	}
+	stream, err := exchangeClient.StreamSpotTrades(ctx, req)
+	if err != nil {
+		panic(err)
+	}
 
-  for {
-    select {
-    case <-ctx.Done():
-      return
-    default:
-      res, err := stream.Recv()
-      if err != nil {
-        fmt.Println(err)
-        return
-      }
-      str, _ := json.MarshalIndent(res, "", " ")
-      fmt.Print(string(str))
-    }
-  }
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			str, _ := json.MarshalIndent(res, "", " ")
+			fmt.Print(string(str))
+		}
+	}
 }
+
 ```
 
 ``` typescript
@@ -2749,32 +2753,33 @@ if __name__ == '__main__':
 package main
 
 import (
-  "context"
-  "encoding/json"
-  "fmt"
+	"context"
+	"encoding/json"
+	"fmt"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-  ctx := context.Background()
-  marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  res, err := exchangeClient.GetSpotOrderbook(ctx, marketId)
-  if err != nil {
-    fmt.Println(err)
-  }
+	ctx := context.Background()
+	marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+	res, err := exchangeClient.GetSpotOrderbookV2(ctx, marketId)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
 }
+
 ```
 
 ``` typescript
@@ -2978,32 +2983,33 @@ if __name__ == '__main__':
 package main
 
 import (
-  "context"
-  "encoding/json"
-  "fmt"
+	"context"
+	"encoding/json"
+	"fmt"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-  ctx := context.Background()
-  marketIds := []string{"0x26413a70c9b78a495023e5ab8003c9cf963ef963f6755f8b57255feb5744bf31", "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
-  res, err := exchangeClient.GetSpotOrderbooks(ctx, marketIds)
-  if err != nil {
-    fmt.Println(err)
-  }
+	ctx := context.Background()
+	marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
+	res, err := exchangeClient.GetSpotOrderbooksV2(ctx, marketIds)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
 }
+
 ```
 
 ``` typescript
@@ -3289,44 +3295,42 @@ if __name__ == '__main__':
 package main
 
 import (
-  "context"
-  "encoding/json"
-  "fmt"
+	"context"
+	"fmt"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
+	network := common.LoadNetwork("devnet-1", "")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-  ctx := context.Background()
-  marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
-  stream, err := exchangeClient.StreamSpotOrderbook(ctx, marketIds)
-  if err != nil {
-    fmt.Println(err)
-  }
+	ctx := context.Background()
+	marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
+	stream, err := exchangeClient.StreamSpotOrderbookV2(ctx, marketIds)
+	if err != nil {
+		panic(err)
+	}
 
-  for {
-    select {
-    case <-ctx.Done():
-      return
-    default:
-      res, err := stream.Recv()
-      if err != nil {
-        fmt.Println(err)
-        return
-      }
-      str, _ := json.MarshalIndent(res, "", " ")
-      fmt.Print(string(str))
-    }
-  }
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			fmt.Println(res.MarketId, res.Orderbook, len(res.Orderbook.Sells), len(res.Orderbook.Buys))
+		}
+	}
 }
+
 ```
 
 ``` typescript
@@ -4616,44 +4620,45 @@ if __name__ == "__main__":
 package main
 
 import (
-  "context"
-  "encoding/json"
-  "fmt"
+	"context"
+	"encoding/json"
+	"fmt"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-  spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-  ctx := context.Background()
-  marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  skip := uint64(0)
-  limit := int32(2)
+	ctx := context.Background()
+	marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+	subaccountId := "0x0b46e339708ea4d87bd2fcc61614e109ac374bbe000000000000000000000000"
+	skip := uint64(0)
+	limit := int32(10)
 
-  req := spotExchangePB.SubaccountOrdersListRequest{
-    MarketId:     marketId,
-    SubaccountId: subaccountId,
-    Skip:         skip,
-    Limit:        limit,
-  }
+	req := spotExchangePB.SubaccountOrdersListRequest{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+		Skip:         skip,
+		Limit:        limit,
+	}
 
-  res, err := exchangeClient.GetSubaccountSpotOrdersList(ctx, req)
-  if err != nil {
-    fmt.Println(err)
-  }
+	res, err := exchangeClient.GetSubaccountSpotOrdersList(ctx, req)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
 }
+
 ```
 
 ``` typescript
@@ -4939,44 +4944,45 @@ if __name__ == "__main__":
 package main
 
 import (
-  "context"
-  "encoding/json"
-  "fmt"
+	"context"
+	"encoding/json"
+	"fmt"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-  spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-  ctx := context.Background()
-  marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
-  subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
-  skip := uint64(0)
-  limit := int32(2)
+	ctx := context.Background()
+	marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+	subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+	skip := uint64(0)
+	limit := int32(10)
 
-  req := spotExchangePB.SubaccountTradesListRequest{
-    MarketId:     marketId,
-    SubaccountId: subaccountId,
-    Skip:         skip,
-    Limit:        limit,
-  }
+	req := spotExchangePB.SubaccountTradesListRequest{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+		Skip:         skip,
+		Limit:        limit,
+	}
 
-  res, err := exchangeClient.GetSubaccountSpotTradesList(ctx, req)
-  if err != nil {
-    fmt.Println(err)
-  }
+	res, err := exchangeClient.GetSubaccountSpotTradesList(ctx, req)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
 }
+
 ```
 
 ``` typescript

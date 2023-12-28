@@ -129,35 +129,36 @@ if __name__ == "__main__":
 package main
 
 import (
-    "context"
-    "encoding/json"
-    "fmt"
+	"context"
+	"encoding/json"
+	"fmt"
 
-    "github.com/InjectiveLabs/sdk-go/client/common"
-    exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-    metaPB "github.com/InjectiveLabs/sdk-go/exchange/meta_rpc/pb"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	metaPB "github.com/InjectiveLabs/sdk-go/exchange/meta_rpc/pb"
 )
 
 func main() {
-    // network := common.LoadNetwork("mainnet", "lb")
-    network := common.LoadNetwork("testnet", "k8s")
-    exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-    if err != nil {
-        fmt.Println(err)
-    }
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-    ctx := context.Background()
+	ctx := context.Background()
 
-    req := metaPB.VersionRequest{}
+	req := metaPB.VersionRequest{}
 
-    res, err := exchangeClient.GetVersion(ctx, req)
-    if err != nil {
-        fmt.Println(err)
-    }
+	res, err := exchangeClient.GetVersion(ctx, req)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-    str, _ := json.MarshalIndent(res, "", " ")
-    fmt.Print(string(str))
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
 }
+
 ```
 
 ``` typescript
@@ -265,32 +266,34 @@ if __name__ == "__main__":
 package main
 
 import (
-    "context"
-    "fmt"
+	"context"
+	"encoding/json"
+	"fmt"
 
-    "github.com/InjectiveLabs/sdk-go/client/common"
-    exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-    metaPB "github.com/InjectiveLabs/sdk-go/exchange/meta_rpc/pb"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	metaPB "github.com/InjectiveLabs/sdk-go/exchange/meta_rpc/pb"
 )
 
 func main() {
-    // network := common.LoadNetwork("mainnet", "lb")
-    network := common.LoadNetwork("testnet", "k8s")
-    exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-    if err != nil {
-        fmt.Println(err)
-    }
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-    ctx := context.Background()
+	ctx := context.Background()
 
-    req := metaPB.InfoRequest{}
+	req := metaPB.InfoRequest{}
 
-    res, err := exchangeClient.GetInfo(ctx, req)
-    if err != nil {
-        fmt.Println(err)
-    }
+	res, err := exchangeClient.GetInfo(ctx, req)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-    fmt.Println(res)
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
 }
 
 ```
@@ -438,41 +441,43 @@ if __name__ == "__main__":
 package main
 
 import (
-    "context"
-    "fmt"
+	"context"
+	"encoding/json"
+	"fmt"
 
-    "github.com/InjectiveLabs/sdk-go/client/common"
-    exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 )
 
 func main() {
-    // network := common.LoadNetwork("mainnet", "lb")
-    network := common.LoadNetwork("testnet", "k8s")
-    exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-    if err != nil {
-        fmt.Println(err)
-    }
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-    ctx := context.Background()
+	ctx := context.Background()
 
-    stream, err := exchangeClient.StreamKeepalive(ctx)
-    if err != nil {
-        fmt.Println(err)
-    }
+	stream, err := exchangeClient.StreamKeepalive(ctx)
+	if err != nil {
+		panic(err)
+	}
 
-    for {
-        select {
-        case <-ctx.Done():
-            return
-        default:
-            res, err := stream.Recv()
-            if err != nil {
-                fmt.Println(err)
-                return
-            }
-            fmt.Println(res)
-        }
-    }
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			str, _ := json.MarshalIndent(res, "", " ")
+			fmt.Print(string(str))
+		}
+	}
 }
 
 ```

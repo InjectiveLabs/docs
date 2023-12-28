@@ -94,93 +94,107 @@ if __name__ == "__main__":
 package main
 
 import (
-  "fmt"
-  "os"
-  "time"
+	"context"
+	"fmt"
+	"github.com/InjectiveLabs/sdk-go/client/core"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	"os"
+	"time"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
+	"github.com/InjectiveLabs/sdk-go/client"
+	"github.com/InjectiveLabs/sdk-go/client/common"
 
-  oracletypes "github.com/InjectiveLabs/sdk-go/chain/oracle/types"
-  chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-  cosmtypes "github.com/cosmos/cosmos-sdk/types"
-  rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+	oracletypes "github.com/InjectiveLabs/sdk-go/chain/oracle/types"
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+	cosmtypes "github.com/cosmos/cosmos-sdk/types"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  tmRPC, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	network := common.LoadNetwork("testnet", "lb")
+	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	if err != nil {
+		panic(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
 
-  senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-    os.Getenv("HOME")+"/.injectived",
-    "injectived",
-    "file",
-    "inj-user",
-    "12345678",
-    "f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3", // keyring will be used if pk not provided
-    false,
-  )
+	if err != nil {
+		panic(err)
+	}
 
-  if err != nil {
-    panic(err)
-  }
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
 
-  clientCtx, err := chainclient.NewClientContext(
-    network.ChainId,
-    senderAddress.String(),
-    cosmosKeyring,
-  )
+	if err != nil {
+		panic(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
 
-  clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmRPC)
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-  price := []cosmtypes.Dec{cosmtypes.MustNewDecFromStr("100")}
-  base := []string{"BAYC"}
-  quote := []string{"WETH"}
+	ctx := context.Background()
+	marketsAssistant, err := core.NewMarketsAssistantUsingExchangeClient(ctx, exchangeClient)
+	if err != nil {
+		panic(err)
+	}
 
-  msg := &oracletypes.MsgRelayPriceFeedPrice{
-    Sender: senderAddress.String(),
-    Price:  price,
-    Base:   base,
-    Quote:  quote,
-  }
+	chainClient, err := chainclient.NewChainClientWithMarketsAssistant(
+		clientCtx,
+		network,
+		marketsAssistant,
+		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
+	)
 
-  chainClient, err := chainclient.NewChainClient(
-    clientCtx,
-    network.ChainGrpcEndpoint,
-    common.OptionTLSCert(network.ChainTlsCert),
-    common.OptionGasPrices("500000000inj"),
-  )
+	if err != nil {
+		panic(err)
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	price := []cosmtypes.Dec{cosmtypes.MustNewDecFromStr("100")}
+	base := []string{"BAYC"}
+	quote := []string{"WETH"}
 
-  //AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
-  err = chainClient.QueueBroadcastMsg(msg)
+	msg := &oracletypes.MsgRelayPriceFeedPrice{
+		Sender: senderAddress.String(),
+		Price:  price,
+		Base:   base,
+		Quote:  quote,
+	}
 
-  if err != nil {
-    fmt.Println(err)
-  }
+	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	err = chainClient.QueueBroadcastMsg(msg)
 
-  time.Sleep(time.Second * 5)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-  gasFee, err := chainClient.GetGasFee()
+	time.Sleep(time.Second * 5)
 
-  if err != nil {
-    fmt.Println(err)
-    return
-  }
+	gasFee, err := chainClient.GetGasFee()
 
-  fmt.Println("gas fee:", gasFee, "INJ")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("gas fee:", gasFee, "INJ")
 }
+
 ```
 
 |Parameter|Type|Description|Required|

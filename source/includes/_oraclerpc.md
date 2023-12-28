@@ -37,33 +37,31 @@ if __name__ == "__main__":
 package main
 
 import (
-    "context"
-    "encoding/json"
-    "fmt"
+	"context"
+	"encoding/json"
+	"fmt"
 
-    "github.com/InjectiveLabs/sdk-go/client/common"
-    exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 )
 
 func main() {
-    // network := common.LoadNetwork("mainnet", "lb")
-    network := common.LoadNetwork("testnet", "k8s")
-    exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+	network := common.LoadNetwork("mainnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	ctx := context.Background()
+	res, err := exchangeClient.GetOracleList(ctx)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-    ctx := context.Background()
-    res, err := exchangeClient.GetOracleList(ctx)
-
-    if err != nil {
-        fmt.Println(err)
-    }
-
-    str, _ := json.MarshalIndent(res, "", " ")
-    fmt.Print(string(str))
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
 }
+
 ```
 
 ``` typescript
@@ -248,36 +246,34 @@ if __name__ == "__main__":
 package main
 
 import (
-    "context"
-    "encoding/json"
-    "fmt"
-    "github.com/InjectiveLabs/sdk-go/client/common"
-    exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	"context"
+	"encoding/json"
+	"fmt"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 )
 
 func main() {
-    // network := common.LoadNetwork("mainnet", "lb")
-    network := common.LoadNetwork("testnet", "k8s")
-    exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+	network := common.LoadNetwork("mainnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-    if err != nil {
-        fmt.Println(err)
-    }
+	ctx := context.Background()
+	baseSymbol := "BTC"
+	quoteSymbol := "USDT"
+	oracleType := "BandIBC"
+	oracleScaleFactor := uint32(6)
+	res, err := exchangeClient.GetPrice(ctx, baseSymbol, quoteSymbol, oracleType, oracleScaleFactor)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-    ctx := context.Background()
-    baseSymbol := "BTC"
-    quoteSymbol := "USDT"
-    oracleType := "bandibc"
-    oracleScaleFactor := uint32(6)
-    res, err := exchangeClient.GetPrice(ctx, baseSymbol, quoteSymbol, oracleType, oracleScaleFactor)
-
-    if err != nil {
-        fmt.Println(err)
-    }
-
-    str, _ := json.MarshalIndent(res, "", " ")
-    fmt.Print(string(str))
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
 }
+
 ```
 
 ``` typescript
@@ -398,46 +394,46 @@ if __name__ == "__main__":
 package main
 
 import (
-    "context"
-    "encoding/json"
-    "fmt"
+	"context"
+	"encoding/json"
+	"fmt"
 
-    "github.com/InjectiveLabs/sdk-go/client/common"
-    exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 )
 
 func main() {
-    // network := common.LoadNetwork("mainnet", "lb")
-    network := common.LoadNetwork("testnet", "k8s")
-    exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-    if err != nil {
-        fmt.Println(err)
-    }
+	network := common.LoadNetwork("mainnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-    ctx := context.Background()
-    baseSymbol := "BTC"
-    quoteSymbol := "USDT"
-    oracleType := "BandIBC"
-    stream, err := exchangeClient.StreamPrices(ctx, baseSymbol, quoteSymbol, oracleType)
-    if err != nil {
-        fmt.Println(err)
-    }
+	ctx := context.Background()
+	baseSymbol := "BTC"
+	quoteSymbol := "USDT"
+	oracleType := "bandibc"
+	stream, err := exchangeClient.StreamPrices(ctx, baseSymbol, quoteSymbol, oracleType)
+	if err != nil {
+		panic(err)
+	}
 
-    for {
-        select {
-        case <-ctx.Done():
-            return
-        default:
-            res, err := stream.Recv()
-            if err != nil {
-                fmt.Println(err)
-                return
-            }
-            str, _ := json.MarshalIndent(res, "", " ")
-            fmt.Print(string(str))
-        }
-    }
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			str, _ := json.MarshalIndent(res, "", " ")
+			fmt.Print(string(str))
+		}
+	}
 }
+
 ```
 
 ``` typescript

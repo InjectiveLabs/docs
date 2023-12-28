@@ -101,12 +101,15 @@ import (
 	"encoding/json"
 	"fmt"
 	chainStreamModule "github.com/InjectiveLabs/sdk-go/chain/stream/types"
+	"github.com/InjectiveLabs/sdk-go/client"
 	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
 	"github.com/InjectiveLabs/sdk-go/client/common"
+	"github.com/InjectiveLabs/sdk-go/client/core"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 )
 
 func main() {
-	network := common.LoadNetwork("devnet", "lb")
+	network := common.LoadNetwork("testnet", "lb")
 
 	clientCtx, err := chainclient.NewClientContext(
 		network.ChainId,
@@ -114,20 +117,31 @@ func main() {
 		nil,
 	)
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
 	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint)
 
-	chainClient, err := chainclient.NewChainClient(
-		clientCtx,
-		network,
-		common.OptionGasPrices("500000000inj"),
-	)
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
 	if err != nil {
 		panic(err)
 	}
 
 	ctx := context.Background()
+	marketsAssistant, err := core.NewMarketsAssistantUsingExchangeClient(ctx, exchangeClient)
+	if err != nil {
+		panic(err)
+	}
+
+	chainClient, err := chainclient.NewChainClientWithMarketsAssistant(
+		clientCtx,
+		network,
+		marketsAssistant,
+		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
+	)
+
+	if err != nil {
+		panic(err)
+	}
 
 	subaccountId := "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000"
 
@@ -136,39 +150,39 @@ func main() {
 
 	req := chainStreamModule.StreamRequest{
 		BankBalancesFilter: &chainStreamModule.BankBalancesFilter{
-			Accounts: String Array{"*"},
+			Accounts: []string{"*"},
 		},
 		SpotOrdersFilter: &chainStreamModule.OrdersFilter{
-			MarketIds:     String Array{injUsdtMarket},
-			SubaccountIds: String Array{subaccountId},
+			MarketIds:     []string{injUsdtMarket},
+			SubaccountIds: []string{subaccountId},
 		},
 		DerivativeOrdersFilter: &chainStreamModule.OrdersFilter{
-			MarketIds:     String Array{injUsdtPerpMarket},
-			SubaccountIds: String Array{subaccountId},
+			MarketIds:     []string{injUsdtPerpMarket},
+			SubaccountIds: []string{subaccountId},
 		},
 		SpotTradesFilter: &chainStreamModule.TradesFilter{
-			MarketIds:     String Array{injUsdtMarket},
-			SubaccountIds: String Array{"*"},
+			MarketIds:     []string{injUsdtMarket},
+			SubaccountIds: []string{"*"},
 		},
 		SubaccountDepositsFilter: &chainStreamModule.SubaccountDepositsFilter{
-			SubaccountIds: String Array{subaccountId},
+			SubaccountIds: []string{subaccountId},
 		},
 		DerivativeOrderbooksFilter: &chainStreamModule.OrderbookFilter{
-			MarketIds: String Array{injUsdtPerpMarket},
+			MarketIds: []string{injUsdtPerpMarket},
 		},
 		SpotOrderbooksFilter: &chainStreamModule.OrderbookFilter{
-			MarketIds: String Array{injUsdtMarket},
+			MarketIds: []string{injUsdtMarket},
 		},
 		PositionsFilter: &chainStreamModule.PositionsFilter{
-			SubaccountIds: String Array{subaccountId},
-			MarketIds:     String Array{injUsdtPerpMarket},
+			SubaccountIds: []string{subaccountId},
+			MarketIds:     []string{injUsdtPerpMarket},
 		},
 		DerivativeTradesFilter: &chainStreamModule.TradesFilter{
-			SubaccountIds: String Array{"*"},
-			MarketIds:     String Array{injUsdtPerpMarket},
+			SubaccountIds: []string{"*"},
+			MarketIds:     []string{injUsdtPerpMarket},
 		},
 		OraclePriceFilter: &chainStreamModule.OraclePriceFilter{
-			Symbol: String Array{"INJ", "USDT"},
+			Symbol: []string{"INJ", "USDT"},
 		},
 	}
 	stream, err := chainClient.ChainStream(ctx, req)
@@ -317,35 +331,37 @@ Structure for subaccount deposits.
 
 Structure for spot trades.
 
-| Parameter           | Type   | Description                                    | Required |
-| ------------------- | ------ | ---------------------------------------------- | -------- |
-| MarketId            | String | The market ID.                                 |          |
-| IsBuy               | bool   | True if it is a buy, False if it is a sell.    |          |
-| ExecutionType       | String | The execution type.                            |          |
-| Quantity            | Dec    | The quantity of the trade.                     |          |
-| Price               | Dec    | The price of the trade.                        |          |
-| SubaccountId        | String | The subaccount ID that executed the trade.     |          |
-| Fee                 | Dec    | The fee of the trade.                          |          |
-| OrderHash           | String | The hash of the order.                         |          |
-| FeeRecipientAddress | String | The fee recipient address.                     |          |
-| Cid                 | String | Identifier for the order specified by the user |          |
+| Parameter           | Type   | Description                                       | Required |
+| ------------------- | ------ | ------------------------------------------------- | -------- |
+| MarketId            | String | The market ID.                                    |          |
+| IsBuy               | bool   | True if it is a buy, False if it is a sell.       |          |
+| ExecutionType       | String | The execution type.                               |          |
+| Quantity            | Dec    | The quantity of the trade.                        |          |
+| Price               | Dec    | The price of the trade.                           |          |
+| SubaccountId        | String | The subaccount ID that executed the trade.        |          |
+| Fee                 | Dec    | The fee of the trade.                             |          |
+| OrderHash           | String | The hash of the order.                            |          |
+| FeeRecipientAddress | String | The fee recipient address.                        |          |
+| Cid                 | String | Identifier for the order specified by the user    |          |
+| TradeId             | String | Unique identifier to differentiate between trades |          |
 
 ### DerivativeTrade
 
 Structure for derivative trades.
 
-| Parameter           | Type          | Description                                    | Required |
-| ------------------- | ------------- | ---------------------------------------------- | -------- |
-| MarketId            | String        | The market ID.                                 |          |
-| IsBuy               | bool          | True if it is a buy, False if it is a sell.    |          |
-| ExecutionType       | String        | The execution type.                            |          |
-| SubaccountId        | String        | The subaccount ID that executed the trade.     |          |
-| PositionDelta       | PositionDelta | The position delta.                            |          |
-| Payout              | Dec           | The payout of the trade.                       |          |
-| Fee                 | Dec           | The fee of the trade.                          |          |
-| OrderHash           | String        | The hash of the order.                         |          |
-| FeeRecipientAddress | String        | The fee recipient address.                     |          |
-| Cid                 | String        | Identifier for the order specified by the user |          |
+| Parameter           | Type          | Description                                       | Required |
+| ------------------- | ------------- | ------------------------------------------------- | -------- |
+| MarketId            | String        | The market ID.                                    |          |
+| IsBuy               | bool          | True if it is a buy, False if it is a sell.       |          |
+| ExecutionType       | String        | The execution type.                               |          |
+| SubaccountId        | String        | The subaccount ID that executed the trade.        |          |
+| PositionDelta       | PositionDelta | The position delta.                               |          |
+| Payout              | Dec           | The payout of the trade.                          |          |
+| Fee                 | Dec           | The fee of the trade.                             |          |
+| OrderHash           | String        | The hash of the order.                            |          |
+| FeeRecipientAddress | String        | The fee recipient address.                        |          |
+| Cid                 | String        | Identifier for the order specified by the user    |          |
+| TradeId             | String        | Unique identifier to differentiate between trades |          |
 
 ### SpotOrder
 

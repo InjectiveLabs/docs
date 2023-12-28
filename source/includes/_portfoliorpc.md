@@ -339,17 +339,17 @@ import (
 
 func main() {
 	// select network: local, testnet, mainnet
-	network := common.LoadNetwork("testnet", "k8s")
-	exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
 
 	ctx := context.Background()
 
 	stream, err := exchangeClient.StreamAccountPortfolio(ctx, "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt", "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001", "total_balances")
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
 
 	for {
