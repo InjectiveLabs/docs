@@ -25,7 +25,7 @@ async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
     account_address = "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-    portfolio = await client.fetch_account_portfolio(account_address=account_address)
+    portfolio = await client.fetch_account_portfolio_balances(account_address=account_address)
     print(portfolio)
 
 
@@ -57,7 +57,7 @@ func main() {
 
 	ctx := context.Background()
 	accountAddress := "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-	res, err := exchangeClient.GetAccountPortfolio(ctx, accountAddress)
+	res, err := exchangeClient.GetAccountPortfolioBalances(ctx, accountAddress)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -95,8 +95,20 @@ console.log(portfolio)
       "accountAddress":"inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt",
       "bankBalances":[
          {
+            "denom":"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/atom",
+            "amount":"10000000000"
+         },
+         {
+            "denom":"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/usdc",
+            "amount":"10000000000"
+         },
+         {
+            "denom":"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/weth",
+            "amount":"5000000000"
+         },
+         {
             "denom":"inj",
-            "amount":"9689395972014420000000"
+            "amount":"9699395972014420000000"
          },
          {
             "denom":"peggy0x44C21afAaF20c270EBbF5914Cfc3b5022173FEB7",
@@ -104,42 +116,10 @@ console.log(portfolio)
          },
          {
             "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
-            "amount":"8689670208"
+            "amount":"18689670208"
          }
       ],
       "subaccounts":[
-         {
-            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
-            "denom":"peggy0x44C21afAaF20c270EBbF5914Cfc3b5022173FEB7",
-            "deposit":{
-               "totalBalance":"0",
-               "availableBalance":"0"
-            }
-         },
-         {
-            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
-            "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
-            "deposit":{
-               "totalBalance":"0.170858923182467801",
-               "availableBalance":"0.170858923182467801"
-            }
-         },
-         {
-            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
-            "denom":"inj",
-            "deposit":{
-               "totalBalance":"0.458458",
-               "availableBalance":"0.458458"
-            }
-         },
-         {
-            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002",
-            "denom":"inj",
-            "deposit":{
-               "totalBalance":"1000000000000",
-               "availableBalance":"1000000000000"
-            }
-         },
          {
             "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001",
             "denom":"inj",
@@ -155,29 +135,127 @@ console.log(portfolio)
                "totalBalance":"298666021.6838251182660625",
                "availableBalance":"298666021.6838251182660625"
             }
-         }
-      ],
-      "positionsWithUpnl":[
+         },
          {
-            "position":{
-               "ticker":"TIA/USDT-01NOV2023",
-               "marketId":"0xf97a740538e10845e0c3db9ea94c6eaf8a570aeebe3e3511e2e387501a40e4bb",
-               "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
-               "direction":"short",
-               "quantity":"139.6",
-               "entryPrice":"22522222.222222222222222222",
-               "margin":"985863999.424172444444444445",
-               "liquidationPrice":"29004201.230732",
-               "markPrice":"23.706683000000000000",
-               "aggregateReduceOnlyQuantity":"0",
-               "updatedAt":"1696481899",
-               "createdAt":"0"
-            },
-            "unrealizedPnl":"-165.350724577777780880"
+            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002",
+            "denom":"inj",
+            "deposit":{
+               "totalBalance":"1000000000000",
+               "availableBalance":"1000000000000"
+            }
+         },
+         {
+            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
+            "denom":"inj",
+            "deposit":{
+               "totalBalance":"0.458458",
+               "availableBalance":"0.458458"
+            }
+         },
+         {
+            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
+            "denom":"peggy0x44C21afAaF20c270EBbF5914Cfc3b5022173FEB7",
+            "deposit":{
+               "totalBalance":"0",
+               "availableBalance":"0"
+            }
+         },
+         {
+            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
+            "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+            "deposit":{
+               "totalBalance":"0.170858923182467801",
+               "availableBalance":"0.170858923182467801"
+            }
          }
       ]
    }
 }
+```
+
+``` go
+{
+ "portfolio": {
+  "account_address": "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt",
+  "bank_balances": [
+   {
+    "denom": "factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/atom",
+    "amount": "10000000000"
+   },
+   {
+    "denom": "factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/usdc",
+    "amount": "10000000000"
+   },
+   {
+    "denom": "factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/weth",
+    "amount": "5000000000"
+   },
+   {
+    "denom": "inj",
+    "amount": "9699395972014420000000"
+   },
+   {
+    "denom": "peggy0x44C21afAaF20c270EBbF5914Cfc3b5022173FEB7",
+    "amount": "100000000000000000000"
+   },
+   {
+    "denom": "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+    "amount": "18689670208"
+   }
+  ],
+  "subaccounts": [
+   {
+    "subaccount_id": "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
+    "denom": "peggy0x44C21afAaF20c270EBbF5914Cfc3b5022173FEB7",
+    "deposit": {
+     "total_balance": "0",
+     "available_balance": "0"
+    }
+   },
+   {
+    "subaccount_id": "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
+    "denom": "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+    "deposit": {
+     "total_balance": "0.170858923182467801",
+     "available_balance": "0.170858923182467801"
+    }
+   },
+   {
+    "subaccount_id": "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
+    "denom": "inj",
+    "deposit": {
+     "total_balance": "0.458458",
+     "available_balance": "0.458458"
+    }
+   },
+   {
+    "subaccount_id": "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001",
+    "denom": "inj",
+    "deposit": {
+     "total_balance": "11010001000000000000",
+     "available_balance": "11010001000000000000"
+    }
+   },
+   {
+    "subaccount_id": "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001",
+    "denom": "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+    "deposit": {
+     "total_balance": "298666021.6838251182660625",
+     "available_balance": "298666021.6838251182660625"
+    }
+   },
+   {
+    "subaccount_id": "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002",
+    "denom": "inj",
+    "deposit": {
+     "total_balance": "1000000000000",
+     "available_balance": "1000000000000"
+    }
+   }
+  ]
+ }
+}
+
 ```
 
 ``` typescript
@@ -236,14 +314,13 @@ console.log(portfolio)
 |----|----|----|
 |portfolio|Portfolio|The portfolio of the account|
 
-**Portfolio**
+**PortfolioBalances**
 
 |Parameter|Type|Description|
 |----|----|----|
 |account_address|String|The account&#39;s portfolio address|
 |bank_balances|Coin Array|Account available bank balances|
 |subaccounts|SubaccountBalanceV2|Subaccounts list|
-|positions_with_upnl|PositionsWithUPNL|All positions for all subaccounts, with unrealized PNL|
 
 **Coin**
 

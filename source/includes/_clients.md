@@ -68,6 +68,24 @@ composer = await client.composer()
 
 - To get the markets and tokens information directly from the chain, create the Composer instance through the AsyncClient
 
+
+By default the AsyncClient and the Composer will only initialize the tokens that are part of an active market. In order to let them use any of the tokens available in the chain, the user has to execute the `initialize_tokens_from_chain_denoms` in the AsyncClient before the creation of the Composer.
+
+> Example - Initialize with all tokens from the chain
+
+```python
+from pyinjective.composer import Composer as ProtoMsgComposer
+from pyinjective.async_client import AsyncClient
+from pyinjective.transaction import Transaction
+from pyinjective.core.network import Network
+
+
+network = Network.testnet()
+client = AsyncClient(network)
+await client.initialize_tokens_from_chain_denoms()
+composer = await client.composer()
+```
+
 ## Golang Client
 
 ### 1. Create your own client repo and go.mod file
@@ -167,6 +185,48 @@ The benefit of this approach is that it is not necessary to update the SDK versi
 
 <br />
 <br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
 > Example - Get markets and tokens from Indexer (ExchangeClient)
 
@@ -244,6 +304,144 @@ func main() {
 ```
 
 - To get the markets and tokens information directly from the chain, create the ChainClient instance with an instance of MarketsAssistant
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+> Example - Get markets and tokens from Indexer (ExchangeClient)
+
+```go
+package main
+
+import (
+	"context"
+	"github.com/InjectiveLabs/sdk-go/client"
+	"github.com/InjectiveLabs/sdk-go/client/core"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	"os"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	if err != nil {
+		panic(err)
+	}
+
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	// initialize grpc client
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
+	if err != nil {
+		panic(err)
+	}
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
+
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	chainClient, err := chainclient.NewChainClient(
+		clientCtx,
+		network,
+		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketsAssistant, err := core.NewMarketsAssistantWithAllTokens(ctx, exchangeClient, chainClient)
+	if err != nil {
+		panic(err)
+	}
+}
+
+```
+
+By default the MarketsAssistant will only initialize the tokens that are part of an active market. In order to let it use any of the tokens available in the chain, the user has to create the MarketsAssistant instance using the function  `NewMarketsAssistantWithAllTokens`.
 
 
 **Reference**
