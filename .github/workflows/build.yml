@@ -36,9 +36,9 @@ jobs:
       # - run: gem update --system
 
       # - run: bundle config set deployment 'true'
-      - name: bundle install
-        run: |
-          bundle config path vendor/bundle
-          bundle install --jobs 4 --retry 3
+      # - name: bundle install
+      #   run: |
+      #     bundle config path vendor/bundle
+      #     bundle install --jobs 4 --retry 3
 
       - run: bundle exec middleman build
