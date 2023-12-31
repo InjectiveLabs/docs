@@ -23,7 +23,11 @@ jobs:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
+<<<<<<< HEAD
 # Commenting out the use of cache@v2 because we start using the `bundler-cache` option from setup-ruby@v1
+=======
+      # Commenting out the use of cache@v2 because we start using the `bundler-cache` option from setup-ruby@v1
+>>>>>>> a6516ab8bb3ddacfff8ba6cdd100c116e4242169
       # - uses: actions/cache@v2
       #   with:
       #     path: vendor/bundle
@@ -34,7 +38,11 @@ jobs:
 
       # Commenting out the configuration of `deployment` option because setup-ruby@v1 used this option by default if a Gemfile.lock is present
       # - run: bundle config set deployment 'true'
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> a6516ab8bb3ddacfff8ba6cdd100c116e4242169
       # Commenting out the bundle install step because it is executed by setup-ruby@v1
       # - name: bundle install
       #   run: |
