@@ -111,7 +111,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/InjectiveLabs/sdk-go/client/core"
 	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 	"github.com/google/uuid"
 	"os"
@@ -165,15 +164,14 @@ func main() {
 	}
 
 	ctx := context.Background()
-	marketsAssistant, err := core.NewMarketsAssistantUsingExchangeClient(ctx, exchangeClient)
+	marketsAssistant, err := chainclient.NewMarketsAssistantInitializedFromChain(ctx, exchangeClient)
 	if err != nil {
 		panic(err)
 	}
 
-	chainClient, err := chainclient.NewChainClientWithMarketsAssistant(
+	chainClient, err := chainclient.NewChainClient(
 		clientCtx,
 		network,
-		marketsAssistant,
 		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
 	)
 
@@ -187,14 +185,19 @@ func main() {
 	amount := decimal.NewFromFloat(0.1)
 	price := decimal.NewFromFloat(22)
 
-	order := chainClient.SpotOrder(defaultSubaccountID, network, &chainclient.SpotOrderData{
-		OrderType:    exchangetypes.OrderType_SELL, //BUY SELL
-		Quantity:     amount,
-		Price:        price,
-		FeeRecipient: senderAddress.String(),
-		MarketId:     marketId,
-		Cid:          uuid.NewString(),
-	})
+	order := chainClient.CreateSpotOrder(
+		defaultSubaccountID,
+		network,
+		&chainclient.SpotOrderData{
+			OrderType:    exchangetypes.OrderType_SELL, //BUY SELL
+			Quantity:     amount,
+			Price:        price,
+			FeeRecipient: senderAddress.String(),
+			MarketId:     marketId,
+			Cid:          uuid.NewString(),
+		},
+		marketsAssistant,
+	)
 
 	msg := new(exchangetypes.MsgCreateSpotMarketOrder)
 	msg.Sender = senderAddress.String()
@@ -390,7 +393,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/InjectiveLabs/sdk-go/client/core"
 	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 	"github.com/google/uuid"
 	"os"
@@ -443,15 +445,14 @@ func main() {
 	}
 
 	ctx := context.Background()
-	marketsAssistant, err := core.NewMarketsAssistantUsingExchangeClient(ctx, exchangeClient)
+	marketsAssistant, err := chainclient.NewMarketsAssistantInitializedFromChain(ctx, exchangeClient)
 	if err != nil {
 		panic(err)
 	}
 
-	chainClient, err := chainclient.NewChainClientWithMarketsAssistant(
+	chainClient, err := chainclient.NewChainClient(
 		clientCtx,
 		network,
-		marketsAssistant,
 		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
 	)
 
@@ -466,14 +467,19 @@ func main() {
 	amount := decimal.NewFromFloat(2)
 	price := decimal.NewFromFloat(22.55)
 
-	order := chainClient.SpotOrder(defaultSubaccountID, network, &chainclient.SpotOrderData{
-		OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
-		Quantity:     amount,
-		Price:        price,
-		FeeRecipient: senderAddress.String(),
-		MarketId:     marketId,
-		Cid:          uuid.NewString(),
-	})
+	order := chainClient.CreateSpotOrder(
+		defaultSubaccountID,
+		network,
+		&chainclient.SpotOrderData{
+			OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
+			Quantity:     amount,
+			Price:        price,
+			FeeRecipient: senderAddress.String(),
+			MarketId:     marketId,
+			Cid:          uuid.NewString(),
+		},
+		marketsAssistant,
+	)
 
 	msg := new(exchangetypes.MsgCreateSpotLimitOrder)
 	msg.Sender = senderAddress.String()
@@ -652,11 +658,8 @@ if __name__ == "__main__":
 package main
 
 import (
-	"context"
 	"fmt"
 	"github.com/InjectiveLabs/sdk-go/client"
-	"github.com/InjectiveLabs/sdk-go/client/core"
-	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 	"os"
 	"time"
 
@@ -700,21 +703,9 @@ func main() {
 
 	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
 
-	exchangeClient, err := exchangeclient.NewExchangeClient(network)
-	if err != nil {
-		panic(err)
-	}
-
-	ctx := context.Background()
-	marketsAssistant, err := core.NewMarketsAssistantUsingExchangeClient(ctx, exchangeClient)
-	if err != nil {
-		panic(err)
-	}
-
-	chainClient, err := chainclient.NewChainClientWithMarketsAssistant(
+	chainClient, err := chainclient.NewChainClient(
 		clientCtx,
 		network,
-		marketsAssistant,
 		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
 	)
 
@@ -978,7 +969,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/InjectiveLabs/sdk-go/client/core"
 	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 	"github.com/google/uuid"
 	"os"
@@ -1033,15 +1023,14 @@ func main() {
 	}
 
 	ctx := context.Background()
-	marketsAssistant, err := core.NewMarketsAssistantUsingExchangeClient(ctx, exchangeClient)
+	marketsAssistant, err := chainclient.NewMarketsAssistantInitializedFromChain(ctx, exchangeClient)
 	if err != nil {
 		panic(err)
 	}
 
-	chainClient, err := chainclient.NewChainClientWithMarketsAssistant(
+	chainClient, err := chainclient.NewChainClient(
 		clientCtx,
 		network,
-		marketsAssistant,
 		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
 	)
 
@@ -1057,14 +1046,19 @@ func main() {
 	sprice := decimal.NewFromFloat(22.5)
 	smarketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
 
-	spot_order := chainClient.SpotOrder(defaultSubaccountID, network, &chainclient.SpotOrderData{
-		OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
-		Quantity:     samount,
-		Price:        sprice,
-		FeeRecipient: senderAddress.String(),
-		MarketId:     smarketId,
-		Cid:          uuid.NewString(),
-	})
+	spot_order := chainClient.CreateSpotOrder(
+		defaultSubaccountID,
+		network,
+		&chainclient.SpotOrderData{
+			OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
+			Quantity:     samount,
+			Price:        sprice,
+			FeeRecipient: senderAddress.String(),
+			MarketId:     smarketId,
+			Cid:          uuid.NewString(),
+		},
+		marketsAssistant,
+	)
 
 	dmarketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
 	damount := decimal.NewFromFloat(0.01)
@@ -1072,16 +1066,21 @@ func main() {
 	dleverage := decimal.RequireFromString("2")
 	dmarketIds := []string{"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"}
 
-	derivative_order := chainClient.DerivativeOrder(defaultSubaccountID, network, &chainclient.DerivativeOrderData{
-		OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
-		Quantity:     damount,
-		Price:        dprice,
-		Leverage:     dleverage,
-		FeeRecipient: senderAddress.String(),
-		MarketId:     dmarketId,
-		IsReduceOnly: false,
-		Cid:          uuid.NewString(),
-	})
+	derivative_order := chainClient.CreateDerivativeOrder(
+		defaultSubaccountID,
+		network,
+		&chainclient.DerivativeOrderData{
+			OrderType:    exchangetypes.OrderType_BUY, //BUY SELL BUY_PO SELL_PO
+			Quantity:     damount,
+			Price:        dprice,
+			Leverage:     dleverage,
+			FeeRecipient: senderAddress.String(),
+			MarketId:     dmarketId,
+			IsReduceOnly: false,
+			Cid:          uuid.NewString(),
+		},
+		marketsAssistant,
+	)
 
 	msg := new(exchangetypes.MsgBatchUpdateOrders)
 	msg.Sender = senderAddress.String()
@@ -1514,20 +1513,17 @@ if __name__ == "__main__":
 package main
 
 import (
-	"context"
 	"fmt"
-	"github.com/InjectiveLabs/sdk-go/client/core"
-	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-	"github.com/google/uuid"
+	"github.com/InjectiveLabs/sdk-go/client"
 	"os"
 	"time"
 
-	exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
-	"github.com/InjectiveLabs/sdk-go/client"
-	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
 	"github.com/InjectiveLabs/sdk-go/client/common"
+
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
 	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
-	"github.com/shopspring/decimal"
+	sdktypes "github.com/cosmos/cosmos-sdk/types"
+	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 )
 
 func main() {
@@ -1546,6 +1542,7 @@ func main() {
 		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
 		false,
 	)
+
 	if err != nil {
 		panic(err)
 	}
@@ -1556,28 +1553,14 @@ func main() {
 		senderAddress.String(),
 		cosmosKeyring,
 	)
-
 	if err != nil {
 		panic(err)
 	}
-
 	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
 
-	exchangeClient, err := exchangeclient.NewExchangeClient(network)
-	if err != nil {
-		panic(err)
-	}
-
-	ctx := context.Background()
-	marketsAssistant, err := core.NewMarketsAssistantUsingExchangeClient(ctx, exchangeClient)
-	if err != nil {
-		panic(err)
-	}
-
-	chainClient, err := chainclient.NewChainClientWithMarketsAssistant(
+	chainClient, err := chainclient.NewChainClient(
 		clientCtx,
 		network,
-		marketsAssistant,
 		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
 	)
 
@@ -1586,47 +1569,16 @@ func main() {
 	}
 
 	// prepare tx msg
-	defaultSubaccountID := chainClient.Subaccount(senderAddress, 1)
-
-	spotOrder := chainClient.SpotOrder(defaultSubaccountID, network, &chainclient.SpotOrderData{
-		OrderType:    exchangetypes.OrderType_BUY,
-		Quantity:     decimal.NewFromFloat(2),
-		Price:        decimal.NewFromFloat(22.55),
-		FeeRecipient: senderAddress.String(),
-		MarketId:     "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
-		Cid:          uuid.NewString(),
-	})
-
-	derivativeOrder := chainClient.DerivativeOrder(defaultSubaccountID, network, &chainclient.DerivativeOrderData{
-		OrderType:    exchangetypes.OrderType_BUY,
-		Quantity:     decimal.NewFromFloat(2),
-		Price:        decimal.RequireFromString("31"),
-		Leverage:     decimal.RequireFromString("2.5"),
-		FeeRecipient: senderAddress.String(),
-		MarketId:     "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
-		Cid:          uuid.NewString(),
-	})
-
-	msg := new(exchangetypes.MsgBatchCreateSpotLimitOrders)
-	msg.Sender = senderAddress.String()
-	msg.Orders = []exchangetypes.SpotOrder{*spotOrder}
-
-	msg1 := new(exchangetypes.MsgBatchCreateDerivativeLimitOrders)
-	msg1.Sender = senderAddress.String()
-	msg1.Orders = []exchangetypes.DerivativeOrder{*derivativeOrder, *derivativeOrder}
-
-	// compute local order hashes
-	orderHashes, err := chainClient.ComputeOrderHashes(msg.Orders, msg1.Orders, defaultSubaccountID)
-
-	if err != nil {
-		fmt.Println(err)
+	msg := &banktypes.MsgSend{
+		FromAddress: senderAddress.String(),
+		ToAddress:   "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+		Amount: []sdktypes.Coin{{
+			Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000)}, // 1 INJ
+		},
 	}
 
-	fmt.Println("computed spot order hashes: ", orderHashes.Spot)
-	fmt.Println("computed derivative order hashes: ", orderHashes.Derivative)
-
 	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
-	err = chainClient.QueueBroadcastMsg(msg, msg1)
+	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {
 		fmt.Println(err)

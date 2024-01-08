@@ -1,11 +1,14 @@
 # Change Log
 
-## 2023-11-13
+## 2023-01-02
 - Python SDK v1.0 and Go SDK v1.49
   - Added logic to support use of Client Order ID (CID) new identifier in OrderInfo
   - New chain stream support
   - Remove support for `sentry` nodes in mainnet network. The only supported node option in mainnet is `lb`
   - Migrated all proto objects dependency to support chain version 1.12
+  - Added logic to cover all bank module queries
+  - Added logic in Python SDK to support the initialization of tokens with all the tokens from the chain (DenomsMetadata)
+  - Added logic in Go SDK to allow the initialization of markets and tokens from the chain (without using the local .ini files). Also included functionality to initialize the tokens wilh all the tokens from the chain (DenomsMetadata)
 
 ## 2023-09-06
 - Python SDK v0.8 release

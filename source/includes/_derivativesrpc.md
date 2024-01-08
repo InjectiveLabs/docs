@@ -3027,7 +3027,7 @@ async def main() -> None:
     skip = 4
     limit = 4
     pagination = PaginationOption(skip=skip, limit=limit)
-    positions = await client.fetch_derivative_positions(
+    positions = await client.fetch_derivative_positions_v2(
         market_ids=market_ids,
         subaccount_id=subaccount_id,
         direction=direction,
@@ -3046,42 +3046,45 @@ if __name__ == "__main__":
 package main
 
 import (
-  "context"
-  "encoding/json"
-  "fmt"
+	"context"
+	"encoding/json"
+	"fmt"
 
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-  derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
 )
 
 func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    panic(err)
-  }
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
 
-  ctx := context.Background()
-  marketId := "0x141e3c92ed55107067ceb60ee412b86256cedef67b1227d6367b4cdf30c55a74"
-  skip := uint64(0)
-  limit := int32(2)
+	ctx := context.Background()
+	marketId := "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+	subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+	skip := uint64(0)
+	limit := int32(10)
 
-  req := derivativeExchangePB.PositionsRequest{
-    MarketId: marketId,
-    Skip:     skip,
-    Limit:    limit,
-  }
+	req := derivativeExchangePB.PositionsV2Request{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+		Skip:         skip,
+		Limit:        limit,
+	}
 
-  res, err := exchangeClient.GetDerivativePositions(ctx, req)
-  if err != nil {
-    panic(err)
-  }
+	res, err := exchangeClient.GetDerivativePositionsV2(ctx, req)
+	if err != nil {
+		panic(err)
+	}
 
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
 }
+
 ```
 
 ``` typescript
@@ -3133,64 +3136,44 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
       {
          "ticker":"INJ/USDT PERP",
          "marketId":"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
-         "subaccountId":"0x00cd2929594559000670af009e2f5ef15fefa6cf000000000000000000000000",
-         "direction":"long",
-         "quantity":"0.000050211853307914",
-         "entryPrice":"12293600",
-         "margin":"316.500712",
-         "liquidationPrice":"6112544.170976",
-         "markPrice":"18461042.39",
-         "aggregateReduceOnlyQuantity":"0",
-         "updatedAt":"1702000801389",
-         "createdAt":"-62135596800000"
-      },
-      {
-         "ticker":"INJ/USDT PERP",
-         "marketId":"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
-         "subaccountId":"0x00cf63fab44e827a4fb12142d6e0d8e82099701a000000000000000000000000",
-         "direction":"long",
-         "quantity":"0.000058171926973086",
-         "entryPrice":"12293600",
-         "margin":"366.858203",
-         "liquidationPrice":"6109339.29325",
-         "markPrice":"18461042.39",
-         "aggregateReduceOnlyQuantity":"0",
-         "updatedAt":"1702000801389",
-         "createdAt":"-62135596800000"
-      },
-      {
-         "ticker":"INJ/USDT PERP",
-         "marketId":"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
-         "subaccountId":"0x010d36443f440708892e79dcbb6c1350c4c76662000000000000000000000000",
-         "direction":"long",
-         "quantity":"0.00008708028566368",
-         "entryPrice":"12293600",
-         "margin":"549.102034",
-         "liquidationPrice":"6110103.485758",
-         "markPrice":"18461042.39",
-         "aggregateReduceOnlyQuantity":"0",
-         "updatedAt":"1702000801389",
-         "createdAt":"-62135596800000"
-      },
-      {
-         "ticker":"INJ/USDT PERP",
-         "marketId":"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
-         "subaccountId":"0x021a86b9858f6e4150a724d444e94d10cb75c1b1000000000000000000000000",
+         "subaccountId":"0x0000007c60fab7a70c2ae0ebe437f3726b05e7eb000000000000000000000000",
          "direction":"short",
-         "quantity":"0.077749303393590607",
-         "entryPrice":"15980281.340438795311756851",
-         "margin":"615528.738969",
-         "liquidationPrice":"23428549.626241",
-         "markPrice":"18461042.39",
-         "aggregateReduceOnlyQuantity":"0",
-         "updatedAt":"1702000801389",
-         "createdAt":"-62135596800000"
-      }
+         "quantity":"0.087829315829932072",
+         "entryPrice":"26453271.813315285838444221",
+         "margin":"1156906.224974",
+         "liquidationPrice":"38848511.946759",
+         "markPrice":"35561999.99",
+         "updatedAt":"1703793600379"
+      },
+      {
+         "ticker":"INJ/USDT PERP",
+         "marketId":"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+         "subaccountId":"0x0000040f1111c5c3d2037940658ee770bb37e0a2000000000000000000000000",
+         "direction":"long",
+         "quantity":"0.000068500966722584",
+         "entryPrice":"12293600",
+         "margin":"440.389918",
+         "liquidationPrice":"5984327.380009",
+         "markPrice":"35561999.99",
+         "updatedAt":"1703793600379"
+      },
+      {
+         "ticker":"INJ/USDT PERP",
+         "marketId":"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+         "subaccountId":"0x00509ed903475672121d6a1fb2c646eef4da6c44000000000000000000000000",
+         "direction":"short",
+         "quantity":"0.022151816236313182",
+         "entryPrice":"15980281.340438795311756833",
+         "margin":"172782.601001",
+         "liquidationPrice":"23313932.022168",
+         "markPrice":"35561999.99",
+         "updatedAt":"1703793600379"
+      },
    ],
    "paging":{
-      "total":"992",
-      "from":5,
-      "to":8,
+      "total":"1166",
+      "from":0,
+      "to":0,
       "countBySubaccount":"0",
       "next":[
          
@@ -3203,30 +3186,129 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 {
  "positions": [
   {
-   "ticker": "BTC/USDT PERP",
-   "market_id": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-   "subaccount_id": "0x306db78bc90ddf11bd917358f48942ccb48f4dc6000000000000000000000000",
+   "ticker": "INJ/USDT PERP",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0x0000007c60fab7a70c2ae0ebe437f3726b05e7eb000000000000000000000000",
    "direction": "short",
-   "quantity": "0.01",
-   "entry_price": "35187550000",
-   "margin": "143194359.84865",
-   "liquidation_price": "47149510461.77619",
-   "mark_price": "40128736026.4094317665",
-   "aggregate_reduce_only_quantity": "0"
+   "quantity": "0.087829315829932072",
+   "entry_price": "26453271.813315285838444221",
+   "margin": "1156893.718782",
+   "liquidation_price": "38848372.346758",
+   "mark_price": "35294291.44",
+   "updated_at": 1703790001819
   },
   {
-   "ticker": "BTC/USDT PERP",
-   "market_id": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-   "subaccount_id": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+   "ticker": "INJ/USDT PERP",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0x0000040f1111c5c3d2037940658ee770bb37e0a2000000000000000000000000",
    "direction": "long",
-   "quantity": "0.5501",
-   "entry_price": "38000115954.863590915583488073",
-   "margin": "20888477638.841827",
-   "liquidation_price": "29441820.010972",
-   "mark_price": "40128736026.4094317665",
-   "aggregate_reduce_only_quantity": "0"
+   "quantity": "0.000068500966722584",
+   "entry_price": "12293600",
+   "margin": "440.399672",
+   "liquidation_price": "5984182.081895",
+   "mark_price": "35294291.44",
+   "updated_at": 1703790001819
+  },
+  {
+   "ticker": "INJ/USDT PERP",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0x00509ed903475672121d6a1fb2c646eef4da6c44000000000000000000000000",
+   "direction": "short",
+   "quantity": "0.022151816236313182",
+   "entry_price": "15980281.340438795311756833",
+   "margin": "172779.44676",
+   "liquidation_price": "23313792.422186",
+   "mark_price": "35294291.44",
+   "updated_at": 1703790001819
+  },
+  {
+   "ticker": "INJ/USDT PERP",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0x00606da8ef76ca9c36616fa576d1c053bb0f7eb2000000000000000000000000",
+   "direction": "short",
+   "quantity": "0.041121486263975195",
+   "entry_price": "15980281.340438795311756842",
+   "margin": "320624.783065",
+   "liquidation_price": "23311073.361647",
+   "mark_price": "35294291.44",
+   "updated_at": 1703790001819
+  },
+  {
+   "ticker": "INJ/USDT PERP",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0x00cd2929594559000670af009e2f5ef15fefa6cf000000000000000000000000",
+   "direction": "long",
+   "quantity": "0.000050211853307914",
+   "entry_price": "12293600",
+   "margin": "322.774915",
+   "liquidation_price": "5985039.457698",
+   "mark_price": "35294291.44",
+   "updated_at": 1703790001819
+  },
+  {
+   "ticker": "INJ/USDT PERP",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0x00cf63fab44e827a4fb12142d6e0d8e82099701a000000000000000000000000",
+   "direction": "long",
+   "quantity": "0.000058171926973086",
+   "entry_price": "12293600",
+   "margin": "374.127106",
+   "liquidation_price": "5981833.667338",
+   "mark_price": "35294291.44",
+   "updated_at": 1703790001819
+  },
+  {
+   "ticker": "INJ/USDT PERP",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0x010d36443f440708892e79dcbb6c1350c4c76662000000000000000000000000",
+   "direction": "long",
+   "quantity": "0.00008708028566368",
+   "entry_price": "12293600",
+   "margin": "559.983294",
+   "liquidation_price": "5982596.709155",
+   "mark_price": "35294291.44",
+   "updated_at": 1703790001819
+  },
+  {
+   "ticker": "INJ/USDT PERP",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0x0154fc01caf0e4c82b7ea6c9be719c260e940ef3000000000000000000000000",
+   "direction": "short",
+   "quantity": "0.005684726095134712",
+   "entry_price": "19468749.344033524349659551",
+   "margin": "54688.034814",
+   "liquidation_price": "28518548.958621",
+   "mark_price": "35294291.44",
+   "updated_at": 1703790001819
+  },
+  {
+   "ticker": "INJ/USDT PERP",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0x0198b3d3691bcc1718dcda4277bb27c68fd19a6f000000000000000000000000",
+   "direction": "short",
+   "quantity": "1.950155851194068459",
+   "entry_price": "34111005.753742189227540816",
+   "margin": "33194528.351493",
+   "liquidation_price": "50129882.732098",
+   "mark_price": "35294291.44",
+   "updated_at": 1703790001819
+  },
+  {
+   "ticker": "INJ/USDT PERP",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0x021a86b9858f6e4150a724d444e94d10cb75c1b1000000000000000000000000",
+   "direction": "short",
+   "quantity": "0.077749303393590607",
+   "entry_price": "15980281.340438795311756851",
+   "margin": "605813.214778",
+   "liquidation_price": "23306040.184987",
+   "mark_price": "35294291.44",
+   "updated_at": 1703790001819
   }
- ]
+ ],
+ "paging": {
+  "total": 1153
+ }
 }
 ```
 
@@ -3258,19 +3340,16 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 
 | Parameter                      | Type    | Description                                                                                    |
 | ------------------------------ | ------- | ---------------------------------------------------------------------------------------------- |
-| direction                      | String  | Direction of the position (Should be one of: ["long", "short"])                                |
+| ticker                         | String  | Ticker of the derivative market                                                                |
 | market_id                      | String  | ID of the market the position is in                                                            |
 | subaccount_id                  | String  | The subaccount ID the position belongs to                                                      |
-| ticker                         | String  | Ticker of the derivative market                                                                |
-| aggregate_reduce_only_quantity | String  | Aggregate quantity of the reduce-only orders associated with the position                      |
-| entry_price                    | String  | Entry price of the position                                                                    |
-| liquidation_price              | String  | Liquidation price of the position                                                              |
-| margin                         | String  | Margin of the position                                                                         |
-| mark_price                     | String  | Oracle price of the base asset                                                                 |
+| direction                      | String  | Direction of the position (Should be one of: ["long", "short"])                                |
 | quantity                       | String  | Quantity of the position                                                                       |
+| entry_price                    | String  | Entry price of the position                                                                    |
+| margin                         | String  | Margin of the position                                                                         |
+| liquidation_price              | String  | Liquidation price of the position                                                              |
+| mark_price                     | String  | Oracle price of the base asset                                                                 |
 | updated_at                     | Integer | Position updated timestamp in UNIX millis                                                      |
-| created_at                     | Integer | Position created timestamp in UNIX millis. Currently not supported (value will be inaccurate). |
-
 
 **Paging**
 
@@ -4402,6 +4481,35 @@ if __name__ == "__main__":
 ```
 
 ``` go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketIds := []string{"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"}
+	res, err := exchangeClient.GetDerivativeOrderbooksV2(ctx, marketIds)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
 
 ```
 
@@ -4464,6 +4572,95 @@ if __name__ == "__main__":
 ```
 
 ``` go
+{
+ "orderbooks": [
+  {
+   "market_id": "0x2e94326a421c3f66c15a3b663c7b1ab7fb6a5298b3a57759ecf07f0036793fc9",
+   "orderbook": {
+    "buys": [
+     {
+      "price": "25100000000",
+      "quantity": "0.46",
+      "timestamp": 1701558751779
+     },
+     {
+      "price": "25000000000",
+      "quantity": "99.51",
+      "timestamp": 1702216325243
+     },
+     {
+      "price": "24192180000",
+      "quantity": "0.05",
+      "timestamp": 1681812143213
+     },
+     {
+      "price": "24000180000",
+      "quantity": "3",
+      "timestamp": 1681811751044
+     },
+     {
+      "price": "21295940000",
+      "quantity": "1",
+      "timestamp": 1681811119316
+     },
+     {
+      "price": "20160150000",
+      "quantity": "1",
+      "timestamp": 1681812143213
+     },
+     {
+      "price": "20000000000",
+      "quantity": "200",
+      "timestamp": 1699699685300
+     },
+     {
+      "price": "19894890000",
+      "quantity": "1",
+      "timestamp": 1681811751044
+     },
+     {
+      "price": "19764860000",
+      "quantity": "4",
+      "timestamp": 1681810803871
+     },
+     {
+      "price": "18900140000",
+      "quantity": "3",
+      "timestamp": 1681812143213
+     },
+     {
+      "price": "18439160000",
+      "quantity": "10",
+      "timestamp": 1681812143213
+     },
+     {
+      "price": "15000000000",
+      "quantity": "400",
+      "timestamp": 1699699705568
+     },
+     {
+      "price": "10000000000",
+      "quantity": "1000",
+      "timestamp": 1699699744160
+     }
+    ],
+    "sells": [
+     {
+      "price": "50501180000",
+      "quantity": "4",
+      "timestamp": 1681811955314
+     },
+     {
+      "price": "50198770000",
+      "quantity": "2.48",
+      "timestamp": 1681811955314
+     }
+    ],
+    "timestamp": -62135596800000
+   }
+  }
+ ]
+}
 
 ```
 
