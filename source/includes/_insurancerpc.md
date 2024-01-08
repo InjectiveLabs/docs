@@ -14,21 +14,22 @@ List all the insurance funds.
 <!-- embedme ../../../sdk-python/examples/exchange_client/insurance_rpc/1_InsuranceFunds.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    insurance_funds = await client.get_insurance_funds()
+    insurance_funds = await client.fetch_insurance_funds()
     print(insurance_funds)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 
 ```
 
@@ -88,54 +89,35 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-funds {
-  market_ticker: "BTC/USDT PERP"
-  market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
-  deposit_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-  pool_token_denom: "share1"
-  redemption_notice_period_duration: 1209600
-  balance: "100000000000"
-  total_share: "1000000000000000000"
-  oracle_base: "BTC"
-  oracle_quote: "USDT"
-  oracle_type: "bandibc"
-}
-funds {
-  market_ticker: "ETH/USDT PERP"
-  market_id: "0xd5e4b12b19ecf176e4e14b42944731c27677819d2ed93be4104ad7025529c7ff"
-  deposit_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-  pool_token_denom: "share2"
-  redemption_notice_period_duration: 1209600
-  balance: "101101000000"
-  total_share: "1011010000000000000"
-  oracle_base: "ETH"
-  oracle_quote: "USDT"
-  oracle_type: "bandibc"
-}
-funds {
-  market_ticker: "INJ/USDT PERP"
-  market_id: "0xe112199d9ee44ceb2697ea0edd1cd422223c105f3ed2bdf85223d3ca59f5909a"
-  deposit_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-  pool_token_denom: "share3"
-  redemption_notice_period_duration: 1209600
-  balance: "101010000000"
-  total_share: "1010100000000000000"
-  oracle_base: "INJ"
-  oracle_quote: "USDT"
-  oracle_type: "bandibc"
-}
-funds {
-  market_ticker: "Frontrunner Futures 4: Expires 7.7.2023"
-  market_id: "0x3bb58218cd90efcce9ea9e317d137dcd4ce8485c6be346250dbf8cd60d9c9e2d"
-  deposit_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-  pool_token_denom: "share4"
-  redemption_notice_period_duration: 1209600
-  balance: "1015000000"
-  total_share: "101500000000000000000"
-  oracle_base: "FRNT"
-  oracle_quote: "USDT"
-  oracle_type: "pricefeed"
-  expiry: 1688747341
+{
+   "funds":[
+      {
+         "marketTicker":"BTC/USDT PERP",
+         "marketId":"0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3",
+         "depositDenom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+         "poolTokenDenom":"share1",
+         "redemptionNoticePeriodDuration":"1209600",
+         "balance":"3825059708",
+         "totalShare":"1000000000000000000",
+         "oracleBase":"BTC",
+         "oracleQuote":"USDT",
+         "oracleType":"bandibc",
+         "expiry":"0"
+      },
+      {
+         "marketTicker":"ETH/USDT PERP",
+         "marketId":"0xd5e4b12b19ecf176e4e14b42944731c27677819d2ed93be4104ad7025529c7ff",
+         "depositDenom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+         "poolTokenDenom":"share2",
+         "redemptionNoticePeriodDuration":"1209600",
+         "balance":"723501080000",
+         "totalShare":"7235010800000000000",
+         "oracleBase":"ETH",
+         "oracleQuote":"USDT",
+         "oracleType":"bandibc",
+         "expiry":"0"
+      }
+   ]
 }
 ```
 
@@ -251,10 +233,10 @@ Get a list of redemptions. If no parameters are provided, redemptions for all po
 <!-- embedme ../../../sdk-python/examples/exchange_client/insurance_rpc/2_Redemptions.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -263,16 +245,13 @@ async def main() -> None:
     redeemer = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
     redemption_denom = "share4"
     status = "disbursed"
-    insurance_redemptions = await client.get_redemptions(
-        redeemer=redeemer,
-        redemption_denom=redemption_denom,
-        status=status
-    )
+    insurance_redemptions = await client.fetch_redemptions(address=redeemer, denom=redemption_denom, status=status)
     print(insurance_redemptions)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 
 ```
 
@@ -331,40 +310,44 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|redeemer|String|Filter by address of the redeemer|No|
-|redemption_denom|String|Filter by denom of the insurance pool token|No|
-|status|String|Filter by redemption status (Should be one of: ["disbursed", "pending"])|No|
+| Parameter | Type   | Description                                                              | Required |
+| --------- | ------ | ------------------------------------------------------------------------ | -------- |
+| address   | String | Filter by address of the redeemer                                        | No       |
+| denom     | String | Filter by denom of the insurance pool token                              | No       |
+| status    | String | Filter by redemption status (Should be one of: ["disbursed", "pending"]) | No       |
 
 
 ### Response Parameters
 > Response Example:
 
 ``` python
-redemption_schedules {
-  redemption_id: 1
-  status: "disbursed"
-  redeemer: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-  claimable_redemption_time: 1674798129093000
-  redemption_amount: "500000000000000000"
-  redemption_denom: "share4"
-  requested_at: 1673588529093000
-  disbursed_amount: "5000000"
-  disbursed_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-  disbursed_at: 1674798130965000
-}
-redemption_schedules {
-  redemption_id: 2
-  status: "disbursed"
-  redeemer: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-  claimable_redemption_time: 1674798342397000
-  redemption_amount: "2000000000000000000"
-  redemption_denom: "share4"
-  requested_at: 1673588742397000
-  disbursed_amount: "20000000"
-  disbursed_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-  disbursed_at: 1674798343097000
+{
+   "redemptionSchedules":[
+      {
+         "redemptionId":"1",
+         "status":"disbursed",
+         "redeemer":"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+         "claimableRedemptionTime":"1674798129093000",
+         "redemptionAmount":"500000000000000000",
+         "redemptionDenom":"share4",
+         "requestedAt":"1673588529093000",
+         "disbursedAmount":"5000000",
+         "disbursedDenom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+         "disbursedAt":"1674798130965000"
+      },
+      {
+         "redemptionId":"2",
+         "status":"disbursed",
+         "redeemer":"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+         "claimableRedemptionTime":"1674798342397000",
+         "redemptionAmount":"2000000000000000000",
+         "redemptionDenom":"share4",
+         "requestedAt":"1673588742397000",
+         "disbursedAmount":"20000000",
+         "disbursedDenom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+         "disbursedAt":"1674798343097000"
+      }
+   ]
 }
 ```
 

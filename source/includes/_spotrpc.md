@@ -14,21 +14,22 @@ Get details of a single spot market.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
     market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-    market = await client.get_spot_market(market_id=market_id)
+    market = await client.fetch_spot_market(market_id=market_id)
     print(market)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -90,33 +91,35 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-market {
-  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-  market_status: "active"
-  ticker: "INJ/USDT"
-  base_denom: "inj"
-  base_token_meta {
-    name: "Injective Protocol"
-    address: "0xe28b3B32B6c345A34Ff64674606124Dd5Aceca30"
-    symbol: "INJ"
-    logo: "https://static.alchemyapi.io/images/assets/7226.png"
-    decimals: 18
-    updated_at: 1658129632873
-  }
-  quote_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-  quote_token_meta {
-    name: "Testnet Tether USDT"
-    address: "0x0000000000000000000000000000000000000000"
-    symbol: "USDT"
-    logo: "https://static.alchemyapi.io/images/assets/825.png"
-    decimals: 6
-    updated_at: 1675929393340
-  }
-  maker_fee_rate: "-0.0001"
-  taker_fee_rate: "0.001"
-  service_provider_fee: "0.4"
-  min_price_tick_size: "0.000000000000001"
-  min_quantity_tick_size: "1000000000000000"
+{
+   "market":{
+      "marketId":"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+      "marketStatus":"active",
+      "ticker":"INJ/USDT",
+      "baseDenom":"inj",
+      "baseTokenMeta":{
+         "name":"Injective Protocol",
+         "address":"0xe28b3B32B6c345A34Ff64674606124Dd5Aceca30",
+         "symbol":"INJ",
+         "logo":"https://static.alchemyapi.io/images/assets/7226.png",
+         "decimals":18,
+         "updatedAt":"1683119359318"
+      },
+      "quoteDenom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+      "quoteTokenMeta":{
+         "name":"Testnet Tether USDT",
+         "address":"0x0000000000000000000000000000000000000000",
+         "symbol":"USDT",
+         "logo":"https://static.alchemyapi.io/images/assets/825.png",
+         "decimals":6,
+         "updatedAt":"1683119359320"
+      },
+      "makerFeeRate":"-0.0001",
+      "takerFeeRate":"0.001",
+      "serviceProviderFee":"0.4",
+      "minPriceTickSize":"0.000000000000001",
+      "minQuantityTickSize":"1000000000000000"
+   }
 }
 ```
 
@@ -215,10 +218,10 @@ Get a list of spot markets.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     network = Network.testnet()
@@ -226,17 +229,15 @@ async def main() -> None:
     market_status = "active"
     base_denom = "inj"
     quote_denom = "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-    market = await client.get_spot_markets(
-        market_status=market_status,
-        base_denom=base_denom,
-        quote_denom=quote_denom
+    market = await client.fetch_spot_markets(
+        market_statuses=[market_status], base_denom=base_denom, quote_denom=quote_denom
     )
     print(market)
 
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -301,44 +302,48 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 ```
 
 
-| Parameter     | Type   | Description                                                                                                   | Required |
-| ------------- | ------ | ------------------------------------------------------------------------------------------------------------- | -------- |
-| base_denom    | String | Filter by the Coin denomination of the base currency                                                          | No       |
-| market_status | String | Filter by status of the market (Should be one of: ["active", "paused", "suspended", "demolished", "expired"]) | No       |
-| quote_denom   | String | Filter by the Coin denomination of the quote currency                                                         | No       |
+| Parameter       | Type         | Description                                                                                                   | Required |
+| --------------- | ------------ | ------------------------------------------------------------------------------------------------------------- | -------- |
+| market_statuses | String Array | Filter by status of the market (Should be any of: ["active", "paused", "suspended", "demolished", "expired"]) | No       |
+| base_denom      | String       | Filter by the Coin denomination of the base currency                                                          | No       |
+| quote_denom     | String       | Filter by the Coin denomination of the quote currency                                                         | No       |
 
 
 ### Response Parameters
 > Response Example:
 
 ``` python
-markets {
-  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-  market_status: "active"
-  ticker: "INJ/USDT"
-  base_denom: "inj"
-  base_token_meta {
-    name: "Injective Protocol"
-    address: "0xe28b3B32B6c345A34Ff64674606124Dd5Aceca30"
-    symbol: "INJ"
-    logo: "https://static.alchemyapi.io/images/assets/7226.png"
-    decimals: 18
-    updated_at: 1658129632873
-  }
-  quote_denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-  quote_token_meta {
-    name: "Testnet Tether USDT"
-    address: "0x0000000000000000000000000000000000000000"
-    symbol: "USDT"
-    logo: "https://static.alchemyapi.io/images/assets/825.png"
-    decimals: 6
-    updated_at: 1675929959325
-  }
-  maker_fee_rate: "-0.0001"
-  taker_fee_rate: "0.001"
-  service_provider_fee: "0.4"
-  min_price_tick_size: "0.000000000000001"
-  min_quantity_tick_size: "1000000000000000"
+{
+   "markets":[
+      {
+         "marketId":"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+         "marketStatus":"active",
+         "ticker":"INJ/USDT",
+         "baseDenom":"inj",
+         "baseTokenMeta":{
+            "name":"Injective Protocol",
+            "address":"0xe28b3B32B6c345A34Ff64674606124Dd5Aceca30",
+            "symbol":"INJ",
+            "logo":"https://static.alchemyapi.io/images/assets/7226.png",
+            "decimals":18,
+            "updatedAt":"1683119359318"
+         },
+         "quoteDenom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+         "quoteTokenMeta":{
+            "name":"Testnet Tether USDT",
+            "address":"0x0000000000000000000000000000000000000000",
+            "symbol":"USDT",
+            "logo":"https://static.alchemyapi.io/images/assets/825.png",
+            "decimals":6,
+            "updatedAt":"1683119359320"
+         },
+         "makerFeeRate":"-0.0001",
+         "takerFeeRate":"0.001",
+         "serviceProviderFee":"0.4",
+         "minPriceTickSize":"0.000000000000001",
+         "minQuantityTickSize":"1000000000000000"
+      }
+   ]
 }
 ```
 
@@ -500,22 +505,46 @@ Stream live updates of spot markets.
 
 ``` python
 import asyncio
-import logging
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
 
+
+async def market_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to spot markets updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The spot markets updates stream has been closed")
+
+
 async def main() -> None:
     # select network: local, testnet, mainnet
-    network = Network.testnet()
+    network = Network.mainnet()
     client = AsyncClient(network)
-    markets = await client.stream_spot_markets()
-    async for market in markets:
-        print(market)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    task = asyncio.get_event_loop().create_task(
+        client.listen_spot_markets_updates(
+            callback=market_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -603,36 +632,38 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Streaming Response Example:
 
 ``` python
-market: {
-  market_id: "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
-  market_status: "active",
-  ticker: "INJ/USDT",
-  base_denom: "inj",
-  base_token_meta: {
-    name: "Injective Protocol",
-    address: "0xe28b3B32B6c345A34Ff64674606124Dd5Aceca30",
-    symbol: "INJ",
-    logo: "https://static.alchemyapi.io/images/assets/7226.png",
-    decimals: 18,
-    updated_at: 1632535055751
-  },
-  quote_denom: "peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
-  quote_token_meta: {
-    name: "Tether",
-    address: "0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
-    symbol: "USDT",
-    logo: "https://static.alchemyapi.io/images/assets/825.png",
-    decimals: 6,
-    updated_at: 1632535055759
-  },
-  maker_fee_rate: "0.001",
-  taker_fee_rate: "0.002",
-  service_provider_fee: "0.4",
-  min_price_tick_size: "0.000000000000001",
-  min_quantity_tick_size: "1000000000000000"
-},
-  operation_type: "update",
-  timestamp: 1632535055790
+{
+   "market":{
+      "marketId":"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+      "marketStatus":"active",
+      "ticker":"INJ/USDT",
+      "baseDenom":"inj",
+      "baseTokenMeta":{
+         "name":"Injective Protocol",
+         "address":"0xe28b3B32B6c345A34Ff64674606124Dd5Aceca30",
+         "symbol":"INJ",
+         "logo":"https://static.alchemyapi.io/images/assets/7226.png",
+         "decimals":18,
+         "updatedAt":1632535055751
+      },
+      "quoteDenom":"peggy0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+      "quoteTokenMeta":{
+         "name":"Tether",
+         "address":"0x69efCB62D98f4a6ff5a0b0CFaa4AAbB122e85e08",
+         "symbol":"USDT",
+         "logo":"https://static.alchemyapi.io/images/assets/825.png",
+         "decimals":6,
+         "updatedAt":1632535055759
+      },
+      "makerFeeRate":"0.001",
+      "takerFeeRate":"0.002",
+      "serviceProviderRate":"0.4",
+      "minPriceTickSize":"0.000000000000001",
+      "minQuantityTickSize":"1000000000000000"
+   },
+   "operationType":"update",
+   "timestamp":1632535055790
+}
 ```
 
 ``` go
@@ -699,10 +730,9 @@ market: {
     "serviceProviderRate": "0.4",
     "minPriceTickSize": "0.000000000000001",
     "minQuantityTickSize": "1000000000000000"
-    },
-    "operationType": "update",
-    "timestamp": 1632535055790
-  }
+  },
+  "operationType": "update",
+  "timestamp": 1632535055790
 }
 ```
 
@@ -753,31 +783,33 @@ List history of orders (all states) for a spot market.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
-    market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+    market_ids = ["0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"]
     subaccount_id = "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000"
     skip = 10
     limit = 3
     order_types = ["buy_po"]
-    orders = await client.get_historical_spot_orders(
-        market_id=market_id,
+    pagination = PaginationOption(skip=skip, limit=limit)
+    orders = await client.fetch_spot_orders_history(
         subaccount_id=subaccount_id,
-        skip=skip,
-        limit=limit,
-        order_types=order_types
+        market_ids=market_ids,
+        order_types=order_types,
+        pagination=pagination,
     )
     print(orders)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -830,77 +862,91 @@ func main() {
 
 ```
 
-| Parameter           | Type         | Description                                                                                                                               | Required |
-| ------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| subaccount_id       | String       | Filter by subaccount ID                                                                                                                   | No       |
-| market_id           | String       | Filter by a single market ID                                                                                                              | Yes      |
-| skip                | Integer      | Skip the first *n* items from the results. This can be used to fetch all results since the API caps at 100                                | No       |
-| limit               | Integer      | Maximum number of items to be returned. 1 <= *n* <= 100                                                                                   | No       |
-| order_types         | String Array | The order types to be included (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) | No       |
-| direction           | String       | Filter by order direction (Should be one of: ["buy", "sell"])                                                                             | No       |
-| start_time          | Integer      | Search for orders where createdAt >= startTime, time in milliseconds                                                                      | No       |
-| end_time            | Integer      | Search for orders where createdAt <= startTime, time in milliseconds                                                                      | No       |
-| state               | String       | The order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                                                    | No       |
-| execution_types     | String Array | The execution of the order (Should be one of: ["limit", "market"])                                                                        | No       |
-| market_ids          | String Array | Filter by multiple market IDs                                                                                                             | No       |
-| trade_id            | String       | Filter by the trade's trade id                                                                                                            | No       |
-| active_markets_only | Bool         | Return only orders for active markets                                                                                                     | No       |
-| cid                 | String       | Filter by the custom client order id of the trade's order                                                                                 | No       |
+| Parameter           | Type             | Description                                                                                                                               | Required |
+| ------------------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| subaccount_id       | String           | Filter by subaccount ID                                                                                                                   | No       |
+| market_ids          | String Array     | Filter by multiple market IDs                                                                                                             | No       |
+| order_types         | String Array     | The order types to be included (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) | No       |
+| direction           | String           | Filter by order direction (Should be one of: ["buy", "sell"])                                                                             | No       |
+| state               | String           | The order state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                                                    | No       |
+| execution_types     | String Array     | The execution of the order (Should be one of: ["limit", "market"])                                                                        | No       |
+| trade_id            | String           | Filter by the trade's trade id                                                                                                            | No       |
+| active_markets_only | Bool             | Return only orders for active markets                                                                                                     | No       |
+| cid                 | String           | Filter by the custom client order id of the trade's order                                                                                 | No       |
+| pagination          | PaginationOption | Pagination configuration                                                                                                                  | No       |
 
 
 ### Response Parameters
 > Response Example:
 
 ``` python
-orders {
-  order_hash: "0x5421e66dee390cbc734c2aaa3e9cf4b6917a3c9cf496c2e1ba3661e9cebcce56"
-  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-  subaccount_id: "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000"
-  execution_type: "limit"
-  order_type: "buy_po"
-  price: "0.000000000000001"
-  trigger_price: "0"
-  quantity: "1000000000000000"
-  filled_quantity: "0"
-  state: "canceled"
-  created_at: 1669998526840
-  updated_at: 1670919394668
-  direction: "buy"
+{
+   "orders":[
+      {
+         "orderHash":"0x4e6629ce45597a3dc3941c5382cc7bc542d52fbcc6b03c4fd604c94a9bec0cc1",
+         "marketId":"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+         "subaccountId":"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000",
+         "executionType":"limit",
+         "orderType":"buy_po",
+         "price":"0.000000000000001",
+         "triggerPrice":"0",
+         "quantity":"1000000000000000",
+         "filledQuantity":"1000000000000000",
+         "state":"filled",
+         "createdAt":"1668264339149",
+         "updatedAt":"1682667017745",
+         "direction":"buy",
+         "txHash":"0x0000000000000000000000000000000000000000000000000000000000000000",
+         "isActive":false,
+         "cid":""
+      },
+      {
+         "orderHash":"0x347de654c8484fe36473c3569382ff27d25e95c660fd055163b7193607867a8b",
+         "marketId":"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+         "subaccountId":"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000",
+         "executionType":"limit",
+         "orderType":"buy_po",
+         "price":"0.000000000000001",
+         "triggerPrice":"0",
+         "quantity":"1000000000000000",
+         "filledQuantity":"1000000000000000",
+         "state":"filled",
+         "createdAt":"1668264339149",
+         "updatedAt":"1682667017745",
+         "direction":"buy",
+         "txHash":"0x0000000000000000000000000000000000000000000000000000000000000000",
+         "isActive":false,
+         "cid":""
+      },
+      {
+         "orderHash":"0x2141d52714f5c9328170cc674de8ecf876463b1999bea4124d1de595152b718f",
+         "marketId":"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+         "subaccountId":"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000",
+         "executionType":"limit",
+         "orderType":"buy_po",
+         "price":"0.000000000000001",
+         "triggerPrice":"0",
+         "quantity":"1000000000000000",
+         "filledQuantity":"1000000000000000",
+         "state":"filled",
+         "createdAt":"1668264339149",
+         "updatedAt":"1682667017745",
+         "direction":"buy",
+         "txHash":"0x0000000000000000000000000000000000000000000000000000000000000000",
+         "isActive":false,
+         "cid":""
+      }
+   ],
+   "paging":{
+      "total":"1000",
+      "from":0,
+      "to":0,
+      "countBySubaccount":"0",
+      "next":[
+         
+      ]
+   }
 }
-orders {
-  order_hash: "0xf4d33d0eb3ee93a79df7e1c330b729dc56ab18b423be8d82c972f9dd2498fb3c"
-  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-  subaccount_id: "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000"
-  execution_type: "limit"
-  order_type: "buy_po"
-  price: "0.000000000000001"
-  trigger_price: "0"
-  quantity: "1000000000000000"
-  filled_quantity: "0"
-  state: "canceled"
-  created_at: 1669998526840
-  updated_at: 1670919410587
-  direction: "buy"
-}
-orders {
-  order_hash: "0x3fedb6c07b56155e4e7752dd3f24dfbf58a6cfc1370b9cd2973e79e31d29b17a"
-  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-  subaccount_id: "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000"
-  execution_type: "limit"
-  order_type: "buy_po"
-  price: "0.000000000000001"
-  trigger_price: "0"
-  quantity: "1000000000000000"
-  filled_quantity: "0"
-  state: "canceled"
-  created_at: 1669998524140
-  updated_at: 1670919410587
-  direction: "buy"
-}
-paging {
-  total: 1000
-}
-
 ```
 
 ``` go
@@ -1114,27 +1160,49 @@ Stream order updates for spot markets. If no parameters are given, updates to al
 
 ``` python
 import asyncio
-import logging
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
+
+async def order_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to spot orders history updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The spot orders history updates stream has been closed")
+
 
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
     market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-    order_side = "buy"
-    subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
-    orders = await client.stream_historical_spot_orders(
-        market_id=market_id,
-        order_side=order_side
-    )
-    async for order in orders:
-        print(order)
+    order_direction = "buy"
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    task = asyncio.get_event_loop().create_task(
+        client.listen_spot_orders_history_updates(
+            callback=order_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+            market_id=market_id,
+            direction=order_direction,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -1225,38 +1293,45 @@ console.log(orderHistory)
 })();
 ```
 
-| Parameter       | Type         | Description                                                                                                                     | Required |
-| --------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| market_id       | String       | Filter by market ID                                                                                                             | Yes      |
-| subaccount_id   | String       | Filter by subaccount ID                                                                                                         | No       |
-| direction       | String       | Filter by direction (Should be one of: ["buy", "sell"])                                                                         | No       |
-| state           | String       | Filter by state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                                          | No       |
-| order_types     | String Array | Filter by order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) | No       |
-| execution_types | String Array | Filter by execution type (Should be one of: ["limit", "market"])                                                                | No       |
+| Parameter          | Type         | Description                                                                                                                     | Required |
+| ------------------ | ------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| market_id          | String       | Filter by market ID                                                                                                             | No       |
+| subaccount_id      | String       | Filter by subaccount ID                                                                                                         | No       |
+| direction          | String       | Filter by direction (Should be one of: ["buy", "sell"])                                                                         | No       |
+| state              | String       | Filter by state (Should be one of: ["booked", "partial_filled", "filled", "canceled"])                                          | No       |
+| order_types        | String Array | Filter by order type (Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]) | No       |
+| execution_types    | String Array | Filter by execution type (Should be one of: ["limit", "market"])                                                                | No       |
+| callback           | Function     | Function receiving one parameter (a stream event JSON dictionary) to process each new event                                     | Yes      |
+| on_end_callback    | Function     | Function with the logic to execute when the stream connection is interrupted                                                    | No       |
+| on_status_callback | Function     | Function receiving one parameter (the exception) with the logic to execute when an exception happens                            | No       |
 
 
 ### Response Parameters
 > Streaming Response Example:
 
 ``` python
-order {
-  order_hash: "0xe34ada890ab627fb904d8dd50411a4ca64d1f6cb56c7305a2833772b36ae5660"
-  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-  is_active: true
-  subaccount_id: "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
-  execution_type: "limit"
-  order_type: "buy_po"
-  price: "0.000000000001849"
-  trigger_price: "0"
-  quantity: "10817000000000000000"
-  filled_quantity: "0"
-  state: "booked"
-  created_at: 1665486460484
-  updated_at: 1665486460484
-  direction: "buy"
+{
+   "order":{
+      "orderHash":"0xff6a1ce6339911bb6f0765e17e70144ae62834e65e551e910018203d62bc6d12",
+      "marketId":"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+      "subaccountId":"0x5e249f0e8cb406f41de16e1bd6f6b55e7bc75add000000000000000000000004",
+      "executionType":"limit",
+      "orderType":"buy_po",
+      "price":"0.000000000019028",
+      "triggerPrice":"0",
+      "quantity":"67129093000000000000000",
+      "filledQuantity":"0",
+      "state":"canceled",
+      "createdAt":"1702044186286",
+      "updatedAt":"1702044188683",
+      "direction":"buy",
+      "txHash":"0x0000000000000000000000000000000000000000000000000000000000000000",
+      "isActive":false,
+      "cid":""
+   },
+   "operationType":"update",
+   "timestamp":"1702044191000"
 }
-operation_type: "insert"
-timestamp: 1665486462000
 ```
 
 ``` go
@@ -1351,10 +1426,10 @@ Get trade history for a spot market. The default request returns all spot trades
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     network = Network.testnet()
@@ -1369,13 +1444,14 @@ async def main() -> None:
         execution_side=execution_side,
         direction=direction,
         subaccount_id=subaccount_id,
-        execution_types=execution_types
+        execution_types=execution_types,
     )
     print(orders)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 
 ```
 
@@ -1450,22 +1526,17 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-| Parameter       | Type         | Description                                                                                                                     | Required |
-| --------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| market_id       | String       | Filter by a single market ID                                                                                                    | No       |
-| execution_side  | String       | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
-| direction       | String       | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
-| subaccount_id   | String       | Filter by a single subaccount ID                                                                                                | No       |
-| skip            | Integer      | Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100                       | No       |
-| limit           | Integer      | Maximum number of items to be returned. 1 <= *n* <= 100                                                                         | No       |
-| start_time      | Integer      | startTime <= trade execution timestamp <= endTime                                                                               | No       |
-| end_time        | Integer      | startTime <= trade execution timestamp <= endTime                                                                               | No       |
-| market_ids      | String Array | Filter by multiple market IDs                                                                                                   | No       |
-| subaccount_ids  | String Array | Filter by multiple subaccount IDs                                                                                               | No       |
-| execution_types | String Array | Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
-| trade_id        | String       | Filter by the trade id of the trade                                                                                             | No       |
-| account_address | String       | Filter by the account address                                                                                                   | No       |
-| cid             | String       | Filter by the custom client order id of the trade's order                                                                       | No       |
+| Parameter       | Type             | Description                                                                                                                     | Required |
+| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| market_ids      | String Array     | Filter by multiple market IDs                                                                                                   | No       |
+| subaccount_ids  | String Array     | Filter by multiple subaccount IDs                                                                                               | No       |
+| execution_side  | String           | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
+| direction       | String           | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
+| execution_types | String Array     | Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
+| trade_id        | String           | Filter by the trade id of the trade                                                                                             | No       |
+| account_address | String           | Filter by the account address                                                                                                   | No       |
+| cid             | String           | Filter by the custom client order id of the trade's order                                                                       | No       |
+| pagination      | PaginationOption | Pagination configuration                                                                                                        | No       |
 
 
 ### Response Parameters
@@ -1640,6 +1711,424 @@ paging {
 | total     | Integer | Total number of records available |
 
 
+## TradesV2
+
+Get trade history for a spot market. The default request returns all spot trades from all markets.
+The difference between `Trades` and `TradesV2` is that the latter returns a `trade_id` compatible witht the one used for trade events in chain stream.
+
+**IP rate limit group:** `indexer`
+
+
+**\*Trade execution types**
+
+1. `"market"` for market orders
+2. `"limitFill"` for a resting limit order getting filled by a market order
+3. `"limitMatchRestingOrder"` for a resting limit order getting matched with another new limit order
+4. `"limitMatchNewOrder"` for a new limit order getting matched immediately
+
+
+### Request Parameters
+> Request Example:
+
+``` python
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_ids = ["0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"]
+    execution_side = "taker"
+    direction = "buy"
+    subaccount_ids = ["0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"]
+    execution_types = ["limitMatchNewOrder", "market"]
+    orders = await client.fetch_spot_trades(
+        market_ids=market_ids,
+        subaccount_ids=subaccount_ids,
+        execution_side=execution_side,
+        direction=direction,
+        execution_types=execution_types,
+    )
+    print(orders)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+
+
+```
+
+``` go
+package main
+
+import (
+  "context"
+  "encoding/json"
+  "fmt"
+
+  "github.com/InjectiveLabs/sdk-go/client/common"
+  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+  spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+)
+
+func main() {
+  // network := common.LoadNetwork("mainnet", "lb")
+  network := common.LoadNetwork("testnet", "k8s")
+  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
+  if err != nil {
+    panic(err)
+  }
+
+  ctx := context.Background()
+  marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+  subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+
+  req := spotExchangePB.TradesRequest{
+    MarketId:     marketId,
+    SubaccountId: subaccountId,
+  }
+
+  res, err := exchangeClient.GetSpotTrades(ctx, req)
+  if err != nil {
+    panic(err)
+  }
+
+  str, _ := json.MarshalIndent(res, "", " ")
+  fmt.Print(string(str))
+}
+```
+
+``` typescript
+import {
+  TradeDirection,
+  PaginationOption,
+  TradeExecutionType,
+  IndexerGrpcSpotApi,
+} from "@injectivelabs/sdk-ts";
+import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
+
+(async () => {
+  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
+  const indexerGrpcSpotApi = new IndexerGrpcSpotApi(endpoints.indexer);
+
+  const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"; 
+  const executionTypes = [TradeExecutionType.Market]; 
+  const direction = TradeDirection.Buy; 
+  const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"; 
+  const paginationOption = {} as PaginationOption; 
+
+  const trades = await indexerGrpcSpotApi.fetchTrades({
+    marketId,
+    executionTypes,
+    direction,
+    subaccountId,
+    pagination: paginationOption,
+  });
+
+  console.log(trades);
+})();
+```
+
+| Parameter       | Type             | Description                                                                                                                     | Required |
+| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| market_ids      | String Array     | Filter by multiple market IDs                                                                                                   | No       |
+| subaccount_ids  | String Array     | Filter by multiple subaccount IDs                                                                                               | No       |
+| execution_side  | String           | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
+| direction       | String           | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
+| execution_types | String Array     | Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
+| trade_id        | String           | Filter by the trade id of the trade                                                                                             | No       |
+| account_address | String           | Filter by the account address                                                                                                   | No       |
+| cid             | String           | Filter by the custom client order id of the trade's order                                                                       | No       |
+| pagination      | PaginationOption | Pagination configuration                                                                                                        | No       |
+
+
+### Response Parameters
+> Response Example:
+
+``` python
+{
+   "trades":[
+      {
+         "orderHash":"0x952bb14a7a377697d724c60d6077ef3dfe894c98f854970fab187247be832b6f",
+         "subaccountId":"0x101411266c6e2b610b4a0324d2bfb2ef0ca6e1dd000000000000000000000000",
+         "marketId":"0x01edfab47f124748dc89998eb33144af734484ba07099014594321729a0ca16b",
+         "tradeExecutionType":"limitMatchRestingOrder",
+         "tradeDirection":"buy",
+         "price":{
+            "price":"0.00000000001",
+            "quantity":"1000000000000000000",
+            "timestamp":"1701961116630"
+         },
+         "fee":"-600",
+         "executedAt":"1701961116630",
+         "feeRecipient":"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+         "tradeId":"1321_0",
+         "executionSide":"maker",
+         "cid":"96866b8b-02dd-4288-97d3-e5254e4888b3"
+      },
+      {
+         "orderHash":"0x85a824c31f59cf68235b48666c4821334813f2b80db937f02d192f1e3fc74368",
+         "subaccountId":"0x3db1f84431dfe4df617f9eb2d04edf432beb9826000000000000000000000000",
+         "marketId":"0x01edfab47f124748dc89998eb33144af734484ba07099014594321729a0ca16b",
+         "tradeExecutionType":"limitMatchNewOrder",
+         "tradeDirection":"sell",
+         "price":{
+            "price":"0.00000000001",
+            "quantity":"1000000000000000000",
+            "timestamp":"1701961116630"
+         },
+         "fee":"10000",
+         "executedAt":"1701961116630",
+         "feeRecipient":"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+         "tradeId":"1321_1",
+         "executionSide":"taker",
+         "cid":"spot_AAVE/USDT"
+      },
+      {
+         "orderHash":"0xffabb2d12a745d79eb12c7ef0eb59c729aaa4387a141f858153c8b8f58168b2e",
+         "subaccountId":"0x101411266c6e2b610b4a0324d2bfb2ef0ca6e1dd000000000000000000000000",
+         "marketId":"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+         "tradeExecutionType":"limitMatchRestingOrder",
+         "tradeDirection":"buy",
+         "price":{
+            "price":"0.00000000001",
+            "quantity":"2000000000000000000",
+            "timestamp":"1701960607140"
+         },
+         "fee":"-2400",
+         "executedAt":"1701960607140",
+         "feeRecipient":"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+         "tradeId":"646_0",
+         "executionSide":"maker",
+         "cid":"ec581735-f801-4bf3-9101-282b301bf5cd"
+      },
+      {
+         "orderHash":"0xa19e24eef9877ec4980b8d259c1d21fa1dafcd50691e6f853e84af74fb23c05c",
+         "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+         "marketId":"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+         "tradeExecutionType":"limitMatchNewOrder",
+         "tradeDirection":"sell",
+         "price":{
+            "price":"0.00000000001",
+            "quantity":"2000000000000000000",
+            "timestamp":"1701960607140"
+         },
+         "fee":"40000",
+         "executedAt":"1701960607140",
+         "feeRecipient":"inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+         "tradeId":"646_1",
+         "executionSide":"taker",
+         "cid":""
+      },
+      {
+         "orderHash":"0xffabb2d12a745d79eb12c7ef0eb59c729aaa4387a141f858153c8b8f58168b2e",
+         "subaccountId":"0x101411266c6e2b610b4a0324d2bfb2ef0ca6e1dd000000000000000000000000",
+         "marketId":"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+         "tradeExecutionType":"limitMatchRestingOrder",
+         "tradeDirection":"buy",
+         "price":{
+            "price":"0.00000000001",
+            "quantity":"8000000000000000000",
+            "timestamp":"1701960594997"
+         },
+         "fee":"-9600",
+         "executedAt":"1701960594997",
+         "feeRecipient":"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+         "tradeId":"630_0",
+         "executionSide":"maker",
+         "cid":"ec581735-f801-4bf3-9101-282b301bf5cd"
+      },
+      {
+         "orderHash":"0x87b786072190a2f38e9057987be7bdcb4e2274a6c16fdb9670e5c2ded765140f",
+         "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+         "marketId":"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+         "tradeExecutionType":"limitMatchNewOrder",
+         "tradeDirection":"sell",
+         "price":{
+            "price":"0.00000000001",
+            "quantity":"8000000000000000000",
+            "timestamp":"1701960594997"
+         },
+         "fee":"160000",
+         "executedAt":"1701960594997",
+         "feeRecipient":"inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+         "tradeId":"630_1",
+         "executionSide":"taker",
+         "cid":""
+      }
+   ],
+   "paging":{
+      "total":"6",
+      "from":1,
+      "to":6,
+      "countBySubaccount":"0",
+      "next":[
+         
+      ]
+   }
+}
+
+```
+
+``` go
+{
+ "trades": [
+  {
+   "order_hash": "0xffabb2d12a745d79eb12c7ef0eb59c729aaa4387a141f858153c8b8f58168b2e",
+   "subaccount_id": "0x101411266c6e2b610b4a0324d2bfb2ef0ca6e1dd000000000000000000000000",
+   "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+   "trade_execution_type": "limitMatchRestingOrder",
+   "trade_direction": "buy",
+   "price": {
+    "price": "0.00000000001",
+    "quantity": "2000000000000000000",
+    "timestamp": 1701960607140
+   },
+   "fee": "-2400",
+   "executed_at": 1701960607140,
+   "fee_recipient": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+   "trade_id": "646_0",
+   "execution_side": "maker",
+   "cid": "ec581735-f801-4bf3-9101-282b301bf5cd"
+  },
+  {
+   "order_hash": "0xa19e24eef9877ec4980b8d259c1d21fa1dafcd50691e6f853e84af74fb23c05c",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+   "trade_execution_type": "limitMatchNewOrder",
+   "trade_direction": "sell",
+   "price": {
+    "price": "0.00000000001",
+    "quantity": "2000000000000000000",
+    "timestamp": 1701960607140
+   },
+   "fee": "40000",
+   "executed_at": 1701960607140,
+   "fee_recipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+   "trade_id": "646_1",
+   "execution_side": "taker"
+  },
+  {
+   "order_hash": "0xffabb2d12a745d79eb12c7ef0eb59c729aaa4387a141f858153c8b8f58168b2e",
+   "subaccount_id": "0x101411266c6e2b610b4a0324d2bfb2ef0ca6e1dd000000000000000000000000",
+   "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+   "trade_execution_type": "limitMatchRestingOrder",
+   "trade_direction": "buy",
+   "price": {
+    "price": "0.00000000001",
+    "quantity": "8000000000000000000",
+    "timestamp": 1701960594997
+   },
+   "fee": "-9600",
+   "executed_at": 1701960594997,
+   "fee_recipient": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+   "trade_id": "630_0",
+   "execution_side": "maker",
+   "cid": "ec581735-f801-4bf3-9101-282b301bf5cd"
+  },
+  {
+   "order_hash": "0x87b786072190a2f38e9057987be7bdcb4e2274a6c16fdb9670e5c2ded765140f",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+   "trade_execution_type": "limitMatchNewOrder",
+   "trade_direction": "sell",
+   "price": {
+    "price": "0.00000000001",
+    "quantity": "8000000000000000000",
+    "timestamp": 1701960594997
+   },
+   "fee": "160000",
+   "executed_at": 1701960594997,
+   "fee_recipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+   "trade_id": "630_1",
+   "execution_side": "taker"
+  }
+ ],
+ "paging": {
+  "total": 4,
+  "from": 1,
+  "to": 4
+ }
+}
+
+```
+
+``` typescript
+[
+  {
+    "orderHash": "0xf7b0741b6e6ca6121f7747f662348674efc12e544746caf2d6cd045d6782dcb9",
+    "subaccountId": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+    "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+    "tradeExecutionType": "limitMatchRestingOrder",
+    "tradeDirection": "buy",
+    "price": {
+      "price": "0.000000000001880078",
+      "quantity": "32000000000000000000",
+      "timestamp": 1653642433329
+    },
+    "fee": "60162.496",
+    "executedAt": 1653642433329,
+    "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
+  },
+  {
+    "orderHash": "0x6f0be3232ffd084c0377302177c9fcf5caafea412c6c8d2daa352c91bd3c1c3c",
+    "subaccountId": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
+    "marketId": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+    "tradeExecutionType": "limitMatchRestingOrder",
+    "tradeDirection": "buy",
+    "price": {
+      "price": "0.0000000000018405",
+      "quantity": "26000000000000000000",
+      "timestamp": 1653631819163
+    },
+    "fee": "47853",
+    "executedAt": 1653631819163,
+    "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
+  }
+]
+```
+
+| Parameter | Type            | Description                        |
+| --------- | --------------- | ---------------------------------- |
+| trades    | SpotTrade Array | Trades of a particular spot market |
+| paging    | Paging          | Pagination of results              |
+
+**SpotTrade**
+
+| Parameter            | Type       | Description                                                                                                             |
+| -------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------- |
+| order_hash           | String     | The order hash                                                                                                          |
+| subaccount_id        | String     | The subaccountId that executed the trade                                                                                |
+| market_id            | String     | The ID of the market that this trade is in                                                                              |
+| trade_execution_type | String     | Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
+| trade_direction      | String     | Direction of the trade(Should be one of: ["buy", "sell"])                                                               |
+| price                | PriceLevel | Price level at which trade has been executed                                                                            |
+| fee                  | String     | The fee associated with the trade (quote asset denom)                                                                   |
+| executed_at          | Integer    | Timestamp of trade execution (on chain) in UNIX millis                                                                  |
+| fee_recipient        | String     | The address that received 40% of the fees                                                                               |
+| trade_id             | String     | Unique identifier to differentiate between trades                                                                       |
+| execution_side       | String     | Execution side of trade (Should be one of: ["maker", "taker"])                                                          |
+| cid                  | String     | Identifier for the order specified by the user (up to 36 characters, like a UUID)                                       |
+
+
+**PriceLevel**
+
+| Parameter | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| price     | String  | Price number of the price level                   |
+| quantity  | String  | Quantity of the price level                       |
+| timestamp | Integer | Price level last updated timestamp in UNIX millis |
+
+**Paging**
+
+| Parameter | Type    | Description                       |
+| --------- | ------- | --------------------------------- |
+| total     | Integer | Total number of records available |
+
+
 ## StreamTrades
 
 Stream newly executed trades of spot markets. The default request streams trades from all spot markets.
@@ -1659,17 +2148,17 @@ Stream newly executed trades of spot markets. The default request streams trades
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
     market_ids = [
         "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
-        "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"
+        "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0",
     ]
     execution_side = "maker"
     direction = "sell"
@@ -1680,15 +2169,15 @@ async def main() -> None:
         execution_side=execution_side,
         direction=direction,
         subaccount_id=subaccount_id,
-        execution_types=execution_types
+        execution_types=execution_types,
     )
     async for trade in trades:
         print(trade)
 
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -1784,22 +2273,20 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-| Parameter       | Type         | Description                                                                                                                     | Required |
-| --------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| market_id       | String       | Filter by a single market ID                                                                                                    | No       |
-| execution_side  | String       | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
-| direction       | String       | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
-| subaccount_id   | String       | Filter by a single subaccount ID                                                                                                | No       |
-| skip            | Integer      | Skip will skip the first N items from the result                                                                                | No       |
-| limit           | Integer      | Maximum number of items to be returned                                                                                          | No       |
-| start_time      | Integer      | Start timestamp (UNIX milliseconds) from when to filter trades                                                                  | No       |
-| end_time        | Integer      | End timestamp (UNIX milliseconds) to filter trades                                                                              | No       |
-| market_ids      | String Array | Filter by multiple market IDs                                                                                                   | No       |
-| subaccount_ids  | String Array | Filter by multiple subaccount IDs                                                                                               | No       |
-| execution_types | String Array | Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
-| trade_id        | String       | Filter by the trade's trade id                                                                                                  | No       |
-| account_address | String       | Filter by the account address                                                                                                   | No       |
-| cid             | String       | Filter by the custom client order id of the trade's order                                                                       | No       |
+| Parameter          | Type             | Description                                                                                                                     | Required |
+| ------------------ | ---------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| market_ids         | String Array     | Filter by multiple market IDs                                                                                                   | No       |
+| subaccount_ids     | String Array     | Filter by multiple subaccount IDs                                                                                               | No       |
+| execution_side     | String           | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
+| direction          | String           | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
+| execution_types    | String Array     | Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
+| trade_id           | String           | Filter by the trade's trade id                                                                                                  | No       |
+| account_address    | String           | Filter by the account address                                                                                                   | No       |
+| cid                | String           | Filter by the custom client order id of the trade's order                                                                       | No       |
+| pagination         | PaginationOption | Pagination configuration                                                                                                        | No       |
+| callback           | Function         | Function receiving one parameter (a stream event JSON dictionary) to process each new event                                     | Yes      |
+| on_end_callback    | Function         | Function with the logic to execute when the stream connection is interrupted                                                    | No       |
+| on_status_callback | Function         | Function receiving one parameter (the exception) with the logic to execute when an exception happens                            | No       |
 
 ### Response Parameters
 > Streaming Response Example:
@@ -1925,6 +2412,276 @@ timestamp: 1676015260000
   "operationType": "insert",
   "timestamp": 1654080028000
 }
+```
+
+| Parameter      | Type      | Description                                                         |
+| -------------- | --------- | ------------------------------------------------------------------- |
+| trade          | SpotTrade | New spot market trade                                               |
+| operation_type | String    | Trade operation type (Should be one of: ["insert", "invalidate"])   |
+| timestamp      | Integer   | Timestamp the new trade is written into the database in UNIX millis |
+
+**SpotTrade**
+
+| Parameter            | Type       | Description                                                                                                             |
+| -------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------- |
+| order_hash           | String     | The order hash                                                                                                          |
+| subaccount_id        | String     | The subaccountId that executed the trade                                                                                |
+| market_id            | String     | The ID of the market that this trade is in                                                                              |
+| trade_execution_type | String     | Execution type of the trade (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) |
+| trade_direction      | String     | Direction of the trade(Should be one of: ["buy", "sell"])                                                               |
+| price                | PriceLevel | Price level at which trade has been executed                                                                            |
+| fee                  | String     | The fee associated with the trade (quote asset denom)                                                                   |
+| executed_at          | Integer    | Timestamp of trade execution (on chain) in UNIX millis                                                                  |
+| fee_recipient        | String     | The address that received 40% of the fees                                                                               |
+| trade_id             | String     | Unique identifier to differentiate between trades                                                                       |
+| execution_side       | String     | Execution side of trade (Should be one of: ["maker", "taker"])                                                          |
+| cid                  | String     | Identifier for the order specified by the user (up to 36 characters, like a UUID)                                       |
+
+
+**PriceLevel**
+
+| Parameter | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| price     | String  | Price number of the price level                   |
+| quantity  | String  | Quantity of the price level                       |
+| timestamp | Integer | Price level last updated timestamp in UNIX millis |
+
+
+## StreamTradesV2
+
+Stream newly executed trades of spot markets. The default request streams trades from all spot markets.
+The difference between `StreamTrades` and `StreamTradesV2` is that the latter returns a `trade_id` compatible witht the one used for trade events in chain stream.
+
+**IP rate limit group:** `indexer`
+
+
+**\*Trade execution types**
+
+1. `"market"` for market orders
+2. `"limitFill"` for a resting limit order getting filled by a market order
+3. `"limitMatchRestingOrder"` for a resting limit order getting matched with another new limit order
+4. `"limitMatchNewOrder"` for a new limit order getting matched immediately
+
+### Request Parameters
+> Request Example:
+
+``` python
+import asyncio
+from typing import Any, Dict
+
+from grpc import RpcError
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def trade_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to spot trades updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The spot trades updates stream has been closed")
+
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_ids = [
+        "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+        "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0",
+    ]
+    execution_side = "maker"
+    direction = "sell"
+    subaccount_id = "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
+    execution_types = ["limitMatchRestingOrder"]
+
+    task = asyncio.get_event_loop().create_task(
+        client.listen_spot_trades_updates(
+            callback=trade_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+            market_ids=market_ids,
+            subaccount_ids=[subaccount_id],
+            execution_side=execution_side,
+            direction=direction,
+            execution_types=execution_types,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+
+```
+
+``` go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+	subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+
+	req := spotExchangePB.StreamTradesV2Request{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+	}
+	stream, err := exchangeClient.StreamSpotTradesV2(ctx, req)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			str, _ := json.MarshalIndent(res, "", " ")
+			fmt.Print(string(str))
+		}
+	}
+}
+
+```
+
+``` typescript
+
+```
+
+| Parameter          | Type             | Description                                                                                                                     | Required |
+| ------------------ | ---------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| market_ids         | String Array     | Filter by multiple market IDs                                                                                                   | No       |
+| subaccount_ids     | String Array     | Filter by multiple subaccount IDs                                                                                               | No       |
+| execution_side     | String           | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
+| direction          | String           | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
+| execution_types    | String Array     | Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
+| trade_id           | String           | Filter by the trade's trade id                                                                                                  | No       |
+| account_address    | String           | Filter by the account address                                                                                                   | No       |
+| cid                | String           | Filter by the custom client order id of the trade's order                                                                       | No       |
+| pagination         | PaginationOption | Pagination configuration                                                                                                        | No       |
+| callback           | Function         | Function receiving one parameter (a stream event JSON dictionary) to process each new event                                     | Yes      |
+| on_end_callback    | Function         | Function with the logic to execute when the stream connection is interrupted                                                    | No       |
+| on_status_callback | Function         | Function receiving one parameter (the exception) with the logic to execute when an exception happens                            | No       |
+
+### Response Parameters
+> Streaming Response Example:
+
+``` python
+{
+   "trade":{
+      "orderHash":"0xa7f4a7d85136d97108d271caadd93bf697ff965790e0e1558617b953cced4adc",
+      "subaccountId":"0x3db1f84431dfe4df617f9eb2d04edf432beb9826000000000000000000000000",
+      "marketId":"0x01edfab47f124748dc89998eb33144af734484ba07099014594321729a0ca16b",
+      "tradeExecutionType":"limitMatchNewOrder",
+      "tradeDirection":"sell",
+      "price":{
+         "price":"0.00000000001",
+         "quantity":"1000000000000000000",
+         "timestamp":"1701978102242"
+      },
+      "fee":"10000",
+      "executedAt":"1701978102242",
+      "feeRecipient":"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+      "tradeId":"22868_1",
+      "executionSide":"taker",
+      "cid":"96866b8b-02dd-4288-97d3-e5254e4999d4"
+   },
+   "operationType":"insert",
+   "timestamp":"1701978103000"
+}
+{
+   "trade":{
+      "orderHash":"0x952bb14a7a377697d724c60d6077ef3dfe894c98f854970fab187247be832b6f",
+      "subaccountId":"0x101411266c6e2b610b4a0324d2bfb2ef0ca6e1dd000000000000000000000000",
+      "marketId":"0x01edfab47f124748dc89998eb33144af734484ba07099014594321729a0ca16b",
+      "tradeExecutionType":"limitMatchRestingOrder",
+      "tradeDirection":"buy",
+      "price":{
+         "price":"0.00000000001",
+         "quantity":"1000000000000000000",
+         "timestamp":"1701978102242"
+      },
+      "fee":"-600",
+      "executedAt":"1701978102242",
+      "feeRecipient":"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+      "tradeId":"22868_0",
+      "executionSide":"maker",
+      "cid":"96866b8b-02dd-4288-97d3-e5254e4888b3"
+   },
+   "operationType":"insert",
+   "timestamp":"1701978103000"
+}
+```
+
+``` go
+{
+ "trade": {
+  "order_hash": "0x88e34872af0147f57c8c5a093c3a6a8a97358615bccf975b4a06dfb5162daeaf",
+  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "trade_execution_type": "market",
+  "trade_direction": "sell",
+  "price": {
+   "price": "0.000000000001654",
+   "quantity": "1000000000000000000",
+   "timestamp": 1653042087046
+  },
+  "fee": "3308",
+  "executed_at": 1653042087046,
+  "fee_recipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
+ },
+ "operation_type": "insert",
+ "timestamp": 1653042089000
+}{
+ "trade": {
+  "order_hash": "0xb5d651a01faa90ec53b0fa34f00f3ecdfe169f9fc35be8114ee113eea9257c30",
+  "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+  "market_id": "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0",
+  "trade_execution_type": "market",
+  "trade_direction": "sell",
+  "price": {
+   "price": "0.000000000001654",
+   "quantity": "2000000000000000000",
+   "timestamp": 1653042093023
+  },
+  "fee": "6616",
+  "executed_at": 1653042093023,
+  "fee_recipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
+ },
+ "operation_type": "insert",
+ "timestamp": 1653042098000
+}
+```
+
+``` typescript
 ```
 
 | Parameter      | Type      | Description                                                         |
@@ -2799,25 +3556,25 @@ Get an orderbook snapshot for one or more spot markets.
 <!-- embedme ../../../sdk-python/examples/exchange_client/spot_exchange_rpc/16_OrderbooksV2.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
 
+
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     market_ids = [
         "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
-        "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"
+        "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0",
     ]
-    orderbooks = await client.get_spot_orderbooksV2(market_ids=market_ids)
+    orderbooks = await client.fetch_spot_orderbooks_v2(market_ids=market_ids)
     print(orderbooks)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -2850,53 +3607,62 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-orderbooks {
-  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-  orderbook {
-    buys {
-      price: "0.000000000006057"
-      quantity: "38000000000000000000"
-      timestamp: 1652395483345
-    }
-    buys {
-      price: "0.000000000005643"
-      quantity: "8000000000000000000"
-      timestamp: 1652340918434
-    }
-   sells {
-      price: "0.000000000008102"
-      quantity: "50000000000000000000"
-      timestamp: 1652773614923
-    }
-    sells {
-      price: "0.000000000008108"
-      quantity: "48000000000000000000"
-      timestamp: 1652774630240
-    sequence: 512
-orderbooks {
-  market_id: "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0"
-  orderbook {
-    buys {
-      price: "0.000000000001654"
-      quantity: "27000000000000000000"
-      timestamp: 1652395260912
-    }
-    buys {
-      price: "0.000000000001608"
-      quantity: "38000000000000000000"
-      timestamp: 1652351094680
-    sells {
-      price: "0.00000000002792"
-      quantity: "30000000000000000"
-      timestamp: 1652263504751
-    }
-    sells {
-      price: "0.0000000003"
-      quantity: "220000000000000000000"
-      timestamp: 1652264026293
-    }
-    sequence: 711
-  }
+{
+   "orderbooks":[
+      {
+         "marketId":"0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0",
+         "orderbook":{
+            "sells":[
+               {
+                  "price":"0.000000000005",
+                  "quantity":"27767884000000000000000",
+                  "timestamp":"1694702425539"
+               },
+               {
+                  "price":"0.0000000000045",
+                  "quantity":"3519999000000000000000000",
+                  "timestamp":"1694424758707"
+               }
+            ],
+            "timestamp":"-62135596800000",
+            "buys":[
+               
+            ],
+            "sequence":"0"
+         }
+      },
+      {
+         "marketId":"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+         "orderbook":{
+            "buys":[
+               {
+                  "price":"0.000000000073489",
+                  "quantity":"129000000000000000",
+                  "timestamp":"1702042963690"
+               },
+               {
+                  "price":"0.000000000064261",
+                  "quantity":"1292000000000000000",
+                  "timestamp":"1702039612697"
+               }
+            ],
+            "sells":[
+               {
+                  "price":"0.000000000085",
+                  "quantity":"6693248000000000000000",
+                  "timestamp":"1702044317059"
+               },
+               {
+                  "price":"0.000000000085768",
+                  "quantity":"581000000000000000",
+                  "timestamp":"1701944786578"
+               }
+            ],
+            "sequence":"6916386",
+            "timestamp":"1702044336800"
+         }
+      }
+   ]
 }
 ```
 
@@ -3333,24 +4099,50 @@ Stream orderbook snapshot updates for one or more spot markets.
 <!-- embedme ../../../sdk-python/examples/exchange_client/spot_exchange_rpc/7_StreamOrderbookSnapshot.py -->
 ``` python
 import asyncio
-import logging
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
 
 
+async def orderbook_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to spot orderbook snapshots ({exception})")
+
+
+def stream_closed_processor():
+    print("The spot orderbook snapshots stream has been closed")
+
+
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    market_ids = ["0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"]
-    orderbooks = await client.stream_spot_orderbook_snapshot(market_ids=market_ids)
-    async for orderbook in orderbooks:
-        print(orderbook)
+    market_ids = [
+        "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+        "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0",
+    ]
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    task = asyncio.get_event_loop().create_task(
+        client.listen_spot_orderbook_snapshots(
+            market_ids=market_ids,
+            callback=orderbook_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 
 ```
 
@@ -3390,56 +4182,51 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-| Parameter  | Type         | Description                                                              | Required |
-| ---------- | ------------ | ------------------------------------------------------------------------ | -------- |
-| market_ids | String Array | List of market IDs for orderbook streaming; empty means all spot markets | Yes      |
+| Parameter          | Type         | Description                                                                                          | Required |
+| ------------------ | ------------ | ---------------------------------------------------------------------------------------------------- | -------- |
+| market_ids         | String Array | List of market IDs for orderbook streaming; empty means all spot markets                             | Yes      |
+| callback           | Function     | Function receiving one parameter (a stream event JSON dictionary) to process each new event          | Yes      |
+| on_end_callback    | Function     | Function with the logic to execute when the stream connection is interrupted                         | No       |
+| on_status_callback | Function     | Function receiving one parameter (the exception) with the logic to execute when an exception happens | No       |
 
 
 ### Response Parameters
 > Streaming Response Example:
 
 ``` python
-orderbook {
-  buys {
-    price: "0.000000000007"
-    quantity: "1000000000000000000"
-    timestamp: 1675904400063
-  }
-  buys {
-    price: "0.000000000001"
-    quantity: "10000000000000000"
-    timestamp: 1675882430039
-  }
-  buys {
-    price: "0.000000000000001"
-    quantity: "17983000000000000000"
-    timestamp: 1675880932648
-  }
-  sells {
-    price: "0.000000000007523"
-    quantity: "20000000000000000"
-    timestamp: 1676610722671
-  }
-  sells {
-    price: "0.000000000007525"
-    quantity: "10000000000000000"
-    timestamp: 1676015247335
-  }
-  sells {
-    price: "0.000000000007526"
-    quantity: "50000000000000000"
-    timestamp: 1676089482358
-  }
-  sells {
-    price: "0.000000000008"
-    quantity: "10000000000000000"
-    timestamp: 1675904636889
-  }
-  sequence: 713
+{
+   "orderbook":{
+      "buys":[
+         {
+            "price":"0.000000000073489",
+            "quantity":"129000000000000000",
+            "timestamp":"1702042963690"
+         },
+         {
+            "price":"0.000000000064261",
+            "quantity":"1292000000000000000",
+            "timestamp":"1702039612697"
+         }
+      ],
+      "sells":[
+         {
+            "price":"0.000000000085",
+            "quantity":"6681507000000000000000",
+            "timestamp":"1702044411262"
+         },
+         {
+            "price":"0.000000000085768",
+            "quantity":"581000000000000000",
+            "timestamp":"1701944786578"
+         }
+      ],
+      "sequence":"6916434",
+      "timestamp":"1702044439698"
+   },
+   "operationType":"update",
+   "timestamp":"1702044441000",
+   "marketId":"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 }
-operation_type: "update"
-timestamp: 1676610727000
-market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 ```
 
 ``` go
@@ -3504,11 +4291,21 @@ Stream incremental orderbook updates for one or more spot markets. This stream s
 <!-- embedme ../../../sdk-python/examples/exchange_client/spot_exchange_rpc/8_StreamOrderbookUpdate.py -->
 ``` python
 import asyncio
-import logging
-from decimal import *
+from decimal import Decimal
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to spot orderbook updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The spot orderbook updates stream has been closed")
 
 
 class PriceLevel:
@@ -3530,24 +4327,24 @@ class Orderbook:
 
 async def load_orderbook_snapshot(async_client: AsyncClient, orderbook: Orderbook):
     # load the snapshot
-    res = await async_client.get_spot_orderbooksV2(market_ids=[orderbook.market_id])
-    for snapshot in res.orderbooks:
-        if snapshot.market_id != orderbook.market_id:
+    res = await async_client.fetch_spot_orderbooks_v2(market_ids=[orderbook.market_id])
+    for snapshot in res["orderbooks"]:
+        if snapshot["marketId"] != orderbook.market_id:
             raise Exception("unexpected snapshot")
 
-        orderbook.sequence = int(snapshot.orderbook.sequence)
+        orderbook.sequence = int(snapshot["orderbook"]["sequence"])
 
-        for buy in snapshot.orderbook.buys:
-            orderbook.levels["buys"][buy.price] = PriceLevel(
-                price=Decimal(buy.price),
-                quantity=Decimal(buy.quantity),
-                timestamp=buy.timestamp,
+        for buy in snapshot["orderbook"]["buys"]:
+            orderbook.levels["buys"][buy["price"]] = PriceLevel(
+                price=Decimal(buy["price"]),
+                quantity=Decimal(buy["quantity"]),
+                timestamp=int(buy["timestamp"]),
             )
-        for sell in snapshot.orderbook.sells:
-            orderbook.levels["sells"][sell.price] = PriceLevel(
-                price=Decimal(sell.price),
-                quantity=Decimal(sell.quantity),
-                timestamp=sell.timestamp,
+        for sell in snapshot["orderbook"]["sells"]:
+            orderbook.levels["sells"][sell["price"]] = PriceLevel(
+                price=Decimal(sell["price"]),
+                quantity=Decimal(sell["quantity"]),
+                timestamp=int(sell["timestamp"]),
             )
         break
 
@@ -3559,74 +4356,94 @@ async def main() -> None:
 
     market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     orderbook = Orderbook(market_id=market_id)
+    updates_queue = asyncio.Queue()
+    tasks = []
+
+    async def queue_event(event: Dict[str, Any]):
+        await updates_queue.put(event)
+
     # start getting price levels updates
-    stream = await async_client.stream_spot_orderbook_update(market_ids=[market_id])
-    first_update = None
-    async for update in stream:
-        first_update = update.orderbook_level_updates
-        break
+    task = asyncio.get_event_loop().create_task(
+        async_client.listen_spot_orderbook_updates(
+            market_ids=[market_id],
+            callback=queue_event,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+    tasks.append(task)
+
     # load the snapshot once we are already receiving updates, so we don't miss any
     await load_orderbook_snapshot(async_client=async_client, orderbook=orderbook)
 
-    # start consuming updates again to process them
-    apply_orderbook_update(orderbook, first_update)
-    async for update in stream:
-        apply_orderbook_update(orderbook, update.orderbook_level_updates)
+    task = asyncio.get_event_loop().create_task(
+        apply_orderbook_update(orderbook=orderbook, updates_queue=updates_queue)
+    )
+    tasks.append(task)
+
+    await asyncio.sleep(delay=60)
+    for task in tasks:
+        task.cancel()
 
 
-def apply_orderbook_update(orderbook: Orderbook, updates):
-    # discard updates older than the snapshot
-    if updates.sequence <= orderbook.sequence:
-        return
+async def apply_orderbook_update(orderbook: Orderbook, updates_queue: asyncio.Queue):
+    while True:
+        updates = await updates_queue.get()
+        update = updates["orderbookLevelUpdates"]
 
-    print(" * * * * * * * * * * * * * * * * * * *")
+        # discard updates older than the snapshot
+        if int(update["sequence"]) <= orderbook.sequence:
+            return
 
-    # ensure we have not missed any update
-    if updates.sequence > (orderbook.sequence + 1):
-        raise Exception("missing orderbook update events from stream, must restart: {} vs {}".format(
-            updates.sequence, (orderbook.sequence + 1)))
+        print(" * * * * * * * * * * * * * * * * * * *")
 
-    print("updating orderbook with updates at sequence {}".format(updates.sequence))
+        # ensure we have not missed any update
+        if int(update["sequence"]) > (orderbook.sequence + 1):
+            raise Exception(
+                "missing orderbook update events from stream, must restart: {} vs {}".format(
+                    update["sequence"], (orderbook.sequence + 1)
+                )
+            )
 
-    # update orderbook
-    orderbook.sequence = updates.sequence
-    for direction, levels in {"buys": updates.buys, "sells": updates.sells}.items():
-        for level in levels:
-            if level.is_active:
-                # upsert level
-                orderbook.levels[direction][level.price] = PriceLevel(
-                    price=Decimal(level.price),
-                    quantity=Decimal(level.quantity),
-                    timestamp=level.timestamp)
-            else:
-                if level.price in orderbook.levels[direction]:
-                    del orderbook.levels[direction][level.price]
+        print("updating orderbook with updates at sequence {}".format(update["sequence"]))
 
-    # sort the level numerically
-    buys = sorted(orderbook.levels["buys"].values(), key=lambda x: x.price, reverse=True)
-    sells = sorted(orderbook.levels["sells"].values(), key=lambda x: x.price, reverse=True)
+        # update orderbook
+        orderbook.sequence = int(update["sequence"])
+        for direction, levels in {"buys": update["buys"], "sells": update["sells"]}.items():
+            for level in levels:
+                if level["isActive"]:
+                    # upsert level
+                    orderbook.levels[direction][level["price"]] = PriceLevel(
+                        price=Decimal(level["price"]), quantity=Decimal(level["quantity"]), timestamp=level["timestamp"]
+                    )
+                else:
+                    if level["price"] in orderbook.levels[direction]:
+                        del orderbook.levels[direction][level["price"]]
 
-    # lowest sell price should be higher than the highest buy price
-    if len(buys) > 0 and len(sells) > 0:
-        highest_buy = buys[0].price
-        lowest_sell = sells[-1].price
-        print("Max buy: {} - Min sell: {}".format(highest_buy, lowest_sell))
-        if highest_buy >= lowest_sell:
-            raise Exception("crossed orderbook, must restart")
+        # sort the level numerically
+        buys = sorted(orderbook.levels["buys"].values(), key=lambda x: x.price, reverse=True)
+        sells = sorted(orderbook.levels["sells"].values(), key=lambda x: x.price, reverse=True)
 
-    # for the example, print the list of buys and sells orders.
-    print("sells")
-    for k in sells:
-        print(k)
-    print("=========")
-    print("buys")
-    for k in buys:
-        print(k)
-    print("====================================")
+        # lowest sell price should be higher than the highest buy price
+        if len(buys) > 0 and len(sells) > 0:
+            highest_buy = buys[0].price
+            lowest_sell = sells[-1].price
+            print("Max buy: {} - Min sell: {}".format(highest_buy, lowest_sell))
+            if highest_buy >= lowest_sell:
+                raise Exception("crossed orderbook, must restart")
+
+        # for the example, print the list of buys and sells orders.
+        print("sells")
+        for k in sells:
+            print(k)
+        print("=========")
+        print("buys")
+        for k in buys:
+            print(k)
+        print("====================================")
 
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+if __name__ == "__main__":
     asyncio.run(main())
 
 ```
@@ -3667,9 +4484,12 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-| Parameter  | Type         | Description                                                              | Required |
-| ---------- | ------------ | ------------------------------------------------------------------------ | -------- |
-| market_ids | String Array | List of market IDs for orderbook streaming; empty means all spot markets | Yes      |
+| Parameter          | Type         | Description                                                                                          | Required |
+| ------------------ | ------------ | ---------------------------------------------------------------------------------------------------- | -------- |
+| market_ids         | String Array | List of market IDs for orderbook streaming; empty means all spot markets                             | Yes      |
+| callback           | Function     | Function receiving one parameter (a stream event JSON dictionary) to process each new event          | Yes      |
+| on_end_callback    | Function     | Function with the logic to execute when the stream connection is interrupted                         | No       |
+| on_status_callback | Function     | Function receiving one parameter (the exception) with the logic to execute when an exception happens | No       |
 
 
 ### Response Parameters
@@ -3770,10 +4590,11 @@ Get orders of a subaccount.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -3783,17 +4604,16 @@ async def main() -> None:
     market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
     skip = 10
     limit = 10
-    orders = await client.get_spot_subaccount_orders(
-        subaccount_id=subaccount_id,
-        market_id=market_id,
-        skip=skip,
-        limit=limit
+    pagination = PaginationOption(skip=skip, limit=limit)
+    orders = await client.fetch_spot_subaccount_orders_list(
+        subaccount_id=subaccount_id, market_id=market_id, pagination=pagination
     )
     print(orders)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -3865,64 +4685,61 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-| Parameter     | Type    | Description                                                                                               | Required |
-| ------------- | ------- | --------------------------------------------------------------------------------------------------------- | -------- |
-| subaccount_id | String  | Filter by subaccount ID                                                                                   | Yes      |
-| market_id     | String  | Filter by market ID                                                                                       | No       |
-| skip          | Integer | Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100 | No       |
-| limit         | Integer | Maximum number of items to be returned. 1 <= *n* <= 100                                                   | No       |
+| Parameter     | Type             | Description              | Required |
+| ------------- | ---------------- | ------------------------ | -------- |
+| subaccount_id | String           | Filter by subaccount ID  | Yes      |
+| market_id     | String           | Filter by market ID      | No       |
+| pagination    | PaginationOption | Pagination configuration | No       |
 
 
 ### Response Parameters
 > Response Example:
 
 ``` python
-orders {
-  order_hash: "0x982d82c58a3e96680915636c9a5fe6b25af8581ceec19087f611a96e1d73b79e"
-  order_side: "sell"
-  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-  subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
-  price: "0.000000000008"
-  quantity: "10000000000000000"
-  unfilled_quantity: "10000000000000000"
-  trigger_price: "0"
-  fee_recipient: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-  state: "booked"
-  created_at: 1675904636889
-  updated_at: 1675904636889
-}
-orders {
-  order_hash: "0x2c497f2a6e62fc4a3db39f6483d2dac797b9345d1033738ee316136611c7951c"
-  order_side: "buy"
-  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-  subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
-  price: "0.000000000007"
-  quantity: "1000000000000000000"
-  unfilled_quantity: "1000000000000000000"
-  trigger_price: "0"
-  fee_recipient: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-  state: "booked"
-  created_at: 1675904400063
-  updated_at: 1675904400063
-}
-orders {
-  order_hash: "0xd567b9d5b3dde5d37980f8aa7110be94163d016978ca5614a373d0ad5326a96b"
-  order_side: "buy"
-  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-  subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
-  price: "0.000000000001"
-  quantity: "10000000000000000"
-  unfilled_quantity: "10000000000000000"
-  trigger_price: "0"
-  fee_recipient: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-  state: "booked"
-  created_at: 1675882430039
-  updated_at: 1675882430039
-}
-paging {
-  total: 13
-  from: 11
-  to: 13
+{
+   "orders":[
+      {
+         "orderHash":"0x3414f6f1a37a864166b19930680eb62a99798b5e406c2d14ed1ee66ab9958503",
+         "orderSide":"buy",
+         "marketId":"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+         "subaccountId":"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000",
+         "price":"0.000000000003",
+         "quantity":"55000000000000000000",
+         "unfilledQuantity":"55000000000000000000",
+         "triggerPrice":"0",
+         "feeRecipient":"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+         "state":"booked",
+         "createdAt":"1701808096494",
+         "updatedAt":"1701808096494",
+         "txHash":"0x0000000000000000000000000000000000000000000000000000000000000000",
+         "cid":"670c52ec-f68f-456c-8aeb-e271071a43ac"
+      },
+      {
+         "orderHash":"0xb7b6d54d1e01e1eb0005e34e08a96b715b557eeee7c5f3a439636f98ddd66b91",
+         "orderSide":"buy",
+         "marketId":"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+         "subaccountId":"0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000",
+         "price":"0.000000000003",
+         "quantity":"55000000000000000000",
+         "unfilledQuantity":"55000000000000000000",
+         "triggerPrice":"0",
+         "feeRecipient":"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+         "state":"booked",
+         "createdAt":"1701808058512",
+         "updatedAt":"1701808058512",
+         "txHash":"0x0000000000000000000000000000000000000000000000000000000000000000",
+         "cid":"bba97476-e7f4-4313-874b-7ef115daccb4"
+      }
+   ],
+   "paging":{
+      "total":"53",
+      "from":1,
+      "to":2,
+      "countBySubaccount":"0",
+      "next":[
+         
+      ]
+   }
 }
 ```
 
@@ -4091,10 +4908,11 @@ Get trades of a subaccount.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
@@ -4106,19 +4924,20 @@ async def main() -> None:
     direction = "buy"
     skip = 2
     limit = 3
-    trades = await client.get_spot_subaccount_trades(
+    pagination = PaginationOption(skip=skip, limit=limit)
+    trades = await client.fetch_spot_subaccount_trades_list(
         subaccount_id=subaccount_id,
         market_id=market_id,
         execution_type=execution_type,
         direction=direction,
-        skip=skip,
-        limit=limit
+        pagination=pagination,
     )
     print(trades)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -4199,69 +5018,75 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-| Parameter      | Type    | Description                                                                                                                             | Required |
-| -------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| subaccount_id  | String  | Filter by subaccount ID                                                                                                                 | Yes      |
-| market_id      | String  | Filter by market ID                                                                                                                     | No       |
-| direction      | String  | Filter by the direction of the trades (Should be one of: ["buy", "sell"])                                                               | No       |
-| execution_type | String  | Filter by the *execution type of the trades (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
-| skip           | Integer | Skip the first *n* items from the results. This can be used to fetch all trades since the API caps at 100                               | No       |
-| limit          | Integer | Maximum number of items to be returned. 1 <= *n* <= 100                                                                                 | No       |
+| Parameter      | Type             | Description                                                                                                                             | Required |
+| -------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| subaccount_id  | String           | Filter by subaccount ID                                                                                                                 | Yes      |
+| market_id      | String           | Filter by market ID                                                                                                                     | No       |
+| execution_type | String           | Filter by the *execution type of the trades (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
+| direction      | String           | Filter by the direction of the trades (Should be one of: ["buy", "sell"])                                                               | No       |
+| pagination     | PaginationOption | Pagination configuration                                                                                                                | No       |
 
 ### Response Parameters
 > Response Example:
 
 ``` python
-trades {
-  order_hash: "0x5ff08b7fe885b62aaaadb0c8b8877d9031d39fd67a1b94bc19da34e3be48238f"
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-  trade_execution_type: "market"
-  trade_direction: "buy"
-  price {
-    price: "0.000000000055"
-    quantity: "182000000000000000"
-    timestamp: 1673343614891
-  }
-  fee: "10010"
-  executed_at: 1673343614891
-  fee_recipient: "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
-  trade_id: "6858954_5ff08b7fe885b62aaaadb0c8b8877d9031d39fd67a1b94bc19da34e3be48238f"
-  execution_side: "taker"
-}
-trades {
-  order_hash: "0x38d614f920c8ab577eb7ab8ed1f1c452e4aeba9b69885ec1e8b308052957174d"
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-  trade_execution_type: "market"
-  trade_direction: "buy"
-  price {
-    price: "0.000000000055"
-    quantity: "1544000000000000000"
-    timestamp: 1673343521906
-  }
-  fee: "84920"
-  executed_at: 1673343521906
-  fee_recipient: "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
-  trade_id: "6858914_38d614f920c8ab577eb7ab8ed1f1c452e4aeba9b69885ec1e8b308052957174d"
-  execution_side: "taker"
-}
-trades {
-  order_hash: "0xfe1a82268e2147ba359092a751fd4e3ee375d1887bf1fa00de5ece88764bd7f5"
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  market_id: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-  trade_execution_type: "market"
-  trade_direction: "buy"
-  price {
-    price: "0.000000000055"
-    quantity: "1816000000000000000"
-    timestamp: 1673343487116
-  }
-  fee: "99880"
-  executed_at: 1673343487116
-  fee_recipient: "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
-  trade_id: "6858899_fe1a82268e2147ba359092a751fd4e3ee375d1887bf1fa00de5ece88764bd7f5"
-  execution_side: "taker"
+{
+   "trades":[
+      {
+         "orderHash":"0x6dfd01151a5b3cfb3a61777335f0d8d324a479b9006fd9642f52b402aec53d4f",
+         "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+         "marketId":"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+         "tradeExecutionType":"market",
+         "tradeDirection":"buy",
+         "price":{
+            "price":"0.000000000015589",
+            "quantity":"1000000000000000",
+            "timestamp":"1700675201676"
+         },
+         "fee":"10.9123",
+         "executedAt":"1700675201676",
+         "feeRecipient":"inj1zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3t5qxqh",
+         "tradeId":"18740619_240_0",
+         "executionSide":"taker",
+         "cid":""
+      },
+      {
+         "orderHash":"0x6a6cd0afb038322b67a88cd827e2800483e3571c5e82663df37a33770fa0a8d1",
+         "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+         "marketId":"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+         "tradeExecutionType":"market",
+         "tradeDirection":"buy",
+         "price":{
+            "price":"0.000000000015742",
+            "quantity":"1000000000000000",
+            "timestamp":"1700232025894"
+         },
+         "fee":"11.0194",
+         "executedAt":"1700232025894",
+         "feeRecipient":"inj1zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3t5qxqh",
+         "tradeId":"18529043_240_0",
+         "executionSide":"taker",
+         "cid":""
+      },
+      {
+         "orderHash":"0xa3049ebaa97ac3755c09bd53ea30e86b98aef40bf037cb9d91dedfc1fd4b7735",
+         "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+         "marketId":"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+         "tradeExecutionType":"limitMatchNewOrder",
+         "tradeDirection":"buy",
+         "price":{
+            "price":"0.000000000015874",
+            "quantity":"21000000000000000000",
+            "timestamp":"1700221121919"
+         },
+         "fee":"233347.8",
+         "executedAt":"1700221121919",
+         "feeRecipient":"inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
+         "tradeId":"18523837_243_0",
+         "executionSide":"taker",
+         "cid":""
+      }
+   ]
 }
 ```
 

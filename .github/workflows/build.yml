@@ -11,8 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
-        ruby-version: [2.6, 2.7, 3.0]
+        ruby-version: [2.7, 3.2] # Removed version 3.3 for now because it started to fail due to dependencies issue
 
     steps:
       - uses: actions/checkout@v2
@@ -20,23 +21,24 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
-      - uses: actions/cache@v2
-        with:
-          path: vendor/bundle
-          key: gems-${{ runner.os }}-${{ matrix.ruby-version }}-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            gems-${{ runner.os }}-${{ matrix.ruby-version }}-
-            gems-${{ runner.os }}-
+      # Commenting out the use of cache@v2 because we start using the `bundler-cache` option from setup-ruby@v1
+      # - uses: actions/cache@v2
+      #   with:
+      #     path: vendor/bundle
+      #     key: gems-${{ runner.os }}-${{ matrix.ruby-version }}-${{ hashFiles('**/Gemfile.lock') }}
+      #     restore-keys: |
+      #       gems-${{ runner.os }}-${{ matrix.ruby-version }}-
+      #       gems-${{ runner.os }}-
 
-      # necessary to get ruby 2.3 to work nicely with bundler vendor/bundle cache
-      # can remove once ruby 2.3 is no longer supported
-      # - run: gem update --system
-
-      - run: bundle config set deployment 'true'
-      - name: bundle install
-        run: |
-          bundle config path vendor/bundle
-          bundle install --jobs 4 --retry 3
+      # Commenting out the configuration of `deployment` option because setup-ruby@v1 used this option by default if a Gemfile.lock is present
+      # - run: bundle config set deployment 'true'
+      
+      # Commenting out the bundle install step because it is executed by setup-ruby@v1
+      # - name: bundle install
+      #   run: |
+      #     bundle config path vendor/bundle
+      #     bundle install --jobs 4 --retry 3
 
       - run: bundle exec middleman build

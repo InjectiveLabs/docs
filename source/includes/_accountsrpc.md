@@ -14,22 +14,22 @@ Get a list of subaccounts for a specific address.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
 
+
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     account_address = "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-    subacc_list = await client.get_subaccount_list(account_address)
+    subacc_list = await client.fetch_subaccounts_list(account_address)
     print(subacc_list)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -91,8 +91,13 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-subaccounts: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
-subaccounts: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002"
+{
+   "subaccounts":[
+      "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001",
+      "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002",
+      "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000"
+   ]
+}
 ```
 
 ``` go
@@ -128,10 +133,11 @@ Get the subaccount's transfer history.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     network = Network.testnet()
@@ -142,23 +148,16 @@ async def main() -> None:
     skip = 1
     limit = 15
     end_time = 1665118340224
-    subacc_history = await client.get_subaccount_history(
-        subaccount_id=subaccount,
-        denom=denom,
-        transfer_types=transfer_types,
-        skip=skip,
-        limit=limit,
-        end_time=end_time
+    pagination = PaginationOption(skip=skip, limit=limit, end_time=end_time)
+    subacc_history = await client.fetch_subaccount_history(
+        subaccount_id=subaccount, denom=denom, transfer_types=transfer_types, pagination=pagination,
     )
     print(subacc_history)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
-    asyncio.get_event_loop().run_until_complete(main())
 ```
 
 ``` go
@@ -244,28 +243,42 @@ import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
 > Response Example:
 
 ``` python
-transfers {
-  transfer_type: "deposit"
-  src_account_address: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-  dst_subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  amount {
-    denom: "inj"
-    amount: "2000000000000000000"
-  }
-  executed_at: 1665117493543
-}
-transfers {
-  transfer_type: "deposit"
-  src_account_address: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-  dst_subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  amount {
-    denom: "inj"
-    amount: "15000000000000000000"
-  }
-  executed_at: 1660313668990
-}
-paging {
-  total: 3
+{
+   "transfers":[
+      {
+         "transferType":"deposit",
+         "srcAccountAddress":"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+         "dstSubaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+         "amount":{
+            "denom":"inj",
+            "amount":"2000000000000000000"
+         },
+         "executedAt":"1665117493543",
+         "srcSubaccountId":"",
+         "dstAccountAddress":""
+      },
+      {
+         "transferType":"deposit",
+         "srcAccountAddress":"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+         "dstSubaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+         "amount":{
+            "denom":"inj",
+            "amount":"15000000000000000000"
+         },
+         "executedAt":"1660313668990",
+         "srcSubaccountId":"",
+         "dstAccountAddress":""
+      }
+   ],
+   "paging":{
+      "total":"3",
+      "from":0,
+      "to":0,
+      "countBySubaccount":"0",
+      "next":[
+         
+      ]
+   }
 }
 
 ```
@@ -376,26 +389,23 @@ Get the balance of a subaccount for a specific denom.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
 
+
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     denom = "inj"
-    balance = await client.get_subaccount_balance(
-        subaccount_id=subaccount_id,
-        denom=denom
-    )
+    balance = await client.fetch_subaccount_balance(subaccount_id=subaccount_id, denom=denom)
     print(balance)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -462,14 +472,16 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-balance {
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  account_address: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-  denom: "inj"
-  deposit {
-    total_balance: "1492235700000000000000"
-    available_balance: "1492235700000000000000"
-  }
+{
+   "balance":{
+      "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "accountAddress":"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+      "denom":"inj",
+      "deposit":{
+         "totalBalance":"0",
+         "availableBalance":"0"
+      }
+   }
 }
 ```
 
@@ -530,25 +542,23 @@ List the subaccount's balances for all denoms.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
     subaccount = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
     denoms = ["inj", "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"]
-    subacc_balances_list = await client.get_subaccount_balances_list(
-        subaccount_id=subaccount,
-        denoms=denoms
-    )
+    subacc_balances_list = await client.fetch_subaccount_balances_list(subaccount_id=subaccount, denoms=denoms)
     print(subacc_balances_list)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -614,23 +624,27 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-balances {
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  account_address: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-  denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-  deposit {
-    total_balance: "115310339308.284511627876066473"
-    available_balance: "115236639078.284511627876066473"
-  }
-}
-balances {
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  account_address: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-  denom: "inj"
-  deposit {
-    total_balance: "1492235700000000000000"
-    available_balance: "1492235700000000000000"
-  }
+{
+   "balances":[
+      {
+         "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+         "accountAddress":"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+         "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+         "deposit":{
+            "totalBalance":"131721505.337958346262317217",
+            "availableBalance":"0.337958346262317217"
+         }
+      },
+      {
+         "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+         "accountAddress":"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+         "denom":"inj",
+         "deposit":{
+            "totalBalance":"0",
+            "availableBalance":"0"
+         }
+      }
+   ]
 }
 ```
 
@@ -726,27 +740,26 @@ Get a summary of the subaccount's active/unfilled orders.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
     subaccount = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-    # order_direction = "buy"
-    # market_id = "0xe112199d9ee44ceb2697ea0edd1cd422223c105f3ed2bdf85223d3ca59f5909a"
-    subacc_order_summary = await client.get_subaccount_order_summary(
-        subaccount_id=subaccount,
-        # order_direction=order_direction,
-        # market_id=market_id
-        )
+    order_direction = "buy"
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+    subacc_order_summary = await client.fetch_subaccount_order_summary(
+        subaccount_id=subaccount, order_direction=order_direction, market_id=market_id
+    )
     print(subacc_order_summary)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -826,8 +839,10 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-spot_orders_total: 1
-derivative_orders_total: 7
+{
+   "derivativeOrdersTotal":"1",
+   "spotOrdersTotal":"0"
+}
 ```
 
 ``` go
@@ -861,24 +876,48 @@ Stream the subaccount's balance for all denoms.
 
 ``` python
 import asyncio
-import logging
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
+
+async def balance_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to balance updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The balance updates stream has been closed")
+
 
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
     subaccount_id = "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
     denoms = ["inj", "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"]
-    subaccount = await client.stream_subaccount_balance(subaccount_id)
-    async for balance in subaccount:
-        print("Subaccount balance Update:\n")
-        print(balance)
+    task = asyncio.get_event_loop().create_task(
+        client.listen_subaccount_balance_updates(
+            subaccount_id=subaccount_id,
+            callback=balance_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+            denoms=denoms,
+        )
+    )
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -958,52 +997,43 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|subaccount_id|String|Filter by subaccount ID|Yes|
-|denoms|String Array|Filter balances by denoms. If not set, the balances of all the denoms for the subaccount are provided|No|
+| Parameter          | Type         | Description                                                                                           | Required |
+| ------------------ | ------------ | ----------------------------------------------------------------------------------------------------- | -------- |
+| subaccount_id      | String       | Filter by subaccount ID                                                                               | Yes      |
+| denoms             | String Array | Filter balances by denoms. If not set, the balances of all the denoms for the subaccount are provided | No       |
+| callback           | Function     | Function receiving one parameter (a stream event JSON dictionary) to process each new event           | Yes      |
+| on_end_callback    | Function     | Function with the logic to execute when the stream connection is interrupted                          | No       |
+| on_status_callback | Function     | Function receiving one parameter (the exception) with the logic to execute when an exception happens  | No       |
 
 
 ### Response Parameters
 > Streaming Response Example:
 
 ``` python
-Subaccount balance Update:
-
-balance {
-  subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
-  account_address: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-  denom: "inj"
-  deposit {
-    available_balance: "9980001000000000000"
-  }
+{
+  "balance": {
+    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    "accountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+    "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "deposit": {
+      "totalBalance": "200493439765890.695319283887814576",
+      "availableBalance": "200493414240390.695319283887814031"
+    }
+  },
+  "timestamp": 1654234765000
 }
-timestamp: 1675902606000
-
-Subaccount balance Update:
-
-balance {
-  subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
-  account_address: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-  denom: "inj"
-  deposit {
-    available_balance: "9990001000000000000"
-  }
+{
+  "balance": {
+    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+    "accountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+    "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "deposit": {
+      "totalBalance": "200493847328858.695319283887814576",
+      "availableBalance": "200493821803358.695319283887814031"
+    }
+  },
+  "timestamp": 1654234804000
 }
-timestamp: 1675902946000
-
-Subaccount balance Update:
-
-balance {
-  subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
-  account_address: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-  denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-  deposit {
-    total_balance: "199999859.1576"
-    available_balance: "199989859.1576"
-  }
-}
-timestamp: 1675902946000
 ```
 
 ``` go
@@ -1093,22 +1123,31 @@ Get orders with an order hash. This request will return market orders and limit 
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
 
+
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
-    spot_order_hashes = ["0xce0d9b701f77cd6ddfda5dd3a4fe7b2d53ba83e5d6c054fb2e9e886200b7b7bb", "0x2e2245b5431638d76c6e0cc6268970418a1b1b7df60a8e94b8cf37eae6105542"]
-    derivative_order_hashes = ["0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50", "0xbb1f036001378cecb5fff1cc69303919985b5bf058c32f37d5aaf9b804c07a06"]
-    orders = await client.get_order_states(spot_order_hashes=spot_order_hashes, derivative_order_hashes=derivative_order_hashes)
+    spot_order_hashes = [
+        "0xce0d9b701f77cd6ddfda5dd3a4fe7b2d53ba83e5d6c054fb2e9e886200b7b7bb",
+        "0x2e2245b5431638d76c6e0cc6268970418a1b1b7df60a8e94b8cf37eae6105542",
+    ]
+    derivative_order_hashes = [
+        "0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50",
+        "0xbb1f036001378cecb5fff1cc69303919985b5bf058c32f37d5aaf9b804c07a06",
+    ]
+    orders = await client.fetch_order_states(
+        spot_order_hashes=spot_order_hashes, derivative_order_hashes=derivative_order_hashes
+    )
     print(orders)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -1185,41 +1224,35 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-spot_order_states {
-  order_hash: "0xa848395a768ee06af360e2e35bac6f598fdc52e8d0c34a588d32cd9108f3571f"
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  market_id: "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"
-  order_type: "buy"
-  order_side: "buy"
-  state: "booked"
-  quantity_filled: "0"
-  quantity_remaining: "2000000"
-  created_at: 1652701438661
-  updated_at: 1652701438661
-}
-spot_order_states {
-  order_hash: "0x163861fba3d911631e18354a03e7357bc6358cd2042535e8ad11dc6c29f8c558"
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  market_id: "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"
-  order_type: "buy"
-  order_side: "buy"
-  state: "booked"
-  quantity_filled: "0"
-  quantity_remaining: "2000000"
-  created_at: 1652693332688
-  updated_at: 1652693332688
-}
-derivative_order_states {
-  order_hash: "0x962af5e492a2ce4575616dbcf687a063ef9c4b33a047a9fb86794804923337c8"
-  subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-  market_id: "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-  order_type: "sell"
-  order_side: "sell"
-  state: "booked"
-  quantity_filled: "1"
-  quantity_remaining: "0"
-  created_at: 1652786114544
-  updated_at: 1652786114544
+{
+  "spotOrderStates": [
+    {
+      "orderHash": "0xb7b556d6eab10c4c185a660be44757a8a6715fb16db39708f2f76d9ce5ae8617",
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "marketId": "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa",
+      "orderType": "limit",
+      "orderSide": "buy",
+      "state": "booked",
+      "quantityFilled": "0",
+      "quantityRemaining": "1000000",
+      "createdAt": 1654080262300,
+      "updatedAt": 1654080262300
+    }
+  ],
+  "derivativeOrderStates": [
+    {
+      "orderHash": "0x4228f9a56a5bb50de4ceadc64df694c77e7752d58b71a7c557a27ec10e1a094e",
+      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+      "marketId": "0x1c79dac019f73e4060494ab1b4fcba734350656d6fc4d474f6a238c13c6f9ced",
+      "orderType": "limit",
+      "orderSide": "buy",
+      "state": "booked",
+      "quantityFilled": "0",
+      "quantityRemaining": "1",
+      "createdAt": 1654235059957,
+      "updatedAt": 1654235059957
+    }
+  ]
 }
 ```
 
@@ -1337,21 +1370,22 @@ Get an overview of your portfolio.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
     account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-    portfolio = await client.get_portfolio(account_address=account_address)
+    portfolio = await client.fetch_portfolio(account_address=account_address)
     print(portfolio)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -1413,17 +1447,87 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-portfolio {
-  portfolio_value: "121771.765274665073374624"
-  available_balance: "120622.8032988109636363"
-  locked_balance: "1476.0573145189379903"
-  unrealized_pnl: "-327.095338664828251976"
-  subaccounts {
-    subaccount_id: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
-    available_balance: "120622.8032988109636363"
-    locked_balance: "1476.0573145189379903"
-    unrealized_pnl: "-327.095338664828251976"
-  }
+{
+   "portfolio":{
+      "portfolioValue":"6229.040631548905238875",
+      "availableBalance":"92.4500010811984646",
+      "lockedBalance":"13218.3573583009093604",
+      "unrealizedPnl":"-7081.766727833202586125",
+      "subaccounts":[
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000002",
+            "availableBalance":"0",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000006",
+            "availableBalance":"0",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000008",
+            "availableBalance":"0",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000009",
+            "availableBalance":"0",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f971347490200000061746f6d2d75736474",
+            "availableBalance":"0.00000066622556",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+            "availableBalance":"0.0000003382963046",
+            "lockedBalance":"13218.3573583009093604",
+            "unrealizedPnl":"-7081.766727833202586125"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f971347490200000000696e6a2d75736474",
+            "availableBalance":"0.0000000766766",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000001",
+            "availableBalance":"92.45",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000003",
+            "availableBalance":"0",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000007",
+            "availableBalance":"0",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000004",
+            "availableBalance":"0",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         },
+         {
+            "subaccountId":"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000005",
+            "availableBalance":"0",
+            "lockedBalance":"0",
+            "unrealizedPnl":"0"
+         }
+      ]
+   }
 }
 ```
 
@@ -1492,24 +1596,23 @@ Get the rewards for Trade & Earn, the request will fetch all addresses for the l
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
 
+
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
-    # account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+    account_address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
     epoch = -1
-    rewards = await client.get_rewards(
-        # account_address=account_address,
-        epoch=epoch)
+    rewards = await client.fetch_rewards(account_address=account_address, epoch=epoch)
     print(rewards)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -1583,31 +1686,20 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-rewards {
-  account_address: "inj1qra8c03h70y36j85dpvtj05juxe9z7acuvz6vg"
-  rewards {
-    denom: "inj"
-    amount: "1954269574440758128"
-  }
-  distributed_at: 1672218001897
+{
+   "rewards":[
+      {
+         "accountAddress":"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+         "rewards":[
+            {
+               "denom":"inj",
+               "amount":"11169382212463849"
+            }
+         ],
+         "distributedAt":"1672218001897"
+      }
+   ]
 }
-rewards {
-  account_address: "inj1q4sww3amkmwhym54aaey5v8wemkh9v80jp8e3z"
-  rewards {
-    denom: "inj"
-    amount: "8497057876433151133"
-  }
-  distributed_at: 1672218001897
-}
-rewards {
-  account_address: "inj1pqsujjk66dsf40v2lfrry46m2fym44thgn5qqh"
-  rewards {
-    denom: "inj"
-    amount: "41401176734199333"
-  }
-  distributed_at: 1672218001897
-}
-...
 ```
 
 ``` go

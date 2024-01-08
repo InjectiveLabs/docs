@@ -14,21 +14,22 @@ Get a list of all oracles.
 <!-- embedme ../../../sdk-python/examples/exchange_client/oracle_rpc/3_OracleList.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    oracle_list = await client.get_oracle_list()
+    oracle_list = await client.fetch_oracle_list()
     print(oracle_list)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 
 ```
 
@@ -82,32 +83,58 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-oracles {
-  symbol: "BTC"
-  oracle_type: "bandibc"
-  price: "16835.93"
-}
-oracles {
-  symbol: "ETH"
-  oracle_type: "bandibc"
-  price: "1251.335"
-}
-oracles {
-  symbol: "INJ"
-  oracle_type: "bandibc"
-  price: "1.368087992"
-}
-oracles {
-  symbol: "USDT"
-  oracle_type: "bandibc"
-  price: "0.999785552"
-}
-oracles {
-  symbol: "FRNT/USDT"
-  base_symbol: "FRNT"
-  quote_symbol: "USDT"
-  oracle_type: "pricefeed"
-  price: "0.5"
+{
+   "oracles":[
+      {
+         "symbol":"BTC",
+         "oracleType":"bandibc",
+         "price":"16835.93",
+         "baseSymbol":"",
+         "quoteSymbol":""
+      },
+      {
+         "symbol":"ETH",
+         "oracleType":"bandibc",
+         "price":"1251.335",
+         "baseSymbol":"",
+         "quoteSymbol":""
+      },
+      {
+         "symbol":"INJ",
+         "oracleType":"bandibc",
+         "price":"1.368087992",
+         "baseSymbol":"",
+         "quoteSymbol":""
+      },
+      {
+         "symbol":"USDT",
+         "oracleType":"bandibc",
+         "price":"0.999785552",
+         "baseSymbol":"",
+         "quoteSymbol":""
+      },
+      {
+         "symbol":"FRNT/USDT",
+         "baseSymbol":"FRNT",
+         "quoteSymbol":"USDT",
+         "oracleType":"pricefeed",
+         "price":"0.5"
+      },
+      {
+         "symbol":"0xb327d9cf0ecd793a175fa70ac8d2dc109d4462758e556962c4a87b02ec4f3f15",
+         "baseSymbol":"0xb327d9cf0ecd793a175fa70ac8d2dc109d4462758e556962c4a87b02ec4f3f15",
+         "quoteSymbol":"0xb327d9cf0ecd793a175fa70ac8d2dc109d4462758e556962c4a87b02ec4f3f15",
+         "oracleType":"pyth",
+         "price":"7.33638432"
+      },
+      {
+         "symbol":"0xecf553770d9b10965f8fb64771e93f5690a182edc32be4a3236e0caaa6e0581a",
+         "baseSymbol":"0xecf553770d9b10965f8fb64771e93f5690a182edc32be4a3236e0caaa6e0581a",
+         "quoteSymbol":"0xecf553770d9b10965f8fb64771e93f5690a182edc32be4a3236e0caaa6e0581a",
+         "oracleType":"pyth",
+         "price":"225.28704062"
+      }
+   ]
 }
 ```
 
@@ -187,30 +214,31 @@ Get the oracle price of an asset.
 <!-- embedme ../../../sdk-python/examples/exchange_client/oracle_rpc/2_price.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    base_symbol = 'BTC'
-    quote_symbol = 'USDT'
-    oracle_type = 'bandibc'
+    base_symbol = "BTC"
+    quote_symbol = "USDT"
+    oracle_type = "bandibc"
     oracle_scale_factor = 6
-    oracle_prices = await client.get_oracle_prices(
+    oracle_prices = await client.fetch_oracle_price(
         base_symbol=base_symbol,
         quote_symbol=quote_symbol,
         oracle_type=oracle_type,
-        oracle_scale_factor=oracle_scale_factor
+        oracle_scale_factor=oracle_scale_factor,
     )
     print(oracle_prices)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 
 ```
 
@@ -282,7 +310,7 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-price: "16835930000"
+{ "price": '1.368087992' }
 ```
 
 ``` go
@@ -313,29 +341,52 @@ Stream new price changes for a specified oracle. If no oracles are provided, all
 <!-- embedme ../../../sdk-python/examples/exchange_client/oracle_rpc/1_StreamPrices.py -->
 ``` python
 import asyncio
-import logging
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
+
+async def price_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to oracle prices updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The oracle prices updates stream has been closed")
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    base_symbol = 'BTC'
-    quote_symbol = 'USDT'
-    oracle_type = 'bandibc'
-    oracle_prices = await client.stream_oracle_prices(
-        base_symbol=base_symbol,
-        quote_symbol=quote_symbol,
-        oracle_type=oracle_type
-    )
-    async for oracle in oracle_prices:
-        print(oracle)
+    base_symbol = "INJ"
+    quote_symbol = "USDT"
+    oracle_type = "bandibc"
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    task = asyncio.get_event_loop().create_task(
+        client.listen_oracle_prices_updates(
+            callback=price_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+            base_symbol=base_symbol,
+            quote_symbol=quote_symbol,
+            oracle_type=oracle_type,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 
 ```
 
@@ -417,22 +468,24 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 })();
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|base_symbol|String|Oracle base currency|Yes|
-|quote_symbol|String|Oracle quote currency|Yes|
-|oracle_type|String|The oracle provider|Yes|
+| Parameter          | Type     | Description                                                                                          | Required |
+| ------------------ | -------- | ---------------------------------------------------------------------------------------------------- | -------- |
+| base_symbol        | String   | Oracle base currency                                                                                 | No      |
+| quote_symbol       | String   | Oracle quote currency                                                                                | No      |
+| oracle_type        | String   | The oracle provider                                                                                  | No      |
+| callback           | Function | Function receiving one parameter (a stream event JSON dictionary) to process each new event          | Yes      |
+| on_end_callback    | Function | Function with the logic to execute when the stream connection is interrupted                         | No       |
+| on_status_callback | Function | Function receiving one parameter (the exception) with the logic to execute when an exception happens | No       |
 
 
 ### Response Parameters
 > Streaming Response Example:
 
 ``` python
-price: "16835.93"
-timestamp: 1676539631606
-
-price: "16840.12"
-timestamp: 1676539635432
+{
+   "price":"1.3683814386627584",
+   "timestamp":"1702043286264"
+}
 ```
 
 ``` go

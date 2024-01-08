@@ -14,6 +14,8 @@ CosmWasm smart contract interactions.
 ``` python
 import asyncio
 
+from grpc import RpcError
+
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import GAS_FEE_BUFFER_AMOUNT, GAS_PRICE
 from pyinjective.core.network import Network
@@ -35,7 +37,7 @@ async def main() -> None:
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
-    await client.get_account(address.to_acc_bech32())
+    await client.fetch_account(address.to_acc_bech32())
 
     # prepare tx msg
     # NOTE: COIN MUST BE SORTED IN ALPHABETICAL ORDER BY DENOMS
@@ -67,14 +69,15 @@ async def main() -> None:
     sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
-    if not success:
-        print(sim_res)
+    try:
+        sim_res = await client.simulate(sim_tx_raw_bytes)
+    except RpcError as ex:
+        print(ex)
         return
 
     # build tx
     gas_price = GAS_PRICE
-    gas_limit = sim_res.gas_info.gas_used + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
+    gas_limit = int(sim_res["gasInfo"]["gasUsed"]) + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
     gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
     fee = [
         composer.Coin(
@@ -88,7 +91,7 @@ async def main() -> None:
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.send_tx_sync_mode(tx_raw_bytes)
+    res = await client.broadcast_tx_sync_mode(tx_raw_bytes)
     print(res)
     print("gas wanted: {}".format(gas_limit))
     print("gas fee: {} INJ".format(gas_fee))
@@ -160,7 +163,7 @@ async def main() -> None:
     priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
-    account = await client.get_account(address.to_acc_bech32())
+    await client.fetch_account(address.to_acc_bech32())
 
     contract_message = '{"guardian_set_info":{}}'
     encoded_message = base64.b64encode(contract_message.encode(encoding="utf-8")).decode()
@@ -191,14 +194,15 @@ async def main() -> None:
     sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
-    if not success:
-        print(sim_res)
+    try:
+        sim_res = await client.simulate(sim_tx_raw_bytes)
+    except RpcError as ex:
+        print(ex)
         return
 
     # build tx
     gas_price = GAS_PRICE
-    gas_limit = sim_res.gas_info.gas_used + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
+    gas_limit = int(sim_res["gasInfo"]["gasUsed"]) + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
     gas_fee = '{:.18f}'.format((gas_price * gas_limit) / pow(10, 18)).rstrip('0')
     fee = [composer.Coin(
         amount=gas_price * gas_limit,
@@ -210,7 +214,7 @@ async def main() -> None:
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.send_tx_sync_mode(tx_raw_bytes)
+    res = await client.broadcast_tx_sync_mode(tx_raw_bytes)
     print(res)
     print("gas wanted: {}".format(gas_limit))
     print("gas fee: {} INJ".format(gas_fee))

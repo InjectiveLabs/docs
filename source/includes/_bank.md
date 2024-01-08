@@ -13,6 +13,8 @@ Bank module.
 ``` python
 import asyncio
 
+from grpc import RpcError
+
 from pyinjective.async_client import AsyncClient
 from pyinjective.constant import GAS_FEE_BUFFER_AMOUNT, GAS_PRICE
 from pyinjective.core.network import Network
@@ -33,7 +35,7 @@ async def main() -> None:
     priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
-    await client.get_account(address.to_acc_bech32())
+    await client.fetch_account(address.to_acc_bech32())
 
     # prepare tx msg
     msg = composer.MsgSend(
@@ -56,14 +58,15 @@ async def main() -> None:
     sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
 
     # simulate tx
-    (sim_res, success) = await client.simulate_tx(sim_tx_raw_bytes)
-    if not success:
-        print(sim_res)
+    try:
+        sim_res = await client.simulate(sim_tx_raw_bytes)
+    except RpcError as ex:
+        print(ex)
         return
 
     # build tx
     gas_price = GAS_PRICE
-    gas_limit = sim_res.gas_info.gas_used + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
+    gas_limit = int(sim_res["gasInfo"]["gasUsed"]) + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
     gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
     fee = [
         composer.Coin(
@@ -77,7 +80,7 @@ async def main() -> None:
     tx_raw_bytes = tx.get_tx_data(sig, pub_key)
 
     # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.send_tx_sync_mode(tx_raw_bytes)
+    res = await client.broadcast_tx_sync_mode(tx_raw_bytes)
     print(res)
     print("gas wanted: {}".format(gas_limit))
     print("gas fee: {} INJ".format(gas_fee))
@@ -421,22 +424,22 @@ Get the bank balance for all denoms.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
 
+
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     address = "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
-    all_bank_balances = await client.get_bank_balances(address=address)
+    all_bank_balances = await client.fetch_bank_balances(address=address)
     print(all_bank_balances)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -551,12 +554,41 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-balances {
-  denom: "inj"
-  amount: "225858203095000000000"
-}
-pagination {
-  total: 1
+{
+   "balances":[
+      {
+         "denom":"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/atom",
+         "amount":"10000000000"
+      },
+      {
+         "denom":"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/usdc",
+         "amount":"10000000000"
+      },
+      {
+         "denom":"factory/inj17vytdwqczqz72j65saukplrktd4gyfme5agf6c/weth",
+         "amount":"5000000000"
+      },
+      {
+         "denom":"factory/inj1aetmaq5pswvfg6nhvgd4lt94qmg23ka3ljgxlm/SHURIKEN",
+         "amount":"115700000"
+      },
+      {
+         "denom":"factory/inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r/test",
+         "amount":"1000000"
+      },
+      {
+         "denom":"inj",
+         "amount":"760662316753211286487"
+      },
+      {
+         "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+         "amount":"9996297948"
+      }
+   ],
+   "pagination":{
+      "total":"7",
+      "nextKey":""
+   }
 }
 ```
 
@@ -645,23 +677,23 @@ Get the bank balance for a specific denom.
 
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
 
+
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     address = "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
     denom = "inj"
-    bank_balance = await client.get_bank_balance(address=address, denom=denom)
+    bank_balance = await client.fetch_bank_balance(address=address, denom=denom)
     print(bank_balance)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 ``` go
@@ -785,9 +817,11 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 > Response Example:
 
 ``` python
-balance {
-  denom: "inj"
-  amount: "225839507773500000000"
+{
+   "balance":{
+      "denom":"inj",
+      "amount":"760662316753211286487"
+   }
 }
 ```
 

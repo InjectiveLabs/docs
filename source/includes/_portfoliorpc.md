@@ -15,24 +15,23 @@ Get details about an account's portfolio.
 <!-- embedme ../../../sdk-python/examples/exchange_client/portfolio_rpc/1_AccountPortfolio.py -->
 ``` python
 import asyncio
-import logging
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
 
 async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
     account_address = "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-    portfolio = await client.get_account_portfolio(
-        account_address=account_address
-    )
+    portfolio = await client.fetch_account_portfolio(account_address=account_address)
     print(portfolio)
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
 ```
 
 <!-- embedme ../../../sdk-go/examples/exchange/portfolio/1_AccountPortfolio/example.go -->
@@ -83,64 +82,101 @@ const portfolio = await indexerGrpcAccountPortfolioApi.fetchAccountPortfolio(inj
 console.log(portfolio)
 ```
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|account_address|String|Address of the account to get portfolio for|Yes|
+| Parameter       | Type   | Description                                 | Required |
+| --------------- | ------ | ------------------------------------------- | -------- |
+| account_address | String | Address of the account to get portfolio for | Yes      |
 
 ### Response Parameters
 > Response Example:
 
 ``` python
-portfolio {
-  account_address: "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-  bank_balances {
-    denom: "inj"
-    amount: "9990005504242500000000"
-  }
-  bank_balances {
-    denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-    amount: "9689943508"
-  }
-  subaccounts {
-    subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002"
-    denom: "inj"
-    deposit {
-      total_balance: "1000000000000"
-      available_balance: "1000000000000"
-    }
-  }
-  subaccounts {
-    subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000"
-    denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-    deposit {
-      total_balance: "0.4444"
-      available_balance: "0.4444"
-    }
-  }
-  subaccounts {
-    subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000"
-    denom: "inj"
-    deposit {
-      total_balance: "0"
-      available_balance: "0"
-    }
-  }
-  subaccounts {
-    subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
-    denom: "inj"
-    deposit {
-      total_balance: "11050001000000000000"
-      available_balance: "10990001000000000000"
-    }
-  }
-  subaccounts {
-    subaccount_id: "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
-    denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-    deposit {
-      total_balance: "302618110.6156"
-      available_balance: "298208110.6156"
-    }
-  }
+{
+   "portfolio":{
+      "accountAddress":"inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt",
+      "bankBalances":[
+         {
+            "denom":"inj",
+            "amount":"9689395972014420000000"
+         },
+         {
+            "denom":"peggy0x44C21afAaF20c270EBbF5914Cfc3b5022173FEB7",
+            "amount":"100000000000000000000"
+         },
+         {
+            "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+            "amount":"8689670208"
+         }
+      ],
+      "subaccounts":[
+         {
+            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
+            "denom":"peggy0x44C21afAaF20c270EBbF5914Cfc3b5022173FEB7",
+            "deposit":{
+               "totalBalance":"0",
+               "availableBalance":"0"
+            }
+         },
+         {
+            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
+            "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+            "deposit":{
+               "totalBalance":"0.170858923182467801",
+               "availableBalance":"0.170858923182467801"
+            }
+         },
+         {
+            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
+            "denom":"inj",
+            "deposit":{
+               "totalBalance":"0.458458",
+               "availableBalance":"0.458458"
+            }
+         },
+         {
+            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002",
+            "denom":"inj",
+            "deposit":{
+               "totalBalance":"1000000000000",
+               "availableBalance":"1000000000000"
+            }
+         },
+         {
+            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001",
+            "denom":"inj",
+            "deposit":{
+               "totalBalance":"11010001000000000000",
+               "availableBalance":"11010001000000000000"
+            }
+         },
+         {
+            "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001",
+            "denom":"peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+            "deposit":{
+               "totalBalance":"298666021.6838251182660625",
+               "availableBalance":"298666021.6838251182660625"
+            }
+         }
+      ],
+      "positionsWithUpnl":[
+         {
+            "position":{
+               "ticker":"TIA/USDT-01NOV2023",
+               "marketId":"0xf97a740538e10845e0c3db9ea94c6eaf8a570aeebe3e3511e2e387501a40e4bb",
+               "subaccountId":"0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000",
+               "direction":"short",
+               "quantity":"139.6",
+               "entryPrice":"22522222.222222222222222222",
+               "margin":"985863999.424172444444444445",
+               "liquidationPrice":"29004201.230732",
+               "markPrice":"23.706683000000000000",
+               "aggregateReduceOnlyQuantity":"0",
+               "updatedAt":"1696481899",
+               "createdAt":"0"
+            },
+            "unrealizedPnl":"-165.350724577777780880"
+         }
+      ]
+   }
 }
 ```
 
@@ -245,24 +281,45 @@ Get continuous updates on account's portfolio.
 <!-- embedme ../../../sdk-python/examples/exchange_client/portfolio_rpc/2_StreamAccountPortfolio.py -->
 ``` python
 import asyncio
-import logging
+from typing import Any, Dict
+
+from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
+
+
+async def account_portfolio_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to account portfolio updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The account portfolio updates stream has been closed")
 
 
 async def main() -> None:
     network = Network.testnet()
     client = AsyncClient(network)
     account_address = "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
-    updates = await client.stream_account_portfolio(account_address=account_address)
-    async for update in updates:
-        print("Account portfolio Update:\n")
-        print(update)
+
+    task = asyncio.get_event_loop().create_task(
+        client.listen_account_portfolio_updates(
+            account_address=account_address,
+            callback=account_portfolio_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
 
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
 ```
@@ -336,25 +393,33 @@ const streamFnArgs = {
 streamFn(streamFnArgs)
 ```
 
-| Parameter       | Type   | Description                                                                                  | Required |
-|-----------------|--------|----------------------------------------------------------------------------------------------|----------|
-| account_address | String | The account&#39;s portfolio address                                                          | Yes      |
-| subaccount_id   | String | Related subaccount ID                                                                        | No       |
-| type            | String | Type of portfolio document (should be one of ["bank", "total_balance", "available_balance"]) | No       |
+| Parameter          | Type     | Description                                                                                          | Required |
+| ------------------ | -------- | ---------------------------------------------------------------------------------------------------- | -------- |
+| account_address    | String   | The account&#39;s portfolio address                                                                  | Yes      |
+| subaccount_id      | String   | Related subaccount ID                                                                                | No       |
+| callback           | Function | Function receiving one parameter (a stream event JSON dictionary) to process each new event          | Yes      |
+| on_end_callback    | Function | Function with the logic to execute when the stream connection is interrupted                         | No       |
+| on_status_callback | Function | Function receiving one parameter (the exception) with the logic to execute when an exception happens | No       |
+
 
 ### Response Parameters
 > Response Example:
 
 ``` python
-type: "bank"
-denom: "inj"
-amount: "9990005452404000000000"
-
-Account portfolio Update:
-
-type: "bank"
-denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-amount: "9689943532"
+{
+ "type": "total_balances",
+ "denom": "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
+ "amount": "302686408.8456",
+ "subaccountId": "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001",
+ "timestamp": "342423423"
+}
+{
+ "type": "total_balances",
+ "denom": "inj",
+ "amount": "11040001000000000000",
+ "subaccount_id": "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001",
+ "timestamp": "342432343"
+}
 ```
 
 ``` go
