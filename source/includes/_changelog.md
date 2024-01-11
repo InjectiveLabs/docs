@@ -9,6 +9,7 @@
   - Added logic to cover all bank module queries
   - Added logic in Python SDK to support the initialization of tokens with all the tokens from the chain (DenomsMetadata)
   - Added logic in Go SDK to allow the initialization of markets and tokens from the chain (without using the local .ini files). Also included functionality to initialize the tokens wilh all the tokens from the chain (DenomsMetadata)
+  - Added support for wasm, tokenfactory and wasmx modules, including example script for all their endpoints
 
 ## 2023-09-06
 - Python SDK v0.8 release

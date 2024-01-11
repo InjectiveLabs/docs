@@ -461,10 +461,12 @@ yarn add @injectivelabs/sdk-ts
 
 **Reference**
 
-- [InjectiveLabs/injective-ts.wiki](https://github.com/InjectiveLabs/injective-ts/wiki)
+- [Typescript SDK documentation](https://docs.ts.injective.network/)
   
 - [InjectiveLabs/injective-ts](https://github.com/InjectiveLabs/injective-ts/tree/master/packages/sdk-ts)
 
+
+To see Typescript examples please check the Typescript SDK documentation page listed above
 
 ## For other languages
 Currently Injective provides SDKs only for Go, Python and TypeScript. To interact with the nodes using a different language please connect directly using the gRPC proto objects.

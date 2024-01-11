@@ -39,10 +39,12 @@ includes:
   - staking
   - bank
   - wasm
+  - wasmx
   - insurance
   - historicalqueries
   - healthapi
   - chainstream
+  - tokenfactory
   - glossary
   - faq
   # - exchangerpc
