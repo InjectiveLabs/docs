@@ -64,20 +64,6 @@ func main() {
 }
 ```
 
-```typescript
-import { IndexerGrpcDerivativesApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-
-const endpoints = getNetworkEndpoints(Network.TestnetK8s)
-const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
-
-const marketId = '0x...'
-
-const market = await indexerGrpcDerivativesApi.fetchMarket(marketId)
-
-console.log(market)
-```
-
 | Parameter | Type   | Description               | Required |
 | --------- | ------ | ------------------------- | -------- |
 | market_id | String | ID of the market to fetch | Yes      |
@@ -763,31 +749,6 @@ func main() {
     }
   }
 }
-```
-
-```typescript
-import {
-  IndexerGrpcDerivativesStream
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-
-const endpoints = getNetworkEndpoints(Network.TestnetK8s)
-const indexerGrpcDerivativesStream = new IndexerGrpcDerivativesStream(endpoints.indexer)
-
-const marketIds = ['0x...'] /* optional param */
-
-const streamFn = indexerGrpcDerivativesStream.streamDerivativeMarket.bind(indexerGrpcDerivativesStream)
-
-const callback = (markets) => {
-  console.log(markets)
-}
-
-const streamFnArgs = {
-  marketIds,
-  callback
-}
-
-streamFn(streamFnArgs)
 ```
 
 | Parameter          | Type         | Description                                                                                          | Required |
@@ -4220,33 +4181,6 @@ func main() {
 
 ```
 
-```typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";;
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const marketIds = ["0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"];
-
-  const exchangeClient = new ExchangeGrpcStreamClient(
-    network.exchangeApi
-  );
-
-  await exchangeClient.derivatives.streamDerivativeOrderbook(
-    {
-      marketIds,
-      callback: (streamOrderbook) => {
-        console.log(protoObjectToJson(streamOrderbook));
-      },
-      onEndCallback: (status) => {
-        console.log("Stream has ended with status: " + status);
-      },
-    });
-})();
-```
-
 
 | Parameter  | Type         | Description                                                                      | Required |
 | ---------- | ------------ | -------------------------------------------------------------------------------- | -------- |
@@ -6177,20 +6111,6 @@ if __name__ == "__main__":
 
 ```
 
-```typescript
-import { IndexerGrpcDerivativesApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-
-const endpoints = getNetworkEndpoints(Network.TestnetK8s)
-const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
-
-const marketId = '0x...'
-
-const binaryOptionsMarket = await indexerGrpcDerivativesApi.fetchBinaryOptionsMarket(marketId)
-
-console.log(binaryOptionsMarket)
-```
-
 | Parameter | Type   | Description                              | Required |
 | --------- | ------ | ---------------------------------------- | -------- |
 | market_id | String | ID of the binary options market to fetch | Yes      |
@@ -6338,20 +6258,6 @@ if __name__ == "__main__":
 ```
 
 ``` go
-
-```
-
-```typescript
-import { IndexerGrpcDerivativesApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-
-const endpoints = getNetworkEndpoints(Network.TestnetK8s)
-const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
-
-
-const binaryOptionsMarket = await indexerGrpcDerivativesApi.fetchBinaryOptionsMarkets()
-
-console.log(binaryOptionsMarket)
 
 ```
 

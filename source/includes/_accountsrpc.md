@@ -64,24 +64,6 @@ func main() {
 }
 ```
 
-``` typescript
-import { IndexerGrpcAccountApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer);
-
-  const injectiveAddress = "inj10y4mpwgqr4c63m7t8spxhf8rgcy2dz5vt3mvk9";
-
-  const subaccountsList = await indexerGrpcAccountApi.fetchSubaccountsList(
-    injectiveAddress
-  );
-
-  console.log(subaccountsList);
-})();
-```
-
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |account_address|String|The Injective Chain address|Yes|
@@ -107,14 +89,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
   "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002"
  ]
 }
-```
-
-``` typescript
-[
-  '0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001',
-  '0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000002',
-  '0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000000'
-]
 ```
 
 |Parameter|Type|Description|
@@ -206,29 +180,6 @@ func main() {
 }
 ```
 
-```typescript
-import { PaginationOption, IndexerGrpcAccountApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s)
-  const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer)
-
-  const subaccountId = '0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000'
-  const denom = 'inj'
-  const pagination = {} as PaginationOption
-
-  const subaccountHistory = await indexerGrpcAccountApi.fetchSubaccountHistory({
-    subaccountId,
-    denom,
-    pagination /* optional param */
-  })
-
-  console.log(subaccountHistory)
-})();
-```
-
-
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |subaccount_id|String|Filter by subaccount ID|Yes|
@@ -312,39 +263,6 @@ import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
    "total": 3
   }
  ]
-}
-```
-
-``` typescript
-{
-  transfers: [
-    {
-      transferType: 'withdraw',
-      srcSubaccountId: '0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000',
-      srcSubaccountAddress: '',
-      dstSubaccountId: '',
-      dstSubaccountAddress: 'inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku',
-      executedAt: 1676518649359,
-      amount: {
-        amount: '10000000000000000000',
-        denom: 'inj',
-      }
-    },
-    {
-      transferType: 'deposit',
-      srcSubaccountId: '',
-      srcSubaccountAddress: 'inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku',
-      dstSubaccountId: '0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000',
-      dstSubaccountAddress: '',
-      executedAt: 1676518457766,
-      amount: {
-        amount: '10000000000000000000',
-        denom: 'inj',
-      }
-    }
-    ...
-  ],
-  pagination: { total: 15, from: 0, to: 0, countBySubaccount: '0' }
 }
 ```
 
@@ -441,27 +359,6 @@ func main() {
 }
 ```
 
-```typescript
-import { IndexerGrpcAccountApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer);
-
-  const subaccountId =
-    "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
-  const denom = "inj";
-
-  const subaccountBalance = await indexerGrpcAccountApi.fetchSubaccountBalance(
-    subaccountId,
-    denom
-  );
-
-  console.log(subaccountBalance);
-})();
-```
-
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |subaccount_id|String|Filter by subaccount ID|Yes|
@@ -496,15 +393,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
    "available_balance": "1492235700000000000000"
   }
  }
-}
-```
-
-``` typescript
-{
-  subaccountId: '0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000',
-  accountAddress: 'inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku',
-  denom: 'inj',
-  deposit: { totalBalance: '334000000000000000000', availableBalance: '0' }
 }
 ```
 
@@ -593,25 +481,6 @@ func main() {
 }
 ```
 
-```typescript
-import { IndexerGrpcAccountApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer);
-
-  const subaccountId =
-    "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
-
-  const subaccountBalanceList =
-    await indexerGrpcAccountApi.fetchSubaccountBalancesList(subaccountId);
-
-  console.log(subaccountBalanceList);
-})();
-
-```
-
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
@@ -680,32 +549,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
   }
  ]
 }
-```
-
-``` typescript
-[
-  {
-    subaccountId: '0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000',
-    accountAddress: 'inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku',
-    denom: 'peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5',
-    deposit: {
-      totalBalance: '63522890505.651888522157767422',
-      availableBalance: '0.332888522157767422'
-    }
-  },
-  {
-    subaccountId: '0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000',
-    accountAddress: 'inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku',
-    denom: 'inj',
-    deposit: { totalBalance: '334000000000000000000', availableBalance: '0' }
-  },
-  {
-    subaccountId: '0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000',
-    accountAddress: 'inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku',
-    denom: 'peggy0x44C21afAaF20c270EBbF5914Cfc3b5022173FEB7',
-    deposit: { totalBalance: '0', availableBalance: '0' }
-  }
-]
 ```
 
 |Parameter|Type|Description|
@@ -803,30 +646,6 @@ func main() {
 }
 ```
 
-```typescript
-import { IndexerGrpcAccountApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer);
-
-  const subaccountId =
-    "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
-  const marketId =
-    "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0";
-  const orderDirection = "buy";
-
-  const orderSummary = await indexerGrpcAccountApi.fetchSubaccountOrderSummary({
-    subaccountId,
-    marketId,
-    orderDirection,
-  });
-
-  console.log(orderSummary);
-})();
-```
-
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |subaccount_id|String|ID of the subaccount we want to get the summary from|Yes|
@@ -848,13 +667,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 ``` go
 spot orders: 1
 derivative orders: 7
-```
-
-``` typescript
-{
-  "spotOrdersTotal": 1,
-  "derivativeOrdersTotal": 7
-}
 ```
 
 |Parameter|Type|Description|
@@ -964,39 +776,6 @@ func main() {
 }
 ```
 
-``` typescript
-import {
-  IndexerGrpcAccountStream,
-  BalanceStreamCallback,
-} from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcAccountStream = new IndexerGrpcAccountStream(
-    endpoints.indexer
-  );
-
-  const subaccountId =
-    "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000";
-
-  const streamFn = indexerGrpcAccountStream.streamSubaccountBalance.bind(
-    indexerGrpcAccountStream
-  );
-
-  const callback: BalanceStreamCallback = (subaccountBalance) => {
-    console.log(subaccountBalance);
-  };
-
-  const streamFnArgs = {
-    subaccountId,
-    callback,
-  };
-
-  streamFn(streamFnArgs);
-})();
-```
-
 | Parameter          | Type         | Description                                                                                           | Required |
 | ------------------ | ------------ | ----------------------------------------------------------------------------------------------------- | -------- |
 | subaccount_id      | String       | Filter by subaccount ID                                                                               | Yes      |
@@ -1059,33 +838,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
   }
  },
  "timestamp": 1653037744000
-}
-```
-
-``` typescript
-{
-  "balance": {
-    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-    "accountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-    "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "deposit": {
-      "totalBalance": "200493439765890.695319283887814576",
-      "availableBalance": "200493414240390.695319283887814031"
-    }
-  },
-  "timestamp": 1654234765000
-}
-{
-  "balance": {
-    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-    "accountAddress": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-    "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "deposit": {
-      "totalBalance": "200493847328858.695319283887814576",
-      "availableBalance": "200493821803358.695319283887814031"
-    }
-  },
-  "timestamp": 1654234804000
 }
 ```
 
@@ -1190,30 +942,6 @@ func main() {
 }
 ```
 
-```typescript
-import { IndexerGrpcAccountApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer);
-
-  const spotOrderHashes = [
-    "0xce0d9b701f77cd6ddfda5dd3a4fe7b2d53ba83e5d6c054fb2e9e886200b7b7bb",
-  ];
-  const derivativeOrderHashes = [
-    "0x82113f3998999bdc3892feaab2c4e53ba06c5fe887a2d5f9763397240f24da50",
-  ];
-
-  const orderStates = await indexerGrpcAccountApi.fetchOrderStates({
-    spotOrderHashes,
-    derivativeOrderHashes,
-  });
-
-  console.log(orderStates);
-})();
-```
-
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |spot_order_hashes|String Array|Array with the order hashes you want to fetch in spot markets|No|
@@ -1286,39 +1014,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
    "updated_at": 1654235059957
   }
  ]
-}
-```
-
-``` typescript
-{
-  "spotOrderStates": [
-    {
-      "orderHash": "0xb7b556d6eab10c4c185a660be44757a8a6715fb16db39708f2f76d9ce5ae8617",
-      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-      "marketId": "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa",
-      "orderType": "limit",
-      "orderSide": "buy",
-      "state": "booked",
-      "quantityFilled": "0",
-      "quantityRemaining": "1000000",
-      "createdAt": 1654080262300,
-      "updatedAt": 1654080262300
-    }
-  ],
-  "derivativeOrderStates": [
-    {
-      "orderHash": "0x4228f9a56a5bb50de4ceadc64df694c77e7752d58b71a7c557a27ec10e1a094e",
-      "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-      "marketId": "0x1c79dac019f73e4060494ab1b4fcba734350656d6fc4d474f6a238c13c6f9ced",
-      "orderType": "limit",
-      "orderSide": "buy",
-      "state": "booked",
-      "quantityFilled": "0",
-      "quantityRemaining": "1",
-      "createdAt": 1654235059957,
-      "updatedAt": 1654235059957
-    }
-  ]
 }
 ```
 
@@ -1418,24 +1113,6 @@ func main() {
   str, _ := json.MarshalIndent(res, "", " ")
   fmt.Print(string(str))
 }
-```
-
-``` typescript
-import { IndexerGrpcAccountApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer);
-
-  const injectiveAddress = "inj10y4mpwgqr4c63m7t8spxhf8rgcy2dz5vt3mvk9";
-
-  const portfolio = await indexerGrpcAccountApi.fetchPortfolio(
-    injectiveAddress
-  );
-
-  console.log(portfolio);
-})();
 ```
 
 |Parameter|Type|Description|Required|
@@ -1550,23 +1227,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 }
 ```
 
-``` typescript
-{
-  "portfolioValue": "18140.93939739028541677385",
-  "availableBalance": "10100.5755146800551762",
-  "lockedBalance": "8190.6761262577118576",
-  "unrealizedPnl": "-150.31224354748161702615",
-  "subaccountsList": [
-    {
-      "subaccountId": "0x792bb0b9001d71a8efcb3c026ba4e34608a68a8c000000000000000000000000",
-      "availableBalance": "10100.5755146800551762",
-      "lockedBalance": "8190.6761262577118576",
-      "unrealizedPnl": "-150.31224354748161702615"
-    }
-  ]
-}
-```
-
 |Parameter|Type|Description|
 |----|----|----|
 |portfolio_value|String|The total value (in USD) of your portfolio including bank balance, subaccounts' balance, unrealized profit & loss as well as margin in open positions|
@@ -1654,28 +1314,6 @@ func main() {
 
 ```
 
-```typescript
-import { IndexerGrpcAccountApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcAccountApi = new IndexerGrpcAccountApi(endpoints.indexer);
-
-  const injectiveAddress = "inj10y4mpwgqr4c63m7t8spxhf8rgcy2dz5vt3mvk9";
-  const epoch = -1; // current epoch
-
-  const tradingRewards = await indexerGrpcAccountApi.fetchRewards(
-    {
-      address: injectiveAddress,
-      epoch,
-    }
-  );
-
-  console.log(tradingRewards);
-})();
-```
-
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |account_address|String|The Injective Chain address to fetch rewards amount for|No|
@@ -1717,21 +1355,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
   }
  ]
 }
-```
-
-``` typescript
-[
-  {
-    "accountAddress": "inj1rwv4zn3jptsqs7l8lpa3uvzhs57y8duemete9e",
-    "rewards": [
-      {
-        "denom": "inj",
-        "amount": "755104058929571177652"
-      }
-    ],
-    "distributedAt": 1642582800716
-  }
-]
 ```
 
 |Parameter|Type|Description|

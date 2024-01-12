@@ -1,8 +1,9 @@
-# - Auction
+# - Wasmx
 
-Includes the message for placing bids in auctions.
+Wasmx smart contract interactions.
 
-## MsgBid
+
+## MsgExecuteContractCompat
 
 **IP rate limit group:** `chain`
 
@@ -12,6 +13,7 @@ Includes the message for placing bids in auctions.
 
 ``` python
 import asyncio
+import json
 
 from grpc import RpcError
 
@@ -26,7 +28,6 @@ async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
 
-    # initialize grpc client
     client = AsyncClient(network)
     composer = await client.composer()
     await client.sync_timeout_height()
@@ -38,7 +39,19 @@ async def main() -> None:
     await client.fetch_account(address.to_acc_bech32())
 
     # prepare tx msg
-    msg = composer.MsgBid(sender=address.to_acc_bech32(), round=16250, bid_amount=1)
+    # NOTE: COIN MUST BE SORTED IN ALPHABETICAL ORDER BY DENOMS
+    funds = (
+        "69factory/inj1hdvy6tl89llqy3ze8lv6mz5qh66sx9enn0jxg6/inj12ngevx045zpvacus9s6anr258gkwpmthnz80e9,"
+        "420peggy0x44C21afAaF20c270EBbF5914Cfc3b5022173FEB7,"
+        "1peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+    )
+
+    msg = composer.msg_execute_contract_compat(
+        sender=address.to_acc_bech32(),
+        contract="inj1ady3s7whq30l4fx8sj3x6muv5mx4dfdlcpv8n7",
+        msg=json.dumps({"increment": {}}),
+        funds=funds,
+    )
 
     # build sim tx
     tx = (
@@ -90,17 +103,15 @@ if __name__ == "__main__":
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
-	"time"
 
+	wasmxtypes "github.com/InjectiveLabs/sdk-go/chain/wasmx/types"
 	"github.com/InjectiveLabs/sdk-go/client"
-	"github.com/InjectiveLabs/sdk-go/client/common"
-
-	auctiontypes "github.com/InjectiveLabs/sdk-go/chain/auction/types"
 	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	"github.com/InjectiveLabs/sdk-go/client/common"
 	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
-	sdktypes "github.com/cosmos/cosmos-sdk/types"
 )
 
 func main() {
@@ -116,7 +127,7 @@ func main() {
 		"file",
 		"inj-user",
 		"12345678",
-		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		"f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3", // keyring will be used if pk not provided
 		false,
 	)
 
@@ -129,11 +140,10 @@ func main() {
 		senderAddress.String(),
 		cosmosKeyring,
 	)
-
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+		return
 	}
-
 	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
 
 	chainClient, err := chainclient.NewChainClient(
@@ -146,62 +156,54 @@ func main() {
 		panic(err)
 	}
 
-	round := uint64(9355)
-	bidAmount := sdktypes.Coin{
-		Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
-	}
+	firstAmount := 69
+	firstToken := "factory/inj1hdvy6tl89llqy3ze8lv6mz5qh66sx9enn0jxg6/inj12ngevx045zpvacus9s6anr258gkwpmthnz80e9"
+	secondAmount := 420
+	secondToken := "peggy0x44C21afAaF20c270EBbF5914Cfc3b5022173FEB7"
+	thirdAmount := 1
+	thirdToken := "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+	funds := fmt.Sprintf(
+		"%v%s,%v%s,%v%s",
+		firstAmount,
+		firstToken,
+		secondAmount,
+		secondToken,
+		thirdAmount,
+		thirdToken,
+	)
 
-	msg := &auctiontypes.MsgBid{
-		Sender:    senderAddress.String(),
-		Round:     round,
-		BidAmount: bidAmount,
+	message := wasmxtypes.MsgExecuteContractCompat{
+		Sender:   senderAddress.String(),
+		Contract: "inj1ady3s7whq30l4fx8sj3x6muv5mx4dfdlcpv8n7",
+		Msg:      "{\"increment\": {}}",
+		Funds:    funds,
 	}
 
 	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
-	err = chainClient.QueueBroadcastMsg(msg)
+	response, err := chainClient.AsyncBroadcastMsg(&message)
 
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
 
-	time.Sleep(time.Second * 5)
-
-	gasFee, err := chainClient.GetGasFee()
-
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println("gas fee:", gasFee, "INJ")
+	str, _ := json.MarshalIndent(response, "", " ")
+	fmt.Println(string(str))
 }
 
 ```
 
-``` typescript
-https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesAuction#msgbid
-```
+| Parameter | Type   | Description                                                                                                                                           | Required |
+| --------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| sender    | String | The Injective Chain address of the sender                                                                                                             | Yes      |
+| contract  | String | The Injective Chain address of the contract                                                                                                           | Yes      |
+| msg       | String | JSON encoded message to pass to the contract                                                                                                          | Yes      |
+| funds     | String | String with comma separated list of amounts and token denoms to transfer to the contract. Note that the coins must be alphabetically sorted by denoms | No       |
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|sender|String|The Injective Chain address|Yes|
-|round|String|The auction round|Yes|
-|bid_amount|String|The bid amount in INJ|Yes|
 
 > Response Example:
 
 ``` python
-txhash: "F18B1E6E39FAEA646F487C223DAE161482B1A12FC00C20D04A43826B8DD3E40F"
-raw_log: "[]"
-
-gas wanted: 105842
-gas fee: 0.000052921 INJ
 ```
 
-```go
-DEBU[0001] broadcastTx with nonce 3508                   fn=func1 src="client/chain/chain.go:598"
-DEBU[0002] msg batch committed successfully at height 5214789  fn=func1 src="client/chain/chain.go:619" txHash=BD49BD58A263A92465A93FD0E10C5076DA8334A45A60E29A66C2E5961998AB5F
-DEBU[0002] nonce incremented to 3509                     fn=func1 src="client/chain/chain.go:623"
-DEBU[0002] gas wanted:  152112                           fn=func1 src="client/chain/chain.go:624"
-gas fee: 0.000076056 INJ
+``` go
 ```
