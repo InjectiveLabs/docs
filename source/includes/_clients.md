@@ -181,8 +181,6 @@ Go SDK traditionally relied on local configuration files to get the list of avai
 Since **version 1.49** the SDK is able also to get the markets and tokens information directly from the chain data (through the Indexer process). 
 The benefit of this approach is that it is not necessary to update the SDK version when a new market is created in the chain or a new token is added.
 
-- To use the markets and tokens information from the local configuration files, create the Composer instance in the traditional way
-
 <br />
 <br />
 <br />
@@ -288,22 +286,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
-	chainClient, err := chainclient.NewChainClientWithMarketsAssistant(
-		clientCtx,
-		network,
-		marketsAssistant,
-		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
-	)
-
-	if err != nil {
-		panic(err)
-	}
 }
 
 ```
 
-- To get the markets and tokens information directly from the chain, create the ChainClient instance with an instance of MarketsAssistant
+- To get the markets and tokens information directly from the chain, create an instance of MarketsAssistant using the `NewMarketsAssistantUsingExchangeClient` function and passing the ExchangeClient as parameter
 
 <br />
 <br />
@@ -367,7 +354,7 @@ func main() {
 <br />
 <br />
 
-> Example - Get markets and tokens from Indexer (ExchangeClient)
+> Example - MarketsAssistant with all tokens
 
 ```go
 package main
@@ -442,6 +429,11 @@ func main() {
 ```
 
 By default the MarketsAssistant will only initialize the tokens that are part of an active market. In order to let it use any of the tokens available in the chain, the user has to create the MarketsAssistant instance using the function  `NewMarketsAssistantWithAllTokens`.
+
+
+The MarketsAssistant instance can be used with the following ChainClient functions:
+- `CreateSpotOrder`
+- `CreateDerivativeOrder`
 
 
 **Reference**
