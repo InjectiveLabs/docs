@@ -343,16 +343,6 @@ func main() {
 <br />
 <br />
 <br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
 
 > Example - MarketsAssistant with all tokens
 
@@ -432,8 +422,10 @@ By default the MarketsAssistant will only initialize the tokens that are part of
 
 
 The MarketsAssistant instance can be used with the following ChainClient functions:
+
 - `CreateSpotOrder`
 - `CreateDerivativeOrder`
+
 
 
 **Reference**
