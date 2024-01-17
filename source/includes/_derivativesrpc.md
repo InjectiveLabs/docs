@@ -157,48 +157,6 @@ func main() {
 }
 ```
 
-``` typescript
-{
-  "market": {
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "marketStatus": "active",
-    "ticker": "BTC/USDT PERP",
-    "oracleBase": "BTC",
-    "oracleQuote": "USDT",
-    "oracleType": "bandibc",
-    "oracleScaleFactor": 6,
-    "initialMarginRatio": "0.095",
-    "maintenanceMarginRatio": "0.05",
-    "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "quoteTokenMeta": {
-      "name": "Tether",
-      "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "symbol": "USDT",
-      "logo": "https://static.alchemyapi.io/images/assets/825.png",
-      "decimals": 6,
-      "updatedAt": 1650978923435
-    },
-    "makerFeeRate": "0.0005",
-    "takerFeeRate": "0.0012",
-    "serviceProviderFee": "0.4",
-    "isPerpetual": true,
-    "minPriceTickSize": "100000",
-    "minQuantityTickSize": "0.0001",
-    "perpetualMarketInfo": {
-      "hourlyFundingRateCap": "0.000625",
-      "hourlyInterestRate": "0.00000416666",
-      "nextFundingTimestamp": 1654246800,
-      "fundingInterval": 3600
-    },
-    "perpetualMarketFunding": {
-      "cumulativeFunding": "8239865636.851083559033030036",
-      "cumulativePrice": "-3.875827592425613503",
-      "lastTimestamp": 1654243770
-    }
-  }
-}
-```
-
 | Parameter | Type                 | Description                               |
 | --------- | -------------------- | ----------------------------------------- |
 | market    | DerivativeMarketInfo | Info about a particular derivative market |
@@ -336,18 +294,6 @@ func main() {
   str, _ := json.MarshalIndent(res, "", " ")
   fmt.Print(string(str))
 }
-```
-
-``` typescript
-import { IndexerGrpcDerivativesApi } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-
-const endpoints = getNetworkEndpoints(Network.TestnetK8s)
-const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
-
-const markets = await indexerGrpcDerivativesApi.fetchMarkets()
-
-console.log(markets)
 ```
 
 | Parameter       | Type         | Description                                                                                            | Required |
@@ -511,79 +457,6 @@ console.log(markets)
   }
  ]
 }
-```
-
-``` typescript
-[
-  {
-    "marketId": "0x1c79dac019f73e4060494ab1b4fcba734350656d6fc4d474f6a238c13c6f9ced",
-    "marketStatus": "active",
-    "ticker": "BNB/USDT PERP",
-    "oracleBase": "BNB",
-    "oracleQuote": "USDT",
-    "oracleType": "bandibc",
-    "oracleScaleFactor": 6,
-    "initialMarginRatio": "0.095",
-    "maintenanceMarginRatio": "0.05",
-    "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "quoteTokenMeta": {
-      "name": "Tether",
-      "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "symbol": "USDT",
-      "logo": "https://static.alchemyapi.io/images/assets/825.png",
-      "decimals": 6,
-      "updatedAt": 1650978923353
-    },
-    "makerFeeRate": "0.0005",
-    "takerFeeRate": "0.0012",
-    "serviceProviderFee": "0.4",
-    "isPerpetual": true,
-    "minPriceTickSize": "10000",
-    "minQuantityTickSize": "0.01",
-    "perpetualMarketInfo": {
-      "hourlyFundingRateCap": "0.000625",
-      "hourlyInterestRate": "0.00000416666",
-      "nextFundingTimestamp": 1654246800,
-      "fundingInterval": 3600
-    },
-    "perpetualMarketFunding": {
-      "cumulativeFunding": "56890491.178246679699729639",
-      "cumulativePrice": "7.082760891515203314",
-      "lastTimestamp": 1654245985
-    }
-  },
-  {
-    "marketId": "0x00030df39180df04a873cb4aadc50d4135640af5c858ab637dbd4d31b147478c",
-    "marketStatus": "active",
-    "ticker": "Frontrunner Futures: Expires 5.21.2023",
-    "oracleBase": "FRNT",
-    "oracleQuote": "USDT",
-    "oracleType": "pricefeed",
-    "oracleScaleFactor": 6,
-    "initialMarginRatio": "0.999999999999999999",
-    "maintenanceMarginRatio": "0.1",
-    "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "quoteTokenMeta": {
-      "name": "Tether",
-      "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "symbol": "USDT",
-      "logo": "https://static.alchemyapi.io/images/assets/825.png",
-      "decimals": 6,
-      "updatedAt": 1653064108501
-    },
-    "makerFeeRate": "0.005",
-    "takerFeeRate": "0.012",
-    "serviceProviderFee": "0.4",
-    "isPerpetual": false,
-    "minPriceTickSize": "0.000000000000001",
-    "minQuantityTickSize": "0.0001",
-    "expiryFuturesMarketInfo": {
-      "expirationTimestamp": 1684600043,
-      "settlementPrice": "0"
-    }
-  }
-]
-
 ```
 
 | Parameter | Type                       | Description                                    |
@@ -849,50 +722,6 @@ func main() {
 }
 ```
 
-``` typescript
-{
-  "market": {
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "marketStatus": "active",
-    "ticker": "BTC/USDT PERP",
-    "oracleBase": "BTC",
-    "oracleQuote": "USDT",
-    "oracleType": "bandibc",
-    "oracleScaleFactor": 6,
-    "initialMarginRatio": "0.095",
-    "maintenanceMarginRatio": "0.05",
-    "quoteDenom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "quoteTokenMeta": {
-      "name": "Tether",
-      "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-      "symbol": "USDT",
-      "logo": "https://static.alchemyapi.io/images/assets/825.png",
-      "decimals": 6,
-      "updatedAt": 1650978923435
-    },
-    "makerFeeRate": "0.0005",
-    "takerFeeRate": "0.0012",
-    "serviceProviderFee": "0.4",
-    "isPerpetual": true,
-    "minPriceTickSize": "100000",
-    "minQuantityTickSize": "0.0001",
-    "perpetualMarketInfo": {
-      "hourlyFundingRateCap": "0.000625",
-      "hourlyInterestRate": "0.00000416666",
-      "nextFundingTimestamp": 1654246800,
-      "fundingInterval": 3600
-    },
-    "perpetualMarketFunding": {
-      "cumulativeFunding": "8239865636.851083559033030036",
-      "cumulativePrice": "7.15770685160786651",
-      "lastTimestamp": 1654246073
-    }
-  },
-  "operationType": "update",
-  "timestamp": 1654246076000
-}
-```
-
 | Parameter      | Type                 | Description                                                                             |
 | -------------- | -------------------- | --------------------------------------------------------------------------------------- |
 | market         | DerivativeMarketInfo | Info about a particular derivative market                                               |
@@ -1047,10 +876,6 @@ func main() {
 	str, _ := json.MarshalIndent(res, "", " ")
 	fmt.Print(string(str))
 }
-
-```
-
-``` typescript
 
 ```
 
@@ -1264,10 +1089,6 @@ func main() {
 
 ```
 
-``` typescript
-
-```
-
 | Parameter | Type                         | Description                          |
 | --------- | ---------------------------- | ------------------------------------ |
 | orders    | DerivativeOrderHistory Array | list of historical derivative orders |
@@ -1416,38 +1237,6 @@ func main() {
 
 ```
 
-``` typescript
-import {
-  TradeDirection,
-  PaginationOption,
-  DerivativeOrderSide,
-  TradeExecutionType,
-  IndexerGrpcDerivativesApi
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-
-const endpoints = getNetworkEndpoints(Network.TestnetK8s)
-const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
-
-const marketIds = ['0x...'] /* optional param */
-const executionTypes = [TradeExecutionType.Market] /* optional param */
-const orderTypes = DerivativeOrderSide.StopBuy /* optional param */
-const direction = TradeDirection.Buy /* optional param */
-const subaccountId = '0x...' /* optional param */
-const paginationOption = {...} as PaginationOption /* optional param */
-
-const orderHistory = await indexerGrpcDerivativesApi.fetchOrderHistory({
-  marketIds,
-  executionTypes,
-  orderTypes,
-  direction,
-  subaccountId,
-  paginationOption
-})
-
-console.log(orderHistory)
-```
-
 | Parameter          | Type         | Description                                                                                                                     | Required |
 | ------------------ | ------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | subaccount_id      | String       | Filter by subaccount ID                                                                                                         | No       |
@@ -1550,10 +1339,6 @@ console.log(orderHistory)
    "operation_type":"update",
    "timestamp":1696617272000
 }
-```
-
-``` typescript
-
 ```
 
 | Parameter      | Type                   | Description                                                                         |
@@ -1669,35 +1454,6 @@ func main() {
 
 ```
 
-``` typescript
-import {
-  TradeDirection,
-  PaginationOption,
-  TradeExecutionType,
-  IndexerGrpcDerivativesApi
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-
-const endpoints = getNetworkEndpoints(Network.TestnetK8s)
-const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
-
-const marketId = '0x...' /* optional param */
-const executionTypes = [TradeExecutionType.Market] /* optional param */
-const direction = TradeDirection.Buy /* optional param */
-const subaccountId = '0x...'/* optional param */
-const paginationOption = {...} as PaginationOption /* optional param */
-
-const trades = await indexerGrpcDerivativesApi.fetchTrades({
-  marketId,
-  executionTypes,
-  direction,
-  subaccountId,
-  paginationOption
-})
-
-console.log(trades)
-```
-
 | Parameter       | Type             | Description                                                                                                                     | Required |
 | --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | market_ids      | String Array     | Filter by multiple market IDs                                                                                                   | No       |
@@ -1787,79 +1543,6 @@ paging {
   }
  ]
 }
-```
-
-``` typescript
-[
-  {
-    "orderHash": "0x3da3c53a00c28787d614c533b70d0c8c954dfa54a31ce930e58c23ee88e3ea09",
-    "subaccountId": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "tradeExecutionType": "limitMatchRestingOrder",
-    "isLiquidation": false,
-    "positionDelta": {
-      "tradeDirection": "buy",
-      "executionPrice": "39406400000",
-      "executionQuantity": "0.02",
-      "executionMargin": "841900000"
-    },
-    "payout": "856231180.396992742528328042",
-    "fee": "394064",
-    "executedAt": 1654246304825,
-    "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
-  },
-  {
-    "orderHash": "0x0dfc926924befc45d36a6178501143085a05e2dfb45330a05f57ed16a1b27a82",
-    "subaccountId": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "tradeExecutionType": "limitMatchRestingOrder",
-    "isLiquidation": false,
-    "positionDelta": {
-      "tradeDirection": "buy",
-      "executionPrice": "39406400000",
-      "executionQuantity": "0.07",
-      "executionMargin": "2912938000"
-    },
-    "payout": "2996809131.389474598849148143",
-    "fee": "1379224",
-    "executedAt": 1654246304825,
-    "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
-  },
-  {
-    "orderHash": "0xcae7168f316a60deaa832eaea99f0ac25a276efbc35913adc74fa64698925422",
-    "subaccountId": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "tradeExecutionType": "limitMatchRestingOrder",
-    "isLiquidation": false,
-    "positionDelta": {
-      "tradeDirection": "buy",
-      "executionPrice": "40128736026.409431766475",
-      "executionQuantity": "0.05",
-      "executionMargin": "2014460000"
-    },
-    "payout": "1990739547.202719429741148872",
-    "fee": "1003218.400660235794161875",
-    "executedAt": 1654246213333,
-    "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
-  },
-  {
-    "orderHash": "0x11736cd550f7d53db11e89d0ae240a1d5a10aa78b00013a760b32964be15dd6d",
-    "subaccountId": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "tradeExecutionType": "limitMatchRestingOrder",
-    "isLiquidation": false,
-    "positionDelta": {
-      "tradeDirection": "buy",
-      "executionPrice": "40128736026.409431766475",
-      "executionQuantity": "0.02",
-      "executionMargin": "804982000"
-    },
-    "payout": "796295818.881087771896459548",
-    "fee": "401287.36026409431766475",
-    "executedAt": 1654246213333,
-    "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
-  }
-]
 ```
 
 | Parameter | Type                  | Description                          |
@@ -1984,10 +1667,6 @@ func main() {
 	str, _ := json.MarshalIndent(res, "", " ")
 	fmt.Print(string(str))
 }
-```
-
-``` typescript
-
 ```
 
 | Parameter       | Type             | Description                                                                                                                     | Required |
@@ -2270,10 +1949,6 @@ func main() {
 
 ```
 
-``` typescript
-
-```
-
 | Parameter | Type                  | Description                          |
 | --------- | --------------------- | ------------------------------------ |
 | trades    | DerivativeTrade Array | List of trades of derivative markets |
@@ -2408,46 +2083,6 @@ func main() {
 }
 ```
 
-
-``` typescript
-import {getNetworkInfo, Network} from "@injectivelabs/networks";
-import {protoObjectToJson, TradeDirection, TradeExecutionSide} from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";;
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const marketIds = ["0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"];
-  const subaccountIds = ["0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"];
-  const executionSide = TradeExecutionSide.Maker;
-  const direction = TradeDirection.Buy;
-  const pagination = {
-    skip: 0,
-    limit: 10,
-    key: ""
-  };
-
-  const exchangeClient = new ExchangeGrpcStreamClient(
-    network.exchangeApi
-  );
-
-  await exchangeClient.derivatives.streamDerivativeTrades(
-    {
-      marketIds: marketIds,
-      subaccountIds: subaccountIds,
-      executionSide: executionSide,
-      direction: direction,
-      pagination: pagination,
-      callback: (streamDerivativeTrades) => {
-        console.log(protoObjectToJson(streamDerivativeTrades));
-      },
-      onEndCallback: (status) => {
-        console.log("Stream has ended with status: " + status);
-      },
-    });
-})();
-```
-
 | Parameter          | Type             | Description                                                                                                                     | Required |
 | ------------------ | ---------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | market_ids         | String Array     | Filter by multiple market IDs                                                                                                   | No       |
@@ -2528,72 +2163,6 @@ timestamp: 1652793013000
  },
  "operation_type": "insert",
  "timestamp": 1653040246000
-}
-```
-
-``` typescript
-{
-  "trade": {
-    "orderHash": "0xc133f2be809052e24c05132014fc685a0c691e2ac1eacfccc0f52749b20bbfda",
-    "subaccountId": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "tradeExecutionType": "limitMatchRestingOrder",
-    "isLiquidation": false,
-    "positionDelta": {
-      "tradeDirection": "buy",
-      "executionPrice": "39687300000",
-      "executionQuantity": "0.01",
-      "executionMargin": "397675000"
-    },
-    "payout": "413013107.353824969334409788",
-    "fee": "198436.5",
-    "executedAt": 1654246489592,
-    "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
-  },
-  "operationType": "insert",
-  "timestamp": 1654246493000
-}
-{
-  "trade": {
-    "orderHash": "0xb59e0591c9a6b8edc95c3b1ee21cb37541164e96acbb3253b68fb0a9675a854d",
-    "subaccountId": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "tradeExecutionType": "limitMatchRestingOrder",
-    "isLiquidation": false,
-    "positionDelta": {
-      "tradeDirection": "buy",
-      "executionPrice": "39687300000",
-      "executionQuantity": "0.05",
-      "executionMargin": "1996400000"
-    },
-    "payout": "2065065536.76912484667204894",
-    "fee": "992182.5",
-    "executedAt": 1654246489592,
-    "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
-  },
-  "operationType": "insert",
-  "timestamp": 1654246493000
-}
-{
-  "trade": {
-    "orderHash": "0x15e0e47533e55b7fe9d8a16053d0d5419b70a8cafac0820cf367f24ecae73eb9",
-    "subaccountId": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "tradeExecutionType": "limitMatchRestingOrder",
-    "isLiquidation": false,
-    "positionDelta": {
-      "tradeDirection": "buy",
-      "executionPrice": "39687300000",
-      "executionQuantity": "0.03",
-      "executionMargin": "1190619000"
-    },
-    "payout": "1239039322.061474908003229364",
-    "fee": "595309.5",
-    "executedAt": 1654246489592,
-    "feeRecipient": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
-  },
-  "operationType": "insert",
-  "timestamp": 1654246493000
 }
 ```
 
@@ -2750,11 +2319,6 @@ func main() {
 		}
 	}
 }
-
-```
-
-
-``` typescript
 
 ```
 
@@ -2917,10 +2481,6 @@ func main() {
 }
 ```
 
-``` typescript
-
-```
-
 | Parameter      | Type            | Description                                                         |
 | -------------- | --------------- | ------------------------------------------------------------------- |
 | trade          | DerivativeTrade | New derivative market trade                                         |
@@ -3046,38 +2606,6 @@ func main() {
 	fmt.Print(string(str))
 }
 
-```
-
-``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
-
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce";
-  const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000";
-  const pagination = {
-    skip: 0,
-    limit: 10,
-    key: ""
-  };
-
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
-
-  const positions = await exchangeClient.derivatives.fetchPositions(
-    {
-      marketId: marketId,
-      subaccountId: subaccountId,
-      pagination: pagination,
-  });
-
-  console.log(protoObjectToJson(positions));
-})();
 ```
 
 | Parameter                  | Type             | Description                                                                   | Required |
@@ -3273,25 +2801,6 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 }
 ```
 
-``` typescript
-{
-  "positionsList": [
-    {
-      "ticker": "BTC/USDT PERP",
-      "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-      "subaccountId": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
-      "direction": "short",
-      "quantity": "1.6321",
-      "entryPrice": "40673269578.764267860566718788",
-      "margin": "65479686044.860453741141489314",
-      "liquidationPrice": "76945874187.425265",
-      "markPrice": "40128736026.4094317665",
-      "aggregateReduceOnlyQuantity": "0"
-    }
-  ]
-}
-```
-
 | Parameter | Type                     | Description                  |
 | --------- | ------------------------ | ---------------------------- |
 | positions | DerivativePosition Array | List of derivative positions |
@@ -3426,35 +2935,6 @@ func main() {
 }
 ```
 
-``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";;
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce";
-  const subaccountId = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000";
-
-  const exchangeClient = new ExchangeGrpcStreamClient(
-    network.exchangeApi
-  );
-
-  await exchangeClient.derivatives.streamDerivativePositions(
-    {
-      marketId,
-      subaccountId,
-      callback: (streamDerivativePositions) => {
-        console.log(protoObjectToJson(streamDerivativePositions));
-      },
-      onEndCallback: (status) => {
-        console.log("Stream has ended with status: " + status);
-      },
-    });
-})();
-```
-
 | Parameter          | Type         | Description                                                                                          | Required |
 | ------------------ | ------------ | ---------------------------------------------------------------------------------------------------- | -------- |
 | market_ids         | String Array | IDs of the markets to stream position data from                                                      | No       |
@@ -3546,39 +3026,6 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
 }
 ```
 
-``` typescript
-{
-  "position": {
-    "ticker": "BTC/USDT PERP",
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "subaccountId": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
-    "direction": "short",
-    "quantity": "1.6321",
-    "entryPrice": "40555935751.758890674529114982",
-    "margin": "65283896141.678537523412631302",
-    "liquidationPrice": "76719878206.648298",
-    "markPrice": "40128736026.4094317665",
-    "aggregateReduceOnlyQuantity": "0"
-  },
-  "timestamp": 1654246646000
-}
-{
-  "position": {
-    "ticker": "BTC/USDT PERP",
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "subaccountId": "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000",
-    "direction": "short",
-    "quantity": "1.6321",
-    "entryPrice": "40489113688.030524225816723708",
-    "margin": "65069810777.851918748331744252",
-    "liquidationPrice": "76531312698.56045",
-    "markPrice": "40128736026.4094317665",
-    "aggregateReduceOnlyQuantity": "0"
-  },
-  "timestamp": 1654246687000
-}
-```
-
 | Parameter | Type               | Description                        |
 | --------- | ------------------ | ---------------------------------- |
 | position  | DerivativePosition | Updated derivative position        |
@@ -3665,26 +3112,6 @@ func main() {
   str, _ := json.MarshalIndent(res, "", " ")
   fmt.Print(string(str))
 }
-```
-
-``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const marketId = "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce";
-
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
-
-  const orderbook = await exchangeClient.derivatives.fetchOrderbook(marketId);
-
-  console.log(protoObjectToJson(orderbook));
-})();
 ```
 
 | Parameter | Type   | Description                              | Required |
@@ -3777,53 +3204,6 @@ orderbook {
 }
 ```
 
-``` typescript
-{
-  "orderbook": {
-    "buysList": [
-      {
-        "price": "39165600000",
-        "quantity": "0.07",
-        "timestamp": 1654245802262
-      },
-      {
-        "price": "39085300000",
-        "quantity": "0.07",
-        "timestamp": 1654245802262
-      },
-      {
-        "price": "25000000000",
-        "quantity": "0.1",
-        "timestamp": 1653932262361
-      }
-    ],
-    "sellsList": [
-      {
-        "price": "39446500000",
-        "quantity": "0.07",
-        "timestamp": 1654246681580
-      },
-      {
-        "price": "40449700000",
-        "quantity": "0.08",
-        "timestamp": 1654246681580
-      },
-      {
-        "price": "43058100000",
-        "quantity": "0.0577",
-        "timestamp": 1654245756032
-      },
-      {
-        "price": "50000000000",
-        "quantity": "0.012",
-        "timestamp": 1653932262361
-      }
-    ]
-  }
-}
-```
-
-
 
 | Parameter | Type                     | Description                                 |
 | --------- | ------------------------ | ------------------------------------------- |
@@ -3911,26 +3291,6 @@ func main() {
 	fmt.Print(string(str))
 }
 
-```
-
-``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const marketIds = ["0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"];
-
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
-
-  const market = await exchangeClient.derivatives.fetchOrderbooks(marketIds);
-
-  console.log(protoObjectToJson(market));
-})();
 ```
 
 | Parameter  | Type         | Description                                   | Required |
@@ -4031,52 +3391,6 @@ orderbooks {
    }
   }
  ]
-}
-```
-
-``` typescript
-{
-  "orderbooksList": [
-    {
-      "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-      "orderbook": {
-        "buysList": [
-          {
-            "price": "39767500000",
-            "quantity": "0.05",
-            "timestamp": 1654246733424
-          },
-          {
-            "price": "39687300000",
-            "quantity": "0.08",
-            "timestamp": 1654246733424
-          },
-          {
-            "price": "25000000000",
-            "quantity": "0.1",
-            "timestamp": 1653932262361
-          }
-        ],
-        "sellsList": [
-          {
-            "price": "40249100000",
-            "quantity": "0.05",
-            "timestamp": 1654246769016
-          },
-          {
-            "price": "43539600000",
-            "quantity": "0.17",
-            "timestamp": 1654245756032
-          },
-          {
-            "price": "50000000000",
-            "quantity": "0.012",
-            "timestamp": 1653932262361
-          }
-        ]
-      }
-    }
-  ]
 }
 ```
 
@@ -4312,50 +3626,6 @@ market_id: "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
 }
 ```
 
-``` typescript
-{
-  "orderbook": {
-    "buysList": [
-      {
-        "price": "39767500000",
-        "quantity": "0.05",
-        "timestamp": 1654246733424
-      },
-      {
-        "price": "39687300000",
-        "quantity": "0.08",
-        "timestamp": 1654246733424
-      },
-      {
-        "price": "25000000000",
-        "quantity": "0.1",
-        "timestamp": 1653932262361
-      }
-    ],
-    "sellsList": [
-      {
-        "price": "40530000000",
-        "quantity": "0.01",
-        "timestamp": 1654246681580
-      },
-      {
-        "price": "43539600000",
-        "quantity": "0.17",
-        "timestamp": 1654245756032
-      },
-      {
-        "price": "50000000000",
-        "quantity": "0.012",
-        "timestamp": 1653932262361
-      }
-    ]
-  },
-  "operationType": "update",
-  "timestamp": 1654246904000,
-  "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
-}
-```
-
 | Parameter      | Type                     | Description                                                                                   |
 | -------------- | ------------------------ | --------------------------------------------------------------------------------------------- |
 | operation_type | String                   | Order update type (Should be one of: ["insert", "delete", "replace", "update", "invalidate"]) |
@@ -4444,10 +3714,6 @@ func main() {
 	str, _ := json.MarshalIndent(res, "", " ")
 	fmt.Print(string(str))
 }
-
-```
-
-``` typescript
 
 ```
 
@@ -4598,10 +3864,6 @@ func main() {
 
 ```
 
-``` typescript
-
-```
-
 | Parameter  | Type                                   | Description                          |
 | ---------- | -------------------------------------- | ------------------------------------ |
 | orderbooks | SingleDerivativeLimitOrderbookV2 Array | List of derivative market orderbooks |
@@ -4691,30 +3953,6 @@ if __name__ == "__main__":
 
 ```
 
-``` typescript
-import { IndexerGrpcDerivativesStream } from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-
-const endpoints = getNetworkEndpoints(Network.TestnetK8s)
-const indexerGrpcDerivativesStream = new IndexerGrpcDerivativesStream(endpoints.indexer)
-
-const marketIds = ['0x...']
-
-const streamFn = indexerGrpcDerivativesStream.streamDerivativeOrderbookV2.bind(indexerGrpcDerivativesStream)
-
-const callback = (orderbooks) => {
-  console.log(orderbooks)
-}
-
-const streamFnArgs = {
-  marketIds,
-  callback
-}
-
-streamFn(streamFnArgs)
-
-```
-
 | Parameter          | Type         | Description                                                                                          | Required |
 | ------------------ | ------------ | ---------------------------------------------------------------------------------------------------- | -------- |
 | market_ids         | String Array | List of market IDs for orderbook streaming; empty means all spot markets                             | Yes      |
@@ -4756,29 +3994,6 @@ streamFn(streamFnArgs)
 ```
 
 ``` go
-
-```
-
-``` typescript
-{
-  orderbook: {
-    sells: [{
-      price: "0.000000000008",
-      quantity: "10000000000000000",
-      timestamp: 1675904636889,
-    }],
-    buys: [{
-      price: "0.000000000001",
-      quantity: "10000000000000000",
-      timestamp: 1675882430039,
-    }],
-    sequence: 713,
-    timestamp: "343432244"
-  }
-  operationType: "update"
-  timestamp: 1676610727000
-  marketId: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-}
 
 ```
 
@@ -4980,32 +4195,6 @@ if __name__ == "__main__":
 
 ```
 
-``` typescript
-import {
-  IndexerGrpcDerivativesStream
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-
-const endpoints = getNetworkEndpoints(Network.TestnetK8s)
-const indexerGrpcDerivativesStream = new IndexerGrpcDerivativesStream(endpoints.indexer)
-
-const marketIds = ['0x...']
-
-const streamFn = indexerGrpcDerivativesStream.streamDerivativeOrderbookUpdate.bind(indexerGrpcDerivativesStream)
-
-const callback = (orderbookUpdates) => {
-  console.log(orderbookUpdates)
-}
-
-const streamFnArgs = {
-  marketIds,
-  callback
-}
-
-streamFn(streamFnArgs)
-
-```
-
 | Parameter          | Type         | Description                                                                                          | Required |
 | ------------------ | ------------ | ---------------------------------------------------------------------------------------------------- | -------- |
 | market_ids         | String Array | List of market IDs for orderbook streaming; empty means all derivative markets                       | Yes      |
@@ -5051,29 +4240,6 @@ price: 1000000000 | quantity: 0.0014 | timestamp: 1676622220695
 ```
 
 ``` go
-
-```
-
-``` typescript
-{
-  orderbook: {
-    sells: [{
-      price: "0.000000000008",
-      quantity: "10000000000000000",
-      timestamp: 1675904636889,
-    }],
-    buys: [{
-      price: "0.000000000001",
-      quantity: "10000000000000000",
-      timestamp: 1675882430039,
-    }],
-    sequence: 713,
-    timestamp: '3243244'
-  }
-  operationType: "update"
-  timestamp: 1676610727000
-  marketId: "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-}
 
 ```
 
@@ -5186,29 +4352,6 @@ func main() {
 }
 ```
 
-``` typescript
-import {
-  PaginationOption,
-  IndexerGrpcDerivativesApi
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-
-const endpoints = getNetworkEndpoints(Network.TestnetK8s)
-const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
-
-const marketId = '0x...' /* optional param */
-const subaccountId = '0x...' /* optional param */
-const paginationOption = {...} as PaginationOption /* optional param */
-
-const subaccountOrders = await indexerGrpcDerivativesApi.fetchSubaccountOrdersList({
-  marketId,
-  subaccountId,
-  paginationOption
-})
-
-console.log(subaccountOrders)
-```
-
 | Parameter     | Type             | Description              | Required |
 | ------------- | ---------------- | ------------------------ | -------- |
 | subaccount_id | String           | Filter by subaccount ID  | Yes      |
@@ -5294,27 +4437,6 @@ console.log(subaccountOrders)
   }
  ]
 }
-```
-
-``` typescript
-[
-  {
-    "orderHash": "0xad5c1943f034b4587f8482b029e97c078848f30acad40bcceab3dc174d62ba40",
-    "orderSide": "buy",
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-    "isReduceOnly": false,
-    "margin": "30000000000",
-    "price": "30000000000",
-    "quantity": "1",
-    "unfilledQuantity": "1",
-    "triggerPrice": "0",
-    "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8",
-    "state": "booked",
-    "createdAt": 1654246251978,
-    "updatedAt": 1654246251978
-  }
-]
 ```
 
 | Parameter | Type                       | Description               |
@@ -5448,35 +4570,6 @@ func main() {
 }
 ```
 
-``` typescript
-import {
-  TradeDirection,
-  TradeExecutionType,
-  PaginationOption,
-  IndexerGrpcDerivativesApi
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-
-const endpoints = getNetworkEndpoints(Network.TestnetK8s)
-const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
-
-const marketId = '0x...' /* optional param */
-const subaccountId = '0x...' /* optional param */
-const executionType = TradeExecutionType.LimitFill /* optional param */
-const direction = TradeDirection.Sell /* optional param */
-const paginationOption = {...} as PaginationOption /* optional param */
-
-const subaccountTrades = await indexerGrpcDerivativesApi.fetchSubaccountTradesList({
-  marketId,
-  subaccountId,
-  executionType,
-  direction,
-  paginationOption
-})
-
-console.log(subaccountTrades)
-```
-
 | Parameter      | Type             | Description                                                                                                                             | Required |
 | -------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | subaccount_id  | String           | Subaccount ID of trader to get trades from                                                                                              | Yes      |
@@ -5574,62 +4667,6 @@ console.log(subaccountTrades)
  ]
 }
 
-```
-
-``` typescript
-[
-  {
-    "orderHash": "0xa84da1f4286c72b38556c751bf572200ae70d2390c5e0be9677d2ae787bea8d8",
-    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "tradeExecutionType": "market",
-    "isLiquidation": false,
-    "positionDelta": {
-      "tradeDirection": "buy",
-      "executionPrice": "41951760760",
-      "executionQuantity": "1",
-      "executionMargin": "42161500000"
-    },
-    "payout": "0",
-    "fee": "50342112.912",
-    "executedAt": 1654246228747,
-    "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
-  },
-  {
-    "orderHash": "0xfa3e2016812532fe1e867557997c27805462d3be3dc0b646f19a1a0a6c172fb8",
-    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "tradeExecutionType": "market",
-    "isLiquidation": false,
-    "positionDelta": {
-      "tradeDirection": "buy",
-      "executionPrice": "38965000000",
-      "executionQuantity": "0.001",
-      "executionMargin": "28000000"
-    },
-    "payout": "36823936.837719129360630081",
-    "fee": "46758",
-    "executedAt": 1651517007785,
-    "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
-  },
-  {
-    "orderHash": "0x482966d12d3339cc573f2f9d57aeddf6ece2929933eb26efdeb6dec2a6308b1f",
-    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "tradeExecutionType": "market",
-    "isLiquidation": false,
-    "positionDelta": {
-      "tradeDirection": "buy",
-      "executionPrice": "41332500000",
-      "executionQuantity": "0.01",
-      "executionMargin": "415400000"
-    },
-    "payout": "343739533.621037542065851015",
-    "fee": "495990",
-    "executedAt": 1651497901928,
-    "feeRecipient": "inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8"
-  }
-]
 ```
 
 | Parameter | Type                  | Description                      |
@@ -5743,27 +4780,6 @@ func main() {
 }
 ```
 
-``` typescript
-import {
-  PaginationOption,
-  IndexerGrpcDerivativesApi
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-
-const endpoints = getNetworkEndpoints(Network.TestnetK8s)
-const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
-
-const marketIds = ['0x...'] /* optional param */
-const paginationOption = {...} as PaginationOption /* optional param */
-
-const fundingPayments = await indexerGrpcDerivativesApi.fetchFundingPayments({
-  marketIds,
-  paginationOption
-})
-
-console.log(fundingPayments)
-```
-
 | Parameter     | Type             | Description                                                   | Required |
 | ------------- | ---------------- | ------------------------------------------------------------- | -------- |
 | market_ids    | String Array     | Filter by multiple market IDs                                 | No       |
@@ -5832,29 +4848,6 @@ console.log(fundingPayments)
  ]
 }
 
-```
-
-``` Typescript
-[
-  {
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-    "amount": "-4895705.795221",
-    "timestamp": 1654246801786
-  },
-  {
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-    "amount": "-20882.994228",
-    "timestamp": 1653818400878
-  },
-  {
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "subaccountId": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-    "amount": "-20882.994228",
-    "timestamp": 1653814800643
-  }
-]
 ```
 
 | Parameter | Type                 | Description              |
@@ -5952,27 +4945,6 @@ func main() {
 }
 ```
 
-``` typescript
-import {
-  PaginationOption,
-  IndexerGrpcDerivativesApi
-} from '@injectivelabs/sdk-ts'
-import { getNetworkEndpoints, Network } from '@injectivelabs/networks'
-
-const endpoints = getNetworkEndpoints(Network.TestnetK8s)
-const indexerGrpcDerivativesApi = new IndexerGrpcDerivativesApi(endpoints.indexer)
-
-const marketId = '0x...' /* optional param */
-const paginationOption = {...} as PaginationOption /* optional param */
-
-const fundingRates = await indexerGrpcDerivativesApi.fetchFundingRates({
-  marketId,
-  paginationOption
-})
-
-console.log(fundingRates)
-```
-
 | Parameter  | Type             | Description                               | Required |
 | ---------- | ---------------- | ----------------------------------------- | -------- |
 | market_id  | String           | ID of the market to get funding rates for | Yes      |
@@ -6028,31 +5000,6 @@ console.log(fundingRates)
   }
  ]
 }
-```
-
-``` typescript
-[
-  {
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "rate": "0.000122",
-    "timestamp": 1654246801786
-  },
-  {
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "rate": "0.000109",
-    "timestamp": 1654243201239
-  },
-  {
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "rate": "0.00014",
-    "timestamp": 1654239601537
-  },
-  {
-    "marketId": "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
-    "rate": "0.000115",
-    "timestamp": 1654236001211
-  }
-]
 ```
 
 | Parameter     | Type              | Description           |
@@ -6151,38 +5098,6 @@ if __name__ == "__main__":
 ```
 
 ``` go
-
-```
-
-``` typescript
-{
-  "market": {
-    "marketId": "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
-    "marketStatus": "active",
-    "ticker": "INJ/USDT BO",
-    "oracleSymbol": "inj",
-    "oracleProvider": "BANDIBC",
-    "oracleType": "provider",
-    "oracleScaleFactor": 6,
-    "expirationTimestamp": "2343242423",
-    "settlementTimestamp": "2342342323",
-    "quoteDenom": "USDT",
-    "quoteTokenMeta": {
-      "name": "Tether",
-      "address": '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-      "symbol": "USDT",
-      "logo": "https://static.alchemyapi.io/images/assets/7278.png",
-      "decimals": 18;
-      "updatedAt": "1650978921846"
-    },
-    "makerFeeRate": "0.001",
-    "takerFeeRate": "0.002",
-    "serviceProviderFee": "0.4",
-    "minPriceTickSize": "0.000000000000001",
-    "minQuantityTickSize": "1000000000000000",
-    "settlementPrice": "1"
-  }
-}
 
 ```
 
@@ -6310,44 +5225,6 @@ if __name__ == "__main__":
 ```
 
 ``` go
-
-```
-
-``` typescript
-{
-  markets: [{
-    "marketId": "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
-    "marketStatus": "active",
-    "ticker": "INJ/USDT BO",
-    "oracleSymbol": "inj",
-    "oracleProvider": "BANDIBC",
-    "oracleType": "provider",
-    "oracleScaleFactor": 6,
-    "expirationTimestamp": "2343242423",
-    "settlementTimestamp": "2342342323",
-    "quoteDenom": "USDT",
-    "quoteTokenMeta": {
-      "name": "Tether",
-      "address": '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-      "symbol": "USDT",
-      "logo": "https://static.alchemyapi.io/images/assets/7278.png",
-      "decimals": 18;
-      "updatedAt": "1650978921846"
-    },
-    "makerFeeRate": "0.001",
-    "takerFeeRate": "0.002",
-    "serviceProviderFee": "0.4",
-    "minPriceTickSize": "0.000000000000001",
-    "minQuantityTickSize": "1000000000000000",
-    "settlementPrice": "1"
-  }],
-  paging: {
-    total: 5
-    from: 1
-    to: 3
-    countBySubaccount: "4"
-  }
-}
 
 ```
 

@@ -197,9 +197,6 @@ func main() {
 
 ```
 
-``` typescript
-
-```
 ### Request parameters 
 
 | Parameter                  | Type                     | Description                              | Required |

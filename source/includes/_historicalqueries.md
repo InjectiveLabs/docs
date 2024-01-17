@@ -66,10 +66,6 @@ func main() {
 }
 ```
 
-``` typescript
-
-```
-
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |block_height|String|The block height at which we want to execute the query|Yes|
@@ -144,8 +140,4 @@ query result: {
   "sells_price_level": [
   ]
 }
-```
-
-``` typescript
-
 ```

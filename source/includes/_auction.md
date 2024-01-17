@@ -178,10 +178,6 @@ func main() {
 
 ```
 
-``` typescript
-https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesAuction#msgbid
-```
-
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |sender|String|The Injective Chain address|Yes|

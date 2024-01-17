@@ -195,10 +195,6 @@ func main() {
 
 ```
 
-``` typescript
-https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesBank#msgsend
-```
-
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |from_address|String|The Injective Chain address of the sender|Yes|
@@ -355,10 +351,6 @@ func main() {
 
 ```
 
-``` typescript
-https://github.com/InjectiveLabs/injective-ts/wiki/04CoreModulesBank#msgmultisend
-```
-
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |Inputs|Input|Inputs|Yes|
@@ -500,22 +492,6 @@ func main() {
 
 ```
 
-``` typescript
-import { ChainGrpcBankApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const chainGrpcBankApi = new ChainGrpcBankApi(endpoints.grpc);
-
-  const injectiveAddress = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku";
-
-  const balances = await chainGrpcBankApi.fetchBalances(injectiveAddress);
-
-  console.log(balances);
-})();
-```
-
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |address|String|The Injective Chain address|Yes|
@@ -586,34 +562,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
  "pagination": {
   "total": 4
  }
-}
-```
-
-``` typescript
-{
-  balances: [
-    {
-      denom: 'factory/inj1hdvy6tl89llqy3ze8lv6mz5qh66sx9enn0jxg6/inj12ngevx045zpvacus9s6anr258gkwpmthnz80e9',
-      amount: '379190000'
-    },
-    { denom: 'inj', amount: '34795393304573799' },
-    {
-      denom: 'peggy0x44C21afAaF20c270EBbF5914Cfc3b5022173FEB7',
-      amount: '100000000000000000'
-    },
-    {
-      denom: 'peggy0x6F3050fa31c4CC2bB4A213B7d53c220Ac04Dd59D',
-      amount: '115000000000000000000'
-    },
-    {
-      denom: 'peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5',
-      amount: '3300141232'
-    },
-    { denom: 'share2', amount: '10000000000000' },
-    { denom: 'share3', amount: '100000000000000' },
-    { denom: 'share4', amount: '500000000000000000' }
-  ],
-  pagination: { total: 8, next: '' }
 }
 ```
 
@@ -742,28 +690,6 @@ func main() {
 
 ```
 
-``` typescript
-import { ChainGrpcBankApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const chainGrpcBankApi = new ChainGrpcBankApi(endpoints.grpc);
-
-  const injectiveAddress =
-    "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"; /* example is using Cosmos Hub */
-  const denom = "inj";
-
-  const balance = await chainGrpcBankApi.fetchBalance({
-    accountAddress: injectiveAddress,
-    denom,
-  });
-
-  console.log(balance);
-})();
-
-```
-
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |address|String|The Injective Chain address|Yes|
@@ -789,10 +715,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
   "amount": "51142210518226357537"
  }
 }
-```
-
-``` typescript
-{ denom: 'inj', amount: '998999797011197594664' }
 ```
 
 |Parameter|Type|Description|
@@ -913,9 +835,6 @@ func main() {
 
 ```
 
-``` typescript
-```
-
 | Parameter  | Type   | Description                             | Required |
 | ---------- | ------ | --------------------------------------- | -------- |
 | address    | String | Address to query spendable balances for | Yes      |
@@ -1029,9 +948,6 @@ func main() {
  }
 }
 
-```
-
-``` typescript
 ```
 
 | Parameter  | Type         | Description           |
@@ -1152,9 +1068,6 @@ func main() {
 
 ```
 
-``` typescript
-```
-
 | Parameter | Type   | Description                             | Required |
 | --------- | ------ | --------------------------------------- | -------- |
 | address   | String | Address to query spendable balances for | Yes      |
@@ -1181,9 +1094,6 @@ func main() {
  }
 }
 
-```
-
-``` typescript
 ```
 
 | Parameter | Type | Description    |
@@ -1305,9 +1215,6 @@ func main() {
 
 ```
 
-``` typescript
-```
-
 | Parameter  | Type   | Description           | Required |
 | ---------- | ------ | --------------------- | -------- |
 | pagination | Paging | Pagination of results | No       |
@@ -1416,9 +1323,6 @@ func main() {
  }
 }
 
-```
-
-``` typescript
 ```
 
 | Parameter  | Type         | Description                    |
@@ -1536,9 +1440,6 @@ func main() {
 
 ```
 
-``` typescript
-```
-
 | Parameter | Type   | Description | Required |
 | --------- | ------ | ----------- | -------- |
 | denom     | String | Token denom | Yes      |
@@ -1559,9 +1460,6 @@ func main() {
  }
 }
 
-```
-
-``` typescript
 ```
 
 | Parameter  | Type         | Description           |
@@ -1679,9 +1577,6 @@ func main() {
 
 ```
 
-``` typescript
-```
-
 | Parameter | Type   | Description | Required |
 | --------- | ------ | ----------- | -------- |
 | denom     | String | Token denom | Yes      |
@@ -1725,9 +1620,6 @@ func main() {
  }
 }
 
-```
-
-``` typescript
 ```
 
 | Parameter | Type     | Description       |
@@ -1853,9 +1745,6 @@ func main() {
 
 }
 
-```
-
-``` typescript
 ```
 
 | Parameter  | Type   | Description           | Required |
@@ -2147,9 +2036,6 @@ func main() {
 }
 ```
 
-``` typescript
-```
-
 | Parameter  | Type           | Description        |
 | ---------- | -------------- | ------------------ |
 | metadatas  | Metadata Array | Tokens information |
@@ -2278,9 +2164,6 @@ func main() {
 
 ```
 
-``` typescript
-```
-
 | Parameter  | Type   | Description           | Required |
 | ---------- | ------ | --------------------- | -------- |
 | denom      | String | Token denom           | Yes      |
@@ -2384,9 +2267,6 @@ func main() {
  ],
  "pagination": {}
 }
-```
-
-``` typescript
 ```
 
 | Parameter    | Type             | Description       |
@@ -2518,9 +2398,6 @@ func main() {
 
 ```
 
-``` typescript
-```
-
 | Parameter  | Type         | Description           | Required |
 | ---------- | ------------ | --------------------- | -------- |
 | denom      | String Array | Token denoms          | No       |
@@ -2534,9 +2411,6 @@ func main() {
 ```
 
 ``` go
-```
-
-``` typescript
 ```
 
 | Parameter    | Type              | Description             |
