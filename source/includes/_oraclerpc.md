@@ -223,22 +223,24 @@ async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    base_symbol = "BTC"
-    quote_symbol = "USDT"
-    oracle_type = "bandibc"
-    oracle_scale_factor = 6
+    market = (await client.all_derivative_markets())[
+        "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+    ]
+
+    base_symbol = market.oracle_base
+    quote_symbol = market.oracle_quote
+    oracle_type = market.oracle_type
+
     oracle_prices = await client.fetch_oracle_price(
         base_symbol=base_symbol,
         quote_symbol=quote_symbol,
         oracle_type=oracle_type,
-        oracle_scale_factor=oracle_scale_factor,
     )
     print(oracle_prices)
 
 
 if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
-
 
 ```
 
@@ -249,22 +251,28 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+
 	"github.com/InjectiveLabs/sdk-go/client/common"
 	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 )
 
 func main() {
-	network := common.LoadNetwork("mainnet", "lb")
+	network := common.LoadNetwork("testnet", "lb")
 	exchangeClient, err := exchangeclient.NewExchangeClient(network)
 	if err != nil {
 		panic(err)
 	}
 
 	ctx := context.Background()
-	baseSymbol := "BTC"
-	quoteSymbol := "USDT"
-	oracleType := "BandIBC"
-	oracleScaleFactor := uint32(6)
+	marketsAssistant, err := chainclient.NewMarketsAssistantInitializedFromChain(ctx, exchangeClient)
+	market := marketsAssistant.AllDerivativeMarkets()["0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"]
+
+	baseSymbol := market.OracleBase
+	quoteSymbol := market.OracleQuote
+	oracleType := market.OracleType
+	oracleScaleFactor := uint32(0)
 	res, err := exchangeClient.GetPrice(ctx, baseSymbol, quoteSymbol, oracleType, oracleScaleFactor)
 	if err != nil {
 		fmt.Println(err)
@@ -274,28 +282,6 @@ func main() {
 	fmt.Print(string(str))
 }
 
-```
-
-``` typescript
-import { IndexerGrpcOracleApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcOracleApi = new IndexerGrpcOracleApi(endpoints.indexer);
-
-  const baseSymbol = "INJ";
-  const quoteSymbol = "USDT";
-  const oracleType = "bandibc"; // primary oracle we use
-
-  const oraclePrice = await indexerGrpcOracleApi.fetchOraclePriceNoThrow({
-    baseSymbol,
-    quoteSymbol,
-    oracleType,
-  });
-
-  console.log(oraclePrice);
-})();
 ```
 
 |Parameter|Type|Description|Required|
@@ -365,9 +351,13 @@ async def main() -> None:
     # select network: local, testnet, mainnet
     network = Network.testnet()
     client = AsyncClient(network)
-    base_symbol = "INJ"
-    quote_symbol = "USDT"
-    oracle_type = "bandibc"
+    market = (await client.all_derivative_markets())[
+        "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+    ]
+
+    base_symbol = market.oracle_base
+    quote_symbol = market.oracle_quote
+    oracle_type = market.oracle_type
 
     task = asyncio.get_event_loop().create_task(
         client.listen_oracle_prices_updates(
@@ -387,7 +377,6 @@ async def main() -> None:
 if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
 
-
 ```
 
 ``` go
@@ -398,21 +387,26 @@ import (
 	"encoding/json"
 	"fmt"
 
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+
 	"github.com/InjectiveLabs/sdk-go/client/common"
 	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
 )
 
 func main() {
-	network := common.LoadNetwork("mainnet", "lb")
+	network := common.LoadNetwork("testnet", "lb")
 	exchangeClient, err := exchangeclient.NewExchangeClient(network)
 	if err != nil {
 		panic(err)
 	}
 
 	ctx := context.Background()
-	baseSymbol := "BTC"
-	quoteSymbol := "USDT"
-	oracleType := "bandibc"
+	marketsAssistant, err := chainclient.NewMarketsAssistantInitializedFromChain(ctx, exchangeClient)
+	market := marketsAssistant.AllDerivativeMarkets()["0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"]
+
+	baseSymbol := market.OracleBase
+	quoteSymbol := market.OracleQuote
+	oracleType := market.OracleType
 	stream, err := exchangeClient.StreamPrices(ctx, baseSymbol, quoteSymbol, oracleType)
 	if err != nil {
 		panic(err)
