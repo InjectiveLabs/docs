@@ -68,23 +68,6 @@ func main() {
 
 ```
 
-``` typescript
-import { IndexerGrpcInsuranceFundApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcInsuranceFundApi = new IndexerGrpcInsuranceFundApi(
-    endpoints.indexer
-  );
-
-  const insuranceFunds =
-    await indexerGrpcInsuranceFundApi.fetchInsuranceFunds();
-
-  console.log(insuranceFunds);
-})();
-```
-
 ### Response Parameters
 > Response Example:
 
@@ -138,53 +121,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
   }
  ]
 }
-```
-
-``` typescript
-[
-  {
-    depositDenom: 'peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5',
-    insurancePoolTokenDenom: 'share1',
-    redemptionNoticePeriodDuration: 1209600,
-    balance: '100000000000',
-    totalShare: '1000000000000000000',
-    depositTokenMeta: undefined,
-    marketId: '0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3',
-    marketTicker: 'BTC/USDT PERP',
-    oracleBase: 'BTC',
-    oracleQuote: 'USDT',
-    oracleType: NaN,
-    expiry: 0
-  },
-  {
-    depositDenom: 'peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5',
-    insurancePoolTokenDenom: 'share2',
-    redemptionNoticePeriodDuration: 1209600,
-    balance: '101102000000',
-    totalShare: '1011020000000000000',
-    depositTokenMeta: undefined,
-    marketId: '0xd5e4b12b19ecf176e4e14b42944731c27677819d2ed93be4104ad7025529c7ff',
-    marketTicker: 'ETH/USDT PERP',
-    oracleBase: 'ETH',
-    oracleQuote: 'USDT',
-    oracleType: NaN,
-    expiry: 0
-  },
-  {
-    depositDenom: 'peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5',
-    insurancePoolTokenDenom: 'share3',
-    redemptionNoticePeriodDuration: 1209600,
-    balance: '101010000000',
-    totalShare: '1010100000000000000',
-    depositTokenMeta: undefined,
-    marketId: '0xe112199d9ee44ceb2697ea0edd1cd422223c105f3ed2bdf85223d3ca59f5909a',
-    marketTicker: 'INJ/USDT PERP',
-    oracleBase: 'INJ',
-    oracleQuote: 'USDT',
-    oracleType: NaN,
-    expiry: 0
-  }
-]
 ```
 
 |Parameter|Type|Description|
@@ -291,25 +227,6 @@ func main() {
 
 ```
 
-``` typescript
-import { IndexerGrpcInsuranceFundApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcInsuranceFundApi = new IndexerGrpcInsuranceFundApi(
-    endpoints.indexer
-  );
-
-  const redemptions = await indexerGrpcInsuranceFundApi.fetchRedemptions({
-    address: "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-    denom: 'share1'
-  });
-
-  console.log(redemptions);
-})();
-```
-
 | Parameter | Type   | Description                                                              | Required |
 | --------- | ------ | ------------------------------------------------------------------------ | -------- |
 | address   | String | Filter by address of the redeemer                                        | No       |
@@ -365,23 +282,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
   }
  ]
 }
-```
-
-``` typescript
-[
-  {
-    "redemptionId": 2,
-    "status": "pending",
-    "redeemer": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-    "claimableRedemptionTime": 1655446154111000,
-    "redemptionAmount": "100000000000000000",
-    "redemptionDenom": "share25",
-    "requestedAt": 1654236554111000,
-    "disbursedAmount": "",
-    "disbursedDenom": "",
-    "disbursedAt": 0
-  }
-]
 ```
 
 |Parameter|Type|Description|

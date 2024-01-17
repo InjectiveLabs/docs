@@ -72,26 +72,6 @@ func main() {
 }
 ```
 
-``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const tx_hash = "d7a1c7ee985f807bf6bc06de728810fd52d85141549af0540486faf5e7de0d1d";
-
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
-
-  const tx = await exchangeClient.explorer.fetchTxByHash(tx_hash);
-
-  console.log(protoObjectToJson(tx));
-})();
-```
-
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |tx_hash|String|The transaction hash|Yes|
@@ -221,44 +201,6 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
    "signature": "Ylj8HMq6g0iwSEtMVm8xKwP6m2p9w2H/K/AeKlIeBzltKONBP2oPkdWYcQKkGimbozlxIZm4AYi3x0JGwNps+g=="
   }
  ]
-}
-```
-
-``` typescript
-{
-  "id": "",
-  "blockNumber": 4747419,
-  "blockTimestamp": "2022-05-03 15:38:17.443 +0000 UTC",
-  "hash": "0xd7a1c7ee985f807bf6bc06de728810fd52d85141549af0540486faf5e7de0d1d",
-  "code": 0,
-  "data": "CiMKIS9pbmplY3RpdmUuYXVjdGlvbi52MWJldGExLk1zZ0JpZA==",
-  "info": "",
-  "gasWanted": 400000,
-  "gasUsed": 99411,
-  "gasFee": {
-    "amountList": [
-      {
-        "denom": "inj",
-        "amount": "200000000000000"
-      }
-    ],
-    "gasLimit": 400000,
-    "payer": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-    "granter": ""
-  },
-  "codespace": "",
-  "eventsList": [],
-  "txType": "injective",
-  "messages": "[{\"type\":\"/injective.auction.v1beta1.MsgBid\",\"value\":{\"bid_amount\":{\"amount\":\"1000000000000000000\",\"denom\":\"inj\"},\"round\":\"15130\",\"sender\":\"inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r\"}}]",
-  "signaturesList": [
-    {
-      "pubkey": "injvalcons1hkhdaj2a2clmq5jq6mspsggqs32vynpkflpeux",
-      "address": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-      "sequence": 1120,
-      "signature": "jUkld9DBYu8DgwWr+OCMfbcIww5wtxrY4jrpXGL7GHY1nE415fKRZhWhfVV8P4Wx5OQWnZjYnfUSIKQq0m3QgQ=="
-    }
-  ],
-  "memo": ""
 }
 ```
 
@@ -394,30 +336,6 @@ func main() {
   str, _ := json.MarshalIndent(res, "", " ")
   fmt.Print(string(str))
 }
-```
-
-``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const address = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku";
-  const limit = 2
-
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
-
-  const tx = await exchangeClient.explorer.fetchAccountTx({
-    address,
-    limit,
-  });
-
-  console.log(protoObjectToJson(tx));
-})();
 ```
 
 | Parameter    | Type             | Description                                     | Required |
@@ -693,88 +611,6 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 }
 ```
 
-``` typescript
-{
-  "paging": {
-    "total": 100000,
-    "from": 6128134,
-    "to": 6127363
-  },
-  "dataList": [
-    {
-      "id": "",
-      "blockNumber": 6128134,
-      "blockTimestamp": "2022-06-03 06:09:14.111 +0000 UTC",
-      "hash": "0xa0038ca9440c55e3bf5af3386baffb29faf2c4d662473c04758dd94b3edebffd",
-      "code": 0,
-      "data": "CjMKMS9pbmplY3RpdmUuaW5zdXJhbmNlLnYxYmV0YTEuTXNnUmVxdWVzdFJlZGVtcHRpb24=",
-      "info": "",
-      "gasWanted": 200000,
-      "gasUsed": 108157,
-      "gasFee": {
-        "amountList": [
-          {
-            "denom": "inj",
-            "amount": "100000000000000"
-          }
-        ],
-        "gasLimit": 200000,
-        "payer": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-        "granter": ""
-      },
-      "codespace": "",
-      "eventsList": [],
-      "txType": "injective-web3",
-      "messages": "[{\"type\":\"/injective.insurance.v1beta1.MsgRequestRedemption\",\"value\":{\"amount\":{\"amount\":\"100000000000000000\",\"denom\":\"share25\"},\"market_id\":\"0x9b9980167ecc3645ff1a5517886652d94a0825e54a77d2057cbbe3ebee015963\",\"sender\":\"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku\"}}]",
-      "signaturesList": [
-        {
-          "pubkey": "injvalcons14au322k9munkmx5wrchz9q30juf5wjgzfd0eme",
-          "address": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-          "sequence": 3619,
-          "signature": "EaybyJWtD8RM+NlL2kGX0tw5Q8QV+P4EWRqQZKesBY4OwAoOfBXZVK84TLGyhnDfJhvXtsPLoYmfL5jBKbNPCRs="
-        }
-      ],
-      "memo": ""
-    },
-    {
-      "id": "",
-      "blockNumber": 6127363,
-      "blockTimestamp": "2022-06-03 05:44:19.957 +0000 UTC",
-      "hash": "0x37a095db83212ad017b50200488d394b88d04448ffdaab563ccc788c9e194c34",
-      "code": 0,
-      "data": "CoEBCjkvaW5qZWN0aXZlLmV4Y2hhbmdlLnYxYmV0YTEuTXNnQ3JlYXRlRGVyaXZhdGl2ZUxpbWl0T3JkZXISRApCMHg0MjI4ZjlhNTZhNWJiNTBkZTRjZWFkYzY0ZGY2OTRjNzdlNzc1MmQ1OGI3MWE3YzU1N2EyN2VjMTBlMWEwOTRl",
-      "info": "",
-      "gasWanted": 200000,
-      "gasUsed": 122805,
-      "gasFee": {
-        "amountList": [
-          {
-            "denom": "inj",
-            "amount": "100000000000000"
-          }
-        ],
-        "gasLimit": 200000,
-        "payer": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-        "granter": ""
-      },
-      "codespace": "",
-      "eventsList": [],
-      "txType": "injective-web3",
-      "messages": "[{\"type\":\"/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\",\"value\":{\"order\":{\"margin\":\"300000000.000000000000000000\",\"market_id\":\"0x1c79dac019f73e4060494ab1b4fcba734350656d6fc4d474f6a238c13c6f9ced\",\"order_info\":{\"fee_recipient\":\"inj1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8dkncm8\",\"price\":\"300000000.000000000000000000\",\"quantity\":\"1.000000000000000000\",\"subaccount_id\":\"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":\"0.000000000000000000\"},\"sender\":\"inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku\"}}]",
-      "signaturesList": [
-        {
-          "pubkey": "injvalcons14au322k9munkmx5wrchz9q30juf5wjgzfd0eme",
-          "address": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-          "sequence": 3618,
-          "signature": "i149X1fzUKeyTrH8du/Zr4BbZm6gDwJQHmROsmq4Q+4i/cVHMnjYdU7XLbZ3oji5PAGPOVAJUg8SNPOYJ0FMURs="
-        }
-      ],
-      "memo": ""
-    }
-  ]
-}
-```
-
 |Parameter|Type|Description|
 |----|----|----|
 |data|TxDetailData Array|TxDetailData object|
@@ -892,28 +728,6 @@ func main() {
 }
 ```
 
-``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const limit = 2
-
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
-
-  const tx = await exchangeClient.explorer.fetchBlocks({
-    limit,
-  });
-
-  console.log(protoObjectToJson(tx));
-})();
-```
-
 | Parameter  | Type             | Description                                     | Required |
 | ---------- | ---------------- | ----------------------------------------------- | -------- |
 | before     | Integer          | Filter transactions before a given block height | No       |
@@ -990,40 +804,6 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
    "timestamp": "2022-05-31 10:27:11.395 +0000 UTC"
   }
  ]
-}
-```
-
-``` typescript
-{
-  "paging": {
-    "total": 0,
-    "from": 6129013,
-    "to": 6129012
-  },
-  "dataList": [
-    {
-      "height": 6129013,
-      "proposer": "injvalcons1vz7j2v74r353ne7yvhs2fug0lf86q2nkyt6ptd",
-      "moniker": "InjectiveNode0",
-      "blockHash": "0xdc3f2a805ddc9948b1e32a4588e8aaf1540788c46744982936261ddbca8eea68",
-      "parentHash": "0x67f0bbacc64edd92edbb6f5a9972399b629b64898fc27472e59f54bc3661057d",
-      "numPreCommits": 0,
-      "numTxs": 1,
-      "txsList": [],
-      "timestamp": "2022-06-03 06:37:48.649 +0000 UTC"
-    },
-    {
-      "height": 6129012,
-      "proposer": "injvalcons1qmrj7lnzraref92lzuhrv6m7sxey248fzxmfnf",
-      "moniker": "InjectiveNode3",
-      "blockHash": "0x728e2c1412b95d370a57dfd0c43fbf8f26fc79485be30ee558416600c17fd6ff",
-      "parentHash": "0x5f91c6feefc4d0497fcaae7ef092a8fae3eb380c5a4dac3a77e88a3d2badb57e",
-      "numPreCommits": 0,
-      "numTxs": 1,
-      "txsList": [],
-      "timestamp": "2022-06-03 06:37:46.733 +0000 UTC"
-    }
-  ]
 }
 ```
 
@@ -1112,26 +892,6 @@ func main() {
 }
 ```
 
-``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const blockHeight = "5825046"
-
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
-
-  const tx = await exchangeClient.explorer.fetchBlock(blockHeight);
-
-  console.log(protoObjectToJson(tx));
-})();
-```
-
 | Parameter | Type   | Description  | Required |
 | --------- | ------ | ------------ | -------- |
 | block_id  | String | Block height | Yes      |
@@ -1200,20 +960,6 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
  "block_hash": "0x06453296122c4db605b68aac9e2848ea778b8fb2cdbdeb77281515722a1457cf",
  "parent_hash": "0x14cba82aa61d5ee2ddcecf8e1f0a7f0286c5ac1fe3f8c3dafa1729121152793d",
  "timestamp": "2022-05-27 10:21:51.168 +0000 UTC"
-}
-```
-
-``` typescript
-{
-  "height": 5825046,
-  "proposer": "injvalcons1qmrj7lnzraref92lzuhrv6m7sxey248fzxmfnf",
-  "moniker": "InjectiveNode3",
-  "blockHash": "0x06453296122c4db605b68aac9e2848ea778b8fb2cdbdeb77281515722a1457cf",
-  "parentHash": "0x14cba82aa61d5ee2ddcecf8e1f0a7f0286c5ac1fe3f8c3dafa1729121152793d",
-  "numPreCommits": 0,
-  "numTxs": 0,
-  "txsList": [],
-  "timestamp": "2022-05-27 10:21:51.168 +0000 UTC"
 }
 ```
 
@@ -1318,24 +1064,6 @@ func main() {
   str, _ := json.MarshalIndent(res, "", " ")
   fmt.Print(string(str))
 }
-```
-
-``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
-
-  const tx = await exchangeClient.explorer.fetchTxs({});
-
-  console.log(protoObjectToJson(tx));
-})();
 ```
 
 | Parameter    | Type             | Description                                     | Required |
@@ -1470,88 +1198,6 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 }
 ```
 
-``` typescript
-{
-  "paging": {
-    "total": 100000,
-    "from": 6129186,
-    "to": 6129187
-  },
-  "dataList": [
-    {
-      "id": "",
-      "blockNumber": 6129187,
-      "blockTimestamp": "2022-06-03 06:43:28.432 +0000 UTC",
-      "hash": "0xfb4a01e30ace6e9a3c4018f29d43cc31f6dd910d05f3781f76f296ddabe2a648",
-      "code": 0,
-      "data": "CnwKNC9pbmplY3RpdmUuZXhjaGFuZ2UudjFiZXRhMS5Nc2dDcmVhdGVTcG90TWFya2V0T3JkZXISRApCMHgwMzM0Nzk0ZThmMzViNGE5YWZlZDViMTU1MmYyNDI2Nzk2YjBhYTUwNDZmMGI2ZjZhMjI4NjE0OGIxNjA4Yzll",
-      "info": "",
-      "gasWanted": 130437,
-      "gasUsed": 102167,
-      "gasFee": {
-        "amountList": [
-          {
-            "denom": "inj",
-            "amount": "65218500000000"
-          }
-        ],
-        "gasLimit": 130437,
-        "payer": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-        "granter": ""
-      },
-      "codespace": "",
-      "eventsList": [],
-      "txType": "injective",
-      "messages": "[{\"type\":\"/injective.exchange.v1beta1.MsgCreateSpotMarketOrder\",\"value\":{\"order\":{\"market_id\":\"0x28f3c9897e23750bf653889224f93390c467b83c86d736af79431958fff833d1\",\"order_info\":{\"fee_recipient\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\",\"price\":\"0.000000000000584000\",\"quantity\":\"100000000000000000000.000000000000000000\",\"subaccount_id\":\"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":null},\"sender\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\"}}]",
-      "signaturesList": [
-        {
-          "pubkey": "injvalcons1cml96vmptgw99syqrrz8az79xer2pcgpvgp7ex",
-          "address": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-          "sequence": 2087301,
-          "signature": "WMqkCraBa/plIXAi/565+NYB/iI7eUUs57Pk3T7x30Rk3JJVHHnl4gvOuT5rGxUpD8SGfeg72Jb80Hh3Q22xZgE="
-        }
-      ],
-      "memo": ""
-    },
-    {
-      "id": "",
-      "blockNumber": 6129186,
-      "blockTimestamp": "2022-06-03 06:43:26.424 +0000 UTC",
-      "hash": "0x06121fd3f4afc2d0695c8b62b6020f957d1dabfaa63230694a24795c4cf689fb",
-      "code": 0,
-      "data": "CoEBCjkvaW5qZWN0aXZlLmV4Y2hhbmdlLnYxYmV0YTEuTXNnQ3JlYXRlRGVyaXZhdGl2ZUxpbWl0T3JkZXISRApCMHhjZjQ4NWI1Mzk2N2RmYTJmM2E5MjRmYWNiZTUxOWY3ZDQ2MjA3MGE3NzI2ODRhZDExNWY4ZjUwMDBlMjUzZGRjCoEBCjkvaW5qZWN0aXZlLmV4Y2hhbmdlLnYxYmV0YTEuTXNnQ3JlYXRlRGVyaXZhdGl2ZUxpbWl0T3JkZXISRApCMHhkM2I0ODNhZTRmMjA3ODBiZTZiZWExZWRjYjE5MDhlMmEwMjY2YTI0NTdiZjVlNWY0N2NkYjM4MDE1NWNkNjBhCoEBCjkvaW5qZWN0aXZlLmV4Y2hhbmdlLnYxYmV0YTEuTXNnQ3JlYXRlRGVyaXZhdGl2ZUxpbWl0T3JkZXISRApCMHg1YTdkNmFiNmRhYmZmMDZjYzMzYmQ0NGI1NzUyZTFiYmJmNGJiYzVhNWMyZjQxNzc5OWY4OGYxYWU4NjNhYjJkCoEBCjkvaW5qZWN0aXZlLmV4Y2hhbmdlLnYxYmV0YTEuTXNnQ3JlYXRlRGVyaXZhdGl2ZUxpbWl0T3JkZXISRApCMHhkZmM5NzEyN2M2ZDI1OGE2MjUwNDVkODM2M2Y4Yzk5YTViNDQ4Y2NiYTQ2NzVjYTAxN2RmNDZlNTQwNDE1OWJmCoEBCjkvaW5qZWN0aXZlLmV4Y2hhbmdlLnYxYmV0YTEuTXNnQ3JlYXRlRGVyaXZhdGl2ZUxpbWl0T3JkZXISRApCMHgwNzIzZDRlM2MwMGU2ZTE4OWM3ZDQ1MmIzYmZjNjEzM2ZhZGFhOTY1Y2ZlMGYwNDM3YzBlZjBlMTM1ZDVlMWUzCoEBCjkvaW5qZWN0aXZlLmV4Y2hhbmdlLnYxYmV0YTEuTXNnQ3JlYXRlRGVyaXZhdGl2ZUxpbWl0T3JkZXISRApCMHhkZTNlMzcxZDU0ZmQ3ZGU1NjZjMmUyMzVjODQyZGFiYWI2NWQ2MmU1YjkwMjk3NDc5NGM3NmMwZmZiZTQzOGZk",
-      "info": "",
-      "gasWanted": 465664,
-      "gasUsed": 325702,
-      "gasFee": {
-        "amountList": [
-          {
-            "denom": "inj",
-            "amount": "232832000000000"
-          }
-        ],
-        "gasLimit": 465664,
-        "payer": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-        "granter": ""
-      },
-      "codespace": "",
-      "eventsList": [],
-      "txType": "injective",
-      "messages": "[{\"type\":\"/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\",\"value\":{\"order\":{\"margin\":\"63300000.000000000000000000\",\"market_id\":\"0xcf18525b53e54ad7d27477426ade06d69d8d56d2f3bf35fe5ce2ad9eb97c2fbc\",\"order_info\":{\"fee_recipient\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\",\"price\":\"6330000.000000000000000000\",\"quantity\":\"10.000000000000000000\",\"subaccount_id\":\"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":null},\"sender\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\"}},{\"type\":\"/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\",\"value\":{\"order\":{\"margin\":\"127400000.000000000000000000\",\"market_id\":\"0xcf18525b53e54ad7d27477426ade06d69d8d56d2f3bf35fe5ce2ad9eb97c2fbc\",\"order_info\":{\"fee_recipient\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\",\"price\":\"6370000.000000000000000000\",\"quantity\":\"20.000000000000000000\",\"subaccount_id\":\"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":null},\"sender\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\"}},{\"type\":\"/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\",\"value\":{\"order\":{\"margin\":\"191700000.000000000000000000\",\"market_id\":\"0xcf18525b53e54ad7d27477426ade06d69d8d56d2f3bf35fe5ce2ad9eb97c2fbc\",\"order_info\":{\"fee_recipient\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\",\"price\":\"6390000.000000000000000000\",\"quantity\":\"30.000000000000000000\",\"subaccount_id\":\"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":null},\"sender\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\"}},{\"type\":\"/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\",\"value\":{\"order\":{\"margin\":\"251200000.000000000000000000\",\"market_id\":\"0xcf18525b53e54ad7d27477426ade06d69d8d56d2f3bf35fe5ce2ad9eb97c2fbc\",\"order_info\":{\"fee_recipient\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\",\"price\":\"6280000.000000000000000000\",\"quantity\":\"40.000000000000000000\",\"subaccount_id\":\"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":null},\"sender\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\"}},{\"type\":\"/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\",\"value\":{\"order\":{\"margin\":\"322000000.000000000000000000\",\"market_id\":\"0xcf18525b53e54ad7d27477426ade06d69d8d56d2f3bf35fe5ce2ad9eb97c2fbc\",\"order_info\":{\"fee_recipient\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\",\"price\":\"6440000.000000000000000000\",\"quantity\":\"50.000000000000000000\",\"subaccount_id\":\"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":null},\"sender\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\"}},{\"type\":\"/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\",\"value\":{\"order\":{\"margin\":\"361800000.000000000000000000\",\"market_id\":\"0xcf18525b53e54ad7d27477426ade06d69d8d56d2f3bf35fe5ce2ad9eb97c2fbc\",\"order_info\":{\"fee_recipient\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\",\"price\":\"6030000.000000000000000000\",\"quantity\":\"60.000000000000000000\",\"subaccount_id\":\"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":null},\"sender\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\"}}]",
-      "signaturesList": [
-        {
-          "pubkey": "injvalcons1cml96vmptgw99syqrrz8az79xer2pcgpvgp7ex",
-          "address": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-          "sequence": 2087300,
-          "signature": "fanZg9DBBHUgbX7AbGsQux9X3/WY1vsOP3E/gkOvj5RHKYdClhqcj0VY9lwgYUBhqkCDCRBrt+dV68fk7hiEBgA="
-        }
-      ],
-      "memo": ""
-    }
-  ]
-}
-```
-
 |Parameter|Type|Description|
 |----|----|----|
 |data|TxData Array|Transactions data|
@@ -1671,30 +1317,6 @@ func main() {
 }
 ```
 
-``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";;
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const exchangeClient = new ExchangeGrpcStreamClient(
-    network.exchangeApi
-  );
-
-  await exchangeClient.explorer.streamTransactions(
-    {
-      callback: (streamTxs) => {
-        console.log(protoObjectToJson(streamTxs));
-      },
-      onEndCallback: (status) => {
-        console.log("Stream has ended with status: " + status);
-      },
-    });
-})();
-```
-
 | Parameter          | Type     | Description                                                                                          | Required |
 | ------------------ | -------- | ---------------------------------------------------------------------------------------------------- | -------- |
 | callback           | Function | Function receiving one parameter (a stream event JSON dictionary) to process each new event          | Yes      |
@@ -1777,79 +1399,6 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
    "signature": "yXQON133B3lJlVNkFwf0pvZof6GCoeKoIhMkKHe3sndfgf2aWs4DwlOVlbEZTY4X++x+PU6sZNngHACiuGqPmAE="
   }
  ]
-}
-```
-
-``` typescript
-{
-  "id": "",
-  "blockNumber": 6129236,
-  "blockTimestamp": "2022-06-03 06:45:04.68 +0000 UTC",
-  "hash": "0x3b757d0298790e84ff578d9fe45fe4a9793fac3520b7d7aff1a89c1b690456c2",
-  "code": 0,
-  "data": "CoEBCjkvaW5qZWN0aXZlLmV4Y2hhbmdlLnYxYmV0YTEuTXNnQ3JlYXRlRGVyaXZhdGl2ZUxpbWl0T3JkZXISRApCMHhiOTcwYmY0ODFjZGE2ZDNiMWZlNzBiNDNhNzY5ZmNiMzBkZjVjMTE0ZDZkMDc5YjI3YWMwMWUwNDVkODEyNTk3CoEBCjkvaW5qZWN0aXZlLmV4Y2hhbmdlLnYxYmV0YTEuTXNnQ3JlYXRlRGVyaXZhdGl2ZUxpbWl0T3JkZXISRApCMHg1NjU5OWU1OGFlNzA0M2QzZjBiZDVhZTM2MjZkOGNiZjdjMWExMWMzYmIwNTRkZWRmY2Y3YmZjZjFhODVjMTQ5CoEBCjkvaW5qZWN0aXZlLmV4Y2hhbmdlLnYxYmV0YTEuTXNnQ3JlYXRlRGVyaXZhdGl2ZUxpbWl0T3JkZXISRApCMHg4N2FlYTA2YzcxMmEyN2E4ZDRmMzlmMmY5MDg5ZmM4N2MwNmZiMWUxM2E0N2NkMzA0NmRkOWY1NzQ3YWY3MDYyCoEBCjkvaW5qZWN0aXZlLmV4Y2hhbmdlLnYxYmV0YTEuTXNnQ3JlYXRlRGVyaXZhdGl2ZUxpbWl0T3JkZXISRApCMHhiZDE2Y2RjYzM1NThkNDljZDYyYmJkODFmMTE2YzBhZjE0NDU5ZTU5ZDMyODQwMDY5NTJjNGRhN2JlOWI3NTM2CoEBCjkvaW5qZWN0aXZlLmV4Y2hhbmdlLnYxYmV0YTEuTXNnQ3JlYXRlRGVyaXZhdGl2ZUxpbWl0T3JkZXISRApCMHgyNDZhNTE1Njg5YjUwMTIzZTdjMDdkYTVkMjY4Y2ZmNjc0YWUyOWM3MmEwNmIyZGQ3YmYxNDM5NjdlZTNiYzAwCoEBCjkvaW5qZWN0aXZlLmV4Y2hhbmdlLnYxYmV0YTEuTXNnQ3JlYXRlRGVyaXZhdGl2ZUxpbWl0T3JkZXISRApCMHgwYzcyMWMyZmM3ZGIwYzQ2YmNjMWY0OTI0NTA4YmI0NDdiM2I4MWI0NGY3NDBlY2M1ZjUyOWE2MGU4OTNkZTEwCoEBCjkvaW5qZWN0aXZlLmV4Y2hhbmdlLnYxYmV0YTEuTXNnQ3JlYXRlRGVyaXZhdGl2ZUxpbWl0T3JkZXISRApCMHg4NzI0NDgyNjYxOTk5NDRhNTEzZTgzYjRjYzBiYzgzYzY3NzEyNDNkMTA1ODYwNDQzMDE4Y2VkNDlkZjFhMzA1",
-  "info": "",
-  "gasWanted": 526855,
-  "gasUsed": 366496,
-  "gasFee": {
-    "amountList": [
-      {
-        "denom": "inj",
-        "amount": "263427500000000"
-      }
-    ],
-    "gasLimit": 526855,
-    "payer": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-    "granter": ""
-  },
-  "codespace": "",
-  "eventsList": [],
-  "txType": "injective",
-  "messages": "[{\"type\":\"/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\",\"value\":{\"order\":{\"margin\":\"66800000.000000000000000000\",\"market_id\":\"0xcf18525b53e54ad7d27477426ade06d69d8d56d2f3bf35fe5ce2ad9eb97c2fbc\",\"order_info\":{\"fee_recipient\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\",\"price\":\"6680000.000000000000000000\",\"quantity\":\"10.000000000000000000\",\"subaccount_id\":\"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":null},\"sender\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\"}},{\"type\":\"/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\",\"value\":{\"order\":{\"margin\":\"130600000.000000000000000000\",\"market_id\":\"0xcf18525b53e54ad7d27477426ade06d69d8d56d2f3bf35fe5ce2ad9eb97c2fbc\",\"order_info\":{\"fee_recipient\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\",\"price\":\"6530000.000000000000000000\",\"quantity\":\"20.000000000000000000\",\"subaccount_id\":\"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":null},\"sender\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\"}},{\"type\":\"/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\",\"value\":{\"order\":{\"margin\":\"187500000.000000000000000000\",\"market_id\":\"0xcf18525b53e54ad7d27477426ade06d69d8d56d2f3bf35fe5ce2ad9eb97c2fbc\",\"order_info\":{\"fee_recipient\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\",\"price\":\"6250000.000000000000000000\",\"quantity\":\"30.000000000000000000\",\"subaccount_id\":\"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":null},\"sender\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\"}},{\"type\":\"/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\",\"value\":{\"order\":{\"margin\":\"258800000.000000000000000000\",\"market_id\":\"0xcf18525b53e54ad7d27477426ade06d69d8d56d2f3bf35fe5ce2ad9eb97c2fbc\",\"order_info\":{\"fee_recipient\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\",\"price\":\"6470000.000000000000000000\",\"quantity\":\"40.000000000000000000\",\"subaccount_id\":\"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":null},\"sender\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\"}},{\"type\":\"/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\",\"value\":{\"order\":{\"margin\":\"313500000.000000000000000000\",\"market_id\":\"0xcf18525b53e54ad7d27477426ade06d69d8d56d2f3bf35fe5ce2ad9eb97c2fbc\",\"order_info\":{\"fee_recipient\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\",\"price\":\"6270000.000000000000000000\",\"quantity\":\"50.000000000000000000\",\"subaccount_id\":\"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":null},\"sender\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\"}},{\"type\":\"/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\",\"value\":{\"order\":{\"margin\":\"388200000.000000000000000000\",\"market_id\":\"0xcf18525b53e54ad7d27477426ade06d69d8d56d2f3bf35fe5ce2ad9eb97c2fbc\",\"order_info\":{\"fee_recipient\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\",\"price\":\"6470000.000000000000000000\",\"quantity\":\"60.000000000000000000\",\"subaccount_id\":\"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":null},\"sender\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\"}},{\"type\":\"/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder\",\"value\":{\"order\":{\"margin\":\"436100000.000000000000000000\",\"market_id\":\"0xcf18525b53e54ad7d27477426ade06d69d8d56d2f3bf35fe5ce2ad9eb97c2fbc\",\"order_info\":{\"fee_recipient\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\",\"price\":\"6230000.000000000000000000\",\"quantity\":\"70.000000000000000000\",\"subaccount_id\":\"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":null},\"sender\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\"}}]",
-  "signaturesList": [
-    {
-      "pubkey": "injvalcons1cml96vmptgw99syqrrz8az79xer2pcgpvgp7ex",
-      "address": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-      "sequence": 2087350,
-      "signature": "C7uJScQc/gh32LxB19VAk88gsAlPbFO5/ujh4RsZ3zhUzgsat9Kk41J5Y80BrvitPUSiXNAtb5FTxxw/5REkKAA="
-    }
-  ],
-  "memo": ""
-}
-{
-  "id": "",
-  "blockNumber": 6129237,
-  "blockTimestamp": "2022-06-03 06:45:06.715 +0000 UTC",
-  "hash": "0x99b0eed1ef55df8eec98bdae2766cc26d57665c6e7b93d457c1b6f7e3b9d70a2",
-  "code": 0,
-  "data": "CnwKNC9pbmplY3RpdmUuZXhjaGFuZ2UudjFiZXRhMS5Nc2dDcmVhdGVTcG90TWFya2V0T3JkZXISRApCMHhiOWE3MDc0MDgwMDRjNzU5OTZjY2QzZDczNzI5ODAxODZjZjU1N2JjYmYxYTI3ZmY5MDczNGQ2ZGJkZGNjZDEw",
-  "info": "",
-  "gasWanted": 130432,
-  "gasUsed": 102164,
-  "gasFee": {
-    "amountList": [
-      {
-        "denom": "inj",
-        "amount": "65216000000000"
-      }
-    ],
-    "gasLimit": 130432,
-    "payer": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-    "granter": ""
-  },
-  "codespace": "",
-  "eventsList": [],
-  "txType": "injective",
-  "messages": "[{\"type\":\"/injective.exchange.v1beta1.MsgCreateSpotMarketOrder\",\"value\":{\"order\":{\"market_id\":\"0x9a629b947b6f946af4f6076cfda67f3535d73ee3cef6176cf6d9c8d6b0a03f37\",\"order_info\":{\"fee_recipient\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\",\"price\":\"0.000000000001502000\",\"quantity\":\"30000000000000000000.000000000000000000\",\"subaccount_id\":\"0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000\"},\"order_type\":\"BUY\",\"trigger_price\":null},\"sender\":\"inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r\"}}]",
-  "signaturesList": [
-    {
-      "pubkey": "injvalcons1cml96vmptgw99syqrrz8az79xer2pcgpvgp7ex",
-      "address": "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r",
-      "sequence": 2087351,
-      "signature": "OVITCBsExZflVb2LZQXeDRi1cT6EEzZBMfEcH9at8VwFkXtDAQ54z1Cuurh03YsTAeC0jsQXmG70zBQjl+PuogE="
-    }
-  ],
-  "memo": ""
 }
 ```
 
@@ -1960,30 +1509,6 @@ func main() {
 
 ```
 
-``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcStreamClient";;
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const exchangeClient = new ExchangeGrpcStreamClient(
-    network.exchangeApi
-  );
-
-  await exchangeClient.explorer.blocks(
-    {
-      callback: (streamBlocks) => {
-        console.log(protoObjectToJson(streamBlocks));
-      },
-      onEndCallback: (status) => {
-        console.log("Stream has ended with status: " + status);
-      },
-    });
-})();
-```
-
 | Parameter          | Type     | Description                                                                                          | Required |
 | ------------------ | -------- | ---------------------------------------------------------------------------------------------------- | -------- |
 | callback           | Function | Function receiving one parameter (a stream event JSON dictionary) to process each new event          | Yes      |
@@ -2051,31 +1576,6 @@ import { ExchangeGrpcStreamClient } from "@injectivelabs/sdk-ts/dist/client/exch
  "block_hash": "0x1869065635c1b726d973ea154c49736dbcf3159975b4ef6236a85128ee0ad69a",
  "parent_hash": "0xb9054fd1f6ca37ba8d2507636685ceb548a6dc224c4658f6ec4e118ef803a6e8",
  "timestamp": "2022-05-31 13:56:19.657 +0000 UTC"
-}
-```
-
-``` typescript
-{
-  "height": 6129527,
-  "proposer": "injvalcons1qmrj7lnzraref92lzuhrv6m7sxey248fzxmfnf",
-  "moniker": "InjectiveNode3",
-  "blockHash": "0x44b8554d82292aaa42df13a9c130ce1a390507d914591252d4618bf12ce464c4",
-  "parentHash": "0x2be7844897977494ade6ab746348fc1938e490ffac45be6f8e3708a2e6288715",
-  "numPreCommits": 0,
-  "numTxs": 1,
-  "txsList": [],
-  "timestamp": "2022-06-03 06:54:28.917 +0000 UTC"
-}
-{
-  "height": 6129528,
-  "proposer": "injvalcons1aju53n6la4xzemws8gqnvr9v8hsjdea706jq7f",
-  "moniker": "InjectiveNode2",
-  "blockHash": "0xff7ec978b8a127f59797b2c61156841f991dc374e230bb4f862d54e895143376",
-  "parentHash": "0x9478a0e547561dd1e4e6dbfe17ffd4db67a7d1965887b222477d49cd7be78be8",
-  "numPreCommits": 0,
-  "numTxs": 1,
-  "txsList": [],
-  "timestamp": "2022-06-03 06:54:30.832 +0000 UTC"
 }
 ```
 
@@ -2159,28 +1659,6 @@ func main() {
   str, _ := json.MarshalIndent(res, "", " ")
   fmt.Print(string(str))
 }
-```
-
-``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const receiver = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
-
-  const tx = await exchangeClient.explorer.fetchPeggyDepositTxs({
-    receiver: receiver,
-  });
-
-  console.log(protoObjectToJson(tx));
-})();
 ```
 
 | Parameter  | Type             | Description                | Required |
@@ -2286,44 +1764,6 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 }
 ```
 
-``` typescript
-[
-  {
-    "sender": "0xbdAEdEc95d563Fb05240d6e01821008454c24C36",
-    "receiver": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-    "eventNonce": 145,
-    "eventHeight": 29668045,
-    "amount": "2000000000000000000",
-    "denom": "0x36B3D7ACe7201E28040eFf30e815290D7b37ffaD",
-    "orchestratorAddress": "inj1hs9q5xuvzunl77uv0mf0amsfa79uzhsrzak00a",
-    "state": "InjectiveConfirming",
-    "claimType": 0,
-    "txHashesList": [
-      "0x3a4e623199a21ef5a1554e6d2c751923204c1d2860ccbcc1e8ef56e1571c3a4c"
-    ],
-    "createdAt": "2022-06-01 06:52:44.907 +0000 UTC",
-    "updatedAt": "0001-01-01 00:00:00 +0000 UTC"
-  },
-  {
-    "sender": "0xbdAEdEc95d563Fb05240d6e01821008454c24C36",
-    "receiver": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-    "eventNonce": 26,
-    "eventHeight": 29461788,
-    "amount": "27000000000000000000",
-    "denom": "0xA3a9029B8120e2F09B194Df4A249A24dB461E573",
-    "orchestratorAddress": "inj1hs9q5xuvzunl77uv0mf0amsfa79uzhsrzak00a",
-    "state": "InjectiveConfirming",
-    "claimType": 0,
-    "txHashesList": [
-      "0x7fefb53b1c1c3f66ade4a7796a69d6d87509500003e0e0b9f83a829ca9c75576"
-    ],
-    "createdAt": "2022-05-25 08:33:40.586 +0000 UTC",
-    "updatedAt": "0001-01-01 00:00:00 +0000 UTC"
-  }
-]
-
-```
-
 |Parameter|Type|Description|
 |----|----|----|
 |field|PeggyDepositTx Array|List of peggy deposits|
@@ -2417,28 +1857,6 @@ func main() {
   str, _ := json.MarshalIndent(res, "", " ")
   fmt.Print(string(str))
 }
-```
-
-``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const sender = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
-
-  const tx = await exchangeClient.explorer.fetchPeggyWithdrawalTxs({
-    sender: sender,
-  });
-
-  console.log(protoObjectToJson(tx));
-})();
 ```
 
 | Parameter  | Type             | Description                | Required |
@@ -2558,52 +1976,6 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
 }
 ```
 
-``` typescript
-[
-  {
-    "sender": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-    "receiver": "0xAF79152AC5dF276D9A8e1E2E22822f9713474902",
-    "amount": "5000000000000000000",
-    "denom": "inj",
-    "bridgeFee": "2000000000000000000",
-    "outgoingTxId": 113,
-    "batchTimeout": 0,
-    "batchNonce": 0,
-    "orchestratorAddress": "",
-    "eventNonce": 0,
-    "eventHeight": 0,
-    "state": "InjectiveConfirming",
-    "claimType": 0,
-    "txHashesList": [
-      "0x391ab87558318bd7ff2ccb9d68ed309ad073fa64c8395a493d6c347ff572af38"
-    ],
-    "createdAt": "2022-05-13 16:14:16.912 +0000 UTC",
-    "updatedAt": "0001-01-01 00:00:00 +0000 UTC"
-  },
-  {
-    "sender": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-    "receiver": "0xAF79152AC5dF276D9A8e1E2E22822f9713474902",
-    "amount": "23000000000000000000",
-    "denom": "inj",
-    "bridgeFee": "3546099290780142080",
-    "outgoingTxId": 110,
-    "batchTimeout": 0,
-    "batchNonce": 0,
-    "orchestratorAddress": "",
-    "eventNonce": 0,
-    "eventHeight": 0,
-    "state": "InjectiveConfirming",
-    "claimType": 0,
-    "txHashesList": [
-      "0x088975b8a12119944a254f0e4d7659df4c2b9c85c2c110305393f83be4f7f6ed"
-    ],
-    "createdAt": "2022-05-11 10:32:20.19 +0000 UTC",
-    "updatedAt": "0001-01-01 00:00:00 +0000 UTC"
-  }
-]
-
-```
-
 
 |Parameter|Type|Description|
 |----|----|----|
@@ -2718,28 +2090,6 @@ func main() {
 }
 ```
 
-``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const receiver = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
-
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
-
-  const tx = await exchangeClient.explorer.fetchIBCTransferTxs({
-    receiver: receiver,
-  });
-
-  console.log(protoObjectToJson(tx));
-})();
-```
-
 | Parameter    | Type             | Description                                   | Required |
 | ------------ | ---------------- | --------------------------------------------- | -------- |
 | sender       | String           | Filter transfers based on sender address      | No       |
@@ -2827,61 +2177,6 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
   }
  ]
 }
-```
-
-``` typescript
-[
-  {
-    "sender": "terra1nrgj0e5l98y07zuenvnpa76x8e5dmm4cdkppws",
-    "receiver": "inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh",
-    "sourcePort": "transfer",
-    "sourceChannel": "channel-17",
-    "destinationPort": "transfer",
-    "destinationChannel": "channel-4",
-    "amount": "10000000000",
-    "denom": "uusd",
-    "timeoutHeight": "5-7072846",
-    "timeoutTimestamp": 1648784773000000000,
-    "packetSequence": 1892,
-    "dataHex": {
-      "0": 55,
-      "1": 98,
-      "2": 50,
-      "3": 50,
-      "4": 54
-    },
-    "state": "Completed",
-    "txHashesList": [
-      "0xf52d55dd6b68d78d137d4e5526a450d74689d3cba7f69640acd41b68ee26cd15"
-    ],
-    "createdAt": "2022-04-01 03:45:39.338 +0000 UTC",
-    "updatedAt": "2022-04-01 03:45:39.338 +0000 UTC"
-  },
-  {
-    "sender": "terra1nrgj0e5l98y07zuenvnpa76x8e5dmm4cdkppws",
-    "receiver": "inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh",
-    "sourcePort": "transfer",
-    "sourceChannel": "channel-17",
-    "destinationPort": "transfer",
-    "destinationChannel": "channel-4",
-    "amount": "200000000",
-    "denom": "uluna",
-    "timeoutHeight": "5-6753065",
-    "timeoutTimestamp": 1646665141000000000,
-    "packetSequence": 1516,
-    "dataHex": {
-      "0": 55,
-      "1": 98,
-      "2": 50,
-    },
-    "state": "Completed",
-    "txHashesList": [
-      "0xe5782979f08f7f939b6ed6f4687b70542295ef91f3de84a3e10c4044230f8474"
-    ],
-    "createdAt": "2022-03-07 14:58:31.905 +0000 UTC",
-    "updatedAt": "2022-03-07 14:58:31.905 +0000 UTC"
-  }
-]
 ```
 
 |Parameter|Type|Description|

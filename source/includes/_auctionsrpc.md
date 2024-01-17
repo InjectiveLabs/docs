@@ -66,23 +66,6 @@ func main() {
 
 ```
 
-``` typescript
-import { IndexerGrpcAuctionApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcAuctionApi = new IndexerGrpcAuctionApi(endpoints.indexer);
-
-  const round = 1;
-
-  const auction = await indexerGrpcAuctionApi.fetchAuction(round);
-
-  console.log(auction);
-})();
-
-```
-
 | Parameter | Type    | Description                             | Required |
 | --------- | ------- | --------------------------------------- | -------- |
 | round     | Integer | The auction round number. -1 for latest | Yes      |
@@ -152,36 +135,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
   "end_timestamp": 1650635285000,
   "updated_at": 1650978958302
  }
-}
-```
-
-``` typescript
-{
-  "auction": {
-    "winner": "",
-    "basketList": [
-      {
-        "denom": "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
-        "amount": "188940000"
-      }
-    ],
-    "winningBidAmount": "",
-    "round": 1,
-    "endTimestamp": 1657869187000,
-    "updatedAt": 1658131202118
-  },
-  "bids": [
-    {
-      "bidder": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-      "amount": "1000000000000000000",
-      "timestamp": 1654233511715
-    },
-    {
-      "bidder": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-      "amount": "3000000000000000000",
-      "timestamp": 1654233530633
-    }
-  ]
 }
 ```
 
@@ -277,24 +230,6 @@ func main() {
 	fmt.Print(string(str))
 }
 
-```
-
-``` typescript
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { protoObjectToJson } from "@injectivelabs/sdk-ts";
-import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/ExchangeGrpcClient";
-
-(async () => {
-  const network = getNetworkInfo(Network.TestnetK8s);
-
-  const exchangeClient = new ExchangeGrpcClient(
-    network.exchangeApi
-  );
-
-  const auction = await exchangeClient.auction.fetchAuctions();
-
-  console.log(protoObjectToJson(auction));
-})();
 ```
 
 ### Response Parameters
@@ -407,24 +342,6 @@ import { ExchangeGrpcClient } from "@injectivelabs/sdk-ts/dist/client/exchange/E
   }
  ]
 }
-```
-
-``` typescript
-[ 
-  {
-    "winner": "",
-    "basketList": [
-      {
-        "denom": "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5",
-        "amount": "897254"
-      }
-    ],
-    "winningBidAmount": "",
-    "round": 10,
-    "endTimestamp": 1663312387000,
-    "updatedAt": 1662707592771
-  },
-]
 ```
 
 |Parameter|Type|Description|
@@ -548,35 +465,6 @@ func main() {
 
 ```
 
-``` typescript
-import {
-  IndexerGrpcAuctionStream,
-  BidsStreamCallback,
-} from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcAuctionStream = new IndexerGrpcAuctionStream(
-    endpoints.indexer
-  );
-
-  const streamFn = indexerGrpcAuctionStream.streamBids.bind(
-    indexerGrpcAuctionStream
-  );
-
-  const callback: BidsStreamCallback = (bids) => {
-    console.log(bids);
-  };
-
-  const streamFnArgs = {
-    callback,
-  };
-
-  streamFn(streamFnArgs);
-})();
-```
-
 | Parameter          | Type     | Description                                                                                          | Required |
 | ------------------ | -------- | ---------------------------------------------------------------------------------------------------- | -------- |
 | callback           | Function | Function receiving one parameter (a stream event JSON dictionary) to process each new event          | Yes      |
@@ -613,21 +501,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
  "bid_amount": "2000000000000000000",
  "round": 17539,
  "timestamp": 1653038046359
-}
-```
-
-``` typescript
-{
-  "bidder": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-  "bidAmount": "1000000000000000000",
-  "round": 19532,
-  "timestamp": 1654233511715
-}
-{
-  "bidder": "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-  "bidAmount": "3000000000000000000",
-  "round": 19532,
-  "timestamp": 1654233530633
 }
 ```
 

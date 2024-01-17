@@ -40,10 +40,6 @@ if __name__ == '__main__':
 
 ```
 
-``` typescript
-
-````
-
 ### Response Parameters
 > Response Example:
 
@@ -101,10 +97,6 @@ func main() {
 
   fmt.Println("query result:", string(result))
 }
-```
-
-``` typescript
-
 ```
 
 |Parameter|Type|Description|

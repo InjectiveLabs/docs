@@ -64,20 +64,6 @@ func main() {
 
 ```
 
-``` typescript
-import { IndexerGrpcOracleApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcOracleApi = new IndexerGrpcOracleApi(endpoints.indexer);
-
-  const oracleList = await indexerGrpcOracleApi.fetchOracleList();
-
-  console.log(oracleList);
-})();
-```
-
 
 ### Response Parameters
 > Response Example:
@@ -158,32 +144,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
   }
  ]
 }
-```
-
-``` typescript
-[
-  {
-    "symbol": "ANC",
-    "baseSymbol": "",
-    "quoteSymbol": "",
-    "oracleType": "bandibc",
-    "price": "2.212642692"
-  },
-  {
-    "symbol": "ATOM",
-    "baseSymbol": "",
-    "quoteSymbol": "",
-    "oracleType": "bandibc",
-    "price": "24.706861402"
-  },
-  {
-    "symbol": "ZRX",
-    "baseSymbol": "",
-    "quoteSymbol": "",
-    "oracleType": "coinbase",
-    "price": "0.398902"
-  }
-]
 ```
 
 |Parameter|Type|Description|
@@ -303,10 +263,6 @@ func main() {
 {
  "price": "40128736026.4094317665"
 }
-```
-
-``` typescript
-{ price: '1.368087992' }
 ```
 
 |Parameter|Type|Description|
@@ -430,38 +386,6 @@ func main() {
 
 ```
 
-``` typescript
-import {
-  IndexerGrpcOracleStream,
-  OraclePriceStreamCallback,
-} from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcOracleStream = new IndexerGrpcOracleStream(
-    endpoints.indexer
-  );
-
-  const streamFn = indexerGrpcOracleStream.streamOraclePrices.bind(
-    indexerGrpcOracleStream
-  );
-
-  const callback: OraclePriceStreamCallback = (oraclePrices) => {
-    console.log(oraclePrices);
-  };
-
-  const streamFnArgs = {
-    baseSymbol: "BTC",
-    quoteSymbol: "USDT",
-    oracleType: "bandibc",
-    callback,
-  };
-
-  streamFn(streamFnArgs);
-})();
-```
-
 | Parameter          | Type     | Description                                                                                          | Required |
 | ------------------ | -------- | ---------------------------------------------------------------------------------------------------- | -------- |
 | base_symbol        | String   | Oracle base currency                                                                                 | No      |
@@ -486,13 +410,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
 {
  "price": "40128.7360264094317665",
  "timestamp": 1653038843915
-}
-```
-
-``` typescript
-{
-  "price": "40128.7360264094317665",
-  "timestamp": 1654180847704
 }
 ```
 

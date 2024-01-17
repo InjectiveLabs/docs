@@ -66,21 +66,6 @@ func main() {
 }
 ```
 
-``` typescript
-import { IndexerGrpcMetaApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcAuctionApi = new IndexerGrpcMetaApi(endpoints.indexer);
-
-  const ping = await indexerGrpcAuctionApi.fetchPing();
-
-  console.log(ping);
-})();
-
-```
-
 > Response Example:
 
 ``` python
@@ -89,10 +74,6 @@ Health OK?
 
 ``` go
 Health OK?{}
-```
-
-``` typescript
-Health OK? {}
 ```
 
 
@@ -161,20 +142,6 @@ func main() {
 
 ```
 
-``` typescript
-import { IndexerGrpcMetaApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcAuctionApi = new IndexerGrpcMetaApi(endpoints.indexer);
-
-  const version = await indexerGrpcAuctionApi.fetchVersion();
-
-  console.log(version);
-})();
-```
-
 ### Response Parameters
 > Response Example:
 
@@ -199,18 +166,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
   "GoArch": "amd64",
   "GoVersion": "go1.17.3"
  }
-}
-```
-
-``` typescript
-{
-  version: 'v1.10.7.1',
-  build: {
-    GitCommit: 'c2c37f2',
-    BuildDate: '20230405-1059',
-    GoVersion: 'go1.19.2',
-    GoArch: 'amd64'
-  }
 }
 ```
 
@@ -298,20 +253,6 @@ func main() {
 
 ```
 
-``` typescript
-import { IndexerGrpcMetaApi } from "@injectivelabs/sdk-ts";
-import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
-
-(async () => {
-  const endpoints = getNetworkEndpoints(Network.TestnetK8s);
-  const indexerGrpcAuctionApi = new IndexerGrpcMetaApi(endpoints.indexer);
-
-  const info = await indexerGrpcAuctionApi.fetchInfo();
-
-  console.log(info);
-})();
-```
-
 |Parameter|Type|Description|Required|
 |----|----|----|----|
 |timestamp|Integer|Your current system UNIX timestamp in millis|No, if using our async_client implementation, otherwise yes|
@@ -332,21 +273,6 @@ import { getNetworkEndpoints, Network } from "@injectivelabs/networks";
       "GoArch":"amd64"
    },
    "region":""
-}
-```
-
-``` typescript
-{
-  timestamp: '1681254156193',
-  serverTime: '1681254156792',
-  version: 'v1.10.7.1',
-  build: {
-    BuildDate: '20230405-1059',
-    GoVersion: 'go1.19.2',
-    GoArch: 'amd64',
-    GitCommit: 'c2c37f2'
-  },
-  region: ''
 }
 ```
 
