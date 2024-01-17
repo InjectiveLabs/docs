@@ -3049,6 +3049,314 @@ func main() {
 | created_at                     | Integer | Position created timestamp in UNIX millis. Currently not supported (value will be inaccurate). |
 
 
+## LiquidablePositions
+
+Gets all the liquidable positions
+
+**IP rate limit group:** `indexer`
+
+
+### Request Parameters
+> Request Example:
+
+``` python
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+    skip = 10
+    limit = 3
+    pagination = PaginationOption(skip=skip, limit=limit)
+    positions = await client.fetch_derivative_liquidable_positions(
+        market_id=market_id,
+        pagination=pagination,
+    )
+    print(positions)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+
+```
+
+``` go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	//marketId := "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+	skip := uint64(0)
+	limit := int32(10)
+
+	req := derivativeExchangePB.LiquidablePositionsRequest{
+		//MarketId: marketId,
+		Skip:  skip,
+		Limit: limit,
+	}
+
+	res, err := exchangeClient.GetDerivativeLiquidablePositions(ctx, &req)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+
+```
+
+| Parameter | Type    | Description                                                                                            | Required |
+| --------- | ------- | ------------------------------------------------------------------------------------------------------ | -------- |
+| market_id | String  | ID of the market to query liquidable positions for                                                     | Yes      |
+| skip      | Integer | Skip the first *n* cosmwasm contracts. This can be used to fetch all results since the API caps at 100 | No       |
+| limit     | Integer | Max number of items to be returned, defaults to 100                                                    | No       |
+
+
+### Response Parameters
+> Streaming Response Example:
+
+``` python
+{
+   "positions":[
+      {
+         "ticker":"INJ/USDT PERP",
+         "marketId":"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+         "subaccountId":"0x0a5d67f3616a9e7b53c301b508e9384c6321be47000000000000000000000000",
+         "direction":"short",
+         "quantity":"0.00966730135521481",
+         "entryPrice":"15980281.340438795311756819",
+         "margin":"75611.273514",
+         "liquidationPrice":"23334925.188149",
+         "markPrice":"39291123.99",
+         "aggregateReduceOnlyQuantity":"0",
+         "updatedAt":"1705525203015",
+         "createdAt":"-62135596800000"
+      },
+      {
+         "ticker":"INJ/USDT PERP",
+         "marketId":"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+         "subaccountId":"0x0c812012cf492aa422fb888e172fbd6e19df517b000000000000000000000000",
+         "direction":"short",
+         "quantity":"0.066327809378915175",
+         "entryPrice":"16031762.538045163086357667",
+         "margin":"520412.029703",
+         "liquidationPrice":"23409630.791347",
+         "markPrice":"39291123.99",
+         "aggregateReduceOnlyQuantity":"0",
+         "updatedAt":"1705525203015",
+         "createdAt":"-62135596800000"
+      },
+      {
+         "ticker":"INJ/USDT PERP",
+         "marketId":"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+         "subaccountId":"0x0d750ad3404b6f23579706e44111e8dd774fd1fa000000000000000000000000",
+         "direction":"short",
+         "quantity":"0.000080602003464734",
+         "entryPrice":"16031762.53804516308635803",
+         "margin":"632.408209",
+         "liquidationPrice":"23409630.592378",
+         "markPrice":"39291123.99",
+         "aggregateReduceOnlyQuantity":"0",
+         "updatedAt":"1705525203015",
+         "createdAt":"-62135596800000"
+      }
+   ]
+}
+```
+
+``` go
+{
+ "positions": [
+  {
+   "ticker": "SOL/USDT PERP",
+   "market_id": "0x95698a9d8ba11660f44d7001d8c6fb191552ece5d9141a05c5d9128711cdc2e0",
+   "subaccount_id": "0x0ddbe7ea40134ae14ed6a5d104d8783c80663edb000000000000000000000000",
+   "direction": "short",
+   "quantity": "135965",
+   "entry_price": "24074541.242231456624866694",
+   "margin": "922840147876.471312471775929175",
+   "liquidation_price": "29392264.1007154944460271",
+   "mark_price": "102769181.99",
+   "aggregate_reduce_only_quantity": "0",
+   "updated_at": 1703361600801,
+   "created_at": -62135596800000
+  },
+  {
+   "ticker": "SOL/USDT PERP",
+   "market_id": "0x95698a9d8ba11660f44d7001d8c6fb191552ece5d9141a05c5d9128711cdc2e0",
+   "subaccount_id": "0x16aef18dbaa341952f1af1795cb49960f68dfee3000000000000000000000000",
+   "direction": "short",
+   "quantity": "34.99",
+   "entry_price": "25000000",
+   "margin": "963925977.452838924992513061",
+   "liquidation_price": "50046298.3288514793340278",
+   "mark_price": "102769181.99",
+   "aggregate_reduce_only_quantity": "0",
+   "updated_at": 1703361600801,
+   "created_at": -62135596800000
+  },
+  {
+   "ticker": "SOL/USDT PERP",
+   "market_id": "0x95698a9d8ba11660f44d7001d8c6fb191552ece5d9141a05c5d9128711cdc2e0",
+   "subaccount_id": "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
+   "direction": "short",
+   "quantity": "160",
+   "entry_price": "24375243.283322806982741737",
+   "margin": "3774845657.765183864053125849",
+   "liquidation_price": "45683836.8041478153648322",
+   "mark_price": "102769181.99",
+   "aggregate_reduce_only_quantity": "0",
+   "updated_at": 1703361600801,
+   "created_at": -62135596800000
+  },
+  {
+   "ticker": "SOL/USDT PERP",
+   "market_id": "0x95698a9d8ba11660f44d7001d8c6fb191552ece5d9141a05c5d9128711cdc2e0",
+   "subaccount_id": "0xce4c01573f2a5f4db5d184b666ecfccb9313cc65000000000000000000000000",
+   "direction": "short",
+   "quantity": "8",
+   "entry_price": "17700000",
+   "margin": "141673770.450618846533455704",
+   "liquidation_price": "33723067.9107879579206495",
+   "mark_price": "102769181.99",
+   "aggregate_reduce_only_quantity": "0",
+   "updated_at": 1703361600801,
+   "created_at": -62135596800000
+  },
+  {
+   "ticker": "INJ/USDT PERP",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0x0000007c60fab7a70c2ae0ebe437f3726b05e7eb000000000000000000000000",
+   "direction": "short",
+   "quantity": "0.087829315829932072",
+   "entry_price": "26453271.813315285838444221",
+   "margin": "1154483.475338511428917818",
+   "liquidation_price": "38821468.0751518485185464",
+   "mark_price": "40421744.55",
+   "aggregate_reduce_only_quantity": "0",
+   "updated_at": 1703361600801,
+   "created_at": -62135596800000
+  },
+  {
+   "ticker": "INJ/USDT PERP",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0x00509ed903475672121d6a1fb2c646eef4da6c44000000000000000000000000",
+   "direction": "short",
+   "quantity": "0.022151816236313182",
+   "entry_price": "15980281.340438795311756833",
+   "margin": "172410.019375666543049786",
+   "liquidation_price": "23297442.3538099336017081",
+   "mark_price": "40421744.55",
+   "aggregate_reduce_only_quantity": "0",
+   "updated_at": 1703361600801,
+   "created_at": -62135596800000
+  },
+  {
+   "ticker": "INJ/USDT PERP",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0x00606da8ef76ca9c36616fa576d1c053bb0f7eb2000000000000000000000000",
+   "direction": "short",
+   "quantity": "0.041121486263975195",
+   "entry_price": "15980281.340438795311756842",
+   "margin": "320053.045217395063737578",
+   "liquidation_price": "23297442.3538099336017082",
+   "mark_price": "40421744.55",
+   "aggregate_reduce_only_quantity": "0",
+   "updated_at": 1703361600801,
+   "created_at": -62135596800000
+  },
+  {
+   "ticker": "INJ/USDT PERP",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0x0154fc01caf0e4c82b7ea6c9be719c260e940ef3000000000000000000000000",
+   "direction": "short",
+   "quantity": "0.005684726095134712",
+   "entry_price": "19468749.344033524349659551",
+   "margin": "54563.593706555517738922",
+   "liquidation_price": "28497087.7512237107551938",
+   "mark_price": "40421744.55",
+   "aggregate_reduce_only_quantity": "0",
+   "updated_at": 1703361600801,
+   "created_at": -62135596800000
+  },
+  {
+   "ticker": "INJ/USDT PERP",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0x021a86b9858f6e4150a724d444e94d10cb75c1b1000000000000000000000000",
+   "direction": "short",
+   "quantity": "0.077749303393590607",
+   "entry_price": "15980281.340438795311756851",
+   "margin": "605131.369885566651321656",
+   "liquidation_price": "23297442.3538099336017081",
+   "mark_price": "40421744.55",
+   "aggregate_reduce_only_quantity": "0",
+   "updated_at": 1703361600801,
+   "created_at": -62135596800000
+  },
+  {
+   "ticker": "INJ/USDT PERP",
+   "market_id": "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+   "subaccount_id": "0x03ca8d57285836857dddf42cbb896448015246e7000000000000000000000000",
+   "direction": "short",
+   "quantity": "3.933956815705317214",
+   "entry_price": "20294270.597312410912417203",
+   "margin": "39442957.950528509629919537",
+   "liquidation_price": "29726031.3451969744796065",
+   "mark_price": "40421744.55",
+   "aggregate_reduce_only_quantity": "0",
+   "updated_at": 1703361600801,
+   "created_at": -62135596800000
+  }
+ ]
+}
+
+```
+
+| Parameter | Type                     | Description                        |
+| --------- | ------------------------ | ---------------------------------- |
+| positions | DerivativePosition Array | List of liquidable lpositions      |
+
+**DerivativePosition**
+
+| Parameter                      | Type    | Description                                                                                    |
+| ------------------------------ | ------- | ---------------------------------------------------------------------------------------------- |
+| direction                      | String  | Direction of the position (Should be one of: ["long", "short"])                                |
+| market_id                      | String  | ID of the market the position is in                                                            |
+| subaccount_id                  | String  | The subaccount ID the position belongs to                                                      |
+| ticker                         | String  | Ticker of the derivative market                                                                |
+| aggregate_reduce_only_quantity | String  | Aggregate quantity of the reduce-only orders associated with the position                      |
+| entry_price                    | String  | Entry price of the position                                                                    |
+| liquidation_price              | String  | Liquidation price of the position                                                              |
+| margin                         | String  | Margin of the position                                                                         |
+| mark_price                     | String  | Oracle price of the base asset                                                                 |
+| quantity                       | String  | Quantity of the position                                                                       |
+| updated_at                     | Integer | Position updated timestamp in UNIX millis                                                      |
+| created_at                     | Integer | Position created timestamp in UNIX millis. Currently not supported (value will be inaccurate). |
+
+
 ## \[DEPRECATED\] Orderbook
 
 Get the orderbook of a derivative market.
