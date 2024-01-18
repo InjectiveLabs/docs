@@ -604,6 +604,9 @@
                     <a href="#injectivederivativeexchangerpc-streampositions" class="toc-h2 toc-link" data-title="StreamPositions">StreamPositions</a>
                   </li>
                   <li>
+                    <a href="#injectivederivativeexchangerpc-liquidablepositions" class="toc-h2 toc-link" data-title="LiquidablePositions">LiquidablePositions</a>
+                  </li>
+                  <li>
                     <a href="#injectivederivativeexchangerpc-deprecated-orderbook" class="toc-h2 toc-link" data-title="[DEPRECATED] Orderbook">[DEPRECATED] Orderbook</a>
                   </li>
                   <li>
@@ -14847,6 +14850,385 @@ The difference between <code>StreamTrades</code> and <code>StreamTradesV2</code>
 <td>timestamp</td>
 <td>Integer</td>
 <td>Timestamp of update in UNIX millis</td>
+</tr>
+</tbody></table>
+
+<p><strong>DerivativePosition</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>direction</td>
+<td>String</td>
+<td>Direction of the position (Should be one of: [&quot;long&quot;, &quot;short&quot;])</td>
+</tr>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>ID of the market the position is in</td>
+</tr>
+<tr>
+<td>subaccount_id</td>
+<td>String</td>
+<td>The subaccount ID the position belongs to</td>
+</tr>
+<tr>
+<td>ticker</td>
+<td>String</td>
+<td>Ticker of the derivative market</td>
+</tr>
+<tr>
+<td>aggregate_reduce_only_quantity</td>
+<td>String</td>
+<td>Aggregate quantity of the reduce-only orders associated with the position</td>
+</tr>
+<tr>
+<td>entry_price</td>
+<td>String</td>
+<td>Entry price of the position</td>
+</tr>
+<tr>
+<td>liquidation_price</td>
+<td>String</td>
+<td>Liquidation price of the position</td>
+</tr>
+<tr>
+<td>margin</td>
+<td>String</td>
+<td>Margin of the position</td>
+</tr>
+<tr>
+<td>mark_price</td>
+<td>String</td>
+<td>Oracle price of the base asset</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>String</td>
+<td>Quantity of the position</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>Integer</td>
+<td>Position updated timestamp in UNIX millis</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>Integer</td>
+<td>Position created timestamp in UNIX millis. Currently not supported (value will be inaccurate).</td>
+</tr>
+</tbody></table>
+<h2 id='injectivederivativeexchangerpc-liquidablepositions'>LiquidablePositions</h2>
+<p>Gets all the liquidable positions</p>
+
+<p><strong>IP rate limit group:</strong> <code>indexer</code></p>
+<h3 id='injectivederivativeexchangerpc-liquidablepositions-request-parameters'>Request Parameters</h3>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="kn">from</span> <span class="nn">pyinjective.async_client</span> <span class="kn">import</span> <span class="n">AsyncClient</span>
+<span class="kn">from</span> <span class="nn">pyinjective.client.model.pagination</span> <span class="kn">import</span> <span class="n">PaginationOption</span>
+<span class="kn">from</span> <span class="nn">pyinjective.core.network</span> <span class="kn">import</span> <span class="n">Network</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">.</span><span class="n">testnet</span><span class="p">()</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+    <span class="n">market_id</span> <span class="o">=</span> <span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span>
+    <span class="n">skip</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">limit</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">pagination</span> <span class="o">=</span> <span class="n">PaginationOption</span><span class="p">(</span><span class="n">skip</span><span class="o">=</span><span class="n">skip</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">fetch_derivative_liquidable_positions</span><span class="p">(</span>
+        <span class="n">market_id</span><span class="o">=</span><span class="n">market_id</span><span class="p">,</span>
+        <span class="n">pagination</span><span class="o">=</span><span class="n">pagination</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"context"</span>
+    <span class="s">"encoding/json"</span>
+    <span class="s">"fmt"</span>
+
+    <span class="s">"github.com/InjectiveLabs/sdk-go/client/common"</span>
+    <span class="n">exchangeclient</span> <span class="s">"github.com/InjectiveLabs/sdk-go/client/exchange"</span>
+    <span class="n">derivativeExchangePB</span> <span class="s">"github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">network</span> <span class="o">:=</span> <span class="n">common</span><span class="o">.</span><span class="n">LoadNetwork</span><span class="p">(</span><span class="s">"testnet"</span><span class="p">,</span> <span class="s">"lb"</span><span class="p">)</span>
+    <span class="n">exchangeClient</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeclient</span><span class="o">.</span><span class="n">NewExchangeClient</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+    <span class="c">//marketId := "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span>
+    <span class="n">skip</span> <span class="o">:=</span> <span class="kt">uint64</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
+    <span class="n">limit</span> <span class="o">:=</span> <span class="kt">int32</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
+
+    <span class="n">req</span> <span class="o">:=</span> <span class="n">derivativeExchangePB</span><span class="o">.</span><span class="n">LiquidablePositionsRequest</span><span class="p">{</span>
+        <span class="c">//MarketId: marketId,</span>
+        <span class="n">Skip</span><span class="o">:</span>  <span class="n">skip</span><span class="p">,</span>
+        <span class="n">Limit</span><span class="o">:</span> <span class="n">limit</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">exchangeClient</span><span class="o">.</span><span class="n">GetDerivativeLiquidablePositions</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">req</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">str</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">json</span><span class="o">.</span><span class="n">MarshalIndent</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">" "</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">str</span><span class="p">))</span>
+<span class="p">}</span>
+
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>market_id</td>
+<td>String</td>
+<td>ID of the market to query liquidable positions for</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>skip</td>
+<td>Integer</td>
+<td>Skip the first <em>n</em> cosmwasm contracts. This can be used to fetch all results since the API caps at 100</td>
+<td>No</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>Integer</td>
+<td>Max number of items to be returned, defaults to 100</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<h3 id='injectivederivativeexchangerpc-liquidablepositions-response-parameters'>Response Parameters</h3>
+<blockquote>
+<p>Streaming Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="p">{</span>
+   <span class="s">"positions"</span><span class="p">:[</span>
+      <span class="p">{</span>
+         <span class="s">"ticker"</span><span class="p">:</span><span class="s">"INJ/USDT PERP"</span><span class="p">,</span>
+         <span class="s">"marketId"</span><span class="p">:</span><span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span><span class="p">,</span>
+         <span class="s">"subaccountId"</span><span class="p">:</span><span class="s">"0x0a5d67f3616a9e7b53c301b508e9384c6321be47000000000000000000000000"</span><span class="p">,</span>
+         <span class="s">"direction"</span><span class="p">:</span><span class="s">"short"</span><span class="p">,</span>
+         <span class="s">"quantity"</span><span class="p">:</span><span class="s">"0.00966730135521481"</span><span class="p">,</span>
+         <span class="s">"entryPrice"</span><span class="p">:</span><span class="s">"15980281.340438795311756819"</span><span class="p">,</span>
+         <span class="s">"margin"</span><span class="p">:</span><span class="s">"75611.273514"</span><span class="p">,</span>
+         <span class="s">"liquidationPrice"</span><span class="p">:</span><span class="s">"23334925.188149"</span><span class="p">,</span>
+         <span class="s">"markPrice"</span><span class="p">:</span><span class="s">"39291123.99"</span><span class="p">,</span>
+         <span class="s">"aggregateReduceOnlyQuantity"</span><span class="p">:</span><span class="s">"0"</span><span class="p">,</span>
+         <span class="s">"updatedAt"</span><span class="p">:</span><span class="s">"1705525203015"</span><span class="p">,</span>
+         <span class="s">"createdAt"</span><span class="p">:</span><span class="s">"-62135596800000"</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+         <span class="s">"ticker"</span><span class="p">:</span><span class="s">"INJ/USDT PERP"</span><span class="p">,</span>
+         <span class="s">"marketId"</span><span class="p">:</span><span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span><span class="p">,</span>
+         <span class="s">"subaccountId"</span><span class="p">:</span><span class="s">"0x0c812012cf492aa422fb888e172fbd6e19df517b000000000000000000000000"</span><span class="p">,</span>
+         <span class="s">"direction"</span><span class="p">:</span><span class="s">"short"</span><span class="p">,</span>
+         <span class="s">"quantity"</span><span class="p">:</span><span class="s">"0.066327809378915175"</span><span class="p">,</span>
+         <span class="s">"entryPrice"</span><span class="p">:</span><span class="s">"16031762.538045163086357667"</span><span class="p">,</span>
+         <span class="s">"margin"</span><span class="p">:</span><span class="s">"520412.029703"</span><span class="p">,</span>
+         <span class="s">"liquidationPrice"</span><span class="p">:</span><span class="s">"23409630.791347"</span><span class="p">,</span>
+         <span class="s">"markPrice"</span><span class="p">:</span><span class="s">"39291123.99"</span><span class="p">,</span>
+         <span class="s">"aggregateReduceOnlyQuantity"</span><span class="p">:</span><span class="s">"0"</span><span class="p">,</span>
+         <span class="s">"updatedAt"</span><span class="p">:</span><span class="s">"1705525203015"</span><span class="p">,</span>
+         <span class="s">"createdAt"</span><span class="p">:</span><span class="s">"-62135596800000"</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+         <span class="s">"ticker"</span><span class="p">:</span><span class="s">"INJ/USDT PERP"</span><span class="p">,</span>
+         <span class="s">"marketId"</span><span class="p">:</span><span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span><span class="p">,</span>
+         <span class="s">"subaccountId"</span><span class="p">:</span><span class="s">"0x0d750ad3404b6f23579706e44111e8dd774fd1fa000000000000000000000000"</span><span class="p">,</span>
+         <span class="s">"direction"</span><span class="p">:</span><span class="s">"short"</span><span class="p">,</span>
+         <span class="s">"quantity"</span><span class="p">:</span><span class="s">"0.000080602003464734"</span><span class="p">,</span>
+         <span class="s">"entryPrice"</span><span class="p">:</span><span class="s">"16031762.53804516308635803"</span><span class="p">,</span>
+         <span class="s">"margin"</span><span class="p">:</span><span class="s">"632.408209"</span><span class="p">,</span>
+         <span class="s">"liquidationPrice"</span><span class="p">:</span><span class="s">"23409630.592378"</span><span class="p">,</span>
+         <span class="s">"markPrice"</span><span class="p">:</span><span class="s">"39291123.99"</span><span class="p">,</span>
+         <span class="s">"aggregateReduceOnlyQuantity"</span><span class="p">:</span><span class="s">"0"</span><span class="p">,</span>
+         <span class="s">"updatedAt"</span><span class="p">:</span><span class="s">"1705525203015"</span><span class="p">,</span>
+         <span class="s">"createdAt"</span><span class="p">:</span><span class="s">"-62135596800000"</span>
+      <span class="p">}</span>
+   <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight go tab-go"><code><span class="p">{</span>
+ <span class="s">"positions"</span><span class="o">:</span> <span class="p">[</span>
+  <span class="p">{</span>
+   <span class="s">"ticker"</span><span class="o">:</span> <span class="s">"SOL/USDT PERP"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x95698a9d8ba11660f44d7001d8c6fb191552ece5d9141a05c5d9128711cdc2e0"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0x0ddbe7ea40134ae14ed6a5d104d8783c80663edb000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"short"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"135965"</span><span class="p">,</span>
+   <span class="s">"entry_price"</span><span class="o">:</span> <span class="s">"24074541.242231456624866694"</span><span class="p">,</span>
+   <span class="s">"margin"</span><span class="o">:</span> <span class="s">"922840147876.471312471775929175"</span><span class="p">,</span>
+   <span class="s">"liquidation_price"</span><span class="o">:</span> <span class="s">"29392264.1007154944460271"</span><span class="p">,</span>
+   <span class="s">"mark_price"</span><span class="o">:</span> <span class="s">"102769181.99"</span><span class="p">,</span>
+   <span class="s">"aggregate_reduce_only_quantity"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1703361600801</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="o">-</span><span class="m">62135596800000</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"ticker"</span><span class="o">:</span> <span class="s">"SOL/USDT PERP"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x95698a9d8ba11660f44d7001d8c6fb191552ece5d9141a05c5d9128711cdc2e0"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0x16aef18dbaa341952f1af1795cb49960f68dfee3000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"short"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"34.99"</span><span class="p">,</span>
+   <span class="s">"entry_price"</span><span class="o">:</span> <span class="s">"25000000"</span><span class="p">,</span>
+   <span class="s">"margin"</span><span class="o">:</span> <span class="s">"963925977.452838924992513061"</span><span class="p">,</span>
+   <span class="s">"liquidation_price"</span><span class="o">:</span> <span class="s">"50046298.3288514793340278"</span><span class="p">,</span>
+   <span class="s">"mark_price"</span><span class="o">:</span> <span class="s">"102769181.99"</span><span class="p">,</span>
+   <span class="s">"aggregate_reduce_only_quantity"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1703361600801</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="o">-</span><span class="m">62135596800000</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"ticker"</span><span class="o">:</span> <span class="s">"SOL/USDT PERP"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x95698a9d8ba11660f44d7001d8c6fb191552ece5d9141a05c5d9128711cdc2e0"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"short"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"160"</span><span class="p">,</span>
+   <span class="s">"entry_price"</span><span class="o">:</span> <span class="s">"24375243.283322806982741737"</span><span class="p">,</span>
+   <span class="s">"margin"</span><span class="o">:</span> <span class="s">"3774845657.765183864053125849"</span><span class="p">,</span>
+   <span class="s">"liquidation_price"</span><span class="o">:</span> <span class="s">"45683836.8041478153648322"</span><span class="p">,</span>
+   <span class="s">"mark_price"</span><span class="o">:</span> <span class="s">"102769181.99"</span><span class="p">,</span>
+   <span class="s">"aggregate_reduce_only_quantity"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1703361600801</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="o">-</span><span class="m">62135596800000</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"ticker"</span><span class="o">:</span> <span class="s">"SOL/USDT PERP"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x95698a9d8ba11660f44d7001d8c6fb191552ece5d9141a05c5d9128711cdc2e0"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0xce4c01573f2a5f4db5d184b666ecfccb9313cc65000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"short"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"8"</span><span class="p">,</span>
+   <span class="s">"entry_price"</span><span class="o">:</span> <span class="s">"17700000"</span><span class="p">,</span>
+   <span class="s">"margin"</span><span class="o">:</span> <span class="s">"141673770.450618846533455704"</span><span class="p">,</span>
+   <span class="s">"liquidation_price"</span><span class="o">:</span> <span class="s">"33723067.9107879579206495"</span><span class="p">,</span>
+   <span class="s">"mark_price"</span><span class="o">:</span> <span class="s">"102769181.99"</span><span class="p">,</span>
+   <span class="s">"aggregate_reduce_only_quantity"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1703361600801</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="o">-</span><span class="m">62135596800000</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"ticker"</span><span class="o">:</span> <span class="s">"INJ/USDT PERP"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0x0000007c60fab7a70c2ae0ebe437f3726b05e7eb000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"short"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"0.087829315829932072"</span><span class="p">,</span>
+   <span class="s">"entry_price"</span><span class="o">:</span> <span class="s">"26453271.813315285838444221"</span><span class="p">,</span>
+   <span class="s">"margin"</span><span class="o">:</span> <span class="s">"1154483.475338511428917818"</span><span class="p">,</span>
+   <span class="s">"liquidation_price"</span><span class="o">:</span> <span class="s">"38821468.0751518485185464"</span><span class="p">,</span>
+   <span class="s">"mark_price"</span><span class="o">:</span> <span class="s">"40421744.55"</span><span class="p">,</span>
+   <span class="s">"aggregate_reduce_only_quantity"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1703361600801</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="o">-</span><span class="m">62135596800000</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"ticker"</span><span class="o">:</span> <span class="s">"INJ/USDT PERP"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0x00509ed903475672121d6a1fb2c646eef4da6c44000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"short"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"0.022151816236313182"</span><span class="p">,</span>
+   <span class="s">"entry_price"</span><span class="o">:</span> <span class="s">"15980281.340438795311756833"</span><span class="p">,</span>
+   <span class="s">"margin"</span><span class="o">:</span> <span class="s">"172410.019375666543049786"</span><span class="p">,</span>
+   <span class="s">"liquidation_price"</span><span class="o">:</span> <span class="s">"23297442.3538099336017081"</span><span class="p">,</span>
+   <span class="s">"mark_price"</span><span class="o">:</span> <span class="s">"40421744.55"</span><span class="p">,</span>
+   <span class="s">"aggregate_reduce_only_quantity"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1703361600801</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="o">-</span><span class="m">62135596800000</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"ticker"</span><span class="o">:</span> <span class="s">"INJ/USDT PERP"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0x00606da8ef76ca9c36616fa576d1c053bb0f7eb2000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"short"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"0.041121486263975195"</span><span class="p">,</span>
+   <span class="s">"entry_price"</span><span class="o">:</span> <span class="s">"15980281.340438795311756842"</span><span class="p">,</span>
+   <span class="s">"margin"</span><span class="o">:</span> <span class="s">"320053.045217395063737578"</span><span class="p">,</span>
+   <span class="s">"liquidation_price"</span><span class="o">:</span> <span class="s">"23297442.3538099336017082"</span><span class="p">,</span>
+   <span class="s">"mark_price"</span><span class="o">:</span> <span class="s">"40421744.55"</span><span class="p">,</span>
+   <span class="s">"aggregate_reduce_only_quantity"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1703361600801</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="o">-</span><span class="m">62135596800000</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"ticker"</span><span class="o">:</span> <span class="s">"INJ/USDT PERP"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0x0154fc01caf0e4c82b7ea6c9be719c260e940ef3000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"short"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"0.005684726095134712"</span><span class="p">,</span>
+   <span class="s">"entry_price"</span><span class="o">:</span> <span class="s">"19468749.344033524349659551"</span><span class="p">,</span>
+   <span class="s">"margin"</span><span class="o">:</span> <span class="s">"54563.593706555517738922"</span><span class="p">,</span>
+   <span class="s">"liquidation_price"</span><span class="o">:</span> <span class="s">"28497087.7512237107551938"</span><span class="p">,</span>
+   <span class="s">"mark_price"</span><span class="o">:</span> <span class="s">"40421744.55"</span><span class="p">,</span>
+   <span class="s">"aggregate_reduce_only_quantity"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1703361600801</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="o">-</span><span class="m">62135596800000</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"ticker"</span><span class="o">:</span> <span class="s">"INJ/USDT PERP"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0x021a86b9858f6e4150a724d444e94d10cb75c1b1000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"short"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"0.077749303393590607"</span><span class="p">,</span>
+   <span class="s">"entry_price"</span><span class="o">:</span> <span class="s">"15980281.340438795311756851"</span><span class="p">,</span>
+   <span class="s">"margin"</span><span class="o">:</span> <span class="s">"605131.369885566651321656"</span><span class="p">,</span>
+   <span class="s">"liquidation_price"</span><span class="o">:</span> <span class="s">"23297442.3538099336017081"</span><span class="p">,</span>
+   <span class="s">"mark_price"</span><span class="o">:</span> <span class="s">"40421744.55"</span><span class="p">,</span>
+   <span class="s">"aggregate_reduce_only_quantity"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1703361600801</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="o">-</span><span class="m">62135596800000</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s">"ticker"</span><span class="o">:</span> <span class="s">"INJ/USDT PERP"</span><span class="p">,</span>
+   <span class="s">"market_id"</span><span class="o">:</span> <span class="s">"0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"</span><span class="p">,</span>
+   <span class="s">"subaccount_id"</span><span class="o">:</span> <span class="s">"0x03ca8d57285836857dddf42cbb896448015246e7000000000000000000000000"</span><span class="p">,</span>
+   <span class="s">"direction"</span><span class="o">:</span> <span class="s">"short"</span><span class="p">,</span>
+   <span class="s">"quantity"</span><span class="o">:</span> <span class="s">"3.933956815705317214"</span><span class="p">,</span>
+   <span class="s">"entry_price"</span><span class="o">:</span> <span class="s">"20294270.597312410912417203"</span><span class="p">,</span>
+   <span class="s">"margin"</span><span class="o">:</span> <span class="s">"39442957.950528509629919537"</span><span class="p">,</span>
+   <span class="s">"liquidation_price"</span><span class="o">:</span> <span class="s">"29726031.3451969744796065"</span><span class="p">,</span>
+   <span class="s">"mark_price"</span><span class="o">:</span> <span class="s">"40421744.55"</span><span class="p">,</span>
+   <span class="s">"aggregate_reduce_only_quantity"</span><span class="o">:</span> <span class="s">"0"</span><span class="p">,</span>
+   <span class="s">"updated_at"</span><span class="o">:</span> <span class="m">1703361600801</span><span class="p">,</span>
+   <span class="s">"created_at"</span><span class="o">:</span> <span class="o">-</span><span class="m">62135596800000</span>
+  <span class="p">}</span>
+ <span class="p">]</span>
+<span class="p">}</span>
+
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>positions</td>
+<td>DerivativePosition Array</td>
+<td>List of liquidable lpositions</td>
 </tr>
 </tbody></table>
 
