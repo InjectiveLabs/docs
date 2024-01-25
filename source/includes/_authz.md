@@ -466,7 +466,6 @@ func main() {
 	price := decimal.NewFromFloat(22.55)
 	order := chainClient.CreateSpotOrder(
 		defaultSubaccountID,
-		network,
 		&chainclient.SpotOrderData{
 			OrderType:    exchangetypes.OrderType_BUY,
 			Quantity:     amount,
