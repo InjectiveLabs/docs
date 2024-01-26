@@ -12,6 +12,7 @@ jobs:
     strategy:
       fail-fast: true
     steps:
+      - uses: actions/checkout@v2
       - name: Markdown autodocs
         uses: dineshsonachalam/markdown-autodocs@v1.0.7
         with:
@@ -23,6 +24,7 @@ jobs:
           categories: '[code-block]'
 
   test:
+    needs: insert-code
     runs-on: ubuntu-latest
 
     strategy:
