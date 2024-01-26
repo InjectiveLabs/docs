@@ -16,6 +16,7 @@ jobs:
       - name: Markdown autodocs
         uses: dineshsonachalam/markdown-autodocs@v1.0.7
         with:
+          branch: ${{ github.head_ref }}
           # Optional output file paths, defaults to '[./README.md]'.
           output_file_paths: '[./source/includes/*.md]'
 
