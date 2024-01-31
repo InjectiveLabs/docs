@@ -45,7 +45,6 @@ includes:
   - tokenfactory
   - glossary
   - faq
-  # - exchangerpc
   # - chronosrpc
   - errors
 search: true

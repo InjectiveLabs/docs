@@ -4,7 +4,7 @@ Execute historical chain queries by passing the block height in the headers. Kee
 
 Publicly maintained nodes are being pruned every 5-10 days.
 
-To find the available chain queries visit Swagger for [Mainnet](https://lcd.injective.network/swagger/#/) and [Testnet](https://k8s.testnet.lcd.injective.network/swagger/#/).
+To find the available chain queries visit Swagger for [Mainnet](https://sentry.lcd.injective.network/swagger/#/) and [Testnet](https://testnet.lcd.injective.network/swagger/).
 
 
 **Request Parameters**
@@ -17,7 +17,7 @@ import logging
 
 async def main() -> None:
     block_height = "9858070"
-    lcd = "https://k8s.testnet.lcd.injective.network/injective/exchange/v1beta1/derivative/orderbook/0x2e94326a421c3f66c15a3b663c7b1ab7fb6a5298b3a57759ecf07f0036793fc9"
+    lcd = "https://testnet.lcd.injective.network/injective/exchange/v1beta1/derivative/orderbook/0x2e94326a421c3f66c15a3b663c7b1ab7fb6a5298b3a57759ecf07f0036793fc9"
     lcd_request = requests.get(lcd, headers={"Content-Type": "application/json", "x-cosmos-block-height": "{}".format(block_height)}).json()
     print(lcd_request)
 
@@ -57,7 +57,7 @@ func queryAtHeight(url, method string, height int64) ([]byte, error) {
 }
 
 func main() {
-    result, err := queryAtHeight("https://k8s.testnet.lcd.injective.network/injective/exchange/v1beta1/derivative/orderbook/0x2e94326a421c3f66c15a3b663c7b1ab7fb6a5298b3a57759ecf07f0036793fc9", "GET", 9858070)
+    result, err := queryAtHeight("https://testnet.lcd.injective.network/injective/exchange/v1beta1/derivative/orderbook/0x2e94326a421c3f66c15a3b663c7b1ab7fb6a5298b3a57759ecf07f0036793fc9", "GET", 9858070)
     if err != nil {
         panic(err)
     }

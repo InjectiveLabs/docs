@@ -10,190 +10,11 @@ Bank module.
 ### Request Parameters
 > Request Example:
 
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/1_MsgSend.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from grpc import RpcError
-
-from pyinjective.async_client import AsyncClient
-from pyinjective.constant import GAS_FEE_BUFFER_AMOUNT, GAS_PRICE
-from pyinjective.core.network import Network
-from pyinjective.transaction import Transaction
-from pyinjective.wallet import PrivateKey
-
-
-async def main() -> None:
-    # select network: local, testnet, mainnet
-    network = Network.testnet()
-
-    # initialize grpc client
-    client = AsyncClient(network)
-    composer = await client.composer()
-    await client.sync_timeout_height()
-
-    # load account
-    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
-    pub_key = priv_key.to_public_key()
-    address = pub_key.to_address()
-    await client.fetch_account(address.to_acc_bech32())
-
-    # prepare tx msg
-    msg = composer.MsgSend(
-        from_address=address.to_acc_bech32(),
-        to_address="inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-        amount=0.000000000000000001,
-        denom="INJ",
-    )
-
-    # build sim tx
-    tx = (
-        Transaction()
-        .with_messages(msg)
-        .with_sequence(client.get_sequence())
-        .with_account_num(client.get_number())
-        .with_chain_id(network.chain_id)
-    )
-    sim_sign_doc = tx.get_sign_doc(pub_key)
-    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
-    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
-
-    # simulate tx
-    try:
-        sim_res = await client.simulate(sim_tx_raw_bytes)
-    except RpcError as ex:
-        print(ex)
-        return
-
-    # build tx
-    gas_price = GAS_PRICE
-    gas_limit = int(sim_res["gasInfo"]["gasUsed"]) + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
-    gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
-    fee = [
-        composer.Coin(
-            amount=gas_price * gas_limit,
-            denom=network.fee_denom,
-        )
-    ]
-    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(client.timeout_height)
-    sign_doc = tx.get_sign_doc(pub_key)
-    sig = priv_key.sign(sign_doc.SerializeToString())
-    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
-
-    # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
-    res = await client.broadcast_tx_sync_mode(tx_raw_bytes)
-    print(res)
-    print("gas wanted: {}".format(gas_limit))
-    print("gas fee: {} INJ".format(gas_fee))
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-	"context"
-	"fmt"
-	"github.com/InjectiveLabs/sdk-go/client"
-	"github.com/InjectiveLabs/sdk-go/client/core"
-	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-	"os"
-	"time"
-
-	"github.com/InjectiveLabs/sdk-go/client/common"
-
-	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
-	sdktypes "github.com/cosmos/cosmos-sdk/types"
-	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-)
-
-func main() {
-	network := common.LoadNetwork("testnet", "lb")
-	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
-	if err != nil {
-		panic(err)
-	}
-
-	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-		os.Getenv("HOME")+"/.injectived",
-		"injectived",
-		"file",
-		"inj-user",
-		"12345678",
-		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-		false,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	// initialize grpc client
-	clientCtx, err := chainclient.NewClientContext(
-		network.ChainId,
-		senderAddress.String(),
-		cosmosKeyring,
-	)
-	if err != nil {
-		panic(err)
-	}
-	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
-
-	exchangeClient, err := exchangeclient.NewExchangeClient(network)
-	if err != nil {
-		panic(err)
-	}
-
-	ctx := context.Background()
-	marketsAssistant, err := core.NewMarketsAssistantUsingExchangeClient(ctx, exchangeClient)
-	if err != nil {
-		panic(err)
-	}
-
-	chainClient, err := chainclient.NewChainClientWithMarketsAssistant(
-		clientCtx,
-		network,
-		marketsAssistant,
-		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	// prepare tx msg
-	msg := &banktypes.MsgSend{
-		FromAddress: senderAddress.String(),
-		ToAddress:   "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-		Amount: []sdktypes.Coin{{
-			Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000)}, // 1 INJ
-		},
-	}
-
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
-	err = chainClient.QueueBroadcastMsg(msg)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	time.Sleep(time.Second * 5)
-
-	gasFee, err := chainClient.GetGasFee()
-
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println("gas fee:", gasFee, "INJ")
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/1_MsgSend/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
@@ -231,125 +52,8 @@ gas fee: 0.0000599355 INJ
 ### Request Parameters
 > Request Example:
 
-``` python
-
-```
-
-``` go
-package main
-
-import (
-	"fmt"
-	"os"
-	"time"
-
-	"github.com/InjectiveLabs/sdk-go/client"
-	"github.com/InjectiveLabs/sdk-go/client/common"
-
-	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
-	sdktypes "github.com/cosmos/cosmos-sdk/types"
-	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-)
-
-func main() {
-	network := common.LoadNetwork("testnet", "lb")
-	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
-	if err != nil {
-		panic(err)
-	}
-
-	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-		os.Getenv("HOME")+"/.injectived",
-		"injectived",
-		"file",
-		"inj-user",
-		"12345678",
-		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-		false,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	// initialize grpc client
-
-	clientCtx, err := chainclient.NewClientContext(
-		network.ChainId,
-		senderAddress.String(),
-		cosmosKeyring,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
-
-	chainClient, err := chainclient.NewChainClient(
-		clientCtx,
-		network,
-		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	// prepare tx msg
-
-	msg := &banktypes.MsgMultiSend{
-		Inputs: []banktypes.Input{
-			{
-				Address: senderAddress.String(),
-				Coins: []sdktypes.Coin{{
-					Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000)}, // 1 INJ
-				},
-			},
-			{
-				Address: senderAddress.String(),
-				Coins: []sdktypes.Coin{{
-					Denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5", Amount: sdktypes.NewInt(1000000)}, // 1 USDT
-				},
-			},
-		},
-		Outputs: []banktypes.Output{
-			{
-				Address: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-				Coins: []sdktypes.Coin{{
-					Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000)}, // 1 INJ
-				},
-			},
-			{
-				Address: "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-				Coins: []sdktypes.Coin{{
-					Denom: "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5", Amount: sdktypes.NewInt(1000000)}, // 1 USDT
-				},
-			},
-		},
-	}
-
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
-	err = chainClient.QueueBroadcastMsg(msg)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	time.Sleep(time.Second * 5)
-
-	gasFee, err := chainClient.GetGasFee()
-
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println("gas fee:", gasFee, "INJ")
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/31_MsgMultiSend/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
@@ -399,98 +103,11 @@ Get the bank balance for all denoms.
 ### Request Parameters
 > Request Example:
 
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/28_BankBalances.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    network = Network.testnet()
-    client = AsyncClient(network)
-    address = "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
-    all_bank_balances = await client.fetch_bank_balances(address=address)
-    print(all_bank_balances)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-	"context"
-	"encoding/json"
-	"fmt"
-	"github.com/InjectiveLabs/sdk-go/client"
-	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-	"github.com/InjectiveLabs/sdk-go/client/common"
-	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
-
-	"os"
-)
-
-func main() {
-	network := common.LoadNetwork("testnet", "lb")
-	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
-	if err != nil {
-		panic(err)
-	}
-
-	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-		os.Getenv("HOME")+"/.injectived",
-		"injectived",
-		"file",
-		"inj-user",
-		"12345678",
-		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-		false,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx, err := chainclient.NewClientContext(
-		network.ChainId,
-		senderAddress.String(),
-		cosmosKeyring,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
-
-	chainClient, err := chainclient.NewChainClient(
-		clientCtx,
-		network,
-		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	address := "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-	ctx := context.Background()
-
-	res, err := chainClient.GetBankBalances(ctx, address)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	str, _ := json.MarshalIndent(res, "", " ")
-	fmt.Print(string(str))
-
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/28_BankBalances/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
@@ -594,101 +211,11 @@ Get the bank balance for a specific denom.
 ### Request Parameters
 > Request Example:
 
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/29_BankBalance.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    network = Network.testnet()
-    client = AsyncClient(network)
-    address = "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
-    denom = "inj"
-    bank_balance = await client.fetch_bank_balance(address=address, denom=denom)
-    print(bank_balance)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-	"context"
-	"encoding/json"
-	"fmt"
-	"github.com/InjectiveLabs/sdk-go/client"
-
-	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-	"github.com/InjectiveLabs/sdk-go/client/common"
-	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
-
-	"os"
-)
-
-func main() {
-	network := common.LoadNetwork("testnet", "lb")
-	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
-	if err != nil {
-		panic(err)
-	}
-
-	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-		os.Getenv("HOME")+"/.injectived",
-		"injectived",
-		"file",
-		"inj-user",
-		"12345678",
-		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-		false,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx, err := chainclient.NewClientContext(
-		network.ChainId,
-		senderAddress.String(),
-		cosmosKeyring,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
-
-	chainClient, err := chainclient.NewChainClient(
-		clientCtx,
-		network,
-		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	address := "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-	denom := "inj"
-	ctx := context.Background()
-
-	res, err := chainClient.GetBankBalance(ctx, address, denom)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	str, _ := json.MarshalIndent(res, "", " ")
-	fmt.Print(string(str))
-
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/29_BankBalance/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
@@ -739,101 +266,11 @@ Get the bank spendable balances for a specific address.
 ### Request Parameters
 > Request Example:
 
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/50_SpendableBalances.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    network = Network.testnet()
-    client = AsyncClient(network)
-    address = "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
-    spendable_balances = await client.fetch_spendable_balances(address=address)
-    print(spendable_balances)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-	"context"
-	"encoding/json"
-	"fmt"
-	"github.com/InjectiveLabs/sdk-go/client"
-	"github.com/cosmos/cosmos-sdk/types/query"
-
-	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-	"github.com/InjectiveLabs/sdk-go/client/common"
-	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
-
-	"os"
-)
-
-func main() {
-	network := common.LoadNetwork("testnet", "lb")
-	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
-	if err != nil {
-		panic(err)
-	}
-
-	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-		os.Getenv("HOME")+"/.injectived",
-		"injectived",
-		"file",
-		"inj-user",
-		"12345678",
-		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-		false,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx, err := chainclient.NewClientContext(
-		network.ChainId,
-		senderAddress.String(),
-		cosmosKeyring,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
-
-	chainClient, err := chainclient.NewChainClient(
-		clientCtx,
-		network,
-		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	address := "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-	pagination := query.PageRequest{Limit: 10}
-	ctx := context.Background()
-
-	res, err := chainClient.GetBankSpendableBalances(ctx, address, &pagination)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	str, _ := json.MarshalIndent(res, "", " ")
-	fmt.Print(string(str))
-
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/42_BankSpendableBalances/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter  | Type   | Description                             | Required |
 | ---------- | ------ | --------------------------------------- | -------- |
@@ -973,100 +410,11 @@ Get the bank spendable balances for a specific address and denom.
 ### Request Parameters
 > Request Example:
 
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/51_SpendableBalancesByDenom.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    network = Network.testnet()
-    client = AsyncClient(network)
-    address = "inj1cml96vmptgw99syqrrz8az79xer2pcgp0a885r"
-    denom = "inj"
-    spendable_balances = await client.fetch_spendable_balances_by_denom(address=address, denom=denom)
-    print(spendable_balances)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-	"context"
-	"encoding/json"
-	"fmt"
-	"github.com/InjectiveLabs/sdk-go/client"
-	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-	"github.com/InjectiveLabs/sdk-go/client/common"
-	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
-
-	"os"
-)
-
-func main() {
-	network := common.LoadNetwork("testnet", "lb")
-	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
-	if err != nil {
-		panic(err)
-	}
-
-	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-		os.Getenv("HOME")+"/.injectived",
-		"injectived",
-		"file",
-		"inj-user",
-		"12345678",
-		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-		false,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx, err := chainclient.NewClientContext(
-		network.ChainId,
-		senderAddress.String(),
-		cosmosKeyring,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
-
-	chainClient, err := chainclient.NewChainClient(
-		clientCtx,
-		network,
-		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	address := "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-	denom := "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-	ctx := context.Background()
-
-	res, err := chainClient.GetBankSpendableBalancesByDenom(ctx, address, denom)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	str, _ := json.MarshalIndent(res, "", " ")
-	fmt.Print(string(str))
-
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/43_BankSpendableBalancesByDenom/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter | Type   | Description                             | Required |
 | --------- | ------ | --------------------------------------- | -------- |
@@ -1118,102 +466,11 @@ Get the total supply for all tokens
 ### Request Parameters
 > Request Example:
 
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/52_TotalSupply.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.client.model.pagination import PaginationOption
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    network = Network.testnet()
-    client = AsyncClient(network)
-    total_supply = await client.fetch_total_supply(
-        pagination=PaginationOption(limit=10),
-    )
-    print(total_supply)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-	"context"
-	"encoding/json"
-	"fmt"
-	"github.com/InjectiveLabs/sdk-go/client"
-	"github.com/cosmos/cosmos-sdk/types/query"
-
-	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-	"github.com/InjectiveLabs/sdk-go/client/common"
-	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
-
-	"os"
-)
-
-func main() {
-	network := common.LoadNetwork("testnet", "lb")
-	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
-	if err != nil {
-		panic(err)
-	}
-
-	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-		os.Getenv("HOME")+"/.injectived",
-		"injectived",
-		"file",
-		"inj-user",
-		"12345678",
-		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-		false,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx, err := chainclient.NewClientContext(
-		network.ChainId,
-		senderAddress.String(),
-		cosmosKeyring,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
-
-	chainClient, err := chainclient.NewChainClient(
-		clientCtx,
-		network,
-		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	pagination := query.PageRequest{Limit: 10}
-	ctx := context.Background()
-
-	res, err := chainClient.GetBankTotalSupply(ctx, &pagination)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	str, _ := json.MarshalIndent(res, "", " ")
-	fmt.Print(string(str))
-
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/44_BankTotalSupply/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter  | Type   | Description           | Required |
 | ---------- | ------ | --------------------- | -------- |
@@ -1348,97 +605,11 @@ Queries the supply of a single token
 ### Request Parameters
 > Request Example:
 
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/53_SupplyOf.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    network = Network.testnet()
-    client = AsyncClient(network)
-    supply_of = await client.fetch_supply_of(denom="inj")
-    print(supply_of)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-	"context"
-	"encoding/json"
-	"fmt"
-	"github.com/InjectiveLabs/sdk-go/client"
-	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-	"github.com/InjectiveLabs/sdk-go/client/common"
-	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
-
-	"os"
-)
-
-func main() {
-	network := common.LoadNetwork("testnet", "lb")
-	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
-	if err != nil {
-		panic(err)
-	}
-
-	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-		os.Getenv("HOME")+"/.injectived",
-		"injectived",
-		"file",
-		"inj-user",
-		"12345678",
-		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-		false,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx, err := chainclient.NewClientContext(
-		network.ChainId,
-		senderAddress.String(),
-		cosmosKeyring,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
-
-	chainClient, err := chainclient.NewChainClient(
-		clientCtx,
-		network,
-		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	denom := "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
-	ctx := context.Background()
-
-	res, err := chainClient.GetBankSupplyOf(ctx, denom)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	str, _ := json.MarshalIndent(res, "", " ")
-	fmt.Print(string(str))
-
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/45_BankSupplyOf/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter | Type   | Description | Required |
 | --------- | ------ | ----------- | -------- |
@@ -1484,98 +655,11 @@ Queries the metadata of a single token
 ### Request Parameters
 > Request Example:
 
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/54_DenomMetadata.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    network = Network.testnet()
-    client = AsyncClient(network)
-    denom = "factory/inj107aqkjc3t5r3l9j4n9lgrma5tm3jav8qgppz6m/position"
-    metadata = await client.fetch_denom_metadata(denom=denom)
-    print(metadata)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-	"context"
-	"encoding/json"
-	"fmt"
-	"github.com/InjectiveLabs/sdk-go/client"
-	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-	"github.com/InjectiveLabs/sdk-go/client/common"
-	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
-
-	"os"
-)
-
-func main() {
-	network := common.LoadNetwork("testnet", "lb")
-	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
-	if err != nil {
-		panic(err)
-	}
-
-	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-		os.Getenv("HOME")+"/.injectived",
-		"injectived",
-		"file",
-		"inj-user",
-		"12345678",
-		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-		false,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx, err := chainclient.NewClientContext(
-		network.ChainId,
-		senderAddress.String(),
-		cosmosKeyring,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
-
-	chainClient, err := chainclient.NewChainClient(
-		clientCtx,
-		network,
-		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	denom := "factory/inj107aqkjc3t5r3l9j4n9lgrma5tm3jav8qgppz6m/position"
-	ctx := context.Background()
-
-	res, err := chainClient.GetDenomMetadata(ctx, denom)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	str, _ := json.MarshalIndent(res, "", " ")
-	fmt.Print(string(str))
-
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/46_DenomMetadata/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter | Type   | Description | Required |
 | --------- | ------ | ----------- | -------- |
@@ -1650,102 +734,11 @@ Queries the metadata of all tokens
 ### Request Parameters
 > Request Example:
 
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/55_DenomsMetadata.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.client.model.pagination import PaginationOption
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    network = Network.testnet()
-    client = AsyncClient(network)
-    denoms = await client.fetch_denoms_metadata(
-        pagination=PaginationOption(limit=10),
-    )
-    print(denoms)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-	"context"
-	"encoding/json"
-	"fmt"
-	"github.com/InjectiveLabs/sdk-go/client"
-	"github.com/cosmos/cosmos-sdk/types/query"
-
-	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-	"github.com/InjectiveLabs/sdk-go/client/common"
-	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
-
-	"os"
-)
-
-func main() {
-	network := common.LoadNetwork("testnet", "lb")
-	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
-	if err != nil {
-		panic(err)
-	}
-
-	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-		os.Getenv("HOME")+"/.injectived",
-		"injectived",
-		"file",
-		"inj-user",
-		"12345678",
-		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-		false,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx, err := chainclient.NewClientContext(
-		network.ChainId,
-		senderAddress.String(),
-		cosmosKeyring,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
-
-	chainClient, err := chainclient.NewChainClient(
-		clientCtx,
-		network,
-		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	pagination := query.PageRequest{Limit: 10}
-	ctx := context.Background()
-
-	res, err := chainClient.GetDenomsMetadata(ctx, &pagination)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	str, _ := json.MarshalIndent(res, "", " ")
-	fmt.Print(string(str))
-
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/47_DenomsMetadata/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter  | Type   | Description           | Required |
 | ---------- | ------ | --------------------- | -------- |
@@ -2065,104 +1058,11 @@ Queries for all account addresses that own a particular token
 ### Request Parameters
 > Request Example:
 
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/56_DenomOwners.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.client.model.pagination import PaginationOption
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    network = Network.testnet()
-    client = AsyncClient(network)
-    denom = "inj"
-    owners = await client.fetch_denom_owners(
-        denom=denom,
-        pagination=PaginationOption(limit=10),
-    )
-    print(owners)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-	"context"
-	"encoding/json"
-	"fmt"
-	"github.com/InjectiveLabs/sdk-go/client"
-	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-	"github.com/InjectiveLabs/sdk-go/client/common"
-	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
-	"github.com/cosmos/cosmos-sdk/types/query"
-
-	"os"
-)
-
-func main() {
-	network := common.LoadNetwork("testnet", "lb")
-	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
-	if err != nil {
-		panic(err)
-	}
-
-	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-		os.Getenv("HOME")+"/.injectived",
-		"injectived",
-		"file",
-		"inj-user",
-		"12345678",
-		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-		false,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx, err := chainclient.NewClientContext(
-		network.ChainId,
-		senderAddress.String(),
-		cosmosKeyring,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
-
-	chainClient, err := chainclient.NewChainClient(
-		clientCtx,
-		network,
-		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	denom := "factory/inj107aqkjc3t5r3l9j4n9lgrma5tm3jav8qgppz6m/position"
-	pagination := query.PageRequest{Limit: 10}
-	ctx := context.Background()
-
-	res, err := chainClient.GetDenomOwners(ctx, denom, &pagination)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	str, _ := json.MarshalIndent(res, "", " ")
-	fmt.Print(string(str))
-
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/48_DenomOwners/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter  | Type   | Description           | Required |
 | ---------- | ------ | --------------------- | -------- |
@@ -2299,104 +1199,11 @@ This query only returns denominations that have specific SendEnabled settings. A
 ### Request Parameters
 > Request Example:
 
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/57_SendEnabled.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.client.model.pagination import PaginationOption
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    network = Network.testnet()
-    client = AsyncClient(network)
-    denom = "inj"
-    enabled = await client.fetch_send_enabled(
-        denoms=[denom],
-        pagination=PaginationOption(limit=10),
-    )
-    print(enabled)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-	"context"
-	"encoding/json"
-	"fmt"
-	"github.com/InjectiveLabs/sdk-go/client"
-	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
-	"github.com/InjectiveLabs/sdk-go/client/common"
-	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
-	"github.com/cosmos/cosmos-sdk/types/query"
-
-	"os"
-)
-
-func main() {
-	network := common.LoadNetwork("testnet", "lb")
-	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
-	if err != nil {
-		panic(err)
-	}
-
-	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
-		os.Getenv("HOME")+"/.injectived",
-		"injectived",
-		"file",
-		"inj-user",
-		"12345678",
-		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
-		false,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx, err := chainclient.NewClientContext(
-		network.ChainId,
-		senderAddress.String(),
-		cosmosKeyring,
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
-
-	chainClient, err := chainclient.NewChainClient(
-		clientCtx,
-		network,
-		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	denoms := []string{"factory/inj107aqkjc3t5r3l9j4n9lgrma5tm3jav8qgppz6m/position"}
-	pagination := query.PageRequest{Limit: 10}
-	ctx := context.Background()
-
-	res, err := chainClient.GetBankSendEnabled(ctx, denoms, &pagination)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	str, _ := json.MarshalIndent(res, "", " ")
-	fmt.Print(string(str))
-
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/49_BankSendEnabled/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter  | Type         | Description           | Required |
 | ---------- | ------------ | --------------------- | -------- |

@@ -5,27 +5,7 @@ on:
     branches: ["*"]
 
 jobs:
-  markdown-autodocs:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-      - name: Markdown autodocs
-        uses: dineshsonachalam/markdown-autodocs@v1.0.7
-        with:
-          branch: ${{ github.head_ref }}
-          # Optional output file paths, defaults to '[./README.md]'.
-          output_file_paths: '[./source/includes/*.md]'
-
-          # Categories to automatically sync or transform its contents in the markdown files.
-          # Defaults to '[code-block,json-to-html-table,workflow-artifact-table]'
-          categories: '[code-block]'
-
   test:
-    needs: markdown-autodocs
     runs-on: ubuntu-latest
 
     strategy:
@@ -34,7 +14,7 @@ jobs:
         ruby-version: [2.7, 3.2] # Removed version 3.3 for now because it started to fail due to dependencies issue
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
