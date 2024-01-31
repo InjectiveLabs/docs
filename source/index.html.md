@@ -4,8 +4,6 @@ title: API Reference
 language_tabs: # must be one of https://git.io/vQNgJ
   - python: Python
   - go: Golang
-  - typescript: TypeScript
-  # - http: HTTP
 
 includes:
   - changelog
@@ -47,7 +45,6 @@ includes:
   - tokenfactory
   - glossary
   - faq
-  # - exchangerpc
   # - chronosrpc
   - errors
 search: true

@@ -1,8 +1,6 @@
 name: Build
 
 on:
-  push:
-    branches: ["*"]
   pull_request:
     branches: ["*"]
 
@@ -16,7 +14,7 @@ jobs:
         ruby-version: [2.7, 3.2] # Removed version 3.3 for now because it started to fail due to dependencies issue
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:

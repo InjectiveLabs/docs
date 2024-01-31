@@ -12,65 +12,11 @@ Get the details for a specific transaction.
 ### Request Parameters
 > Request Example:
 
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/1_GetTxByHash.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.composer import Composer
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    # select network: local, testnet, mainnet
-    network = Network.testnet()
-    client = AsyncClient(network)
-    composer = Composer(network=network.string())
-    tx_hash = "0F3EBEC1882E1EEAC5B7BDD836E976250F1CD072B79485877CEACCB92ACDDF52"
-    transaction_response = await client.fetch_tx_by_tx_hash(tx_hash=tx_hash)
-    print(transaction_response)
-
-    transaction_messages = composer.unpack_transaction_messages(transaction_data=transaction_response["data"])
-    print(transaction_messages)
-    first_message = transaction_messages[0]
-    print(first_message)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-  "context"
-  "encoding/json"
-  "fmt"
-
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-)
-
-func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  ctx := context.Background()
-  hash := "0x4893b36b1b2d7a0a94973cda1a6eaabf32c43e9c51b629bbdee6a46891c8a63c"
-  res, err := exchangeClient.GetTxByTxHash(ctx, hash)
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
-}
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/1_GetTxByHash/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 |Parameter|Type|Description|Required|
 |----|----|----|----|
@@ -263,80 +209,11 @@ Get the details for a specific transaction.
 ### Request Parameters
 > Request Example:
 
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/2_AccountTxs.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.client.model.pagination import PaginationOption
-from pyinjective.composer import Composer
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    # select network: local, testnet, mainnet
-    network = Network.testnet()
-    client = AsyncClient(network)
-    composer = Composer(network=network.string())
-    address = "inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex"
-    message_type = "cosmos.bank.v1beta1.MsgSend"
-    limit = 2
-    pagination = PaginationOption(limit=limit)
-    transactions_response = await client.fetch_account_txs(
-        address=address,
-        message_type=message_type,
-        pagination=pagination,
-    )
-    print(transactions_response)
-    first_transaction_messages = composer.unpack_transaction_messages(transaction_data=transactions_response["data"][0])
-    print(first_transaction_messages)
-    first_message = first_transaction_messages[0]
-    print(first_message)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-  "context"
-  "encoding/json"
-  "fmt"
-  explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
-
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-)
-
-func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  address := "inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq"
-  after := uint64(14112176)
-
-  req := explorerPB.GetAccountTxsRequest{
-    After:   after,
-    Address: address,
-  }
-
-  ctx := context.Background()
-  res, err := exchangeClient.GetAccountTxs(ctx, req)
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
-}
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/2_AccountTxs/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter    | Type             | Description                                     | Required |
 | ------------ | ---------------- | ----------------------------------------------- | -------- |
@@ -674,59 +551,11 @@ Get data for blocks.
 ### Request Parameters
 > Request Example:
 
-<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/3_Blocks.py -->
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/3_Blocks.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.client.model.pagination import PaginationOption
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    # select network: local, testnet, mainnet
-    network = Network.testnet()
-    client = AsyncClient(network)
-    limit = 2
-    pagination = PaginationOption(limit=limit)
-    blocks = await client.fetch_blocks(pagination=pagination)
-    print(blocks)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-  "context"
-  "encoding/json"
-  "fmt"
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-)
-
-func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  ctx := context.Background()
-  res, err := exchangeClient.GetBlocks(ctx)
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
-}
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/3_Blocks/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter  | Type             | Description                                     | Required |
 | ---------- | ---------------- | ----------------------------------------------- | -------- |
@@ -829,6 +658,7 @@ func main() {
 |parent_hash|String|The parent hash of the block|
 |timestamp|String|The timestamp of the block (yyyy-MM-dd HH:mm:ss.SSS ZZZZ zzz, e.g. 2022-11-14 13:16:18.946 +0000 UTC)|
 
+
 ## Block
 
 Get detailed data for a single block.
@@ -838,59 +668,11 @@ Get detailed data for a single block.
 ### Request Parameters
 > Request Example:
 
-<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/4_Block.py -->
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/4_Block.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    # select network: local, testnet, mainnet
-    network = Network.testnet()
-    client = AsyncClient(network)
-    block_height = "5825046"
-    block = await client.fetch_block(block_id=block_height)
-    print(block)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-  "context"
-  "encoding/json"
-  "fmt"
-
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-)
-
-func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  ctx := context.Background()
-  blockHeight := "5825046"
-  res, err := exchangeClient.GetBlock(ctx, blockHeight)
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
-}
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/4_Block/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter | Type   | Description  | Required |
 | --------- | ------ | ------------ | -------- |
@@ -1003,68 +785,11 @@ Get the transactions.
 ### Request Parameters
 > Request Example:
 
-<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/5_TxsRequest.py -->
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/5_TxsRequest.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.client.model.pagination import PaginationOption
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    # select network: local, testnet, mainnet
-    network = Network.testnet()
-    client = AsyncClient(network)
-    limit = 2
-    pagination = PaginationOption(limit=limit)
-    txs = await client.fetch_txs(pagination=pagination)
-    print(txs)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-  "context"
-  "encoding/json"
-  "fmt"
-  explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
-
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-)
-
-func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  ctx := context.Background()
-
-  before := uint64(7158400)
-
-  req := explorerPB.GetTxsRequest{
-    Before: before,
-  }
-
-  res, err := exchangeClient.GetTxs(ctx, req)
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
-}
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/5_TxsRequest/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter    | Type             | Description                                     | Required |
 | ------------ | ---------------- | ----------------------------------------------- | -------- |
@@ -1229,93 +954,11 @@ Stream transactions.
 
 > Request Example:
 
-<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/6_StreamTxs.py -->
-``` python
-import asyncio
-from typing import Any, Dict
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/6_StreamTxs.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from grpc import RpcError
-
-from pyinjective.async_client import AsyncClient
-from pyinjective.core.network import Network
-
-
-async def tx_event_processor(event: Dict[str, Any]):
-    print(event)
-
-
-def stream_error_processor(exception: RpcError):
-    print(f"There was an error listening to txs updates ({exception})")
-
-
-def stream_closed_processor():
-    print("The txs updates stream has been closed")
-
-
-async def main() -> None:
-    # select network: local, testnet, mainnet
-    network = Network.testnet()
-    client = AsyncClient(network)
-
-    task = asyncio.get_event_loop().create_task(
-        client.listen_txs_updates(
-            callback=tx_event_processor,
-            on_end_callback=stream_closed_processor,
-            on_status_callback=stream_error_processor,
-        )
-    )
-
-    await asyncio.sleep(delay=60)
-    task.cancel()
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-  "context"
-  "encoding/json"
-  "fmt"
-
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-)
-
-func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    panic(err)
-  }
-
-  ctx := context.Background()
-  stream, err := exchangeClient.StreamTxs(ctx)
-  if err != nil {
-    panic(err)
-  }
-
-  for {
-    select {
-    case <-ctx.Done():
-      return
-    default:
-      res, err := stream.Recv()
-      if err != nil {
-        panic(err)
-        return
-      }
-      str, _ := json.MarshalIndent(res, "", " ")
-      fmt.Print(string(str))
-    }
-  }
-}
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/6_StreamTxs/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter          | Type     | Description                                                                                          | Required |
 | ------------------ | -------- | ---------------------------------------------------------------------------------------------------- | -------- |
@@ -1420,94 +1063,11 @@ Stream blocks.
 
 > Request Example:
 
-<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/7_StreamBlocks.py -->
-``` python
-import asyncio
-from typing import Any, Dict
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/7_StreamBlocks.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from grpc import RpcError
-
-from pyinjective.async_client import AsyncClient
-from pyinjective.core.network import Network
-
-
-async def block_event_processor(event: Dict[str, Any]):
-    print(event)
-
-
-def stream_error_processor(exception: RpcError):
-    print(f"There was an error listening to blocks updates ({exception})")
-
-
-def stream_closed_processor():
-    print("The blocks updates stream has been closed")
-
-
-async def main() -> None:
-    # select network: local, testnet, mainnet
-    network = Network.testnet()
-    client = AsyncClient(network)
-
-    task = asyncio.get_event_loop().create_task(
-        client.listen_blocks_updates(
-            callback=block_event_processor,
-            on_end_callback=stream_closed_processor,
-            on_status_callback=stream_error_processor,
-        )
-    )
-
-    await asyncio.sleep(delay=60)
-    task.cancel()
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-  "context"
-  "encoding/json"
-  "fmt"
-
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-)
-
-func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    panic(err)
-  }
-
-  ctx := context.Background()
-  stream, err := exchangeClient.StreamBlocks(ctx)
-  if err != nil {
-    panic(err)
-  }
-
-  for {
-    select {
-    case <-ctx.Done():
-      return
-    default:
-      res, err := stream.Recv()
-      if err != nil {
-        panic(err)
-        return
-      }
-      str, _ := json.MarshalIndent(res, "", " ")
-      fmt.Print(string(str))
-    }
-  }
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/7_StreamBlocks/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter          | Type     | Description                                                                                          | Required |
 | ------------------ | -------- | ---------------------------------------------------------------------------------------------------- | -------- |
@@ -1600,66 +1160,11 @@ Get info on peggy deposits. By default, deposits for all senders and receivers w
 ### Request Parameters
 > Request Example:
 
-<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/8_GetPeggyDeposits.py -->
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/8_GetPeggyDeposits.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    # select network: local, testnet, mainnet
-    network = Network.testnet()
-    client = AsyncClient(network)
-    receiver = "inj1phd706jqzd9wznkk5hgsfkrc8jqxv0kmlj0kex"
-    peggy_deposits = await client.fetch_peggy_deposit_txs(receiver=receiver)
-    print(peggy_deposits)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-  "context"
-  "encoding/json"
-  "fmt"
-  explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
-
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-)
-
-func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  ctx := context.Background()
-
-  receiver := "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-
-  req := explorerPB.GetPeggyDepositTxsRequest{
-    Receiver: receiver,
-  }
-
-  res, err := exchangeClient.GetPeggyDeposits(ctx, req)
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
-}
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/8_PeggyDeposits/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter  | Type             | Description                | Required |
 | ---------- | ---------------- | -------------------------- | -------- |
@@ -1796,68 +1301,11 @@ Get info on peggy withdrawals.
 ### Request Parameters
 > Request Example:
 
-<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/9_GetPeggyWithdrawals.py -->
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/9_GetPeggyWithdrawals.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.client.model.pagination import PaginationOption
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    # select network: local, testnet, mainnet
-    network = Network.testnet()
-    client = AsyncClient(network)
-    sender = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-    limit = 2
-    pagination = PaginationOption(limit=limit)
-    peggy_deposits = await client.fetch_peggy_withdrawal_txs(sender=sender, pagination=pagination)
-    print(peggy_deposits)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-  "context"
-  "encoding/json"
-  "fmt"
-  explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
-
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-)
-
-func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  ctx := context.Background()
-  sender := "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-
-  req := explorerPB.GetPeggyWithdrawalTxsRequest{
-    Sender: sender,
-  }
-
-  res, err := exchangeClient.GetPeggyWithdrawals(ctx, req)
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
-}
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/9_PeggyWithdrawals/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter  | Type             | Description                | Required |
 | ---------- | ---------------- | -------------------------- | -------- |
@@ -2013,82 +1461,11 @@ Get data on IBC transfers.
 ### Request Parameters
 > Request Example:
 
-<!-- embedme ../../../sdk-python/examples/exchange_client/explorer_rpc/10_GetIBCTransfers.py -->
-``` python
-import asyncio
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/10_GetIBCTransfers.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-from pyinjective.async_client import AsyncClient
-from pyinjective.client.model.pagination import PaginationOption
-from pyinjective.core.network import Network
-
-
-async def main() -> None:
-    # select network: local, testnet, mainnet
-    network = Network.testnet()
-    client = AsyncClient(network)
-    sender = "inj1cll5cv3ezgal30gagkhnq2um6zf6qrmhw4r6c8"
-    receiver = "cosmos1usr9g5a4s2qrwl63sdjtrs2qd4a7huh622pg82"
-    src_channel = "channel-2"
-    src_port = "transfer"
-    destination_channel = "channel-30"
-    dest_port = "transfer"
-    limit = 1
-    skip = 10
-    pagination = PaginationOption(limit=limit, skip=skip)
-    ibc_transfers = await client.fetch_ibc_transfer_txs(
-        sender=sender,
-        receiver=receiver,
-        src_channel=src_channel,
-        src_port=src_port,
-        dest_channel=destination_channel,
-        dest_port=dest_port,
-        pagination=pagination,
-    )
-    print(ibc_transfers)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-```
-
-``` go
-package main
-
-import (
-  "context"
-  "encoding/json"
-  "fmt"
-  explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
-
-  "github.com/InjectiveLabs/sdk-go/client/common"
-  exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-)
-
-func main() {
-  // network := common.LoadNetwork("mainnet", "lb")
-  network := common.LoadNetwork("testnet", "k8s")
-  exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint, common.OptionTLSCert(network.ExchangeTlsCert))
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  ctx := context.Background()
-  receiver := "inj1ddcp5ftqmntudn4m6heg2adud6hn58urnwlmkh"
-
-  req := explorerPB.GetIBCTransferTxsRequest{
-    Receiver: receiver,
-  }
-
-  res, err := exchangeClient.GetIBCTransfers(ctx, req)
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  str, _ := json.MarshalIndent(res, "", " ")
-  fmt.Print(string(str))
-}
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/10_IBCTransfers/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter    | Type             | Description                                   | Required |
 | ------------ | ---------------- | --------------------------------------------- | -------- |
@@ -2213,45 +1590,8 @@ List all cosmwasm code on injective chain. Results are paginated.
 
 > Request Example:
 
-<!-- embedme ../../../sdk-go/examples/explorer/11_GetWasmCodes/example.go -->
-
-```go
-package main
-
-import (
-	"context"
-	"encoding/json"
-	"fmt"
-
-	explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
-
-	"github.com/InjectiveLabs/sdk-go/client/common"
-	explorerclient "github.com/InjectiveLabs/sdk-go/client/explorer"
-)
-
-func main() {
-	network := common.LoadNetwork("testnet", "k8s")
-	explorerClient, err := explorerclient.NewExplorerClient(network.ExplorerGrpcEndpoint, common.OptionTLSCert(network.ExplorerTlsCert))
-	if err != nil {
-		panic(err)
-	}
-
-	ctx := context.Background()
-
-	req := explorerPB.GetWasmCodesRequest{
-		Limit: 5,
-	}
-
-	res, err := explorerClient.GetWasmCodes(ctx, req)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	str, _ := json.MarshalIndent(res, "", " ")
-	fmt.Print(string(str))
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/11_GetWasmCodes/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 > Response Example:
 
@@ -2399,45 +1739,8 @@ Get cosmwasm code by its code ID
 
 > Request Example:
 
-<!-- embedme ../../../sdk-go/examples/explorer/12_GetWasmCodeByID/example.go -->
-
-```go
-package main
-
-import (
-	"context"
-	"encoding/json"
-	"fmt"
-
-	explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
-
-	"github.com/InjectiveLabs/sdk-go/client/common"
-	explorerclient "github.com/InjectiveLabs/sdk-go/client/explorer"
-)
-
-func main() {
-	network := common.LoadNetwork("testnet", "k8s")
-	explorerClient, err := explorerclient.NewExplorerClient(network.ExplorerGrpcEndpoint, common.OptionTLSCert(network.ExplorerTlsCert))
-	if err != nil {
-		panic(err)
-	}
-
-	ctx := context.Background()
-
-	req := explorerPB.GetWasmCodeByIDRequest{
-		CodeId: 10,
-	}
-
-	res, err := explorerClient.GetWasmCodeByID(ctx, req)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	str, _ := json.MarshalIndent(res, "", " ")
-	fmt.Print(string(str))
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/12_GetWasmCodeById/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 > Response Example:
 
@@ -2503,45 +1806,8 @@ Get cosmwasm instantiated contracts on injective-chain. Results are paginated.
 
 > Request Example:
 
-<!-- embedme ../../../sdk-go/examples/explorer/13_GetWasmContracts/example.go -->
-
-```go
-package main
-
-import (
-	"context"
-	"encoding/json"
-	"fmt"
-
-	explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
-
-	"github.com/InjectiveLabs/sdk-go/client/common"
-	explorerclient "github.com/InjectiveLabs/sdk-go/client/explorer"
-)
-
-func main() {
-	network := common.LoadNetwork("testnet", "k8s")
-	explorerClient, err := explorerclient.NewExplorerClient(network.ExplorerGrpcEndpoint, common.OptionTLSCert(network.ExplorerTlsCert))
-	if err != nil {
-		panic(err)
-	}
-
-	ctx := context.Background()
-
-	req := explorerPB.GetWasmContractsRequest{
-		Limit: 5,
-	}
-
-	res, err := explorerClient.GetWasmContracts(ctx, req)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	str, _ := json.MarshalIndent(res, "", " ")
-	fmt.Print(string(str))
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/13_GetWasmContracts/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 > Response Example:
 
@@ -2717,44 +1983,8 @@ Get cosmwasm contract by its address
 
 > Request Example:
 
-<!-- embedme ../../../sdk-go/examples/explorer/14_GetWasmContractByAddress/example.go -->
-
-```go
-package main
-
-import (
-	"context"
-	"encoding/json"
-	"fmt"
-
-	explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
-
-	"github.com/InjectiveLabs/sdk-go/client/common"
-	explorerclient "github.com/InjectiveLabs/sdk-go/client/explorer"
-)
-
-func main() {
-	network := common.LoadNetwork("testnet", "k8s")
-	explorerClient, err := explorerclient.NewExplorerClient(network.ExplorerGrpcEndpoint, common.OptionTLSCert(network.ExplorerTlsCert))
-	if err != nil {
-		panic(err)
-	}
-
-	ctx := context.Background()
-
-	req := explorerPB.GetWasmContractByAddressRequest{
-		ContractAddress: "inj1ru9nhdjtjtz8u8wrwxmcl9zsns4fh2838yr5ga",
-	}
-	res, err := explorerClient.GetWasmContractByAddress(ctx, req)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	str, _ := json.MarshalIndent(res, "", " ")
-	fmt.Print(string(str))
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/14_GetWasmContractByAddress/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 > Response Example:
 
@@ -2842,44 +2072,8 @@ Get CW20 balances of an injective account across all instantiated CW20 contracts
 
 > Request Example:
 
-<!-- embedme ../../../sdk-go/examples/explorer/15_GetCW20Balance/example.go -->
-
-```go
-package main
-
-import (
-	"context"
-	"encoding/json"
-	"fmt"
-
-	explorerPB "github.com/InjectiveLabs/sdk-go/exchange/explorer_rpc/pb"
-
-	"github.com/InjectiveLabs/sdk-go/client/common"
-	explorerclient "github.com/InjectiveLabs/sdk-go/client/explorer"
-)
-
-func main() {
-	network := common.LoadNetwork("testnet", "k8s")
-	explorerClient, err := explorerclient.NewExplorerClient(network.ExplorerGrpcEndpoint, common.OptionTLSCert(network.ExplorerTlsCert))
-	if err != nil {
-		panic(err)
-	}
-
-	ctx := context.Background()
-
-	req := explorerPB.GetCw20BalanceRequest{
-		Address: "inj1dc6rrxhfjaxexzdcrec5w3ryl4jn6x5t7t9j3z",
-	}
-	res, err := explorerClient.GetCW20Balance(ctx, req)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	str, _ := json.MarshalIndent(res, "", " ")
-	fmt.Print(string(str))
-}
-
-```
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/15_GetCW20Balance/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 > Response Example:
 

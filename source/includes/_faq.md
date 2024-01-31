@@ -11,9 +11,9 @@
 	If you place trades through the UI on one of the available [relayers](https://hub.injective.network/trade) you can experience gas-less trading, if you place trades from the API you will pay gas fees in INJ but they will be very low at an average of 0.00005 INJ per message. Note that the INJ to pay for gas must be in the bank balance (wallet) and not the subaccount (trading account).
 	
 ## 3. How can I calculate the gas fees in INJ?
-	The minimum gas price set to the node is 500000000, in order to find the exact INJ amount paid you multiply the gas wanted with the minimum gas price and divide by 1e18. For instance, if gas wanted is 104519 then you would calculate it as follows:
+	The minimum gas price currently accepted by nodes is 160000000. In order to find the exact INJ amount paid you multiply the gas wanted by the minimum gas price and divide by 1e18 (because INJ token has 18 decimals). For instance, if gas wanted is 104519 then you would calculate it as follows:
 
-	500000000 * 104519 / 1e18 = 0.0000522595 INJ
+	160000000 * 104519 / 1e18 = 0.00001672304 INJ
 
 ## 4. Which API nodes can I connect to?
 	The SDKs default to using a [load balanced endpoint](https://docs.injective.network/develop/public-endpoints). It is possible also to run a local node. The guide to set up your own node can be found [here](https://www.notion.so/injective/Injective-Exchange-Service-Setup-Guide-7e59980634d54991862300670583d46a).
