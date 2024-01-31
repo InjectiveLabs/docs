@@ -12,9 +12,200 @@ There are two types of authorization, Generic and Typed. Generic authorization w
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/19_MsgGrant.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/19_MsgGrant.py -->
+```py
+import asyncio
+
+from grpc import RpcError
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.constant import GAS_FEE_BUFFER_AMOUNT, GAS_PRICE
+from pyinjective.core.network import Network
+from pyinjective.transaction import Transaction
+from pyinjective.wallet import PrivateKey
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+
+    # initialize grpc client
+    client = AsyncClient(network)
+    composer = await client.composer()
+    await client.sync_timeout_height()
+
+    # load account
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
+    pub_key = priv_key.to_public_key()
+    address = pub_key.to_address()
+    await client.fetch_account(address.to_acc_bech32())
+    # subaccount_id = address.get_subaccount_id(index=0)
+    # market_ids = ["0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"]
+
+    # prepare tx msg
+
+    # GENERIC AUTHZ
+    msg = composer.MsgGrantGeneric(
+        granter="inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+        grantee="inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+        msg_type="/injective.exchange.v1beta1.MsgCreateSpotLimitOrder",
+        expire_in=31536000,  # 1 year
+    )
+
+    # TYPED AUTHZ
+    # msg = composer.MsgGrantTyped(
+    #     granter = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+    #     grantee = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+    #     msg_type = "CreateSpotLimitOrderAuthz",
+    #     expire_in=31536000, # 1 year
+    #     subaccount_id=subaccount_id,
+    #     market_ids=market_ids
+    # )
+
+    # build sim tx
+    tx = (
+        Transaction()
+        .with_messages(msg)
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
+        .with_chain_id(network.chain_id)
+    )
+    sim_sign_doc = tx.get_sign_doc(pub_key)
+    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
+    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
+
+    # simulate tx
+    try:
+        sim_res = await client.simulate(sim_tx_raw_bytes)
+    except RpcError as ex:
+        print(ex)
+        return
+
+    # build tx
+    gas_price = GAS_PRICE
+    gas_limit = int(sim_res["gasInfo"]["gasUsed"]) + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
+    gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
+    fee = [
+        composer.Coin(
+            amount=gas_price * gas_limit,
+            denom=network.fee_denom,
+        )
+    ]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(client.timeout_height)
+    sign_doc = tx.get_sign_doc(pub_key)
+    sig = priv_key.sign(sign_doc.SerializeToString())
+    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+
+    # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
+    res = await client.broadcast_tx_sync_mode(tx_raw_bytes)
+    print(res)
+    print("gas wanted: {}".format(gas_limit))
+    print("gas fee: {} INJ".format(gas_fee))
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/19_MsgGrant/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/19_MsgGrant/example.go -->
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+	"time"
+
+	"github.com/InjectiveLabs/sdk-go/client"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	if err != nil {
+		panic(err)
+	}
+
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
+
+	chainClient, err := chainclient.NewChainClient(
+		clientCtx,
+		network,
+		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	granter := senderAddress.String()
+	grantee := "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+	expireIn := time.Now().AddDate(1, 0, 0) // years months days
+
+	//GENERIC AUTHZ
+	//msgtype := "/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"
+	//msg := chainClient.BuildGenericAuthz(granter, grantee, msgtype, expireIn)
+
+	// TYPED AUTHZ
+	msg := chainClient.BuildExchangeAuthz(
+		granter,
+		grantee,
+		chainclient.CreateSpotLimitOrderAuthz,
+		chainClient.DefaultSubaccount(senderAddress).String(),
+		[]string{"0xe0dc13205fb8b23111d8555a6402681965223135d368eeeb964681f9ff12eb2a"},
+		expireIn,
+	)
+
+	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	err = chainClient.QueueBroadcastMsg(msg)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	time.Sleep(time.Second * 5)
+
+	gasFee, err := chainClient.GetGasFee()
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("gas fee:", gasFee, "INJ")
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 |Parameter|Type|Description|Required|
@@ -75,9 +266,259 @@ gas fee: 0.0000589365 INJ
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/20_MsgExec.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/20_MsgExec.py -->
+```py
+import asyncio
+import uuid
+
+from grpc import RpcError
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.constant import GAS_FEE_BUFFER_AMOUNT, GAS_PRICE
+from pyinjective.core.network import Network
+from pyinjective.transaction import Transaction
+from pyinjective.wallet import Address, PrivateKey
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+
+    # initialize grpc client
+    client = AsyncClient(network)
+    composer = await client.composer()
+    await client.sync_timeout_height()
+
+    # load account
+    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    pub_key = priv_key.to_public_key()
+    address = pub_key.to_address()
+    await client.fetch_account(address.to_acc_bech32())
+
+    # prepare tx msg
+    market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+    grantee = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+    granter_inj_address = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+    granter_address = Address.from_acc_bech32(granter_inj_address)
+    granter_subaccount_id = granter_address.get_subaccount_id(index=0)
+    msg0 = composer.MsgCreateSpotLimitOrder(
+        sender=granter_inj_address,
+        market_id=market_id,
+        subaccount_id=granter_subaccount_id,
+        fee_recipient=grantee,
+        price=7.523,
+        quantity=0.01,
+        is_buy=True,
+        is_po=False,
+        cid=str(uuid.uuid4()),
+    )
+
+    msg = composer.MsgExec(grantee=grantee, msgs=[msg0])
+
+    # build sim tx
+    tx = (
+        Transaction()
+        .with_messages(msg)
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
+        .with_chain_id(network.chain_id)
+    )
+    sim_sign_doc = tx.get_sign_doc(pub_key)
+    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
+    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
+
+    # simulate tx
+    try:
+        sim_res = await client.simulate(sim_tx_raw_bytes)
+    except RpcError as ex:
+        print(ex)
+        return
+
+    sim_res_msgs = sim_res["result"]["msgResponses"]
+    data = sim_res_msgs[0]
+    unpacked_msg_res = composer.unpack_msg_exec_response(
+        underlying_msg_type=msg0.__class__.__name__, msg_exec_response=data
+    )
+    print("simulation msg response")
+    print(unpacked_msg_res)
+
+    # build tx
+    gas_price = GAS_PRICE
+    gas_limit = int(sim_res["gasInfo"]["gasUsed"]) + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
+    gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
+    fee = [
+        composer.Coin(
+            amount=gas_price * gas_limit,
+            denom=network.fee_denom,
+        )
+    ]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(client.timeout_height)
+    sign_doc = tx.get_sign_doc(pub_key)
+    sig = priv_key.sign(sign_doc.SerializeToString())
+    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+
+    # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
+    res = await client.broadcast_tx_sync_mode(tx_raw_bytes)
+    print(res)
+    print("gas wanted: {}".format(gas_limit))
+    print("gas fee: {} INJ".format(gas_fee))
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/20_MsgExec/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/20_MsgExec/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	"time"
+
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+
+	"github.com/InjectiveLabs/sdk-go/client"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	"github.com/shopspring/decimal"
+
+	exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	authztypes "github.com/cosmos/cosmos-sdk/x/authz"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	if err != nil {
+		panic(err)
+	}
+
+	granterAddress, _, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3", // keyring will be used if pk not provided
+		false,
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
+
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketsAssistant, err := chainclient.NewMarketsAssistantInitializedFromChain(ctx, exchangeClient)
+	if err != nil {
+		panic(err)
+	}
+
+	txFactory := chainclient.NewTxFactory(clientCtx)
+	txFactory = txFactory.WithGasPrices(client.DefaultGasPriceWithDenom)
+	chainClient, err := chainclient.NewChainClient(
+		clientCtx,
+		network,
+		common.OptionTxFactory(&txFactory),
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	// note that we use grantee keyring to send the msg on behalf of granter here
+	// sender, subaccount are from granter
+	granter := granterAddress.String()
+	grantee := "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+	defaultSubaccountID := chainClient.DefaultSubaccount(granterAddress)
+
+	marketId := "0x0511ddc4e6586f3bfe1acb2dd905f8b8a82c97e1edaef654b12ca7e6031ca0fa"
+
+	amount := decimal.NewFromFloat(2)
+	price := decimal.NewFromFloat(22.55)
+	order := chainClient.CreateSpotOrder(
+		defaultSubaccountID,
+		&chainclient.SpotOrderData{
+			OrderType:    exchangetypes.OrderType_BUY,
+			Quantity:     amount,
+			Price:        price,
+			FeeRecipient: senderAddress.String(),
+			MarketId:     marketId,
+		},
+		marketsAssistant,
+	)
+
+	// manually pack msg into Any type
+	msg0 := exchangetypes.MsgCreateSpotLimitOrder{
+		Sender: granter,
+		Order:  *order,
+	}
+	msg0Bytes, _ := msg0.Marshal()
+	msg0Any := &codectypes.Any{}
+	msg0Any.TypeUrl = sdk.MsgTypeURL(&msg0)
+	msg0Any.Value = msg0Bytes
+	msg := &authztypes.MsgExec{
+		Grantee: grantee,
+		Msgs:    []*codectypes.Any{msg0Any},
+	}
+
+	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	err = chainClient.QueueBroadcastMsg(msg)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	time.Sleep(time.Second * 5)
+
+	gasFee, err := chainClient.GetGasFee()
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("gas fee:", gasFee, "INJ")
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 |Parameter|Type|Description|Required|
@@ -116,9 +557,176 @@ gas fee: 0.000066986 INJ
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/21_MsgRevoke.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/21_MsgRevoke.py -->
+```py
+import asyncio
+
+from grpc import RpcError
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.constant import GAS_FEE_BUFFER_AMOUNT, GAS_PRICE
+from pyinjective.core.network import Network
+from pyinjective.transaction import Transaction
+from pyinjective.wallet import PrivateKey
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+
+    # initialize grpc client
+    client = AsyncClient(network)
+    composer = await client.composer()
+    await client.sync_timeout_height()
+
+    # load account
+    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
+    pub_key = priv_key.to_public_key()
+    address = pub_key.to_address()
+    await client.fetch_account(address.to_acc_bech32())
+
+    # prepare tx msg
+    msg = composer.MsgRevoke(
+        granter="inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+        grantee="inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+        msg_type="/injective.exchange.v1beta1.MsgCreateSpotLimitOrder",
+    )
+
+    # build sim tx
+    tx = (
+        Transaction()
+        .with_messages(msg)
+        .with_sequence(client.get_sequence())
+        .with_account_num(client.get_number())
+        .with_chain_id(network.chain_id)
+    )
+    sim_sign_doc = tx.get_sign_doc(pub_key)
+    sim_sig = priv_key.sign(sim_sign_doc.SerializeToString())
+    sim_tx_raw_bytes = tx.get_tx_data(sim_sig, pub_key)
+
+    # simulate tx
+    try:
+        sim_res = await client.simulate(sim_tx_raw_bytes)
+    except RpcError as ex:
+        print(ex)
+        return
+
+    # build tx
+    gas_price = GAS_PRICE
+    gas_limit = int(sim_res["gasInfo"]["gasUsed"]) + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
+    gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
+    fee = [
+        composer.Coin(
+            amount=gas_price * gas_limit,
+            denom=network.fee_denom,
+        )
+    ]
+    tx = tx.with_gas(gas_limit).with_fee(fee).with_memo("").with_timeout_height(client.timeout_height)
+    sign_doc = tx.get_sign_doc(pub_key)
+    sig = priv_key.sign(sign_doc.SerializeToString())
+    tx_raw_bytes = tx.get_tx_data(sig, pub_key)
+
+    # broadcast tx: send_tx_async_mode, send_tx_sync_mode, send_tx_block_mode
+    res = await client.broadcast_tx_sync_mode(tx_raw_bytes)
+    print(res)
+    print("gas wanted: {}".format(gas_limit))
+    print("gas fee: {} INJ".format(gas_fee))
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/21_MsgRevoke/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/21_MsgRevoke/example.go -->
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+	"time"
+
+	"github.com/InjectiveLabs/sdk-go/client"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+	authztypes "github.com/cosmos/cosmos-sdk/x/authz"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	if err != nil {
+		panic(err)
+	}
+
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
+
+	chainClient, err := chainclient.NewChainClient(
+		clientCtx,
+		network,
+		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	grantee := "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+	msgType := "/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"
+
+	msg := &authztypes.MsgRevoke{
+		Granter:    senderAddress.String(),
+		Grantee:    grantee,
+		MsgTypeUrl: msgType,
+	}
+
+	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	err = chainClient.QueueBroadcastMsg(msg)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	time.Sleep(time.Second * 5)
+
+	gasFee, err := chainClient.GetGasFee()
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("gas fee:", gasFee, "INJ")
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 |Parameter|Type|Description|Required|
@@ -157,9 +765,114 @@ Get the details of an authorization between a granter and a grantee.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/27_Grants.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/27_Grants.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network)
+    granter = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+    grantee = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+    msg_type_url = "/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder"
+    authorizations = await client.fetch_grants(granter=granter, grantee=grantee, msg_type_url=msg_type_url)
+    print(authorizations)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/27_QueryAuthzGrants/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/27_QueryAuthzGrants/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client"
+
+	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+	authztypes "github.com/cosmos/cosmos-sdk/x/authz"
+
+	"os"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	tmClient, err := rpchttp.New(network.TmEndpoint, "/websocket")
+	if err != nil {
+		panic(err)
+	}
+
+	senderAddress, cosmosKeyring, err := chainclient.InitCosmosKeyring(
+		os.Getenv("HOME")+"/.injectived",
+		"injectived",
+		"file",
+		"inj-user",
+		"12345678",
+		"5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e", // keyring will be used if pk not provided
+		false,
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	clientCtx, err := chainclient.NewClientContext(
+		network.ChainId,
+		senderAddress.String(),
+		cosmosKeyring,
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	clientCtx = clientCtx.WithNodeURI(network.TmEndpoint).WithClient(tmClient)
+
+	chainClient, err := chainclient.NewChainClient(
+		clientCtx,
+		network,
+		common.OptionGasPrices(client.DefaultGasPriceWithDenom),
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	granter := "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+	grantee := "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+	msg_type_url := "/injective.exchange.v1beta1.MsgCreateSpotLimitOrder"
+
+	req := authztypes.QueryGrantsRequest{
+		Granter:    granter,
+		Grantee:    grantee,
+		MsgTypeUrl: msg_type_url,
+	}
+
+	ctx := context.Background()
+
+	res, err := chainClient.GetAuthzGrants(ctx, req)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 |Parameter|Type|Description|Required|

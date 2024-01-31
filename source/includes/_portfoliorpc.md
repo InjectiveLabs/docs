@@ -13,9 +13,61 @@ Get details about an account's portfolio.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/portfolio_rpc/1_AccountPortfolio.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/portfolio_rpc/1_AccountPortfolio.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    account_address = "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
+    portfolio = await client.fetch_account_portfolio_balances(account_address=account_address)
+    print(portfolio)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/portfolio/1_AccountPortfolio/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/portfolio/1_AccountPortfolio/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+	// select network: local, testnet, mainnet
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	accountAddress := "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
+	res, err := exchangeClient.GetAccountPortfolioBalances(ctx, accountAddress)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter       | Type   | Description                                 | Required |
@@ -240,9 +292,97 @@ Get continuous updates on account's portfolio.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/portfolio_rpc/2_StreamAccountPortfolio.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/portfolio_rpc/2_StreamAccountPortfolio.py -->
+```py
+import asyncio
+from typing import Any, Dict
+
+from grpc import RpcError
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def account_portfolio_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to account portfolio updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The account portfolio updates stream has been closed")
+
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network)
+    account_address = "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt"
+
+    task = asyncio.get_event_loop().create_task(
+        client.listen_account_portfolio_updates(
+            account_address=account_address,
+            callback=account_portfolio_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/portfolio/3_StreamAccountPortfolioSubaccountBalances/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/portfolio/3_StreamAccountPortfolioSubaccountBalances/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+	// select network: local, testnet, mainnet
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+
+	stream, err := exchangeClient.StreamAccountPortfolio(ctx, "inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt", "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001", "total_balances")
+	if err != nil {
+		panic(err)
+	}
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			str, _ := json.MarshalIndent(res, "", " ")
+			fmt.Print(string(str))
+		}
+	}
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter          | Type     | Description                                                                                          | Required |

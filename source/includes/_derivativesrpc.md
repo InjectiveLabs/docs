@@ -12,9 +12,61 @@ Get details of a single derivative market.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/1_Market.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/1_Market.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+    market = await client.fetch_derivative_market(market_id=market_id)
+    print(market)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/1_Market/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/1_Market/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+	res, err := exchangeClient.GetDerivativeMarket(ctx, marketId)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter | Type   | Description               | Required |
@@ -188,9 +240,70 @@ Get a list of one or more derivative markets.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/2_Markets.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/2_Markets.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_statuses = ["active"]
+    quote_denom = "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+    market = await client.fetch_derivative_markets(market_statuses=market_statuses, quote_denom=quote_denom)
+    print(market)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/2_Markets/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/2_Markets/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("mainnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketStatus := "active"
+	quoteDenom := "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+
+	req := derivativeExchangePB.MarketsRequest{
+		MarketStatus: marketStatus,
+		QuoteDenom:   quoteDenom,
+	}
+
+	res, err := exchangeClient.GetDerivativeMarkets(ctx, &req)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter       | Type         | Description                                                                                            | Required |
@@ -434,9 +547,96 @@ Stream live updates of derivative markets.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/3_StreamMarket.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/3_StreamMarket.py -->
+```py
+import asyncio
+from typing import Any, Dict
+
+from grpc import RpcError
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def market_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to derivative markets updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The derivative markets updates stream has been closed")
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+
+    task = asyncio.get_event_loop().create_task(
+        client.listen_derivative_market_updates(
+            callback=market_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/3_StreamMarket/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/3_StreamMarket/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketIds := []string{"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"}
+	stream, err := exchangeClient.StreamDerivativeMarket(ctx, marketIds)
+	if err != nil {
+		panic(err)
+	}
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				panic(err)
+				return
+			}
+			str, _ := json.MarshalIndent(res, "", " ")
+			fmt.Print(string(str))
+		}
+	}
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter          | Type         | Description                                                                                          | Required |
@@ -617,9 +817,85 @@ Lists historical orders posted from a subaccount
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/21_Historical_Orders.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/21_Historical_Orders.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_ids = ["0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"]
+    subaccount_id = "0x295639d56c987f0e24d21bb167872b3542a6e05a000000000000000000000000"
+    is_conditional = "false"
+    skip = 10
+    limit = 3
+    pagination = PaginationOption(skip=skip, limit=limit)
+    orders = await client.fetch_derivative_orders_history(
+        subaccount_id=subaccount_id,
+        market_ids=market_ids,
+        is_conditional=is_conditional,
+        pagination=pagination,
+    )
+    print(orders)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/18_HistoricalOrders/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/18_HistoricalOrders/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+	subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+	skip := uint64(0)
+	limit := int32(10)
+	isConditional := "false"
+
+	req := derivativeExchangePB.OrdersHistoryRequest{
+		SubaccountId:  subaccountId,
+		MarketId:      marketId,
+		Skip:          skip,
+		Limit:         limit,
+		IsConditional: isConditional,
+	}
+
+	res, err := exchangeClient.GetHistoricalDerivativeOrders(ctx, &req)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter           | Type             | Description                                                                                                                               | Required |
@@ -882,9 +1158,106 @@ Stream order updates of a derivative market.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/10_StreamHistoricalOrders.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/10_StreamHistoricalOrders.py -->
+```py
+import asyncio
+from typing import Any, Dict
+
+from grpc import RpcError
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def order_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to derivative orders history updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The derivative orders history updates stream has been closed")
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+
+    task = asyncio.get_event_loop().create_task(
+        client.listen_derivative_orders_history_updates(
+            callback=order_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+            market_id=market_id,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/19_StreamHistoricalOrders/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/19_StreamHistoricalOrders/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+	subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+	direction := "buy"
+
+	req := derivativeExchangePB.StreamOrdersHistoryRequest{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+		Direction:    direction,
+	}
+	stream, err := exchangeClient.StreamHistoricalDerivativeOrders(ctx, &req)
+	if err != nil {
+		panic(err)
+	}
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				panic(err)
+				return
+			}
+			str, _ := json.MarshalIndent(res, "", " ")
+			fmt.Print(string(str))
+		}
+	}
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter          | Type         | Description                                                                                                                     | Required |
@@ -1043,9 +1416,75 @@ The difference between `Trades` and `TradesV2` is that the latter returns a `tra
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/11_Trades.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/11_Trades.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_ids = ["0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"]
+    subaccount_ids = ["0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"]
+    skip = 0
+    limit = 4
+    pagination = PaginationOption(skip=skip, limit=limit)
+    trades = await client.fetch_derivative_trades(
+        market_ids=market_ids, subaccount_ids=subaccount_ids, pagination=pagination
+    )
+    print(trades)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/21_TradesV2/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/21_TradesV2/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+	subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+
+	req := derivativeExchangePB.TradesV2Request{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+	}
+
+	res, err := exchangeClient.GetDerivativeTradesV2(ctx, &req)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter       | Type             | Description                                                                                                                     | Required |
@@ -1387,9 +1826,109 @@ The difference between `StreamTrades` and `StreamTradesV2` is that the latter re
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/12_StreamTrades.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/12_StreamTrades.py -->
+```py
+import asyncio
+from typing import Any, Dict
+
+from grpc import RpcError
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def market_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to derivative trades updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The derivative trades updates stream has been closed")
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_ids = [
+        "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+        "0x70bc8d7feab38b23d5fdfb12b9c3726e400c265edbcbf449b6c80c31d63d3a02",
+    ]
+    subaccount_ids = ["0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"]
+
+    task = asyncio.get_event_loop().create_task(
+        client.listen_derivative_trades_updates(
+            callback=market_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+            market_ids=market_ids,
+            subaccount_ids=subaccount_ids,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/22_StreamTradesV2/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/22_StreamTradesV2/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+	subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+
+	req := derivativeExchangePB.StreamTradesV2Request{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+	}
+	stream, err := exchangeClient.StreamDerivativeV2Trades(ctx, &req)
+	if err != nil {
+		panic(err)
+	}
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				panic(err)
+				return
+			}
+			str, _ := json.MarshalIndent(res, "", " ")
+			fmt.Print(string(str))
+		}
+	}
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter          | Type             | Description                                                                                                                     | Required |
@@ -1597,9 +2136,89 @@ Get the positions of a market.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/7_Positions.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/7_Positions.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_ids = [
+        "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+        "0xd97d0da6f6c11710ef06315971250e4e9aed4b7d4cd02059c9477ec8cf243782",
+    ]
+    subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+    direction = "short"
+    subaccount_total_positions = False
+    skip = 4
+    limit = 4
+    pagination = PaginationOption(skip=skip, limit=limit)
+    positions = await client.fetch_derivative_positions_v2(
+        market_ids=market_ids,
+        subaccount_id=subaccount_id,
+        direction=direction,
+        subaccount_total_positions=subaccount_total_positions,
+        pagination=pagination,
+    )
+    print(positions)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/8_Positions/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/8_Positions/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+	subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+	skip := uint64(0)
+	limit := int32(10)
+
+	req := derivativeExchangePB.PositionsV2Request{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+		Skip:         skip,
+		Limit:        limit,
+	}
+
+	res, err := exchangeClient.GetDerivativePositionsV2(ctx, &req)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter                  | Type             | Description                                                                   | Required |
@@ -1833,9 +2452,106 @@ Stream position updates for a specific market.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/9_StreamPositions.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/9_StreamPositions.py -->
+```py
+import asyncio
+from typing import Any, Dict
+
+from grpc import RpcError
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def positions_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to derivative positions updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The derivative positions updates stream has been closed")
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_ids = ["0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"]
+    subaccount_ids = ["0xea98e3aa091a6676194df40ac089e40ab4604bf9000000000000000000000000"]
+
+    task = asyncio.get_event_loop().create_task(
+        client.listen_derivative_positions_updates(
+            callback=positions_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+            market_ids=market_ids,
+            subaccount_ids=subaccount_ids,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/10_StreamPositions/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/10_StreamPositions/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+	subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+
+	req := derivativeExchangePB.StreamPositionsRequest{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+	}
+	stream, err := exchangeClient.StreamDerivativePositions(ctx, &req)
+	if err != nil {
+		panic(err)
+	}
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				panic(err)
+				return
+			}
+			str, _ := json.MarshalIndent(res, "", " ")
+			fmt.Print(string(str))
+		}
+	}
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter          | Type         | Description                                                                                          | Required |
@@ -1963,9 +2679,76 @@ Gets all the liquidable positions
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/23_LiquidablePositions.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/23_LiquidablePositions.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+    skip = 10
+    limit = 3
+    pagination = PaginationOption(skip=skip, limit=limit)
+    positions = await client.fetch_derivative_liquidable_positions(
+        market_id=market_id,
+        pagination=pagination,
+    )
+    print(positions)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/20_LiquidablePositions/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/20_LiquidablePositions/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	//marketId := "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+	skip := uint64(0)
+	limit := int32(10)
+
+	req := derivativeExchangePB.LiquidablePositionsRequest{
+		//MarketId: marketId,
+		Skip:  skip,
+		Limit: limit,
+	}
+
+	res, err := exchangeClient.GetDerivativeLiquidablePositions(ctx, &req)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter | Type    | Description                                                                                            | Required |
@@ -2208,9 +2991,64 @@ Get an orderbook snapshot for one or more derivative markets.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/22_OrderbooksV2.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/22_OrderbooksV2.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_ids = [
+        "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6",
+        "0xd5e4b12b19ecf176e4e14b42944731c27677819d2ed93be4104ad7025529c7ff",
+    ]
+    orderbooks = await client.fetch_derivative_orderbooks_v2(market_ids=market_ids)
+    print(orderbooks)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/5_Orderbooks/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/5_Orderbooks/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketIds := []string{"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"}
+	res, err := exchangeClient.GetDerivativeOrderbooksV2(ctx, marketIds)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter  | Type         | Description                                            | Required |
@@ -2399,9 +3237,95 @@ Stream orderbook snapshot updates for one or more derivative markets
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/5_StreamOrderbooks.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/5_StreamOrderbooks.py -->
+```py
+import asyncio
+from typing import Any, Dict
+
+from grpc import RpcError
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def orderbook_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to derivative orderbook snapshots ({exception})")
+
+
+def stream_closed_processor():
+    print("The derivative orderbook snapshots stream has been closed")
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_ids = ["0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"]
+
+    task = asyncio.get_event_loop().create_task(
+        client.listen_derivative_orderbook_snapshots(
+            market_ids=market_ids,
+            callback=orderbook_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/6_StreamOrderbook/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/6_StreamOrderbook/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+	network := common.LoadNetwork("devnet-1", "")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketIds := []string{"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"}
+	stream, err := exchangeClient.StreamDerivativeOrderbookV2(ctx, marketIds)
+	if err != nil {
+		panic(err)
+	}
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			fmt.Println(res.MarketId, len(res.Orderbook.Sells), len(res.Orderbook.Buys))
+		}
+	}
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter          | Type         | Description                                                                                          | Required |
@@ -2479,9 +3403,359 @@ Stream incremental orderbook updates for one or more derivative markets. This st
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/6_StreamOrderbookUpdate.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/6_StreamOrderbookUpdate.py -->
+```py
+import asyncio
+from decimal import Decimal
+from typing import Any, Dict
+
+from grpc import RpcError
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to derivative orderbook updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The derivative orderbook updates stream has been closed")
+
+
+class PriceLevel:
+    def __init__(self, price: Decimal, quantity: Decimal, timestamp: int):
+        self.price = price
+        self.quantity = quantity
+        self.timestamp = timestamp
+
+    def __str__(self) -> str:
+        return "price: {} | quantity: {} | timestamp: {}".format(self.price, self.quantity, self.timestamp)
+
+
+class Orderbook:
+    def __init__(self, market_id: str):
+        self.market_id = market_id
+        self.sequence = -1
+        self.levels = {"buys": {}, "sells": {}}
+
+
+async def load_orderbook_snapshot(async_client: AsyncClient, orderbook: Orderbook):
+    # load the snapshot
+    res = await async_client.fetch_derivative_orderbooks_v2(market_ids=[orderbook.market_id])
+    for snapshot in res["orderbooks"]:
+        if snapshot["marketId"] != orderbook.market_id:
+            raise Exception("unexpected snapshot")
+
+        orderbook.sequence = int(snapshot["orderbook"]["sequence"])
+
+        for buy in snapshot["orderbook"]["buys"]:
+            orderbook.levels["buys"][buy["price"]] = PriceLevel(
+                price=Decimal(buy["price"]),
+                quantity=Decimal(buy["quantity"]),
+                timestamp=int(buy["timestamp"]),
+            )
+        for sell in snapshot["orderbook"]["sells"]:
+            orderbook.levels["sells"][sell["price"]] = PriceLevel(
+                price=Decimal(sell["price"]),
+                quantity=Decimal(sell["quantity"]),
+                timestamp=int(sell["timestamp"]),
+            )
+        break
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    async_client = AsyncClient(network)
+
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+    orderbook = Orderbook(market_id=market_id)
+    updates_queue = asyncio.Queue()
+    tasks = []
+
+    async def queue_event(event: Dict[str, Any]):
+        await updates_queue.put(event)
+
+    # start getting price levels updates
+    task = asyncio.get_event_loop().create_task(
+        async_client.listen_derivative_orderbook_updates(
+            market_ids=[market_id],
+            callback=queue_event,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+    tasks.append(task)
+
+    # load the snapshot once we are already receiving updates, so we don't miss any
+    await load_orderbook_snapshot(async_client=async_client, orderbook=orderbook)
+
+    task = asyncio.get_event_loop().create_task(
+        apply_orderbook_update(orderbook=orderbook, updates_queue=updates_queue)
+    )
+    tasks.append(task)
+
+    await asyncio.sleep(delay=60)
+    for task in tasks:
+        task.cancel()
+
+
+async def apply_orderbook_update(orderbook: Orderbook, updates_queue: asyncio.Queue):
+    while True:
+        updates = await updates_queue.get()
+        update = updates["orderbookLevelUpdates"]
+
+        # discard updates older than the snapshot
+        if int(update["sequence"]) <= orderbook.sequence:
+            return
+
+        print(" * * * * * * * * * * * * * * * * * * *")
+
+        # ensure we have not missed any update
+        if int(update["sequence"]) > (orderbook.sequence + 1):
+            raise Exception(
+                "missing orderbook update events from stream, must restart: {} vs {}".format(
+                    update["sequence"], (orderbook.sequence + 1)
+                )
+            )
+
+        print("updating orderbook with updates at sequence {}".format(update["sequence"]))
+
+        # update orderbook
+        orderbook.sequence = int(update["sequence"])
+        for direction, levels in {"buys": update["buys"], "sells": update["sells"]}.items():
+            for level in levels:
+                if level["isActive"]:
+                    # upsert level
+                    orderbook.levels[direction][level["price"]] = PriceLevel(
+                        price=Decimal(level["price"]), quantity=Decimal(level["quantity"]), timestamp=level["timestamp"]
+                    )
+                else:
+                    if level["price"] in orderbook.levels[direction]:
+                        del orderbook.levels[direction][level["price"]]
+
+        # sort the level numerically
+        buys = sorted(orderbook.levels["buys"].values(), key=lambda x: x.price, reverse=True)
+        sells = sorted(orderbook.levels["sells"].values(), key=lambda x: x.price, reverse=True)
+
+        # lowest sell price should be higher than the highest buy price
+        if len(buys) > 0 and len(sells) > 0:
+            highest_buy = buys[0].price
+            lowest_sell = sells[-1].price
+            print("Max buy: {} - Min sell: {}".format(highest_buy, lowest_sell))
+            if highest_buy >= lowest_sell:
+                raise Exception("crossed orderbook, must restart")
+
+        # for the example, print the list of buys and sells orders.
+        print("sells")
+        for k in sells:
+            print(k)
+        print("=========")
+        print("buys")
+        for k in buys:
+            print(k)
+        print("====================================")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/7_StreamOrderbookUpdate/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/7_StreamOrderbookUpdate/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"sort"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+	"github.com/shopspring/decimal"
+)
+
+type MapOrderbook struct {
+	Sequence uint64
+	Levels   map[bool]map[string]*derivativeExchangePB.PriceLevel
+}
+
+func main() {
+	network := common.LoadNetwork("devnet-1", "")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		fmt.Println(err)
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketIds := []string{"0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"}
+	stream, err := exchangeClient.StreamDerivativeOrderbookUpdate(ctx, marketIds)
+	if err != nil {
+		fmt.Println(err)
+		panic(err)
+	}
+
+	updatesCh := make(chan *derivativeExchangePB.OrderbookLevelUpdates, 100000)
+	receiving := make(chan struct{})
+	var receivingClosed bool
+
+	// stream orderbook price levels
+	go func() {
+		defer close(updatesCh)
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			default:
+				res, err := stream.Recv()
+				if err != nil {
+					fmt.Println(err)
+					return
+				}
+				u := res.OrderbookLevelUpdates
+				if !receivingClosed {
+					fmt.Println("receiving updates from stream")
+					close(receiving)
+					receivingClosed = true
+				}
+				updatesCh <- u
+			}
+		}
+	}()
+
+	// ensure we are receiving updates before getting orderbook
+	fmt.Println("waiting for streaming updates")
+	<-receiving
+
+	// prepare orderbooks map
+	orderbooks := map[string]*MapOrderbook{}
+	res, err := exchangeClient.GetDerivativeOrderbooksV2(ctx, marketIds)
+	if err != nil {
+		panic(err)
+	}
+	for _, ob := range res.Orderbooks {
+		// init inner maps not ready
+		_, ok := orderbooks[ob.MarketId]
+		if !ok {
+			orderbook := &MapOrderbook{
+				Sequence: ob.Orderbook.Sequence,
+				Levels:   make(map[bool]map[string]*derivativeExchangePB.PriceLevel),
+			}
+			orderbook.Levels[true] = make(map[string]*derivativeExchangePB.PriceLevel)
+			orderbook.Levels[false] = make(map[string]*derivativeExchangePB.PriceLevel)
+			orderbooks[ob.MarketId] = orderbook
+		}
+
+		for _, level := range ob.Orderbook.Buys {
+			orderbooks[ob.MarketId].Levels[true][level.Price] = level
+		}
+		for _, level := range ob.Orderbook.Sells {
+			orderbooks[ob.MarketId].Levels[false][level.Price] = level
+		}
+	}
+
+	// continuously consume level updates and maintain orderbook
+	skippedPastEvents := false
+	for {
+		updates, ok := <-updatesCh
+		if !ok {
+			fmt.Println("updates channel closed, must restart")
+			return // closed
+		}
+
+		// validate orderbook
+		orderbook, ok := orderbooks[updates.MarketId]
+		if !ok {
+			panic("level update doesn't belong to any orderbooks")
+		}
+
+		// skip if update sequence <= orderbook sequence until it's ready to consume
+		if !skippedPastEvents {
+			if orderbook.Sequence >= updates.Sequence {
+				continue
+			}
+			skippedPastEvents = true
+		}
+
+		// panic if update sequence > orderbook sequence + 1
+		if updates.Sequence > orderbook.Sequence+1 {
+			fmt.Printf("skipping levels: update sequence %d vs orderbook sequence %d\n", updates.Sequence, orderbook.Sequence)
+			panic("missing orderbook update events from stream, must restart")
+		}
+
+		// update orderbook map
+		orderbook.Sequence = updates.Sequence
+		for isBuy, update := range map[bool][]*derivativeExchangePB.PriceLevelUpdate{
+			true:  updates.Buys,
+			false: updates.Sells,
+		} {
+			for _, level := range update {
+				if level.IsActive {
+					// upsert
+					orderbook.Levels[isBuy][level.Price] = &derivativeExchangePB.PriceLevel{
+						Price:     level.Price,
+						Quantity:  level.Quantity,
+						Timestamp: level.Timestamp,
+					}
+				} else {
+					// remove inactive level
+					delete(orderbook.Levels[isBuy], level.Price)
+				}
+			}
+		}
+
+		// construct orderbook arrays
+		sells, buys := maintainOrderbook(orderbook.Levels)
+		fmt.Println("after", orderbook.Sequence, len(sells), len(buys))
+
+		if len(sells) > 0 && len(buys) > 0 {
+			// assert orderbook
+			topBuyPrice := decimal.RequireFromString(buys[0].Price)
+			lowestSellPrice := decimal.RequireFromString(sells[0].Price)
+			if topBuyPrice.GreaterThanOrEqual(lowestSellPrice) {
+				panic(fmt.Errorf("crossed orderbook, must restart: buy %s >= %s sell", topBuyPrice, lowestSellPrice))
+			}
+		}
+
+		res, _ = exchangeClient.GetDerivativeOrderbooksV2(ctx, marketIds)
+		fmt.Println("query", res.Orderbooks[0].Orderbook.Sequence, len(res.Orderbooks[0].Orderbook.Sells), len(res.Orderbooks[0].Orderbook.Buys))
+
+		// print orderbook
+		fmt.Println(" [SELLS] ========")
+		for _, s := range sells {
+			fmt.Println(s)
+		}
+		fmt.Println(" [BUYS] ========")
+		for _, b := range buys {
+			fmt.Println(b)
+		}
+		fmt.Println("=======================================================")
+	}
+}
+
+func maintainOrderbook(orderbook map[bool]map[string]*derivativeExchangePB.PriceLevel) (buys, sells []*derivativeExchangePB.PriceLevel) {
+	for _, v := range orderbook[false] {
+		sells = append(sells, v)
+	}
+	for _, v := range orderbook[true] {
+		buys = append(buys, v)
+	}
+
+	sort.Slice(sells, func(i, j int) bool {
+		return decimal.RequireFromString(sells[i].Price).LessThan(decimal.RequireFromString(sells[j].Price))
+	})
+	sort.Slice(buys, func(i, j int) bool {
+		return decimal.RequireFromString(buys[i].Price).GreaterThan(decimal.RequireFromString(buys[j].Price))
+	})
+
+	return sells, buys
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter          | Type         | Description                                                                                          | Required |
@@ -2570,9 +3844,80 @@ Get the derivative orders of a specific subaccount.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/13_SubaccountOrdersList.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/13_SubaccountOrdersList.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+    skip = 1
+    limit = 2
+    pagination = PaginationOption(skip=skip, limit=limit)
+    orders = await client.fetch_subaccount_orders_list(
+        subaccount_id=subaccount_id, market_id=market_id, pagination=pagination
+    )
+    print(orders)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/14_SubaccountOrdersList/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/14_SubaccountOrdersList/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+	subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+	skip := uint64(0)
+	limit := int32(10)
+
+	req := derivativeExchangePB.SubaccountOrdersListRequest{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+		Skip:         skip,
+		Limit:        limit,
+	}
+
+	res, err := exchangeClient.GetSubaccountDerivativeOrdersList(ctx, &req)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter     | Type             | Description              | Required |
@@ -2715,9 +4060,86 @@ Get the derivative trades for a specific subaccount.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/14_SubaccountTradesList.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/14_SubaccountTradesList.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+    execution_type = "market"
+    direction = "sell"
+    skip = 10
+    limit = 2
+    pagination = PaginationOption(skip=skip, limit=limit)
+    trades = await client.fetch_derivative_subaccount_trades_list(
+        subaccount_id=subaccount_id,
+        market_id=market_id,
+        execution_type=execution_type,
+        direction=direction,
+        pagination=pagination,
+    )
+    print(trades)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/15_SubaccountTradesList/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/15_SubaccountTradesList/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+	subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+	skip := uint64(0)
+	limit := int32(10)
+
+	req := derivativeExchangePB.SubaccountTradesListRequest{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+		Skip:         skip,
+		Limit:        limit,
+	}
+
+	res, err := exchangeClient.GetSubaccountDerivativeTradesList(ctx, &req)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter      | Type             | Description                                                                                                                             | Required |
@@ -2862,9 +4284,77 @@ Get the funding payments for a subaccount.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/15_FundingPayments.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/15_FundingPayments.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_ids = ["0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"]
+    subaccount_id = "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+    skip = 0
+    limit = 3
+    end_time = 1676426400125
+    pagination = PaginationOption(skip=skip, limit=limit, end_time=end_time)
+    funding_payments = await client.fetch_funding_payments(
+        market_ids=market_ids, subaccount_id=subaccount_id, pagination=pagination
+    )
+    print(funding_payments)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/16_FundingPayments/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/16_FundingPayments/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+	subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+
+	req := derivativeExchangePB.FundingPaymentsRequest{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+	}
+
+	res, err := exchangeClient.GetDerivativeFundingPayments(ctx, &req)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter     | Type             | Description                                                   | Required |
@@ -2969,9 +4459,72 @@ Get the historical funding rates for a specific market.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/17_FundingRates.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/17_FundingRates.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_id = "0x17ef48032cb24375ba7c2e39f384e56433bcab20cbee9a7357e4cba2eb00abe6"
+    skip = 0
+    limit = 3
+    end_time = 1675717201465
+    pagination = PaginationOption(skip=skip, limit=limit, end_time=end_time)
+    funding_rates = await client.fetch_funding_rates(market_id=market_id, pagination=pagination)
+    print(funding_rates)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/17_FundingRates/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/derivatives/17_FundingRates/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	derivativeExchangePB "github.com/InjectiveLabs/sdk-go/exchange/derivative_exchange_rpc/pb"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce"
+
+	req := derivativeExchangePB.FundingRatesRequest{
+		MarketId: marketId,
+	}
+
+	res, err := exchangeClient.GetDerivativeFundingRates(ctx, &req)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter  | Type             | Description                               | Required |
@@ -3063,6 +4616,25 @@ Get details of a single binary options market.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/20_Binary_Options_Market.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/20_Binary_Options_Market.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_id = "0x175513943b8677368d138e57bcd6bef53170a0da192e7eaa8c2cd4509b54f8db"
+    market = await client.fetch_binary_options_market(market_id=market_id)
+    print(market)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter | Type   | Description                              | Required |
@@ -3157,6 +4729,27 @@ Get a list of binary options markets.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/19_Binary_Options_Markets.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/derivative_exchange_rpc/19_Binary_Options_Markets.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_status = "active"
+    quote_denom = "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+    market = await client.fetch_binary_options_markets(market_status=market_status, quote_denom=quote_denom)
+
+    print(market)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter     | Type             | Description                                                                                                       | Required |

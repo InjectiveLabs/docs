@@ -11,9 +11,63 @@ Get the server health.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/meta_rpc/1_Ping.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/meta_rpc/1_Ping.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    resp = await client.fetch_ping()
+    print("Health OK?", resp)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/meta/1_Ping/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/meta/1_Ping/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	metaPB "github.com/InjectiveLabs/sdk-go/exchange/meta_rpc/pb"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+
+	req := metaPB.PingRequest{}
+
+	res, err := exchangeClient.Ping(ctx, &req)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 > Response Example:
@@ -36,9 +90,63 @@ Get the server version.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/meta_rpc/2_Version.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/meta_rpc/2_Version.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    resp = await client.fetch_version()
+    print("Version:", resp)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/meta/2_Version/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/meta/2_Version/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	metaPB "github.com/InjectiveLabs/sdk-go/exchange/meta_rpc/pb"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+
+	req := metaPB.VersionRequest{}
+
+	res, err := exchangeClient.GetVersion(ctx, &req)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 ### Response Parameters
@@ -91,9 +199,67 @@ Get the server information.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/meta_rpc/3_Info.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/meta_rpc/3_Info.py -->
+```py
+import asyncio
+import time
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    resp = await client.fetch_info()
+    print("[!] Info:")
+    print(resp)
+    latency = int(time.time() * 1000) - int(resp["timestamp"])
+    print(f"Server Latency: {latency}ms")
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/meta/3_Info/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/meta/3_Info/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	metaPB "github.com/InjectiveLabs/sdk-go/exchange/meta_rpc/pb"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+
+	req := metaPB.InfoRequest{}
+
+	res, err := exchangeClient.GetInfo(ctx, &req)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 |Parameter|Type|Description|Required|
@@ -144,9 +310,114 @@ Subscribe to a stream and gracefully disconnect and connect to another sentry no
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/meta_rpc/4_StreamKeepAlive.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/meta_rpc/4_StreamKeepAlive.py -->
+```py
+import asyncio
+from typing import Any, Dict
+
+from grpc import RpcError
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to keepalive updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The keepalive stream has been closed")
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    tasks = []
+
+    async def keepalive_event_processor(event: Dict[str, Any]):
+        print("Server announce:", event)
+        for task in tasks:
+            task.cancel()
+        print("Cancelled all tasks")
+
+    market_task = asyncio.get_event_loop().create_task(get_markets(client))
+    tasks.append(market_task)
+    keepalive_task = asyncio.get_event_loop().create_task(
+        client.listen_keepalive(
+            callback=keepalive_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+
+    try:
+        await asyncio.gather(market_task, keepalive_task)
+    except asyncio.CancelledError:
+        print("main(): get_markets is cancelled now")
+
+
+async def get_markets(client):
+    async def print_market_updates(event: Dict[str, Any]):
+        print(event)
+
+    await client.listen_spot_markets_updates(
+        callback=print_market_updates,
+        on_end_callback=stream_closed_processor,
+        on_status_callback=stream_error_processor,
+    )
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/meta/4_StreamKeepAlive/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/meta/4_StreamKeepAlive/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+
+	stream, err := exchangeClient.StreamKeepalive(ctx)
+	if err != nil {
+		panic(err)
+	}
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := (*stream).Recv()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			str, _ := json.MarshalIndent(res, "", " ")
+			fmt.Print(string(str))
+		}
+	}
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter          | Type     | Description                                                                                          | Required |

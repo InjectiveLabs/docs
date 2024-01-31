@@ -13,9 +13,60 @@ Get details of a single spot market.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/1_Market.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/1_Market.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+    market = await client.fetch_spot_market(market_id=market_id)
+    print(market)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/1_Market/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/1_Market/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+	res, err := exchangeClient.GetSpotMarket(ctx, marketId)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter | Type   | Description                             | Required |
@@ -128,9 +179,72 @@ Get a list of spot markets.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/2_Markets.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/2_Markets.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_status = "active"
+    base_denom = "inj"
+    quote_denom = "peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5"
+    market = await client.fetch_spot_markets(
+        market_statuses=[market_status], base_denom=base_denom, quote_denom=quote_denom
+    )
+    print(market)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/2_Markets/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/2_Markets/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketStatus := "active"
+	quoteDenom := "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7"
+
+	req := spotExchangePB.MarketsRequest{
+		MarketStatus: marketStatus,
+		QuoteDenom:   quoteDenom,
+	}
+
+	res, err := exchangeClient.GetSpotMarkets(ctx, &req)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 
@@ -271,9 +385,96 @@ Stream live updates of spot markets.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/3_StreamMarkets.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/3_StreamMarkets.py -->
+```py
+import asyncio
+from typing import Any, Dict
+
+from grpc import RpcError
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def market_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to spot markets updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The spot markets updates stream has been closed")
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.mainnet()
+    client = AsyncClient(network)
+
+    task = asyncio.get_event_loop().create_task(
+        client.listen_spot_markets_updates(
+            callback=market_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/3_StreamMarket/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/3_StreamMarket/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
+	stream, err := exchangeClient.StreamSpotMarket(ctx, marketIds)
+	if err != nil {
+		panic(err)
+	}
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			str, _ := json.MarshalIndent(res, "", " ")
+			fmt.Print(string(str))
+		}
+	}
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter  | Type         | Description                                                              | Required |
@@ -399,9 +600,84 @@ List history of orders (all states) for a spot market.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/15_HistoricalOrders.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/15_HistoricalOrders.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_ids = ["0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"]
+    subaccount_id = "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000"
+    skip = 10
+    limit = 3
+    order_types = ["buy_po"]
+    pagination = PaginationOption(skip=skip, limit=limit)
+    orders = await client.fetch_spot_orders_history(
+        subaccount_id=subaccount_id,
+        market_ids=market_ids,
+        order_types=order_types,
+        pagination=pagination,
+    )
+    print(orders)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/14_HistoricalOrders/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/14_HistoricalOrders/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+	subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+	skip := uint64(0)
+	limit := int32(10)
+	orderTypes := []string{"buy_po"}
+
+	req := spotExchangePB.OrdersHistoryRequest{
+		SubaccountId: subaccountId,
+		MarketId:     marketId,
+		Skip:         skip,
+		Limit:        limit,
+		OrderTypes:   orderTypes,
+	}
+
+	res, err := exchangeClient.GetHistoricalSpotOrders(ctx, &req)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter           | Type             | Description                                                                                                                               | Required |
@@ -696,9 +972,107 @@ Stream order updates for spot markets. If no parameters are given, updates to al
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/9_StreamHistoricalOrders.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/9_StreamHistoricalOrders.py -->
+```py
+import asyncio
+from typing import Any, Dict
+
+from grpc import RpcError
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def order_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to spot orders history updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The spot orders history updates stream has been closed")
+
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+    order_direction = "buy"
+
+    task = asyncio.get_event_loop().create_task(
+        client.listen_spot_orders_history_updates(
+            callback=order_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+            market_id=market_id,
+            direction=order_direction,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/15_StreamHistoricalOrders/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/15_StreamHistoricalOrders/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+	subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+	direction := "buy"
+
+	req := spotExchangePB.StreamOrdersHistoryRequest{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+		Direction:    direction,
+	}
+	stream, err := exchangeClient.StreamHistoricalSpotOrders(ctx, &req)
+	if err != nil {
+		panic(err)
+	}
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				panic(err)
+				return
+			}
+			str, _ := json.MarshalIndent(res, "", " ")
+			fmt.Print(string(str))
+		}
+	}
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter          | Type         | Description                                                                                                                     | Required |
@@ -829,9 +1203,77 @@ Get trade history for a spot market. The default request returns all spot trades
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/6_Trades.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/6_Trades.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_ids = ["0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"]
+    execution_side = "taker"
+    direction = "buy"
+    subaccount_ids = ["0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"]
+    execution_types = ["limitMatchNewOrder", "market"]
+    orders = await client.fetch_spot_trades(
+        market_ids=market_ids,
+        subaccount_ids=subaccount_ids,
+        execution_side=execution_side,
+        direction=direction,
+        execution_types=execution_types,
+    )
+    print(orders)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/16_TradesV2/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/16_TradesV2/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+	subaccountId := "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+
+	req := spotExchangePB.TradesV2Request{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+	}
+
+	res, err := exchangeClient.GetSpotTradesV2(ctx, &req)
+	if err != nil {
+		panic(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter       | Type             | Description                                                                                                                     | Required |
@@ -1114,9 +1556,114 @@ Stream newly executed trades of spot markets. The default request streams trades
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/10_StreamTrades.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/10_StreamTrades.py -->
+```py
+import asyncio
+from typing import Any, Dict
+
+from grpc import RpcError
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def trade_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to spot trades updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The spot trades updates stream has been closed")
+
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_ids = [
+        "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+        "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0",
+    ]
+    execution_side = "maker"
+    direction = "sell"
+    subaccount_id = "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
+    execution_types = ["limitMatchRestingOrder"]
+
+    task = asyncio.get_event_loop().create_task(
+        client.listen_spot_trades_updates(
+            callback=trade_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+            market_ids=market_ids,
+            subaccount_ids=[subaccount_id],
+            execution_side=execution_side,
+            direction=direction,
+            execution_types=execution_types,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/17_StreamTradesV2/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/17_StreamTradesV2/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+	subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+
+	req := spotExchangePB.StreamTradesV2Request{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+	}
+	stream, err := exchangeClient.StreamSpotTradesV2(ctx, &req)
+	if err != nil {
+		panic(err)
+	}
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			str, _ := json.MarshalIndent(res, "", " ")
+			fmt.Print(string(str))
+		}
+	}
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter          | Type             | Description                                                                                                                     | Required |
@@ -1268,9 +1815,63 @@ Get an orderbook snapshot for one or more spot markets.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/14_Orderbooks.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/14_Orderbooks.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_ids = [
+        "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+        "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0",
+    ]
+    orderbooks = await client.fetch_spot_orderbooks_v2(market_ids=market_ids)
+    print(orderbooks)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/13_Orderbooks/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/13_Orderbooks/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
+	res, err := exchangeClient.GetSpotOrderbooksV2(ctx, marketIds)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter  | Type         | Description                                            | Required |
@@ -1385,9 +1986,97 @@ Stream orderbook snapshot updates for one or more spot markets.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/7_StreamOrderbookSnapshot.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/7_StreamOrderbookSnapshot.py -->
+```py
+import asyncio
+from typing import Any, Dict
+
+from grpc import RpcError
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def orderbook_event_processor(event: Dict[str, Any]):
+    print(event)
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to spot orderbook snapshots ({exception})")
+
+
+def stream_closed_processor():
+    print("The spot orderbook snapshots stream has been closed")
+
+
+async def main() -> None:
+    network = Network.testnet()
+    client = AsyncClient(network)
+    market_ids = [
+        "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
+        "0x7a57e705bb4e09c88aecfc295569481dbf2fe1d5efe364651fbe72385938e9b0",
+    ]
+
+    task = asyncio.get_event_loop().create_task(
+        client.listen_spot_orderbook_snapshots(
+            market_ids=market_ids,
+            callback=orderbook_event_processor,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+
+    await asyncio.sleep(delay=60)
+    task.cancel()
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/7_StreamOrderbook/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/7_StreamOrderbook/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+	network := common.LoadNetwork("devnet-1", "")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
+	stream, err := exchangeClient.StreamSpotOrderbookV2(ctx, marketIds)
+	if err != nil {
+		panic(err)
+	}
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			res, err := stream.Recv()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			fmt.Println(res.MarketId, res.Orderbook, len(res.Orderbook.Sells), len(res.Orderbook.Buys))
+		}
+	}
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter          | Type         | Description                                                                                          | Required |
@@ -1476,9 +2165,362 @@ Stream incremental orderbook updates for one or more spot markets. This stream s
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/8_StreamOrderbookUpdate.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/8_StreamOrderbookUpdate.py -->
+```py
+import asyncio
+from decimal import Decimal
+from typing import Any, Dict
+
+from grpc import RpcError
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+def stream_error_processor(exception: RpcError):
+    print(f"There was an error listening to spot orderbook updates ({exception})")
+
+
+def stream_closed_processor():
+    print("The spot orderbook updates stream has been closed")
+
+
+class PriceLevel:
+    def __init__(self, price: Decimal, quantity: Decimal, timestamp: int):
+        self.price = price
+        self.quantity = quantity
+        self.timestamp = timestamp
+
+    def __str__(self) -> str:
+        return "price: {} | quantity: {} | timestamp: {}".format(self.price, self.quantity, self.timestamp)
+
+
+class Orderbook:
+    def __init__(self, market_id: str):
+        self.market_id = market_id
+        self.sequence = -1
+        self.levels = {"buys": {}, "sells": {}}
+
+
+async def load_orderbook_snapshot(async_client: AsyncClient, orderbook: Orderbook):
+    # load the snapshot
+    res = await async_client.fetch_spot_orderbooks_v2(market_ids=[orderbook.market_id])
+    for snapshot in res["orderbooks"]:
+        if snapshot["marketId"] != orderbook.market_id:
+            raise Exception("unexpected snapshot")
+
+        orderbook.sequence = int(snapshot["orderbook"]["sequence"])
+
+        for buy in snapshot["orderbook"]["buys"]:
+            orderbook.levels["buys"][buy["price"]] = PriceLevel(
+                price=Decimal(buy["price"]),
+                quantity=Decimal(buy["quantity"]),
+                timestamp=int(buy["timestamp"]),
+            )
+        for sell in snapshot["orderbook"]["sells"]:
+            orderbook.levels["sells"][sell["price"]] = PriceLevel(
+                price=Decimal(sell["price"]),
+                quantity=Decimal(sell["quantity"]),
+                timestamp=int(sell["timestamp"]),
+            )
+        break
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    async_client = AsyncClient(network)
+
+    market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+    orderbook = Orderbook(market_id=market_id)
+    updates_queue = asyncio.Queue()
+    tasks = []
+
+    async def queue_event(event: Dict[str, Any]):
+        await updates_queue.put(event)
+
+    # start getting price levels updates
+    task = asyncio.get_event_loop().create_task(
+        async_client.listen_spot_orderbook_updates(
+            market_ids=[market_id],
+            callback=queue_event,
+            on_end_callback=stream_closed_processor,
+            on_status_callback=stream_error_processor,
+        )
+    )
+    tasks.append(task)
+
+    # load the snapshot once we are already receiving updates, so we don't miss any
+    await load_orderbook_snapshot(async_client=async_client, orderbook=orderbook)
+
+    task = asyncio.get_event_loop().create_task(
+        apply_orderbook_update(orderbook=orderbook, updates_queue=updates_queue)
+    )
+    tasks.append(task)
+
+    await asyncio.sleep(delay=60)
+    for task in tasks:
+        task.cancel()
+
+
+async def apply_orderbook_update(orderbook: Orderbook, updates_queue: asyncio.Queue):
+    while True:
+        updates = await updates_queue.get()
+        update = updates["orderbookLevelUpdates"]
+
+        # discard updates older than the snapshot
+        if int(update["sequence"]) <= orderbook.sequence:
+            return
+
+        print(" * * * * * * * * * * * * * * * * * * *")
+
+        # ensure we have not missed any update
+        if int(update["sequence"]) > (orderbook.sequence + 1):
+            raise Exception(
+                "missing orderbook update events from stream, must restart: {} vs {}".format(
+                    update["sequence"], (orderbook.sequence + 1)
+                )
+            )
+
+        print("updating orderbook with updates at sequence {}".format(update["sequence"]))
+
+        # update orderbook
+        orderbook.sequence = int(update["sequence"])
+        for direction, levels in {"buys": update["buys"], "sells": update["sells"]}.items():
+            for level in levels:
+                if level["isActive"]:
+                    # upsert level
+                    orderbook.levels[direction][level["price"]] = PriceLevel(
+                        price=Decimal(level["price"]), quantity=Decimal(level["quantity"]), timestamp=level["timestamp"]
+                    )
+                else:
+                    if level["price"] in orderbook.levels[direction]:
+                        del orderbook.levels[direction][level["price"]]
+
+        # sort the level numerically
+        buys = sorted(orderbook.levels["buys"].values(), key=lambda x: x.price, reverse=True)
+        sells = sorted(orderbook.levels["sells"].values(), key=lambda x: x.price, reverse=True)
+
+        # lowest sell price should be higher than the highest buy price
+        if len(buys) > 0 and len(sells) > 0:
+            highest_buy = buys[0].price
+            lowest_sell = sells[-1].price
+            print("Max buy: {} - Min sell: {}".format(highest_buy, lowest_sell))
+            if highest_buy >= lowest_sell:
+                raise Exception("crossed orderbook, must restart")
+
+        # for the example, print the list of buys and sells orders.
+        print("sells")
+        for k in sells:
+            print(k)
+        print("=========")
+        print("buys")
+        for k in buys:
+            print(k)
+        print("====================================")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/8_StreamOrderbookUpdate/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/8_StreamOrderbookUpdate/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"io"
+	"os"
+	"sort"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+	"github.com/shopspring/decimal"
+)
+
+type MapOrderbook struct {
+	Sequence uint64
+	Levels   map[bool]map[string]*spotExchangePB.PriceLevel
+}
+
+func main() {
+	network := common.LoadNetwork("devnet-1", "")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint)
+	if err != nil {
+		fmt.Println(err)
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketIds := []string{"0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"}
+	stream, err := exchangeClient.StreamSpotOrderbookUpdate(ctx, marketIds)
+	if err != nil {
+		fmt.Println(err)
+		panic(err)
+	}
+
+	updatesCh := make(chan *spotExchangePB.OrderbookLevelUpdates, 100000)
+	receiving := make(chan struct{})
+	var receivingClosed bool
+
+	// stream orderbook price levels
+	go func() {
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			default:
+				res, err := stream.Recv()
+				if err == io.EOF {
+					fmt.Println("change stream needs to be restarted")
+					os.Exit(0)
+				}
+				if err != nil {
+					panic(err) // rester on errors
+				}
+				u := res.OrderbookLevelUpdates
+				if !receivingClosed {
+					fmt.Println("receiving updates from stream")
+					close(receiving)
+					receivingClosed = true
+				}
+				updatesCh <- u
+			}
+		}
+	}()
+
+	// ensure we are receiving updates before getting the orderbook snapshot,
+	// we will skip past updates later.
+	fmt.Println("waiting for streaming updates")
+	<-receiving
+
+	// prepare orderbooks map
+	orderbooks := map[string]*MapOrderbook{}
+	res, err := exchangeClient.GetSpotOrderbooksV2(ctx, marketIds)
+	if err != nil {
+		panic(err)
+	}
+	for _, ob := range res.Orderbooks {
+		// init inner maps not ready
+		_, ok := orderbooks[ob.MarketId]
+		if !ok {
+			orderbook := &MapOrderbook{
+				Sequence: ob.Orderbook.Sequence,
+				Levels:   map[bool]map[string]*spotExchangePB.PriceLevel{},
+			}
+			orderbook.Levels[true] = map[string]*spotExchangePB.PriceLevel{}
+			orderbook.Levels[false] = map[string]*spotExchangePB.PriceLevel{}
+			orderbooks[ob.MarketId] = orderbook
+		}
+
+		for _, level := range ob.Orderbook.Buys {
+			orderbooks[ob.MarketId].Levels[true][level.Price] = level
+		}
+		for _, level := range ob.Orderbook.Sells {
+			orderbooks[ob.MarketId].Levels[false][level.Price] = level
+		}
+	}
+
+	// continuously consume level updates and maintain orderbook
+	skippedPastEvents := false
+	for {
+		updates := <-updatesCh
+
+		// validate orderbook
+		orderbook, ok := orderbooks[updates.MarketId]
+		if !ok {
+			fmt.Println("updates channel closed, must restart")
+			return // closed
+		}
+
+		// skip if update sequence <= orderbook sequence until it's ready to consume
+		if !skippedPastEvents {
+			if orderbook.Sequence >= updates.Sequence {
+				continue
+			}
+			skippedPastEvents = true
+		}
+
+		// panic if update sequence > orderbook sequence + 1
+		if updates.Sequence > orderbook.Sequence+1 {
+			fmt.Printf("skipping levels: update sequence %d vs orderbook sequence %d\n", updates.Sequence, orderbook.Sequence)
+			panic("missing orderbook update events from stream, must restart")
+		}
+
+		// update orderbook map
+		orderbook.Sequence = updates.Sequence
+		for isBuy, update := range map[bool][]*spotExchangePB.PriceLevelUpdate{
+			true:  updates.Buys,
+			false: updates.Sells,
+		} {
+			for _, level := range update {
+				if level.IsActive {
+					// upsert
+					orderbook.Levels[isBuy][level.Price] = &spotExchangePB.PriceLevel{
+						Price:     level.Price,
+						Quantity:  level.Quantity,
+						Timestamp: level.Timestamp,
+					}
+				} else {
+					// remove inactive level
+					delete(orderbook.Levels[isBuy], level.Price)
+				}
+			}
+		}
+
+		// construct orderbook arrays
+		sells, buys := maintainOrderbook(orderbook.Levels)
+		fmt.Println("after", orderbook.Sequence, len(sells), len(buys))
+
+		if len(sells) > 0 && len(buys) > 0 {
+			// assert orderbook
+			topBuyPrice := decimal.RequireFromString(buys[0].Price)
+			lowestSellPrice := decimal.RequireFromString(sells[0].Price)
+			if topBuyPrice.GreaterThanOrEqual(lowestSellPrice) {
+				panic(fmt.Errorf("crossed orderbook, must restart: buy %s >= %s sell", topBuyPrice, lowestSellPrice))
+			}
+		}
+
+		res, _ = exchangeClient.GetSpotOrderbooksV2(ctx, marketIds)
+		fmt.Println("query", res.Orderbooks[0].Orderbook.Sequence, len(res.Orderbooks[0].Orderbook.Sells), len(res.Orderbooks[0].Orderbook.Buys))
+
+		// print orderbook
+		fmt.Println(" [SELLS] ========")
+		for _, s := range sells {
+			fmt.Println(s)
+		}
+		fmt.Println(" [BUYS] ========")
+		for _, b := range buys {
+			fmt.Println(b)
+		}
+		fmt.Println("=======================================================")
+	}
+}
+
+func maintainOrderbook(orderbook map[bool]map[string]*spotExchangePB.PriceLevel) (buys, sells []*spotExchangePB.PriceLevel) {
+	for _, v := range orderbook[false] {
+		sells = append(sells, v)
+	}
+	for _, v := range orderbook[true] {
+		buys = append(buys, v)
+	}
+
+	sort.Slice(sells, func(i, j int) bool {
+		return decimal.RequireFromString(sells[i].Price).LessThan(decimal.RequireFromString(sells[j].Price))
+	})
+
+	sort.Slice(buys, func(i, j int) bool {
+		return decimal.RequireFromString(buys[i].Price).GreaterThan(decimal.RequireFromString(buys[j].Price))
+	})
+
+	return sells, buys
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter          | Type         | Description                                                                                          | Required |
@@ -1565,9 +2607,80 @@ Get orders of a subaccount.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/11_SubaccountOrdersList.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/11_SubaccountOrdersList.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    subaccount_id = "0xc7dca7c15c364865f77a4fb67ab11dc95502e6fe000000000000000000000001"
+    market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+    skip = 10
+    limit = 10
+    pagination = PaginationOption(skip=skip, limit=limit)
+    orders = await client.fetch_spot_subaccount_orders_list(
+        subaccount_id=subaccount_id, market_id=market_id, pagination=pagination
+    )
+    print(orders)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/11_SubaccountOrdersList/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/11_SubaccountOrdersList/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+	subaccountId := "0x0b46e339708ea4d87bd2fcc61614e109ac374bbe000000000000000000000000"
+	skip := uint64(0)
+	limit := int32(10)
+
+	req := spotExchangePB.SubaccountOrdersListRequest{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+		Skip:         skip,
+		Limit:        limit,
+	}
+
+	res, err := exchangeClient.GetSubaccountSpotOrdersList(ctx, &req)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter     | Type             | Description              | Required |
@@ -1717,9 +2830,86 @@ Get trades of a subaccount.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/12_SubaccountTradesList.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/12_SubaccountTradesList.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.client.model.pagination import PaginationOption
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    subaccount_id = "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000"
+    market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
+    execution_type = "market"
+    direction = "buy"
+    skip = 2
+    limit = 3
+    pagination = PaginationOption(skip=skip, limit=limit)
+    trades = await client.fetch_spot_subaccount_trades_list(
+        subaccount_id=subaccount_id,
+        market_id=market_id,
+        execution_type=execution_type,
+        direction=direction,
+        pagination=pagination,
+    )
+    print(trades)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/12_SubaccountTradesList/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/12_SubaccountTradesList/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	spotExchangePB "github.com/InjectiveLabs/sdk-go/exchange/spot_exchange_rpc/pb"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	marketId := "0xa508cb32923323679f29a032c70342c147c17d0145625922b0ef22e955c844c0"
+	subaccountId := "0xc6fe5d33615a1c52c08018c47e8bc53646a0e101000000000000000000000000"
+	skip := uint64(0)
+	limit := int32(10)
+
+	req := spotExchangePB.SubaccountTradesListRequest{
+		MarketId:     marketId,
+		SubaccountId: subaccountId,
+		Skip:         skip,
+		Limit:        limit,
+	}
+
+	res, err := exchangeClient.GetSubaccountSpotTradesList(ctx, &req)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter      | Type             | Description                                                                                                                             | Required |

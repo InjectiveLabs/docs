@@ -12,9 +12,63 @@ List all the insurance funds.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/insurance_rpc/1_InsuranceFunds.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/insurance_rpc/1_InsuranceFunds.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    insurance_funds = await client.fetch_insurance_funds()
+    print(insurance_funds)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/insurance/1_InsuranceFunds/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/insurance/1_InsuranceFunds/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	insurancePB "github.com/InjectiveLabs/sdk-go/exchange/insurance_rpc/pb"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+
+	req := insurancePB.FundsRequest{}
+
+	res, err := exchangeClient.GetInsuranceFunds(ctx, &req)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 ### Response Parameters
@@ -116,9 +170,66 @@ Get a list of redemptions. If no parameters are provided, redemptions for all po
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/insurance_rpc/2_Redemptions.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/insurance_rpc/2_Redemptions.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main() -> None:
+    # select network: local, testnet, mainnet
+    network = Network.testnet()
+    client = AsyncClient(network)
+    redeemer = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
+    redemption_denom = "share4"
+    status = "disbursed"
+    insurance_redemptions = await client.fetch_redemptions(address=redeemer, denom=redemption_denom, status=status)
+    print(insurance_redemptions)
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/insurance/2_Redemptions/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/insurance/2_Redemptions/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
+	insurancePB "github.com/InjectiveLabs/sdk-go/exchange/insurance_rpc/pb"
+)
+
+func main() {
+	//network := common.LoadNetwork("mainnet", "k8s")
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+
+	req := insurancePB.RedemptionsRequest{}
+
+	res, err := exchangeClient.GetRedemptions(ctx, &req)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str, _ := json.MarshalIndent(res, "", " ")
+	fmt.Print(string(str))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 | Parameter | Type   | Description                                                              | Required |
