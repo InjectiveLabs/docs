@@ -1,10 +1,10 @@
 # Change Log
 
-## 2023-01-25
+## 2024-01-25
 - Python SDK v1.2.0
   - Improved message based gas estimator to consider that Post Only orders creation require more gas than normal orders
 
-## 2023-01-02
+## 2024-01-02
 - Python SDK v1.0 and Go SDK v1.49
   - Added logic to support use of Client Order ID (CID) new identifier in OrderInfo
   - New chain stream support
