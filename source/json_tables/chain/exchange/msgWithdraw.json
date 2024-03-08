@@ -1,0 +1,5 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The address doing the withdraw", "Required": "Yes"},
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "Subaccount ID to withdraw funds from", "Required": "Yes"},
+    {"Parameter": "amount", "Type": "Coin", "Description": "The token amount to deposit", "Required": "Yes"}
+]

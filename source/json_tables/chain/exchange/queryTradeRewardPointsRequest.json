@@ -1,0 +1,4 @@
+[
+    {"Parameter": "accounts", "Type": "String List", "Description": "List of account addresses to query for", "Required": "No"},
+    {"Parameter": "pending_pool_timestamp", "Type": "Integer", "Description": "Rewards pool timestamp", "Required": "No"}
+]

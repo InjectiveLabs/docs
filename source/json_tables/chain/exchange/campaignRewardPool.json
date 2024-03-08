@@ -1,0 +1,4 @@
+[
+    {"Parameter": "start_timestamp", "Type": "Integer", "Description": "Campaign start timestamp in seconds"},
+    {"Parameter": "max_campaign_rewards", "Type": "Decimal Array", "Description": "Maximum reward amounts to be disbursed at the end of the campaign"}
+]

@@ -933,7 +933,8 @@ func main() {
 | orders    | SpotOrderHistory Array | List of prior spot orders |
 | paging    | Paging                 | Pagination of results     |
 
-***SpotOrderHistory***
+
+**SpotOrderHistory**
 
 | Parameter       | Type    | Description                                                                                                           |
 | --------------- | ------- | --------------------------------------------------------------------------------------------------------------------- |

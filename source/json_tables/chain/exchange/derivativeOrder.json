@@ -1,0 +1,7 @@
+[
+    {"Parameter": "market_id", "Type": "String", "Description": "The unique ID of the market", "Required": "Yes"},
+    {"Parameter": "order_info", "Type": "OrderInfo", "Description": "Order's information", "Required": "Yes"},
+    {"Parameter": "order_type", "Type": "OrderType", "Description": "The order type", "Required": "Yes"},
+    {"Parameter": "margin", "Type": "Decimal", "Description": "The margin amount used by the order", "Required": "Yes"},
+    {"Parameter": "trigger_price", "Type": "Decimal", "Description": "The trigger price used by stop/take orders", "Required": "No"}
+]

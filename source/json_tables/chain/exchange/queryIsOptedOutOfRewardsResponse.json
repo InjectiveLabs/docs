@@ -1,0 +1,3 @@
+[
+    {"Parameter": "is_opted_out", "Type": "Boolean", "Description": "Opted out state for the account"}
+]

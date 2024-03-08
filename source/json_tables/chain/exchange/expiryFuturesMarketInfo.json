@@ -1,0 +1,7 @@
+[
+    {"Parameter": "market_id", "Type": "String", "Description": "The market ID"},
+    {"Parameter": "expiration_timestamp", "Type": "Integer", "Description": "The market's expiration time in seconds"},
+    {"Parameter": "twap_start_timestamp", "Type": "Integer", "Description": "Defines the start time of the TWAP calculation window"},
+    {"Parameter": "expiration_twap_start_price_cumulative", "Type": "Decimal", "Description": "Defines the cumulative price for the start of the TWAP window"},
+    {"Parameter": "settlement_price", "Type": "Decimal", "Description": "The settlement price"}
+]

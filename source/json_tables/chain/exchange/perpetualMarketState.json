@@ -1,0 +1,4 @@
+[
+    {"Parameter": "market_info", "Type": "PerpetualMarketInfo", "Description": "Perpetual market information"},
+    {"Parameter": "funding_info", "Type": "PerpetualMarketFunding", "Description": "Market funding information"}
+]

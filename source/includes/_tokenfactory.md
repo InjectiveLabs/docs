@@ -8,12 +8,11 @@ Gets the authority metadata for tokens by their creator address
 
 **IP rate limit group:** `chain`
 
-
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/68_DenomAuthorityMetadata.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/68_DenomAuthorityMetadata.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tokenfactory/query/1_DenomAuthorityMetadata.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tokenfactory/query/1_DenomAuthorityMetadata.py -->
 ```py
 import asyncio
 
@@ -36,8 +35,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/60_DenomAuthorityMetadata/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/60_DenomAuthorityMetadata/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tokenfactory/query/1_DenomAuthorityMetadata/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tokenfactory/query/1_DenomAuthorityMetadata/example.go -->
 ```go
 package main
 
@@ -158,8 +157,8 @@ Gets all the tokens created by a specific admin/creator
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/69_DenomsFromCreator.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/69_DenomsFromCreator.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tokenfactory/query/2_DenomsFromCreator.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tokenfactory/query/2_DenomsFromCreator.py -->
 ```py
 import asyncio
 
@@ -179,8 +178,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/61_DenomsFromCreator/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/61_DenomsFromCreator/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tokenfactory/query/2_DenomsFromCreator/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tokenfactory/query/2_DenomsFromCreator/example.go -->
 ```go
 package main
 
@@ -366,12 +365,11 @@ Retrieves the entire auctions module's state
 
 **IP rate limit group:** `chain`
 
-
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/70_TokenfactoryModuleState.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/70_TokenfactoryModuleState.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tokenfactory/query/3_TokenfactoryModuleState.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tokenfactory/query/3_TokenfactoryModuleState.py -->
 ```py
 import asyncio
 
@@ -391,8 +389,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/62_TokenfactoryModuleState/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/62_TokenfactoryModuleState/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tokenfactory/query/3_TokenfactoryModuleState/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tokenfactory/query/3_TokenfactoryModuleState/example.go -->
 ```go
 package main
 
@@ -607,10 +605,13 @@ Create a new denom
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/71_CreateDenom.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/71_CreateDenom.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tokenfactory/1_CreateDenom.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tokenfactory/1_CreateDenom.py -->
 ```py
 import asyncio
+import os
+
+import dotenv
 
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.core.broadcaster import MsgBroadcasterWithPk
@@ -619,10 +620,12 @@ from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
+    dotenv.load_dotenv()
+    private_key_in_hexa = os.getenv("INJECTIVE_PRIVATE_KEY")
+
     # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
-    private_key_in_hexa = "f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"
 
     message_broadcaster = MsgBroadcasterWithPk.new_using_simulation(
         network=network,
@@ -648,8 +651,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/64_CreateDenom/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/64_CreateDenom/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tokenfactory/1_CreateDenom/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tokenfactory/1_CreateDenom/example.go -->
 ```go
 package main
 
@@ -753,10 +756,13 @@ Allows a token admin's account to mint more units
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/72_MsgMint.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/72_MsgMint.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tokenfactory/2_MsgMint.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tokenfactory/2_MsgMint.py -->
 ```py
 import asyncio
+import os
+
+import dotenv
 
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.core.broadcaster import MsgBroadcasterWithPk
@@ -765,10 +771,12 @@ from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
+    dotenv.load_dotenv()
+    private_key_in_hexa = os.getenv("INJECTIVE_PRIVATE_KEY")
+
     # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
-    private_key_in_hexa = "f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"
 
     message_broadcaster = MsgBroadcasterWithPk.new_using_simulation(
         network=network,
@@ -779,7 +787,7 @@ async def main() -> None:
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
 
-    amount = composer.Coin(amount=1_000_000_000, denom="factory/inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r/inj_test")
+    amount = composer.coin(amount=1_000_000_000, denom="factory/inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r/inj_test")
 
     message = composer.msg_mint(
         sender=address.to_acc_bech32(),
@@ -797,8 +805,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/65_MsgMint/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/65_MsgMint/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tokenfactory/2_MsgMint/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tokenfactory/2_MsgMint/example.go -->
 ```go
 package main
 
@@ -910,10 +918,13 @@ Allows a token admin's account to burn circulating units
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/73_MsgBurn.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/73_MsgBurn.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tokenfactory/3_MsgBurn.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tokenfactory/3_MsgBurn.py -->
 ```py
 import asyncio
+import os
+
+import dotenv
 
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.core.broadcaster import MsgBroadcasterWithPk
@@ -922,10 +933,12 @@ from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
+    dotenv.load_dotenv()
+    private_key_in_hexa = os.getenv("INJECTIVE_PRIVATE_KEY")
+
     # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
-    private_key_in_hexa = "f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"
 
     message_broadcaster = MsgBroadcasterWithPk.new_using_simulation(
         network=network,
@@ -936,7 +949,7 @@ async def main() -> None:
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
 
-    amount = composer.Coin(amount=100, denom="factory/inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r/inj_test")
+    amount = composer.coin(amount=100, denom="factory/inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r/inj_test")
 
     message = composer.msg_burn(
         sender=address.to_acc_bech32(),
@@ -954,8 +967,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/66_MsgBurn/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/66_MsgBurn/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tokenfactory/3_MsgBurn/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tokenfactory/3_MsgBurn/example.go -->
 ```go
 package main
 
@@ -1067,10 +1080,13 @@ Allows a token admin's account to set the token metadata
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/74_MsgSetDenomMetadata.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/74_MsgSetDenomMetadata.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tokenfactory/5_MsgSetDenomMetadata.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tokenfactory/5_MsgSetDenomMetadata.py -->
 ```py
 import asyncio
+import os
+
+import dotenv
 
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.core.broadcaster import MsgBroadcasterWithPk
@@ -1079,10 +1095,12 @@ from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
+    dotenv.load_dotenv()
+    private_key_in_hexa = os.getenv("INJECTIVE_PRIVATE_KEY")
+
     # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
-    private_key_in_hexa = "f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"
 
     message_broadcaster = MsgBroadcasterWithPk.new_without_simulation(
         network=network,
@@ -1126,8 +1144,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/67_MsgSetDenomMetadata/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/67_MsgSetDenomMetadata/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tokenfactory/4_MsgSetDenomMetadata/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tokenfactory/4_MsgSetDenomMetadata/example.go -->
 ```go
 package main
 
@@ -1277,10 +1295,13 @@ Allows a token admin's account to transfer administrative privileged to other ac
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/75_MsgChangeAdmin.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/75_MsgChangeAdmin.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tokenfactory/4_MsgChangeAdmin.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tokenfactory/4_MsgChangeAdmin.py -->
 ```py
 import asyncio
+import os
+
+import dotenv
 
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.core.broadcaster import MsgBroadcasterWithPk
@@ -1289,10 +1310,12 @@ from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
+    dotenv.load_dotenv()
+    private_key_in_hexa = os.getenv("INJECTIVE_PRIVATE_KEY")
+
     # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
-    private_key_in_hexa = "f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"
 
     message_broadcaster = MsgBroadcasterWithPk.new_without_simulation(
         network=network,
@@ -1320,8 +1343,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/68_MsgChangeAdmin/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/68_MsgChangeAdmin/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tokenfactory/5_MsgChangeAdmin/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tokenfactory/5_MsgChangeAdmin/example.go -->
 ```go
 package main
 

@@ -1,0 +1,13 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The message sender's address", "Required": "Yes"},
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "The subaccount ID is only used for the spot_market_ids_to_cancel_all and derivative_market_ids_to_cancel_all", "Required": "No"},
+    {"Parameter": "spot_market_ids_to_cancel_all", "Type": "String Array", "Description": "List of unique market IDs to cancel all subaccount_id orders", "Required": "No"},
+    {"Parameter": "derivative_market_ids_to_cancel_all", "Type": "String Array", "Description": "List of unique market IDs to cancel all subaccount_id orders", "Required": "No"},
+    {"Parameter": "spot_orders_to_cancel", "Type": "OrderData Array", "Description": "List of spot orders to be cancelled", "Required": "No"},
+    {"Parameter": "derivative_orders_to_cancel", "Type": "OrderData Array", "Description": "List of derivative orders to be cancelled", "Required": "No"},
+    {"Parameter": "spot_orders_to_create", "Type": "SpotOrder Array", "Description": "List of spot orders to be created", "Required": "No"},
+    {"Parameter": "derivative_orders_to_create", "Type": "DerivativeOrder Array", "Description": "List of derivative orders to be created", "Required": "No"},
+    {"Parameter": "binary_options_orders_to_cancel", "Type": "OrderData Array", "Description": "List of binary options orders to be cancelled", "Required": "No"},
+    {"Parameter": "binary_options_market_ids_to_cancel_all", "Type": "String Array", "Description": "List of unique market IDs to cancel all subaccount_id orders", "Required": "No"},
+    {"Parameter": "binary_options_orders_to_create", "Type": "DerivativeOrder Array", "Description": "List of binary options orders to be created", "Required": "No"}
+]

@@ -1,0 +1,9 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The market launch requestor address", "Required": "Yes"},
+    {"Parameter": "ticker", "Type": "String", "Description": "Ticker for the spot market", "Required": "Yes"},
+    {"Parameter": "base_denom", "Type": "String", "Description": "Base tocken denom", "Required": "Yes"},
+    {"Parameter": "quote_denom", "Type": "String", "Description": "Quote tocken denom", "Required": "Yes"},
+    {"Parameter": "min_price_tick_size", "Type": "Decimal", "Description": "Defines the minimum tick size of the order's price", "Required": "Yes"},
+    {"Parameter": "min_quantity_tick_size", "Type": "Decimal", "Description": "Defines the minimum tick size of the order's quantity", "Required": "Yes"}
+
+]

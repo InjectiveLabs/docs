@@ -1,0 +1,6 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The message sender's address", "Required": "Yes"},
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "The subaccount ID to create the order", "Required": "Yes"},
+    {"Parameter": "market_id", "Type": "String", "Description": "The order's unique market ID", "Required": "Yes"},
+    {"Parameter": "order", "Type": "DerivativeOrder", "Description": "Order's parameters", "Required": "Yes"}
+]

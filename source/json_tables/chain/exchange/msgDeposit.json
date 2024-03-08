@@ -1,0 +1,5 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The address doing the deposit", "Required": "Yes"},
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "Subaccount ID to deposit funds into. If empty, the coin will be deposited to the sender's default subaccount address.", "Required": "No"},
+    {"Parameter": "amount", "Type": "Coin", "Description": "The token amount to deposit", "Required": "Yes"}
+]

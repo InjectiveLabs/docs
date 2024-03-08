@@ -1,0 +1,3 @@
+[
+    {"Parameter": "deposits", "Type": "Deposit", "Description": "The subaccount's deposits for the specified token"}
+]

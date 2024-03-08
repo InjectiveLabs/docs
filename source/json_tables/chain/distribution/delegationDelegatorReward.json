@@ -1,0 +1,4 @@
+[
+    {"Parameter": "validator_address", "Type": "String", "Description": "The validator's Injective address"},
+    {"Parameter": "reward", "Type": "DecCoin Array", "Description": "List of all the rewards for the validator"}
+]

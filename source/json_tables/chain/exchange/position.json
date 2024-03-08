@@ -1,0 +1,7 @@
+[
+    {"Parameter": "is_long", "Type": "Boolean", "Description": "True if the position is long. False if the position is short"},
+    {"Parameter": "quantity", "Type": "Decimal", "Description": "The position's amount"},
+    {"Parameter": "entry_price", "Type": "Decimal", "Description": "The order execution price when the position was created"},
+    {"Parameter": "margin", "Type": "Decimal", "Description": "The position's current margin amount"},
+    {"Parameter": "cumulative_funding_entry", "Type": "Decimal", "Description": "The cummulative funding"}
+]

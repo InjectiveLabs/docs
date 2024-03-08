@@ -1,21 +1,23 @@
 # - Authz
 Includes all messages and queries related to the Authz module. Authz is an implementation of the Cosmos SDK module, that allows granting arbitrary privileges from one account (the granter) to another account (the grantee). Authorizations must be granted for a particular Msg service method one by one using an implementation of the Authorization interface.
 
+
 ## MsgGrant
 
 There are two types of authorization, Generic and Typed. Generic authorization will grant permissions to the grantee to execute exchange-related messages in all markets, typed authorization restricts the privileges to specified markets. Typed authorization is generally more safe since even if the grantee's key is compromised the attacker will only be able to send orders in specified markets - thus prevents them from launching bogus markets on-chain and executing orders on behalf of the granter.
 
 **IP rate limit group:** `chain`
 
-
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/19_MsgGrant.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/19_MsgGrant.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/authz/1_MsgGrant.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/authz/1_MsgGrant.py -->
 ```py
 import asyncio
+import os
 
+import dotenv
 from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
@@ -26,6 +28,10 @@ from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
+    dotenv.load_dotenv()
+    configured_private_key = os.getenv("INJECTIVE_PRIVATE_KEY")
+    grantee_public_address = os.getenv("INJECTIVE_GRANTEE_PUBLIC_ADDRESS")
+
     # select network: local, testnet, mainnet
     network = Network.testnet()
 
@@ -35,7 +41,7 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
+    priv_key = PrivateKey.from_hex(configured_private_key)
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
     await client.fetch_account(address.to_acc_bech32())
@@ -46,8 +52,8 @@ async def main() -> None:
 
     # GENERIC AUTHZ
     msg = composer.MsgGrantGeneric(
-        granter="inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
-        grantee="inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
+        granter=address.to_acc_bech32(),
+        grantee=grantee_public_address,
         msg_type="/injective.exchange.v1beta1.MsgCreateSpotLimitOrder",
         expire_in=31536000,  # 1 year
     )
@@ -86,7 +92,7 @@ async def main() -> None:
     gas_limit = int(sim_res["gasInfo"]["gasUsed"]) + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
     gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
     fee = [
-        composer.Coin(
+        composer.coin(
             amount=gas_price * gas_limit,
             denom=network.fee_denom,
         )
@@ -108,8 +114,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/19_MsgGrant/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/19_MsgGrant/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/authz/1_MsgGrant/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/authz/1_MsgGrant/example.go -->
 ```go
 package main
 
@@ -239,6 +245,7 @@ func main() {
 
 11. BatchUpdateOrdersAuthz
 
+### Response Parameters
 > Response Example:
 
 ``` python
@@ -257,20 +264,23 @@ DEBU[0003] gas wanted:  117873                           fn=func1 src="client/ch
 gas fee: 0.0000589365 INJ
 ```
 
+
 ## MsgExec
 
 **IP rate limit group:** `chain`
 
-
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/20_MsgExec.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/20_MsgExec.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/authz/2_MsgExec.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/authz/2_MsgExec.py -->
 ```py
 import asyncio
+import os
 import uuid
+from decimal import Decimal
 
+import dotenv
 from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
@@ -281,6 +291,10 @@ from pyinjective.wallet import Address, PrivateKey
 
 
 async def main() -> None:
+    dotenv.load_dotenv()
+    configured_private_key = os.getenv("INJECTIVE_GRANTEE_PRIVATE_KEY")
+    granter_inj_address = os.getenv("INJECTIVE_GRANTER_PUBLIC_ADDRESS")
+
     # select network: local, testnet, mainnet
     network = Network.testnet()
 
@@ -290,26 +304,25 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e")
+    priv_key = PrivateKey.from_hex(configured_private_key)
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
     await client.fetch_account(address.to_acc_bech32())
 
     # prepare tx msg
     market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-    grantee = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-    granter_inj_address = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+    grantee = address.to_acc_bech32()
+
     granter_address = Address.from_acc_bech32(granter_inj_address)
     granter_subaccount_id = granter_address.get_subaccount_id(index=0)
-    msg0 = composer.MsgCreateSpotLimitOrder(
+    msg0 = composer.msg_create_spot_limit_order(
         sender=granter_inj_address,
         market_id=market_id,
         subaccount_id=granter_subaccount_id,
         fee_recipient=grantee,
-        price=7.523,
-        quantity=0.01,
-        is_buy=True,
-        is_po=False,
+        price=Decimal("7.523"),
+        quantity=Decimal("0.01"),
+        order_type="BUY",
         cid=str(uuid.uuid4()),
     )
 
@@ -347,7 +360,7 @@ async def main() -> None:
     gas_limit = int(sim_res["gasInfo"]["gasUsed"]) + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
     gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
     fee = [
-        composer.Coin(
+        composer.coin(
             amount=gas_price * gas_limit,
             denom=network.fee_denom,
         )
@@ -369,8 +382,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/20_MsgExec/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/20_MsgExec/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/authz/2_MsgExec/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/authz/2_MsgExec/example.go -->
 ```go
 package main
 
@@ -526,6 +539,7 @@ func main() {
 |grantee|String|The INJ address of the grantee|Yes|
 |msgs|Array|The messages to be executed on behalf of the granter|Yes|
 
+### Response Parameters
 > Response Example:
 
 ``` python
@@ -548,6 +562,7 @@ DEBU[0004] gas wanted:  133972                           fn=func1 src="client/ch
 gas fee: 0.000066986 INJ
 ```
 
+
 ## MsgRevoke
 
 **IP rate limit group:** `chain`
@@ -556,11 +571,13 @@ gas fee: 0.000066986 INJ
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/21_MsgRevoke.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/21_MsgRevoke.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/authz/3_MsgRevoke.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/authz/3_MsgRevoke.py -->
 ```py
 import asyncio
+import os
 
+import dotenv
 from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
@@ -571,6 +588,10 @@ from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
+    dotenv.load_dotenv()
+    configured_private_key = os.getenv("INJECTIVE_PRIVATE_KEY")
+    grantee_public_address = os.getenv("INJECTIVE_GRANTEE_PUBLIC_ADDRESS")
+
     # select network: local, testnet, mainnet
     network = Network.testnet()
 
@@ -580,15 +601,15 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
+    priv_key = PrivateKey.from_hex(configured_private_key)
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
     await client.fetch_account(address.to_acc_bech32())
 
     # prepare tx msg
     msg = composer.MsgRevoke(
-        granter="inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku",
-        grantee="inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+        granter=address.to_acc_bech32(),
+        grantee=grantee_public_address,
         msg_type="/injective.exchange.v1beta1.MsgCreateSpotLimitOrder",
     )
 
@@ -616,7 +637,7 @@ async def main() -> None:
     gas_limit = int(sim_res["gasInfo"]["gasUsed"]) + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
     gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
     fee = [
-        composer.Coin(
+        composer.coin(
             amount=gas_price * gas_limit,
             denom=network.fee_denom,
         )
@@ -638,8 +659,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/21_MsgRevoke/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/21_MsgRevoke/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/authz/3_MsgRevoke/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/authz/3_MsgRevoke/example.go -->
 ```go
 package main
 
@@ -760,24 +781,28 @@ Get the details of an authorization between a granter and a grantee.
 
 **IP rate limit group:** `chain`
 
-
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/27_Grants.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/27_Grants.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/authz/query/1_Grants.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/authz/query/1_Grants.py -->
 ```py
 import asyncio
+import os
+
+import dotenv
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.core.network import Network
 
 
 async def main() -> None:
+    dotenv.load_dotenv()
+    granter = os.getenv("INJECTIVE_GRANTER_PUBLIC_ADDRESS")
+    grantee = os.getenv("INJECTIVE_GRANTEE_PUBLIC_ADDRESS")
+
     network = Network.testnet()
     client = AsyncClient(network)
-    granter = "inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku"
-    grantee = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
     msg_type_url = "/injective.exchange.v1beta1.MsgCreateDerivativeLimitOrder"
     authorizations = await client.fetch_grants(granter=granter, grantee=grantee, msg_type_url=msg_type_url)
     print(authorizations)
@@ -788,8 +813,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/27_QueryAuthzGrants/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/27_QueryAuthzGrants/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/authz/query/1_Grants/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/authz/query/1_Grants/example.go -->
 ```go
 package main
 

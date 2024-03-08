@@ -1,0 +1,3 @@
+[
+    {"Parameter": "denom", "Type": "String", "Description": "The asset denom", "Required": "Yes"}
+]

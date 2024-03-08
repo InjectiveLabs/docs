@@ -1,0 +1,6 @@
+[
+    {"Parameter": "boosted_spot_market_ids", "Type": "String Array", "Description": "List of spot market IDs"},
+    {"Parameter": "spot_market_multipliers", "Type": "PointsMultiplier Array", "Description": "List of boost information for each spot market"},
+    {"Parameter": "boosted_derivative_market_ids", "Type": "String Array", "Description": "List of derivative market IDs"},
+    {"Parameter": "derivative_market_multipliers", "Type": "PointsMultiplier Array", "Description": "List of bood information for each derivative market"}
+]

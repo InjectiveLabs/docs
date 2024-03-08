@@ -1,0 +1,4 @@
+[
+    {"Parameter": "delegator_address", "Type": "String", "Description": "The delegator's injective address", "Required": "Yes"},
+    {"Parameter": "withdraw_address", "Type": "String", "Description": "The new withdraw address", "Required": "Yes"}
+]

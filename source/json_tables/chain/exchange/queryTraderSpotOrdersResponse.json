@@ -1,0 +1,3 @@
+[
+    {"Parameter": "orders", "Type": "TrimmedSpotLimitOrder Array", "Description": "Orders info"}
+]

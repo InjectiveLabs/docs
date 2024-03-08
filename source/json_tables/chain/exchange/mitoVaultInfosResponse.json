@@ -1,0 +1,6 @@
+[
+    {"Parameter": "master_addresses", "Type": "String Array", "Description": "List of master addresses"},
+    {"Parameter": "derivative_addresses", "Type": "String Array", "Description": "List of derivative addresses"},
+    {"Parameter": "spot_addresses", "Type": "String Array", "Description": "List of spot addresses"},
+    {"Parameter": "cw20_addresses", "Type": "String Array", "Description": "List of cw20 contract addresses"}
+]

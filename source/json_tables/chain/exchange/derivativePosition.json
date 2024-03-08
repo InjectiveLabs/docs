@@ -1,0 +1,5 @@
+[
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "Subaccount ID the position belongs to"},
+    {"Parameter": "market_id", "Type": "String", "Description": "ID of the position's market"},
+    {"Parameter": "position", "Type": "Position", "Description": "Position information"}
+]

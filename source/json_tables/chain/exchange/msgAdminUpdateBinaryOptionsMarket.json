@@ -1,0 +1,8 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The market launch requestor address", "Required": "Yes"},
+    {"Parameter": "market_id", "Type": "String", "Description": "The unique market ID", "Required": "Yes"},
+    {"Parameter": "settlement_price", "Type": "Decimal", "Description": "The price at which market will be settled", "Required": "No"},
+    {"Parameter": "expiration_timestamp", "Type": "Integer", "Description": "The market's expiration time in seconds", "Required": "Yes"},
+    {"Parameter": "settlement_timestamp", "Type": "Integer", "Description": "The market's settlement time in seconds", "Required": "Yes"},
+    {"Parameter": "market_status", "Type": "MarketStatus", "Description": "The market status", "Required": "Yes"}
+]

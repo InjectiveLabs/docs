@@ -1,0 +1,4 @@
+[
+    {"Parameter": "amount", "Type": "Coin Array", "Description": "The token amounts to transfer", "Required": "Yes"},
+    {"Parameter": "depositor", "Type": "String", "Description": "The depositor's account", "Required": "Yes"}
+]

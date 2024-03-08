@@ -35,6 +35,24 @@
 
 	We strongly recommend following the guide to setup your own infrastructure which will ultimately reduce latency to a great extent.
 
+	Following we include more details regarding transactions latency and blocks production:
+
+	- Validators might miss consensus rounds which will delay block production (instead of a 800ms block, we’ll have a 5000ms block). This happens very rarely and it’s due to issues on the validator node (they have a big chain state and they need to download a pruned snapshot, hardware resources etc.). We’re working with all validators to ensure these don’t take place anymore. This was the issue you mentioned last time with block 61885380 above. Additionally, we can decrease the block proposal timeout so we can lower the delayed block from a missed consensus round if this ever takes place again.
+	
+	- Even though the Tendermint/CometBFT docs don’t make this clear, transactions are only executed in the next block - a concept called deferred/next-block execution. You can find more details/discussion on Github from the core teams: https://github.com/tendermint/tendermint/issues/7898. This means that if you send txs in block N, they are only executed in block N+1.
+	
+	- There’s a max block gas limit which is currently set to 50M. This prevents spamming/DDoS attacks since if it has very high or even -1, this would allow one to send huge transactions and delay block time by minutes since the node would take a while to process each tx. We’ve observed that we’re currently hitting the block gas limit and we’re going to put up a proposal soon to increase it. This means that even though the validator mempool might have 100 txs, only 40 or 50 will be included (up to 50M gas) so you’re experiencing unnecessary delay. As an example, this tx spent 1M gas: https://explorer.injective.network/transaction/2CC4E5A54D23AF6CC599E7A4328CAE2EFBF6719F40976985E2381A3411B6DD0A/. There are other txs that spend 200K or even 3-5M in gas. Based on some empirical observations, a reasonable gas increase in the block will not cause any performance issues but we’re running more extensive tests and we’ll put up a proposal soon. We’ll be increasing this value progressively as we scale up along with some on-chain improvements.
+	
+	- As more nodes get online in the network, this will increase the P2P latency. Gossip latency might increase depending on the peers on the node you sent your tx. Consider this scenario:
+	
+	A. There are 400 nodes online in the network, the node you broadcast to has 40 peers but none of these peers is the validator proposing the next block.
+	
+	B. Your node will gossip to its 40 peers, then these 40 peers will gossip to the next peers etc.
+	
+	C. We don’t have metrics as to how long it takes for a tx to be gossiped but there’s some latency involved here since every node will run checkTx/validations before it includes the tx in its mempool.
+	
+	On the other hand, your node might have direct peering with the block proposer for the upcoming block so you have zero P2P latency.
+
 ## 9. Can I have my own client id to send messages through the API?
 	No, we don't store private information on the Injective Chain.
 

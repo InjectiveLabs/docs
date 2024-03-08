@@ -1,0 +1,18 @@
+[
+    {"Parameter": "ticker", "Type": "String", "Description": "Name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset"},
+    {"Parameter": "oracle_base", "Type": "String", "Description": "Oracle base token"},
+    {"Parameter": "oracle_quote", "Type": "String", "Description": "Oracle quote token"},
+    {"Parameter": "oracle_type", "Type": "OracleType", "Description": "The oracle type"},
+    {"Parameter": "oracle_scale_factor", "Type": "Integer", "Description": "The oracle number of scale decimals"},
+    {"Parameter": "quote_denom", "Type": "String", "Description": "Coin denom used for the quote asset"},
+    {"Parameter": "market_id", "Type": "String", "Description": "The market ID"},
+    {"Parameter": "initial_margin_ratio", "Type": "Decimal", "Description": "The max initial margin ratio a position is allowed to have in the market"},
+    {"Parameter": "maintenance_margin_ratio", "Type": "Decimal", "Description": "The max maintenance margin ratio a position is allowed to have in the market"},
+    {"Parameter": "maker_fee_rate", "Type": "Decimal", "Description": "Fee percentage makers pay when trading"},
+    {"Parameter": "taker_fee_rate", "Type": "Decimal", "Description": "Fee percentage takers pay when trading"},
+    {"Parameter": "relayer_fee_share_rate", "Type": "Decimal", "Description": "Percentage of the transaction fee shared with the relayer in a derivative market"},
+    {"Parameter": "is_perpetual", "Type": "Boolean", "Description": "True if the market is a perpetual market. False if the market is an expiry futures market"},
+    {"Parameter": "status", "Type": "MarketStatus", "Description": "Status of the market"},
+    {"Parameter": "min_price_tick_size", "Type": "Decimal", "Description": "Minimum tick size that the price required for orders in the market"},
+    {"Parameter": "min_quantity_tick_size", "Type": "Decimal", "Description": "Minimum tick size of the quantity required for orders in the market"}
+]

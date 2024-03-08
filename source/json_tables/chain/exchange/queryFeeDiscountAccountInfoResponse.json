@@ -1,0 +1,5 @@
+[
+    {"Parameter": "tier_level", "Type": "Integer", "Description": "Fee discount tier"},
+    {"Parameter": "account_info", "Type": "FeeDiscountTierInfo", "Description": "Fee discount tier info"},
+    {"Parameter": "account_ttl", "Type": "FeeDiscountTierTTL", "Description": "Fee discount tier TTL"}
+]

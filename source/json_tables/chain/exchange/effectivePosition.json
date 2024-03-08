@@ -1,0 +1,6 @@
+[
+    {"Parameter": "is_effective_position_long", "Type": "Boolean", "Description": "True if the position is long. False if the position is short"},
+    {"Parameter": "quantity", "Type": "Decimal", "Description": "The position's amount"},
+    {"Parameter": "entry_price", "Type": "Decimal", "Description": "The order execution price when the position was created"},
+    {"Parameter": "effective_margin", "Type": "Decimal", "Description": "The position's current margin amount"}
+]

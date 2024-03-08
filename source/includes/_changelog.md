@@ -1,5 +1,11 @@
 # Change Log
 
+## 2024-03-08
+- Updated the API documentation to include all queries and messages for the `distribution` and `chain exchange` modules
+- Python SDK v1.4.0
+  - Added support for all queries and messages from the `distribution` module
+  - Added support for all queries and messages from the `chain exchange` module
+
 ## 2024-01-25
 - Python SDK v1.2.0
   - Improved message based gas estimator to consider that Post Only orders creation require more gas than normal orders
