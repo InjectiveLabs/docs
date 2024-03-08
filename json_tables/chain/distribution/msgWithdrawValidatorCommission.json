@@ -1,0 +1,3 @@
+[
+    {"Parameter": "validator_address", "Type": "String", "Description": "The validator's address", "Required": "Yes"}
+]

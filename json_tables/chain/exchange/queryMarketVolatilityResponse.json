@@ -1,0 +1,5 @@
+[
+    {"Parameter": "volatility", "Type": "Decimal", "Description": "Market's volatility"},
+    {"Parameter": "history_metadata", "Type": "MetadataStatistics", "Description": "Market's volatility"},
+    {"Parameter": "raw_history", "Type": "TradeRecord Array", "Description": "List of trade records"}
+]

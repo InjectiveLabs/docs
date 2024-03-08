@@ -1,0 +1,11 @@
+[
+    {"Parameter": "group_count", "Type": "Integer", "Description": "Refers to the number of groups used. Equals records_sample_size if no grouping is used"},
+    {"Parameter": "records_sample_size", "Type": "Integer", "Description": "Refers to the total number of records used"},
+    {"Parameter": "mean", "Type": "Decimal", "Description": "Refers to the arithmetic mean. For trades, the mean is the VWAP computed over the grouped trade records ∑ (price * quantity) / ∑ quantity For oracle prices, the mean is computed over the price records ∑ (price) / prices_count"},
+    {"Parameter": "twap", "Type": "Decimal", "Description": "Refers to the time-weighted average price which equals ∑ (price_i * ∆t_i) / ∑ ∆t_i where ∆t_i = t_i - t_{i-1}"},
+    {"Parameter": "first_timestamp", "Type": "Integer", "Description": "The timestamp of the oldest record considered"},
+    {"Parameter": "last_timestamp", "Type": "Integer", "Description": "The timestamp of the youngest record considered"},
+    {"Parameter": "min_price", "Type": "Decimal", "Description": "Refers to the smallest individual raw price considered"},
+    {"Parameter": "max_price", "Type": "Decimal", "Description": "Refers to the largest individual raw price considered"},
+    {"Parameter": "median_price", "Type": "Decimal", "Description": "Refers to the median individual raw price considered"}
+]

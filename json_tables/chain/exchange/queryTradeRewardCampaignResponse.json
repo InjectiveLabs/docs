@@ -1,0 +1,7 @@
+[
+    {"Parameter": "trading_reward_campaign_info", "Type": "TradingRewardCampaignInfo", "Description": "Campaign information"},
+    {"Parameter": "trading_reward_pool_campaign_schedule", "Type": "CampaignRewardPool Array", "Description": "Campaign schedules"},
+    {"Parameter": "total_trade_reward_points", "Type": "Decimal", "Description": "Trade reward points"},
+    {"Parameter": "pending_trading_reward_pool_campaign_schedule", "Type": "CampaignRewardPool Array", "Description": "Pending campaigns schedules"},
+    {"Parameter": "pending_total_trade_reward_points", "Type": "Decimal Array", "Description": "Pending campaigns points"}
+]

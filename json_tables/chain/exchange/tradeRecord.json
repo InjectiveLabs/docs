@@ -1,0 +1,5 @@
+[
+    {"Parameter": "timestamp", "Type": "Integer", "Description": "Trade timestamp"},
+    {"Parameter": "price", "Type": "Decimal", "Description": "Trade price"},
+    {"Parameter": "quantity", "Type": "Decimal", "Description": "Trade quantity"}
+]

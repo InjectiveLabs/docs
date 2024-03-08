@@ -1,0 +1,4 @@
+[
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "The subaccount ID", "Required": "Yes"},
+    {"Parameter": "denom", "Type": "String", "Description": "The token denom", "Required": "Yes"}
+]

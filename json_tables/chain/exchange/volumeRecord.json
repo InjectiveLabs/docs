@@ -1,0 +1,4 @@
+[
+    {"Parameter": "maker_volume", "Type": "Decimal", "Description": "The maker volume"},
+    {"Parameter": "taker_volume", "Type": "Decimal", "Description": "The taker volume"}
+]

@@ -1,0 +1,5 @@
+[
+    {"Parameter": "operator_address", "Type": "String", "Description": "The validator operator address"},
+    {"Parameter": "self_bond_rewards", "Type": "DecCoin Array", "Description": "The self delegations rewards"},
+    {"Parameter": "commission", "Type": "DecCoin Array", "Description": "The commission the validator received"}
+]

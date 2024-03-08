@@ -1,0 +1,4 @@
+[
+    {"Parameter": "order", "Type": "SubaccountOrder", "Description": "Order info"},
+    {"Parameter": "order_hash", "Type": "Bytes", "Description": "Order hash"}
+]

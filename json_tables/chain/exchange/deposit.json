@@ -1,0 +1,4 @@
+[
+    {"Parameter": "available_balance", "Type": "Decimal", "Description": "Deposit available balance"},
+    {"Parameter": "total_balance", "Type": "Decimal", "Description": "Deposit total balance"}
+]

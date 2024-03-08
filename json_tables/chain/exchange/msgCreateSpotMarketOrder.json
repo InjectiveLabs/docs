@@ -1,0 +1,4 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The message sender's address", "Required": "Yes"},
+    {"Parameter": "order", "Type": "SpotOrder", "Description": "Order's parameters", "Required": "Yes"}
+]

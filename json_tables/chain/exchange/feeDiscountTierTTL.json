@@ -1,0 +1,4 @@
+[
+    {"Parameter": "tier", "Type": "Integer", "Description": "Tier number"},
+    {"Parameter": "ttl_timestamp", "Type": "Decimal", "Description": "Tier TTL"}
+]

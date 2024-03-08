@@ -1,0 +1,4 @@
+[
+    {"Parameter": "account", "Type": "String", "Description": "Account the volume belongs to"},
+    {"Parameter": "market_volumes", "Type": "MarketVolume Array", "Description": "The aggregate volumes for each market"}
+]

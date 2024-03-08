@@ -1,0 +1,7 @@
+[
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "Subaccount ID that created the order", "Required": "Yes"},
+    {"Parameter": "fee_recipient", "Type": "String", "Description": "Address that will receive fees for the order", "Required": "No"},
+    {"Parameter": "price", "Type": "Decimal", "Description": "Price of the order", "Required": "Yes"},
+    {"Parameter": "quantity", "Type": "Decimal", "Description": "Quantity of the order", "Required": "Yes"},
+    {"Parameter": "cid", "Type": "String", "Description": "Client order ID. An optional identifier for the order set by the creator", "Required": "No"}
+]

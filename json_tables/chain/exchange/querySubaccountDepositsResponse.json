@@ -1,0 +1,3 @@
+[
+    {"Parameter": "deposits", "Type": "Map String to Deposit", "Description": "Map with the token denom as key, and a deposit information as value"}
+]

@@ -1,0 +1,3 @@
+[
+    {"Parameter": "validators", "Type": "String Array", "Description": "List of all validators a delegator is delegating for"}
+]

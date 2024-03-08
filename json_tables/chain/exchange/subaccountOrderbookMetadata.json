@@ -1,0 +1,8 @@
+[
+    {"Parameter": "vanilla_limit_order_count", "Type": "Integer", "Description": "Number of vanilla limit orders"},
+    {"Parameter": "reduce_only_limit_order_count", "Type": "Integer", "Description": "Number of reduce only limit orders"},
+    {"Parameter": "aggregate_reduce_only_quantity", "Type": "Decimal", "Description": "Aggregate fillable quantity of the subaccount's reduce-only limit orders in the given direction"},
+    {"Parameter": "aggregate_vanilla_quantity", "Type": "Decimal", "Description": "Aggregate fillable quantity of the subaccount's vanilla limit orders in the given direction"},
+    {"Parameter": "vanilla_conditional_order_count", "Type": "Integer", "Description": "Number of vanilla conditional orders"},
+    {"Parameter": "reduce_only_conditional_order_count", "Type": "Integer", "Description": "Number of reduce only conditional orders"}
+]

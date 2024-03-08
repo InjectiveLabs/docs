@@ -1,0 +1,9 @@
+[
+    {"Parameter": "price", "Type": "Decimal", "Description": "The order price"},
+    {"Parameter": "quantity", "Type": "Decimal", "Description": "The order quantity"},
+    {"Parameter": "margin", "Type": "Decimal", "Description": "The order margin"},
+    {"Parameter": "trigger_price", "Type": "OracleType", "Description": "Price to trigger the order"},
+    {"Parameter": "is_buy", "Type": "Boolean", "Description": "True if the order is a buy order. False otherwise."},
+    {"Parameter": "is_limit", "Type": "Boolean", "Description": "True if the order is a limit order. False otherwise."},
+    {"Parameter": "order_hash", "Type": "String", "Description": "The order hash"}    
+]

@@ -1,0 +1,4 @@
+[
+    {"Parameter": "market_id", "Type": "String", "Description": "The market ID to query for", "Required": "Yes"},
+    {"Parameter": "trade_history_options", "Type": "TradeHistoryOptions", "Description": "Extra query options", "Required": "No"}
+]

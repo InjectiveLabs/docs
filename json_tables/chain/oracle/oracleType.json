@@ -1,0 +1,14 @@
+[
+    {"Code": "0", "Name": "Unspecified"},
+    {"Code": "1", "Name": "Band"},
+    {"Code": "2", "Name": "PriceFeed"},
+    {"Code": "3", "Name": "Coinbase"},
+    {"Code": "4", "Name": "Chainlink"},
+    {"Code": "5", "Name": "Razor"},
+    {"Code": "6", "Name": "Dia"},
+    {"Code": "7", "Name": "API3"},
+    {"Code": "8", "Name": "Uma"},
+    {"Code": "9", "Name": "Pyth"},
+    {"Code": "10", "Name": "BandIBC"},
+    {"Code": "11", "Name": "Provider"}
+]

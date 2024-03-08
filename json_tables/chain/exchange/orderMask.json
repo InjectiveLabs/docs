@@ -1,0 +1,10 @@
+[
+    {"Code": "0", "Name": "OrderMask_UNUSED"},
+    {"Code": "1", "Name": "OrderMask_ANY"},
+    {"Code": "2", "Name": "OrderMask_REGULAR"},
+    {"Code": "4", "Name": "OrderMask_CONDITIONAL"},
+    {"Code": "8", "Name": "OrderMask_BUY_OR_HIGHER"},
+    {"Code": "16", "Name": "OrderMask_SELL_OR_LOWER"},
+    {"Code": "32", "Name": "OrderMask_MARKET"},
+    {"Code": "64", "Name": "OrderMask_LIMIT"}
+]

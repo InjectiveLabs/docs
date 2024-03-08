@@ -1,0 +1,7 @@
+[
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "The subaccount ID the balance belongs to"},
+    {"Parameter": "denom", "Type": "String", "Description": "The token denom"},
+    {"Parameter": "available", "Type": "Decimal", "Description": "The available balance"},
+    {"Parameter": "total", "Type": "Decimal", "Description": "The total balance"},
+    {"Parameter": "balance_hold", "Type": "Decimal", "Description": "The balance on hold"}
+]

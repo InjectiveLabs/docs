@@ -1,0 +1,4 @@
+[
+    {"Parameter": "buys_price_level", "Type": "Level Array", "Description": "Bid side entries"},
+    {"Parameter": "sells_price_level", "Type": "Level Array", "Description": "Ask side entries"}
+]

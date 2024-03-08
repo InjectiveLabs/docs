@@ -1,0 +1,5 @@
+[
+    {"Parameter": "cumulative_funding", "Type": "Decimal", "Description": "The market's cumulative funding"},
+    {"Parameter": "cumulative_price", "Type": "Decimal", "Description": "The cumulative price for the current hour up to the last timestamp"},
+    {"Parameter": "last_timestamp", "Type": "Integer", "Description": "Last funding timestamp in seconds"}
+]

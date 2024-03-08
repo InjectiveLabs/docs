@@ -1,0 +1,7 @@
+[
+    {"Parameter": "market_id", "Type": "String", "Description": "The order's market ID", "Required": "Yes"},
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "Subaccount ID that created the order", "Required": "Yes"},
+    {"Parameter": "order_hash", "Type": "String", "Description": "The order hash (either the order_hash or the cid should be provided)", "Required": "No"},
+    {"Parameter": "order_mask", "Type": "OrderMask", "Description": "The order mask that specifies the order type", "Required": "No"},
+    {"Parameter": "cid", "Type": "String", "Description": "The order's client order ID (either the order_hash or the cid should be provided)", "Required": "No"}
+]

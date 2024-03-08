@@ -1,0 +1,4 @@
+[
+    {"Parameter": "buy_orders", "Type": "SubaccountOrderData Array", "Description": "Buy orders info"},
+    {"Parameter": "sell_orders", "Type": "SubaccountOrderData Array", "Description": "Sell orders info"}
+]

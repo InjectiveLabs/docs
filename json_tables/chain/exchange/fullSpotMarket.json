@@ -1,0 +1,4 @@
+[
+    {"Parameter": "market", "Type": "SpotMarket", "Description": "Market basic information"},
+    {"Parameter": "mid_price_and_tob", "Type": "MidPriceAndTOB", "Description": "The mid price for this market and the best ask and bid orders"}
+]

@@ -1,0 +1,3 @@
+[
+    {"Parameter": "commission", "Type": "DecCoin Array", "Description": "Accumulated commissions for the validator"}
+]

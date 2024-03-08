@@ -1,0 +1,5 @@
+[
+    {"Parameter": "market_id", "Type": "String", "Description": "Market ID to request for", "Required": "Yes"},
+    {"Parameter": "limit", "Type": "Integer", "Description": "Max number of order book entries to return per side", "Required": "No"},
+    {"Parameter": "limit_cumulative_notional", "Type": "Decimal", "Description": "Limit the number of entries to return per side based on the cumulative notional", "Required": "No"}
+]

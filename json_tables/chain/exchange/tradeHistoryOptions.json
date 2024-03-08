@@ -1,0 +1,6 @@
+[
+    {"Parameter": "trade_grouping_sec", "Type": "Integer", "Description": "0 means use the chain's default grouping"},
+    {"Parameter": "max_age", "Type": "Integer", "Description": "Restricts the trade records oldest age in seconds from the current block time to consider. A value of 0 means use all the records present on the chain"},
+    {"Parameter": "include_raw_history", "Type": "Boolean", "Description": "If True, the raw underlying data used for the computation is included in the response"},
+    {"Parameter": "include_metadata", "Type": "Boolean", "Description": "If True, metadata on the computation is included in the response"}
+]
