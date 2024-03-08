@@ -1,0 +1,5 @@
+[
+    {"Code": "0", "Name": "Side_Unspecified"},
+    {"Code": "1", "Name": "Buy"},
+    {"Code": "2", "Name": "Sell"}
+]

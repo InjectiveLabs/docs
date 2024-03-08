@@ -1,0 +1,4 @@
+[
+    {"Parameter": "denom", "Type": "String", "Description": "The asset denom"},
+    {"Parameter": "decimals", "Type": "Integer", "Description": "Number of decimals"}
+]

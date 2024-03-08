@@ -1,0 +1,4 @@
+[
+    {"Parameter": "status", "Type": "String", "Description": "Market status", "Required": "No"},
+    {"Parameter": "market_ids", "Type": "String Array", "Description": "List of market IDs", "Required": "No"}
+]

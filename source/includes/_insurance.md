@@ -1,19 +1,21 @@
 # - Insurance
 Includes the messages to create, underwrite and redeem in insurance funds.
 
+
 ## MsgCreateInsuranceFund
 
 **IP rate limit group:** `chain`
 
-
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/41_MsgCreateInsuranceFund.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/41_MsgCreateInsuranceFund.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/insurance/1_MsgCreateInsuranceFund.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/insurance/1_MsgCreateInsuranceFund.py -->
 ```py
 import asyncio
+import os
 
+import dotenv
 from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
@@ -24,6 +26,9 @@ from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
+    dotenv.load_dotenv()
+    configured_private_key = os.getenv("INJECTIVE_PRIVATE_KEY")
+
     # select network: local, testnet, mainnet
     network = Network.testnet()
 
@@ -34,7 +39,7 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
+    priv_key = PrivateKey.from_hex(configured_private_key)
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
     await client.fetch_account(address.to_acc_bech32())
@@ -74,7 +79,7 @@ async def main() -> None:
     gas_limit = int(sim_res["gasInfo"]["gasUsed"]) + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
     gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
     fee = [
-        composer.Coin(
+        composer.coin(
             amount=gas_price * gas_limit,
             denom=network.fee_denom,
         )
@@ -107,6 +112,7 @@ if __name__ == "__main__":
 |expiry|Integer|The expiry date|Yes|
 |initial_deposit|Integer|The initial deposit in the quote asset|Yes|
 
+### Response Parameters
 > Response Example:
 
 ```python
@@ -117,19 +123,21 @@ gas wanted: 151648
 gas fee: 0.000075824 INJ
 ```
 
+
 ## MsgUnderwrite
 
 **IP rate limit group:** `chain`
 
-
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/42_MsgUnderwrite.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/42_MsgUnderwrite.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/insurance/2_MsgUnderwrite.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/insurance/2_MsgUnderwrite.py -->
 ```py
 import asyncio
+import os
 
+import dotenv
 from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
@@ -140,6 +148,9 @@ from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
+    dotenv.load_dotenv()
+    configured_private_key = os.getenv("INJECTIVE_PRIVATE_KEY")
+
     # select network: local, testnet, mainnet
     network = Network.testnet()
 
@@ -150,7 +161,7 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
+    priv_key = PrivateKey.from_hex(configured_private_key)
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
     await client.fetch_account(address.to_acc_bech32())
@@ -186,7 +197,7 @@ async def main() -> None:
     gas_limit = int(sim_res["gasInfo"]["gasUsed"]) + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
     gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
     fee = [
-        composer.Coin(
+        composer.coin(
             amount=gas_price * gas_limit,
             denom=network.fee_denom,
         )
@@ -225,19 +236,21 @@ gas wanted: 142042
 gas fee: 0.000071021 INJ
 ```
 
+
 ## MsgRequestRedemption
 
 **IP rate limit group:** `chain`
 
-
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/43_MsgRequestRedemption.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/43_MsgRequestRedemption.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/insurance/3_MsgRequestRedemption.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/insurance/3_MsgRequestRedemption.py -->
 ```py
 import asyncio
+import os
 
+import dotenv
 from grpc import RpcError
 
 from pyinjective.async_client import AsyncClient
@@ -248,6 +261,9 @@ from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
+    dotenv.load_dotenv()
+    configured_private_key = os.getenv("INJECTIVE_PRIVATE_KEY")
+
     # select network: local, testnet, mainnet
     network = Network.testnet()
 
@@ -258,7 +274,7 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex("f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3")
+    priv_key = PrivateKey.from_hex(configured_private_key)
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
     await client.fetch_account(address.to_acc_bech32())
@@ -294,7 +310,7 @@ async def main() -> None:
     gas_limit = int(sim_res["gasInfo"]["gasUsed"]) + GAS_FEE_BUFFER_AMOUNT  # add buffer for gas fee computation
     gas_fee = "{:.18f}".format((gas_price * gas_limit) / pow(10, 18)).rstrip("0")
     fee = [
-        composer.Coin(
+        composer.coin(
             amount=gas_price * gas_limit,
             denom=network.fee_denom,
         )
@@ -323,6 +339,7 @@ if __name__ == "__main__":
 |share_denom|String|Share denom used for the insurance fund|Yes|
 |amount|Integer|The amount to redeem in shares|Yes|
 
+### Response Parameters
 > Response Example:
 
 ```python

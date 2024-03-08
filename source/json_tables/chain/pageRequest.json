@@ -1,0 +1,7 @@
+[
+    {"Parameter": "key", "Type": "Byte Array", "Description": "Key is a value returned in PageResponse.next_key to begin querying the next page most efficiently. Only one of offset or key should be set", "Required": "No"},
+    {"Parameter": "offset", "Type": "Integer", "Description": "Numeric offset that can be used when key is unavailable. It is less efficient than using key. Only one of offset or key should be set", "Required": "No"},
+    {"Parameter": "limit", "Type": "Integer", "Description": "Total number of results to be returned in the result page", "Required": "No"},
+    {"Parameter": "count_total", "Type": "Boolean", "Description": "Set to true  to indicate that the result set should include a count of the total number of items available for pagination in UIs. It is only respected when offset is used. It is ignored when key is set", "Required": "No"},
+    {"Parameter": "reverse", "Type": "Boolean", "Description": "Reverse is set to true if results are to be returned in the descending order", "Required": "No"}
+]

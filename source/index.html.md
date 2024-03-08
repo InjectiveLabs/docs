@@ -27,22 +27,23 @@ includes:
   - metarpc
   - portfoliorpc
   - chainapi
-  - derivatives
-  - spot
-  - binaryoptions
   - account
   - auction
   - authz
+  - bank
+  - chainstream
+  - chainexchange
+  - derivatives
+  - spot
+  - binaryoptions
+  - insurance
   - oracle
   - staking
-  - bank
+  - tokenfactory
   - wasm
   - wasmx
-  - insurance
   - historicalqueries
   - healthapi
-  - chainstream
-  - tokenfactory
   - glossary
   - faq
   # - chronosrpc

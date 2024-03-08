@@ -1,0 +1,5 @@
+[
+    {"Parameter": "metadata", "Type": "SubaccountOrderbookMetadata", "Description": "Orderbook metadata"},
+    {"Parameter": "market_id", "Type": "String", "Description": "The orderbook's market ID"},
+    {"Parameter": "is_buy", "Type": "Boolean", "Description": "True for buy. False for sell"}
+]

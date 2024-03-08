@@ -1,0 +1,16 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The market launch requestor address", "Required": "Yes"},
+    {"Parameter": "ticker", "Type": "String", "Description": "Ticker for the binary options market", "Required": "Yes"},
+    {"Parameter": "oracle_symbol", "Type": "String", "Description": "Oracle symbol", "Required": "Yes"},
+    {"Parameter": "oracle_provider", "Type": "String", "Description": "Oracle provider", "Required": "Yes"},
+    {"Parameter": "oracle_type", "Type": "OracleType", "Description": "The oracle type", "Required": "Yes"},
+    {"Parameter": "oracle_scale_factor", "Type": "Integer", "Description": "Scale factor for oracle prices", "Required": "Yes"},
+    {"Parameter": "maker_fee_rate", "Type": "Decimal", "Description": "Defines the trade fee rate for makers on the perpetual market", "Required": "Yes"},
+    {"Parameter": "taker_fee_rate", "Type": "Decimal", "Description": "Defines the trade fee rate for takers on the perpetual market", "Required": "Yes"},
+    {"Parameter": "expiration_timestamp", "Type": "Integer", "Description": "The market's expiration time in seconds", "Required": "Yes"},
+    {"Parameter": "settlement_timestamp", "Type": "Integer", "Description": "The market's settlement time in seconds", "Required": "Yes"},
+    {"Parameter": "admin", "Type": "String", "Description": "The market's admin address", "Required": "Yes"},
+    {"Parameter": "quote_denom", "Type": "String", "Description": "Quote tocken denom", "Required": "Yes"},
+    {"Parameter": "min_price_tick_size", "Type": "Decimal", "Description": "Defines the minimum tick size of the order's price", "Required": "Yes"},
+    {"Parameter": "min_quantity_tick_size", "Type": "Decimal", "Description": "Defines the minimum tick size of the order's quantity", "Required": "Yes"}
+]

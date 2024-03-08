@@ -1,0 +1,4 @@
+[
+    {"Parameter": "address", "Type": "String", "Description": "The market's address"},
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "The market's subaccount ID"}
+]

@@ -1,0 +1,6 @@
+[
+    {"Parameter": "maker_discount_rate", "Type": "Decimal", "Description": "Maker trades' discount rate"},
+    {"Parameter": "taker_discount_rate", "Type": "Decimal", "Description": "Taker trades' discount rate"},
+    {"Parameter": "staked_amount", "Type": "Decimal", "Description": "Staked smount to reach this discount tier"},
+    {"Parameter": "volume", "Type": "Decimal", "Description": "Volume to reach this discount tier"}
+]

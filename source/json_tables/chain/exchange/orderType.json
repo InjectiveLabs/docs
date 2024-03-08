@@ -1,0 +1,13 @@
+[
+    {"Code": "0", "Name": "UNSPECIFIED"},
+    {"Code": "1", "Name": "BUY"},
+    {"Code": "2", "Name": "SELL"},
+    {"Code": "3", "Name": "STOP_BUY"},
+    {"Code": "4", "Name": "STOP_SELL"},
+    {"Code": "5", "Name": "TAKE_BUY"},
+    {"Code": "6", "Name": "TAKE_SELL"},
+    {"Code": "7", "Name": "BUY_PO"},
+    {"Code": "8", "Name": "SELL_PO"},
+    {"Code": "9", "Name": "BUY_ATOMIC"},
+    {"Code": "10", "Name": "SELL_ATOMIC"}
+]

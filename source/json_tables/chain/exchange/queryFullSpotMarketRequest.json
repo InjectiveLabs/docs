@@ -1,0 +1,4 @@
+[
+    {"Parameter": "market_id", "Type": "String", "Description": "Market ID to request for", "Required": "Yes"},
+    {"Parameter": "with_mid_price_and_tob", "Type": "Boolean", "Description": "Flag to activate/deactivate the inclusion of the markets mid price and top of the book buy and sell orders", "Required": "No"}
+]

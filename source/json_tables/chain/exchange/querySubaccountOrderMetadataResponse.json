@@ -1,0 +1,3 @@
+[
+    {"Parameter": "metadata", "Type": "SubaccountOrderbookMetadataWithMarket Array", "Description": "List of subaccount's orderbook metadata information"}
+]

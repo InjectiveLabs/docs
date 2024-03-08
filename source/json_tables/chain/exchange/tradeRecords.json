@@ -1,0 +1,4 @@
+[
+    {"Parameter": "market_id", "Type": "String", "Description": "The market ID"},
+    {"Parameter": "latest_trade_records", "Type": "TradeRecord Array", "Description": "List of trade records"}
+]

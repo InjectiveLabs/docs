@@ -1,0 +1,6 @@
+[
+    {"Parameter": "campaign_duration_seconds", "Type": "Integer", "Description": "Campaign duration in seconds"},
+    {"Parameter": "quote_denoms", "Type": "String Array", "Description": "The trading fee quote denoms which will be counted for the rewards"},
+    {"Parameter": "trading_reward_boost_info", "Type": "TradingRewardCampaignBoostInfo", "Description": "Boost information"},
+    {"Parameter": "disqualified_market_ids", "Type": "String Array", "Description": "List of disqualified marked IDs"}
+]

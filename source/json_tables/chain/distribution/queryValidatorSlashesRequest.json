@@ -1,0 +1,6 @@
+[
+    {"Parameter": "validator_address", "Type": "String", "Description": "The validator address to query for", "Required": "Yes"},
+    {"Parameter": "starting_height", "Type": "Integer", "Description": "The optional starting height to query the slashes", "Required": "No"},
+    {"Parameter": "ending_height", "Type": "Integer", "Description": "The optional ending height to query the slashes", "Required": "No"},
+    {"Parameter": "pagination", "Type": "PageRequest", "Description": "The optional pagination for the request", "Required": "No"}
+]

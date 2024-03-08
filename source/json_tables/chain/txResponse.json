@@ -1,0 +1,15 @@
+[
+    {"Parameter": "height", "Type": "Integer", "Description": "The block height"},
+    {"Parameter": "tx_hash", "Type": "String", "Description": "Transaction hash"},
+    {"Parameter": "codespace", "Type": "String", "Description": "Namespace for the code"},
+    {"Parameter": "code", "Type": "Integer", "Description": "Response code (zero for success, non-zero for errors)"},
+    {"Parameter": "data", "Type": "String", "Description": "Bytes, if any"},
+    {"Parameter": "raw_log", "Type": "String", "Description": "The output of the application's logger (raw string)"},
+    {"Parameter": "logs", "Type": "ABCIMessageLog Array", "Description": "The output of the application's logger (typed)"},
+    {"Parameter": "info", "Type": "String", "Description": "Additional information"},
+    {"Parameter": "gas_wanted", "Type": "Integer", "Description": "Amount of gas requested for the transaction"},
+    {"Parameter": "gas_used", "Type": "Integer", "Description": "Amount of gas consumed by the transaction"},
+    {"Parameter": "tx", "Type": "Any", "Description": "The request transaction bytes"},
+    {"Parameter": "timestamp", "Type": "String", "Description": "Time of the previous block. For heights > 1, it's the weighted median of the timestamps of the valid votes in the block.LastCommit. For height == 1, it's genesis time"},
+    {"Parameter": "events", "Type": "Event Array", "Description": "Events defines all the events emitted by processing a transaction. Note, these events include those emitted by processing all the messages and those emitted from the ante. Whereas Logs contains the events, with additional metadata, emitted only by processing the messages."}
+]

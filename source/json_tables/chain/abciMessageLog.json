@@ -1,0 +1,5 @@
+[
+    {"Parameter": "msg_index", "Type": "Integer", "Description": "The message index"},
+    {"Parameter": "log", "Type": "String", "Description": "The log message"},
+    {"Parameter": "events", "Type": "StringEvent Array", "Description": "Event objects that were emitted during the execution"}
+]

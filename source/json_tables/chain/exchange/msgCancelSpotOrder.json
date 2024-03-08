@@ -1,0 +1,7 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The message sender's address", "Required": "Yes"},
+    {"Parameter": "market_id", "Type": "String", "Description": "The unique ID of the order's market", "Required": "Yes"},
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "The subaccount ID the order belongs to", "Required": "Yes"},
+    {"Parameter": "order_hash", "Type": "String", "Description": "The order hash (either order_hash or cid have to be provided)", "Required": "No"},
+    {"Parameter": "cid", "Type": "String", "Description": "The client order ID provided by the creator (either order_hash or cid have to be provided)", "Required": "No"}
+]

@@ -1,0 +1,6 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The sender's address", "Required": "Yes"},
+    {"Parameter": "source_subaccount_id", "Type": "String", "Description": "Subaccount ID from where the funds are deducted", "Required": "Yes"},
+    {"Parameter": "destination_subaccount_id", "Type": "String", "Description": "Subaccount ID the funds are deposited into", "Required": "Yes"},
+    {"Parameter": "amount", "Type": "Coin", "Description": "The transfer token amount", "Required": "Yes"}
+]

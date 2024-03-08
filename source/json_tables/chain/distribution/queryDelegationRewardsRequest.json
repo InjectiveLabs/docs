@@ -1,0 +1,4 @@
+[
+    {"Parameter": "delegator_address", "Type": "String", "Description": "Delegator address to query for", "Required": "Yes"},
+    {"Parameter": "validator_address", "Type": "String", "Description": "Validator address to query for", "Required": "Yes"}
+]

@@ -1,0 +1,4 @@
+[
+    {"Parameter": "validator_period", "Type": "Integer", "Description": "The period when the validator got slashed"},
+    {"Parameter": "fraction", "Type": "String", "Description": "Slashing applied"}
+]

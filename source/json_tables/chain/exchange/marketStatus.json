@@ -1,0 +1,7 @@
+[
+    {"Code": "0", "Name": "Unspecified"},
+    {"Code": "1", "Name": "Active"},
+    {"Code": "2", "Name": "Paused"},
+    {"Code": "3", "Name": "Demolished"},
+    {"Code": "4", "Name": "Expired"}
+]

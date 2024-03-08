@@ -1,0 +1,3 @@
+[
+    {"Parameter": "accounts", "Type": "String Array", "Description": "List of opted out accounts"}
+]

@@ -1,0 +1,5 @@
+[
+    {"Parameter": "market_id", "Type": "String", "Description": "Market ID to request for", "Required": "Yes"},
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "Trader's subaccount ID", "Required": "Yes"},
+    {"Parameter": "order_hashes", "Type": "String Array", "Description": "List of order hashes to retrieve information for", "Required": "Yes"}
+]

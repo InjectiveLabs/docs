@@ -1,0 +1,3 @@
+[
+    {"Parameter": "rewards", "Type": "DecCoin Array", "Description": "The rewards accrued by a delegation"}
+]

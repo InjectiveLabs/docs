@@ -1,0 +1,5 @@
+[
+    {"Parameter": "key", "Type": "String", "Description": "Attribute key"},
+    {"Parameter": "value", "Type": "String", "Description": "Attribute value"},
+    {"Parameter": "index", "Type": "Boolean", "Description": "If attribute is indexed"}
+]

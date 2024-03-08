@@ -1,0 +1,6 @@
+[
+    {"Parameter": "market", "Type": "DerivativeMarket", "Description": "Market basic information"},
+    {"Parameter": "info", "Type": "PerpetualMarketState or ExpiryFuturesMarketInfo", "Description": "Specific information for the perpetual or expiry futures market"},
+    {"Parameter": "mark_price", "Type": "Decimal", "Description": "The market mark price"},
+    {"Parameter": "mid_price_and_tob", "Type": "MidPriceAndTOB", "Description": "The mid price for this market and the best ask and bid orders"}
+]

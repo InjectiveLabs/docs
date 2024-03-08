@@ -1,0 +1,4 @@
+[
+    {"Parameter": "denom", "Type": "String", "Description": "The token denom", "Required": "Yes"},
+    {"Parameter": "amount", "Type": "String", "Description": "The amount of tokens", "Required": "Yes"}
+]

@@ -1,0 +1,4 @@
+[
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "The subaccount ID to query for", "Required": "Yes"},
+    {"Parameter": "market_id", "Type": "String", "Description": "The market ID to query for", "Required": "Yes"}
+]

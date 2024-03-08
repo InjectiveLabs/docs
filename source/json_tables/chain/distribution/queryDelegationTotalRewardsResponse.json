@@ -1,0 +1,4 @@
+[
+    {"Parameter": "rewards", "Type": "DelegationDelegatorReward Array", "Description": "All the rewards accrued by a delegator"},
+    {"Parameter": "total", "Type": "DecCoin Array", "Description": "The sum of all rewards"}
+]

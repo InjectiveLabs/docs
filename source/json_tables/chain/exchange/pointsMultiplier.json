@@ -1,0 +1,4 @@
+[
+    {"Parameter": "maker_points_multiplier", "Type": "Decimal", "Description": "Multiplier for maker trades"},
+    {"Parameter": "taker_points_multiplier", "Type": "Decimal", "Description": "Multiplier for taker trades"}
+]

@@ -1,0 +1,3 @@
+[
+    {"Parameter": "commission", "Type": "ValidatorAccumulatedCommission", "Description": "The commission the validator received"}
+]

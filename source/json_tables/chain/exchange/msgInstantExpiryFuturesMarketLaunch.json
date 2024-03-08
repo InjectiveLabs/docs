@@ -1,0 +1,17 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The market launch requestor address", "Required": "Yes"},
+    {"Parameter": "ticker", "Type": "String", "Description": "Ticker for the expiry futures market", "Required": "Yes"},
+    {"Parameter": "quote_denom", "Type": "String", "Description": "Quote tocken denom", "Required": "Yes"},
+    {"Parameter": "oracle_base", "Type": "String", "Description": "Oracle base currency", "Required": "Yes"},
+    {"Parameter": "oracle_quote", "Type": "String", "Description": "Oracle quote currency", "Required": "Yes"},
+    {"Parameter": "oracle_type", "Type": "OracleType", "Description": "The oracle type", "Required": "Yes"},
+    {"Parameter": "oracle_scale_factor", "Type": "Integer", "Description": "Scale factor for oracle prices", "Required": "Yes"},
+    {"Parameter": "expiry", "Type": "Integer", "Description": "Expiration time of the market", "Required": "Yes"},
+    {"Parameter": "maker_fee_rate", "Type": "Decimal", "Description": "Defines the trade fee rate for makers on the perpetual market", "Required": "Yes"},
+    {"Parameter": "taker_fee_rate", "Type": "Decimal", "Description": "Defines the trade fee rate for takers on the perpetual market", "Required": "Yes"},
+    {"Parameter": "initial_margin_ratio", "Type": "Decimal", "Description": "Defines the initial margin ratio for the perpetual market", "Required": "Yes"},
+    {"Parameter": "maintenance_margin_ratio", "Type": "Decimal", "Description": "Defines the maintenance margin ratio for the perpetual market", "Required": "Yes"},
+    {"Parameter": "min_price_tick_size", "Type": "Decimal", "Description": "Defines the minimum tick size of the order's price", "Required": "Yes"},
+    {"Parameter": "min_quantity_tick_size", "Type": "Decimal", "Description": "Defines the minimum tick size of the order's quantity", "Required": "Yes"}
+
+]

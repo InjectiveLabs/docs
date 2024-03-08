@@ -1,0 +1,4 @@
+[
+    {"Parameter": "trader", "Type": "String", "Description": "The subaccount trader address", "Required": "No"},
+    {"Parameter": "subaccount_nonce", "Type": "Integer", "Description": "The subaccount nonce number", "Required": "No"}
+]

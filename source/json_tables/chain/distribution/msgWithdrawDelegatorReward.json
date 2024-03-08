@@ -1,0 +1,4 @@
+[
+    {"Parameter": "delegator_address", "Type": "String", "Description": "The delegator's address", "Required": "Yes"},
+    {"Parameter": "validator_address", "Type": "String", "Description": "The validator's address", "Required": "Yes"}
+]

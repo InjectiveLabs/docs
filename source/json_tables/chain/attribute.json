@@ -1,0 +1,4 @@
+[
+    {"Parameter": "key", "Type": "String", "Description": "Attribute key"},
+    {"Parameter": "value", "Type": "String", "Description": "Attribute value"}
+]

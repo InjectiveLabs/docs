@@ -1,0 +1,4 @@
+[
+    {"Parameter": "type", "Type": "String", "Description": "Event type"},
+    {"Parameter": "attributes", "Type": "EventAttribute Array", "Description": "All event object details"}
+]

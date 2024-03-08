@@ -1,0 +1,4 @@
+[
+    {"Parameter": "tier", "Type": "Integer", "Description": "Tier number"},
+    {"Parameter": "count", "Type": "Integer", "Description": "The tier count"}
+]

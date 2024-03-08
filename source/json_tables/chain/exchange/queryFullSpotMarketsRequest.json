@@ -1,0 +1,5 @@
+[
+    {"Parameter": "status", "Type": "String", "Description": "Status of the market", "Required": "No"},
+    {"Parameter": "market_ids", "Type": "String Array", "Description": "List of market IDs", "Required": "No"},
+    {"Parameter": "with_mid_price_and_tob", "Type": "Boolean", "Description": "Flag to activate/deactivate the inclusion of the markets mid price and top of the book buy and sell orders", "Required": "No"}
+]

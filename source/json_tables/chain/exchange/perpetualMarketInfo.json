@@ -1,0 +1,7 @@
+[
+    {"Parameter": "market_id", "Type": "String", "Description": "The market ID"},
+    {"Parameter": "hourly_funding_rate_cap", "Type": "Decimal", "Description": "Maximum absolute value of the hourly funding rate"},
+    {"Parameter": "hourly_interest_rate", "Type": "Decimal", "Description": "The hourly interest rate"},
+    {"Parameter": "next_funding_timestamp", "Type": "Integer", "Description": "The next funding timestamp in seconds"},
+    {"Parameter": "funding_interval", "Type": "Integer", "Description": "The next funding interval in seconds"}
+]

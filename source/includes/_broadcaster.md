@@ -14,11 +14,15 @@ To use the broadcaster you just need to create an instance of *MsgBroadcasterWit
 
 > Example - Calculate gas fee simulating the transaction:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/44_MessageBroadcaster.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/44_MessageBroadcaster.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/3_MessageBroadcaster.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/3_MessageBroadcaster.py -->
 ```py
 import asyncio
+import os
 import uuid
+from decimal import Decimal
+
+import dotenv
 
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.core.broadcaster import MsgBroadcasterWithPk
@@ -27,10 +31,12 @@ from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
+    dotenv.load_dotenv()
+    private_key_in_hexa = os.getenv("INJECTIVE_PRIVATE_KEY")
+
     # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
-    private_key_in_hexa = "f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"
 
     message_broadcaster = MsgBroadcasterWithPk.new_using_simulation(
         network=network,
@@ -48,24 +54,22 @@ async def main() -> None:
     spot_market_id_create = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 
     spot_orders_to_create = [
-        composer.SpotOrder(
+        composer.spot_order(
             market_id=spot_market_id_create,
             subaccount_id=subaccount_id,
             fee_recipient=fee_recipient,
-            price=3,
-            quantity=55,
-            is_buy=True,
-            is_po=False,
-            cid=str(uuid.uuid4()),
+            price=Decimal("3"),
+            quantity=Decimal("55"),
+            order_type="BUY",
+            cid=(str(uuid.uuid4())),
         ),
-        composer.SpotOrder(
+        composer.spot_order(
             market_id=spot_market_id_create,
             subaccount_id=subaccount_id,
             fee_recipient=fee_recipient,
-            price=300,
-            quantity=55,
-            is_buy=False,
-            is_po=False,
+            price=Decimal("300"),
+            quantity=Decimal("55"),
+            order_type="SELL",
             cid=str(uuid.uuid4()),
         ),
     ]
@@ -147,11 +151,15 @@ This is the most common broadcaster configuration. Unless you are using grantee 
 
 > Example - Calculate gas fee without simulation:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/46_MessageBroadcasterWithoutSimulation.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/46_MessageBroadcasterWithoutSimulation.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/5_MessageBroadcasterWithoutSimulation.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/5_MessageBroadcasterWithoutSimulation.py -->
 ```py
 import asyncio
+import os
 import uuid
+from decimal import Decimal
+
+import dotenv
 
 from pyinjective.composer import Composer as ProtoMsgComposer
 from pyinjective.core.broadcaster import MsgBroadcasterWithPk
@@ -160,10 +168,12 @@ from pyinjective.wallet import PrivateKey
 
 
 async def main() -> None:
+    dotenv.load_dotenv()
+    private_key_in_hexa = os.getenv("INJECTIVE_PRIVATE_KEY")
+
     # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
-    private_key_in_hexa = "f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"
 
     message_broadcaster = MsgBroadcasterWithPk.new_without_simulation(
         network=network,
@@ -181,24 +191,22 @@ async def main() -> None:
     spot_market_id_create = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 
     spot_orders_to_create = [
-        composer.SpotOrder(
+        composer.spot_order(
             market_id=spot_market_id_create,
             subaccount_id=subaccount_id,
             fee_recipient=fee_recipient,
-            price=3,
-            quantity=55,
-            is_buy=True,
-            is_po=False,
+            price=Decimal("3"),
+            quantity=Decimal("55"),
+            order_type="BUY",
             cid=str(uuid.uuid4()),
         ),
-        composer.SpotOrder(
+        composer.spot_order(
             market_id=spot_market_id_create,
             subaccount_id=subaccount_id,
             fee_recipient=fee_recipient,
-            price=300,
-            quantity=55,
-            is_buy=False,
-            is_po=False,
+            price=Decimal("300"),
+            quantity=Decimal("55"),
+            order_type="SELL",
             cid=str(uuid.uuid4()),
         ),
     ]
@@ -233,11 +241,15 @@ This is the required broadcaster configuration when operating with grantee accou
 
 > Example - Calculate gas fee simulating the transaction:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/45_MessageBroadcasterWithGranteeAccount.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/45_MessageBroadcasterWithGranteeAccount.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/4_MessageBroadcasterWithGranteeAccount.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/4_MessageBroadcasterWithGranteeAccount.py -->
 ```py
 import asyncio
+import os
 import uuid
+from decimal import Decimal
+
+import dotenv
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.composer import Composer as ProtoMsgComposer
@@ -247,6 +259,10 @@ from pyinjective.wallet import Address, PrivateKey
 
 
 async def main() -> None:
+    dotenv.load_dotenv()
+    private_key_in_hexa = os.getenv("INJECTIVE_GRANTEE_PRIVATE_KEY")
+    granter_inj_address = os.getenv("INJECTIVE_GRANTER_PUBLIC_ADDRESS")
+
     # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
@@ -256,7 +272,6 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    private_key_in_hexa = "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"
     priv_key = PrivateKey.from_hex(private_key_in_hexa)
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
@@ -268,19 +283,18 @@ async def main() -> None:
 
     # prepare tx msg
     market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-    granter_inj_address = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+
     granter_address = Address.from_acc_bech32(granter_inj_address)
     granter_subaccount_id = granter_address.get_subaccount_id(index=0)
 
-    msg = composer.MsgCreateSpotLimitOrder(
-        sender=granter_inj_address,
+    msg = composer.msg_create_spot_limit_order(
         market_id=market_id,
+        sender=granter_inj_address,
         subaccount_id=granter_subaccount_id,
         fee_recipient=address.to_acc_bech32(),
-        price=7.523,
-        quantity=0.01,
-        is_buy=True,
-        is_po=False,
+        price=Decimal("7.523"),
+        quantity=Decimal("0.01"),
+        order_type="BUY",
         cid=str(uuid.uuid4()),
     )
 
@@ -347,11 +361,15 @@ For the broadcaster to calculate the gas fee running the simulation, create an i
 
 > Example - Calculate gas fee without simulation:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/47_MessageBroadcasterWithGranteeAccountWithoutSimulation.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/47_MessageBroadcasterWithGranteeAccountWithoutSimulation.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/6_MessageBroadcasterWithGranteeAccountWithoutSimulation.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/6_MessageBroadcasterWithGranteeAccountWithoutSimulation.py -->
 ```py
 import asyncio
+import os
 import uuid
+from decimal import Decimal
+
+import dotenv
 
 from pyinjective.async_client import AsyncClient
 from pyinjective.composer import Composer as ProtoMsgComposer
@@ -361,6 +379,10 @@ from pyinjective.wallet import Address, PrivateKey
 
 
 async def main() -> None:
+    dotenv.load_dotenv()
+    private_key_in_hexa = os.getenv("INJECTIVE_GRANTEE_PRIVATE_KEY")
+    granter_inj_address = os.getenv("INJECTIVE_GRANTER_PUBLIC_ADDRESS")
+
     # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
@@ -370,7 +392,6 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-    private_key_in_hexa = "5d386fbdbf11f1141010f81a46b40f94887367562bd33b452bbaa6ce1cd1381e"
     priv_key = PrivateKey.from_hex(private_key_in_hexa)
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
@@ -382,19 +403,17 @@ async def main() -> None:
 
     # prepare tx msg
     market_id = "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
-    granter_inj_address = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
     granter_address = Address.from_acc_bech32(granter_inj_address)
     granter_subaccount_id = granter_address.get_subaccount_id(index=0)
 
-    msg = composer.MsgCreateSpotLimitOrder(
-        sender=granter_inj_address,
+    msg = composer.msg_create_spot_limit_order(
         market_id=market_id,
+        sender=granter_inj_address,
         subaccount_id=granter_subaccount_id,
         fee_recipient=address.to_acc_bech32(),
-        price=7.523,
-        quantity=0.01,
-        is_buy=True,
-        is_po=False,
+        price=Decimal("7.523"),
+        quantity=Decimal("0.01"),
+        order_type="BUY",
         cid=str(uuid.uuid4()),
     )
 
