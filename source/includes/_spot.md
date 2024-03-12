@@ -2850,7 +2850,7 @@ async def main() -> None:
     order_hash = "0x52888d397d5ae821869c8acde5823dfd8018802d2ef642d3aa639e5308173fcf"
 
     # prepare tx msg
-    msg = composer.MsgCancelSpotOrder(
+    msg = composer.msg_cancel_spot_order(
         sender=address.to_acc_bech32(), market_id=market_id, subaccount_id=subaccount_id, order_hash=order_hash
     )
 
@@ -3220,7 +3220,7 @@ async def main() -> None:
     ]
 
     # prepare tx msg
-    msg = composer.MsgBatchUpdateOrders(
+    msg = composer.msg_batch_update_orders(
         sender=address.to_acc_bech32(),
         derivative_orders_to_create=derivative_orders_to_create,
         spot_orders_to_create=spot_orders_to_create,

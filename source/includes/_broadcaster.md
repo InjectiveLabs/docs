@@ -75,7 +75,7 @@ async def main() -> None:
     ]
 
     # prepare tx msg
-    msg = composer.MsgBatchUpdateOrders(
+    msg = composer.msg_batch_update_orders(
         sender=address.to_acc_bech32(),
         spot_orders_to_create=spot_orders_to_create,
     )
@@ -212,7 +212,7 @@ async def main() -> None:
     ]
 
     # prepare tx msg
-    msg = composer.MsgBatchUpdateOrders(
+    msg = composer.msg_batch_update_orders(
         sender=address.to_acc_bech32(),
         spot_orders_to_create=spot_orders_to_create,
     )
