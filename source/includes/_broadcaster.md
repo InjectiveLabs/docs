@@ -443,4 +443,34 @@ To improve the gas cost calculation when using the _MsgBatchUpdateOrders_ messag
 
     `BatchUpdateOrdersGasLimitEstimator.AVERAGE_CANCEL_ALL_AFFECTED_ORDERS = 30`
 
----
+
+## Fine-tunning gas fee local estimation
+
+As mentioned before the gas estimation without using simulation is implemented by using fixed values as gas cost for certain messages and actions. Since the real gas cost can differ at some point from the estimator calculations, the Python SDK allows the developer to fine-tune certain gas cost values in order to improve the gas cost estimation.
+In the next tables you can find the global values used for gas estimation calculations, that can be modified in your application:
+
+
+
+| Module                                 | Global Variable                          | Description                                                                                                           |
+| -------------------------------------- | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `pyinjective.core.gas_limit_estimator` | `SPOT_ORDER_CREATION_GAS_LIMIT`          | The gas cost associated to the creation of one spot order                                                             |
+| `pyinjective.core.gas_limit_estimator` | `DERIVATIVE_ORDER_CREATION_GAS_LIMIT`    | The gas cost associated to the creation of one derivative order                                                       |
+| `pyinjective.core.gas_limit_estimator` | `SPOT_ORDER_CANCELATION_GAS_LIMIT`       | The gas cost associated to the cancellation of one spot order                                                         |
+| `pyinjective.core.gas_limit_estimator` | `DERIVATIVE_ORDER_CANCELATION_GAS_LIMIT` | The gas cost associated to the cancellation of one derivative order                                                   |
+| `pyinjective.core.gas_limit_estimator` | `SPOT_POST_ONLY_ORDER_MULTIPLIER`        | Multiplier to increase the gas cost for post only spot orders (in addition to the normal spot order cost)             |
+| `pyinjective.core.gas_limit_estimator` | `DERIVATIVE_POST_ONLY_ORDER_MULTIPLIER`  | Multiplier to increase the gas cost for post only derivative orders (in addition to the normal derivative order cost) |
+
+
+
+| Class                                  | Global Variable                          | Description                                                                                                                                    |
+| -------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `MessageBasedTransactionFeeCalculator` | `TRANSACTION_GAS_LIMIT`                  | The gas cost associated to the TX processing                                                                                                   |
+| `GasLimitEstimator`                    | `GENERAL_MESSAGE_GAS_LIMIT`              | Generic base gas cost for any message                                                                                                          |
+| `GasLimitEstimator`                    | `BASIC_REFERENCE_GAS_LIMIT`              | Base gas cost for messages not related to orders. Each type of message will calculate its cost multiplying this reference cost by a multiplier |
+| `DefaultGasLimitEstimator`             | `DEFAULT_GAS_LIMIT`                      | The gas cost for all messages for which there is no especial estimator implemented                                                             |
+| `BatchUpdateOrdersGasLimitEstimator`   | `CANCEL_ALL_SPOT_MARKET_GAS_LIMIT`       | This is an estimation of the gas cost per spot order cancel when cancelling all orders for a spot market                                       |
+| `BatchUpdateOrdersGasLimitEstimator`   | `CANCEL_ALL_DERIVATIVE_MARKET_GAS_LIMIT` | This is an estimation of the gas cost per derivative order cancel when cancelling all orders for a derivative market                           |
+| `BatchUpdateOrdersGasLimitEstimator`   | `MESSAGE_GAS_LIMIT`                      | Estimation of the general gas amount required for a MsgBatchUpdateOrders (not for particular actions, but for the general message processing)  |
+| `BatchUpdateOrdersGasLimitEstimator`   | `AVERAGE_CANCEL_ALL_AFFECTED_ORDERS`     | This global represents the expected number of orders to be cancelled when executing a "cancel all orders for a market" action                  |
+| `ExecGasLimitEstimator`                | `DEFAULT_GAS_LIMIT`                      | Estimation of the general gas amount required for a MsgExec (for the general message processing)                                               |
+| `GenericExchangeGasLimitEstimator`     | `BASIC_REFERENCE_GAS_LIMIT`              | Base gas cost for messages not related to orders. Each type of message will calculate its cost multiplying this reference cost by a multiplier |
