@@ -1,0 +1,10 @@
+[
+    {"Parameter": "protocol_version", "Type": "ProtocolVersion", "Description": "Protocol version information"},
+    {"Parameter": "default_nod_id", "Type": "String", "Description": "Node identifier"},
+    {"Parameter": "listen_addr", "Type": "String", "Description": "URI of the node's listening endpoint"},
+    {"Parameter": "network", "Type": "String", "Description": "The chain network name"},
+    {"Parameter": "version", "Type": "String", "Description": "The version number"},
+    {"Parameter": "channels", "Type": "Bytes", "Description": "Channels information"},
+    {"Parameter": "moniker", "Type": "String", "Description": ""},
+    {"Parameter": "other", "Type": "DefaultNodeInfoOther", "Description": "Extra node information"}
+]

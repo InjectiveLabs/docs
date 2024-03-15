@@ -1,0 +1,6 @@
+[
+    {"Parameter": "header", "Type": "Header", "Description": "Header information"},
+    {"Parameter": "data", "Type": "Data", "Description": "Block data"},
+    {"Parameter": "evidence", "Type": "EvidenceList", "Description": ""},
+    {"Parameter": "last_commit", "Type": "Commit", "Description": ""}
+]

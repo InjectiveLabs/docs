@@ -1,0 +1,10 @@
+[
+    {"Parameter": "name", "Type": "String", "Description": "The chain name"},
+    {"Parameter": "app_name", "Type": "String", "Description": "Application name"},
+    {"Parameter": "version", "Type": "String", "Description": "Application version"},
+    {"Parameter": "git_commit", "Type": "String", "Description": "Git commit hash"},
+    {"Parameter": "build_tags", "Type": "String", "Description": "Application build tags"},
+    {"Parameter": "go_version", "Type": "String", "Description": "GoLang version used to compile the application"},
+    {"Parameter": "build_deps", "Type": "Module Array", "Description": "Application dependencies"},
+    {"Parameter": "cosmos_sdk_version", "Type": "String", "Description": "Cosmos SDK version used by the application"}
+]

@@ -149,6 +149,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **SpotMarket**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/spotMarket.json) -->
@@ -165,6 +166,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **MarketStatus**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/marketStatus.json) -->
@@ -318,6 +320,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **SpotMarket**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/spotMarket.json) -->
@@ -334,6 +337,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **MarketStatus**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/marketStatus.json) -->
@@ -502,6 +506,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **FullSpotMarket**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/fullSpotMarket.json) -->
@@ -510,6 +515,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **SpotMarket**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/spotMarket.json) -->
@@ -526,6 +532,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **MarketStatus**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/marketStatus.json) -->
@@ -537,6 +544,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **MidPriceAndTOB**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/midPriceAndTOB.json) -->
@@ -698,6 +706,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **FullSpotMarket**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/fullSpotMarket.json) -->
@@ -706,6 +715,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **SpotMarket**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/spotMarket.json) -->
@@ -722,6 +732,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **MarketStatus**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/marketStatus.json) -->
@@ -733,6 +744,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **MidPriceAndTOB**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/midPriceAndTOB.json) -->
@@ -876,6 +888,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **OrderSide**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/orderSide.json) -->
@@ -911,6 +924,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Level**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/level.json) -->
@@ -1096,6 +1110,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **TrimmedSpotLimitOrder**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/trimmedSpotLimitOrder.json) -->
@@ -1302,6 +1317,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **TrimmedSpotLimitOrder**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/trimmedSpotLimitOrder.json) -->
@@ -1472,6 +1488,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **TrimmedSpotLimitOrder**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/trimmedSpotLimitOrder.json) -->
@@ -1633,6 +1650,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **TrimmedSpotLimitOrder**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/trimmedSpotLimitOrder.json) -->
@@ -1973,6 +1991,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **TxResponse**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/txResponse.json) -->
@@ -1992,6 +2011,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **ABCIMessageLog**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/abciMessageLog.json) -->
@@ -2001,6 +2021,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Event**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/event.json) -->
@@ -2009,6 +2030,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **StringEvent**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/stringEvent.json) -->
@@ -2017,6 +2039,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **EventAttribute**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/eventAttribute.json) -->
@@ -2026,6 +2049,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Attribute**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/attribute.json) -->
@@ -2293,6 +2317,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **SpotOrder**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/spotOrder.json) -->
@@ -2303,6 +2328,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **OrderInfo**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/orderInfo.json) -->
@@ -2314,6 +2340,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **OrderType**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/orderType.json) -->
@@ -2359,6 +2386,7 @@ gas fee: 0.000064956 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **TxResponse**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/txResponse.json) -->
@@ -2378,6 +2406,7 @@ gas fee: 0.000064956 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **ABCIMessageLog**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/abciMessageLog.json) -->
@@ -2387,6 +2416,7 @@ gas fee: 0.000064956 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Event**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/event.json) -->
@@ -2395,6 +2425,7 @@ gas fee: 0.000064956 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **StringEvent**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/stringEvent.json) -->
@@ -2403,6 +2434,7 @@ gas fee: 0.000064956 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **EventAttribute**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/eventAttribute.json) -->
@@ -2412,6 +2444,7 @@ gas fee: 0.000064956 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Attribute**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/attribute.json) -->
@@ -2676,6 +2709,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **SpotOrder**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/spotOrder.json) -->
@@ -2686,6 +2720,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **OrderInfo**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/orderInfo.json) -->
@@ -2697,6 +2732,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **OrderType**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/orderType.json) -->
@@ -2742,6 +2778,7 @@ gas fee: 0.000065298 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **TxResponse**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/txResponse.json) -->
@@ -2761,6 +2798,7 @@ gas fee: 0.000065298 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **ABCIMessageLog**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/abciMessageLog.json) -->
@@ -2770,6 +2808,7 @@ gas fee: 0.000065298 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Event**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/event.json) -->
@@ -2778,6 +2817,7 @@ gas fee: 0.000065298 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **StringEvent**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/stringEvent.json) -->
@@ -2786,6 +2826,7 @@ gas fee: 0.000065298 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **EventAttribute**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/eventAttribute.json) -->
@@ -2795,6 +2836,7 @@ gas fee: 0.000065298 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Attribute**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/attribute.json) -->
@@ -3022,6 +3064,7 @@ gas fee: 0.0000636815 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **TxResponse**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/txResponse.json) -->
@@ -3041,6 +3084,7 @@ gas fee: 0.0000636815 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **ABCIMessageLog**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/abciMessageLog.json) -->
@@ -3050,6 +3094,7 @@ gas fee: 0.0000636815 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Event**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/event.json) -->
@@ -3058,6 +3103,7 @@ gas fee: 0.0000636815 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **StringEvent**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/stringEvent.json) -->
@@ -3066,6 +3112,7 @@ gas fee: 0.0000636815 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **EventAttribute**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/eventAttribute.json) -->
@@ -3075,6 +3122,7 @@ gas fee: 0.0000636815 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Attribute**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/attribute.json) -->
@@ -3458,6 +3506,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **OrderData**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/orderData.json) -->
@@ -3469,6 +3518,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **SpotOrder**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/spotOrder.json) -->
@@ -3479,6 +3529,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **DerivativeOrder**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/derivativeOrder.json) -->
@@ -3490,6 +3541,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **OrderMask**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/orderMask.json) -->
@@ -3504,6 +3556,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **OrderInfo**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/orderInfo.json) -->
@@ -3515,6 +3568,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **OrderType**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/orderType.json) -->
@@ -3568,6 +3622,7 @@ gas fee: 0.000329546 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **TxResponse**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/txResponse.json) -->
@@ -3587,6 +3642,7 @@ gas fee: 0.000329546 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **ABCIMessageLog**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/abciMessageLog.json) -->
@@ -3596,6 +3652,7 @@ gas fee: 0.000329546 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Event**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/event.json) -->
@@ -3604,6 +3661,7 @@ gas fee: 0.000329546 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **StringEvent**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/stringEvent.json) -->
@@ -3612,6 +3670,7 @@ gas fee: 0.000329546 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **EventAttribute**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/eventAttribute.json) -->
@@ -3621,6 +3680,7 @@ gas fee: 0.000329546 INJ
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Attribute**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/attribute.json) -->

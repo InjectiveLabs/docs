@@ -1,0 +1,5 @@
+[
+    {"Parameter": "block_height", "Type": "Integer", "Description": "Block height"},
+    {"Parameter": "validators", "Type": "Validator Array", "Description": "List of validators"},
+    {"Parameter": "pagination", "Type": "PageResponse", "Description": "Pagination information in the response"}
+]

@@ -1,0 +1,6 @@
+[
+    {"Parameter": "data", "Type": "Bytes", "Description": "Query data", "Required": "No"},
+    {"Parameter": "path", "Type": "String", "Description": "Query path", "Required": "Yes"},
+    {"Parameter": "haight", "Type": "Integer", "Description": "Block height", "Required": "No"},
+    {"Parameter": "prove", "Type": "Boolean", "Description": "", "Required": "No"}
+]
