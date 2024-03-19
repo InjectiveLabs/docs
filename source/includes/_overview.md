@@ -226,9 +226,9 @@ And the following **SELL** orders:
 
 This has some implications when placing new orders.
 
-### Upon placing a reduce-only order
+### Upon placing a reduce-only order:
 
-- If any reduce-only orders would be invalid after executing all of the trader's other limit sell orders that have better prices in the same direction.
+We check if any reduce-only orders would be invalid after executing all of the trader's other limit sell orders that have better prices in the same direction.
 
 In our example, consider a new reduce-only order of `0.4 BTC` at `$64,600`.
 
@@ -248,7 +248,7 @@ This is perfectly valid and no further action is required. If the buy price hit 
 |   $66,500    |   0.2 BTC   |     Vanilla     |
 |   $65,500    |   0.1 BTC   |   Reduce-only   |
 |   $65,400    |   0.1 BTC   |     Vanilla     |
-| **$64,600**  | **0.4 BTC** | **Reduce-only** |
+| **$64,600**  | **0.5 BTC** | **Reduce-only** |
 |   $64,500    |   0.3 BTC   |     Vanilla     |
 |   $63,500    |   0.1 BTC   |   Reduce-only   |
 
@@ -256,9 +256,9 @@ If the orders are getting matched, once the last vanilla order of 0.1 BTC at $65
 
 To prevent that, we **automatically cancel all reduce-only orders at a price where the cumulative sum of orders up to and including the reduce-only order would add up to more than the trader’s current long amount**. Another way to think about it: we find the reduce-only order with the highest price such that **all orders** (vanilla and reduce-only) including and below that price add up in quantity to less than the long quantity. All reduce-only orders above that price will be canceled so that no reduce-only orders exist when the position is closed or short. The same concept applies to reduce-only orders on short positions, but we look for the lowest price instead of the highest on buy orders so that no reduce-only orders exist when the position is closed or long.
 
-### Upon placing a vanilla limit order
+### Upon placing a vanilla limit order:
 
-- We check if any reduce-only limit orders would be invalidated if all the orders up to and including the new vanilla limit order were filled.
+We check if any reduce-only limit orders would be invalidated if all the orders up to and including the new vanilla limit order were filled.
 
 In our example, consider a new vanilla order of `0.4 BTC` at `$64,600`.
 
