@@ -1,0 +1,4 @@
+[
+    {"Parameter": "hash", "Type": "Bytes", "Description": "Block hash"},
+    {"Parameter": "part_set_header", "Type": "PartSetHeader", "Description": ""}
+]

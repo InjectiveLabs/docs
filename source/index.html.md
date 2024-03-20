@@ -39,6 +39,7 @@ includes:
   - insurance
   - oracle
   - staking
+  - tendermint
   - tokenfactory
   - wasm
   - wasmx

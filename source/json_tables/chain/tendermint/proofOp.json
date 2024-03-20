@@ -1,0 +1,5 @@
+[
+    {"Parameter": "type", "Type": "String", "Description": ""},
+    {"Parameter": "key", "Type": "Bytes", "Description": ""},
+    {"Parameter": "data", "Type": "Bytes", "Description": ""}
+]

@@ -133,6 +133,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Subaccount**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/subaccount.json) -->
@@ -183,6 +184,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Deposit**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/deposit.json) -->
@@ -339,6 +341,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Deposit**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/deposit.json) -->
@@ -478,6 +481,7 @@ No parameters
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Balance**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/balance.json) -->
@@ -487,6 +491,7 @@ No parameters
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Deposit**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/deposit.json) -->
@@ -671,6 +676,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **MarketVolume**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/marketVolume.json) -->
@@ -679,6 +685,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **VolumeRecord**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/volumeRecord.json) -->
@@ -856,6 +863,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **AggregateAccountVolumeRecord**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/aggregateAccountVolumeRecord.json) -->
@@ -864,6 +872,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **MarketVolume**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/marketVolume.json) -->
@@ -872,6 +881,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **VolumeRecord**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/volumeRecord.json) -->
@@ -1014,6 +1024,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **VolumeRecord**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/volumeRecord.json) -->
@@ -1161,6 +1172,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **MarketVolume**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/marketVolume.json) -->
@@ -1169,6 +1181,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **VolumeRecord**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/volumeRecord.json) -->
@@ -1444,6 +1457,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **DenomDecimals**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/denomDecimals.json) -->
@@ -1607,6 +1621,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **SubaccountOrderData**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/subaccountOrderData.json) -->
@@ -1615,6 +1630,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **SubaccountOrder**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/subaccountOrder.json) -->
@@ -1940,6 +1956,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **SubaccountOrderbookMetadataWithMarket**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/subaccountOrderbookMetadataWithMarket.json) -->
@@ -1949,6 +1966,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **SubaccountOrderbookMetadata**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/subaccountOrderbookMetadata.json) -->
@@ -2403,6 +2421,7 @@ No parameters
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **TradingRewardCampaignInfo**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/tradingRewardCampaignInfo.json) -->
@@ -2413,6 +2432,7 @@ No parameters
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **CampaignRewardPool**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/campaignRewardPool.json) -->
@@ -2421,6 +2441,7 @@ No parameters
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **TradingRewardCampaignBoostInfo**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/tradingRewardCampaignBoostInfo.json) -->
@@ -2431,6 +2452,7 @@ No parameters
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **PointsMultiplier**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/pointsMultiplier.json) -->
@@ -2588,6 +2610,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **FeeDiscountTierInfo**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/feeDiscountTierInfo.json) -->
@@ -2598,6 +2621,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **FeeDiscountTierTTL**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/feeDiscountTierTTL.json) -->
@@ -2796,6 +2820,7 @@ No parameters
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **FeeDiscountSchedule**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/feeDiscountSchedule.json) -->
@@ -2807,6 +2832,7 @@ No parameters
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **FeeDiscountTierInfo**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/feeDiscountTierInfo.json) -->
@@ -3061,6 +3087,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **BalanceMismatch**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/balanceMismatch.json) -->
@@ -3213,6 +3240,7 @@ No parameters
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **BalanceWithMarginHold**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/balanceWithMarginHold.json) -->
@@ -3385,6 +3413,7 @@ No parameters
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **TierStatistic**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/tierStatistic.json) -->
@@ -3804,6 +3833,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **TradeRecords**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/tradeRecords.json) -->
@@ -3812,6 +3842,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **TradeRecord**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/tradeRecord.json) -->
@@ -4232,6 +4263,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **TradeHistoryOptions**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/tradeHistoryOptions.json) -->
@@ -4280,6 +4312,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **MetadataStatistics**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/oracle/metadataStatistics.json) -->
@@ -4295,6 +4328,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **TradeRecord**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/tradeRecord.json) -->
@@ -4626,6 +4660,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **TxResponse**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/txResponse.json) -->
@@ -4645,6 +4680,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **ABCIMessageLog**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/abciMessageLog.json) -->
@@ -4654,6 +4690,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Event**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/event.json) -->
@@ -4662,6 +4699,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **StringEvent**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/stringEvent.json) -->
@@ -4670,6 +4708,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **EventAttribute**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/eventAttribute.json) -->
@@ -4679,6 +4718,7 @@ func main() {
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
+
 **Attribute**
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/attribute.json) -->

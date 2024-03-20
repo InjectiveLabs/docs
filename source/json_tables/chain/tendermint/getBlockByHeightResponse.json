@@ -1,0 +1,4 @@
+[
+    {"Parameter": "block_id", "Type": "BlockID", "Description": "Block identifier"},
+    {"Parameter": "sdk_block", "Type": "Block", "Description": "Block details"}
+]

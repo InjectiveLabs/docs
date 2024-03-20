@@ -1,0 +1,6 @@
+[
+    {"Parameter": "block_id_flag", "Type": "BlockIDFlag", "Description": "Block height"},
+    {"Parameter": "validator_address", "Type": "Bytes", "Description": "Validator address"},
+    {"Parameter": "timestamp", "Type": "Time", "Description": "Block time"},
+    {"Parameter": "signature", "Type": "Bytes", "Description": "Block signature"}
+]
