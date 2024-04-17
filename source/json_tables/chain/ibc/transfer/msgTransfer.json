@@ -1,0 +1,10 @@
+[
+    {"Parameter": "source_port", "Type": "String", "Description": "The port on which the packet will be sent"},
+    {"Parameter": "source_channel", "Type": "String", "Description": "The channel by which the packet will be sent"},
+    {"Parameter": "token", "Type": "Coin", "Description": "The tokens to be transferred"},
+    {"Parameter": "sender", "Type": "String", "Description": "The sender address"},
+    {"Parameter": "receiver", "Type": "String", "Description": "The recipient address on the destination chain"},
+    {"Parameter": "timeout_height", "Type": "Height", "Description": "Timeout height relative to the current block height. The timeout is disabled when set to 0"},
+    {"Parameter": "timeout_timestamp", "Type": "Integer", "Description": "Timeout timestamp in absolute nanoseconds since unix epoch. The timeout is disabled when set to 0"},
+    {"Parameter": "memo", "Type": "String", "Description": "Optional memo"}
+]

@@ -1,0 +1,3 @@
+[
+    {"Parameter": "hash", "Type": "String", "Description": "The denom trace hash", "Required": "Yes"}
+]

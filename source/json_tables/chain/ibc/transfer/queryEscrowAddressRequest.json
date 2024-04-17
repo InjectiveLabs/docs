@@ -1,0 +1,4 @@
+[
+    {"Parameter": "port_id", "Type": "String", "Description": "The unique port identifier", "Required": "Yes"},
+    {"Parameter": "channel_id", "Type": "String", "Description": "The unique channel identifier", "Required": "Yes"}
+]
