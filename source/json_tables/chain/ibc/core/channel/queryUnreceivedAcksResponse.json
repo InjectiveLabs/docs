@@ -1,0 +1,4 @@
+[
+    {"Parameter": "sequences", "Type": "Integer Array", "Description": "List of unreceived packet sequences"},
+    {"Parameter": "height", "Type": "Height", "Description": "Query block height"}
+]

@@ -9,8 +9,8 @@ Includes the message to relay a price feed.
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/oracle/1_MsgRelayPriceFeedPrice.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/oracle/1_MsgRelayPriceFeedPrice.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/oracle/1_MsgRelayPriceFeedPrice.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/oracle/1_MsgRelayPriceFeedPrice.py -->
 ```py
 import asyncio
 import os
@@ -97,8 +97,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/oracle/1_MsgRelayPriceFeedPrice/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/oracle/1_MsgRelayPriceFeedPrice/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/oracle/1_MsgRelayPriceFeedPrice/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/oracle/1_MsgRelayPriceFeedPrice/example.go -->
 ```go
 package main
 
@@ -225,8 +225,8 @@ gas fee: 0.0000568235 INJ
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/oracle/2_MsgRelayProviderPrices.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/oracle/2_MsgRelayProviderPrices.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/oracle/2_MsgRelayProviderPrices.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/oracle/2_MsgRelayProviderPrices.py -->
 ```py
 import asyncio
 import os

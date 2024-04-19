@@ -36,6 +36,7 @@ includes:
   - derivatives
   - spot
   - binaryoptions
+  - ibccorechannel
   - ibctransfer
   - insurance
   - oracle
