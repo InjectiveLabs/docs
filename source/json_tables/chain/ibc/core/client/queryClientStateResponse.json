@@ -1,0 +1,5 @@
+[
+    {"Parameter": "client_state", "Type": "Any", "Description": "Client state associated with the request identifier"},
+    {"Parameter": "proof", "Type": "Byte Array", "Description": "Merkle proof of existence"},
+    {"Parameter": "proof_height", "Type": "Height", "Description": "Height at which the proof was retrieved"}
+]

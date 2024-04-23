@@ -10,8 +10,8 @@ Wasmx smart contract interactions.
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/wasmx/1_MsgExecuteContractCompat.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/wasmx/1_MsgExecuteContractCompat.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/wasmx/1_MsgExecuteContractCompat.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/wasmx/1_MsgExecuteContractCompat.py -->
 ```py
 import asyncio
 import json
@@ -105,8 +105,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/wasmx/1_MsgExecuteContractCompat/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/wasmx/1_MsgExecuteContractCompat/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/wasmx/1_MsgExecuteContractCompat/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/wasmx/1_MsgExecuteContractCompat/example.go -->
 ```go
 package main
 

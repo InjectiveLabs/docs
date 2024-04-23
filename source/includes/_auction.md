@@ -9,8 +9,8 @@ Includes the message for placing bids in auctions.
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/auction/1_MsgBid.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/auction/1_MsgBid.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/auction/1_MsgBid.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/auction/1_MsgBid.py -->
 ```py
 import asyncio
 import os
@@ -92,8 +92,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/auction/1_MsgBid/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/auction/1_MsgBid/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/auction/1_MsgBid/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/auction/1_MsgBid/example.go -->
 ```go
 package main
 

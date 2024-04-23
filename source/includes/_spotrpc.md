@@ -12,8 +12,8 @@ Get details of a single spot market.
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/1_Market.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/1_Market.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/1_Market.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/1_Market.py -->
 ```py
 import asyncio
 
@@ -34,8 +34,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/1_Market/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/1_Market/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/1_Market/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/1_Market/example.go -->
 ```go
 package main
 
@@ -178,8 +178,8 @@ Get a list of spot markets.
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/2_Markets.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/2_Markets.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/2_Markets.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/2_Markets.py -->
 ```py
 import asyncio
 
@@ -204,8 +204,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/2_Markets/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/2_Markets/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/2_Markets/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/2_Markets/example.go -->
 ```go
 package main
 
@@ -384,8 +384,8 @@ Stream live updates of spot markets.
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/3_StreamMarkets.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/3_StreamMarkets.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/3_StreamMarkets.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/3_StreamMarkets.py -->
 ```py
 import asyncio
 from typing import Any, Dict
@@ -430,8 +430,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/3_StreamMarket/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/3_StreamMarket/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/3_StreamMarket/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/3_StreamMarket/example.go -->
 ```go
 package main
 
@@ -599,8 +599,8 @@ List history of orders (all states) for a spot market.
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/15_HistoricalOrders.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/15_HistoricalOrders.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/15_HistoricalOrders.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/15_HistoricalOrders.py -->
 ```py
 import asyncio
 
@@ -632,8 +632,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/14_HistoricalOrders/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/14_HistoricalOrders/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/14_HistoricalOrders/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/14_HistoricalOrders/example.go -->
 ```go
 package main
 
@@ -972,8 +972,8 @@ Stream order updates for spot markets. If no parameters are given, updates to al
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/9_StreamHistoricalOrders.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/9_StreamHistoricalOrders.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/9_StreamHistoricalOrders.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/9_StreamHistoricalOrders.py -->
 ```py
 import asyncio
 from typing import Any, Dict
@@ -1021,8 +1021,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/15_StreamHistoricalOrders/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/15_StreamHistoricalOrders/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/15_StreamHistoricalOrders/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/15_StreamHistoricalOrders/example.go -->
 ```go
 package main
 
@@ -1203,8 +1203,8 @@ Get trade history for a spot market. The default request returns all spot trades
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/6_Trades.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/6_Trades.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/6_Trades.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/6_Trades.py -->
 ```py
 import asyncio
 
@@ -1235,8 +1235,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/16_TradesV2/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/16_TradesV2/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/16_TradesV2/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/16_TradesV2/example.go -->
 ```go
 package main
 
@@ -1556,8 +1556,8 @@ Stream newly executed trades of spot markets. The default request streams trades
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/10_StreamTrades.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/10_StreamTrades.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/10_StreamTrades.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/10_StreamTrades.py -->
 ```py
 import asyncio
 from typing import Any, Dict
@@ -1614,8 +1614,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/17_StreamTradesV2/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/17_StreamTradesV2/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/17_StreamTradesV2/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/17_StreamTradesV2/example.go -->
 ```go
 package main
 
@@ -1815,8 +1815,8 @@ Get an orderbook snapshot for one or more spot markets.
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/14_Orderbooks.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/14_Orderbooks.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/14_Orderbooks.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/14_Orderbooks.py -->
 ```py
 import asyncio
 
@@ -1840,8 +1840,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/13_Orderbooks/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/13_Orderbooks/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/13_Orderbooks/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/13_Orderbooks/example.go -->
 ```go
 package main
 
@@ -1986,8 +1986,8 @@ Stream orderbook snapshot updates for one or more spot markets.
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/7_StreamOrderbookSnapshot.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/7_StreamOrderbookSnapshot.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/7_StreamOrderbookSnapshot.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/7_StreamOrderbookSnapshot.py -->
 ```py
 import asyncio
 from typing import Any, Dict
@@ -2036,8 +2036,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/7_StreamOrderbook/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/7_StreamOrderbook/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/7_StreamOrderbook/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/7_StreamOrderbook/example.go -->
 ```go
 package main
 
@@ -2165,8 +2165,8 @@ Stream incremental orderbook updates for one or more spot markets. This stream s
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/8_StreamOrderbookUpdate.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/8_StreamOrderbookUpdate.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/8_StreamOrderbookUpdate.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/8_StreamOrderbookUpdate.py -->
 ```py
 import asyncio
 from decimal import Decimal
@@ -2326,8 +2326,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/8_StreamOrderbookUpdate/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/8_StreamOrderbookUpdate/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/8_StreamOrderbookUpdate/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/8_StreamOrderbookUpdate/example.go -->
 ```go
 package main
 
@@ -2607,8 +2607,8 @@ Get orders of a subaccount.
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/11_SubaccountOrdersList.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/11_SubaccountOrdersList.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/11_SubaccountOrdersList.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/11_SubaccountOrdersList.py -->
 ```py
 import asyncio
 
@@ -2637,8 +2637,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/11_SubaccountOrdersList/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/11_SubaccountOrdersList/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/11_SubaccountOrdersList/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/11_SubaccountOrdersList/example.go -->
 ```go
 package main
 
@@ -2830,8 +2830,8 @@ Get trades of a subaccount.
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/12_SubaccountTradesList.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/exchange_client/spot_exchange_rpc/12_SubaccountTradesList.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/12_SubaccountTradesList.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/spot_exchange_rpc/12_SubaccountTradesList.py -->
 ```py
 import asyncio
 
@@ -2866,8 +2866,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/12_SubaccountTradesList/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/exchange/spot/12_SubaccountTradesList/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/12_SubaccountTradesList/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/spot/12_SubaccountTradesList/example.go -->
 ```go
 package main
 

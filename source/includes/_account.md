@@ -10,8 +10,8 @@ Includes all messages related to accounts and transfers.
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/1_MsgDeposit.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/1_MsgDeposit.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/1_MsgDeposit.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/1_MsgDeposit.py -->
 ```py
 import asyncio
 import os
@@ -96,8 +96,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/1_MsgDeposit/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/1_MsgDeposit/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/1_MsgDeposit/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/1_MsgDeposit/example.go -->
 ```go
 package main
 
@@ -300,8 +300,8 @@ gas fee: 0.0000660495 INJ
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/2_MsgWithdraw.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/2_MsgWithdraw.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/2_MsgWithdraw.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/2_MsgWithdraw.py -->
 ```py
 import asyncio
 import os
@@ -384,8 +384,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/2_MsgWithdraw/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/2_MsgWithdraw/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/2_MsgWithdraw/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/2_MsgWithdraw/example.go -->
 ```go
 package main
 
@@ -588,8 +588,8 @@ gas fee: 0.000064803 INJ
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/17_MsgSubaccountTransfer.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/17_MsgSubaccountTransfer.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/17_MsgSubaccountTransfer.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/17_MsgSubaccountTransfer.py -->
 ```py
 import asyncio
 import os
@@ -680,8 +680,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/14_MsgSubaccountTransfer/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/14_MsgSubaccountTransfer/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/14_MsgSubaccountTransfer/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/14_MsgSubaccountTransfer/example.go -->
 ```go
 package main
 
@@ -886,8 +886,8 @@ gas fee: 0.0000610515 INJ
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/18_MsgExternalTransfer.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/18_MsgExternalTransfer.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/18_MsgExternalTransfer.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/18_MsgExternalTransfer.py -->
 ```py
 import asyncio
 import os
@@ -978,8 +978,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/15_MsgExternalTransfer/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/15_MsgExternalTransfer/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/15_MsgExternalTransfer/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/15_MsgExternalTransfer/example.go -->
 ```go
 package main
 
@@ -1184,8 +1184,8 @@ gas fee: 0.0000611985 INJ
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/peggy/1_MsgSendToEth.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/peggy/1_MsgSendToEth.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/peggy/1_MsgSendToEth.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/peggy/1_MsgSendToEth.py -->
 ```py
 import asyncio
 import os
@@ -1281,8 +1281,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/peggy/1_MsgSendToEth/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/peggy/1_MsgSendToEth/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/peggy/1_MsgSendToEth/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/peggy/1_MsgSendToEth/example.go -->
 ```go
 package main
 
@@ -1416,8 +1416,8 @@ gas fee: 0.0000809535 INJ
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/SendToInjective.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/SendToInjective.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/SendToInjective.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/SendToInjective.py -->
 ```py
 import asyncio
 import json
@@ -1505,8 +1505,8 @@ Transaction hash: 0xb538abc7c2f893a2fe24c7a8ea606ff48d980a754499f1bec89b862c2bcb
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/tx/query/1_GetTx.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/tx/query/1_GetTx.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tx/query/1_GetTx.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/tx/query/1_GetTx.py -->
 ```py
 import asyncio
 
@@ -1527,8 +1527,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/tx/query/1_GetTx/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/tx/query/1_GetTx/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tx/query/1_GetTx/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/tx/query/1_GetTx/example.go -->
 ```go
 package main
 
@@ -2303,8 +2303,8 @@ txhash: A2B2B971C690AE7977451D24D6F450AECE6BCCB271E91E32C2563342DDA5254B
 
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/2_StreamEventOrderFail.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/2_StreamEventOrderFail.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/2_StreamEventOrderFail.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/2_StreamEventOrderFail.py -->
 ```py
 import asyncio
 import base64
@@ -2356,8 +2356,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/9_StreamEventOrderFail/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/9_StreamEventOrderFail/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/9_StreamEventOrderFail/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/9_StreamEventOrderFail/example.go -->
 ```go
 package main
 

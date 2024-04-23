@@ -11,8 +11,8 @@ Retrieves a subaccount's deposits
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/1_SubaccountDeposits.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/1_SubaccountDeposits.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/1_SubaccountDeposits.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/1_SubaccountDeposits.py -->
 ```py
 import asyncio
 import os
@@ -51,8 +51,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/1_SubaccountDeposits/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/1_SubaccountDeposits/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/1_SubaccountDeposits/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/1_SubaccountDeposits/example.go -->
 ```go
 package main
 
@@ -202,8 +202,8 @@ Retrieves a subaccount's deposit
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/2_SubaccountDeposit.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/2_SubaccountDeposit.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/2_SubaccountDeposit.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/2_SubaccountDeposit.py -->
 ```py
 import asyncio
 import os
@@ -242,8 +242,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/2_SubaccountDeposit/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/2_SubaccountDeposit/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/2_SubaccountDeposit/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/2_SubaccountDeposit/example.go -->
 ```go
 package main
 
@@ -359,8 +359,8 @@ Retrieves the balances for all accounts registered in the exchange module
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/3_ExchangeBalances.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/3_ExchangeBalances.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/3_ExchangeBalances.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/3_ExchangeBalances.py -->
 ```py
 import asyncio
 
@@ -383,8 +383,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/3_ExchangeBalances/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/3_ExchangeBalances/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/3_ExchangeBalances/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/3_ExchangeBalances/example.go -->
 ```go
 package main
 
@@ -509,8 +509,8 @@ Retrieves the aggregate volumes for the specified account or subaccount
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/4_AggregateVolume.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/4_AggregateVolume.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/4_AggregateVolume.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/4_AggregateVolume.py -->
 ```py
 import asyncio
 import os
@@ -551,8 +551,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/4_AggregateVolume/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/4_AggregateVolume/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/4_AggregateVolume/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/4_AggregateVolume/example.go -->
 ```go
 package main
 
@@ -703,8 +703,8 @@ Retrieves the aggregate volumes for specified accounts
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/5_AggregateVolumes.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/5_AggregateVolumes.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/5_AggregateVolumes.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/5_AggregateVolumes.py -->
 ```py
 import asyncio
 import os
@@ -743,8 +743,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/5_AggregateVolumes/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/5_AggregateVolumes/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/5_AggregateVolumes/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/5_AggregateVolumes/example.go -->
 ```go
 package main
 
@@ -899,8 +899,8 @@ Retrieves the aggregate volume for the specified market
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/6_AggregateMarketVolume.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/6_AggregateMarketVolume.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/6_AggregateMarketVolume.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/6_AggregateMarketVolume.py -->
 ```py
 import asyncio
 
@@ -926,8 +926,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/6_AggregateMarketVolume/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/6_AggregateMarketVolume/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/6_AggregateMarketVolume/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/6_AggregateMarketVolume/example.go -->
 ```go
 package main
 
@@ -1042,8 +1042,8 @@ Retrieves the aggregate market volumes for specified markets
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/7_AggregateMarketVolumes.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/7_AggregateMarketVolumes.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/7_AggregateMarketVolumes.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/7_AggregateMarketVolumes.py -->
 ```py
 import asyncio
 
@@ -1069,8 +1069,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/7_AggregateMarketVolumes/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/7_AggregateMarketVolumes/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/7_AggregateMarketVolumes/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/7_AggregateMarketVolumes/example.go -->
 ```go
 package main
 
@@ -1199,8 +1199,8 @@ Retrieves the number of decimals used for a denom
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/8_DenomDecimal.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/8_DenomDecimal.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/8_DenomDecimal.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/8_DenomDecimal.py -->
 ```py
 import asyncio
 
@@ -1224,8 +1224,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/8_DenomDecimal/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/8_DenomDecimal/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/8_DenomDecimal/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/8_DenomDecimal/example.go -->
 ```go
 package main
 
@@ -1328,8 +1328,8 @@ Retrieves the denom decimals for multiple denoms
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/9_DenomDecimals.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/9_DenomDecimals.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/9_DenomDecimals.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/9_DenomDecimals.py -->
 ```py
 import asyncio
 
@@ -1353,8 +1353,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/9_DenomDecimals/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/9_DenomDecimals/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/9_DenomDecimals/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/9_DenomDecimals/example.go -->
 ```go
 package main
 
@@ -1476,8 +1476,8 @@ Retrieves subaccount's orders
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/18_SubaccountOrders.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/18_SubaccountOrders.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/18_SubaccountOrders.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/18_SubaccountOrders.py -->
 ```py
 import asyncio
 import os
@@ -1519,8 +1519,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/18_SubaccountOrders/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/18_SubaccountOrders/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/18_SubaccountOrders/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/18_SubaccountOrders/example.go -->
 ```go
 package main
 
@@ -1649,8 +1649,8 @@ Retrieves a subaccount's trade nonce
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/30_SubaccountTradeNonce.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/30_SubaccountTradeNonce.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/30_SubaccountTradeNonce.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/30_SubaccountTradeNonce.py -->
 ```py
 import asyncio
 import os
@@ -1691,8 +1691,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/30_SubaccountTradeNonce/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/30_SubaccountTradeNonce/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/30_SubaccountTradeNonce/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/30_SubaccountTradeNonce/example.go -->
 ```go
 package main
 
@@ -1795,8 +1795,8 @@ Retrieves subaccount's order metadata
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/38_SubaccountOrderMetadata.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/38_SubaccountOrderMetadata.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/38_SubaccountOrderMetadata.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/38_SubaccountOrderMetadata.py -->
 ```py
 import asyncio
 import os
@@ -1837,8 +1837,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/38_SubaccountOrderMetadata/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/38_SubaccountOrderMetadata/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/38_SubaccountOrderMetadata/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/38_SubaccountOrderMetadata/example.go -->
 ```go
 package main
 
@@ -1988,8 +1988,8 @@ Retrieves the account and total trade rewards points
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/39_TradeRewardPoints.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/39_TradeRewardPoints.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/39_TradeRewardPoints.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/39_TradeRewardPoints.py -->
 ```py
 import asyncio
 import os
@@ -2028,8 +2028,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/39_TradeRewardPoints/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/39_TradeRewardPoints/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/39_TradeRewardPoints/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/39_TradeRewardPoints/example.go -->
 ```go
 package main
 
@@ -2134,8 +2134,8 @@ Retrieves the pending account and total trade rewards points
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/40_PendingTradeRewardPoints.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/40_PendingTradeRewardPoints.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/40_PendingTradeRewardPoints.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/40_PendingTradeRewardPoints.py -->
 ```py
 import asyncio
 import os
@@ -2174,8 +2174,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/40_PendingTradeRewardPoints/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/40_PendingTradeRewardPoints/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/40_PendingTradeRewardPoints/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/40_PendingTradeRewardPoints/example.go -->
 ```go
 package main
 
@@ -2280,8 +2280,8 @@ Retrieves the trade reward campaign
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/41_TradeRewardCampaign.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/41_TradeRewardCampaign.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/41_TradeRewardCampaign.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/41_TradeRewardCampaign.py -->
 ```py
 import asyncio
 import os
@@ -2318,8 +2318,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/41_TradeRewardCampaign/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/41_TradeRewardCampaign/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/41_TradeRewardCampaign/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/41_TradeRewardCampaign/example.go -->
 ```go
 package main
 
@@ -2470,8 +2470,8 @@ Retrieves the account's fee discount info
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/42_FeeDiscountAccountInfo.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/42_FeeDiscountAccountInfo.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/42_FeeDiscountAccountInfo.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/42_FeeDiscountAccountInfo.py -->
 ```py
 import asyncio
 import os
@@ -2510,8 +2510,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/42_FeeDiscountAccountInfo/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/42_FeeDiscountAccountInfo/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/42_FeeDiscountAccountInfo/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/42_FeeDiscountAccountInfo/example.go -->
 ```go
 package main
 
@@ -2639,8 +2639,8 @@ Retrieves the fee discount schedule
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/43_FeeDiscountSchedule.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/43_FeeDiscountSchedule.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/43_FeeDiscountSchedule.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/43_FeeDiscountSchedule.py -->
 ```py
 import asyncio
 
@@ -2664,8 +2664,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/43_FeeDiscountSchedule/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/43_FeeDiscountSchedule/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/43_FeeDiscountSchedule/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/43_FeeDiscountSchedule/example.go -->
 ```go
 package main
 
@@ -2852,8 +2852,8 @@ Retrieves mismatches between available vs. total balance
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/44_BalanceMismatches.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/44_BalanceMismatches.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/44_BalanceMismatches.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/44_BalanceMismatches.py -->
 ```py
 import asyncio
 
@@ -2877,8 +2877,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/44_BalanceMismatches/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/44_BalanceMismatches/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/44_BalanceMismatches/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/44_BalanceMismatches/example.go -->
 ```go
 package main
 
@@ -3110,8 +3110,8 @@ Retrieves available and total balances with balance holds
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/45_BalanceWithBalanceHolds.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/45_BalanceWithBalanceHolds.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/45_BalanceWithBalanceHolds.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/45_BalanceWithBalanceHolds.py -->
 ```py
 import asyncio
 
@@ -3135,8 +3135,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/45_BalanceWithBalanceHolds/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/45_BalanceWithBalanceHolds/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/45_BalanceWithBalanceHolds/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/45_BalanceWithBalanceHolds/example.go -->
 ```go
 package main
 
@@ -3261,8 +3261,8 @@ Retrieves fee discount tier stats
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/46_FeeDiscountTierStatistics.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/46_FeeDiscountTierStatistics.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/46_FeeDiscountTierStatistics.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/46_FeeDiscountTierStatistics.py -->
 ```py
 import asyncio
 
@@ -3286,8 +3286,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/46_FeeDiscountTierStatistics/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/46_FeeDiscountTierStatistics/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/46_FeeDiscountTierStatistics/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/46_FeeDiscountTierStatistics/example.go -->
 ```go
 package main
 
@@ -3431,8 +3431,8 @@ Retrieves market making pool info
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/47_MitoVaultInfos.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/47_MitoVaultInfos.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/47_MitoVaultInfos.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/47_MitoVaultInfos.py -->
 ```py
 import asyncio
 
@@ -3456,8 +3456,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/47_MitoVaultInfos/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/47_MitoVaultInfos/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/47_MitoVaultInfos/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/47_MitoVaultInfos/example.go -->
 ```go
 package main
 
@@ -3569,8 +3569,8 @@ Returns the market ID for a given vault subaccount ID
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/48_QueryMarketIDFromVault.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/48_QueryMarketIDFromVault.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/48_QueryMarketIDFromVault.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/48_QueryMarketIDFromVault.py -->
 ```py
 import asyncio
 
@@ -3594,8 +3594,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/48_QueryMarketIDFromVault/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/48_QueryMarketIDFromVault/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/48_QueryMarketIDFromVault/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/48_QueryMarketIDFromVault/example.go -->
 ```go
 package main
 
@@ -3695,8 +3695,8 @@ Retrieves historical trade records for a given market ID
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/49_HistoricalTradeRecords.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/49_HistoricalTradeRecords.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/49_HistoricalTradeRecords.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/49_HistoricalTradeRecords.py -->
 ```py
 import asyncio
 
@@ -3722,8 +3722,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/49_HistoricalTradeRecords/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/49_HistoricalTradeRecords/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/49_HistoricalTradeRecords/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/49_HistoricalTradeRecords/example.go -->
 ```go
 package main
 
@@ -3861,8 +3861,8 @@ Retrieves if the account is opted out of rewards
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/50_IsOptedOutOfRewards.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/50_IsOptedOutOfRewards.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/50_IsOptedOutOfRewards.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/50_IsOptedOutOfRewards.py -->
 ```py
 import asyncio
 import os
@@ -3901,8 +3901,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/50_IsOptedOutOfRewards/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/50_IsOptedOutOfRewards/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/50_IsOptedOutOfRewards/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/50_IsOptedOutOfRewards/example.go -->
 ```go
 package main
 
@@ -4003,8 +4003,8 @@ Retrieves all accounts opted out of rewards
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/51_OptedOutOfRewardsAccounts.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/51_OptedOutOfRewardsAccounts.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/51_OptedOutOfRewardsAccounts.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/51_OptedOutOfRewardsAccounts.py -->
 ```py
 import asyncio
 
@@ -4028,8 +4028,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/51_OptedOutOfRewardsAccounts/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/51_OptedOutOfRewardsAccounts/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/51_OptedOutOfRewardsAccounts/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/51_OptedOutOfRewardsAccounts/example.go -->
 ```go
 package main
 
@@ -4136,8 +4136,8 @@ Computes the volatility for spot and derivative markets trading history
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/52_MarketVolatility.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/52_MarketVolatility.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/52_MarketVolatility.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/52_MarketVolatility.py -->
 ```py
 import asyncio
 
@@ -4172,8 +4172,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/52_MarketVolatility/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/52_MarketVolatility/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/52_MarketVolatility/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/52_MarketVolatility/example.go -->
 ```go
 package main
 
@@ -4347,8 +4347,8 @@ Retrieves the atomic execution fee multiplier
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/55_MarketAtomicExecutionFeeMultiplier.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/query/55_MarketAtomicExecutionFeeMultiplier.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/55_MarketAtomicExecutionFeeMultiplier.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/55_MarketAtomicExecutionFeeMultiplier.py -->
 ```py
 import asyncio
 
@@ -4374,8 +4374,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/55_MarketAtomicExecutionFeeMultiplier/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/query/55_MarketAtomicExecutionFeeMultiplier/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/55_MarketAtomicExecutionFeeMultiplier/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/55_MarketAtomicExecutionFeeMultiplier/example.go -->
 ```go
 package main
 
@@ -4476,8 +4476,8 @@ func main() {
 ### Request Parameters
 > Request Example:
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/21_MsgRewardsOptOut.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/dev/examples/chain_client/exchange/21_MsgRewardsOptOut.py -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/21_MsgRewardsOptOut.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/21_MsgRewardsOptOut.py -->
 ```py
 import asyncio
 import os
@@ -4559,8 +4559,8 @@ if __name__ == "__main__":
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/21_MsgRewardsOptOut/example.go) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/dev/examples/chain/exchange/21_MsgRewardsOptOut/example.go -->
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/21_MsgRewardsOptOut/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/21_MsgRewardsOptOut/example.go -->
 ```go
 package main
 

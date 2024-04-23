@@ -1,0 +1,4 @@
+[
+    {"Parameter": "client_id", "Type": "String", "Description": "Client identifier"},
+    {"Parameter": "client_state", "Type": "Any", "Description": "Client state"}
+]

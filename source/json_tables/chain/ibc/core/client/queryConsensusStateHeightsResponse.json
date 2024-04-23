@@ -1,0 +1,4 @@
+[
+    {"Parameter": "consensus_state_heights", "Type": "Height Array", "Description": "Consensus state heights"},
+    {"Parameter": "pagination", "Type": "PageResponse", "Description": "Pagination information in the response"}
+]

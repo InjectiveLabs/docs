@@ -1,0 +1,6 @@
+[
+    {"Parameter": "client_id", "Type": "String", "Description": "Client identifier", "Required": "Yes"},
+    {"Parameter": "revision_number", "Type": "Integer", "Description": "Consensus state revision number", "Required": "Yes"},
+    {"Parameter": "client_id", "Type": "Integer", "Description": "Consensus state revision height", "Required": "Yes"},
+    {"Parameter": "latest_height", "Type": "Boolean", "Description": "Overrrides the height field and queries the latest stored ConsensusState", "Required": "No"}
+]
