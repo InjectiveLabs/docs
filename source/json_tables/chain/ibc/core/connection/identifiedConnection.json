@@ -1,0 +1,8 @@
+[
+    {"Parameter": "id", "Type": "String", "Description": "Connection identifier"},
+    {"Parameter": "client_id", "Type": "String", "Description": "Client associated with this connection"},
+    {"Parameter": "versions", "Type": "Version String", "Description": "IBC version which can be utilised to determine encodings or protocols for channels or packets utilising this connection"},
+    {"Parameter": "state", "Type": "State", "Description": "Current state of the connection end"},
+    {"Parameter": "counterparty", "Type": "Counterparty", "Description": "Counterparty chain associated with this connection"},
+    {"Parameter": "delay_period", "Type": "Integer", "Description": "Delay period associated with this connection"}
+]

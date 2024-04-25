@@ -157,10 +157,12 @@ func main() {
 
 **Channel**
 
-<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/ibc/core/channel/queryChannelResponse.json) -->
-<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">channel</td><td class="type-td td_text">Channel</td><td class="description-td td_text">Channel details</td></tr>
-<tr ><td class="parameter-td td_text">proof</td><td class="type-td td_text">Byte Array</td><td class="description-td td_text">Merkle proof of existence</td></tr>
-<tr ><td class="parameter-td td_text">proof_height</td><td class="type-td td_text">Height</td><td class="description-td td_text">Height at which the proof was retrieved</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/ibc/core/channel/channel.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">state</td><td class="type-td td_text">State</td><td class="description-td td_text">Current state of the channel end</td></tr>
+<tr ><td class="parameter-td td_text">ordering</td><td class="type-td td_text">Order</td><td class="description-td td_text">Whether the channel is ordered or unordered</td></tr>
+<tr ><td class="parameter-td td_text">counterparty</td><td class="type-td td_text">Counterparty</td><td class="description-td td_text">Counterparty channel end</td></tr>
+<tr ><td class="parameter-td td_text">connection_hops</td><td class="type-td td_text">String Array</td><td class="description-td td_text">List of connection identifiers, in order, along which packets sent on this channel will travel</td></tr>
+<tr ><td class="parameter-td td_text">version</td><td class="type-td td_text">String</td><td class="description-td td_text">Opaque channel version, which is agreed upon during the handshake</td></tr></tbody></table>
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>

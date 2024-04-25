@@ -7,6 +7,7 @@
   - Added support for all queries from the `IBC transfer` module
   - Added support for all queries from the `IBC core channel` module
   - Added support for all queries from the `IBC core client` module
+  - Added support for all queries from the `IBC core connection` module
 
 ## 2024-03-08
 - Updated the API documentation to include all queries and messages for the `distribution` and `chain exchange` modules

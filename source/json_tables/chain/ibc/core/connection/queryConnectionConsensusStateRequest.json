@@ -1,0 +1,5 @@
+[
+    {"Parameter": "connection_id", "Type": "String", "Description": "Connection identifier", "Required": "Yes"},
+    {"Parameter": "revision_number", "Type": "Integer", "Description": "Revision number of the consensus state", "Required": "Yes"},
+    {"Parameter": "revision_height", "Type": "Integer", "Description": "Revision height of the consensus state", "Required": "Yes"}
+]
