@@ -1,5 +1,6 @@
 [
     {"Parameter": "price", "Type": "Decimal", "Description": "Order price"},
     {"Parameter": "quantity", "Type": "Decimal", "Description": "The amount of the order quantity remaining fillable"},
-    {"Parameter": "is_reduce_only", "Type": "Boolean", "Description": "True if the order is a reduce only order"}
+    {"Parameter": "is_reduce_only", "Type": "Boolean", "Description": "True if the order is a reduce only order"},
+    {"Parameter": "cid", "Type": "String", "Description": "The client order ID provided by the creator"}
 ]

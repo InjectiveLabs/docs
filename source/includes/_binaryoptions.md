@@ -153,7 +153,9 @@ func main() {
 <tr ><td class="parameter-td td_text">status</td><td class="type-td td_text">MarketStatus</td><td class="description-td td_text">Status of the market</td></tr>
 <tr ><td class="parameter-td td_text">min_price_tick_size</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">Minimum tick size that the price required for orders in the market</td></tr>
 <tr ><td class="parameter-td td_text">min_quantity_tick_size</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">Minimum tick size of the quantity required for orders in the market</td></tr>
-<tr ><td class="parameter-td td_text">settlement_price</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">The market's settlement price</td></tr></tbody></table>
+<tr ><td class="parameter-td td_text">settlement_price</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">The market's settlement price</td></tr>
+<tr ><td class="parameter-td td_text">min_notional</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">Minimum notional (in quote asset) required for orders in the market</td></tr>
+<tr ><td class="parameter-td td_text">admin_permissions</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Level of admin permissions (the permission number is a result of adding up all individual permissions numbers)</td></tr></tbody></table>
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
@@ -175,78 +177,17 @@ func main() {
 <tr ><td class="code-td td_num">11</td><td class="name-td td_text">Provider</td></tr></tbody></table>
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
+<br/>
 
-## MsgInstantBinaryOptionsMarketLaunch
+**AdminPermission**
 
-**IP rate limit group:** `chain`
-
-### Request Parameters
-> Request Example:
-
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/13_MsgInstantBinaryOptionsMarketLaunch.py) -->
-<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/13_MsgInstantBinaryOptionsMarketLaunch.py -->
-```py
-import asyncio
-import os
-
-import dotenv
-
-from pyinjective.async_client import AsyncClient
-from pyinjective.core.broadcaster import MsgBroadcasterWithPk
-from pyinjective.core.network import Network
-from pyinjective.wallet import PrivateKey
-
-
-async def main() -> None:
-    dotenv.load_dotenv()
-    configured_private_key = os.getenv("INJECTIVE_PRIVATE_KEY")
-
-    # select network: local, testnet, mainnet
-    network = Network.testnet()
-
-    # initialize grpc client
-    client = AsyncClient(network)
-    composer = await client.composer()
-    await client.sync_timeout_height()
-
-    message_broadcaster = MsgBroadcasterWithPk.new_using_simulation(
-        network=network,
-        private_key=configured_private_key,
-    )
-
-    # load account
-    priv_key = PrivateKey.from_hex(configured_private_key)
-    pub_key = priv_key.to_public_key()
-    address = pub_key.to_address()
-    await client.fetch_account(address.to_acc_bech32())
-
-    # prepare tx msg
-    message = composer.msg_instant_binary_options_market_launch(
-        sender=address.to_acc_bech32(),
-        ticker="UFC-KHABIB-TKO-05/30/2023",
-        oracle_symbol="UFC-KHABIB-TKO-05/30/2023",
-        oracle_provider="UFC",
-        oracle_type="Provider",
-        oracle_scale_factor=6,
-        maker_fee_rate=0.0005,  # 0.05%
-        taker_fee_rate=0.0010,  # 0.10%
-        expiration_timestamp=1680730982,
-        settlement_timestamp=1690730982,
-        admin=address.to_acc_bech32(),
-        quote_denom="peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        min_price_tick_size=0.01,
-        min_quantity_tick_size=0.01,
-    )
-
-    # broadcast the transaction
-    result = await message_broadcaster.broadcast([message])
-    print("---Transaction Response---")
-    print(result)
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-```
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/adminPermission.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="code-th">Code</th><th class="name-th">Name</th></tr></thead><tbody ><tr ><td class="code-td td_num">1</td><td class="name-td td_text">Ticker Permission</td></tr>
+<tr ><td class="code-td td_num">2</td><td class="name-td td_text">Min Price Tick Size Permission</td></tr>
+<tr ><td class="code-td td_num">4</td><td class="name-td td_text">Min Quantity Tick Size Permission</td></tr>
+<tr ><td class="code-td td_num">8</td><td class="name-td td_text">Min Notional Permission</td></tr>
+<tr ><td class="code-td td_num">16</td><td class="name-td td_text">Initial Margin Ratio Permission</td></tr>
+<tr ><td class="code-td td_num">32</td><td class="name-td td_text">Maintenance Margin Ratio Permission</td></tr></tbody></table>
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/13_MsgInstantBinaryOptionsMarketLaunch/example.go) -->
@@ -376,7 +317,8 @@ func main() {
 <tr ><td class="parameter-td td_text">admin</td><td class="type-td td_text">String</td><td class="description-td td_text">The market's admin address</td><td class="required-td td_text">Yes</td></tr>
 <tr ><td class="parameter-td td_text">quote_denom</td><td class="type-td td_text">String</td><td class="description-td td_text">Quote tocken denom</td><td class="required-td td_text">Yes</td></tr>
 <tr ><td class="parameter-td td_text">min_price_tick_size</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">Defines the minimum tick size of the order's price</td><td class="required-td td_text">Yes</td></tr>
-<tr ><td class="parameter-td td_text">min_quantity_tick_size</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">Defines the minimum tick size of the order's quantity</td><td class="required-td td_text">Yes</td></tr></tbody></table>
+<tr ><td class="parameter-td td_text">min_quantity_tick_size</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">Defines the minimum tick size of the order's quantity</td><td class="required-td td_text">Yes</td></tr>
+<tr ><td class="parameter-td td_text">min_notional</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">Defines the minimum notional (in quote asset) required for orders in the market</td><td class="required-td td_text">Yes</td></tr></tbody></table>
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
