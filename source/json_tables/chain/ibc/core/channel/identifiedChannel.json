@@ -5,5 +5,6 @@
     {"Parameter": "connection_hops", "Type": "String Array", "Description": "List of connection identifiers, in order, along which packets sent on this channel will travel"},
     {"Parameter": "version", "Type": "String", "Description": "Opaque channel version, which is agreed upon during the handshake"},
     {"Parameter": "port_id", "Type": "String", "Description": "Port identifier"},
-    {"Parameter": "channel_id", "Type": "String", "Description": "Channel identifier"}
+    {"Parameter": "channel_id", "Type": "String", "Description": "Channel identifier"},
+    {"Parameter": "upgrade_sequence", "Type": "Integer", "Description": "Indicates the latest upgrade attempt performed by this channel. The value of 0 indicates the channel has never been upgraded"}
 ]

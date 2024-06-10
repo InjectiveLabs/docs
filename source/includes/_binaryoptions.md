@@ -153,7 +153,9 @@ func main() {
 <tr ><td class="parameter-td td_text">status</td><td class="type-td td_text">MarketStatus</td><td class="description-td td_text">Status of the market</td></tr>
 <tr ><td class="parameter-td td_text">min_price_tick_size</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">Minimum tick size that the price required for orders in the market</td></tr>
 <tr ><td class="parameter-td td_text">min_quantity_tick_size</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">Minimum tick size of the quantity required for orders in the market</td></tr>
-<tr ><td class="parameter-td td_text">settlement_price</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">The market's settlement price</td></tr></tbody></table>
+<tr ><td class="parameter-td td_text">settlement_price</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">The market's settlement price</td></tr>
+<tr ><td class="parameter-td td_text">min_notional</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">Minimum notional (in quote asset) required for orders in the market</td></tr>
+<tr ><td class="parameter-td td_text">admin_permissions</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Level of admin permissions (the permission number is a result of adding up all individual permissions numbers)</td></tr></tbody></table>
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
@@ -188,7 +190,6 @@ func main() {
 ```py
 import asyncio
 import os
-from decimal import Decimal
 
 import dotenv
 
@@ -229,15 +230,14 @@ async def main() -> None:
         oracle_provider="UFC",
         oracle_type="Provider",
         oracle_scale_factor=6,
-        maker_fee_rate=Decimal("0.0005"),  # 0.05%
-        taker_fee_rate=Decimal("0.0010"),  # 0.10%
+        maker_fee_rate=0.0005,  # 0.05%
+        taker_fee_rate=0.0010,  # 0.10%
         expiration_timestamp=1680730982,
         settlement_timestamp=1690730982,
         admin=address.to_acc_bech32(),
         quote_denom="peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        min_price_tick_size=Decimal("0.01"),
-        min_quantity_tick_size=Decimal("0.01"),
-        min_notional=Decimal("1"),
+        min_price_tick_size=0.01,
+        min_quantity_tick_size=0.01,
     )
 
     # broadcast the transaction
@@ -378,7 +378,8 @@ func main() {
 <tr ><td class="parameter-td td_text">admin</td><td class="type-td td_text">String</td><td class="description-td td_text">The market's admin address</td><td class="required-td td_text">Yes</td></tr>
 <tr ><td class="parameter-td td_text">quote_denom</td><td class="type-td td_text">String</td><td class="description-td td_text">Quote tocken denom</td><td class="required-td td_text">Yes</td></tr>
 <tr ><td class="parameter-td td_text">min_price_tick_size</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">Defines the minimum tick size of the order's price</td><td class="required-td td_text">Yes</td></tr>
-<tr ><td class="parameter-td td_text">min_quantity_tick_size</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">Defines the minimum tick size of the order's quantity</td><td class="required-td td_text">Yes</td></tr></tbody></table>
+<tr ><td class="parameter-td td_text">min_quantity_tick_size</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">Defines the minimum tick size of the order's quantity</td><td class="required-td td_text">Yes</td></tr>
+<tr ><td class="parameter-td td_text">min_notional</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">Defines the minimum notional (in quote asset) required for orders in the market</td><td class="required-td td_text">Yes</td></tr></tbody></table>
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>

@@ -15,5 +15,7 @@
     {"Parameter": "status", "Type": "MarketStatus", "Description": "Status of the market"},
     {"Parameter": "min_price_tick_size", "Type": "Decimal", "Description": "Minimum tick size that the price required for orders in the market"},
     {"Parameter": "min_quantity_tick_size", "Type": "Decimal", "Description": "Minimum tick size of the quantity required for orders in the market"},
-    {"Parameter": "settlement_price", "Type": "Decimal", "Description": "The market's settlement price"}
+    {"Parameter": "settlement_price", "Type": "Decimal", "Description": "The market's settlement price"},
+    {"Parameter": "min_notional", "Type": "Decimal", "Description": "Minimum notional (in quote asset) required for orders in the market"},
+    {"Parameter": "admin_permissions", "Type": "Integer", "Description": "Level of admin permissions (the permission number is a result of adding up all individual permissions numbers)"}
 ]

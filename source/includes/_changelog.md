@@ -1,6 +1,7 @@
 # Change Log
 
 ## 9999-99-99
+- Updated requests and responses messages with parameters added in chain upgrade to v1.13
 - Updated the API documentation to include all queries and messages for the `tendermint` module
 - Python SDK v1.6.0
   - Added support for all queries from the `tendermint` module
