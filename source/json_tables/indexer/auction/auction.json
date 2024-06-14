@@ -1,0 +1,8 @@
+[
+    {"Parameter": "winner", "Type": "String", "Description": "Account Injective address"},
+    {"Parameter": "basket", "Type": "Coin Array", "Description": "Coins in the basket"},
+    {"Parameter": "winning_bid_amount", "Type": "String", "Description": "Amount of the highest bid (in INJ)"},
+    {"Parameter": "round", "Type": "Integer", "Description": "The auction round number"},
+    {"Parameter": "end_timestamp", "Type": "Integer", "Description": "Auction end timestamp in UNIX milliseconds"},
+    {"Parameter": "updated_at", "Type": "Integer", "Description": "The timestamp of the last update in UNIX milliseconds"}
+]

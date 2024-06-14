@@ -1,0 +1,4 @@
+[
+    {"Parameter": "total_balance", "Type": "String", "Description": "Total balance"},
+    {"Parameter": "available_balance", "Type": "String", "Description": "Available balance"}
+]

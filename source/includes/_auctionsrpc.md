@@ -69,9 +69,9 @@ func main() {
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-| Parameter | Type    | Description                             | Required |
-| --------- | ------- | --------------------------------------- | -------- |
-| round     | Integer | The auction round number. -1 for latest | Yes      |
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/auction/auctionEndpointRequest.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th><th class="required-th">Required</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">round</td><td class="type-td td_text">Integer</td><td class="description-td td_text">The auction round number, -1 for latest</td><td class="required-td td_text">Yes</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 
 ### Response Parameters
@@ -141,37 +141,42 @@ func main() {
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|auction|Auction|Information about the auction|
-|bids|Bid Array|Bids submitted in the auction|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/auction/auctionEndpointResponse.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">auction</td><td class="type-td td_text">Auction</td><td class="description-td td_text">Auction details</td></tr>
+<tr ><td class="parameter-td td_text">bids</td><td class="type-td td_text">Bid Array</td><td class="description-td td_text">Auction's bids</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+</br>
 
 **Auction**
 
-|Parameter|Type|Description|
-|----|----|----|
-|winner|String|The Injective Chain address with the highest bid|
-|basket|Coin Array|Coins in the basket|
-|winning_bid_amount|String|Amount of the highest bid (in inj)|
-|round|Integer|The auction round number|
-|end_timestamp|Integer|The auction's ending timestamp in UNIX millis|
-|updated_at|Integer|The timestamp of the last update in UNIX millis|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/auction/auction.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">winner</td><td class="type-td td_text">String</td><td class="description-td td_text">Account Injective address</td></tr>
+<tr ><td class="parameter-td td_text">basket</td><td class="type-td td_text">Coin Array</td><td class="description-td td_text">Coins in the basket</td></tr>
+<tr ><td class="parameter-td td_text">winning_bid_amount</td><td class="type-td td_text">String</td><td class="description-td td_text">Amount of the highest bid (in INJ)</td></tr>
+<tr ><td class="parameter-td td_text">round</td><td class="type-td td_text">Integer</td><td class="description-td td_text">The auction round number</td></tr>
+<tr ><td class="parameter-td td_text">end_timestamp</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Auction end timestamp in UNIX milliseconds</td></tr>
+<tr ><td class="parameter-td td_text">updated_at</td><td class="type-td td_text">Integer</td><td class="description-td td_text">The timestamp of the last update in UNIX milliseconds</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+</br>
 
 **Bid**
 
-|Parameter|Type|Description|
-|----|----|----|
-|bidder|String|The Injective Chain address of the bidder|
-|amount|String|The bid amount (in inj)|
-|timestamp|Integer|The timestamp at which the bid was submitted|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/auction/bid.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">bidder</td><td class="type-td td_text">String</td><td class="description-td td_text">Bidder account Injective address</td></tr>
+<tr ><td class="parameter-td td_text">amount</td><td class="type-td td_text">String</td><td class="description-td td_text">The bid amount</td></tr>
+<tr ><td class="parameter-td td_text">timestamp</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Bid timestamp in UNIX millis</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
+</br>
 
 **Coin**
 
-|Parameter|Type|Description|
-|----|----|----|
-|denom|String|Denom of the coin|
-|amount|String|Quantity of the coin|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/auction/coin.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">denom</td><td class="type-td td_text">String</td><td class="description-td td_text">Token denom</td></tr>
+<tr ><td class="parameter-td td_text">amount</td><td class="type-td td_text">String</td><td class="description-td td_text">Token amount</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 
 ## Auctions
@@ -237,6 +242,8 @@ func main() {
 }
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
+
+No parameters
 
 ### Response Parameters
 > Response Example:
@@ -350,27 +357,29 @@ func main() {
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|auctions|Auction Array|List of historical auctions|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/auction/auctionsResponse.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">auctions</td><td class="type-td td_text">Auction Array</td><td class="description-td td_text">List of auctions</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-**Auction**
+</br>
 
-|Parameter|Type|Description|
-|----|----|----|
-|winner|String|The Injective Chain address with the highest bid|
-|basket|Coin Array|Coins in the basket|
-|winning_bid_amount|String|Amount of the highest bid (in inj)|
-|round|Integer|The auction round number|
-|end_timestamp|Integer|The auction's ending timestamp in UNIX millis|
-|updated_at|Integer|The timestamp of the last update in UNIX millis|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/auction/auction.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">winner</td><td class="type-td td_text">String</td><td class="description-td td_text">Account Injective address</td></tr>
+<tr ><td class="parameter-td td_text">basket</td><td class="type-td td_text">Coin Array</td><td class="description-td td_text">Coins in the basket</td></tr>
+<tr ><td class="parameter-td td_text">winning_bid_amount</td><td class="type-td td_text">String</td><td class="description-td td_text">Amount of the highest bid (in INJ)</td></tr>
+<tr ><td class="parameter-td td_text">round</td><td class="type-td td_text">Integer</td><td class="description-td td_text">The auction round number</td></tr>
+<tr ><td class="parameter-td td_text">end_timestamp</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Auction end timestamp in UNIX milliseconds</td></tr>
+<tr ><td class="parameter-td td_text">updated_at</td><td class="type-td td_text">Integer</td><td class="description-td td_text">The timestamp of the last update in UNIX milliseconds</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+</br>
 
 **Coin**
 
-|Parameter|Type|Description|
-|----|----|----|
-|denom|String|Denom of the coin|
-|amount|String|Quantity of the coin|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/auction/coin.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">denom</td><td class="type-td td_text">String</td><td class="description-td td_text">Token denom</td></tr>
+<tr ><td class="parameter-td td_text">amount</td><td class="type-td td_text">String</td><td class="description-td td_text">Token amount</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 
 ## StreamBids
@@ -474,11 +483,7 @@ func main() {
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-| Parameter          | Type     | Description                                                                                          | Required |
-| ------------------ | -------- | ---------------------------------------------------------------------------------------------------- | -------- |
-| callback           | Function | Function receiving one parameter (a stream event JSON dictionary) to process each new event          | Yes      |
-| on_end_callback    | Function | Function with the logic to execute when the stream connection is interrupted                         | No       |
-| on_status_callback | Function | Function receiving one parameter (the exception) with the logic to execute when an exception happens | No       |
+No parameters
 
 
 ### Response Parameters
@@ -513,9 +518,9 @@ func main() {
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|bidder|String|The Injective Chain address of the bidder|
-|bid_amount|String|The bid amount (in inj)|
-|round|Integer|The auction round number|
-|timestamp|Integer|The timestamp at which the bid was submitted in UNIX millis|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/auction/streamBidsResponse.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">bidder</td><td class="type-td td_text">String</td><td class="description-td td_text">The bidder Injective address</td></tr>
+<tr ><td class="parameter-td td_text">bid_amount</td><td class="type-td td_text">String</td><td class="description-td td_text">The bid amount (in INJ)</td></tr>
+<tr ><td class="parameter-td td_text">round</td><td class="type-td td_text">Integer</td><td class="description-td td_text">The auction round number</td></tr>
+<tr ><td class="parameter-td td_text">timestamp</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Bid timestamp in UNIX milliseconds</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->

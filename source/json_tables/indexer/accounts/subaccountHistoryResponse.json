@@ -1,0 +1,4 @@
+[
+    {"Parameter": "transfers", "Type": "SubaccountBalanceTransfer Array", "Description": "Transfers list"},
+    {"Parameter": "paging", "Type": "Paging", "Description": "Pagination details"}
+]

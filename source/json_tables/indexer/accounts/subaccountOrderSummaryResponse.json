@@ -1,0 +1,4 @@
+[
+    {"Parameter": "spot_orders_total", "Type": "Integer", "Description": "Total count of subaccount's spot orders in given market and direction"},
+    {"Parameter": "derivative_orders_total", "Type": "Integer", "Description": "Total count of subaccount's derivative orders in given market and direction"}
+]

@@ -1,0 +1,4 @@
+[
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "ID of the subaccount to get the balances from", "Required": "Yes"},
+    {"Parameter": "denoms", "Type": "String Array", "Description": "Filter balances by denoms. If not set, the balances of all the denoms for the subaccount are provided", "Required": "No"}
+]
