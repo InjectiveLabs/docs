@@ -1,0 +1,4 @@
+[
+    {"Parameter": "epoch", "Type": "Integer", "Description": "The distribution epoch sequence number. -1 for latest", "Required": "No"},
+    {"Parameter": "account_address", "Type": "String", "Description": "Account address for the rewards distribution", "Required": "No"}
+]

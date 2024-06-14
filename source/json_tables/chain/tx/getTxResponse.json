@@ -1,0 +1,4 @@
+[
+    {"Parameter": "tx", "Type": "Tx", "Description": "Transaction details"},
+    {"Parameter": "tx_resposne", "Type": "TxResponse", "Description": "Transaction details"}
+]

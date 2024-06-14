@@ -1,0 +1,8 @@
+[
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "ID of the subaccount to get the history from", "Required": "Yes"},
+    {"Parameter": "denom", "Type": "String", "Description": "Filter by token denom", "Required": "No"},
+    {"Parameter": "transfer_types", "Type": "String Array", "Description": "Filter by transfer types. Valid options: internal, external, withdraw, deposit", "Required": "No"},
+    {"Parameter": "skip", "Type": "Integer", "Description": "Skip the first N items from the result", "Required": "No"},
+    {"Parameter": "limit", "Type": "Integer", "Description": "Maximum number of items to be returned", "Required": "No"},
+    {"Parameter": "end_time", "Type": "Integer", "Description": "Upper bound (inclusive) of account transfer history executed_at unix timestamp", "Required": "No"}
+]

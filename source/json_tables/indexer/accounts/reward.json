@@ -1,0 +1,5 @@
+[
+    {"Parameter": "account_address", "Type": "String", "Description": "Account Injective address"},
+    {"Parameter": "rewards", "Type": "Coin Array", "Description": "Reward coins distributed"},
+    {"Parameter": "distributed_at", "Type": "Integer", "Description": "Rewards distribution timestamp in UNIX milliseconds"}
+]

@@ -1,0 +1,4 @@
+[
+    {"Parameter": "spot_order_states", "Type": "OrderStateRecord Array", "Description": "List of the spot order state records"},
+    {"Parameter": "derivative_order_states", "Type": "OrderStateRecord Array", "Description": "List of the derivative order state records"}
+]

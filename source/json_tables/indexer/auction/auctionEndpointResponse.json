@@ -1,0 +1,4 @@
+[
+    {"Parameter": "auction", "Type": "Auction", "Description": "Auction details"},
+    {"Parameter": "bids", "Type": "Bid Array", "Description": "Auction's bids"}
+]

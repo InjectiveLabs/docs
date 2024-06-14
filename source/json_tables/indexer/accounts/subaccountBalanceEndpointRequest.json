@@ -1,0 +1,4 @@
+[
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "ID of the subaccount to get the balances from", "Required": "Yes"},
+    {"Parameter": "denom", "Type": "String", "Description": "Filter by token denom", "Required": "Yes"}
+]

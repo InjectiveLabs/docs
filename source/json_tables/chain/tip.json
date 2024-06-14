@@ -1,0 +1,4 @@
+[
+    {"Parameter": "amount", "Type": "Coin Array", "Description": "Amount of coins to be paid as a tip"},
+    {"Parameter": "tipper", "Type": "String", "Description": "Address of the account paying for the tip"}
+]

@@ -1,0 +1,7 @@
+[
+    {"Parameter": "total", "Type": "Integer", "Description": "Total number of available records"},
+    {"Parameter": "from", "Type": "Integer", "Description": "Record index start"},
+    {"Parameter": "to", "Type": "Integer", "Description": "Record index end"},
+    {"Parameter": "count_by_subaccount", "Type": "Integer", "Description": "Count entries by subaccount"},
+    {"Parameter": "next", "Type": "String Array", "Description": "List of tokens to navigate to the next pages"}
+]
