@@ -1,0 +1,5 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "Sender Injective address", "Required": "Yes"},
+    {"Parameter": "denom", "Type": "String", "Description": "Token denom", "Required": "Yes"},
+    {"Parameter": "new_admin", "Type": "String", "Description": "New admin Injective address", "Required": "Yes"}
+]
