@@ -1,0 +1,7 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "Sender Injective address", "Required": "Yes"},
+    {"Parameter": "subdenom", "Type": "String", "Description": "New token subdenom", "Required": "Yes"},
+    {"Parameter": "name", "Type": "String", "Description": "New token name", "Required": "Yes"},
+    {"Parameter": "symbol", "Type": "String", "Description": "New token symbol", "Required": "Yes"},
+    {"Parameter": "decimals", "Type": "Integer", "Description": "Number of decimals use to represent token amount on chain", "Required": "Yes"}
+]

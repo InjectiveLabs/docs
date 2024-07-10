@@ -1,0 +1,4 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "Sender Injective address", "Required": "Yes"},
+    {"Parameter": "amount", "Type": "Coin", "Description": "Amount to mint", "Required": "Yes"}
+]
