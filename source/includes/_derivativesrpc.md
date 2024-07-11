@@ -115,7 +115,8 @@ func main() {
          "cumulativeFunding":"-156010.283874921534910863",
          "cumulativePrice":"566.477789213654772072",
          "lastTimestamp":"1701906508"
-      }
+      },
+      "min_notional":"1000000"
    }
 }
 ```
@@ -157,7 +158,8 @@ func main() {
    "cumulative_funding": "7246105747.050586213851272386",
    "cumulative_price": "31.114148427047982579",
    "last_timestamp": 1652793510
-  }
+  },
+  "min_notional": "1000000"
  }
 }
 ```
@@ -190,6 +192,7 @@ func main() {
 | maintenance_margin_ratio   | String                  | The maintenance margin ratio of the derivative market                                                   |
 | market_id                  | String                  | The market ID                                                                                           |
 | quoteTokenMeta             | TokenMeta               | Token metadata for quote asset, only for Ethereum-based assets                                          |
+| min_notional           | String    | Defines the minimum required notional for an order to be accepted |
 
 **ExpiryFuturesMarketInfo**
 
@@ -353,7 +356,8 @@ func main() {
       "cumulativeFunding": "56890491.178246679699729639",
       "cumulativePrice": "7.082760891515203314",
       "lastTimestamp": 1654245985
-    }
+    },
+    "min_notional": "1000000",
   },
   {
     "marketId": "0x00030df39180df04a873cb4aadc50d4135640af5c858ab637dbd4d31b147478c",
@@ -383,7 +387,8 @@ func main() {
     "expiryFuturesMarketInfo": {
       "expirationTimestamp": 1684600043,
       "settlementPrice": "0"
-    }
+    },
+    "min_notional": "0"
   }
 ]
 ```
@@ -426,7 +431,8 @@ func main() {
     "cumulative_funding": "48248742.484852568471323698",
     "cumulative_price": "5.691379282523162906",
     "last_timestamp": 1652775374
-   }
+   },
+   "min_notional": "1000000"
   },
   {
    "market_id": "0xfb5f14852bd01af901291dd2aa65e997b3a831f957124a7fe7aa40d218ff71ae",
@@ -463,7 +469,8 @@ func main() {
     "cumulative_funding": "1099659.417190990913058692",
     "cumulative_price": "-4.427475055338306767",
     "last_timestamp": 1652775322
-   }
+   },
+   "min_notional": "0",
   }
  ]
 }
@@ -497,6 +504,7 @@ func main() {
 | maintenance_margin_ratio   | String                  | The maintenance margin ratio of the derivative market                                                   |
 | market_id                  | String                  | The market ID                                                                                           |
 | quoteTokenMeta             | TokenMeta               | Token metadata for quote asset, only for Ethereum-based assets                                          |
+| min_notional               | String                  | Defines the minimum required notional for an order to be accepted                                       |
 
 **ExpiryFuturesMarketInfo**
 
@@ -686,7 +694,8 @@ func main() {
       "cumulativeFunding": "8239865636.851083559033030036",
       "cumulativePrice": "7.15770685160786651",
       "lastTimestamp": 1654246073
-    }
+    },
+    "min_notional": "1000000"
   },
   "operationType": "update",
   "timestamp": 1654246076000
@@ -730,7 +739,8 @@ func main() {
    "cumulative_funding": "7356035675.459202347630388315",
    "cumulative_price": "3.723976370878870887",
    "last_timestamp": 1653038971
-  }
+  },
+  "min_notional": "0"
  },
  "operation_type": "update",
  "timestamp": 1653038974000
@@ -767,6 +777,7 @@ func main() {
 | maintenance_margin_ratio   | String                  | The maintenance margin ratio of the derivative market                                                   |
 | market_id                  | String                  | The market ID                                                                                           |
 | quoteTokenMeta             | TokenMeta               | Token metadata for quote asset, only for Ethereum-based assets                                          |
+| min_notional               | String                  | Defines the minimum required notional for an order to be accepted                                       |
 
 **ExpiryFuturesMarketInfo**
 
@@ -4671,7 +4682,8 @@ if __name__ == "__main__":
     "serviceProviderFee": "0.4",
     "minPriceTickSize": "0.000000000000001",
     "minQuantityTickSize": "1000000000000000",
-    "settlementPrice": "1"
+    "settlementPrice": "1",
+    "min_notional": "0"
   }
 }
 ```
@@ -4705,6 +4717,7 @@ if __name__ == "__main__":
 | min_price_tick_size    | String    | Defines the minimum required tick size for the order's price                                            |
 | min_quantity_tick_size | String    | Defines the minimum required tick size for the order's quantity                                         |
 | settlement_price       | String    | Defines the settlement price of the market                                                              |
+| min_notional           | String    | Defines the minimum required notional for an order to be accepted                                       |
 
 **TokenMeta**
 
@@ -4788,7 +4801,8 @@ if __name__ == "__main__":
          "serviceProviderFee":"0.4",
          "minPriceTickSize":"0.000000000000001",
          "minQuantityTickSize":"1000000000000000",
-         "settlementPrice":"1"
+         "settlementPrice":"1",
+         "min_notional":"0",
       }
    ],
    "paging":{
@@ -4830,6 +4844,7 @@ if __name__ == "__main__":
 | min_price_tick_size    | String    | Defines the minimum required tick size for the order's price                                            |
 | min_quantity_tick_size | String    | Defines the minimum required tick size for the order's quantity                                         |
 | settlement_price       | String    | Defines the settlement price of the market                                                              |
+| min_notional           | String    | Defines the minimum required notional for an order to be accepted                                       |
 
 **TokenMeta**
 
