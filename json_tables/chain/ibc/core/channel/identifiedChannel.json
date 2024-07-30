@@ -1,0 +1,9 @@
+[
+    {"Parameter": "state", "Type": "State", "Description": "Current state of the channel end"},
+    {"Parameter": "ordering", "Type": "Order", "Description": "Whether the channel is ordered or unordered"},
+    {"Parameter": "counterparty", "Type": "Counterparty", "Description": "Counterparty channel end"},
+    {"Parameter": "connection_hops", "Type": "String Array", "Description": "List of connection identifiers, in order, along which packets sent on this channel will travel"},
+    {"Parameter": "version", "Type": "String", "Description": "Opaque channel version, which is agreed upon during the handshake"},
+    {"Parameter": "port_id", "Type": "String", "Description": "Port identifier"},
+    {"Parameter": "channel_id", "Type": "String", "Description": "Channel identifier"}
+]

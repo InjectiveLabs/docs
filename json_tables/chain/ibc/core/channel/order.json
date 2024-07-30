@@ -1,0 +1,5 @@
+[
+    {"Code": "0", "Name": "ORDER_NONE_UNSPECIFIED"},
+    {"Code": "1", "Name": "ORDER_UNORDERED"},
+    {"Code": "2", "Name": "ORDER_ORDERED"}
+]

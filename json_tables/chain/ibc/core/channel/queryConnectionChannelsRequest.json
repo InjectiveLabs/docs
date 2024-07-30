@@ -1,0 +1,4 @@
+[
+    {"Parameter": "connection", "Type": "String", "Description": "Connection unique identifier", "Required": "Yes"},
+    {"Parameter": "pagination", "Type": "PageRequest", "Description": "The optional pagination for the request", "Required": "No"}
+]

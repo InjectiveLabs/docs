@@ -1,0 +1,4 @@
+[
+    {"Parameter": "client_states", "Type": "IdentifiedClientState Array", "Description": "Client state associated with the request identifier"},
+    {"Parameter": "pagination", "Type": "PageResponse", "Description": "Pagination information in the response"}
+]

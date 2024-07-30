@@ -1,0 +1,6 @@
+[
+    {"Parameter": "port_id", "Type": "String", "Description": "Port identifier"},
+    {"Parameter": "channel_id", "Type": "String", "Description": "Channel identifier"},
+    {"Parameter": "sequence", "Type": "Integer", "Description": "Packet sequence"},
+    {"Parameter": "data", "Type": "Byte Array", "Description": "Embedded data that represents packet state"}
+]

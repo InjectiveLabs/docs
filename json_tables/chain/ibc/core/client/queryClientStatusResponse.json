@@ -1,0 +1,3 @@
+[
+    {"Parameter": "status", "Type": "String", "Description": "Client status"}
+]
