@@ -1,0 +1,11 @@
+[
+    {"Parameter": "code", "Type": "Integer", "Description": "Query result code (zero: success, non-zero: error"},
+    {"Parameter": "log", "Type": "String", "Description": ""},
+    {"Parameter": "info", "Type": "String", "Description": ""},
+    {"Parameter": "index", "Type": "Integer", "Description": ""},
+    {"Parameter": "key", "Type": "Bytes", "Description": ""},
+    {"Parameter": "value", "Type": "Bytes", "Description": ""},
+    {"Parameter": "proof_ops", "Type": "ProofOps", "Description": ""},
+    {"Parameter": "height", "Type": "Integer", "Description": "Block height"},
+    {"Parameter": "codespace", "Type": "String", "Description": ""}
+]

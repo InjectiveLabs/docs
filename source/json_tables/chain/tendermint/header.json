@@ -1,0 +1,16 @@
+[
+    {"Parameter": "version", "Type": "Consensus", "Description": ""},
+    {"Parameter": "chain_id", "Type": "String", "Description": "Chain identifier"},
+    {"Parameter": "height", "Type": "Integer", "Description": "Block height"},
+    {"Parameter": "time", "Type": "Time", "Description": "Block time"},
+    {"Parameter": "last_block_id", "Type": "BlockID", "Description": "Previous block identifier"},
+    {"Parameter": "last_commit_hash", "Type": "Bytes", "Description": "Last commit hash"},
+    {"Parameter": "data_hash", "Type": "Bytes", "Description": "Block data hash"},
+    {"Parameter": "validators_hash", "Type": "Bytes", "Description": "Validators information hash"},
+    {"Parameter": "next_validators_hash", "Type": "Bytes", "Description": "Validators information hash"},
+    {"Parameter": "consensus_hash", "Type": "Bytes", "Description": "Consensus information hash"},
+    {"Parameter": "app_hash", "Type": "Bytes", "Description": "Application hash"},
+    {"Parameter": "last_result_hash", "Type": "Bytes", "Description": "Last result hash"},
+    {"Parameter": "evidence_hash", "Type": "Bytes", "Description": "Evidence data hash"},
+    {"Parameter": "proposer_address", "Type": "String", "Description": "Block proposer's address"}
+]

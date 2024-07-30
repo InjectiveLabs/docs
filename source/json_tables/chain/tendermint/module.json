@@ -1,0 +1,5 @@
+[
+    {"Parameter": "path", "Type": "String", "Description": "Module path"},
+    {"Parameter": "version", "Type": "String", "Description": "Module version"},
+    {"Parameter": "sum", "Type": "String", "Description": "Checksum"}
+]

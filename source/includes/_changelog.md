@@ -1,5 +1,10 @@
 # Change Log
 
+## 9999-99-99
+- Updated the API documentation to include all queries and messages for the `tendermint` module
+- Python SDK v1.5.0
+  - Added support for all queries from the `tendermint` module
+
 ## 2024-03-08
 - Updated the API documentation to include all queries and messages for the `distribution` and `chain exchange` modules
 - Python SDK v1.4.0
