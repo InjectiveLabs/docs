@@ -1,0 +1,5 @@
+[
+    {"Parameter": "identified_client_state", "Type": "IdentifiedClientState", "Description": "Client state associated with the channel"},
+    {"Parameter": "proof", "Type": "Byte Array", "Description": "Merkle proof of existence"},
+    {"Parameter": "proof_height", "Type": "Height", "Description": "Height at which the proof was retrieved"}
+]

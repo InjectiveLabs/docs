@@ -1,0 +1,5 @@
+[
+    {"Parameter": "client_id", "Type": "String", "Description": "Identifies the client on the counterparty chain associated with a given connection"},
+    {"Parameter": "connection_id", "Type": "String", "Description": "Identifies the connection end on the counterparty chain associated with a given connection"},
+    {"Parameter": "prefix", "Type": "MarketPrefix", "Description": "Commitment merkle prefix of the counterparty chain"}
+]

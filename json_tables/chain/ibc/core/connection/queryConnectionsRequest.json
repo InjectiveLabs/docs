@@ -1,0 +1,3 @@
+[
+    {"Parameter": "pagination", "Type": "PageRequest", "Description": "The optional pagination for the request", "Required": "No"}
+]

@@ -1,0 +1,6 @@
+[
+    {"Code": "0", "Name": "STATE_UNINITIALIZED_UNSPECIFIED"},
+    {"Code": "1", "Name": "STATE_INIT"},
+    {"Code": "2", "Name": "STATE_TRYOPEN"},
+    {"Code": "3", "Name": "STATE_OPEN"}
+]
