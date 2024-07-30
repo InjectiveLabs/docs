@@ -1,0 +1,6 @@
+[
+    {"Parameter": "address", "Type": "String", "Description": "Validator's address"},
+    {"Parameter": "pub_key", "Type": "Any", "Description": "Validator's public key"},
+    {"Parameter": "voting_power", "Type": "Integer", "Description": "Validator's voting power"},
+    {"Parameter": "proposer_priority", "Type": "Integer", "Description": ""}
+]

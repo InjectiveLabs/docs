@@ -1,0 +1,4 @@
+[
+    {"Parameter": "default_node_info", "Type": "DefaultNodeInfo", "Description": "Node information"},
+    {"Parameter": "application_version", "Type": "VersionInfo", "Description": "Node version information"}
+]

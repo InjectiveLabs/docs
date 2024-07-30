@@ -1,0 +1,6 @@
+[
+    {"Code": "0", "Name": "BLOCK_ID_FLAG_UNKNOWN"},
+    {"Code": "1", "Name": "BLOCK_ID_FLAG_ABSENT"},
+    {"Code": "2", "Name": "BLOCK_ID_FLAG_COMMIT"},
+    {"Code": "3", "Name": "BLOCK_ID_FLAG_NIL"}
+]

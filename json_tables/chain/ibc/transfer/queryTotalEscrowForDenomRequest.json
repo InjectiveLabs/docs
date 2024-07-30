@@ -1,0 +1,3 @@
+[
+    {"Parameter": "denom", "Type": "String", "Description": "Token denom", "Required": "Yes"}
+]

@@ -1,0 +1,6 @@
+[
+    {"Parameter": "height", "Type": "Integer", "Description": "Block height"},
+    {"Parameter": "round", "Type": "Integer", "Description": "Consensus round"},
+    {"Parameter": "block_id", "Type": "BlockID", "Description": "Block identifier"},
+    {"Parameter": "signatures", "Type": "CommitSig Array", "Description": "Sigantures"}
+]

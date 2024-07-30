@@ -1,0 +1,3 @@
+[
+    {"Parameter": "amount", "Type": "Coin", "Description": "Amount of token in the escrow"}
+]

@@ -1,0 +1,4 @@
+[
+    {"Parameter": "revision_number", "Type": "Integer", "Description": "The revision that the client is currently on"},
+    {"Parameter": "revision_height", "Type": "Integer", "Description": "The height within the given revision"}
+]
