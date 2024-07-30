@@ -1,0 +1,6 @@
+[
+    {"Parameter": "consensus_state", "Type": "Any", "Description": "Consensus state associated with the channel"},
+    {"Parameter": "client_id", "Type": "String", "Description": "Client identifier associated with the consensus state"},
+    {"Parameter": "proof", "Type": "Byte Array", "Description": "Merkle proof of existence"},
+    {"Parameter": "proof_height", "Type": "Height", "Description": "Height at which the proof was retrieved"}
+]

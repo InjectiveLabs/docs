@@ -1,0 +1,7 @@
+[
+    {"Parameter": "client_id", "Type": "String", "Description": "Client associated with this connection"},
+    {"Parameter": "versions", "Type": "Version String", "Description": "Channel identifier"},
+    {"Parameter": "state", "Type": "State", "Description": "Current state of the connection end"},
+    {"Parameter": "counterparty", "Type": "Counterparty", "Description": "Counterparty chain associated with this connection"},
+    {"Parameter": "delay_period", "Type": "Integer", "Description": "Delay period that must pass before a consensus state can be used for packet-verification NOTE: delay period logic is only implemented by some clients"}
+]

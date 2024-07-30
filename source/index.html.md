@@ -38,6 +38,7 @@ includes:
   - binaryoptions
   - ibccorechannel
   - ibccoreclient
+  - ibccoreconnection
   - ibctransfer
   - insurance
   - oracle
