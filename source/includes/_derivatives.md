@@ -3030,6 +3030,7 @@ async def main() -> None:
         maintenance_margin_ratio=Decimal("0.095"),
         min_price_tick_size=Decimal("0.001"),
         min_quantity_tick_size=Decimal("0.01"),
+        min_notional=Decimal("1"),
     )
 
     # broadcast the transaction
@@ -3054,11 +3055,11 @@ import (
 	"fmt"
 	"os"
 
+	"cosmossdk.io/math"
+
 	exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
 	oracletypes "github.com/InjectiveLabs/sdk-go/chain/oracle/types"
 	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-
-	"github.com/cosmos/cosmos-sdk/types"
 
 	"github.com/InjectiveLabs/sdk-go/client"
 	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
@@ -3120,10 +3121,10 @@ func main() {
 	}
 
 	quoteToken := marketsAssistant.AllTokens()["USDC"]
-	minPriceTickSize := types.MustNewDecFromStr("0.01")
-	minQuantityTickSize := types.MustNewDecFromStr("0.001")
+	minPriceTickSize := math.LegacyMustNewDecFromStr("0.01")
+	minQuantityTickSize := math.LegacyMustNewDecFromStr("0.001")
 
-	chainMinPriceTickSize := minPriceTickSize.Mul(types.NewDecFromIntWithPrec(types.NewInt(1), int64(quoteToken.Decimals)))
+	chainMinPriceTickSize := minPriceTickSize.Mul(math.LegacyNewDecFromIntWithPrec(math.NewInt(1), int64(quoteToken.Decimals)))
 	chainMinQuantityTickSize := minQuantityTickSize
 
 	msg := &exchangetypes.MsgInstantPerpetualMarketLaunch{
@@ -3134,15 +3135,15 @@ func main() {
 		OracleQuote:            "USDC",
 		OracleScaleFactor:      6,
 		OracleType:             oracletypes.OracleType_Band,
-		MakerFeeRate:           types.MustNewDecFromStr("-0.0001"),
-		TakerFeeRate:           types.MustNewDecFromStr("0.001"),
-		InitialMarginRatio:     types.MustNewDecFromStr("0.33"),
-		MaintenanceMarginRatio: types.MustNewDecFromStr("0.095"),
+		MakerFeeRate:           math.LegacyMustNewDecFromStr("-0.0001"),
+		TakerFeeRate:           math.LegacyMustNewDecFromStr("0.001"),
+		InitialMarginRatio:     math.LegacyMustNewDecFromStr("0.33"),
+		MaintenanceMarginRatio: math.LegacyMustNewDecFromStr("0.095"),
 		MinPriceTickSize:       chainMinPriceTickSize,
 		MinQuantityTickSize:    chainMinQuantityTickSize,
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	response, err := chainClient.AsyncBroadcastMsg(msg)
 
 	if err != nil {
@@ -3331,6 +3332,7 @@ async def main() -> None:
         maintenance_margin_ratio=Decimal("0.095"),
         min_price_tick_size=Decimal("0.001"),
         min_quantity_tick_size=Decimal("0.01"),
+        min_notional=Decimal("1"),
     )
 
     # broadcast the transaction
@@ -3355,11 +3357,11 @@ import (
 	"fmt"
 	"os"
 
+	"cosmossdk.io/math"
+
 	exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
 	oracletypes "github.com/InjectiveLabs/sdk-go/chain/oracle/types"
 	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-
-	"github.com/cosmos/cosmos-sdk/types"
 
 	"github.com/InjectiveLabs/sdk-go/client"
 	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
@@ -3421,10 +3423,10 @@ func main() {
 	}
 
 	quoteToken := marketsAssistant.AllTokens()["USDC"]
-	minPriceTickSize := types.MustNewDecFromStr("0.01")
-	minQuantityTickSize := types.MustNewDecFromStr("0.001")
+	minPriceTickSize := math.LegacyMustNewDecFromStr("0.01")
+	minQuantityTickSize := math.LegacyMustNewDecFromStr("0.001")
 
-	chainMinPriceTickSize := minPriceTickSize.Mul(types.NewDecFromIntWithPrec(types.NewInt(1), int64(quoteToken.Decimals)))
+	chainMinPriceTickSize := minPriceTickSize.Mul(math.LegacyNewDecFromIntWithPrec(math.NewInt(1), int64(quoteToken.Decimals)))
 	chainMinQuantityTickSize := minQuantityTickSize
 
 	msg := &exchangetypes.MsgInstantExpiryFuturesMarketLaunch{
@@ -3436,15 +3438,15 @@ func main() {
 		OracleScaleFactor:      6,
 		OracleType:             oracletypes.OracleType_Band,
 		Expiry:                 2000000000,
-		MakerFeeRate:           types.MustNewDecFromStr("-0.0001"),
-		TakerFeeRate:           types.MustNewDecFromStr("0.001"),
-		InitialMarginRatio:     types.MustNewDecFromStr("0.33"),
-		MaintenanceMarginRatio: types.MustNewDecFromStr("0.095"),
+		MakerFeeRate:           math.LegacyMustNewDecFromStr("-0.0001"),
+		TakerFeeRate:           math.LegacyMustNewDecFromStr("0.001"),
+		InitialMarginRatio:     math.LegacyMustNewDecFromStr("0.33"),
+		MaintenanceMarginRatio: math.LegacyMustNewDecFromStr("0.095"),
 		MinPriceTickSize:       chainMinPriceTickSize,
 		MinQuantityTickSize:    chainMinQuantityTickSize,
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	response, err := chainClient.AsyncBroadcastMsg(msg)
 
 	if err != nil {
@@ -3804,7 +3806,7 @@ func main() {
 
 	fmt.Println("simulated order hash", msgCreateDerivativeLimitOrderResponse.OrderHash)
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {
@@ -4201,7 +4203,7 @@ func main() {
 
 	fmt.Println("simulated order hash", msgCreateDerivativeMarketOrderResponse.OrderHash)
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {
@@ -4533,7 +4535,7 @@ func main() {
 		OrderHash:    "0x8cf97e586c0d84cd7864ccc8916b886557120d84fc97a21ae193b67882835ec5",
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {
@@ -5464,7 +5466,7 @@ func main() {
 		Order:        order,
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	response, err := chainClient.AsyncBroadcastMsg(msg)
 
 	if err != nil {
@@ -5719,6 +5721,8 @@ import (
 	"os"
 	"time"
 
+	"cosmossdk.io/math"
+
 	"github.com/InjectiveLabs/sdk-go/client"
 
 	"github.com/InjectiveLabs/sdk-go/client/common"
@@ -5726,7 +5730,6 @@ import (
 	exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
 	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
 	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
-	cosmtypes "github.com/cosmos/cosmos-sdk/types"
 )
 
 func main() {
@@ -5777,10 +5780,10 @@ func main() {
 		MarketId:                "0x4ca0f92fc28be0c9761326016b5a1a2177dd6375558365116b5bdda9abc229ce",
 		SourceSubaccountId:      "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
 		DestinationSubaccountId: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
-		Amount:                  cosmtypes.MustNewDecFromStr("100000000"), //100 USDT
+		Amount:                  math.LegacyMustNewDecFromStr("100000000"), //100 USDT
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {
@@ -6306,7 +6309,7 @@ func main() {
 	fmt.Println("computed spot order hashes: ", orderHashes.Spot)
 	fmt.Println("computed derivative order hashes: ", orderHashes.Derivative)
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg, msg1)
 
 	if err != nil {

@@ -445,7 +445,7 @@ import (
 )
 
 func main() {
-	//network := common.LoadNetwork("mainnet", "k8s")
+	// network := common.LoadNetwork("mainnet", "k8s")
 	network := common.LoadNetwork("testnet", "lb")
 	exchangeClient, err := exchangeclient.NewExchangeClient(network)
 	if err != nil {
@@ -1855,7 +1855,7 @@ import (
 )
 
 func main() {
-	//network := common.LoadNetwork("mainnet", "k8s")
+	// network := common.LoadNetwork("mainnet", "k8s")
 	network := common.LoadNetwork("testnet", "lb")
 	exchangeClient, err := exchangeclient.NewExchangeClient(network)
 	if err != nil {
@@ -2351,7 +2351,7 @@ type MapOrderbook struct {
 
 func main() {
 	network := common.LoadNetwork("devnet-1", "")
-	exchangeClient, err := exchangeclient.NewExchangeClient(network.ExchangeGrpcEndpoint)
+	exchangeClient, err := exchangeclient.NewExchangeClient(network)
 	if err != nil {
 		fmt.Println(err)
 		panic(err)
@@ -2653,7 +2653,7 @@ import (
 )
 
 func main() {
-	//network := common.LoadNetwork("mainnet", "k8s")
+	// network := common.LoadNetwork("mainnet", "k8s")
 	network := common.LoadNetwork("testnet", "lb")
 	exchangeClient, err := exchangeclient.NewExchangeClient(network)
 	if err != nil {
@@ -2882,7 +2882,7 @@ import (
 )
 
 func main() {
-	//network := common.LoadNetwork("mainnet", "k8s")
+	// network := common.LoadNetwork("mainnet", "k8s")
 	network := common.LoadNetwork("testnet", "lb")
 	exchangeClient, err := exchangeclient.NewExchangeClient(network)
 	if err != nil {

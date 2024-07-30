@@ -49,7 +49,7 @@ import (
 )
 
 func main() {
-	//network := common.LoadNetwork("mainnet", "k8s")
+	// network := common.LoadNetwork("mainnet", "k8s")
 	network := common.LoadNetwork("testnet", "lb")
 	exchangeClient, err := exchangeclient.NewExchangeClient(network)
 	if err != nil {
@@ -210,7 +210,7 @@ import (
 )
 
 func main() {
-	//network := common.LoadNetwork("mainnet", "k8s")
+	// network := common.LoadNetwork("mainnet", "k8s")
 	network := common.LoadNetwork("testnet", "lb")
 	exchangeClient, err := exchangeclient.NewExchangeClient(network)
 	if err != nil {

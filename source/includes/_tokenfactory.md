@@ -637,7 +637,11 @@ async def main() -> None:
     address = pub_key.to_address()
 
     message = composer.msg_create_denom(
-        sender=address.to_acc_bech32(), subdenom="inj_test", name="Injective Test Token", symbol="INJTEST"
+        sender=address.to_acc_bech32(),
+        subdenom="inj_test",
+        name="Injective Test Token",
+        symbol="INJTEST",
+        decimals=18,
     )
 
     # broadcast the transaction
@@ -715,8 +719,9 @@ func main() {
 	message.Subdenom = "inj_test"
 	message.Name = "Injective Test Token"
 	message.Symbol = "INJTEST"
+	message.Decimals = 18
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	response, err := chainClient.AsyncBroadcastMsg(message)
 
 	if err != nil {
@@ -815,6 +820,8 @@ import (
 	"fmt"
 	"os"
 
+	"cosmossdk.io/math"
+
 	tokenfactorytypes "github.com/InjectiveLabs/sdk-go/chain/tokenfactory/types"
 	"github.com/InjectiveLabs/sdk-go/client"
 	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
@@ -869,10 +876,10 @@ func main() {
 	message.Sender = senderAddress.String()
 	message.Amount = sdktypes.Coin{
 		Denom:  "factory/inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r/inj_test",
-		Amount: sdktypes.NewInt(1000000000),
+		Amount: math.NewInt(1000000000),
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	response, err := chainClient.AsyncBroadcastMsg(message)
 
 	if err != nil {
@@ -977,6 +984,8 @@ import (
 	"fmt"
 	"os"
 
+	"cosmossdk.io/math"
+
 	tokenfactorytypes "github.com/InjectiveLabs/sdk-go/chain/tokenfactory/types"
 	"github.com/InjectiveLabs/sdk-go/client"
 	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
@@ -1031,10 +1040,10 @@ func main() {
 	message.Sender = senderAddress.String()
 	message.Amount = sdktypes.Coin{
 		Denom:  "factory/inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r/inj_test",
-		Amount: sdktypes.NewInt(100),
+		Amount: math.NewInt(100),
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	response, err := chainClient.AsyncBroadcastMsg(message)
 
 	if err != nil {
@@ -1228,13 +1237,14 @@ func main() {
 		Symbol:      "INJTEST",
 		URI:         "http://injective-test.com/icon.jpg",
 		URIHash:     "",
+		Decimals:    tokenDecimals,
 	}
 
 	message := new(tokenfactorytypes.MsgSetDenomMetadata)
 	message.Sender = senderAddress.String()
 	message.Metadata = metadata
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	response, err := chainClient.AsyncBroadcastMsg(message)
 
 	if err != nil {
@@ -1408,7 +1418,7 @@ func main() {
 	// This is the zero address to remove admin permissions
 	message.NewAdmin = "inj1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe2hm49"
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	response, err := chainClient.AsyncBroadcastMsg(message)
 
 	if err != nil {

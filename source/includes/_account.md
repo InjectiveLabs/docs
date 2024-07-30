@@ -1291,6 +1291,8 @@ import (
 	"os"
 	"time"
 
+	"cosmossdk.io/math"
+
 	"github.com/InjectiveLabs/sdk-go/client"
 	"github.com/InjectiveLabs/sdk-go/client/common"
 
@@ -1346,10 +1348,10 @@ func main() {
 	ethDest := "0xaf79152ac5df276d9a8e1e2e22822f9713474902"
 
 	amount := sdktypes.Coin{
-		Denom: "inj", Amount: sdktypes.NewInt(5000000000000000000), // 5 INJ
+		Denom: "inj", Amount: math.NewInt(5000000000000000000), // 5 INJ
 	}
 	bridgeFee := sdktypes.Coin{
-		Denom: "inj", Amount: sdktypes.NewInt(2000000000000000000), // 2 INJ
+		Denom: "inj", Amount: math.NewInt(2000000000000000000), // 2 INJ
 	}
 
 	msg := &peggytypes.MsgSendToEth{
@@ -1359,7 +1361,7 @@ func main() {
 		BridgeFee: bridgeFee,
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {
