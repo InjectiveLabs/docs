@@ -106,6 +106,8 @@ import (
 	"os"
 	"time"
 
+	"cosmossdk.io/math"
+
 	"github.com/InjectiveLabs/sdk-go/client"
 
 	"github.com/InjectiveLabs/sdk-go/client/common"
@@ -162,11 +164,11 @@ func main() {
 		Sender:       senderAddress.String(),
 		SubaccountId: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
 		Amount: sdktypes.Coin{
-			Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
+			Denom: "inj", Amount: math.NewInt(1000000000000000000), // 1 INJ
 		},
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {
@@ -394,6 +396,8 @@ import (
 	"os"
 	"time"
 
+	"cosmossdk.io/math"
+
 	"github.com/InjectiveLabs/sdk-go/client"
 	"github.com/InjectiveLabs/sdk-go/client/common"
 
@@ -450,11 +454,11 @@ func main() {
 		Sender:       senderAddress.String(),
 		SubaccountId: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
 		Amount: sdktypes.Coin{
-			Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
+			Denom: "inj", Amount: math.NewInt(1000000000000000000), // 1 INJ
 		},
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {
@@ -690,6 +694,8 @@ import (
 	"os"
 	"time"
 
+	"cosmossdk.io/math"
+
 	"github.com/InjectiveLabs/sdk-go/client"
 	"github.com/InjectiveLabs/sdk-go/client/common"
 
@@ -747,11 +753,11 @@ func main() {
 		SourceSubaccountId:      "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
 		DestinationSubaccountId: "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000001",
 		Amount: sdktypes.Coin{
-			Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
+			Denom: "inj", Amount: math.NewInt(1000000000000000000), // 1 INJ
 		},
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {
@@ -988,6 +994,8 @@ import (
 	"os"
 	"time"
 
+	"cosmossdk.io/math"
+
 	"github.com/InjectiveLabs/sdk-go/client"
 	"github.com/InjectiveLabs/sdk-go/client/common"
 
@@ -1045,11 +1053,11 @@ func main() {
 		SourceSubaccountId:      "0xaf79152ac5df276d9a8e1e2e22822f9713474902000000000000000000000000",
 		DestinationSubaccountId: "0xbdaedec95d563fb05240d6e01821008454c24c36000000000000000000000000",
 		Amount: sdktypes.Coin{
-			Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
+			Denom: "inj", Amount: math.NewInt(1000000000000000000), // 1 INJ
 		},
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {
@@ -1291,6 +1299,8 @@ import (
 	"os"
 	"time"
 
+	"cosmossdk.io/math"
+
 	"github.com/InjectiveLabs/sdk-go/client"
 	"github.com/InjectiveLabs/sdk-go/client/common"
 
@@ -1346,10 +1356,10 @@ func main() {
 	ethDest := "0xaf79152ac5df276d9a8e1e2e22822f9713474902"
 
 	amount := sdktypes.Coin{
-		Denom: "inj", Amount: sdktypes.NewInt(5000000000000000000), // 5 INJ
+		Denom: "inj", Amount: math.NewInt(5000000000000000000), // 5 INJ
 	}
 	bridgeFee := sdktypes.Coin{
-		Denom: "inj", Amount: sdktypes.NewInt(2000000000000000000), // 2 INJ
+		Denom: "inj", Amount: math.NewInt(2000000000000000000), // 2 INJ
 	}
 
 	msg := &peggytypes.MsgSendToEth{
@@ -1359,7 +1369,7 @@ func main() {
 		BridgeFee: bridgeFee,
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {

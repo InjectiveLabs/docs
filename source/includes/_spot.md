@@ -713,10 +713,11 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/InjectiveLabs/sdk-go/chain/exchange/types"
-	cosmostypes "github.com/cosmos/cosmos-sdk/types"
+	"cosmossdk.io/math"
 
 	"os"
+
+	"github.com/InjectiveLabs/sdk-go/chain/exchange/types"
 
 	"github.com/InjectiveLabs/sdk-go/client"
 	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
@@ -772,8 +773,8 @@ func main() {
 	marketId := "0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe"
 	limit := uint64(2)
 	orderSide := types.OrderSide_Buy
-	limitCumulativeNotional := cosmostypes.Dec{}
-	limitCumulativeQuantity := cosmostypes.Dec{}
+	limitCumulativeNotional := math.LegacyDec{}
+	limitCumulativeQuantity := math.LegacyDec{}
 
 	res, err := chainClient.FetchChainSpotOrderbook(ctx, marketId, limit, orderSide, limitCumulativeNotional, limitCumulativeQuantity)
 	if err != nil {
@@ -1762,6 +1763,7 @@ async def main() -> None:
         quote_denom="USDC",
         min_price_tick_size=Decimal("0.001"),
         min_quantity_tick_size=Decimal("0.01"),
+        min_notional=Decimal("1"),
     )
 
     # broadcast the transaction
@@ -1786,10 +1788,10 @@ import (
 	"fmt"
 	"os"
 
+	"cosmossdk.io/math"
+
 	exchangetypes "github.com/InjectiveLabs/sdk-go/chain/exchange/types"
 	exchangeclient "github.com/InjectiveLabs/sdk-go/client/exchange"
-
-	"github.com/cosmos/cosmos-sdk/types"
 
 	"github.com/InjectiveLabs/sdk-go/client"
 	chainclient "github.com/InjectiveLabs/sdk-go/client/chain"
@@ -1852,13 +1854,13 @@ func main() {
 
 	baseToken := marketsAssistant.AllTokens()["INJ"]
 	quoteToken := marketsAssistant.AllTokens()["USDC"]
-	minPriceTickSize := types.MustNewDecFromStr("0.01")
-	minQuantityTickSize := types.MustNewDecFromStr("0.001")
+	minPriceTickSize := math.LegacyMustNewDecFromStr("0.01")
+	minQuantityTickSize := math.LegacyMustNewDecFromStr("0.001")
 
-	chainMinPriceTickSize := minPriceTickSize.Mul(types.NewDecFromIntWithPrec(types.NewInt(1), int64(quoteToken.Decimals)))
-	chainMinPriceTickSize = chainMinPriceTickSize.Quo(types.NewDecFromIntWithPrec(types.NewInt(1), int64(baseToken.Decimals)))
+	chainMinPriceTickSize := minPriceTickSize.Mul(math.LegacyNewDecFromIntWithPrec(math.NewInt(1), int64(quoteToken.Decimals)))
+	chainMinPriceTickSize = chainMinPriceTickSize.Quo(math.LegacyNewDecFromIntWithPrec(math.NewInt(1), int64(baseToken.Decimals)))
 
-	chainMinQuantityTickSize := minQuantityTickSize.Mul(types.NewDecFromIntWithPrec(types.NewInt(1), int64(baseToken.Decimals)))
+	chainMinQuantityTickSize := minQuantityTickSize.Mul(math.LegacyNewDecFromIntWithPrec(math.NewInt(1), int64(baseToken.Decimals)))
 
 	msg := &exchangetypes.MsgInstantSpotMarketLaunch{
 		Sender:              senderAddress.String(),
@@ -1869,7 +1871,7 @@ func main() {
 		MinQuantityTickSize: chainMinQuantityTickSize,
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	response, err := chainClient.AsyncBroadcastMsg(msg)
 
 	if err != nil {
@@ -2202,7 +2204,7 @@ func main() {
 
 	fmt.Println("simulated order hash: ", msgCreateSpotLimitOrderResponse.OrderHash)
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {
@@ -2594,7 +2596,7 @@ func main() {
 
 	fmt.Println("simulated order hash", msgCreateSpotMarketOrderResponse.OrderHash)
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {
@@ -2924,7 +2926,7 @@ func main() {
 		OrderHash:    "0xc1dd07efb7cf3a90c3d09da958fa22d96a5787eba3dbec56b63902c482accbd4",
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {
@@ -3382,7 +3384,7 @@ func main() {
 
 	fmt.Println("simulated derivative order hashes", MsgBatchUpdateOrdersResponse.DerivativeOrderHashes)
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {
@@ -4007,7 +4009,7 @@ func main() {
 	fmt.Println("computed spot order hashes: ", orderHashes.Spot)
 	fmt.Println("computed derivative order hashes: ", orderHashes.Derivative)
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg, msg1)
 
 	if err != nil {

@@ -1466,7 +1466,7 @@ func main() {
 		WithdrawAddress:  withdrawAddress,
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	response, err := chainClient.AsyncBroadcastMsg(msg)
 
 	if err != nil {
@@ -1690,7 +1690,7 @@ func main() {
 	msg.DelegatorAddress = senderAddress.String()
 	msg.ValidatorAddress = "injvaloper14gy4acwjm96wd20awm9ar6j54lev5p7espy9ug"
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {
@@ -1934,7 +1934,7 @@ func main() {
 		ValidatorAddress: validatorAddress,
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	response, err := chainClient.AsyncBroadcastMsg(msg)
 
 	if err != nil {
@@ -2102,6 +2102,8 @@ import (
 	"fmt"
 	"os"
 
+	"cosmossdk.io/math"
+
 	"github.com/cosmos/cosmos-sdk/types"
 	distriutiontypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 
@@ -2154,14 +2156,14 @@ func main() {
 		panic(err)
 	}
 
-	amount := types.NewCoin("inj", types.NewInt(1))
+	amount := types.NewCoin("inj", math.NewInt(1))
 
 	msg := &distriutiontypes.MsgFundCommunityPool{
 		Amount:    []types.Coin{amount},
 		Depositor: senderAddress.String(),
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	response, err := chainClient.AsyncBroadcastMsg(msg)
 
 	if err != nil {
@@ -2374,6 +2376,8 @@ import (
 	"os"
 	"time"
 
+	"cosmossdk.io/math"
+
 	"github.com/InjectiveLabs/sdk-go/client"
 	"github.com/InjectiveLabs/sdk-go/client/common"
 
@@ -2430,10 +2434,10 @@ func main() {
 	msg.DelegatorAddress = senderAddress.String()
 	msg.ValidatorAddress = "injvaloper14gy4acwjm96wd20awm9ar6j54lev5p7espy9ug"
 	msg.Amount = sdktypes.Coin{
-		Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
+		Denom: "inj", Amount: math.NewInt(1000000000000000000), // 1 INJ
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {
