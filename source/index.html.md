@@ -36,6 +36,7 @@ includes:
   - derivatives
   - spot
   - binaryoptions
+  - ibctransfer
   - insurance
   - oracle
   - staking
@@ -47,7 +48,6 @@ includes:
   - healthapi
   - glossary
   - faq
-  # - chronosrpc
   - errors
 search: true
 

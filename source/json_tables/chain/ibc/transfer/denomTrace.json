@@ -1,0 +1,4 @@
+[
+    {"Parameter": "path", "Type": "String", "Description": "Path is the port and channel"},
+    {"Parameter": "base_denom", "Type": "String", "Description": "The token denom"}
+]
