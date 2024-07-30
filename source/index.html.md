@@ -42,6 +42,7 @@ includes:
   - ibctransfer
   - insurance
   - oracle
+  - permissions
   - staking
   - tendermint
   - tokenfactory

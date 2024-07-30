@@ -1,0 +1,6 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The sender's Injective address", "Required": "Yes"},
+    {"Parameter": "namespace_denom", "Type": "String", "Description": "The token denom of the namespace to update", "Required": "Yes"},
+    {"Parameter": "role_permissions", "Type": "Role Array", "Description": "List of roles", "Required": "Yes"},
+    {"Parameter": "address_roles", "Type": "AddressRoles Array", "Description": "List of Injective addresses and their associated role", "Required": "Yes"}
+]

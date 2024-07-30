@@ -1,0 +1,4 @@
+[
+    {"Parameter": "denom", "Type": "String", "Description": "The token denom", "Required": "Yes"},
+    {"Parameter": "include_roles", "Type": "Bool", "Description": "Option to request the roles in the response", "Required": "No"}
+]

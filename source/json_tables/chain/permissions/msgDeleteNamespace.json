@@ -1,0 +1,4 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The sender's Injective address", "Required": "Yes"},
+    {"Parameter": "namespace_denom", "Type": "String", "Description": "The token denom of the namespace to delete", "Required": "Yes"}
+]

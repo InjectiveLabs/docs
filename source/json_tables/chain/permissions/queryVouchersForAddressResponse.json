@@ -1,0 +1,3 @@
+[
+    {"Parameter": "vouchers", "Type": "Coin Array", "Description": "List of available vouchers for the address"}
+]

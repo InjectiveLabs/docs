@@ -102,6 +102,8 @@ import (
 	"os"
 	"time"
 
+	"cosmossdk.io/math"
+
 	"github.com/InjectiveLabs/sdk-go/client"
 	"github.com/InjectiveLabs/sdk-go/client/common"
 
@@ -156,7 +158,7 @@ func main() {
 
 	round := uint64(9355)
 	bidAmount := sdktypes.Coin{
-		Denom: "inj", Amount: sdktypes.NewInt(1000000000000000000), // 1 INJ
+		Denom: "inj", Amount: math.NewInt(1000000000000000000), // 1 INJ
 	}
 
 	msg := &auctiontypes.MsgBid{
@@ -165,7 +167,7 @@ func main() {
 		BidAmount: bidAmount,
 	}
 
-	//AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
+	// AsyncBroadcastMsg, SyncBroadcastMsg, QueueBroadcastMsg
 	err = chainClient.QueueBroadcastMsg(msg)
 
 	if err != nil {

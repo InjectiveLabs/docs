@@ -1,0 +1,8 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The sender's Injective address", "Required": "Yes"},
+    {"Parameter": "namespace_denom", "Type": "String", "Description": "The token denom of the namespace to update", "Required": "Yes"},
+    {"Parameter": "wasm_hook", "Type": "String", "Description": "Address of the wasm contract that will provide the real destination address", "Required": "Yes"},
+    {"Parameter": "mints_paused", "Type": "Bool", "Description": "Mint action status", "Required": "Yes"},
+    {"Parameter": "sends_paused", "Type": "Bool", "Description": "Send action status", "Required": "Yes"},
+    {"Parameter": "burns_paused", "Type": "Bool", "Description": "Burn action status", "Required": "Yes"}
+]

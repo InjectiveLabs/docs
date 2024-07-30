@@ -1,0 +1,9 @@
+[
+    {"Parameter": "denom", "Type": "String", "Description": "Token denom"},
+    {"Parameter": "wasm_hook", "Type": "String", "Description": "Address of the wasm contract that will provide the real destination address"},
+    {"Parameter": "mints_paused", "Type": "Bool", "Description": "Mint action status"},
+    {"Parameter": "sends_paused", "Type": "Bool", "Description": "Send action status"},
+    {"Parameter": "burns_paused", "Type": "Bool", "Description": "Burn action status"},
+    {"Parameter": "role_permissions", "Type": "Role Array", "Description": "List of roles"},
+    {"Parameter": "address_roles", "Type": "AddressRoles Array", "Description": "List of Injective addresses and their associated role"}
+]
