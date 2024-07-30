@@ -1,0 +1,4 @@
+[
+    {"Parameter": "port_id", "Type": "String", "Description": "Port on the counterparty chain which owns the other end of the channel"},
+    {"Parameter": "channel_id", "Type": "String", "Description": "Channel end on the counterparty chain"}
+]

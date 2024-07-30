@@ -1,0 +1,5 @@
+[
+    {"Parameter": "acknowledgements", "Type": "PacketState Array", "Description": "Acknowledgements details"},
+    {"Parameter": "pagination", "Type": "PageResponse", "Description": "Pagination information in the response"},
+    {"Parameter": "height", "Type": "Height", "Description": "Query block height"}
+]

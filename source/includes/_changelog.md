@@ -2,9 +2,10 @@
 
 ## 9999-99-99
 - Updated the API documentation to include all queries and messages for the `tendermint` module
-- Python SDK v1.5.0
+- Python SDK v1.6.0
   - Added support for all queries from the `tendermint` module
-  - Added support for all queries from the `IBC transfer` modulee
+  - Added support for all queries from the `IBC transfer` module
+  - Added support for all queries from the `IBC core channel` module
 
 ## 2024-03-08
 - Updated the API documentation to include all queries and messages for the `distribution` and `chain exchange` modules

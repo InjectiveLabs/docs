@@ -1,6 +1,6 @@
 # - IBC Transfer
 
-Includes all the messages and queries associated to transfers from the IBC chain module
+Includes all the messages and queries associated to transfers from the IBC transfer module
 
 ## DenomTrace
 

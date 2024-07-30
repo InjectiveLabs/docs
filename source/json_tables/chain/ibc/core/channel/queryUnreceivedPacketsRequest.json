@@ -1,0 +1,5 @@
+[
+    {"Parameter": "port_id", "Type": "String", "Description": "Port unique identifier", "Required": "Yes"},
+    {"Parameter": "channel_id", "Type": "String", "Description": "Channel unique identifier", "Required": "Yes"},
+    {"Parameter": "packet_commitment_sequences", "Type": "Integer Array", "Description": "List of packet sequences", "Required": "No"}
+]

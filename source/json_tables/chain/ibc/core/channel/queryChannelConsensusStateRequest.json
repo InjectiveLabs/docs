@@ -1,0 +1,6 @@
+[
+    {"Parameter": "port_id", "Type": "String", "Description": "Port unique identifier", "Required": "Yes"},
+    {"Parameter": "channel_id", "Type": "String", "Description": "Channel unique identifier", "Required": "Yes"},
+    {"Parameter": "revision_number", "Type": "Integer", "Description": "Revision number of the consensus state", "Required": "Yes"},
+    {"Parameter": "revision_height", "Type": "Integer", "Description": "Revision height of the consensus state", "Required": "Yes"}
+]

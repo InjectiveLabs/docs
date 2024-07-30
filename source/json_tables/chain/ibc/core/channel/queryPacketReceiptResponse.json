@@ -1,0 +1,5 @@
+[
+    {"Parameter": "received", "Type": "Boolean", "Description": "Success flag to mark if the receipt exists"},
+    {"Parameter": "proof", "Type": "Byte Array", "Description": "Merkle proof of existence"},
+    {"Parameter": "proof_height", "Type": "Height", "Description": "Height at which the proof was retrieved"}
+]

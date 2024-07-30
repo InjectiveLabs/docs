@@ -1,0 +1,5 @@
+[
+    {"Parameter": "channels", "Type": "IdentifiedChannel Array", "Description": "List of channels"},
+    {"Parameter": "pagination", "Type": "PageResponse", "Description": "Pagination information in the response"},
+    {"Parameter": "height", "Type": "Height", "Description": "Query block height"}
+]

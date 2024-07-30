@@ -1,0 +1,5 @@
+[
+    {"Parameter": "next_sequence_receive", "Type": "Integer", "Description": "Next sequence receive number"},
+    {"Parameter": "proof", "Type": "Byte Array", "Description": "Merkle proof of existence"},
+    {"Parameter": "proof_height", "Type": "Height", "Description": "Height at which the proof was retrieved"}
+]
