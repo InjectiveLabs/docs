@@ -37,6 +37,7 @@ includes:
   - spot
   - binaryoptions
   - ibccorechannel
+  - ibccoreclient
   - ibctransfer
   - insurance
   - oracle

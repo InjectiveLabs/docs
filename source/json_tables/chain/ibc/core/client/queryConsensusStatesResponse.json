@@ -1,0 +1,4 @@
+[
+    {"Parameter": "consensus_states", "Type": "ConsensusStateWithHeight Array", "Description": "Consensus states associated with the identifier"},
+    {"Parameter": "pagination", "Type": "PageResponse", "Description": "Pagination information in the response"}
+]
