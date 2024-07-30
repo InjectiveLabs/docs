@@ -1,0 +1,14 @@
+[
+    {"Parameter": "order_hash", "Type": "String", "Description": "Hash of the order"},
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "The subaccountId that this order belongs to"},
+    {"Parameter": "market_id", "Type": "String", "Description": "The Market ID of the order"},
+    {"Parameter": "order_type", "Type": "String", "Description": "The type of the order"},
+    {"Parameter": "order_side", "Type": "String", "Description": "The side of the order"},
+    {"Parameter": "state", "Type": "String", "Description": "The order state. Should be one of: booked, partial_filled, filled, canceled"},
+    {"Parameter": "quantity_filled", "Type": "String", "Description": "The filled quantity of the order"},
+    {"Parameter": "quantity_remaining", "Type": "String", "Description": "The unfilled quantity of the order"},
+    {"Parameter": "created_at", "Type": "Integer", "Description": "Order committed timestamp in UNIX milliseconds"},
+    {"Parameter": "updated_at", "Type": "Integer", "Description": "Order updated timestamp in UNIX milliseconds"},
+    {"Parameter": "price", "Type": "String", "Description": "Order price"},
+    {"Parameter": "margin", "Type": "String", "Description": "Margin for derivative order"}
+]

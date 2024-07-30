@@ -5,5 +5,6 @@
     {"Parameter": "trigger_price", "Type": "OracleType", "Description": "Price to trigger the order"},
     {"Parameter": "is_buy", "Type": "Boolean", "Description": "True if the order is a buy order. False otherwise."},
     {"Parameter": "is_limit", "Type": "Boolean", "Description": "True if the order is a limit order. False otherwise."},
-    {"Parameter": "order_hash", "Type": "String", "Description": "The order hash"}    
+    {"Parameter": "order_hash", "Type": "String", "Description": "The order hash"},
+    {"Parameter": "cid", "Type": "String", "Description": "The client order ID provided by the creator"}    
 ]

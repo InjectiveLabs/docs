@@ -1,0 +1,3 @@
+[
+    {"Parameter": "roles", "Type": "String Array", "Description": "List of role names"}
+]

@@ -1,0 +1,4 @@
+[
+    {"Parameter": "spot_order_hashes", "Type": "String Array", "Description": "Array with the order hashes you want to fetch in spot markets", "Required": "No"},
+    {"Parameter": "derivative_order_hashes", "Type": "String Array", "Description": "Array with the order hashes you want to fetch in derivative markets", "Required": "No"}
+]

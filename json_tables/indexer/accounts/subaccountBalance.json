@@ -1,0 +1,6 @@
+[
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "Subaccount ID"},
+    {"Parameter": "account_address", "Type": "String", "Description": "Injective address of the account the subaccount belongs to"},
+    {"Parameter": "denom", "Type": "String", "Description": "Token denom"},
+    {"Parameter": "deposit", "Type": "SubaccountDeposit", "Description": "Deposit details"}
+]

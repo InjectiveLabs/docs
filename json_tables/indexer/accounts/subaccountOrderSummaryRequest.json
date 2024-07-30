@@ -1,0 +1,5 @@
+[
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "ID of the subaccount to get the summary from", "Required": "Yes"},
+    {"Parameter": "market_id", "Type": "String", "Description": "Limit the order summary to a specific market", "Required": "No"},
+    {"Parameter": "order_direction", "Type": "String", "Description": "Filter by the direction of the orders. Valid options: buy, sell", "Required": "No"}
+]

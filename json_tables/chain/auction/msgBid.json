@@ -1,0 +1,5 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The sender Injective address", "Required": "Yes"},
+    {"Parameter": "bid_amount", "Type": "Coin", "Description": "Bid amount in INJ tokens", "Required": "Yes"},
+    {"Parameter": "round", "Type": "Integer", "Description": "The current auction round", "Required": "Yes"}
+]

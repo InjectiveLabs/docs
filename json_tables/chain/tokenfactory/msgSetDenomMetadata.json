@@ -1,0 +1,4 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "Sender Injective address", "Required": "Yes"},
+    {"Parameter": "metadata", "Type": "Metadata", "Description": "Token metadata", "Required": "Yes"}
+]

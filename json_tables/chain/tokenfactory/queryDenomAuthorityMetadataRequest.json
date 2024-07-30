@@ -1,0 +1,4 @@
+[
+    {"Parameter": "creator", "Type": "String", "Description": "The denom creator address", "Required": "Yes"},
+    {"Parameter": "sub_denom", "Type": "String", "Description": "The token subdenom", "Required": "No"}
+]

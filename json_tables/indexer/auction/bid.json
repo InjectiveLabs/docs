@@ -1,0 +1,5 @@
+[
+    {"Parameter": "bidder", "Type": "String", "Description": "Bidder account Injective address"},
+    {"Parameter": "amount", "Type": "String", "Description": "The bid amount"},
+    {"Parameter": "timestamp", "Type": "Integer", "Description": "Bid timestamp in UNIX millis"}
+]

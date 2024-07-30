@@ -1,0 +1,6 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The sender's address", "Required": "Yes"},
+    {"Parameter": "eth_dest", "Type": "String", "Description": "Destination Ethereum address", "Required": "Yes"},
+    {"Parameter": "amount", "Type": "Coin", "Description": "The coin to send across the bridge (note the restriction that this is a single coin, not a set of coins)", "Required": "Yes"},
+    {"Parameter": "bridge_fee", "Type": "Coin", "Description": "The fee paid for the bridge, distinct from the fee paid to the chain to actually send this message in the first place. So a successful send has two layers of fees for the user", "Required": "Yes"}
+]

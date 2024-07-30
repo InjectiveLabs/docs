@@ -1,0 +1,3 @@
+[
+    {"Parameter": "round", "Type": "Integer", "Description": "The auction round number, -1 for latest", "Required": "Yes"}
+]
