@@ -12,6 +12,6 @@
     {"Parameter": "initial_margin_ratio", "Type": "Decimal", "Description": "Defines the initial margin ratio for the perpetual market", "Required": "Yes"},
     {"Parameter": "maintenance_margin_ratio", "Type": "Decimal", "Description": "Defines the maintenance margin ratio for the perpetual market", "Required": "Yes"},
     {"Parameter": "min_price_tick_size", "Type": "Decimal", "Description": "Defines the minimum tick size of the order's price", "Required": "Yes"},
-    {"Parameter": "min_quantity_tick_size", "Type": "Decimal", "Description": "Defines the minimum tick size of the order's quantity", "Required": "Yes"}
-
+    {"Parameter": "min_quantity_tick_size", "Type": "Decimal", "Description": "Defines the minimum tick size of the order's quantity", "Required": "Yes"},
+    {"Parameter": "min_notional", "Type": "Decimal", "Description": "Defines the minimum notional (in quote asset) required for orders in the market", "Required": "Yes"}
 ]

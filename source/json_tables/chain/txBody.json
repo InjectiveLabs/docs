@@ -1,0 +1,7 @@
+[
+    {"Parameter": "messages", "Type": "Any Array", "Description": "List of messages to be executed. The required signers of those messages define the number and order of elements in AuthInfo's signer_infos and Tx's signatures. Each required signer address is added to the list only the first time it occurs. By convention, the first required signer (usually from the first message) is referred to as the primary signer and pays the fee for the whole transaction"},
+    {"Parameter": "memo", "Type": "String", "Description": "Memo is any arbitrary note/comment to be added to the transaction"},
+    {"Parameter": "timeout_height", "Type": "Integer", "Description": "The block height after which this transaction will not be processed by the chain"},
+    {"Parameter": "extension_options", "Type": "Any Array", "Description": "These are arbitrary options that can be added by chains when the default options are not sufficient. If any of these are present and can't be handled, the transaction will be rejected"},
+    {"Parameter": "non_critical_extension_options", "Type": "Any Array", "Description": "These are arbitrary options that can be added by chains when the default options are not sufficient. If any of these are present and can't be handled, they will be ignored"}
+]

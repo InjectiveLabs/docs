@@ -3,5 +3,6 @@
     {"Parameter": "quantity", "Type": "Decimal", "Description": "Order quantity"},
     {"Parameter": "fillable", "Type": "Decimal", "Description": "The remaining fillable amount of the order"},
     {"Parameter": "is_buy", "Type": "Boolean", "Description": "True if the order is a buy order"},
-    {"Parameter": "order_hash", "Type": "String", "Description": "The order hash"}
+    {"Parameter": "order_hash", "Type": "String", "Description": "The order hash"},
+    {"Parameter": "cid", "Type": "String", "Description": "The client order ID provided by the creator"}
 ]

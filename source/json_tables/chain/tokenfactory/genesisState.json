@@ -1,0 +1,4 @@
+[
+    {"Parameter": "params", "Type": "Params", "Description": "Module parameters"},
+    {"Parameter": "factory_denoms", "Type": "GenesisDenom Array", "Description": "Module parameters"}
+]

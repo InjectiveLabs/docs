@@ -1,0 +1,11 @@
+[
+    {"Parameter": "description", "Type": "String", "Description": "Token description"},
+    {"Parameter": "denom_units", "Type": "DenomUnit Array", "Description": "All token units"},
+    {"Parameter": "base", "Type": "String", "Description": "The base token denom"},
+    {"Parameter": "display", "Type": "String", "Description": "Suggested denom that should be displayed in clients"},
+    {"Parameter": "name", "Type": "String", "Description": "Token name"},
+    {"Parameter": "symbol", "Type": "String", "Description": "Token symbol"},
+    {"Parameter": "uri", "Type": "String", "Description": "URI to a document (on or off-chain) that contains additional information. Optional"},
+    {"Parameter": "uri_hash", "Type": "String", "Description": "URIHash is a sha256 hash of a document pointed by URI. It's used to verify that the document didn't change. Optional"},
+    {"Parameter": "decimals", "Type": "Integer", "Description": "Number of decimals use to represent token amount on chain"}
+]

@@ -49,7 +49,7 @@ import (
 )
 
 func main() {
-	//network := common.LoadNetwork("mainnet", "k8s")
+	// network := common.LoadNetwork("mainnet", "k8s")
 	network := common.LoadNetwork("testnet", "lb")
 	exchangeClient, err := exchangeclient.NewExchangeClient(network)
 	if err != nil {
@@ -105,7 +105,8 @@ func main() {
       "takerFeeRate":"0.001",
       "serviceProviderFee":"0.4",
       "minPriceTickSize":"0.000000000000001",
-      "minQuantityTickSize":"1000000000000000"
+      "minQuantityTickSize":"1000000000000000",
+      "minNotional": "1000000"
    }
 }
 ```
@@ -130,7 +131,8 @@ func main() {
   "taker_fee_rate": "0.002",
   "service_provider_fee": "0.4",
   "min_price_tick_size": "0.000000000000001",
-  "min_quantity_tick_size": "1000000000000000"
+  "min_quantity_tick_size": "1000000000000000",
+  "min_notional": "1000000"
  }
 }
 ```
@@ -155,6 +157,7 @@ func main() {
 | quote_denom            | String    | Coin denom of the quote asset                                                                           |
 | taker_fee_rate         | String    | Defines the fee percentage takers pay (in the quote asset) when trading                                 |
 | ticker                 | String    | A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset                       |
+| min_notional           | String    | Defines the minimum required notional for an order to be accepted |
 
 **TokenMeta**
 
@@ -220,7 +223,7 @@ import (
 )
 
 func main() {
-	//network := common.LoadNetwork("mainnet", "k8s")
+	// network := common.LoadNetwork("mainnet", "k8s")
 	network := common.LoadNetwork("testnet", "lb")
 	exchangeClient, err := exchangeclient.NewExchangeClient(network)
 	if err != nil {
@@ -287,7 +290,8 @@ func main() {
          "takerFeeRate":"0.001",
          "serviceProviderFee":"0.4",
          "minPriceTickSize":"0.000000000000001",
-         "minQuantityTickSize":"1000000000000000"
+         "minQuantityTickSize":"1000000000000000",
+         "minNotional":"1000000"
       }
    ]
 }
@@ -334,7 +338,8 @@ func main() {
    "taker_fee_rate": "0.002",
    "service_provider_fee": "0.4",
    "min_price_tick_size": "0.000000000000001",
-   "min_quantity_tick_size": "1000000000000000"
+   "min_quantity_tick_size": "1000000000000000",
+   "min_notional": "1000000"
   }
  ]
 }
@@ -360,6 +365,7 @@ func main() {
 | quote_denom            | String    | Coin denom of the quote asset                                                                           |
 | taker_fee_rate         | String    | Defines the fee percentage takers pay (in the quote asset) when trading                                 |
 | ticker                 | String    | A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset                       |
+| min_notional           | String    | Defines the minimum required notional for an order to be accepted |
 
 **TokenMeta**
 
@@ -512,7 +518,8 @@ func main() {
       "takerFeeRate":"0.002",
       "serviceProviderRate":"0.4",
       "minPriceTickSize":"0.000000000000001",
-      "minQuantityTickSize":"1000000000000000"
+      "minQuantityTickSize":"1000000000000000",
+      "minNotional":"0"
    },
    "operationType":"update",
    "timestamp":1632535055790
@@ -547,7 +554,8 @@ func main() {
   "taker_fee_rate": "0.002",
   "service_provider_fee": "0.4",
   "min_price_tick_size": "0.000000000000001",
-  "min_quantity_tick_size": "1000000000000000"
+  "min_quantity_tick_size": "1000000000000000",
+  "min_notional": "0",
 },
   "operation_type": "update",
   "timestamp": 1632535055790
@@ -576,6 +584,7 @@ func main() {
 | quote_denom            | String    | Coin denom of the quote asset                                                                           |
 | taker_fee_rate         | String    | Defines the fee percentage takers pay (in the quote asset) when trading                                 |
 | ticker                 | String    | A name of the pair in format AAA/BBB, where AAA is base asset, BBB is quote asset                       |
+| min_notional           | String    | Defines the minimum required notional for an order to be accepted                                       |
 
 **TokenMeta**
 

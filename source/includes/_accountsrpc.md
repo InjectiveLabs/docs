@@ -67,9 +67,9 @@ func main() {
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|account_address|String|The Injective Chain address|Yes|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountsListRequest.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th><th class="required-th">Required</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">account_address</td><td class="type-td td_text">String</td><td class="description-td td_text">Injective address of the account to query for subaccounts</td><td class="required-td td_text">Yes</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 
 ### Response Parameters
@@ -94,9 +94,10 @@ func main() {
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|subaccounts|String Array|List of subaccounts, including default and all funded accounts|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountsListResponse.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">subaccounts</td><td class="type-td td_text">String Array</td><td class="description-td td_text">Subaccounts list</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
 
 ## SubaccountHistory
 
@@ -190,14 +191,14 @@ func main() {
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|subaccount_id|String|Filter by subaccount ID|Yes|
-|denom|String|Filter by denom|No|
-|transfer_types|String Array|Filter by transfer types. Valid options: [“internal”, “external”, withdraw”, “deposit”]|No|
-|skip|Integer|Skip the last _n_ transfers, you can use this to fetch all transfers since the API caps at 100. Note: The end_time filter takes precedence over skip; any skips will use the filtered results from end_time|No|
-|limit|Integer|Max number of items to be returned|No|
-|end_time|Integer|Upper bound (inclusive) of account transfer history executed_at unix timestamp|No|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountHistoryRequest.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th><th class="required-th">Required</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">subaccount_id</td><td class="type-td td_text">String</td><td class="description-td td_text">ID of the subaccount to get the history from</td><td class="required-td td_text">Yes</td></tr>
+<tr ><td class="parameter-td td_text">denom</td><td class="type-td td_text">String</td><td class="description-td td_text">Filter by token denom</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">transfer_types</td><td class="type-td td_text">String Array</td><td class="description-td td_text">Filter by transfer types. Valid options: internal, external, withdraw, deposit</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">skip</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Skip the first N items from the result</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">limit</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Maximum number of items to be returned</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">end_time</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Upper bound (inclusive) of account transfer history executed_at unix timestamp</td><td class="required-td td_text">No</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 
 ### Response Parameters
@@ -276,33 +277,45 @@ func main() {
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|transfers|SubaccountBalanceTransfer|List of subaccount transfers|
-|paging|Paging|Pagination of results|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountHistoryResponse.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">transfers</td><td class="type-td td_text">SubaccountBalanceTransfer Array</td><td class="description-td td_text">Transfers list</td></tr>
+<tr ><td class="parameter-td td_text">paging</td><td class="type-td td_text">Paging</td><td class="description-td td_text">Pagination details</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
 
 **SubaccountBalanceTransfer**
 
-|Parameter|Type|Description|
-|----|----|----|
-|amount|CosmosCoin|CosmosCoin|
-|dst_account_address|String|Account address of the receiving side|
-|executed_at|Integer|Timestamp of the transfer in UNIX millis|
-|src_subaccount_id|String|Subaccount ID of the sending side|
-|transfer_type|String|Type of the subaccount balance transfer. Valid options: ["internal", "external", "withdraw", "deposit"]|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountBalanceTransfer.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">transfer_type</td><td class="type-td td_text">String</td><td class="description-td td_text">Type of subaccount balance transfer</td></tr>
+<tr ><td class="parameter-td td_text">src_subaccount_id</td><td class="type-td td_text">String</td><td class="description-td td_text">Subaccount ID of the sending side</td></tr>
+<tr ><td class="parameter-td td_text">src_account_address</td><td class="type-td td_text">String</td><td class="description-td td_text">Account address of the sending side</td></tr>
+<tr ><td class="parameter-td td_text">dst_subaccount_id</td><td class="type-td td_text">String</td><td class="description-td td_text">Subaccount ID of the receiving side</td></tr>
+<tr ><td class="parameter-td td_text">dst_account_address</td><td class="type-td td_text">String</td><td class="description-td td_text">Account address of the receiving side</td></tr>
+<tr ><td class="parameter-td td_text">amount</td><td class="type-td td_text">CosmosCoin</td><td class="description-td td_text">Transfer amount</td></tr>
+<tr ><td class="parameter-td td_text">executed_at</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Transfer timestamp (in milliseconds)</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
 
 **CosmosCoin**
 
-|Parameter|Type|Description|
-|----|----|----|
-|amount|String|Coin amount|
-|denom|String|Coin denominator|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/cosmosCoin.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">denom</td><td class="type-td td_text">String</td><td class="description-td td_text">Token denom</td></tr>
+<tr ><td class="parameter-td td_text">amount</td><td class="type-td td_text">String</td><td class="description-td td_text">Token amount</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
 
 **Paging**
 
-|Parameter|Type|Description|
-|----|----|----|
-|total|Integer|Total number of available records|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/paging.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">total</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Total number of available records</td></tr>
+<tr ><td class="parameter-td td_text">from</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Record index start</td></tr>
+<tr ><td class="parameter-td td_text">to</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Record index end</td></tr>
+<tr ><td class="parameter-td td_text">count_by_subaccount</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Count entries by subaccount</td></tr>
+<tr ><td class="parameter-td td_text">next</td><td class="type-td td_text">String Array</td><td class="description-td td_text">List of tokens to navigate to the next pages</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 
 ## SubaccountBalance
@@ -373,10 +386,10 @@ func main() {
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|subaccount_id|String|Filter by subaccount ID|Yes|
-|denom|String|Filter by denom|Yes|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountBalanceEndpointRequest.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th><th class="required-th">Required</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">subaccount_id</td><td class="type-td td_text">String</td><td class="description-td td_text">ID of the subaccount to get the balances from</td><td class="required-td td_text">Yes</td></tr>
+<tr ><td class="parameter-td td_text">denom</td><td class="type-td td_text">String</td><td class="description-td td_text">Filter by token denom</td><td class="required-td td_text">Yes</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 
 ### Response Parameters
@@ -410,26 +423,29 @@ func main() {
 }
 ```
 
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountBalanceEndpointResponse.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">balance</td><td class="type-td td_text">SubaccountBalance</td><td class="description-td td_text">Balance details</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-|Parameter|Type|Description|
-|----|----|----|
-|balance|SubaccountBalance|SubaccountBalance object|
+<br/>
 
 **SubaccountBalance**
 
-|Parameter|Type|Description|
-|----|----|----|
-|denom|String|Coin denom on the chain|
-|deposit|SubaccountDeposit|SubaccountDeposit object|
-|subaccount_id|String|ID of the subaccount|
-|account_address|String|The Injective Chain address that owns the subaccount|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountBalance.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">subaccount_id</td><td class="type-td td_text">String</td><td class="description-td td_text">Subaccount ID</td></tr>
+<tr ><td class="parameter-td td_text">account_address</td><td class="type-td td_text">String</td><td class="description-td td_text">Injective address of the account the subaccount belongs to</td></tr>
+<tr ><td class="parameter-td td_text">denom</td><td class="type-td td_text">String</td><td class="description-td td_text">Token denom</td></tr>
+<tr ><td class="parameter-td td_text">deposit</td><td class="type-td td_text">SubaccountDeposit</td><td class="description-td td_text">Deposit details</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
 
 **SubaccountDeposit**
 
-|Parameter|Type|Description|
-|----|----|----|
-|available_balance|String|The available balance for a denom (taking active orders into account)|
-|total_balance|String|The total balance for a denom (balance if all active orders were cancelled)|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountDeposit.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">total_balance</td><td class="type-td td_text">String</td><td class="description-td td_text">Total balance</td></tr>
+<tr ><td class="parameter-td td_text">available_balance</td><td class="type-td td_text">String</td><td class="description-td td_text">Available balance</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 
 ## SubaccountBalancesList
@@ -499,12 +515,10 @@ func main() {
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|subaccount_id|String|ID of subaccount to get balance info from|Yes|
-|denoms|String Array|Filter balances by denoms. If not set, the balances of all the denoms for the subaccount are provided|No|
-
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountBalancesListRequest.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th><th class="required-th">Required</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">subaccount_id</td><td class="type-td td_text">String</td><td class="description-td td_text">ID of the subaccount to get the balances from</td><td class="required-td td_text">Yes</td></tr>
+<tr ><td class="parameter-td td_text">denoms</td><td class="type-td td_text">String</td><td class="description-td td_text">Filter balances by denoms. If not set, the balances of all the denoms for the subaccount are provided</td><td class="required-td td_text">No</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 
 ### Response Parameters
@@ -569,25 +583,30 @@ func main() {
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|balances|SubaccountBalance Array|Array of SubaccountBalance objects|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountBalancesListResponse.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">balances</td><td class="type-td td_text">SubaccountBalance Array</td><td class="description-td td_text">List of subaccount balances</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
 
 **SubaccountBalance**
 
-|Parameter|Type|Description|
-|----|----|----|
-|account_address|String|The Injective Chain address, owner of subaccount|
-|denom|String|Coin denom on the chain|
-|deposit|SubaccountDeposit|SubaccountDeposit object|
-|subaccount_id|String|ID of subaccount associated with returned balances|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountBalance.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">subaccount_id</td><td class="type-td td_text">String</td><td class="description-td td_text">Subaccount ID</td></tr>
+<tr ><td class="parameter-td td_text">account_address</td><td class="type-td td_text">String</td><td class="description-td td_text">Injective address of the account the subaccount belongs to</td></tr>
+<tr ><td class="parameter-td td_text">denom</td><td class="type-td td_text">String</td><td class="description-td td_text">Token denom</td></tr>
+<tr ><td class="parameter-td td_text">deposit</td><td class="type-td td_text">SubaccountDeposit</td><td class="description-td td_text">Deposit details</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
 
 **SubaccountDeposit**
 
-|Parameter|Type|Description|
-|----|----|----|
-|available_balance|String|The available balance for a denom|
-|total_balance|String|The total balance for a denom|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountDeposit.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">total_balance</td><td class="type-td td_text">String</td><td class="description-td td_text">Total balance</td></tr>
+<tr ><td class="parameter-td td_text">available_balance</td><td class="type-td td_text">String</td><td class="description-td td_text">Available balance</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
 
 ## SubaccountOrderSummary
 
@@ -668,12 +687,11 @@ func main() {
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|subaccount_id|String|ID of the subaccount we want to get the summary from|Yes|
-|market_id|String|Limit the order summary to a specific market|No|
-|order_direction|String|Filter by the direction of the orders. Valid options: "buy", "sell"|No|
-
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountOrderSummaryRequest.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th><th class="required-th">Required</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">subaccount_id</td><td class="type-td td_text">String</td><td class="description-td td_text">ID of the subaccount to get the summary from</td><td class="required-td td_text">Yes</td></tr>
+<tr ><td class="parameter-td td_text">market_id</td><td class="type-td td_text">String</td><td class="description-td td_text">Limit the order summary to a specific market</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">order_direction</td><td class="type-td td_text">String</td><td class="description-td td_text">Filter by the direction of the orders. Valid options: buy, sell</td><td class="required-td td_text">No</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 
 ### Response Parameters
@@ -691,11 +709,10 @@ spot orders: 1
 derivative orders: 7
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|derivative_orders_total|Integer|Total count of subaccount's active derivative orders in a given market and direction|
-|spot_orders_total|Integer|Total count of subaccount's active spot orders in a given market and direction|
-
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountOrderSummaryResponse.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">spot_orders_total</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Total count of subaccount's spot orders in given market and direction</td></tr>
+<tr ><td class="parameter-td td_text">derivative_orders_total</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Total count of subaccount's derivative orders in given market and direction</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 
 ## StreamSubaccountBalance
@@ -771,7 +788,7 @@ import (
 )
 
 func main() {
-	//network := common.LoadNetwork("mainnet", "k8s")
+	// network := common.LoadNetwork("mainnet", "k8s")
 	network := common.LoadNetwork("testnet", "lb")
 	exchangeClient, err := exchangeclient.NewExchangeClient(network)
 	if err != nil {
@@ -803,13 +820,10 @@ func main() {
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-| Parameter          | Type         | Description                                                                                           | Required |
-| ------------------ | ------------ | ----------------------------------------------------------------------------------------------------- | -------- |
-| subaccount_id      | String       | Filter by subaccount ID                                                                               | Yes      |
-| denoms             | String Array | Filter balances by denoms. If not set, the balances of all the denoms for the subaccount are provided | No       |
-| callback           | Function     | Function receiving one parameter (a stream event JSON dictionary) to process each new event           | Yes      |
-| on_end_callback    | Function     | Function with the logic to execute when the stream connection is interrupted                          | No       |
-| on_status_callback | Function     | Function receiving one parameter (the exception) with the logic to execute when an exception happens  | No       |
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/streamSubaccountBalanceRequest.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th><th class="required-th">Required</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">subaccount_id</td><td class="type-td td_text">String</td><td class="description-td td_text">ID of the subaccount to get the balances from</td><td class="required-td td_text">Yes</td></tr>
+<tr ><td class="parameter-td td_text">denoms</td><td class="type-td td_text">String Array</td><td class="description-td td_text">Filter balances by denoms. If not set, the balances of all the denoms for the subaccount are provided</td><td class="required-td td_text">No</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 
 ### Response Parameters
@@ -868,26 +882,30 @@ func main() {
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|balance|SubaccountBalance|SubaccountBalance object|
-|timestamp|Integer|Operation timestamp in UNIX millis|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/streamSubaccountBalanceResponse.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">balance</td><td class="type-td td_text">SubaccountBalance</td><td class="description-td td_text">Subaccount balance</td></tr>
+<tr ><td class="parameter-td td_text">timestamp</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Operation timestamp in Unix milliseconds</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
 
 **SubaccountBalance**
 
-|Parameter|Type|Description|
-|----|----|----|
-|denom|String|Coin denom on the chain|
-|deposit|SubaccountDeposit|SubaccountDeposit object|
-|subaccount_id|String|ID of the subaccount to get balance from|
-|account_address|String|The Injective Chain address that owns the subaccount|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountBalance.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">subaccount_id</td><td class="type-td td_text">String</td><td class="description-td td_text">Subaccount ID</td></tr>
+<tr ><td class="parameter-td td_text">account_address</td><td class="type-td td_text">String</td><td class="description-td td_text">Injective address of the account the subaccount belongs to</td></tr>
+<tr ><td class="parameter-td td_text">denom</td><td class="type-td td_text">String</td><td class="description-td td_text">Token denom</td></tr>
+<tr ><td class="parameter-td td_text">deposit</td><td class="type-td td_text">SubaccountDeposit</td><td class="description-td td_text">Deposit details</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
 
 **SubaccountDeposit**
 
-|Parameter|Type|Description|
-|----|----|----|
-|available_balance|String|The available balance for a denom (taking active orders into account)|
-|total_balance|String|The total balance for a denom (balance if all active orders were cancelled)|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountDeposit.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">total_balance</td><td class="type-td td_text">String</td><td class="description-td td_text">Total balance</td></tr>
+<tr ><td class="parameter-td td_text">available_balance</td><td class="type-td td_text">String</td><td class="description-td td_text">Available balance</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 
 ## OrderStates
@@ -973,10 +991,10 @@ func main() {
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|spot_order_hashes|String Array|Array with the order hashes you want to fetch in spot markets|No|
-|derivative_order_hashes|String Array|Array with the order hashes you want to fetch in derivative markets|No|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/orderStatesRequest.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th><th class="required-th">Required</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">spot_order_hashes</td><td class="type-td td_text">String Array</td><td class="description-td td_text">Array with the order hashes you want to fetch in spot markets</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">derivative_order_hashes</td><td class="type-td td_text">String Array</td><td class="description-td td_text">Array with the order hashes you want to fetch in derivative markets</td><td class="required-td td_text">No</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 
 ### Response Parameters
@@ -1048,40 +1066,29 @@ func main() {
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|spot_order_states|OrderStateRecord Array|Array of OrderStateRecord objects|
-|derivative_order_states|OrderStateRecord Array|Array of OrderStateRecord objects|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/orderStatesResponse.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">spot_order_states</td><td class="type-td td_text">OrderStateRecord Array</td><td class="description-td td_text">List of the spot order state records</td></tr>
+<tr ><td class="parameter-td td_text">derivative_order_states</td><td class="type-td td_text">OrderStateRecord Array</td><td class="description-td td_text">List of the derivative order state records</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
-**SpotOrderStates**
+<br/>
 
-|Parameter|Type|Description|
-|----|----|----|
-|order_hash|String|Hash of the order|
-|subaccount_id|String|The subaccount ID that posted the order|
-|market_id|String|The market ID of the order|
-|order_type|String|The order type. Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]. If execution_type (market or limit) is needed, use the OrdersHistory request in Spot/DerivativeExchangeRPC instead|
-|order_side|String|The order side. Should be one of: ["buy", "sell"]|
-|state|String|The order state. Should be one of: ["booked", "partial_filled", "filled", "canceled"]|
-|quantity_filled|String|The quantity that has been filled for the order|
-|quantity_remaining|String|The quantity that hasn't been filled for the order|
-|created_at|String|The UNIX timestamp of the order when it was first created|
-|updated_at|String|The UNIX timestamp of the order when it was last updated|
+**OrderStateRecord**
 
-**DerivativeOrderStates**
-
-|Parameter|Type|Description|
-|----|----|----|
-|order_hash|String|Hash of the order|
-|subaccount_id|String|The subaccount ID that posted the order|
-|market_id|String|The market ID of the order|
-|order_type|String|The order type. Should be one of: ["buy", "sell", "stop_buy", "stop_sell", "take_buy", "take_sell", "buy_po", "sell_po"]. If execution_type (market or limit) is needed, use the OrdersHistory request in Spot/DerivativeExchangeRPC instead|
-|order_side|String|The order side. Should be one of: ["buy", "sell"]|
-|state|String|The order state. Should be one of: ["booked", "partial_filled", "filled", "canceled"]|
-|quantity_filled|String|The quantity that has been filled for the order|
-|quantity_remaining|String|The quantity that hasn't been filled for the order|
-|created_at|String|The UNIX timestamp of the order when it was first created|
-|updated_at|String|The UNIX timestamp of the order when it was last updated|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/orderStateRecord.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">order_hash</td><td class="type-td td_text">String</td><td class="description-td td_text">Hash of the order</td></tr>
+<tr ><td class="parameter-td td_text">subaccount_id</td><td class="type-td td_text">String</td><td class="description-td td_text">The subaccountId that this order belongs to</td></tr>
+<tr ><td class="parameter-td td_text">market_id</td><td class="type-td td_text">String</td><td class="description-td td_text">The Market ID of the order</td></tr>
+<tr ><td class="parameter-td td_text">order_type</td><td class="type-td td_text">String</td><td class="description-td td_text">The type of the order</td></tr>
+<tr ><td class="parameter-td td_text">order_side</td><td class="type-td td_text">String</td><td class="description-td td_text">The side of the order</td></tr>
+<tr ><td class="parameter-td td_text">state</td><td class="type-td td_text">String</td><td class="description-td td_text">The order state. Should be one of: booked, partial_filled, filled, canceled</td></tr>
+<tr ><td class="parameter-td td_text">quantity_filled</td><td class="type-td td_text">String</td><td class="description-td td_text">The filled quantity of the order</td></tr>
+<tr ><td class="parameter-td td_text">quantity_remaining</td><td class="type-td td_text">String</td><td class="description-td td_text">The unfilled quantity of the order</td></tr>
+<tr ><td class="parameter-td td_text">created_at</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Order committed timestamp in UNIX milliseconds</td></tr>
+<tr ><td class="parameter-td td_text">updated_at</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Order updated timestamp in UNIX milliseconds</td></tr>
+<tr ><td class="parameter-td td_text">price</td><td class="type-td td_text">String</td><td class="description-td td_text">Order price</td></tr>
+<tr ><td class="parameter-td td_text">margin</td><td class="type-td td_text">String</td><td class="description-td td_text">Margin for derivative order</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 
 ## Portfolio
@@ -1150,9 +1157,9 @@ func main() {
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|account_address|String|The Injective Chain address|Yes|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/portfolioRequest.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th><th class="required-th">Required</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">account_address</td><td class="type-td td_text">String</td><td class="description-td td_text">The Injective address</td><td class="required-td td_text">Yes</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 
 ### Response Parameters
@@ -1262,22 +1269,33 @@ func main() {
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|portfolio_value|String|The total value (in USD) of your portfolio including bank balance, subaccounts' balance, unrealized profit & loss as well as margin in open positions|
-|available_balance|String|The total available balance (in USD) in all subaccounts|
-|locked_balance|String|The amount of margin in open orders and positions (in USD)|
-|unrealized_pnl|String|The approximate unrealized profit and loss across all positions (based on mark prices, in USD)|
-|subaccounts|SubaccountPortfolio Array|List of all subaccounts' portfolios|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/portfolioResponse.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">portfolio</td><td class="type-td td_text">AccountPortfolio</td><td class="description-td td_text">Portfolio details</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**AccountPortfolio**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/accountPortfolio.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">portfolio_value</td><td class="type-td td_text">String</td><td class="description-td td_text">The account's portfolio value in USD</td></tr>
+<tr ><td class="parameter-td td_text">available_balance</td><td class="type-td td_text">String</td><td class="description-td td_text">The account's available balance value in USD</td></tr>
+<tr ><td class="parameter-td td_text">locked_balance</td><td class="type-td td_text">String</td><td class="description-td td_text">The account's locked balance value in USD</td></tr>
+<tr ><td class="parameter-td td_text">unrealized_pnl</td><td class="type-td td_text">String</td><td class="description-td td_text">The account's total unrealized PnL value in USD</td></tr>
+<tr ><td class="parameter-td td_text">subaccounts</td><td class="type-td td_text">SubaccountPortfolio Array</td><td class="description-td td_text">List of all subaccounts' portfolio</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
 
 **SubaccountPortfolio**
 
-|Parameter|Type|Description|
-|----|----|----|
-|subaccount_id|String|The ID of this subaccount|
-|available_balance|String|The subaccount's available balance (in USD)|
-|locked_balance|String|The subaccount's locked balance (in USD)|
-|unrealized_pnl|String|The Subaccount's total unrealized PnL value (in USD)|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/subaccountPortfolio.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">subaccount_id</td><td class="type-td td_text">String</td><td class="description-td td_text">The subaccount ID</td></tr>
+<tr ><td class="parameter-td td_text">available_balance</td><td class="type-td td_text">String</td><td class="description-td td_text">The subaccount's available balance value in USD</td></tr>
+<tr ><td class="parameter-td td_text">locked_balance</td><td class="type-td td_text">String</td><td class="description-td td_text">The subaccount's locked balance value in USD</td></tr>
+<tr ><td class="parameter-td td_text">unrealized_pnl</td><td class="type-td td_text">String</td><td class="description-td td_text">The subaccount's total unrealized PnL value in USD</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
 
 ## Rewards
 
@@ -1354,10 +1372,10 @@ func main() {
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-|Parameter|Type|Description|Required|
-|----|----|----|----|
-|account_address|String|The Injective Chain address to fetch rewards amount for|No|
-|epoch|Integer|The rewards distribution epoch number. Use -1 for the latest epoch|No|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/rewardsRequest.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th><th class="required-th">Required</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">epoch</td><td class="type-td td_text">Integer</td><td class="description-td td_text">The distribution epoch sequence number. -1 for latest</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">account_address</td><td class="type-td td_text">String</td><td class="description-td td_text">Account address for the rewards distribution</td><td class="required-td td_text">No</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 
 ### Response Parameters
@@ -1397,21 +1415,25 @@ func main() {
 }
 ```
 
-|Parameter|Type|Description|
-|----|----|----|
-|rewards|Reward Array|List of trading rewards|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/rewardsResponse.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">rewards</td><td class="type-td td_text">Reward Array</td><td class="description-td td_text">The trading rewards distributed</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
 
 **Reward**
 
-|Parameter|Type|Description|
-|----|----|----|
-|account_address|String|The Injective Chain address|
-|rewards|Coin Array|List of rewards by denom and amount|
-|distributed_at|Integer|Timestamp of the transfer in UNIX millis|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/reward.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">account_address</td><td class="type-td td_text">String</td><td class="description-td td_text">Account Injective address</td></tr>
+<tr ><td class="parameter-td td_text">rewards</td><td class="type-td td_text">Coin Array</td><td class="description-td td_text">Reward coins distributed</td></tr>
+<tr ><td class="parameter-td td_text">distributed_at</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Rewards distribution timestamp in UNIX milliseconds</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
 
 **Coin**
 
-|Parameter|Type|Description|
-|----|----|----|
-|denom|String|Denom of the reward|
-|amount|String|Amount of denom in reward|
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/accounts/coin.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">denom</td><td class="type-td td_text">String</td><td class="description-td td_text">Token denom</td></tr>
+<tr ><td class="parameter-td td_text">amount</td><td class="type-td td_text">String</td><td class="description-td td_text">Token amount</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->

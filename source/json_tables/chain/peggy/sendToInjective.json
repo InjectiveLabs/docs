@@ -1,0 +1,12 @@
+[
+    {"Parameter": "ethereum_endpoint", "Type": "String", "Description": "The ethereum endpoint, you can get one from providers like Infura and Alchemy", "Required": "Yes"},
+    {"Parameter": "private_key", "Type": "String", "Description": "Private key of the account to be used to sign the transaction", "Required": "Yes"},
+    {"Parameter": "token_contract", "Type": "String", "Description": "The token contract, you can find the contract for the token you want to transfer on etherscan", "Required": "Yes"},
+    {"Parameter": "receiver", "Type": "String", "Description": "The Injective Chain address to receive the funds", "Required": "Yes"},
+    {"Parameter": "amount", "Type": "Float", "Description": "The amount to transfer", "Required": "Yes"},
+    {"Parameter": "maxFeePerGas", "Type": "Integer", "Description": "The maxFeePerGas in Gwei", "Required": "Yes"},
+    {"Parameter": "maxPriorityFeePerGas", "Type": "Integer", "Description": "The maxPriorityFeePerGas in Gwei", "Required": "Yes"},
+    {"Parameter": "peggo_abi", "Type": "String", "Description": "Peggo contract ABI|", "Required": "Yes"},
+    {"Parameter": "data", "Type": "String", "Description": "The body of the message to send to Injective chain to do the deposit", "Required": "Yes"},
+    {"Parameter": "decimals", "Type": "Integer", "Description": "Number of decimals in Injective chain of the token being transferred (default: 18)", "Required": "No"}
+]

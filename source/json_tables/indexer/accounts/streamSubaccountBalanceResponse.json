@@ -1,0 +1,4 @@
+[
+    {"Parameter": "balance", "Type": "SubaccountBalance", "Description": "Subaccount balance"},
+    {"Parameter": "timestamp", "Type": "Integer", "Description": "Operation timestamp in Unix milliseconds"}
+]

@@ -1,0 +1,9 @@
+[
+    {"Parameter": "transfer_type", "Type": "String", "Description": "Type of subaccount balance transfer"},
+    {"Parameter": "src_subaccount_id", "Type": "String", "Description": "Subaccount ID of the sending side"},
+    {"Parameter": "src_account_address", "Type": "String", "Description": "Account address of the sending side"},
+    {"Parameter": "dst_subaccount_id", "Type": "String", "Description": "Subaccount ID of the receiving side"},
+    {"Parameter": "dst_account_address", "Type": "String", "Description": "Account address of the receiving side"},
+    {"Parameter": "amount", "Type": "CosmosCoin", "Description": "Transfer amount"},
+    {"Parameter": "executed_at", "Type": "Integer", "Description": "Transfer timestamp (in milliseconds)"}
+]

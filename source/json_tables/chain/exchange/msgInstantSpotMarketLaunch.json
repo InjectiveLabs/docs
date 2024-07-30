@@ -4,6 +4,6 @@
     {"Parameter": "base_denom", "Type": "String", "Description": "Base tocken denom", "Required": "Yes"},
     {"Parameter": "quote_denom", "Type": "String", "Description": "Quote tocken denom", "Required": "Yes"},
     {"Parameter": "min_price_tick_size", "Type": "Decimal", "Description": "Defines the minimum tick size of the order's price", "Required": "Yes"},
-    {"Parameter": "min_quantity_tick_size", "Type": "Decimal", "Description": "Defines the minimum tick size of the order's quantity", "Required": "Yes"}
-
+    {"Parameter": "min_quantity_tick_size", "Type": "Decimal", "Description": "Defines the minimum tick size of the order's quantity", "Required": "Yes"},
+    {"Parameter": "min_notional", "Type": "Decimal", "Description": "Defines the minimum notional (in quote asset) required for orders in the market", "Required": "Yes"}
 ]

@@ -1,0 +1,6 @@
+[
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "The subaccount ID"},
+    {"Parameter": "available_balance", "Type": "String", "Description": "The subaccount's available balance value in USD"},
+    {"Parameter": "locked_balance", "Type": "String", "Description": "The subaccount's locked balance value in USD"},
+    {"Parameter": "unrealized_pnl", "Type": "String", "Description": "The subaccount's total unrealized PnL value in USD"}
+]

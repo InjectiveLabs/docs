@@ -1,0 +1,8 @@
+[
+    {"Code": "1", "Name": "Ticker Permission"},
+    {"Code": "2", "Name": "Min Price Tick Size Permission"},
+    {"Code": "4", "Name": "Min Quantity Tick Size Permission"},
+    {"Code": "8", "Name": "Min Notional Permission"},
+    {"Code": "16", "Name": "Initial Margin Ratio Permission"},
+    {"Code": "32", "Name": "Maintenance Margin Ratio Permission"}
+]

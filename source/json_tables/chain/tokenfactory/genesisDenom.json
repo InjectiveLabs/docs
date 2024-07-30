@@ -1,0 +1,6 @@
+[
+    {"Parameter": "denom", "Type": "String", "Description": "Token denom"},
+    {"Parameter": "authority_metadata", "Type": "DenomAuthorityMetadata", "Description": "Token authority metadata"},
+    {"Parameter": "name", "Type": "String", "Description": "Token name"},
+    {"Parameter": "symbol", "Type": "String", "Description": "Token symbol"}
+]

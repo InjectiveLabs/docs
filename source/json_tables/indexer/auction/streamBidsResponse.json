@@ -1,0 +1,6 @@
+[
+    {"Parameter": "bidder", "Type": "String", "Description": "The bidder Injective address"},
+    {"Parameter": "bid_amount", "Type": "String", "Description": "The bid amount (in INJ)"},
+    {"Parameter": "round", "Type": "Integer", "Description": "The auction round number"},
+    {"Parameter": "timestamp", "Type": "Integer", "Description": "Bid timestamp in UNIX milliseconds"}
+]

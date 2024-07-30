@@ -1,0 +1,4 @@
+[
+    {"Parameter": "role", "Type": "String", "Description": "Role name"},
+    {"Parameter": "permissions", "Type": "Integer", "Description": "Integer representing the bitwhise combination of all actions assigned to the role"}
+]

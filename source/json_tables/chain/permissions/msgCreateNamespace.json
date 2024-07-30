@@ -1,0 +1,4 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The sender's Injective address", "Required": "Yes"},
+    {"Parameter": "namespace", "Type": "Namespace", "Description": "The namespace information", "Required": "Yes"}
+]

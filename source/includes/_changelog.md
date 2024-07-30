@@ -1,13 +1,20 @@
 # Change Log
 
-## 9999-99-99
+## 2024-07-30
+- Updated requests and responses messages with parameters added in chain upgrade to v1.13
 - Updated the API documentation to include all queries and messages for the `tendermint` module
+- Updated the API documentation to include all queries and messages for the `IBC transfer` module
+- Updated the API documentation to include all queries and messages for the `IBC core channel` module
+- Updated the API documentation to include all queries and messages for the `IBC core client` module
+- Updated the API documentation to include all queries and messages for the `IBC core connection` module
+- Updated the API documentation to include all queries and messages for the `permissions` module
 - Python SDK v1.6.0
   - Added support for all queries from the `tendermint` module
   - Added support for all queries from the `IBC transfer` module
   - Added support for all queries from the `IBC core channel` module
   - Added support for all queries from the `IBC core client` module
   - Added support for all queries from the `IBC core connection` module
+  - Added support for all queries from the `permissions` module
 
 ## 2024-03-08
 - Updated the API documentation to include all queries and messages for the `distribution` and `chain exchange` modules

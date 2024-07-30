@@ -162,7 +162,8 @@ func main() {
 <tr ><td class="parameter-td td_text">ordering</td><td class="type-td td_text">Order</td><td class="description-td td_text">Whether the channel is ordered or unordered</td></tr>
 <tr ><td class="parameter-td td_text">counterparty</td><td class="type-td td_text">Counterparty</td><td class="description-td td_text">Counterparty channel end</td></tr>
 <tr ><td class="parameter-td td_text">connection_hops</td><td class="type-td td_text">String Array</td><td class="description-td td_text">List of connection identifiers, in order, along which packets sent on this channel will travel</td></tr>
-<tr ><td class="parameter-td td_text">version</td><td class="type-td td_text">String</td><td class="description-td td_text">Opaque channel version, which is agreed upon during the handshake</td></tr></tbody></table>
+<tr ><td class="parameter-td td_text">version</td><td class="type-td td_text">String</td><td class="description-td td_text">Opaque channel version, which is agreed upon during the handshake</td></tr>
+<tr ><td class="parameter-td td_text">upgrade_sequence</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Indicates the latest upgrade attempt performed by this channel. The value of 0 indicates the channel has never been upgraded</td></tr></tbody></table>
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
@@ -429,7 +430,8 @@ func main() {
 <tr ><td class="parameter-td td_text">connection_hops</td><td class="type-td td_text">String Array</td><td class="description-td td_text">List of connection identifiers, in order, along which packets sent on this channel will travel</td></tr>
 <tr ><td class="parameter-td td_text">version</td><td class="type-td td_text">String</td><td class="description-td td_text">Opaque channel version, which is agreed upon during the handshake</td></tr>
 <tr ><td class="parameter-td td_text">port_id</td><td class="type-td td_text">String</td><td class="description-td td_text">Port identifier</td></tr>
-<tr ><td class="parameter-td td_text">channel_id</td><td class="type-td td_text">String</td><td class="description-td td_text">Channel identifier</td></tr></tbody></table>
+<tr ><td class="parameter-td td_text">channel_id</td><td class="type-td td_text">String</td><td class="description-td td_text">Channel identifier</td></tr>
+<tr ><td class="parameter-td td_text">upgrade_sequence</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Indicates the latest upgrade attempt performed by this channel. The value of 0 indicates the channel has never been upgraded</td></tr></tbody></table>
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
@@ -722,7 +724,8 @@ func main() {
 <tr ><td class="parameter-td td_text">connection_hops</td><td class="type-td td_text">String Array</td><td class="description-td td_text">List of connection identifiers, in order, along which packets sent on this channel will travel</td></tr>
 <tr ><td class="parameter-td td_text">version</td><td class="type-td td_text">String</td><td class="description-td td_text">Opaque channel version, which is agreed upon during the handshake</td></tr>
 <tr ><td class="parameter-td td_text">port_id</td><td class="type-td td_text">String</td><td class="description-td td_text">Port identifier</td></tr>
-<tr ><td class="parameter-td td_text">channel_id</td><td class="type-td td_text">String</td><td class="description-td td_text">Channel identifier</td></tr></tbody></table>
+<tr ><td class="parameter-td td_text">channel_id</td><td class="type-td td_text">String</td><td class="description-td td_text">Channel identifier</td></tr>
+<tr ><td class="parameter-td td_text">upgrade_sequence</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Indicates the latest upgrade attempt performed by this channel. The value of 0 indicates the channel has never been upgraded</td></tr></tbody></table>
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
@@ -999,7 +1002,8 @@ func main() {
 <tr ><td class="parameter-td td_text">connection_hops</td><td class="type-td td_text">String Array</td><td class="description-td td_text">List of connection identifiers, in order, along which packets sent on this channel will travel</td></tr>
 <tr ><td class="parameter-td td_text">version</td><td class="type-td td_text">String</td><td class="description-td td_text">Opaque channel version, which is agreed upon during the handshake</td></tr>
 <tr ><td class="parameter-td td_text">port_id</td><td class="type-td td_text">String</td><td class="description-td td_text">Port identifier</td></tr>
-<tr ><td class="parameter-td td_text">channel_id</td><td class="type-td td_text">String</td><td class="description-td td_text">Channel identifier</td></tr></tbody></table>
+<tr ><td class="parameter-td td_text">channel_id</td><td class="type-td td_text">String</td><td class="description-td td_text">Channel identifier</td></tr>
+<tr ><td class="parameter-td td_text">upgrade_sequence</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Indicates the latest upgrade attempt performed by this channel. The value of 0 indicates the channel has never been upgraded</td></tr></tbody></table>
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>
