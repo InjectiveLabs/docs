@@ -1,0 +1,10 @@
+[
+    {"Parameter": "admin", "Type": "String", "Description": "The market's admin address (has to be the message broadcaster)", "Required": "Yes"}, 
+    {"Parameter": "market_id", "Type": "String", "Description": "The market's unique ID", "Required": "Yes"},
+    {"Parameter": "new_ticker", "Type": "String", "Description": "New ticker for the perpetual market", "Required": "No"},
+    {"Parameter": "new_min_price_tick_size", "Type": "Decimal", "Description": "Defines the minimum tick size of the order's price", "Required": "No"},
+    {"Parameter": "new_min_quantity_tick_size", "Type": "Decimal", "Description": "Defines the minimum tick size of the order's quantity", "Required": "No"},
+    {"Parameter": "new_min_notional", "Type": "Decimal", "Description": "Defines the minimum notional (in quote asset) required for orders in the market", "Required": "No"},
+    {"Parameter": "new_initial_margin_ratio", "Type": "Decimal", "Description": "Defines the initial margin ratio for the perpetual market", "Required": "No"},
+    {"Parameter": "new_maintenance_margin_ratio", "Type": "Decimal", "Description": "Defines the maintenance margin ratio for the perpetual market", "Required": "No"}
+]
