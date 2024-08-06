@@ -1,0 +1,7 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The sender's address", "Required": "Yes"},
+    {"Parameter": "source_subaccount_id", "Type": "String", "Description": "Subaccount ID the position belongs to", "Required": "Yes"},
+    {"Parameter": "destination_subaccount_id", "Type": "String", "Description": "Subaccount ID the funds are deposited into", "Required": "Yes"},
+    {"Parameter": "market_id", "Type": "String", "Description": "The position's unique market ID", "Required": "Yes"},
+    {"Parameter": "amount", "Type": "Decimal", "Description": "The amount of margin to remove from the position", "Required": "Yes"}
+]

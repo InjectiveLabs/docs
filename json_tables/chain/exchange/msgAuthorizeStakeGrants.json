@@ -1,0 +1,4 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "Injective address of the stake granter", "Required": "Yes"}, 
+    {"Parameter": "grants", "Type": "GrantAuthorization Array", "Description": "List of grants assigned to the grantees", "Required": "Yes"}
+]
