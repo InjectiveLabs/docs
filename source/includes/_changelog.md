@@ -1,5 +1,15 @@
 # Change Log
 
+## 2024-08-06
+- Added support for the following messages in the chain "exchange" module:
+  - MsgDecreasePositionMargin
+  - MsgUpdateSpotMarket
+  - MsgUpdateDerivativeMarket
+  - MsgAuthorizeStakeGrants
+  - MsgActivateStakeGrantmodule
+- Python SDK v1.6.1: add min_notional to all market classes
+- Go SDK v1.51.1: add min_notional to all market structs
+
 ## 2024-07-30
 - Updated requests and responses messages with parameters added in chain upgrade to v1.13
 - Updated the API documentation to include all queries and messages for the `tendermint` module

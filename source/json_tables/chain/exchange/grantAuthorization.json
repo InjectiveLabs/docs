@@ -1,0 +1,4 @@
+[
+    {"Parameter": "grantee", "Type": "String", "Description": "Grantee's Injective address"},
+    {"Parameter": "amount", "Type": "Integer", "Description": "Amount of stake granted (INJ in chain format)"}
+]
