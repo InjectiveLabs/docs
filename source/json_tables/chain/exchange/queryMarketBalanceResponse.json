@@ -1,0 +1,3 @@
+[
+    {"Parameter": "balance", "Type": "Decimal", "Description": "The current market balance"}
+]

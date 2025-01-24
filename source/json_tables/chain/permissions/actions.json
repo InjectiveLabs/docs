@@ -1,0 +1,12 @@
+[
+    {"Code": "0", "Name": "ACTION_UNSPECIFIED"},
+    {"Code": "1", "Name": "MINT"},
+    {"Code": "2", "Name": "RECEIVE"},
+    {"Code": "4", "Name": "BURN"},
+    {"Code": "8", "Name": "SEND"},
+    {"Code": "16", "Name": "SUPER_BURN"},
+    {"Code": "134217728", "Name": "MODIFY_POLICY_MANAGERS"},
+    {"Code": "268435456", "Name": "MODIFY_CONTRACT_HOOK"},
+    {"Code": "536870912", "Name": "MODIFY_ROLE_PERMISSIONS"},
+    {"Code": "1073741824", "Name": "MODIFY_ROLE_MANAGERS"}
+]

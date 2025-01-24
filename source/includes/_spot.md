@@ -2,6 +2,42 @@
 Includes all messages related to spot markets.
 
 
+## L3SpotOrderBook
+
+Get the level 3 aggregated order book for a spot market
+
+**IP rate limit group:** `chain`
+
+### Request Parameters
+> Request Example:
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/57_L3SpotOrderBook.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/57_L3SpotOrderBook/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/queryFullSpotOrderbookRequest.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+### Response Parameters
+> Response Example:
+
+``` json
+```
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/queryFullSpotOrderbookResponse.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**TrimmedLimitOrder**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/trimmedLimitOrder.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
 ## SpotMarkets
 
 Retrieves a list of spot markets
@@ -138,7 +174,9 @@ func main() {
          "marketId":"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
          "status":"Active",
          "minPriceTickSize":"1000",
-         "minQuantityTickSize":"1000000000000000000000000000000000"
+         "minQuantityTickSize":"1000000000000000000000000000000000",
+		 "baseDecimals":18,
+		 "quoteDecimals":6,
       }
    ]
 }
@@ -289,7 +327,9 @@ func main() {
       "marketId":"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
       "status":"Active",
       "minPriceTickSize":"1000",
-      "minQuantityTickSize":"1000000000000000000000000000000000"
+      "minQuantityTickSize":"1000000000000000000000000000000000",
+	  "baseDecimals":18,
+	  "quoteDecimals":6,
    }
 }
 ```
@@ -445,7 +485,9 @@ func main() {
             "marketId":"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
             "status":"Active",
             "minPriceTickSize":"1000",
-            "minQuantityTickSize":"1000000000000000000000000000000000"
+            "minQuantityTickSize":"1000000000000000000000000000000000",
+			"baseDecimals":18,
+			"quoteDecimals":6,
          },
          "midPriceAndTob":{
             "midPrice":"42494500",
@@ -624,7 +666,9 @@ func main() {
          "marketId":"0x0611780ba69656949525013d947713300f56c37b6175e02f26bffa495c3208fe",
          "status":"Active",
          "minPriceTickSize":"1000",
-         "minQuantityTickSize":"1000000000000000000000000000000000"
+         "minQuantityTickSize":"1000000000000000000000000000000000",
+		 "baseDecimals":18,
+		 "quoteDecimals":6,
       },
       "midPriceAndTob":{
          "midPrice":"42473500",

@@ -382,6 +382,36 @@ No parameters
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 
+## InjBurntEndpoint
+
+Returns the total amount of INJ burnt in auctions.
+
+**IP rate limit group:** `indexer`
+
+
+> Request Example:
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/auctions_rpc/4_InjBurntEndpoint.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/auction/4_InjBurntEndpoint/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+No parameters
+
+### Response Parameters
+> Response Example:
+
+``` json
+{
+  "total_inj_burnt": "15336250729"
+}
+```
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/auction/injBurntEndpointResponse.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
 ## StreamBids
 
 Stream live updates for auction bids.

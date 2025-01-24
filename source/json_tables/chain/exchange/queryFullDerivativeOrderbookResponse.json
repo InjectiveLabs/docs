@@ -1,0 +1,4 @@
+[
+    {"Parameter": "bids", "Type": "TrimmedLimitOrder Array", "Description": "Bid side entries"},
+    {"Parameter": "asks", "Type": "TrimmedLimitOrder Array", "Description": "Ask side entries"}
+]

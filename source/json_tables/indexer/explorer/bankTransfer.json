@@ -1,0 +1,7 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "Transfer sender Injective address"},
+    {"Parameter": "recipient", "Type": "String", "Description": "Transfer recipient Injective address"},
+    {"Parameter": "amount", "Type": "Coin Array", "Description": "Transfer amounts"},
+    {"Parameter": "block_number", "Type": "Integer", "Description": "Number of the block the transfer was included in"},
+    {"Parameter": "block_timestamp", "Type": "String", "Description": "Timestamp of the block the transfer was included in"}
+]

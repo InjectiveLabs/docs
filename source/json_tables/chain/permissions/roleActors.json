@@ -1,0 +1,4 @@
+[
+    {"Parameter": "role", "Type": "String", "Description": "Role name"},
+    {"Parameter": "actors", "Type": "String Array", "Description": "List of actors' names"}
+]

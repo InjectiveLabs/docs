@@ -2,6 +2,42 @@
 Includes all messages related to derivative markets.
 
 
+## L3DerivativeOrderBook
+
+Get the level 3 aggregated order book for a derivative market
+
+**IP rate limit group:** `chain`
+
+### Request Parameters
+> Request Example:
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/56_L3DerivativeOrderBook.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/56_L3DerivativeOrderBook/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/queryFullDerivativeOrderbookRequest.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+### Response Parameters
+> Response Example:
+
+``` json
+```
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/queryFullDerivativeOrderbookResponse.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**TrimmedLimitOrder**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/trimmedLimitOrder.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
 ## DerivativeMidPriceAndTOB
 
 Retrieves a derivative market's mid-price
@@ -1107,7 +1143,8 @@ func main() {
             "isPerpetual":true,
             "status":"Active",
             "minPriceTickSize":"100000000000000000000",
-            "minQuantityTickSize":"100000000000000"
+            "minQuantityTickSize":"100000000000000",
+			"quoteDecimals":6,
          },
          "perpetualInfo":{
             "marketInfo":{
@@ -1361,6 +1398,7 @@ func main() {
          "status":"Active",
          "minPriceTickSize":"100000000000000000000",
          "minQuantityTickSize":"100000000000000"
+		 "quoteDecimals":6,
       },
       "perpetualInfo":{
          "marketInfo":{

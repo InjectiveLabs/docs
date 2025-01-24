@@ -1,4 +1,5 @@
 [
-    {"Parameter": "role", "Type": "String", "Description": "Role name"},
+    {"Parameter": "name", "Type": "String", "Description": "Role name"},
+    {"Parameter": "role_id", "Type": "Integer", "Description": "Role ID"},
     {"Parameter": "permissions", "Type": "Integer", "Description": "Integer representing the bitwhise combination of all actions assigned to the role"}
 ]

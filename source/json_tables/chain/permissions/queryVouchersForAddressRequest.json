@@ -1,3 +1,0 @@
-[
-    {"Parameter": "address", "Type": "String", "Description": "The Injective address to query for", "Required": "Yes"}
-]

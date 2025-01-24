@@ -1,0 +1,6 @@
+[
+    {"Parameter": "pubkey", "Type": "String", "Description": "Public key"},
+    {"Parameter": "address", "Type": "String", "Description": "Injective address"},
+    {"Parameter": "sequence", "Type": "Integer", "Description": "Sinature sequence number"},
+    {"Parameter": "signature", "Type": "String", "Description": "Signature"}
+]

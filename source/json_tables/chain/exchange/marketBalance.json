@@ -1,0 +1,4 @@
+[
+    {"Parameter": "market_id", "Type": "String", "Description": "ID of the market"},
+    {"Parameter": "balance", "Type": "Decimal", "Description": "Current market balance"}
+]
