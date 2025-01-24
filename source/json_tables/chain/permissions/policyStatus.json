@@ -1,0 +1,5 @@
+[
+    {"Parameter": "action", "Type": "Action", "Description": "Action code number"},
+    {"Parameter": "is_disabled", "Type": "Boolean", "Description": "True if the policy is disabled, False if it is enabled"},
+    {"Parameter": "is_sealed", "Type": "Boolean", "Description": "True if the policy is sealed, False if it is not"}
+]

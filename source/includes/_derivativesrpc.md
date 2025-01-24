@@ -1498,17 +1498,8 @@ func main() {
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-| Parameter       | Type             | Description                                                                                                                     | Required |
-| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| market_ids      | String Array     | Filter by multiple market IDs                                                                                                   | No       |
-| subaccount_ids  | String Array     | Filter by multiple subaccount IDs                                                                                               | No       |
-| execution_side  | String           | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
-| direction       | String           | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
-| execution_types | String Array     | Filter by the *trade execution type (Should be any of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
-| trade_id        | String           | Filter by the trade id of the trade                                                                                             | No       |
-| account_address | String           | Filter by the account address                                                                                                   | No       |
-| cid             | String           | Filter by the custom client order id of the trade's order                                                                       | No       |
-| pagination      | PaginationOption | Pagination configuration                                                                                                        | No       |
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/derivative/queryFullSpotOrderbookRequest.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 ### Response Parameters
 > Response Example:
@@ -1942,20 +1933,8 @@ func main() {
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-| Parameter          | Type             | Description                                                                                                                     | Required |
-| ------------------ | ---------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| market_ids         | String Array     | Filter by multiple market IDs                                                                                                   | No       |
-| execution_side     | String           | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
-| direction          | String           | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
-| subaccount_ids     | String Array     | Filter by multiple subaccount IDs                                                                                               | No       |
-| execution_types    | String Array     | Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
-| trade_id           | String           | Filter by the trade's trade id                                                                                                  | No       |
-| account_address    | String           | Filter by the account address                                                                                                   | No       |
-| cid                | String           | Filter by the custom client order id of the trade's order                                                                       | No       |
-| pagination         | PaginationOption | Pagination configuration                                                                                                        | No       |
-| callback           | Function         | Function receiving one parameter (a stream event JSON dictionary) to process each new event                                     | Yes      |
-| on_end_callback    | Function         | Function with the logic to execute when the stream connection is interrupted                                                    | No       |
-| on_status_callback | Function         | Function receiving one parameter (the exception) with the logic to execute when an exception happens                            | No       |
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/derivative/streamTradesV2Request.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 ### Response Parameters
 > Streaming Response Example:

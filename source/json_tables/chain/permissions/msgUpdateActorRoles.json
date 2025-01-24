@@ -1,0 +1,6 @@
+[
+    {"Parameter": "sender", "Type": "String", "Description": "The sender's Injective address", "Required": "Yes"},
+    {"Parameter": "denom", "Type": "String", "Description": "The token denom of the namespace to update", "Required": "Yes"},
+    {"Parameter": "role_actors_to_add", "Type": "RoleActors Array", "Description": "Address of the wasm contract that will provide the real destination address", "Required": "No"},
+    {"Parameter": "role_actors_to_revoke", "Type": "RoleActors Array", "Description": "List of roles", "Required": "No"}
+]

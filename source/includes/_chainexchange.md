@@ -2,6 +2,7 @@
 
 Includes all the messages and queries related to exchange accounts, orders and trades
 
+
 ## SubaccountDeposits
 
 Retrieves a subaccount's deposits
@@ -4467,6 +4468,186 @@ func main() {
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/queryMarketAtomicExecutionFeeMultiplierResponse.json) -->
 <table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">multiplier</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">The multiplier value</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+## MarketBalance
+
+Retrieves a derivative or binary options market's balance
+
+**IP rate limit group:** `chain`
+
+### Request Parameters
+> Request Example:
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/58_MarketBalance.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/58_MarketBalance/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/queryMarketBalanceRequest.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+### Response Parameters
+> Response Example:
+
+``` json
+{
+   "balance":"2000000000000000000"
+}
+```
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/queryMarketBalanceResponse.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+## MarketBalances
+
+Retrieves all derivative or binary options market balances
+
+**IP rate limit group:** `chain`
+
+### Request Parameters
+> Request Example:
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/59_MarketBalances.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/59_MarketBalances/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+No parameters
+
+
+### Response Parameters
+> Response Example:
+
+``` json
+{
+ "balances": [
+  {
+   "market_id": "0x1422a13427d5eabd4d8de7907c8340f7e58cb15553a9fd4ad5c90406561886f9",
+   "balance": "8533732857.387289192922314363"
+  },
+  {
+   "market_id": "0x1c284820f24dff4c60fecd521a9df3df9c745d23dd585d45bf418653c2d73ab4",
+   "balance": "617867220.109659443876013950"
+  },
+  {
+   "market_id": "0x1f73e21972972c69c03fb105a5864592ac2b47996ffea3c500d1ea2d20138717",
+   "balance": "458391669.230063218253310107"
+  },
+  {
+   "market_id": "0x56d0c0293c4415e2d48fc2c8503a56a0c7389247396a2ef9b0a48c01f0646705",
+   "balance": "2217666106.022509578544061311"
+  },
+  {
+   "market_id": "0xb64332daa987dcb200c26965bc9adaf8aa301fe3a0aecb0232fadbd3dfccd0d8",
+   "balance": "310256624.777427104432615764"
+  }
+ ]
+}
+```
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/queryMarketBalancesResponse.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**MarketBalance**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/marketBalance.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+## DenomMinNotional
+
+Retrieves the min notional for a denom
+
+**IP rate limit group:** `chain`
+
+### Request Parameters
+> Request Example:
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/60_DenomMinNotional.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/60_DenomMinNotional/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/queryDenomMinNotionalRequest.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+### Response Parameters
+> Response Example:
+
+``` json
+{
+   "amount":"2000000000000000000"
+}
+```
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/queryDenomMinNotionalResponse.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+## DenomMinNotionals
+
+Retrieves the min notionals for all denoms
+
+**IP rate limit group:** `chain`
+
+### Request Parameters
+> Request Example:
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/chain_client/exchange/query/61_DenomMinNotionals.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/chain/exchange/query/61_DenomMinNotionals/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+No parameters
+
+
+### Response Parameters
+> Response Example:
+
+``` json
+{
+ "denom_min_notionals": [
+  {
+   "denom": "ibc/2CBC2EA121AE42563B08028466F37B600F2D7D4282342DE938283CC3FB2BC00E",
+   "min_notional": "1000000.000000000000000000"
+  },
+  {
+   "denom": "inj",
+   "min_notional": "10000000000000000.000000000000000000"
+  },
+  {
+   "denom": "peggy0x4c9EDD5852cd905f086C759E8383e09bff1E68B3",
+   "min_notional": "1000000000000000000.000000000000000000"
+  },
+  {
+   "denom": "peggy0x57F5E098CaD7A3D1Eed53991D4d66C45C9AF7812",
+   "min_notional": "1000000000000000000.000000000000000000"
+  },
+  {
+   "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
+   "min_notional": "1000000.000000000000000000"
+  }
+ ]
+}
+```
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/queryDenomMinNotionalsResponse.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**DenomMinNotional**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/chain/exchange/denomMinNotional.json) -->
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 

@@ -1,0 +1,5 @@
+[
+    {"Parameter": "s", "Type": "String", "Description": "Status of the response"},
+    {"Parameter": "errmsg", "Type": "String", "Description": "Error message"},
+    {"Parameter": "data", "Type": "Validator", "Description": "Validator details"}
+]

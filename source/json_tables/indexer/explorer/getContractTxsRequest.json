@@ -1,0 +1,7 @@
+[
+    {"Parameter": "address", "Type": "String", "Description": "The contract's Injective address", "Required": "Yes"},
+    {"Parameter": "limit", "Type": "Integer", "Description": "Max number of items to be returned, defaults to 100", "Required": "No"},
+    {"Parameter": "skip", "Type": "Integer", "Description": "Skip the first N results. This can be used to fetch all results since the API caps at 100", "Required": "No"},
+    {"Parameter": "from_number", "Type": "Integer", "Description": "List all contracts whose number is not lower than from_number", "Required": "No"},
+    {"Parameter": "to_number", "Type": "Integer", "Description": "List all contracts whose number is not greater than to_number", "Required": "No"}
+]

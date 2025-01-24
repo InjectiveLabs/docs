@@ -1,0 +1,3 @@
+[
+    {"Parameter": "denom", "Type": "String", "Description": "The denom to request the minimum notional for", "Required": "Yes"}
+]

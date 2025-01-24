@@ -2249,6 +2249,9 @@ List all cosmwasm code on injective chain. Results are paginated.
 
 > Request Example:
 
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/15_GetWasmCodes.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/11_GetWasmCodes/example.go) -->
 <!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/11_GetWasmCodes/example.go -->
 ```go
@@ -2435,6 +2438,9 @@ Get cosmwasm code by its code ID
 
 > Request Example:
 
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/16_GetWasmCodeById.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/12_GetWasmCodeById/example.go) -->
 <!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/12_GetWasmCodeById/example.go -->
 ```go
@@ -2538,6 +2544,9 @@ Get cosmwasm instantiated contracts on injective-chain. Results are paginated.
 **IP rate limit group:** `indexer`
 
 > Request Example:
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/17_GetWasmContracts.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/13_GetWasmContracts/example.go) -->
 <!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/13_GetWasmContracts/example.go -->
@@ -2751,6 +2760,9 @@ Get cosmwasm contract by its address
 
 > Request Example:
 
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/18_GetWasmContractByAddress.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/14_GetWasmContractByAddress/example.go) -->
 <!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/14_GetWasmContractByAddress/example.go -->
 ```go
@@ -2876,6 +2888,9 @@ Get CW20 balances of an injective account across all instantiated CW20 contracts
 
 > Request Example:
 
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/19_GetCw20Balance.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/15_GetCW20Balance/example.go) -->
 <!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/15_GetCW20Balance/example.go -->
 ```go
@@ -2987,3 +3002,1498 @@ func main() {
 | description | String      | Token&#39;s description                               |
 | logo        | String      | Logo (url/embedded)                                   |
 | marketing   | Bytes Array | Address that can update the contract's marketing info |
+
+
+## GetContractTxs
+
+Returns contract-related transactions
+
+**IP rate limit group:** `indexer`
+
+### Request Parameters
+> Request Example:
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/16_GetContractTxs/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/getContractTxsRequest.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+### Response Parameters
+> Response Example:
+
+```json
+{{
+ "paging": {
+  "total": 97,
+  "from": 1,
+  "to": 10
+ },
+ "data": [
+  {
+   "block_number": 58822729,
+   "block_timestamp": "2025-01-09 10:36:21.96 +0000 UTC",
+   "hash": "0x470de892246c7fa143dfa0475484316f4053b84b905a78dd2a07838231926cf9",
+   "data": "EjYKNC9pbmplY3RpdmUud2FzbXgudjEuTXNnRXhlY3V0ZUNvbnRyYWN0Q29tcGF0UmVzcG9uc2U=",
+   "gas_wanted": 369732,
+   "gas_used": 275791,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "59157120000000"
+     }
+    ],
+    "gas_limit": 369732,
+    "payer": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+   },
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9pbmplY3RpdmUud2FzbXgudjEuTXNnRXhlY3V0ZUNvbnRyYWN0Q29tcGF0IiwidmFsdWUiOnsic2VuZGVyIjoiaW5qMWhraGRhajJhMmNsbXE1anE2bXNwc2dncXMzMnZ5bnBrMjI4cTNyIiwiY29udHJhY3QiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJtc2ciOiJ7XCJpbmNyZW1lbnRcIjoge319IiwiZnVuZHMiOiI2OWZhY3RvcnkvaW5qMWhkdnk2dGw4OWxscXkzemU4bHY2bXo1cWg2NnN4OWVubjBqeGc2L2luajEybmdldngwNDV6cHZhY3VzOXM2YW5yMjU4Z2t3cG10aG56ODBlOSw0MjBwZWdneTB4NDRDMjFhZkFhRjIwYzI3MEVCYkY1OTE0Q2ZjM2I1MDIyMTczRkVCNywxcGVnZ3kweDg3YUIzQjRDODY2MWUwN0Q2MzcyMzYxMjExQjk2ZWQ0RGMzNkIxQjUifX1d",
+   "signatures": [
+    {
+     "pubkey": "035ddc4d5642b9383e2f087b2ee88b7207f6286ebc9f310e9df1406eccc2c31813",
+     "address": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+     "sequence": 22307,
+     "signature": "8mOLGcjvgD3jjO1UTYzj+G9oIPsHMWvBJJN3r7thFQgyvbinvrmqDxOtpKiwPenffoKOhIwvYcPHF/CbqcrgBwE="
+    }
+   ],
+   "tx_number": 42879897,
+   "block_unix_timestamp": 1736418981960,
+   "logs": "W3sibXNnX2luZGV4IjoiMCIsImV2ZW50cyI6W3sidHlwZSI6Im1lc3NhZ2UiLCJhdHRyaWJ1dGVzIjpbeyJrZXkiOiJhY3Rpb24iLCJ2YWx1ZSI6Ii9pbmplY3RpdmUud2FzbXgudjEuTXNnRXhlY3V0ZUNvbnRyYWN0Q29tcGF0IiwiaW5kZXgiOnRydWV9LHsia2V5Ijoic2VuZGVyIiwidmFsdWUiOiJpbmoxaGtoZGFqMmEyY2xtcTVqcTZtc3BzZ2dxczMydnlucGsyMjhxM3IiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtb2R1bGUiLCJ2YWx1ZSI6Indhc214IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiY29pbl9zcGVudCIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InNwZW5kZXIiLCJ2YWx1ZSI6ImluajFoa2hkYWoyYTJjbG1xNWpxNm1zcHNnZ3FzMzJ2eW5wazIyOHEzciIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiNjlmYWN0b3J5L2luajFoZHZ5NnRsODlsbHF5M3plOGx2Nm16NXFoNjZzeDllbm4wanhnNi9pbmoxMm5nZXZ4MDQ1enB2YWN1czlzNmFucjI1OGdrd3BtdGhuejgwZTkiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJjb2luX3JlY2VpdmVkIiwiYXR0cmlidXRlcyI6W3sia2V5IjoicmVjZWl2ZXIiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiNjlmYWN0b3J5L2luajFoZHZ5NnRsODlsbHF5M3plOGx2Nm16NXFoNjZzeDllbm4wanhnNi9pbmoxMm5nZXZ4MDQ1enB2YWN1czlzNmFucjI1OGdrd3BtdGhuejgwZTkiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ0cmFuc2ZlciIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InJlY2lwaWVudCIsInZhbHVlIjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwiaW5kZXgiOnRydWV9LHsia2V5Ijoic2VuZGVyIiwidmFsdWUiOiJpbmoxaGtoZGFqMmEyY2xtcTVqcTZtc3BzZ2dxczMydnlucGsyMjhxM3IiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJhbW91bnQiLCJ2YWx1ZSI6IjY5ZmFjdG9yeS9pbmoxaGR2eTZ0bDg5bGxxeTN6ZThsdjZtejVxaDY2c3g5ZW5uMGp4ZzYvaW5qMTJuZ2V2eDA0NXpwdmFjdXM5czZhbnIyNThna3dwbXRobno4MGU5IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiY29pbl9zcGVudCIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InNwZW5kZXIiLCJ2YWx1ZSI6ImluajFoa2hkYWoyYTJjbG1xNWpxNm1zcHNnZ3FzMzJ2eW5wazIyOHEzciIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiNDIwcGVnZ3kweDQ0QzIxYWZBYUYyMGMyNzBFQmJGNTkxNENmYzNiNTAyMjE3M0ZFQjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJjb2luX3JlY2VpdmVkIiwiYXR0cmlidXRlcyI6W3sia2V5IjoicmVjZWl2ZXIiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiNDIwcGVnZ3kweDQ0QzIxYWZBYUYyMGMyNzBFQmJGNTkxNENmYzNiNTAyMjE3M0ZFQjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ0cmFuc2ZlciIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InJlY2lwaWVudCIsInZhbHVlIjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwiaW5kZXgiOnRydWV9LHsia2V5Ijoic2VuZGVyIiwidmFsdWUiOiJpbmoxaGtoZGFqMmEyY2xtcTVqcTZtc3BzZ2dxczMydnlucGsyMjhxM3IiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJhbW91bnQiLCJ2YWx1ZSI6IjQyMHBlZ2d5MHg0NEMyMWFmQWFGMjBjMjcwRUJiRjU5MTRDZmMzYjUwMjIxNzNGRUI3IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiY29pbl9zcGVudCIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InNwZW5kZXIiLCJ2YWx1ZSI6ImluajFoa2hkYWoyYTJjbG1xNWpxNm1zcHNnZ3FzMzJ2eW5wazIyOHEzciIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiMXBlZ2d5MHg4N2FCM0I0Qzg2NjFlMDdENjM3MjM2MTIxMUI5NmVkNERjMzZCMUI1IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiY29pbl9yZWNlaXZlZCIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InJlY2VpdmVyIiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJhbW91bnQiLCJ2YWx1ZSI6IjFwZWdneTB4ODdhQjNCNEM4NjYxZTA3RDYzNzIzNjEyMTFCOTZlZDREYzM2QjFCNSIsImluZGV4Ijp0cnVlfSx7ImtleSI6Im1zZ19pbmRleCIsInZhbHVlIjoiMCIsImluZGV4Ijp0cnVlfV19LHsidHlwZSI6InRyYW5zZmVyIiwiYXR0cmlidXRlcyI6W3sia2V5IjoicmVjaXBpZW50IiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJzZW5kZXIiLCJ2YWx1ZSI6ImluajFoa2hkYWoyYTJjbG1xNWpxNm1zcHNnZ3FzMzJ2eW5wazIyOHEzciIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiMXBlZ2d5MHg4N2FCM0I0Qzg2NjFlMDdENjM3MjM2MTIxMUI5NmVkNERjMzZCMUI1IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiZXhlY3V0ZSIsImF0dHJpYnV0ZXMiOlt7ImtleSI6Il9jb250cmFjdF9hZGRyZXNzIiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ3YXNtIiwiYXR0cmlidXRlcyI6W3sia2V5IjoiX2NvbnRyYWN0X2FkZHJlc3MiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFjdGlvbiIsInZhbHVlIjoiaW5jcmVtZW50IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX1dfV0="
+  },
+  {
+   "block_number": 58816984,
+   "block_timestamp": "2025-01-09 09:36:16.039 +0000 UTC",
+   "hash": "0xc49b5b9c5f55e3cd0307a8a5c52585a6c4892ce8e35673dcefa2161fea0f7dd4",
+   "data": "EjYKNC9pbmplY3RpdmUud2FzbXgudjEuTXNnRXhlY3V0ZUNvbnRyYWN0Q29tcGF0UmVzcG9uc2U=",
+   "gas_wanted": 369732,
+   "gas_used": 275728,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "59157120000000"
+     }
+    ],
+    "gas_limit": 369732,
+    "payer": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+   },
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9pbmplY3RpdmUud2FzbXgudjEuTXNnRXhlY3V0ZUNvbnRyYWN0Q29tcGF0IiwidmFsdWUiOnsic2VuZGVyIjoiaW5qMWhraGRhajJhMmNsbXE1anE2bXNwc2dncXMzMnZ5bnBrMjI4cTNyIiwiY29udHJhY3QiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJtc2ciOiJ7XCJpbmNyZW1lbnRcIjoge319IiwiZnVuZHMiOiI2OWZhY3RvcnkvaW5qMWhkdnk2dGw4OWxscXkzemU4bHY2bXo1cWg2NnN4OWVubjBqeGc2L2luajEybmdldngwNDV6cHZhY3VzOXM2YW5yMjU4Z2t3cG10aG56ODBlOSw0MjBwZWdneTB4NDRDMjFhZkFhRjIwYzI3MEVCYkY1OTE0Q2ZjM2I1MDIyMTczRkVCNywxcGVnZ3kweDg3YUIzQjRDODY2MWUwN0Q2MzcyMzYxMjExQjk2ZWQ0RGMzNkIxQjUifX1d",
+   "signatures": [
+    {
+     "pubkey": "035ddc4d5642b9383e2f087b2ee88b7207f6286ebc9f310e9df1406eccc2c31813",
+     "address": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+     "sequence": 22306,
+     "signature": "/64SGXeQufnbq4S6l3gaYW8p+3QjAiC0JGTGCoXXrHoTgE09gUCwp1is5prUJbSt+yegNFEcQUs5HZFVRmpf/gA="
+    }
+   ],
+   "tx_number": 42877669,
+   "block_unix_timestamp": 1736415376039,
+   "logs": "W3sibXNnX2luZGV4IjoiMCIsImV2ZW50cyI6W3sidHlwZSI6Im1lc3NhZ2UiLCJhdHRyaWJ1dGVzIjpbeyJrZXkiOiJhY3Rpb24iLCJ2YWx1ZSI6Ii9pbmplY3RpdmUud2FzbXgudjEuTXNnRXhlY3V0ZUNvbnRyYWN0Q29tcGF0IiwiaW5kZXgiOnRydWV9LHsia2V5Ijoic2VuZGVyIiwidmFsdWUiOiJpbmoxaGtoZGFqMmEyY2xtcTVqcTZtc3BzZ2dxczMydnlucGsyMjhxM3IiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtb2R1bGUiLCJ2YWx1ZSI6Indhc214IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiY29pbl9zcGVudCIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InNwZW5kZXIiLCJ2YWx1ZSI6ImluajFoa2hkYWoyYTJjbG1xNWpxNm1zcHNnZ3FzMzJ2eW5wazIyOHEzciIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiNjlmYWN0b3J5L2luajFoZHZ5NnRsODlsbHF5M3plOGx2Nm16NXFoNjZzeDllbm4wanhnNi9pbmoxMm5nZXZ4MDQ1enB2YWN1czlzNmFucjI1OGdrd3BtdGhuejgwZTkiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJjb2luX3JlY2VpdmVkIiwiYXR0cmlidXRlcyI6W3sia2V5IjoicmVjZWl2ZXIiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiNjlmYWN0b3J5L2luajFoZHZ5NnRsODlsbHF5M3plOGx2Nm16NXFoNjZzeDllbm4wanhnNi9pbmoxMm5nZXZ4MDQ1enB2YWN1czlzNmFucjI1OGdrd3BtdGhuejgwZTkiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ0cmFuc2ZlciIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InJlY2lwaWVudCIsInZhbHVlIjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwiaW5kZXgiOnRydWV9LHsia2V5Ijoic2VuZGVyIiwidmFsdWUiOiJpbmoxaGtoZGFqMmEyY2xtcTVqcTZtc3BzZ2dxczMydnlucGsyMjhxM3IiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJhbW91bnQiLCJ2YWx1ZSI6IjY5ZmFjdG9yeS9pbmoxaGR2eTZ0bDg5bGxxeTN6ZThsdjZtejVxaDY2c3g5ZW5uMGp4ZzYvaW5qMTJuZ2V2eDA0NXpwdmFjdXM5czZhbnIyNThna3dwbXRobno4MGU5IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiY29pbl9zcGVudCIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InNwZW5kZXIiLCJ2YWx1ZSI6ImluajFoa2hkYWoyYTJjbG1xNWpxNm1zcHNnZ3FzMzJ2eW5wazIyOHEzciIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiNDIwcGVnZ3kweDQ0QzIxYWZBYUYyMGMyNzBFQmJGNTkxNENmYzNiNTAyMjE3M0ZFQjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJjb2luX3JlY2VpdmVkIiwiYXR0cmlidXRlcyI6W3sia2V5IjoicmVjZWl2ZXIiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiNDIwcGVnZ3kweDQ0QzIxYWZBYUYyMGMyNzBFQmJGNTkxNENmYzNiNTAyMjE3M0ZFQjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ0cmFuc2ZlciIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InJlY2lwaWVudCIsInZhbHVlIjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwiaW5kZXgiOnRydWV9LHsia2V5Ijoic2VuZGVyIiwidmFsdWUiOiJpbmoxaGtoZGFqMmEyY2xtcTVqcTZtc3BzZ2dxczMydnlucGsyMjhxM3IiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJhbW91bnQiLCJ2YWx1ZSI6IjQyMHBlZ2d5MHg0NEMyMWFmQWFGMjBjMjcwRUJiRjU5MTRDZmMzYjUwMjIxNzNGRUI3IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiY29pbl9zcGVudCIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InNwZW5kZXIiLCJ2YWx1ZSI6ImluajFoa2hkYWoyYTJjbG1xNWpxNm1zcHNnZ3FzMzJ2eW5wazIyOHEzciIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiMXBlZ2d5MHg4N2FCM0I0Qzg2NjFlMDdENjM3MjM2MTIxMUI5NmVkNERjMzZCMUI1IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiY29pbl9yZWNlaXZlZCIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InJlY2VpdmVyIiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJhbW91bnQiLCJ2YWx1ZSI6IjFwZWdneTB4ODdhQjNCNEM4NjYxZTA3RDYzNzIzNjEyMTFCOTZlZDREYzM2QjFCNSIsImluZGV4Ijp0cnVlfSx7ImtleSI6Im1zZ19pbmRleCIsInZhbHVlIjoiMCIsImluZGV4Ijp0cnVlfV19LHsidHlwZSI6InRyYW5zZmVyIiwiYXR0cmlidXRlcyI6W3sia2V5IjoicmVjaXBpZW50IiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJzZW5kZXIiLCJ2YWx1ZSI6ImluajFoa2hkYWoyYTJjbG1xNWpxNm1zcHNnZ3FzMzJ2eW5wazIyOHEzciIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiMXBlZ2d5MHg4N2FCM0I0Qzg2NjFlMDdENjM3MjM2MTIxMUI5NmVkNERjMzZCMUI1IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiZXhlY3V0ZSIsImF0dHJpYnV0ZXMiOlt7ImtleSI6Il9jb250cmFjdF9hZGRyZXNzIiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ3YXNtIiwiYXR0cmlidXRlcyI6W3sia2V5IjoiX2NvbnRyYWN0X2FkZHJlc3MiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFjdGlvbiIsInZhbHVlIjoiaW5jcmVtZW50IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX1dfV0="
+  },
+  {
+   "block_number": 55217772,
+   "block_timestamp": "2024-12-11 18:47:34.588 +0000 UTC",
+   "hash": "0xf77982a04ad2350313a2b9407e4e8f2bbc08a505af27244f88775ea511f8940d",
+   "code": 5,
+   "gas_wanted": 2000000,
+   "gas_used": 147091,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "1000000000000000"
+     }
+    ],
+    "gas_limit": 2000000,
+    "payer": "inj18tg5vcv4epnpuuerjlqc48lp888ytj8fqme786"
+   },
+   "codespace": "wasm",
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsInZhbHVlIjp7InNlbmRlciI6ImluajE4dGc1dmN2NGVwbnB1dWVyamxxYzQ4bHA4ODh5dGo4ZnFtZTc4NiIsImNvbnRyYWN0IjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwibXNnIjp7ImluY3JlbWVudCI6e30sImFzZGYiOnt9fSwiZnVuZHMiOltdfX1d",
+   "signatures": [
+    {
+     "pubkey": "0232104c09ec53c81f4a99fa2e8af82b46014b2d62249c0417ca06a314db847269",
+     "address": "inj18tg5vcv4epnpuuerjlqc48lp888ytj8fqme786",
+     "sequence": 2,
+     "signature": "glgairiArdzkAYGw96KOIzHaYs/s62ZoqWIDiv62OEt8y9nU90lgIUPdiY52ASqZT2fbRBzcRsJM8ugkN7lJ/wE="
+    }
+   ],
+   "tx_number": 41247484,
+   "block_unix_timestamp": 1733942854588,
+   "error_log": "failed to execute message; message index: 0: Error parsing into type cw_counter::msg::ExecuteMsg: Expected this character to start a JSON value.: execute wasm contract failed"
+  },
+  {
+   "block_number": 55215328,
+   "block_timestamp": "2024-12-11 18:19:08.542 +0000 UTC",
+   "hash": "0xd9ca6b185c270624945e71c50bc93ce018c135490e095ae792abcce8718ed4d7",
+   "data": "Ei4KLC9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdFJlc3BvbnNl",
+   "gas_wanted": 2000000,
+   "gas_used": 152998,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "1000000000000000"
+     }
+    ],
+    "gas_limit": 2000000,
+    "payer": "inj18tg5vcv4epnpuuerjlqc48lp888ytj8fqme786"
+   },
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsInZhbHVlIjp7InNlbmRlciI6ImluajE4dGc1dmN2NGVwbnB1dWVyamxxYzQ4bHA4ODh5dGo4ZnFtZTc4NiIsImNvbnRyYWN0IjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwibXNnIjp7ImluY3JlbWVudCI6e319LCJmdW5kcyI6W119fV0=",
+   "signatures": [
+    {
+     "pubkey": "0232104c09ec53c81f4a99fa2e8af82b46014b2d62249c0417ca06a314db847269",
+     "address": "inj18tg5vcv4epnpuuerjlqc48lp888ytj8fqme786",
+     "sequence": 1,
+     "signature": "0dIkouKEhe3DJgEL/6LkJ/6zokK7u7yo1ab5zatKGogGSXFnkN4R6VIdcZH+nfwQL22wHINMtuVXaKx3ztBRvgE="
+    }
+   ],
+   "tx_number": 41246188,
+   "block_unix_timestamp": 1733941148542,
+   "logs": "W3sibXNnX2luZGV4IjoiMCIsImV2ZW50cyI6W3sidHlwZSI6Im1lc3NhZ2UiLCJhdHRyaWJ1dGVzIjpbeyJrZXkiOiJhY3Rpb24iLCJ2YWx1ZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsImluZGV4Ijp0cnVlfSx7ImtleSI6InNlbmRlciIsInZhbHVlIjoiaW5qMTh0ZzV2Y3Y0ZXBucHV1ZXJqbHFjNDhscDg4OHl0ajhmcW1lNzg2IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibW9kdWxlIiwidmFsdWUiOiJ3YXNtIiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiZXhlY3V0ZSIsImF0dHJpYnV0ZXMiOlt7ImtleSI6Il9jb250cmFjdF9hZGRyZXNzIiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ3YXNtIiwiYXR0cmlidXRlcyI6W3sia2V5IjoiX2NvbnRyYWN0X2FkZHJlc3MiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFjdGlvbiIsInZhbHVlIjoiaW5jcmVtZW50IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX1dfV0="
+  },
+  {
+   "block_number": 55215254,
+   "block_timestamp": "2024-12-11 18:18:18.307 +0000 UTC",
+   "hash": "0x4ac5f09ea7c8469d7cd82fd85e0a5e72c5b9d4af4383f8c9c5b80ae40203dde0",
+   "code": 5,
+   "gas_wanted": 2000000,
+   "gas_used": 161846,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "1000000000000000"
+     }
+    ],
+    "gas_limit": 2000000,
+    "payer": "inj18tg5vcv4epnpuuerjlqc48lp888ytj8fqme786"
+   },
+   "codespace": "wasm",
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsInZhbHVlIjp7InNlbmRlciI6ImluajE4dGc1dmN2NGVwbnB1dWVyamxxYzQ4bHA4ODh5dGo4ZnFtZTc4NiIsImNvbnRyYWN0IjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwibXNnIjp7ImluY3JlbWVudCI6e30sImluY3JlbWVudCI6e319LCJmdW5kcyI6W119fV0=",
+   "signatures": [
+    {
+     "pubkey": "0232104c09ec53c81f4a99fa2e8af82b46014b2d62249c0417ca06a314db847269",
+     "address": "inj18tg5vcv4epnpuuerjlqc48lp888ytj8fqme786",
+     "signature": "QpwwzQX7OPJUPRqJxmUCu/e7GMUyfn7FaF6k3EqzsUdg529x20tgo9Lmuw2KQCtAN8FCCsdUPIr2kajVGPWx7wE="
+    }
+   ],
+   "tx_number": 41246155,
+   "block_unix_timestamp": 1733941098307,
+   "error_log": "failed to execute message; message index: 0: Error parsing into type cw_counter::msg::ExecuteMsg: Expected this character to start a JSON value.: execute wasm contract failed"
+  },
+  {
+   "block_number": 51412834,
+   "block_timestamp": "2024-11-12 01:41:02.012 +0000 UTC",
+   "hash": "0xfd8d73363512856e462995d3733f5047fd033077fee6bf90bf10f6b1cdb035f9",
+   "data": "Ei4KLC9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdFJlc3BvbnNl",
+   "gas_wanted": 371647,
+   "gas_used": 153013,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "59463520000000"
+     }
+    ],
+    "gas_limit": 371647,
+    "payer": "inj1t7kfgeywkf8kat4xyj3jds4kq8fuew6xfjsuyy"
+   },
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsInZhbHVlIjp7InNlbmRlciI6ImluajF0N2tmZ2V5d2tmOGthdDR4eWozamRzNGtxOGZ1ZXc2eGZqc3V5eSIsImNvbnRyYWN0IjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwibXNnIjp7ImluY3JlbWVudCI6e319LCJmdW5kcyI6W119fV0=",
+   "signatures": [
+    {
+     "pubkey": "030b3b7ca00851ca255c18f7b47c5670793c4f022e9d286a080d322ba7dc11d019",
+     "address": "inj1t7kfgeywkf8kat4xyj3jds4kq8fuew6xfjsuyy",
+     "sequence": 128,
+     "signature": "AxRUotq9abi9gJsE2oORD/rwWpc2NjtVuYfdb0ZDLH08gh9Vox8RcAGD2a587DGqODV08G+n+fhzk4CM/0xUdw=="
+    }
+   ],
+   "tx_number": 39702063,
+   "block_unix_timestamp": 1731375662012,
+   "logs": "W3sibXNnX2luZGV4IjoiMCIsImV2ZW50cyI6W3sidHlwZSI6Im1lc3NhZ2UiLCJhdHRyaWJ1dGVzIjpbeyJrZXkiOiJhY3Rpb24iLCJ2YWx1ZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsImluZGV4Ijp0cnVlfSx7ImtleSI6InNlbmRlciIsInZhbHVlIjoiaW5qMXQ3a2ZnZXl3a2Y4a2F0NHh5ajNqZHM0a3E4ZnVldzZ4ZmpzdXl5IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibW9kdWxlIiwidmFsdWUiOiJ3YXNtIiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiZXhlY3V0ZSIsImF0dHJpYnV0ZXMiOlt7ImtleSI6Il9jb250cmFjdF9hZGRyZXNzIiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ3YXNtIiwiYXR0cmlidXRlcyI6W3sia2V5IjoiX2NvbnRyYWN0X2FkZHJlc3MiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFjdGlvbiIsInZhbHVlIjoiaW5jcmVtZW50IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX1dfV0="
+  },
+  {
+   "block_number": 51403866,
+   "block_timestamp": "2024-11-12 00:00:00.788 +0000 UTC",
+   "hash": "0x468be957643b74582caf8e1991aea490f68522910655f68417741f7306d50014",
+   "data": "Ei4KLC9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdFJlc3BvbnNl",
+   "gas_wanted": 371619,
+   "gas_used": 152982,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "59459040000000"
+     }
+    ],
+    "gas_limit": 371619,
+    "payer": "inj1t7kfgeywkf8kat4xyj3jds4kq8fuew6xfjsuyy"
+   },
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsInZhbHVlIjp7InNlbmRlciI6ImluajF0N2tmZ2V5d2tmOGthdDR4eWozamRzNGtxOGZ1ZXc2eGZqc3V5eSIsImNvbnRyYWN0IjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwibXNnIjp7ImluY3JlbWVudCI6e319LCJmdW5kcyI6W119fV0=",
+   "signatures": [
+    {
+     "pubkey": "030b3b7ca00851ca255c18f7b47c5670793c4f022e9d286a080d322ba7dc11d019",
+     "address": "inj1t7kfgeywkf8kat4xyj3jds4kq8fuew6xfjsuyy",
+     "sequence": 127,
+     "signature": "/II5Vf7y+5msOSjdPo7wcFlfIMAXUwn64+Q2EkxsN1ROD0VyT36Xbj69vTmtnVbBjM59MKzBlgw5g1/1IWlr5A=="
+    }
+   ],
+   "tx_number": 39698366,
+   "block_unix_timestamp": 1731369600788,
+   "logs": "W3sibXNnX2luZGV4IjoiMCIsImV2ZW50cyI6W3sidHlwZSI6Im1lc3NhZ2UiLCJhdHRyaWJ1dGVzIjpbeyJrZXkiOiJhY3Rpb24iLCJ2YWx1ZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsImluZGV4Ijp0cnVlfSx7ImtleSI6InNlbmRlciIsInZhbHVlIjoiaW5qMXQ3a2ZnZXl3a2Y4a2F0NHh5ajNqZHM0a3E4ZnVldzZ4ZmpzdXl5IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibW9kdWxlIiwidmFsdWUiOiJ3YXNtIiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiZXhlY3V0ZSIsImF0dHJpYnV0ZXMiOlt7ImtleSI6Il9jb250cmFjdF9hZGRyZXNzIiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ3YXNtIiwiYXR0cmlidXRlcyI6W3sia2V5IjoiX2NvbnRyYWN0X2FkZHJlc3MiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFjdGlvbiIsInZhbHVlIjoiaW5jcmVtZW50IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX1dfV0="
+  },
+  {
+   "block_number": 51403569,
+   "block_timestamp": "2024-11-11 23:56:40.421 +0000 UTC",
+   "hash": "0xf034d70005d204d671d2525b9b2c324c54d64d1dd923972deaa4d4d9aef44caf",
+   "code": 11,
+   "gas_wanted": 146589,
+   "gas_used": 146703,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "23454240000000"
+     }
+    ],
+    "gas_limit": 146589,
+    "payer": "inj1t7kfgeywkf8kat4xyj3jds4kq8fuew6xfjsuyy"
+   },
+   "codespace": "sdk",
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsInZhbHVlIjp7InNlbmRlciI6ImluajF0N2tmZ2V5d2tmOGthdDR4eWozamRzNGtxOGZ1ZXc2eGZqc3V5eSIsImNvbnRyYWN0IjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwibXNnIjp7ImluY3JlbWVudCI6e319LCJmdW5kcyI6W119fV0=",
+   "signatures": [
+    {
+     "pubkey": "030b3b7ca00851ca255c18f7b47c5670793c4f022e9d286a080d322ba7dc11d019",
+     "address": "inj1t7kfgeywkf8kat4xyj3jds4kq8fuew6xfjsuyy",
+     "sequence": 126,
+     "signature": "k2kI8ITLgSKXw2yPUTFD59u9hUFlfvY/Gqwuj7hH1ORYZPFLps+0tPcdX2GMOjexJ24Yjge33j9aAoWYWtzPOw=="
+    }
+   ],
+   "tx_number": 39698239,
+   "block_unix_timestamp": 1731369400421,
+   "error_log": "out of gas in location: Loading CosmWasm module: execute; gasWanted: 146589, gasUsed: 146703: out of gas"
+  },
+  {
+   "block_number": 51042475,
+   "block_timestamp": "2024-11-08 20:41:58.386 +0000 UTC",
+   "hash": "0x1faa6345544cfcd4313a7091bb8f8a163cd51d5ebc055cbd60049ec30ff9d43c",
+   "code": 5,
+   "gas_wanted": 2000000,
+   "gas_used": 148186,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "1000000000000000"
+     }
+    ],
+    "gas_limit": 2000000,
+    "payer": "inj1d3ux37tfmzywnz8ppgvc3pgzsp8n2lremze4c6"
+   },
+   "codespace": "wasm",
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsInZhbHVlIjp7InNlbmRlciI6ImluajFkM3V4Mzd0Zm16eXduejhwcGd2YzNwZ3pzcDhuMmxyZW16ZTRjNiIsImNvbnRyYWN0IjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwibXNnIjp7InJlc2V0Ijp7ImNvdW50Ijo5OTl9fSwiZnVuZHMiOltdfX1d",
+   "signatures": [
+    {
+     "pubkey": "03fd6dc7984102f0dacb47ee68d61693df33b71f9bffe10e64b91a59b30db2855c",
+     "address": "inj1d3ux37tfmzywnz8ppgvc3pgzsp8n2lremze4c6",
+     "sequence": 5,
+     "signature": "c8cDNKZikjjR4zvNSo3SAQmEufFLfnvkeY2zIbqIhNIqRawFsLb7Gu2NeudwcIZyPspUgkh2AOA07FeGabrWEAE="
+    }
+   ],
+   "tx_number": 39614138,
+   "block_unix_timestamp": 1731098518386,
+   "error_log": "failed to execute message; message index: 0: Unauthorized: execute wasm contract failed"
+  },
+  {
+   "block_number": 51042428,
+   "block_timestamp": "2024-11-08 20:41:16.699 +0000 UTC",
+   "hash": "0xc8b4b4f21f621ce844ac0a2429adfde253a9f26fc376b5f2f87524d9da0c8f8c",
+   "code": 5,
+   "gas_wanted": 2000000,
+   "gas_used": 148186,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "1000000000000000"
+     }
+    ],
+    "gas_limit": 2000000,
+    "payer": "inj1d3ux37tfmzywnz8ppgvc3pgzsp8n2lremze4c6"
+   },
+   "codespace": "wasm",
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsInZhbHVlIjp7InNlbmRlciI6ImluajFkM3V4Mzd0Zm16eXduejhwcGd2YzNwZ3pzcDhuMmxyZW16ZTRjNiIsImNvbnRyYWN0IjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwibXNnIjp7InJlc2V0Ijp7ImNvdW50Ijo5OTl9fSwiZnVuZHMiOltdfX1d",
+   "signatures": [
+    {
+     "pubkey": "03fd6dc7984102f0dacb47ee68d61693df33b71f9bffe10e64b91a59b30db2855c",
+     "address": "inj1d3ux37tfmzywnz8ppgvc3pgzsp8n2lremze4c6",
+     "sequence": 4,
+     "signature": "xKCf4kJajA39c7EWkAxuB8H1+x39JmuoQIyHWsgg1ygL0N+CrQMrR1leqeczhmsXQtSbs1/R+v1csQqLa183HwA="
+    }
+   ],
+   "tx_number": 39614128,
+   "block_unix_timestamp": 1731098476699,
+   "error_log": "failed to execute message; message index: 0: Unauthorized: execute wasm contract failed"
+  }
+ ]
+}
+```
+
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/getContractTxsResponse.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**Paging**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/getContractTxsResponse.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**TxDetailData**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/txDetailData.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**GasFee**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/gasFee.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**Event**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/event.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**Signature**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/signature.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**CosmosCoin**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/cosmosCoin.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+## GetContractTxsV2
+
+Returns contract-related transactions
+
+**IP rate limit group:** `indexer`
+
+### Request Parameters
+> Request Example:
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/11_GetContractsTxsV2.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/17_GetContractTxsV2/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/getContractTxsV2Request.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+### Response Parameters
+> Response Example:
+
+```json
+{
+ "next": [
+  "eyJpIjoiNjcyZTc2ZjRiZTEzMWVmMzBmNWE0NzI1IiwidCI6IjAwMDEtMDEtMDFUMDA6MDA6MDBaIn0=",
+  "eyJpIjoiNjYwZWRhZWRlZTU2MGJiMWM5Mjk5M2Q3IiwidCI6IjAwMDEtMDEtMDFUMDA6MDA6MDBaIn0=",
+  "eyJpIjoiNjU5NmMxNzA5NmY0Nzk3ZTk2ZDA2ZDdhIiwidCI6IjAwMDEtMDEtMDFUMDA6MDA6MDBaIn0=",
+  "eyJpIjoiNjU4NWNkYTk5NmY0Nzk3ZTk2YWMyMTkwIiwidCI6IjAwMDEtMDEtMDFUMDA6MDA6MDBaIn0=",
+  "eyJpIjoiNjU0ZDQ5OWVmZTM4MWY3NWM1Y2FlYmIyIiwidCI6IjAwMDEtMDEtMDFUMDA6MDA6MDBaIn0="
+ ],
+ "data": [
+  {
+   "block_number": 58822729,
+   "block_timestamp": "2025-01-09 10:36:21.96 +0000 UTC",
+   "hash": "0x470de892246c7fa143dfa0475484316f4053b84b905a78dd2a07838231926cf9",
+   "data": "EjYKNC9pbmplY3RpdmUud2FzbXgudjEuTXNnRXhlY3V0ZUNvbnRyYWN0Q29tcGF0UmVzcG9uc2U=",
+   "gas_wanted": 369732,
+   "gas_used": 275791,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "59157120000000"
+     }
+    ],
+    "gas_limit": 369732,
+    "payer": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+   },
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9pbmplY3RpdmUud2FzbXgudjEuTXNnRXhlY3V0ZUNvbnRyYWN0Q29tcGF0IiwidmFsdWUiOnsic2VuZGVyIjoiaW5qMWhraGRhajJhMmNsbXE1anE2bXNwc2dncXMzMnZ5bnBrMjI4cTNyIiwiY29udHJhY3QiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJtc2ciOiJ7XCJpbmNyZW1lbnRcIjoge319IiwiZnVuZHMiOiI2OWZhY3RvcnkvaW5qMWhkdnk2dGw4OWxscXkzemU4bHY2bXo1cWg2NnN4OWVubjBqeGc2L2luajEybmdldngwNDV6cHZhY3VzOXM2YW5yMjU4Z2t3cG10aG56ODBlOSw0MjBwZWdneTB4NDRDMjFhZkFhRjIwYzI3MEVCYkY1OTE0Q2ZjM2I1MDIyMTczRkVCNywxcGVnZ3kweDg3YUIzQjRDODY2MWUwN0Q2MzcyMzYxMjExQjk2ZWQ0RGMzNkIxQjUifX1d",
+   "signatures": [
+    {
+     "pubkey": "035ddc4d5642b9383e2f087b2ee88b7207f6286ebc9f310e9df1406eccc2c31813",
+     "address": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+     "sequence": 22307,
+     "signature": "8mOLGcjvgD3jjO1UTYzj+G9oIPsHMWvBJJN3r7thFQgyvbinvrmqDxOtpKiwPenffoKOhIwvYcPHF/CbqcrgBwE="
+    }
+   ],
+   "tx_number": 42879897,
+   "block_unix_timestamp": 1736418981960,
+   "logs": "W3sibXNnX2luZGV4IjoiMCIsImV2ZW50cyI6W3sidHlwZSI6Im1lc3NhZ2UiLCJhdHRyaWJ1dGVzIjpbeyJrZXkiOiJhY3Rpb24iLCJ2YWx1ZSI6Ii9pbmplY3RpdmUud2FzbXgudjEuTXNnRXhlY3V0ZUNvbnRyYWN0Q29tcGF0IiwiaW5kZXgiOnRydWV9LHsia2V5Ijoic2VuZGVyIiwidmFsdWUiOiJpbmoxaGtoZGFqMmEyY2xtcTVqcTZtc3BzZ2dxczMydnlucGsyMjhxM3IiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtb2R1bGUiLCJ2YWx1ZSI6Indhc214IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiY29pbl9zcGVudCIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InNwZW5kZXIiLCJ2YWx1ZSI6ImluajFoa2hkYWoyYTJjbG1xNWpxNm1zcHNnZ3FzMzJ2eW5wazIyOHEzciIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiNjlmYWN0b3J5L2luajFoZHZ5NnRsODlsbHF5M3plOGx2Nm16NXFoNjZzeDllbm4wanhnNi9pbmoxMm5nZXZ4MDQ1enB2YWN1czlzNmFucjI1OGdrd3BtdGhuejgwZTkiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJjb2luX3JlY2VpdmVkIiwiYXR0cmlidXRlcyI6W3sia2V5IjoicmVjZWl2ZXIiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiNjlmYWN0b3J5L2luajFoZHZ5NnRsODlsbHF5M3plOGx2Nm16NXFoNjZzeDllbm4wanhnNi9pbmoxMm5nZXZ4MDQ1enB2YWN1czlzNmFucjI1OGdrd3BtdGhuejgwZTkiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ0cmFuc2ZlciIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InJlY2lwaWVudCIsInZhbHVlIjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwiaW5kZXgiOnRydWV9LHsia2V5Ijoic2VuZGVyIiwidmFsdWUiOiJpbmoxaGtoZGFqMmEyY2xtcTVqcTZtc3BzZ2dxczMydnlucGsyMjhxM3IiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJhbW91bnQiLCJ2YWx1ZSI6IjY5ZmFjdG9yeS9pbmoxaGR2eTZ0bDg5bGxxeTN6ZThsdjZtejVxaDY2c3g5ZW5uMGp4ZzYvaW5qMTJuZ2V2eDA0NXpwdmFjdXM5czZhbnIyNThna3dwbXRobno4MGU5IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiY29pbl9zcGVudCIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InNwZW5kZXIiLCJ2YWx1ZSI6ImluajFoa2hkYWoyYTJjbG1xNWpxNm1zcHNnZ3FzMzJ2eW5wazIyOHEzciIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiNDIwcGVnZ3kweDQ0QzIxYWZBYUYyMGMyNzBFQmJGNTkxNENmYzNiNTAyMjE3M0ZFQjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJjb2luX3JlY2VpdmVkIiwiYXR0cmlidXRlcyI6W3sia2V5IjoicmVjZWl2ZXIiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiNDIwcGVnZ3kweDQ0QzIxYWZBYUYyMGMyNzBFQmJGNTkxNENmYzNiNTAyMjE3M0ZFQjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ0cmFuc2ZlciIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InJlY2lwaWVudCIsInZhbHVlIjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwiaW5kZXgiOnRydWV9LHsia2V5Ijoic2VuZGVyIiwidmFsdWUiOiJpbmoxaGtoZGFqMmEyY2xtcTVqcTZtc3BzZ2dxczMydnlucGsyMjhxM3IiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJhbW91bnQiLCJ2YWx1ZSI6IjQyMHBlZ2d5MHg0NEMyMWFmQWFGMjBjMjcwRUJiRjU5MTRDZmMzYjUwMjIxNzNGRUI3IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiY29pbl9zcGVudCIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InNwZW5kZXIiLCJ2YWx1ZSI6ImluajFoa2hkYWoyYTJjbG1xNWpxNm1zcHNnZ3FzMzJ2eW5wazIyOHEzciIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiMXBlZ2d5MHg4N2FCM0I0Qzg2NjFlMDdENjM3MjM2MTIxMUI5NmVkNERjMzZCMUI1IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiY29pbl9yZWNlaXZlZCIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InJlY2VpdmVyIiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJhbW91bnQiLCJ2YWx1ZSI6IjFwZWdneTB4ODdhQjNCNEM4NjYxZTA3RDYzNzIzNjEyMTFCOTZlZDREYzM2QjFCNSIsImluZGV4Ijp0cnVlfSx7ImtleSI6Im1zZ19pbmRleCIsInZhbHVlIjoiMCIsImluZGV4Ijp0cnVlfV19LHsidHlwZSI6InRyYW5zZmVyIiwiYXR0cmlidXRlcyI6W3sia2V5IjoicmVjaXBpZW50IiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJzZW5kZXIiLCJ2YWx1ZSI6ImluajFoa2hkYWoyYTJjbG1xNWpxNm1zcHNnZ3FzMzJ2eW5wazIyOHEzciIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiMXBlZ2d5MHg4N2FCM0I0Qzg2NjFlMDdENjM3MjM2MTIxMUI5NmVkNERjMzZCMUI1IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiZXhlY3V0ZSIsImF0dHJpYnV0ZXMiOlt7ImtleSI6Il9jb250cmFjdF9hZGRyZXNzIiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ3YXNtIiwiYXR0cmlidXRlcyI6W3sia2V5IjoiX2NvbnRyYWN0X2FkZHJlc3MiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFjdGlvbiIsInZhbHVlIjoiaW5jcmVtZW50IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX1dfV0="
+  },
+  {
+   "block_number": 58816984,
+   "block_timestamp": "2025-01-09 09:36:16.039 +0000 UTC",
+   "hash": "0xc49b5b9c5f55e3cd0307a8a5c52585a6c4892ce8e35673dcefa2161fea0f7dd4",
+   "data": "EjYKNC9pbmplY3RpdmUud2FzbXgudjEuTXNnRXhlY3V0ZUNvbnRyYWN0Q29tcGF0UmVzcG9uc2U=",
+   "gas_wanted": 369732,
+   "gas_used": 275728,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "59157120000000"
+     }
+    ],
+    "gas_limit": 369732,
+    "payer": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
+   },
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9pbmplY3RpdmUud2FzbXgudjEuTXNnRXhlY3V0ZUNvbnRyYWN0Q29tcGF0IiwidmFsdWUiOnsic2VuZGVyIjoiaW5qMWhraGRhajJhMmNsbXE1anE2bXNwc2dncXMzMnZ5bnBrMjI4cTNyIiwiY29udHJhY3QiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJtc2ciOiJ7XCJpbmNyZW1lbnRcIjoge319IiwiZnVuZHMiOiI2OWZhY3RvcnkvaW5qMWhkdnk2dGw4OWxscXkzemU4bHY2bXo1cWg2NnN4OWVubjBqeGc2L2luajEybmdldngwNDV6cHZhY3VzOXM2YW5yMjU4Z2t3cG10aG56ODBlOSw0MjBwZWdneTB4NDRDMjFhZkFhRjIwYzI3MEVCYkY1OTE0Q2ZjM2I1MDIyMTczRkVCNywxcGVnZ3kweDg3YUIzQjRDODY2MWUwN0Q2MzcyMzYxMjExQjk2ZWQ0RGMzNkIxQjUifX1d",
+   "signatures": [
+    {
+     "pubkey": "035ddc4d5642b9383e2f087b2ee88b7207f6286ebc9f310e9df1406eccc2c31813",
+     "address": "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
+     "sequence": 22306,
+     "signature": "/64SGXeQufnbq4S6l3gaYW8p+3QjAiC0JGTGCoXXrHoTgE09gUCwp1is5prUJbSt+yegNFEcQUs5HZFVRmpf/gA="
+    }
+   ],
+   "tx_number": 42877669,
+   "block_unix_timestamp": 1736415376039,
+   "logs": "W3sibXNnX2luZGV4IjoiMCIsImV2ZW50cyI6W3sidHlwZSI6Im1lc3NhZ2UiLCJhdHRyaWJ1dGVzIjpbeyJrZXkiOiJhY3Rpb24iLCJ2YWx1ZSI6Ii9pbmplY3RpdmUud2FzbXgudjEuTXNnRXhlY3V0ZUNvbnRyYWN0Q29tcGF0IiwiaW5kZXgiOnRydWV9LHsia2V5Ijoic2VuZGVyIiwidmFsdWUiOiJpbmoxaGtoZGFqMmEyY2xtcTVqcTZtc3BzZ2dxczMydnlucGsyMjhxM3IiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtb2R1bGUiLCJ2YWx1ZSI6Indhc214IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiY29pbl9zcGVudCIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InNwZW5kZXIiLCJ2YWx1ZSI6ImluajFoa2hkYWoyYTJjbG1xNWpxNm1zcHNnZ3FzMzJ2eW5wazIyOHEzciIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiNjlmYWN0b3J5L2luajFoZHZ5NnRsODlsbHF5M3plOGx2Nm16NXFoNjZzeDllbm4wanhnNi9pbmoxMm5nZXZ4MDQ1enB2YWN1czlzNmFucjI1OGdrd3BtdGhuejgwZTkiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJjb2luX3JlY2VpdmVkIiwiYXR0cmlidXRlcyI6W3sia2V5IjoicmVjZWl2ZXIiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiNjlmYWN0b3J5L2luajFoZHZ5NnRsODlsbHF5M3plOGx2Nm16NXFoNjZzeDllbm4wanhnNi9pbmoxMm5nZXZ4MDQ1enB2YWN1czlzNmFucjI1OGdrd3BtdGhuejgwZTkiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ0cmFuc2ZlciIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InJlY2lwaWVudCIsInZhbHVlIjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwiaW5kZXgiOnRydWV9LHsia2V5Ijoic2VuZGVyIiwidmFsdWUiOiJpbmoxaGtoZGFqMmEyY2xtcTVqcTZtc3BzZ2dxczMydnlucGsyMjhxM3IiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJhbW91bnQiLCJ2YWx1ZSI6IjY5ZmFjdG9yeS9pbmoxaGR2eTZ0bDg5bGxxeTN6ZThsdjZtejVxaDY2c3g5ZW5uMGp4ZzYvaW5qMTJuZ2V2eDA0NXpwdmFjdXM5czZhbnIyNThna3dwbXRobno4MGU5IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiY29pbl9zcGVudCIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InNwZW5kZXIiLCJ2YWx1ZSI6ImluajFoa2hkYWoyYTJjbG1xNWpxNm1zcHNnZ3FzMzJ2eW5wazIyOHEzciIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiNDIwcGVnZ3kweDQ0QzIxYWZBYUYyMGMyNzBFQmJGNTkxNENmYzNiNTAyMjE3M0ZFQjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJjb2luX3JlY2VpdmVkIiwiYXR0cmlidXRlcyI6W3sia2V5IjoicmVjZWl2ZXIiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiNDIwcGVnZ3kweDQ0QzIxYWZBYUYyMGMyNzBFQmJGNTkxNENmYzNiNTAyMjE3M0ZFQjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ0cmFuc2ZlciIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InJlY2lwaWVudCIsInZhbHVlIjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwiaW5kZXgiOnRydWV9LHsia2V5Ijoic2VuZGVyIiwidmFsdWUiOiJpbmoxaGtoZGFqMmEyY2xtcTVqcTZtc3BzZ2dxczMydnlucGsyMjhxM3IiLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJhbW91bnQiLCJ2YWx1ZSI6IjQyMHBlZ2d5MHg0NEMyMWFmQWFGMjBjMjcwRUJiRjU5MTRDZmMzYjUwMjIxNzNGRUI3IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiY29pbl9zcGVudCIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InNwZW5kZXIiLCJ2YWx1ZSI6ImluajFoa2hkYWoyYTJjbG1xNWpxNm1zcHNnZ3FzMzJ2eW5wazIyOHEzciIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiMXBlZ2d5MHg4N2FCM0I0Qzg2NjFlMDdENjM3MjM2MTIxMUI5NmVkNERjMzZCMUI1IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiY29pbl9yZWNlaXZlZCIsImF0dHJpYnV0ZXMiOlt7ImtleSI6InJlY2VpdmVyIiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJhbW91bnQiLCJ2YWx1ZSI6IjFwZWdneTB4ODdhQjNCNEM4NjYxZTA3RDYzNzIzNjEyMTFCOTZlZDREYzM2QjFCNSIsImluZGV4Ijp0cnVlfSx7ImtleSI6Im1zZ19pbmRleCIsInZhbHVlIjoiMCIsImluZGV4Ijp0cnVlfV19LHsidHlwZSI6InRyYW5zZmVyIiwiYXR0cmlidXRlcyI6W3sia2V5IjoicmVjaXBpZW50IiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJzZW5kZXIiLCJ2YWx1ZSI6ImluajFoa2hkYWoyYTJjbG1xNWpxNm1zcHNnZ3FzMzJ2eW5wazIyOHEzciIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFtb3VudCIsInZhbHVlIjoiMXBlZ2d5MHg4N2FCM0I0Qzg2NjFlMDdENjM3MjM2MTIxMUI5NmVkNERjMzZCMUI1IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiZXhlY3V0ZSIsImF0dHJpYnV0ZXMiOlt7ImtleSI6Il9jb250cmFjdF9hZGRyZXNzIiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ3YXNtIiwiYXR0cmlidXRlcyI6W3sia2V5IjoiX2NvbnRyYWN0X2FkZHJlc3MiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFjdGlvbiIsInZhbHVlIjoiaW5jcmVtZW50IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX1dfV0="
+  },
+  {
+   "block_number": 55217772,
+   "block_timestamp": "2024-12-11 18:47:34.588 +0000 UTC",
+   "hash": "0xf77982a04ad2350313a2b9407e4e8f2bbc08a505af27244f88775ea511f8940d",
+   "code": 5,
+   "gas_wanted": 2000000,
+   "gas_used": 147091,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "1000000000000000"
+     }
+    ],
+    "gas_limit": 2000000,
+    "payer": "inj18tg5vcv4epnpuuerjlqc48lp888ytj8fqme786"
+   },
+   "codespace": "wasm",
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsInZhbHVlIjp7InNlbmRlciI6ImluajE4dGc1dmN2NGVwbnB1dWVyamxxYzQ4bHA4ODh5dGo4ZnFtZTc4NiIsImNvbnRyYWN0IjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwibXNnIjp7ImluY3JlbWVudCI6e30sImFzZGYiOnt9fSwiZnVuZHMiOltdfX1d",
+   "signatures": [
+    {
+     "pubkey": "0232104c09ec53c81f4a99fa2e8af82b46014b2d62249c0417ca06a314db847269",
+     "address": "inj18tg5vcv4epnpuuerjlqc48lp888ytj8fqme786",
+     "sequence": 2,
+     "signature": "glgairiArdzkAYGw96KOIzHaYs/s62ZoqWIDiv62OEt8y9nU90lgIUPdiY52ASqZT2fbRBzcRsJM8ugkN7lJ/wE="
+    }
+   ],
+   "tx_number": 41247484,
+   "block_unix_timestamp": 1733942854588,
+   "error_log": "failed to execute message; message index: 0: Error parsing into type cw_counter::msg::ExecuteMsg: Expected this character to start a JSON value.: execute wasm contract failed"
+  },
+  {
+   "block_number": 55215328,
+   "block_timestamp": "2024-12-11 18:19:08.542 +0000 UTC",
+   "hash": "0xd9ca6b185c270624945e71c50bc93ce018c135490e095ae792abcce8718ed4d7",
+   "data": "Ei4KLC9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdFJlc3BvbnNl",
+   "gas_wanted": 2000000,
+   "gas_used": 152998,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "1000000000000000"
+     }
+    ],
+    "gas_limit": 2000000,
+    "payer": "inj18tg5vcv4epnpuuerjlqc48lp888ytj8fqme786"
+   },
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsInZhbHVlIjp7InNlbmRlciI6ImluajE4dGc1dmN2NGVwbnB1dWVyamxxYzQ4bHA4ODh5dGo4ZnFtZTc4NiIsImNvbnRyYWN0IjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwibXNnIjp7ImluY3JlbWVudCI6e319LCJmdW5kcyI6W119fV0=",
+   "signatures": [
+    {
+     "pubkey": "0232104c09ec53c81f4a99fa2e8af82b46014b2d62249c0417ca06a314db847269",
+     "address": "inj18tg5vcv4epnpuuerjlqc48lp888ytj8fqme786",
+     "sequence": 1,
+     "signature": "0dIkouKEhe3DJgEL/6LkJ/6zokK7u7yo1ab5zatKGogGSXFnkN4R6VIdcZH+nfwQL22wHINMtuVXaKx3ztBRvgE="
+    }
+   ],
+   "tx_number": 41246188,
+   "block_unix_timestamp": 1733941148542,
+   "logs": "W3sibXNnX2luZGV4IjoiMCIsImV2ZW50cyI6W3sidHlwZSI6Im1lc3NhZ2UiLCJhdHRyaWJ1dGVzIjpbeyJrZXkiOiJhY3Rpb24iLCJ2YWx1ZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsImluZGV4Ijp0cnVlfSx7ImtleSI6InNlbmRlciIsInZhbHVlIjoiaW5qMTh0ZzV2Y3Y0ZXBucHV1ZXJqbHFjNDhscDg4OHl0ajhmcW1lNzg2IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibW9kdWxlIiwidmFsdWUiOiJ3YXNtIiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiZXhlY3V0ZSIsImF0dHJpYnV0ZXMiOlt7ImtleSI6Il9jb250cmFjdF9hZGRyZXNzIiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ3YXNtIiwiYXR0cmlidXRlcyI6W3sia2V5IjoiX2NvbnRyYWN0X2FkZHJlc3MiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFjdGlvbiIsInZhbHVlIjoiaW5jcmVtZW50IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX1dfV0="
+  },
+  {
+   "block_number": 55215254,
+   "block_timestamp": "2024-12-11 18:18:18.307 +0000 UTC",
+   "hash": "0x4ac5f09ea7c8469d7cd82fd85e0a5e72c5b9d4af4383f8c9c5b80ae40203dde0",
+   "code": 5,
+   "gas_wanted": 2000000,
+   "gas_used": 161846,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "1000000000000000"
+     }
+    ],
+    "gas_limit": 2000000,
+    "payer": "inj18tg5vcv4epnpuuerjlqc48lp888ytj8fqme786"
+   },
+   "codespace": "wasm",
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsInZhbHVlIjp7InNlbmRlciI6ImluajE4dGc1dmN2NGVwbnB1dWVyamxxYzQ4bHA4ODh5dGo4ZnFtZTc4NiIsImNvbnRyYWN0IjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwibXNnIjp7ImluY3JlbWVudCI6e30sImluY3JlbWVudCI6e319LCJmdW5kcyI6W119fV0=",
+   "signatures": [
+    {
+     "pubkey": "0232104c09ec53c81f4a99fa2e8af82b46014b2d62249c0417ca06a314db847269",
+     "address": "inj18tg5vcv4epnpuuerjlqc48lp888ytj8fqme786",
+     "signature": "QpwwzQX7OPJUPRqJxmUCu/e7GMUyfn7FaF6k3EqzsUdg529x20tgo9Lmuw2KQCtAN8FCCsdUPIr2kajVGPWx7wE="
+    }
+   ],
+   "tx_number": 41246155,
+   "block_unix_timestamp": 1733941098307,
+   "error_log": "failed to execute message; message index: 0: Error parsing into type cw_counter::msg::ExecuteMsg: Expected this character to start a JSON value.: execute wasm contract failed"
+  },
+  {
+   "block_number": 51412834,
+   "block_timestamp": "2024-11-12 01:41:02.012 +0000 UTC",
+   "hash": "0xfd8d73363512856e462995d3733f5047fd033077fee6bf90bf10f6b1cdb035f9",
+   "data": "Ei4KLC9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdFJlc3BvbnNl",
+   "gas_wanted": 371647,
+   "gas_used": 153013,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "59463520000000"
+     }
+    ],
+    "gas_limit": 371647,
+    "payer": "inj1t7kfgeywkf8kat4xyj3jds4kq8fuew6xfjsuyy"
+   },
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsInZhbHVlIjp7InNlbmRlciI6ImluajF0N2tmZ2V5d2tmOGthdDR4eWozamRzNGtxOGZ1ZXc2eGZqc3V5eSIsImNvbnRyYWN0IjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwibXNnIjp7ImluY3JlbWVudCI6e319LCJmdW5kcyI6W119fV0=",
+   "signatures": [
+    {
+     "pubkey": "030b3b7ca00851ca255c18f7b47c5670793c4f022e9d286a080d322ba7dc11d019",
+     "address": "inj1t7kfgeywkf8kat4xyj3jds4kq8fuew6xfjsuyy",
+     "sequence": 128,
+     "signature": "AxRUotq9abi9gJsE2oORD/rwWpc2NjtVuYfdb0ZDLH08gh9Vox8RcAGD2a587DGqODV08G+n+fhzk4CM/0xUdw=="
+    }
+   ],
+   "tx_number": 39702063,
+   "block_unix_timestamp": 1731375662012,
+   "logs": "W3sibXNnX2luZGV4IjoiMCIsImV2ZW50cyI6W3sidHlwZSI6Im1lc3NhZ2UiLCJhdHRyaWJ1dGVzIjpbeyJrZXkiOiJhY3Rpb24iLCJ2YWx1ZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsImluZGV4Ijp0cnVlfSx7ImtleSI6InNlbmRlciIsInZhbHVlIjoiaW5qMXQ3a2ZnZXl3a2Y4a2F0NHh5ajNqZHM0a3E4ZnVldzZ4ZmpzdXl5IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibW9kdWxlIiwidmFsdWUiOiJ3YXNtIiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiZXhlY3V0ZSIsImF0dHJpYnV0ZXMiOlt7ImtleSI6Il9jb250cmFjdF9hZGRyZXNzIiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ3YXNtIiwiYXR0cmlidXRlcyI6W3sia2V5IjoiX2NvbnRyYWN0X2FkZHJlc3MiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFjdGlvbiIsInZhbHVlIjoiaW5jcmVtZW50IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX1dfV0="
+  },
+  {
+   "block_number": 51403866,
+   "block_timestamp": "2024-11-12 00:00:00.788 +0000 UTC",
+   "hash": "0x468be957643b74582caf8e1991aea490f68522910655f68417741f7306d50014",
+   "data": "Ei4KLC9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdFJlc3BvbnNl",
+   "gas_wanted": 371619,
+   "gas_used": 152982,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "59459040000000"
+     }
+    ],
+    "gas_limit": 371619,
+    "payer": "inj1t7kfgeywkf8kat4xyj3jds4kq8fuew6xfjsuyy"
+   },
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsInZhbHVlIjp7InNlbmRlciI6ImluajF0N2tmZ2V5d2tmOGthdDR4eWozamRzNGtxOGZ1ZXc2eGZqc3V5eSIsImNvbnRyYWN0IjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwibXNnIjp7ImluY3JlbWVudCI6e319LCJmdW5kcyI6W119fV0=",
+   "signatures": [
+    {
+     "pubkey": "030b3b7ca00851ca255c18f7b47c5670793c4f022e9d286a080d322ba7dc11d019",
+     "address": "inj1t7kfgeywkf8kat4xyj3jds4kq8fuew6xfjsuyy",
+     "sequence": 127,
+     "signature": "/II5Vf7y+5msOSjdPo7wcFlfIMAXUwn64+Q2EkxsN1ROD0VyT36Xbj69vTmtnVbBjM59MKzBlgw5g1/1IWlr5A=="
+    }
+   ],
+   "tx_number": 39698366,
+   "block_unix_timestamp": 1731369600788,
+   "logs": "W3sibXNnX2luZGV4IjoiMCIsImV2ZW50cyI6W3sidHlwZSI6Im1lc3NhZ2UiLCJhdHRyaWJ1dGVzIjpbeyJrZXkiOiJhY3Rpb24iLCJ2YWx1ZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsImluZGV4Ijp0cnVlfSx7ImtleSI6InNlbmRlciIsInZhbHVlIjoiaW5qMXQ3a2ZnZXl3a2Y4a2F0NHh5ajNqZHM0a3E4ZnVldzZ4ZmpzdXl5IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibW9kdWxlIiwidmFsdWUiOiJ3YXNtIiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX0seyJ0eXBlIjoiZXhlY3V0ZSIsImF0dHJpYnV0ZXMiOlt7ImtleSI6Il9jb250cmFjdF9hZGRyZXNzIiwidmFsdWUiOiJpbmoxYWR5M3M3d2hxMzBsNGZ4OHNqM3g2bXV2NW14NGRmZGxjcHY4bjciLCJpbmRleCI6dHJ1ZX0seyJrZXkiOiJtc2dfaW5kZXgiLCJ2YWx1ZSI6IjAiLCJpbmRleCI6dHJ1ZX1dfSx7InR5cGUiOiJ3YXNtIiwiYXR0cmlidXRlcyI6W3sia2V5IjoiX2NvbnRyYWN0X2FkZHJlc3MiLCJ2YWx1ZSI6ImluajFhZHkzczd3aHEzMGw0Zng4c2ozeDZtdXY1bXg0ZGZkbGNwdjhuNyIsImluZGV4Ijp0cnVlfSx7ImtleSI6ImFjdGlvbiIsInZhbHVlIjoiaW5jcmVtZW50IiwiaW5kZXgiOnRydWV9LHsia2V5IjoibXNnX2luZGV4IiwidmFsdWUiOiIwIiwiaW5kZXgiOnRydWV9XX1dfV0="
+  },
+  {
+   "block_number": 51403569,
+   "block_timestamp": "2024-11-11 23:56:40.421 +0000 UTC",
+   "hash": "0xf034d70005d204d671d2525b9b2c324c54d64d1dd923972deaa4d4d9aef44caf",
+   "code": 11,
+   "gas_wanted": 146589,
+   "gas_used": 146703,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "23454240000000"
+     }
+    ],
+    "gas_limit": 146589,
+    "payer": "inj1t7kfgeywkf8kat4xyj3jds4kq8fuew6xfjsuyy"
+   },
+   "codespace": "sdk",
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsInZhbHVlIjp7InNlbmRlciI6ImluajF0N2tmZ2V5d2tmOGthdDR4eWozamRzNGtxOGZ1ZXc2eGZqc3V5eSIsImNvbnRyYWN0IjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwibXNnIjp7ImluY3JlbWVudCI6e319LCJmdW5kcyI6W119fV0=",
+   "signatures": [
+    {
+     "pubkey": "030b3b7ca00851ca255c18f7b47c5670793c4f022e9d286a080d322ba7dc11d019",
+     "address": "inj1t7kfgeywkf8kat4xyj3jds4kq8fuew6xfjsuyy",
+     "sequence": 126,
+     "signature": "k2kI8ITLgSKXw2yPUTFD59u9hUFlfvY/Gqwuj7hH1ORYZPFLps+0tPcdX2GMOjexJ24Yjge33j9aAoWYWtzPOw=="
+    }
+   ],
+   "tx_number": 39698239,
+   "block_unix_timestamp": 1731369400421,
+   "error_log": "out of gas in location: Loading CosmWasm module: execute; gasWanted: 146589, gasUsed: 146703: out of gas"
+  },
+  {
+   "block_number": 51042475,
+   "block_timestamp": "2024-11-08 20:41:58.386 +0000 UTC",
+   "hash": "0x1faa6345544cfcd4313a7091bb8f8a163cd51d5ebc055cbd60049ec30ff9d43c",
+   "code": 5,
+   "gas_wanted": 2000000,
+   "gas_used": 148186,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "1000000000000000"
+     }
+    ],
+    "gas_limit": 2000000,
+    "payer": "inj1d3ux37tfmzywnz8ppgvc3pgzsp8n2lremze4c6"
+   },
+   "codespace": "wasm",
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsInZhbHVlIjp7InNlbmRlciI6ImluajFkM3V4Mzd0Zm16eXduejhwcGd2YzNwZ3pzcDhuMmxyZW16ZTRjNiIsImNvbnRyYWN0IjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwibXNnIjp7InJlc2V0Ijp7ImNvdW50Ijo5OTl9fSwiZnVuZHMiOltdfX1d",
+   "signatures": [
+    {
+     "pubkey": "03fd6dc7984102f0dacb47ee68d61693df33b71f9bffe10e64b91a59b30db2855c",
+     "address": "inj1d3ux37tfmzywnz8ppgvc3pgzsp8n2lremze4c6",
+     "sequence": 5,
+     "signature": "c8cDNKZikjjR4zvNSo3SAQmEufFLfnvkeY2zIbqIhNIqRawFsLb7Gu2NeudwcIZyPspUgkh2AOA07FeGabrWEAE="
+    }
+   ],
+   "tx_number": 39614138,
+   "block_unix_timestamp": 1731098518386,
+   "error_log": "failed to execute message; message index: 0: Unauthorized: execute wasm contract failed"
+  },
+  {
+   "block_number": 51042428,
+   "block_timestamp": "2024-11-08 20:41:16.699 +0000 UTC",
+   "hash": "0xc8b4b4f21f621ce844ac0a2429adfde253a9f26fc376b5f2f87524d9da0c8f8c",
+   "code": 5,
+   "gas_wanted": 2000000,
+   "gas_used": 148186,
+   "gas_fee": {
+    "amount": [
+     {
+      "denom": "inj",
+      "amount": "1000000000000000"
+     }
+    ],
+    "gas_limit": 2000000,
+    "payer": "inj1d3ux37tfmzywnz8ppgvc3pgzsp8n2lremze4c6"
+   },
+   "codespace": "wasm",
+   "tx_type": "injective",
+   "messages": "W3sidHlwZSI6Ii9jb3Ntd2FzbS53YXNtLnYxLk1zZ0V4ZWN1dGVDb250cmFjdCIsInZhbHVlIjp7InNlbmRlciI6ImluajFkM3V4Mzd0Zm16eXduejhwcGd2YzNwZ3pzcDhuMmxyZW16ZTRjNiIsImNvbnRyYWN0IjoiaW5qMWFkeTNzN3docTMwbDRmeDhzajN4Nm11djVteDRkZmRsY3B2OG43IiwibXNnIjp7InJlc2V0Ijp7ImNvdW50Ijo5OTl9fSwiZnVuZHMiOltdfX1d",
+   "signatures": [
+    {
+     "pubkey": "03fd6dc7984102f0dacb47ee68d61693df33b71f9bffe10e64b91a59b30db2855c",
+     "address": "inj1d3ux37tfmzywnz8ppgvc3pgzsp8n2lremze4c6",
+     "sequence": 4,
+     "signature": "xKCf4kJajA39c7EWkAxuB8H1+x39JmuoQIyHWsgg1ygL0N+CrQMrR1leqeczhmsXQtSbs1/R+v1csQqLa183HwA="
+    }
+   ],
+   "tx_number": 39614128,
+   "block_unix_timestamp": 1731098476699,
+   "error_log": "failed to execute message; message index: 0: Unauthorized: execute wasm contract failed"
+  }
+ ]
+}
+```
+
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/getContractTxsV2Response.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**TxDetailData**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/txDetailData.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**GasFee**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/gasFee.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**Event**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/event.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**Signature**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/signature.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**CosmosCoin**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/cosmosCoin.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+## GetValidators
+
+Returns validators on the active chain
+
+**IP rate limit group:** `indexer`
+
+### Request Parameters
+> Request Example:
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/12_GetValidators.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/18_GetValidators/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+No parameters
+
+
+### Response Parameters
+> Response Example:
+
+```json
+{
+ "s": "ok",
+ "data": [
+  {
+   "moniker": "InjectiveNode0",
+   "operator_address": "injvaloper156t3yxd4udv0h9gwagfcmwnmm3quy0nph7tyh5",
+   "consensus_address": "injvalcons1xwg7xkmpqp8q804c37sa4dzyfwgnh4a74ll9pz",
+   "status": 3,
+   "tokens": "199839467422092227833043922278058",
+   "delegator_shares": "200079520832392518666156120803312.278592914008001140",
+   "description": {
+    "moniker": "InjectiveNode0"
+   },
+   "unbonding_height": 29124205,
+   "unbonding_time": "2024-05-28 05:54:07.916 +0000 UTC",
+   "commission_rate": "0.100000000000000000",
+   "commission_max_rate": "1.000000000000000000",
+   "commission_max_change_rate": "1.000000000000000000",
+   "commission_update_time": "2022-07-05 00:43:31.747 +0000 UTC",
+   "proposed": 14637446,
+   "signed": 34790558,
+   "timestamp": "2025-01-24 17:43:23.333 +0000 UTC",
+   "slashing_events": [
+    {
+     "block_number": 29124205,
+     "block_timestamp": "2024-05-07 05:54:07.916 +0000 UTC",
+     "power": 199859454142830,
+     "reason": "missing_signature",
+     "jailed": "injvalcons1xwg7xkmpqp8q804c37sa4dzyfwgnh4a74ll9pz"
+    }
+   ],
+   "uptime_percentage": 100
+  },
+  {
+   "moniker": "InjectiveNode3",
+   "operator_address": "injvaloper1kk523rsm9pey740cx4plalp40009ncs0wrchfe",
+   "consensus_address": "injvalcons156wnzfr0kul2ftuqwz6339fafv9a3jnr03v25d",
+   "jailed": true,
+   "status": 1,
+   "tokens": "2552165711097612775707760",
+   "delegator_shares": "2557277708668587635912948.746178338091196081",
+   "description": {
+    "moniker": "InjectiveNode3"
+   },
+   "unbonding_height": 13904543,
+   "unbonding_time": "2023-08-13 08:49:31.706 +0000 UTC",
+   "commission_rate": "1.000000000000000000",
+   "commission_max_rate": "1.000000000000000000",
+   "commission_max_change_rate": "1.000000000000000000",
+   "commission_update_time": "2022-07-05 03:07:17.931 +0000 UTC",
+   "proposed": 2722044,
+   "signed": 7101559,
+   "timestamp": "2025-01-24 17:43:23.333 +0000 UTC"
+  }
+ ]
+}
+```
+
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/getValidatorsResponse.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**Validator**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/validator.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**ValidatorDescription**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/validatorDescription.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**ValidatorUptime**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/validatorUptime.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+## GetValidator
+
+Returns validator information on the active chain
+
+**IP rate limit group:** `indexer`
+
+### Request Parameters
+> Request Example:
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/13_GetValidator.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/19_GetValidator/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/getValidatorRequest.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+### Response Parameters
+> Response Example:
+
+```json
+{
+ "s": "ok",
+ "data": {
+  "moniker": "InjectiveNode3",
+  "operator_address": "injvaloper1kk523rsm9pey740cx4plalp40009ncs0wrchfe",
+  "consensus_address": "injvalcons156wnzfr0kul2ftuqwz6339fafv9a3jnr03v25d",
+  "jailed": true,
+  "status": 1,
+  "tokens": "2552165711097612775707760",
+  "delegator_shares": "2557277708668587635912948.746178338091196081",
+  "description": {
+   "moniker": "InjectiveNode3"
+  },
+  "unbonding_height": 13904543,
+  "unbonding_time": "2023-08-13 08:49:31.706 +0000 UTC",
+  "commission_rate": "1.000000000000000000",
+  "commission_max_rate": "1.000000000000000000",
+  "commission_max_change_rate": "1.000000000000000000",
+  "commission_update_time": "2022-07-05 03:07:17.931 +0000 UTC",
+  "proposed": 2722044,
+  "signed": 7101559,
+  "timestamp": "2025-01-24 18:06:40.345 +0000 UTC"
+ }
+}
+```
+
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/getValidatorResponse.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**Validator**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/validator.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**ValidatorDescription**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/validatorDescription.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**ValidatorUptime**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/validatorUptime.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+## GetValidatorUptime
+
+Returns validator uptime information on the active chain
+
+**IP rate limit group:** `indexer`
+
+### Request Parameters
+> Request Example:
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/14_GetValidatorUptime.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/20_GetValidatorUptime/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/getValidatorUptimeRequest.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+### Response Parameters
+> Response Example:
+
+```json
+{
+ "s": "ok",
+ "data": [
+  {
+   "block_number": 60715775,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715774,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715773,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715772,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715771,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715770,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715769,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715768,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715767,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715766,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715765,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715764,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715763,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715762,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715761,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715760,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715759,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715758,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715757,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715756,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715755,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715754,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715753,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715752,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715751,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715750,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715749,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715748,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715747,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715746,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715745,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715744,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715743,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715742,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715741,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715740,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715739,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715738,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715737,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715736,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715735,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715734,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715733,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715732,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715731,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715730,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715729,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715728,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715727,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715726,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715725,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715724,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715723,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715722,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715721,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715720,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715719,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715718,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715717,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715716,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715715,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715714,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715713,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715712,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715711,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715710,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715709,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715708,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715707,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715706,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715705,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715704,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715703,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715702,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715701,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715700,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715699,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715698,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715697,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715696,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715695,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715694,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715693,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715692,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715691,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715690,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715689,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715688,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715687,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715686,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715685,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715684,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715683,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715682,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715681,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715680,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715679,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715678,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715677,
+   "status": "missed"
+  },
+  {
+   "block_number": 60715676,
+   "status": "missed"
+  }
+ ]
+}
+```
+
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/getValidatorUptimeResponse.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**ValidatorUptime**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/validatorUptime.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+## Relayers
+
+Request relayers infos by marketIDs. If no ids are provided, all market with associated relayers are returned
+
+**IP rate limit group:** `indexer`
+
+### Request Parameters
+> Request Example:
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/20_Relayers.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/21_Relayers/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/relayersRequest.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+### Response Parameters
+> Response Example:
+
+```json
+
+```
+
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/relayersResponse.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**RelayerMarkets**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/relayerMarkets.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**Relayer**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/relayer.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+## GetBankTransfers
+
+Returns bank transfers
+
+**IP rate limit group:** `indexer`
+
+### Request Parameters
+> Request Example:
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/explorer_rpc/21_GetBankTransfers.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/explorer/22_GetBankTransfers/example.go) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/getBankTransfersRequest.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+
+### Response Parameters
+> Response Example:
+
+```json
+
+```
+
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/getBankTransfersResponse.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**BankTransfer**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/bankTransfer.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
+
+<br/>
+
+**Coin**
+
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/explorer/coin.json) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
