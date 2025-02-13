@@ -2764,7 +2764,7 @@ func main() {
 
 | Parameter | Type    | Description                                                                                            | Required |
 | --------- | ------- | ------------------------------------------------------------------------------------------------------ | -------- |
-| market_id | String  | ID of the market to query liquidable positions for                                                     | Yes      |
+| market_id | String  | ID of the market to query liquidable positions for                                                     | No      |
 | skip      | Integer | Skip the first *n* cosmwasm contracts. This can be used to fetch all results since the API caps at 100 | No       |
 | limit     | Integer | Max number of items to be returned, defaults to 100                                                    | No       |
 
