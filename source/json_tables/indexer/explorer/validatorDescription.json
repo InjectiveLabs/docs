@@ -1,0 +1,8 @@
+[
+    {"Parameter": "moniker", "Type": "String", "Description": "Validator's moniker"},
+    {"Parameter": "identity", "Type": "String", "Description": "Validator's ID"},
+    {"Parameter": "website", "Type": "String", "Description": "Validator's website URL"},
+    {"Parameter": "security_contact", "Type": "String", "Description": "Contact data"},
+    {"Parameter": "details", "Type": "String", "Description": ""},
+    {"Parameter": "image_url", "Type": "String", "Description": "URL of the validator's logo"}
+]

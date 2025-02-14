@@ -1,0 +1,5 @@
+[
+    {"Parameter": "params", "Type": "Params", "Description": "Module's parameters"},
+    {"Parameter": "namespaces", "Type": "Namespace Array", "Description": "List of namespaces"},
+    {"Parameter": "vouchers", "Type": "AddressVoucher Array", "Description": "List of vouchers"}
+]

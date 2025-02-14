@@ -1,0 +1,3 @@
+[
+    {"Parameter": "new_value", "Type": "String", "Description": "Address of the wasm contract that will provide the real destination address"}
+]

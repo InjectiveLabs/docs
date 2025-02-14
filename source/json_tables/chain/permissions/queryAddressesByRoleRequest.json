@@ -1,4 +1,0 @@
-[
-    {"Parameter": "denom", "Type": "String", "Description": "The token denom", "Required": "Yes"},
-    {"Parameter": "role", "Type": "String", "Description": "The role name to query the addresses for", "Required": "Yes"}
-]

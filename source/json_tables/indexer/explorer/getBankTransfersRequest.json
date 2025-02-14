@@ -1,0 +1,12 @@
+[
+    {"Parameter": "senders", "Type": "String Array", "Description": "List of senders' Injective address", "Required": "No"},
+    {"Parameter": "recipients", "Type": "String Array", "Description": "List of recipients' Injective address", "Required": "No"},
+    {"Parameter": "is_community_pool_related", "Type": "Boolean", "Description": "Returns transfers with the community pool address as either sender or recipient", "Required": "No"},
+    {"Parameter": "limit", "Type": "Integer", "Description": "Max number of items to be returned, defaults to 100", "Required": "No"},
+    {"Parameter": "skip", "Type": "Integer", "Description": "Skip the first N results. This can be used to fetch all results since the API caps at 100", "Required": "No"},
+    {"Parameter": "start_time", "Type": "Integer", "Description": "The starting timestamp in UNIX milliseconds that the transfers must be equal or older than", "Required": "No"},
+    {"Parameter": "end_time", "Type": "Integer", "Description": "The ending timestamp in UNIX milliseconds that the transfers must be equal or younger than", "Required": "No"},
+    {"Parameter": "address", "Type": "String Array", "Description": "Transfers where either the sender or the recipient is one of the addresses", "Required": "No"},
+    {"Parameter": "per_page", "Type": "Integer", "Description": "Number of results to include per page", "Required": "No"},
+    {"Parameter": "token", "Type": "String", "Description": "Token specifying the next page of results to get", "Required": "No"}
+]

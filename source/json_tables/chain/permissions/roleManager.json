@@ -1,0 +1,4 @@
+[
+    {"Parameter": "manager", "Type": "String", "Description": "Manager name"},
+    {"Parameter": "roles", "Type": "String Array", "Description": "List of roles"}
+]

@@ -1,4 +1,0 @@
-[
-    {"Parameter": "address", "Type": "String", "Description": "Injective address"},
-    {"Parameter": "roles", "Type": "String Array", "Description": "List of roles assigned to the address"}
-]

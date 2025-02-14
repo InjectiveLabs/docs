@@ -1,0 +1,4 @@
+[
+    {"Parameter": "denom", "Type": "String", "Description": "The token denom", "Required": "Yes"},
+    {"Parameter": "role", "Type": "String", "Description": "The role to query actors for", "Required": "Yes"}
+]

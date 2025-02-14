@@ -1,0 +1,4 @@
+[
+    {"Parameter": "denom", "Type": "String", "Description": "The token denom", "Required": "Yes"},
+    {"Parameter": "manager", "Type": "String", "Description": "The manager's Injective address", "Required": "Yes"}
+]

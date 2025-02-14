@@ -1,0 +1,17 @@
+[
+    {"Parameter": "market_id", "Type": "String", "Description": "MarketId of the market's trades we want to fetch", "Required": "No"},
+    {"Parameter": "execution_side", "Type": "String", "Description": "Either maker or taker", "Required": "No"},
+    {"Parameter": "direction", "Type": "String", "Description": "Trade direction", "Required": "No"},
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "ID of the subaccount the trades belong to", "Required": "No"},
+    {"Parameter": "skip", "Type": "Integer", "Description": "Will skipt the first N items from the result", "Required": "No"},
+    {"Parameter": "limit", "Type": "Integer", "Description": "Maximum number of items to be returned", "Required": "No"},
+    {"Parameter": "start_time", "Type": "Integer", "Description": "The starting timestamp in UNIX milliseconds that the trades must be equal or older than", "Required": "No"},
+    {"Parameter": "end_time", "Type": "Integer", "Description": "The ending timestamp in UNIX milliseconds that the trades must be equal or newer than", "Required": "No"},
+    {"Parameter": "market_ids", "Type": "String Array", "Description": "List of MarketIDs the trades can belong to", "Required": "No"},
+    {"Parameter": "subacount_ids", "Type": "String Array", "Description": "Subaccount ids of traders we want to get trades. Use this field for fetching trades from multiple subaccounts", "Required": "No"},
+    {"Parameter": "execution_types", "Type": "String Array", "Description": "List of execution types. The execution types are: market, limitFill, limitMatchRestingOrder, limitMatchNewOrder", "Required": "No"},
+    {"Parameter": "trade_id", "Type": "String", "Description": "ID of the trade to return", "Required": "No"},
+    {"Parameter": "account_address", "Type": "String", "Description": "Injective address the trade belongs to", "Required": "No"},
+    {"Parameter": "cid", "Type": "String", "Description": "The client order ID of the order generating the trade", "Required": "No"},
+    {"Parameter": "fee_recipient", "Type": "String", "Description": "Injective address of the fee recipient", "Required": "No"}
+]

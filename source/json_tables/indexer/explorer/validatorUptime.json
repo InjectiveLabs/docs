@@ -1,0 +1,4 @@
+[
+    {"Parameter": "blockNumber", "Type": "Integer", "Description": "Block number"},
+    {"Parameter": "status", "Type": "String", "Description": "Status"}
+]

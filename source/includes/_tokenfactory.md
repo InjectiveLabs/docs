@@ -647,6 +647,7 @@ async def main() -> None:
         name="Injective Test Token",
         symbol="INJTEST",
         decimals=18,
+        allow_admin_burn=False,
     )
 
     # broadcast the transaction
@@ -874,6 +875,7 @@ async def main() -> None:
     message = composer.msg_mint(
         sender=address.to_acc_bech32(),
         amount=amount,
+        receiver="inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
     )
 
     # broadcast the transaction
@@ -1110,6 +1112,7 @@ async def main() -> None:
     message = composer.msg_burn(
         sender=address.to_acc_bech32(),
         amount=amount,
+        burn_from_address="inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r",
     )
 
     # broadcast the transaction

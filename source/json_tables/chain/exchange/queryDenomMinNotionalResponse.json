@@ -1,0 +1,3 @@
+[
+    {"Parameter": "amount", "Type": "Decimal", "Description": "Market minimum notional"}
+]

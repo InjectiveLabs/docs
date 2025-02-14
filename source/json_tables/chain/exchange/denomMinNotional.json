@@ -1,0 +1,4 @@
+[
+    {"Parameter": "denom", "Type": "String", "Description": "The denom ID"},
+    {"Parameter": "min_notional", "Type": "Decimal", "Description": "The minimum notional configured for the denom"}
+]

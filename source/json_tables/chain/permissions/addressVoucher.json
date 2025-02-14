@@ -1,0 +1,4 @@
+[
+    {"Parameter": "address", "Type": "String", "Description": "Injective address the voucher is associated to"},
+    {"Parameter": "voucher", "Type": "Coin", "Description": "The token amount"}
+]

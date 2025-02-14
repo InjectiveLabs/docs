@@ -1,0 +1,8 @@
+[
+    {"Parameter": "address", "Type": "String", "Description": "The contract's Injective address", "Required": "Yes"},
+    {"Parameter": "height", "Type": "Integer", "Description": "Transaction height", "Required": "No"},
+    {"Parameter": "from", "Type": "Integer", "Description": "Unix timestamp (UTC) in milliseconds", "Required": "No"},
+    {"Parameter": "to", "Type": "Integer", "Description": "Unix timestamp (UTC) in milliseconds", "Required": "No"},
+    {"Parameter": "limit", "Type": "Integer", "Description": "Max number of items to be returned, defaults to 100", "Required": "No"},
+    {"Parameter": "token", "Type": "String", "Description": "Pagination token", "Required": "No"}
+]

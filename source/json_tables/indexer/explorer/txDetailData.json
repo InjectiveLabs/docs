@@ -1,0 +1,23 @@
+[
+    {"Parameter": "id", "Type": "String", "Description": "Transaction ID"},
+    {"Parameter": "block_number", "Type": "Integer", "Description": "Number of the block that included the transaction"},
+    {"Parameter": "block_timestamp", "Type": "String", "Description": "Timestamp of the block that included the transaction"},
+    {"Parameter": "hash", "Type": "String", "Description": "Transaction hash"},
+    {"Parameter": "code", "Type": "Integer", "Description": "Transaction result code"},
+    {"Parameter": "data", "Type": "Byte Array", "Description": "Transaction data"},
+    {"Parameter": "info", "Type": "String", "Description": "Transaction information"},
+    {"Parameter": "gas_wanted", "Type": "Integer", "Description": "Amount of gas sent by the user to process the transaction"},
+    {"Parameter": "gas_used", "Type": "Integer", "Description": "Amount of gas used by the chain to process the transaction"},
+    {"Parameter": "gas_fee", "Type": "GasFee", "Description": "Fee paid for the gas consumption"},
+    {"Parameter": "codespace", "Type": "String", "Description": "Transaction codespace"},
+    {"Parameter": "events", "Type": "Event Array", "Description": "List of events associated with the transaction"},
+    {"Parameter": "tx_type", "Type": "String", "Description": "Transaction type"},
+    {"Parameter": "messages", "Type": "Byte Array", "Description": "Transaction messages"},
+    {"Parameter": "signatures", "Type": "Signature Array", "Description": "Transaction signature"},
+    {"Parameter": "memo", "Type": "String", "Description": "Transaction memo"},
+    {"Parameter": "tx_number", "Type": "Integer", "Description": "Transaction number"},
+    {"Parameter": "block_unix_timestamp", "Type": "Integer", "Description": "Timestamp of the block including the transaction, in Unix format in milliseconds"},
+    {"Parameter": "errorLog", "Type": "String", "Description": "Transaction error logs"},
+    {"Parameter": "logs", "Type": "Byte Array", "Description": "Transaction log"},
+    {"Parameter": "claim_ids", "Type": "Integer Array", "Description": "Peggy bridge claim id, non-zero if tx contains MsgDepositClaim"}
+]

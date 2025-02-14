@@ -1,0 +1,3 @@
+[
+    {"Parameter": "wasm_hook_query_max_gas", "Type": "Integer", "Description": "Max amount of gas allowed for wasm hook queries"}
+]
