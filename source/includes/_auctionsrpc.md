@@ -392,9 +392,79 @@ Returns the total amount of INJ burnt in auctions.
 > Request Example:
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/auctions_rpc/4_InjBurntEndpoint.py) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-python/raw/master/examples/exchange_client/auctions_rpc/4_InjBurntEndpoint.py -->
+```py
+import asyncio
+
+from pyinjective.async_client import AsyncClient
+from pyinjective.core.network import Network
+
+
+async def main():
+    # Select network: testnet, mainnet, or local
+    network = Network.testnet()
+
+    # Initialize AsyncClient
+    client = AsyncClient(network)
+
+    try:
+        # Fetch INJ burnt amount
+        inj_burnt_response = await client.fetch_inj_burnt()
+        print("INJ Burnt Endpoint Response:")
+        print(inj_burnt_response)
+
+    except Exception as e:
+        print(f"Error fetching INJ burnt amount: {e}")
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <!-- MARKDOWN-AUTO-DOCS:START (CODE:src=https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/auction/4_InjBurntEndpoint/example.go) -->
+<!-- The below code snippet is automatically added from https://github.com/InjectiveLabs/sdk-go/raw/master/examples/exchange/auction/4_InjBurntEndpoint/example.go -->
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"time"
+
+	"github.com/InjectiveLabs/sdk-go/client/common"
+	"github.com/InjectiveLabs/sdk-go/client/exchange"
+)
+
+func main() {
+	network := common.LoadNetwork("testnet", "lb")
+	exchangeClient, err := exchange.NewExchangeClient(network)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	// Fetch INJ burnt details
+	injBurntResponse, err := exchangeClient.FetchInjBurnt(ctx)
+	if err != nil {
+		fmt.Printf("Failed to fetch INJ burnt details: %v\n", err)
+		return
+	}
+
+	// Print JSON representation of the response
+	jsonResponse, err := json.MarshalIndent(injBurntResponse, "", "  ")
+	if err != nil {
+		fmt.Printf("Failed to marshal response to JSON: %v\n", err)
+		return
+	}
+
+	fmt.Println("INJ Burnt Details:")
+	fmt.Println(string(jsonResponse))
+}
+```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 No parameters
@@ -409,6 +479,7 @@ No parameters
 ```
 
 <!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/auction/injBurntEndpointResponse.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">total_inj_burnt</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">The total amount of INJ burnt in auctions</td></tr></tbody></table>
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 
