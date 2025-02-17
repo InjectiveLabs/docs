@@ -369,7 +369,7 @@ async def main() -> None:
 
     base_symbol = market.oracle_base
     quote_symbol = market.oracle_quote
-    oracle_type = market.oracle_type
+    oracle_type = market.oracle_type.lower()
 
     task = asyncio.get_event_loop().create_task(
         client.listen_oracle_prices_updates(
@@ -401,6 +401,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 
 	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
 
@@ -470,7 +471,8 @@ func main() {
 
 	baseSymbol := market.OracleBase
 	quoteSymbol := market.OracleQuote
-	oracleType := market.OracleType
+	oracleType := strings.ToLower(market.OracleType)
+
 	stream, err := exchangeClient.StreamPrices(ctx, baseSymbol, quoteSymbol, oracleType)
 	if err != nil {
 		panic(err)
