@@ -1,0 +1,6 @@
+[
+    {"Parameter": "amount", "Type": "CosmosCoin", "Description": "Fee amount"},
+    {"Parameter": "gas_limit", "Type": "Integer", "Description": "Gas limit"},
+    {"Parameter": "payer", "Type": "String", "Description": "Payer's Injective address"},
+    {"Parameter": "granter", "Type": "String", "Description": "Granter's Injective address"}
+]

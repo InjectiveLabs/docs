@@ -1,0 +1,4 @@
+[
+    {"Parameter": "name", "Type": "String", "Description": "Relayer's identifier"},
+    {"Parameter": "cta", "Type": "String", "Description": "Call to action. A link to the relayer"}
+]

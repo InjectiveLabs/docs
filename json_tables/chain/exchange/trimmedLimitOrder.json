@@ -1,0 +1,6 @@
+[
+    {"Parameter": "price", "Type": "Decimal", "Description": "Order price"},
+    {"Parameter": "quantity", "Type": "Decimal", "Description": "Order quantity"},
+    {"Parameter": "order_hash", "Type": "String", "Description": "The order hash"},
+    {"Parameter": "subaccount_id", "Type": "String", "Description": "Subaccount ID that created the order"}
+]

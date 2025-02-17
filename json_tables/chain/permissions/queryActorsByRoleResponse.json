@@ -1,0 +1,3 @@
+[
+    {"Parameter": "actors", "Type": "String Array", "Description": "List of actors INJ addresses"}
+]

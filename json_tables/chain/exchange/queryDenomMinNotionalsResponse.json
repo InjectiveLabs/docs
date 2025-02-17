@@ -1,0 +1,3 @@
+[
+    {"Parameter": "denom_min_notionals", "Type": "DenomMinNotional Array", "Description": "List of all denom minimum notionals"}
+]
