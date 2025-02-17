@@ -1,6 +1,0 @@
-[
-    {"Code": "0", "Name": "UNSPECIFIED"},
-    {"Code": "1", "Name": "MINT"},
-    {"Code": "2", "Name": "RECEIVE"},
-    {"Code": "4", "Name": "BURN"}
-]

@@ -155,7 +155,8 @@ func main() {
 <tr ><td class="parameter-td td_text">min_quantity_tick_size</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">Minimum tick size of the quantity required for orders in the market</td></tr>
 <tr ><td class="parameter-td td_text">settlement_price</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">The market's settlement price</td></tr>
 <tr ><td class="parameter-td td_text">min_notional</td><td class="type-td td_text">Decimal</td><td class="description-td td_text">Minimum notional (in quote asset) required for orders in the market</td></tr>
-<tr ><td class="parameter-td td_text">admin_permissions</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Level of admin permissions (the permission number is a result of adding up all individual permissions numbers)</td></tr></tbody></table>
+<tr ><td class="parameter-td td_text">admin_permissions</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Level of admin permissions (the permission number is a result of adding up all individual permissions numbers)</td></tr>
+<tr ><td class="parameter-td td_text">quote_decimals</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Number of decimals used for the quote token</td></tr></tbody></table>
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
 <br/>

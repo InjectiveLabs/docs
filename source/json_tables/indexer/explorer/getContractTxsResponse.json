@@ -1,0 +1,4 @@
+[
+    {"Parameter": "paging", "Type": "Paging", "Description": "Pagination details of the response's result set"},
+    {"Parameter": "data", "Type": "TxDetailData", "Description": "Transaction details"}
+]

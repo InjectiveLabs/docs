@@ -1,0 +1,6 @@
+[
+    {"Parameter": "manager", "Type": "String", "Description": "Manager name"},
+    {"Parameter": "action", "Type": "Action", "Description": "Action code number"},
+    {"Parameter": "can_disable", "Type": "Boolean", "Description": "True if the manager can disable the policy, False if not"},
+    {"Parameter": "can_seal", "Type": "Boolean", "Description": "True if the manager can seal the policy, False if not"}
+]

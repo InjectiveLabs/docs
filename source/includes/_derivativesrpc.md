@@ -1498,17 +1498,23 @@ func main() {
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-| Parameter       | Type             | Description                                                                                                                     | Required |
-| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| market_ids      | String Array     | Filter by multiple market IDs                                                                                                   | No       |
-| subaccount_ids  | String Array     | Filter by multiple subaccount IDs                                                                                               | No       |
-| execution_side  | String           | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
-| direction       | String           | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
-| execution_types | String Array     | Filter by the *trade execution type (Should be any of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
-| trade_id        | String           | Filter by the trade id of the trade                                                                                             | No       |
-| account_address | String           | Filter by the account address                                                                                                   | No       |
-| cid             | String           | Filter by the custom client order id of the trade's order                                                                       | No       |
-| pagination      | PaginationOption | Pagination configuration                                                                                                        | No       |
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/derivative/tradesV2Request.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th><th class="required-th">Required</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">market_id</td><td class="type-td td_text">String</td><td class="description-td td_text">MarketId of the market's trades we want to fetch</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">execution_side</td><td class="type-td td_text">String</td><td class="description-td td_text">Either maker or taker</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">direction</td><td class="type-td td_text">String</td><td class="description-td td_text">Trade direction</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">subaccount_id</td><td class="type-td td_text">String</td><td class="description-td td_text">ID of the subaccount the trades belong to</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">skip</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Will skipt the first N items from the result</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">limit</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Maximum number of items to be returned</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">start_time</td><td class="type-td td_text">Integer</td><td class="description-td td_text">The starting timestamp in UNIX milliseconds that the trades must be equal or older than</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">end_time</td><td class="type-td td_text">Integer</td><td class="description-td td_text">The ending timestamp in UNIX milliseconds that the trades must be equal or newer than</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">market_ids</td><td class="type-td td_text">String Array</td><td class="description-td td_text">List of MarketIDs the trades can belong to</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">subacount_ids</td><td class="type-td td_text">String Array</td><td class="description-td td_text">Subaccount ids of traders we want to get trades. Use this field for fetching trades from multiple subaccounts</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">execution_types</td><td class="type-td td_text">String Array</td><td class="description-td td_text">List of execution types. The execution types are: market, limitFill, limitMatchRestingOrder, limitMatchNewOrder</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">trade_id</td><td class="type-td td_text">String</td><td class="description-td td_text">ID of the trade to return</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">account_address</td><td class="type-td td_text">String</td><td class="description-td td_text">Injective address the trade belongs to</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">cid</td><td class="type-td td_text">String</td><td class="description-td td_text">The client order ID of the order generating the trade</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">fee_recipient</td><td class="type-td td_text">String</td><td class="description-td td_text">Injective address of the fee recipient</td><td class="required-td td_text">No</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 ### Response Parameters
 > Response Example:
@@ -1942,20 +1948,23 @@ func main() {
 ```
 <!-- MARKDOWN-AUTO-DOCS:END -->
 
-| Parameter          | Type             | Description                                                                                                                     | Required |
-| ------------------ | ---------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| market_ids         | String Array     | Filter by multiple market IDs                                                                                                   | No       |
-| execution_side     | String           | Filter by the execution side of the trade (Should be one of: ["maker", "taker"])                                                | No       |
-| direction          | String           | Filter by the direction of the trade (Should be one of: ["buy", "sell"])                                                        | No       |
-| subaccount_ids     | String Array     | Filter by multiple subaccount IDs                                                                                               | No       |
-| execution_types    | String Array     | Filter by the *trade execution type (Should be one of: ["market", "limitFill", "limitMatchRestingOrder", "limitMatchNewOrder"]) | No       |
-| trade_id           | String           | Filter by the trade's trade id                                                                                                  | No       |
-| account_address    | String           | Filter by the account address                                                                                                   | No       |
-| cid                | String           | Filter by the custom client order id of the trade's order                                                                       | No       |
-| pagination         | PaginationOption | Pagination configuration                                                                                                        | No       |
-| callback           | Function         | Function receiving one parameter (a stream event JSON dictionary) to process each new event                                     | Yes      |
-| on_end_callback    | Function         | Function with the logic to execute when the stream connection is interrupted                                                    | No       |
-| on_status_callback | Function         | Function receiving one parameter (the exception) with the logic to execute when an exception happens                            | No       |
+<!-- MARKDOWN-AUTO-DOCS:START (JSON_TO_HTML_TABLE:src=./source/json_tables/indexer/derivative/streamTradesV2Request.json) -->
+<table class="JSON-TO-HTML-TABLE"><thead><tr><th class="parameter-th">Parameter</th><th class="type-th">Type</th><th class="description-th">Description</th><th class="required-th">Required</th></tr></thead><tbody ><tr ><td class="parameter-td td_text">market_id</td><td class="type-td td_text">String</td><td class="description-td td_text">MarketId of the market's trades we want to fetch</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">execution_side</td><td class="type-td td_text">String</td><td class="description-td td_text">Either maker or taker</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">direction</td><td class="type-td td_text">String</td><td class="description-td td_text">Trade direction</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">subaccount_id</td><td class="type-td td_text">String</td><td class="description-td td_text">ID of the subaccount the trades belong to</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">skip</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Will skipt the first N items from the result</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">limit</td><td class="type-td td_text">Integer</td><td class="description-td td_text">Maximum number of items to be returned</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">start_time</td><td class="type-td td_text">Integer</td><td class="description-td td_text">The starting timestamp in UNIX milliseconds that the trades must be equal or older than</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">end_time</td><td class="type-td td_text">Integer</td><td class="description-td td_text">The ending timestamp in UNIX milliseconds that the trades must be equal or newer than</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">market_ids</td><td class="type-td td_text">String Array</td><td class="description-td td_text">List of MarketIDs the trades can belong to</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">subacount_ids</td><td class="type-td td_text">String Array</td><td class="description-td td_text">Subaccount ids of traders we want to get trades. Use this field for fetching trades from multiple subaccounts</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">execution_types</td><td class="type-td td_text">String Array</td><td class="description-td td_text">List of execution types. The execution types are: market, limitFill, limitMatchRestingOrder, limitMatchNewOrder</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">trade_id</td><td class="type-td td_text">String</td><td class="description-td td_text">ID of the trade to return</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">account_address</td><td class="type-td td_text">String</td><td class="description-td td_text">Injective address the trade belongs to</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">cid</td><td class="type-td td_text">String</td><td class="description-td td_text">The client order ID of the order generating the trade</td><td class="required-td td_text">No</td></tr>
+<tr ><td class="parameter-td td_text">fee_recipient</td><td class="type-td td_text">String</td><td class="description-td td_text">Injective address of the fee recipient</td><td class="required-td td_text">No</td></tr></tbody></table>
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
 ### Response Parameters
 > Streaming Response Example:
@@ -2494,7 +2503,7 @@ async def main() -> None:
     subaccount_ids = ["0xea98e3aa091a6676194df40ac089e40ab4604bf9000000000000000000000000"]
 
     task = asyncio.get_event_loop().create_task(
-        client.listen_derivative_positions_updates(
+        client.listen_derivative_positions_v2_updates(
             callback=positions_event_processor,
             on_end_callback=stream_closed_processor,
             on_status_callback=stream_error_processor,
